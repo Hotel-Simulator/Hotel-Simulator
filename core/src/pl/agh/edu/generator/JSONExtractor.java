@@ -78,11 +78,22 @@ public class JSONExtractor {
         return probabilities;
     }
 
+    public static HashMap<String, Long> getAttractivenesConstatns() throws IOException, ParseException {
+        HashMap<String, Long> constants = new HashMap<>();
+        JSONObject jsonObject = (JSONObject) parser.parse(new FileReader("assets/jsons/attractiveness_constants.json"));
+
+        for(Object constant: jsonObject.keySet()){
+            constants.put(String.valueOf(constant), (Long) jsonObject.get(constant));
+        }
+        return constants;
+    }
+
     public static void main(String[] args) throws IOException, ParseException {
         System.out.println(getHotelVisitPurposeProbabilitiesFromJSON());
         System.out.println(getDesiredRoomRankProbabilitiesFromJSON());
         System.out.println(getRoomSizeProbabilitiesFromJSON());
         System.out.println(getNumberOfNightsProbabilitiesFromJSON());
+        getAttractivenesConstatns();
     }
 
 
