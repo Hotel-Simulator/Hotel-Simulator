@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import pl.agh.edu.model.Employee;
+import pl.agh.edu.model.TypeOfContract;
 
 
 public class ConfirmWindow extends CustomWindow {
@@ -38,21 +39,28 @@ public class ConfirmWindow extends CustomWindow {
         this.actor = actor;
         this.employee = employee;
 
-        this.add(new Label("Confirm hiring",skin));
-        TextButton tb = new TextButton("hiree",skin);
-        tb.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                setConfirmed(true);
-                System.out.println("Hey, you clicked me!");
-                ((Button) getActor()).setDisabled(true);
-                System.out.println(((Button) getActor()).isDisabled());
-                getActor().setColor(getActor().getColor().r,getActor().getColor().g,getActor().getColor().b,0.3f);
-                getEmployee().setHired(true);
-                setVisible(false);
-            }
-        });
-        this.add(tb);
+        this.add(new Label("Choose type of Contract",skin));
+        this.row();
+        for(TypeOfContract toc:TypeOfContract.values()){
+            TextButton tb = new TextButton(toc.toString(),skin);
+            this.add(tb);
+            tb.addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    setConfirmed(true);
+                    System.out.println("Hey, you clicked me!");
+                    ((Button) getActor()).setDisabled(true);
+                    System.out.println(((Button) getActor()).isDisabled());
+                    getActor().setColor(getActor().getColor().r,getActor().getColor().g,getActor().getColor().b,0.3f);
+                    getEmployee().setHired(true);
+                    setVisible(false);
+                }
+            });
+        }
+
+
+
+
 
 
     }

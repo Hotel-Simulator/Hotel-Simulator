@@ -30,6 +30,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import org.w3c.dom.Text;
 import pl.agh.edu.model.Employee;
@@ -53,7 +54,6 @@ public class GdxGame extends ApplicationAdapter {
 	private ScrollPane pane;
 	private VerticalGroup verticalGroup;
 
-	private List<Employee> employeeList = new ArrayList<>();
 
 	Skin skin;
 	private Table root;
@@ -63,11 +63,8 @@ public class GdxGame extends ApplicationAdapter {
 
 	@Override
 	public void create() {
-		employeeList.add(new Employee("A","B",30,1));
-		employeeList.add(new Employee("Cadsfa","Bdafasfsa",30,1));
-		employeeList.add(new Employee("Aleksander","Brzęczeszczykiewicz",30,1));
 
-		skin = new Skin(Gdx.files.internal("metalui/metal-ui.json"));
+		skin = new Skin(Gdx.files.internal("metalui/metal-ui.json")); // some random zip downloaded
 
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);
@@ -76,12 +73,10 @@ public class GdxGame extends ApplicationAdapter {
 		root.setFillParent(true);
 		stage.addActor(root);
 
-		final HireEmployeesWindow table = new HireEmployeesWindow("hire emplyees",employeeList,skin);
+		final HireEmployeesWindow table = new HireEmployeesWindow(stage,"hire emplyees",skin); //custom window that extends CustomWindow that extends Window
 
 
-//		ScrollPane scrollPane = new ScrollPane(table, skin);
-//		scrollPane.setFadeScrollBars(false);
-//		scrollPane.setFlickScroll(false);
+
 		TextButton hireEmployeesButton = new TextButton("hire employees",skin);
 		hireEmployeesButton.addListener(new ChangeListener(){
 			@Override
@@ -102,52 +97,7 @@ public class GdxGame extends ApplicationAdapter {
 //		scrollPane.validate();
 
 
-		table.defaults().space(25).fillX();
 
-//		table.debug();
-		for (final Employee employee : employeeList) {
-
-
-			Pixmap drawable = new Pixmap(Gdx.files.internal("head2.jpeg"));
-			Pixmap scaled = new Pixmap(40,40,drawable.getFormat());
-			scaled.drawPixmap(drawable,
-					0,0,drawable.getWidth(),drawable.getHeight(),
-					0,0,scaled.getWidth(),scaled.getHeight());
-			Image image = new Image(new Texture(scaled));
-			table.add(image).left();
-
-			table.add(new Label(employee.getFirstName() + " "+ employee.getLastName(),skin)).colspan(6).fill().space(20);
-
-
-			table.add(new Label("Skills: "+employee.getSkills(),skin));
-			Button button = new Button(skin);
-			button.add(new Label("hire",skin)).space(30);
-			table.add(button).right();
-
-
-			button.addListener(new ChangeListener() {
-				@Override
-				public void changed(ChangeEvent event, Actor actor) {
-
-
-					ConfirmWindow window = new ConfirmWindow(actor,employee,"Confirm hiring",skin);
-					window.setSize(400, 300);
-					window.setModal(true);
-					window.setVisible(true);
-					window.setMovable(true);
-					window.setPosition(Gdx.graphics.getWidth()/2 - window.getWidth()/2, Gdx.graphics.getHeight()/2 - window.getHeight()/2);
-
-					stage.addActor(window);
-
-
-
-
-
-				}
-			});
-
-			table.row();
-		}
 
 	}
 

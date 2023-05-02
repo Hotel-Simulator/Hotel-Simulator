@@ -13,15 +13,18 @@ public class Employee {
     private int wage;
     private int satisfaction;
     private TypeOfContract typeOfContract;
-    private int skills;
+    private Role role;
+    private double skills;
     private boolean hired;
 
-    public Employee(String firstName, String lastName, int age,int skills) {
+    public Employee(String firstName, String lastName, int age,double skills,Role role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
         this.skills = skills;
+        this.role = role;
         this.hired = false;
+
     }
 
     public String getFirstName() {
@@ -48,7 +51,7 @@ public class Employee {
         this.age = age;
     }
 
-    public int getSkills() {
+    public double getSkills() {
         return skills;
     }
 
@@ -73,4 +76,19 @@ public class Employee {
     }
 
 
+    public TypeOfContract getTypeOfContract() {
+        return typeOfContract;
+    }
+
+    public void setTypeOfContract(TypeOfContract typeOfContract) {
+        this.typeOfContract = typeOfContract;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 }
