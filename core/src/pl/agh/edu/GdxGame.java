@@ -25,6 +25,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -32,6 +33,8 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import org.w3c.dom.Text;
 import pl.agh.edu.model.Employee;
+import sun.tools.jconsole.Tab;
+
 import java.awt.*;
 
 import javax.swing.*;
@@ -73,18 +76,33 @@ public class GdxGame extends ApplicationAdapter {
 		root.setFillParent(true);
 		stage.addActor(root);
 
-		final Table table = new Table();
-		ScrollPane scrollPane = new ScrollPane(table, skin);
-		scrollPane.setFadeScrollBars(false);
-		scrollPane.setFlickScroll(false);
-
-		root.add(scrollPane);
+		final HireEmployeesWindow table = new HireEmployeesWindow("hire emplyees",employeeList,skin);
 
 
-		scrollPane.validate();
+//		ScrollPane scrollPane = new ScrollPane(table, skin);
+//		scrollPane.setFadeScrollBars(false);
+//		scrollPane.setFlickScroll(false);
+		TextButton hireEmployeesButton = new TextButton("hire employees",skin);
+		hireEmployeesButton.addListener(new ChangeListener(){
+			@Override
+			public void changed(ChangeEvent event, Actor actor){
+				table.setSize(600, 400);
+				table.setModal(true);
+				table.setVisible(true);
+				table.setMovable(true);
+				table.setPosition(Gdx.graphics.getWidth()/2 - table.getWidth()/2, Gdx.graphics.getHeight()/2 - table.getHeight()/2);
+
+				stage.addActor(table);
+			}
+		});
+		root.add(hireEmployeesButton).center();
+		root.row();
 
 
-		table.defaults().space(35).fillX();
+//		scrollPane.validate();
+
+
+		table.defaults().space(25).fillX();
 
 //		table.debug();
 		for (final Employee employee : employeeList) {
