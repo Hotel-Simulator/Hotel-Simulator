@@ -1,4 +1,4 @@
-package pl.agh.edu;
+package pl.agh.edu.windows;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -7,16 +7,15 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import pl.agh.edu.RandomEmployeeGenerator;
 import pl.agh.edu.model.Employee;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class HireEmployeesWindow extends CustomWindow {
 
     private List<Employee> employeeList;
 
-    private Stage stage;
 
     @Override
     public Skin getSkin() {
@@ -24,8 +23,8 @@ public class HireEmployeesWindow extends CustomWindow {
     }
 
     private Skin skin;
-    HireEmployeesWindow(Stage stage, String title, Skin skin){
-        super("",skin);
+    public HireEmployeesWindow(Stage stage, String title, Skin skin){
+        super(stage,"",skin);
 
         Table table = new Table();
         ScrollPane scrollPane = new ScrollPane(table, skin);
@@ -84,8 +83,6 @@ public class HireEmployeesWindow extends CustomWindow {
         }
     }
 
-    @Override
-    public Stage getStage() {
-        return stage;
-    }
+
+
 }
