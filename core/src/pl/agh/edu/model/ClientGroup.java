@@ -5,18 +5,19 @@ import pl.agh.edu.enums.HotelVisitPurpose;
 import pl.agh.edu.enums.RoomRank;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class ClientGroup {
-    private final Array<Client> members;
+    private final List<Client> members;
     private final HotelVisitPurpose hotelVisitPurpose;
     private LocalDateTime checkInTime;
     private final LocalDateTime checkOutTime;
 
-    private final short budgetPerNight;
+    private final int budgetPerNight;
     private final RoomRank desiredRoomRank;
     private Room room;
 
-    public ClientGroup(HotelVisitPurpose hotelVisitPurpose, Array<Client> members, LocalDateTime checkOutTime, short budgetPerNight, RoomRank desiredRoomRank) {
+    public ClientGroup(HotelVisitPurpose hotelVisitPurpose, List<Client> members, LocalDateTime checkOutTime, int budgetPerNight, RoomRank desiredRoomRank) {
         this.hotelVisitPurpose = hotelVisitPurpose;
         this.members = members;
         this.checkOutTime = checkOutTime;
@@ -24,7 +25,7 @@ public class ClientGroup {
         this.desiredRoomRank = desiredRoomRank;
     }
 
-    public Array<Client> getMembers() {
+    public List<Client> getMembers() {
         return members;
     }
 
@@ -33,7 +34,7 @@ public class ClientGroup {
     }
 
     public int getNumberOfClients(){
-        return members.size;
+        return members.size();
     }
 
     public LocalDateTime getCheckInTime() {
@@ -58,7 +59,19 @@ public class ClientGroup {
         return desiredRoomRank;
     }
 
-    public short getBudgetPerNight() {
+    public int getBudgetPerNight() {
         return budgetPerNight;
+    }
+
+    @Override
+    public String toString() {
+        return "ClientGroup{" +
+
+                "hotelVisitPurpose=" + hotelVisitPurpose +
+                ", checkOutTime=" + checkOutTime +
+                ", budgetPerNight=" + budgetPerNight +
+                ", desiredRoomRank=" + desiredRoomRank +
+                ", numberOfMembers=" + members.size() +
+                '}';
     }
 }

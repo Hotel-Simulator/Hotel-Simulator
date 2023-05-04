@@ -7,7 +7,6 @@ import org.json.simple.parser.ParseException;
 import pl.agh.edu.enums.HotelVisitPurpose;
 import pl.agh.edu.enums.RoomRank;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
@@ -74,7 +73,7 @@ public class JSONExtractor {
         return probabilities;
     }
 
-    public static HashMap<String, Long> getAttractivenessConstants() throws IOException, ParseException {
+    public static HashMap<String, Long> getAttractivenessConstantsFromJSON() throws IOException, ParseException {
         HashMap<String, Long> constants = new HashMap<>();
         JSONObject jsonObject = (JSONObject)((JSONObject) parser.parse(new FileReader(filePath))).get("attractiveness_constants");
 
@@ -84,7 +83,7 @@ public class JSONExtractor {
         return constants;
     }
 
-    public static EnumMap<RoomRank,Map<Integer,Integer>> getAveragePricesPerNight() throws IOException, ParseException {
+    public static EnumMap<RoomRank,Map<Integer,Integer>> getAveragePricesPerNightFromJSON() throws IOException, ParseException {
         EnumMap<RoomRank, Map<Integer,Integer>> prices = new EnumMap<>(RoomRank.class);
         JSONObject jsonObject = (JSONObject)((JSONObject) parser.parse(new FileReader(filePath))).get("average_prices_per_nights");
         for(RoomRank roomRank : RoomRank.values()){
@@ -104,8 +103,9 @@ public class JSONExtractor {
         System.out.println(getDesiredRoomRankProbabilitiesFromJSON());
         System.out.println(getRoomSizeProbabilitiesFromJSON());
         System.out.println(getNumberOfNightsProbabilitiesFromJSON());
-        System.out.println(getAttractivenessConstants());
-        System.out.println(getAveragePricesPerNight());
+        System.out.println(getAttractivenessConstantsFromJSON());
+        System.out.println(getAveragePricesPerNightFromJSON());
+
     }
 
 
