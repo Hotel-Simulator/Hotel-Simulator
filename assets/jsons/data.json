@@ -1,0 +1,56 @@
+{
+
+  "attractiveness_constants": {
+    "local_market" : 50,
+    "local_attractions" : 30
+  },
+
+  "hotel_visit_purpose_probabilities": {
+    "VACATION": 70,
+    "BUSINESS_TRIP": 20,
+    "REHABILITATION": 10
+  },
+
+  "desired_rank_probabilities": {
+    "VACATION": {
+      "ONE": 15,
+      "TWO": 40,
+      "THREE": 30,
+      "FOUR": 10,
+      "FIVE": 5
+    },
+    "BUSINESS_TRIP": {
+      "ONE": 0,
+      "TWO": 10,
+      "THREE": 40,
+      "FOUR": 35,
+      "FIVE": 15
+    },
+    "REHABILITATION": {
+      "ONE": 15,
+      "TWO": 45,
+      "THREE": 30,
+      "FOUR": 10,
+      "FIVE": 0
+    }
+  },
+
+  "number_of_nights_probabilities": {
+    "VACATION": [10, 10, 10, 10, 15, 15, 30],
+    "BUSINESS_TRIP":[30, 25, 15, 10, 10, 5, 5],
+    "REHABILITATION": [5, 15, 20, 25, 20, 10, 5]
+  },
+
+  "room_size_probabilities": {
+    "VACATION": [10, 35, 25, 20, 10],
+    "BUSINESS_TRIP":[45, 25, 15, 10, 5],
+    "REHABILITATION": [60, 20, 10, 5, 5]
+  },
+  "average_prices_per_nights": {
+    "ONE": [70, 80, 90, 100, 110],
+    "TWO": [90, 110, 130, 150, 170],
+    "THREE": [120, 150, 180, 210, 240],
+    "FOUR": [150, 190, 230, 270, 310],
+    "FIVE": [200, 250, 300, 350, 400]
+  }
+}
