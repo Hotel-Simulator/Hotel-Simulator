@@ -1,4 +1,4 @@
-package pl.agh.edu.generator;
+package pl.agh.edu.generator.client_generator;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -25,8 +25,8 @@ public class JSONExtractor {
         return probabilities;
     }
 
-    public static EnumMap<HotelVisitPurpose,EnumMap<RoomRank,Integer>> getDesiredRoomRankProbabilitiesFromJSON() throws IOException, ParseException {
-        EnumMap<HotelVisitPurpose,EnumMap<RoomRank,Integer>> probabilities = new EnumMap<>(HotelVisitPurpose.class);
+    public static EnumMap<HotelVisitPurpose,Map<RoomRank,Integer>> getDesiredRoomRankProbabilitiesFromJSON() throws IOException, ParseException {
+        EnumMap<HotelVisitPurpose,Map<RoomRank,Integer>> probabilities = new EnumMap<>(HotelVisitPurpose.class);
         JSONObject jsonObject = (JSONObject)((JSONObject) parser.parse(new FileReader(filePath))).get("desired_rank_probabilities");
         for(HotelVisitPurpose hotelVisitPurpose : HotelVisitPurpose.values()){
             JSONObject roomRankProbabilitiesJSONObject = (JSONObject) jsonObject.get(hotelVisitPurpose.toString());
