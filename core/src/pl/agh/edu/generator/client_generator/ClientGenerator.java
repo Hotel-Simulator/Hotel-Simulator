@@ -35,6 +35,7 @@ public class ClientGenerator {
     pomysł: na podstawie standardu miejsca (pokoj i recepcja) klient wystawia ilosc gwiazdek, ktora wpływa na popularność (razem z reklamą)
     pomysł: w wakacje i ferie bedzie bonus do turystow
      */
+
     private static ClientGenerator clientGeneratorInstance;
 
     private final Random random = new Random();
@@ -125,11 +126,12 @@ public class ClientGenerator {
 
 
 
+
+
     public static void main(String[] args) throws IOException, ParseException {
        ClientGenerator generator = getInstance();
        System.out.println(generator.generateArrivalsForDay(LocalDate.now(),new ArrayList<>(Arrays.asList(0.1,1.1)),LocalTime.of(15,0),LocalTime.of(12,0)));
     }
-
 
 }
 
