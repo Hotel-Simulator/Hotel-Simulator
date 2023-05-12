@@ -12,6 +12,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class ClientGenerator {
 
@@ -33,7 +35,6 @@ public class ClientGenerator {
     pomysł: na podstawie standardu miejsca (pokoj i recepcja) klient wystawia ilosc gwiazdek, ktora wpływa na popularność (razem z reklamą)
     pomysł: w wakacje i ferie bedzie bonus do turystow
      */
-
     private static ClientGenerator clientGeneratorInstance;
 
     private final Random random = new Random();
@@ -56,7 +57,7 @@ public class ClientGenerator {
     }
 
 
-    public static ClientGenerator getClientGeneratorInstance() throws IOException, ParseException {
+    public static ClientGenerator getInstance() throws IOException, ParseException {
         if(clientGeneratorInstance == null) clientGeneratorInstance = new ClientGenerator();
         return clientGeneratorInstance;
     }
@@ -66,14 +67,16 @@ public class ClientGenerator {
         return list.get(random.nextInt(0,list.size()));
     }
 
-    private LocalTime getRandomLocalTime(){
-        int randomTimeInMinutes = 840 + (int)Math.round(random.nextGaussian()*120);
+    private LocalTime getRandomLocalTime(LocalTime min, LocalTime max){
+
+        int randomTimeInMinutes =  random.nextInt(min.getHour()*60 + min.getMinute(),max.getHour()*60 + max.getMinute());
         return LocalTime.of(randomTimeInMinutes / 60,randomTimeInMinutes % 60);
     }
 
-    private LocalDateTime getCheckOutTime(LocalDate date, int numberOfNight) {
 
-        return LocalDateTime.of(date.plusDays(numberOfNight),getRandomLocalTime());
+    private LocalDateTime getCheckOutTime(LocalDate date, int numberOfNight,LocalTime checkOutMaxTime) {
+
+        return LocalDateTime.of(date.plusDays(numberOfNight),getRandomLocalTime(LocalTime.of(6,0),checkOutMaxTime));
     }
 
 
@@ -82,14 +85,15 @@ public class ClientGenerator {
     }
 
     private List<Client> getMembers(HotelVisitPurpose hotelVisitPurpose, int roomSize) {
-        List<Client> members = new ArrayList<>();
-        for(int i = 0; i< roomSize; i++){
-            members.add(new Client(random.nextInt(1,99), Sex.values()[random.nextInt(0,3)], hotelVisitPurpose));
-        }
-        return members;
+         return IntStream.range(0,roomSize)
+                .mapToObj(it->new Client(
+                        random.nextInt(1,99),
+                        Sex.values()[random.nextInt(0,3)],
+                        hotelVisitPurpose))
+                .collect(Collectors.toList());
     }
 
-    private ClientGroup generateClientGroup(LocalDate date){
+    private ClientGroup generateClientGroup(LocalDate date, LocalTime checkoutMaxTime){
 
         HotelVisitPurpose hotelVisitPurpose = getRandomValue(hotelVisitPurposeProbabilityList);
         RoomRank desiredRoomRank  = getRandomValue(desiredRoomRankProbabilityLists.get(hotelVisitPurpose));
@@ -97,31 +101,33 @@ public class ClientGenerator {
         int roomSize = getRandomValue(roomSizeProbabilityLists.get(hotelVisitPurpose));
         List<Client> members = getMembers(hotelVisitPurpose, roomSize);
         int desiredPricePerNight = getDesiredPricePerNight(desiredRoomRank, roomSize);
-        LocalDateTime checkOutTime = getCheckOutTime(date, numberOfNight);
+        LocalDateTime checkOutTime = getCheckOutTime(date, numberOfNight,checkoutMaxTime);
         return new ClientGroup(hotelVisitPurpose,members,checkOutTime,desiredPricePerNight,desiredRoomRank);
     }
 
     private int getNumberOfClientGroups(List<Double> clientGroupNumberModifiers){
-        int numberOfClients =  (int)(attractivenessConstants.get("local_market") + attractivenessConstants.get("local_attractions"));
-        for(Double modifier: clientGroupNumberModifiers) numberOfClients*=modifier;
-        return numberOfClients;
+        double numberOfClients = (((attractivenessConstants.get("local_market") + attractivenessConstants.get("local_attractions"))) * Math.abs(1 + random.nextGaussian()/3) );
+        return (int) Math.round(clientGroupNumberModifiers
+                .stream()
+                .reduce( numberOfClients,(subtotal, element) ->subtotal *=element));
     }
 
-    public List<Arrival> generateArrivalsForDay(LocalDate date, List<Double> clientGroupNumberModifiers){
-        List<Arrival> arrivals = new LinkedList<>();
+    public List<Arrival> generateArrivalsForDay(LocalDate date, List<Double> clientGroupNumberModifiers, LocalTime checkInMinTime, LocalTime checkOutMaxTime){
         int numberOfClients = getNumberOfClientGroups(clientGroupNumberModifiers);
-        for(int i = 0;i<numberOfClients;i++){
-            arrivals.add(new Arrival(getRandomLocalTime(),generateClientGroup(date)));
-        }
-        Collections.sort(arrivals);
-        return arrivals;
+        return IntStream
+                .range(0,numberOfClients)
+                .mapToObj(it -> new Arrival(
+                        getRandomLocalTime(checkInMinTime,LocalTime.MAX),
+                        generateClientGroup(date,checkOutMaxTime)))
+                .sorted(Arrival::compareTo)
+                .collect(Collectors.toList());
     }
 
 
 
     public static void main(String[] args) throws IOException, ParseException {
-       ClientGenerator generator = getClientGeneratorInstance();
-        System.out.println(generator.generateArrivalsForDay(LocalDate.now(),new ArrayList<>(Arrays.asList(0.1,1.1))));
+       ClientGenerator generator = getInstance();
+       System.out.println(generator.generateArrivalsForDay(LocalDate.now(),new ArrayList<>(Arrays.asList(0.1,1.1)),LocalTime.of(15,0),LocalTime.of(12,0)));
     }
 
 

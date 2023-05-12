@@ -4,15 +4,18 @@ import pl.agh.edu.enums.HotelVisitPurpose;
 import pl.agh.edu.enums.RoomRank;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class ProbabilityListGenerator {
 
     public static <T> List<T> getProbabilityList(Map<T,Integer> map){
-        List<T> list = new ArrayList<>();
-        for(Map.Entry<T,Integer> entry : map.entrySet()){
-            for(int i=0;i<entry.getValue();i++) list.add(entry.getKey());
-        }
-        return list;
+
+        return map.entrySet().stream()
+                .flatMap(entry -> IntStream
+                        .range(0, entry.getValue())
+                        .mapToObj(i -> entry.getKey()))
+                .collect(Collectors.toList());
     }
 
     public static <T extends Enum<T>,K> EnumMap<T, List<K>> getMapOfProbabilityLists(EnumMap<T, Map<K,Integer>> enumMap, Class<T> tClass){
