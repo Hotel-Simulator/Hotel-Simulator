@@ -1,0 +1,65 @@
+{
+  "com.badlogic.gdx.graphics.g2d.BitmapFont": {
+    "default-font": {
+      "file": "font.fnt"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable": {
+    "white": {
+      "name": "white",
+      "color": "ffffffff",
+      "tint": "ffffffff"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle": {
+    "default": {
+      "font": "default-font",
+      "fontColor": "ffffffff",
+      "background": "textfield",
+      "cursor": "cursor",
+      "selection": "selection"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle": {
+    "default": {
+      "up": "button-up",
+      "down": "button-down",
+      "font": "default-font",
+      "fontColor": "ffffffff"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
+    "default": {
+      "up": "button-up",
+      "down": "button-down",
+      "font": "default-font",
+      "fontColor": "ffffffff"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle": {
+    "default": {
+      "titleFont": "default-font",
+      "titleFontColor": "ffffffff",
+      "background": "default-window",
+      "stageBackground": "white"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle": {
+    "default": {
+      "font": "default-font",
+      "fontColorSelected": "ffffffff",
+      "fontColorUnselected": "ffffffff",
+      "selection": "list-selection",
+      "background": "list-background"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle": {
+    "default": {
+      "hScroll": "scrollbar-horizontal",
+      "vScroll": "scrollbar-vertical",
+      "hScrollKnob": "scrollbar-horizontal-knob",
+      "vScrollKnob": "scrollbar-vertical-knob",
+      "background": "default-scroll"
+    }
+  }
+}
