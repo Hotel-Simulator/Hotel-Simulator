@@ -22,7 +22,6 @@ public class CommandInputListener extends InputListener {
     public boolean keyDown(InputEvent event, int keycode) {
         if (keycode == Input.Keys.ENTER) {
             String commandString = textField.getText();
-            commandHistory.store(commandString);
             commandExecutor.addCommand(commandString);
             textField.setText("");
             return true;
