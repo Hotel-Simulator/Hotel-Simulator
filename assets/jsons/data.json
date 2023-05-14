@@ -52,5 +52,46 @@
     "THREE": [120, 150, 180, 210, 240],
     "FOUR": [150, 190, 230, 270, 310],
     "FIVE": [200, 250, 300, 350, 400]
+  },
+
+  "single_advertisement": {
+    "NEWSPAPER_ADVERTISEMENT": {
+      "effectiveness": 10,
+      "cost_of_purchase": 200
+    },
+    "TV_ADVERTISEMENT": {
+      "effectiveness": 10,
+      "cost_of_purchase": 200
+    },
+    "RADIO_ADVERTISEMENT": {
+      "effectiveness": 10,
+      "cost_of_purchase": 200
+    },
+    "INTERNET_ADVERTISEMENT": {
+      "effectiveness": 10,
+      "cost_of_purchase": 200
+    }
+  },
+  "constant_advertisement" : {
+      "BILLBOARD":{
+        "effectiveness" : 10,
+        "cost_of_purchase" : 200,
+        "cost_of_maintenance" : 50
+      }  ,
+      "WEB_PAGE": {
+        "effectiveness" : 10,
+        "cost_of_purchase" : 200,
+        "cost_of_maintenance" : 50
+      },
+      "FLYERS" : {
+        "effectiveness": 10,
+        "cost_of_purchase": 200,
+        "cost_of_maintenance": 50
+      }
+
   }
+
+
+
+
 }

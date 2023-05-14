@@ -6,6 +6,9 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import pl.agh.edu.enums.HotelVisitPurpose;
 import pl.agh.edu.enums.RoomRank;
+import pl.agh.edu.model.advertisement.ConstantAdvertisement;
+import pl.agh.edu.model.advertisement.ConstantAdvertisementType;
+import pl.agh.edu.model.advertisement.SingleAdvertisementType;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -98,6 +101,34 @@ public class JSONExtractor {
         return prices;
     }
 
+    public static EnumMap<SingleAdvertisementType,Map<String,Integer>> getSingleAdvertisementDataFromJSON() throws IOException, ParseException{
+        EnumMap<SingleAdvertisementType,Map<String,Integer>> singleAdvertisementData = new EnumMap<>(SingleAdvertisementType.class);
+        JSONObject jsonObject = (JSONObject)((JSONObject) parser.parse(new FileReader(filePath))).get("single_advertisement");
+        for(SingleAdvertisementType type : SingleAdvertisementType.values()){
+            Map<String,Integer> map = new HashMap<>();
+
+            JSONObject data = (JSONObject) jsonObject.get(type.toString());
+            map.put("effectiveness",((Long)data.get("effectiveness")).intValue());
+            map.put("cost_of_purchase",((Long)data.get("effectiveness")).intValue());
+            singleAdvertisementData.put(type,map);
+        }
+        return singleAdvertisementData;
+    }
+
+    public static EnumMap<ConstantAdvertisementType,Map<String,Integer>> getConstantAdvertisementDataFromJSON() throws IOException, ParseException{
+        EnumMap<ConstantAdvertisementType,Map<String,Integer>> constantAdvertisementData = new EnumMap<>(ConstantAdvertisementType.class);
+        JSONObject jsonObject = (JSONObject)((JSONObject) parser.parse(new FileReader(filePath))).get("constant_advertisement");
+        for(ConstantAdvertisementType type : ConstantAdvertisementType.values()){
+            Map<String,Integer> map = new HashMap<>();
+            JSONObject data = (JSONObject) jsonObject.get(type.toString());
+            map.put("effectiveness",((Long)data.get("effectiveness")).intValue());
+            map.put("cost_of_purchase",((Long)data.get("effectiveness")).intValue());
+            map.put("cost_of_maintenance",((Long)data.get("cost_of_maintenance")).intValue());
+            constantAdvertisementData.put(type,map);
+        }
+        return constantAdvertisementData;
+    }
+
     public static void main(String[] args) throws IOException, ParseException {
         System.out.println(getHotelVisitPurposeProbabilitiesFromJSON());
         System.out.println(getDesiredRoomRankProbabilitiesFromJSON());
@@ -105,7 +136,8 @@ public class JSONExtractor {
         System.out.println(getNumberOfNightsProbabilitiesFromJSON());
         System.out.println(getAttractivenessConstantsFromJSON());
         System.out.println(getAveragePricesPerNightFromJSON());
-
+        System.out.println(getSingleAdvertisementDataFromJSON());
+        System.out.println(getConstantAdvertisementDataFromJSON());
     }
 
 

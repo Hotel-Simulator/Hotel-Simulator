@@ -15,9 +15,11 @@ web-ad
 
 
 public interface Advertisement {
-    double getModifier(LocalTime currentDate);
-    LocalDate getExpirationDate();
+    double getModifier(LocalDate currentDate);
+    LocalDate getEndDate();
     String getName();
     double getEffectiveness();
-    BigDecimal getCost();
+    BigDecimal getCostOfPurchase();
+    BigDecimal getCostOfMaintenance();
+
 }
