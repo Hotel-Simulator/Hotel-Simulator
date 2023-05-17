@@ -23,7 +23,7 @@ public class ConstantAdvertisement implements Advertisement {
     }
     @Override
     public double getModifier(LocalDate currentDate) {
-        if(currentDate.isBefore(endDate)) return effectiveness;
+        if(currentDate.isBefore(endDate) && currentDate.plusDays(1).isAfter(startDate)) return effectiveness;
         else return 0.;
     }
 

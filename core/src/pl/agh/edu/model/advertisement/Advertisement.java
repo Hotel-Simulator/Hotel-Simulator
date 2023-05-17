@@ -14,7 +14,7 @@ web-ad
  */
 
 
-public interface Advertisement {
+public interface Advertisement extends Comparable<Advertisement> {
     double getModifier(LocalDate currentDate);
     LocalDate getEndDate();
     String getName();
@@ -22,4 +22,8 @@ public interface Advertisement {
     BigDecimal getCostOfPurchase();
     BigDecimal getCostOfMaintenance();
 
+    @Override
+    default int compareTo(Advertisement o){
+        return - getEndDate().compareTo(o.getEndDate());
+    };
 }

@@ -26,6 +26,10 @@ public class SingleAdvertisement implements Advertisement {
     }
     @Override
     public LocalDate getEndDate() {
+        return emissionDate.plusDays(1);
+    }
+
+    public LocalDate getEmissionDate() {
         return emissionDate;
     }
 
