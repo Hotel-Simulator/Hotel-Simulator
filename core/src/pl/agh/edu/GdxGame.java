@@ -17,6 +17,8 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import pl.agh.edu.command.CommandExecutor;
 import pl.agh.edu.model.Bank;
 import pl.agh.edu.time.Time;
+import pl.agh.edu.views.BankView;
+import pl.agh.edu.views.HotelView;
 import pl.agh.edu.windows.BankWindow;
 import pl.agh.edu.windows.HireEmployeesWindow;
 
@@ -56,45 +58,47 @@ public class GdxGame extends ApplicationAdapter {
 		root = new Table();
 		root.setFillParent(true);
 		stage.addActor(root);
-
-		final HireEmployeesWindow table = new HireEmployeesWindow(stage, "hire emplyees", skin); //custom window that extends CustomWindow that extends Window
-
-
-		TextButton hireEmployeesButton = new TextButton("hire employees", skin);
-		hireEmployeesButton.addListener(new ChangeListener() {
-			@Override
-			public void changed(ChangeEvent event, Actor actor) {
-				table.setSize(600, 400);
-				table.setModal(true);
-				table.setVisible(true);
-				table.setMovable(true);
-				table.setPosition(Gdx.graphics.getWidth() / 2 - table.getWidth() / 2, Gdx.graphics.getHeight() / 2 - table.getHeight() / 2);
-
-				stage.addActor(table);
-			}
-		});
-		root.add(hireEmployeesButton).center();
-		root.row();
-
 		Bank bank = new Bank();
-		final BankWindow bankWindow = new BankWindow(stage, bank,"Bank/account", skin); //custom window that extends CustomWindow that extends Window
+		HotelView bankView = new HotelView(root,skin,bank);
+		root.add(bankView);
 
-
-		TextButton bankButton = new TextButton("Bank/account", skin);
-		bankButton.addListener(new ChangeListener() {
-			@Override
-			public void changed(ChangeEvent event, Actor actor) {
-				bankWindow.setSize(600, 400);
-				bankWindow.setModal(true);
-				bankWindow.setVisible(true);
-				bankWindow.setMovable(true);
-				bankWindow.setPosition(Gdx.graphics.getWidth() / 2 - bankWindow.getWidth() / 2, Gdx.graphics.getHeight() / 2 - bankWindow.getHeight() / 2);
-
-				stage.addActor(bankWindow);
-			}
-		});
-		root.add(bankButton).center();
-		root.row();
+//		final HireEmployeesWindow table = new HireEmployeesWindow(stage, "hire emplyees", skin); //custom window that extends CustomWindow that extends Window
+//
+//		TextButton hireEmployeesButton = new TextButton("hire employees", skin);
+//		hireEmployeesButton.addListener(new ChangeListener() {
+//			@Override
+//			public void changed(ChangeEvent event, Actor actor) {
+//				table.setSize(600, 400);
+//				table.setModal(true);
+//				table.setVisible(true);
+//				table.setMovable(true);
+//				table.setPosition(Gdx.graphics.getWidth() / 2 - table.getWidth() / 2, Gdx.graphics.getHeight() / 2 - table.getHeight() / 2);
+//
+//				stage.addActor(table);
+//			}
+//		});
+//		root.add(hireEmployeesButton).center();
+//		root.row();
+//
+//		Bank bank = new Bank();
+//		final BankWindow bankWindow = new BankWindow(stage, bank,"Bank/account", skin); //custom window that extends CustomWindow that extends Window
+//
+//
+//		TextButton bankButton = new TextButton("Bank/account", skin);
+//		bankButton.addListener(new ChangeListener() {
+//			@Override
+//			public void changed(ChangeEvent event, Actor actor) {
+//				bankWindow.setSize(600, 400);
+//				bankWindow.setModal(true);
+//				bankWindow.setVisible(true);
+//				bankWindow.setMovable(true);
+//				bankWindow.setPosition(Gdx.graphics.getWidth() / 2 - bankWindow.getWidth() / 2, Gdx.graphics.getHeight() / 2 - bankWindow.getHeight() / 2);
+//
+//				stage.addActor(bankWindow);
+//			}
+//		});
+//		root.add(bankButton).center();
+//		root.row();
 
 
 //		scrollPane.validate();

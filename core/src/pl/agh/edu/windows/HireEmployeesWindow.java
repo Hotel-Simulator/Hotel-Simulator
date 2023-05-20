@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import pl.agh.edu.RandomEmployeeGenerator;
+import pl.agh.edu.generator.employee_generator.EmployeeGenerator;
 import pl.agh.edu.model.Employee;
 
 import java.util.List;
@@ -31,7 +31,7 @@ public class HireEmployeesWindow extends CustomWindow {
         table.defaults().space(20).fillX();
         scrollPane.setFadeScrollBars(false);
         scrollPane.setFlickScroll(false);
-        employeeList = RandomEmployeeGenerator.getEmployees(20);
+        employeeList = EmployeeGenerator.getEmployees(20);
         this.add(scrollPane);
         this.stage = stage;
         this.skin = skin;
