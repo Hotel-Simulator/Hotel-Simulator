@@ -1,4 +1,4 @@
-package pl.agh.edu.generator.client_generator;
+package pl.agh.edu.generator.employee_generator;
 
 import com.github.javafaker.Faker;
 import pl.agh.edu.model.Employee;
@@ -20,10 +20,13 @@ public class EmployeeGenerator {
             String lastName = faker.name().lastName();
             double skills = rand.nextDouble();
             skills = Math.round(skills*100)/100.0;
-            int age = rand.nextInt(20,60);
-            Employee employee = new Employee(firstName,lastName,age,skills, Role.randomRole());
+            int age = rand.nextInt(18,60);
+            int expectedWage = rand.nextInt();
+            expectedWage = expectedWage*100;
+            Employee employee = new Employee(firstName,lastName,age,skills, Role.randomRole(), expectedWage);
             employeeList.add(employee);
         }
         return employeeList;
     }
+
 }

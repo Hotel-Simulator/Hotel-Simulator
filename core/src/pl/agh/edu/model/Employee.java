@@ -17,13 +17,14 @@ public class Employee {
     private double skills;
     private boolean hired;
 
-    public Employee(String firstName, String lastName, int age,double skills,Role role) {
+    public Employee(String firstName, String lastName, int age,double skills,Role role, int expectedWage) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
         this.skills = skills;
         this.role = role;
         this.hired = false;
+        this.expectedWage = expectedWage;
 
     }
 
