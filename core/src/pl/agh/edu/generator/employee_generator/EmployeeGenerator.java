@@ -1,4 +1,4 @@
-package pl.agh.edu;
+package pl.agh.edu.generator.client_generator;
 
 import com.github.javafaker.Faker;
 import pl.agh.edu.model.Employee;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class RandomEmployeeGenerator {
+public class EmployeeGenerator {
     static public List<Employee> getEmployees(int n){
         Faker faker = new Faker();
         List<Employee> employeeList = new ArrayList<>();
