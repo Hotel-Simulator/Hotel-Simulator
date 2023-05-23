@@ -44,6 +44,10 @@ public class GdxGame extends ApplicationAdapter {
     private CommandExecutor commandExecutor;
 
 
+	static{
+		Bank.getInstance().setInterestRate(12);
+	}
+
 
 	@Override
 	public void create() {
@@ -61,46 +65,6 @@ public class GdxGame extends ApplicationAdapter {
 		HotelView bankView = new HotelView(root,skin);
 		root.add(bankView);
 
-//		final HireEmployeesWindow table = new HireEmployeesWindow(stage, "hire emplyees", skin); //custom window that extends CustomWindow that extends Window
-//
-//		TextButton hireEmployeesButton = new TextButton("hire employees", skin);
-//		hireEmployeesButton.addListener(new ChangeListener() {
-//			@Override
-//			public void changed(ChangeEvent event, Actor actor) {
-//				table.setSize(600, 400);
-//				table.setModal(true);
-//				table.setVisible(true);
-//				table.setMovable(true);
-//				table.setPosition(Gdx.graphics.getWidth() / 2 - table.getWidth() / 2, Gdx.graphics.getHeight() / 2 - table.getHeight() / 2);
-//
-//				stage.addActor(table);
-//			}
-//		});
-//		root.add(hireEmployeesButton).center();
-//		root.row();
-//
-//		Bank bank = new Bank();
-//		final BankWindow bankWindow = new BankWindow(stage, bank,"Bank/account", skin); //custom window that extends CustomWindow that extends Window
-//
-//
-//		TextButton bankButton = new TextButton("Bank/account", skin);
-//		bankButton.addListener(new ChangeListener() {
-//			@Override
-//			public void changed(ChangeEvent event, Actor actor) {
-//				bankWindow.setSize(600, 400);
-//				bankWindow.setModal(true);
-//				bankWindow.setVisible(true);
-//				bankWindow.setMovable(true);
-//				bankWindow.setPosition(Gdx.graphics.getWidth() / 2 - bankWindow.getWidth() / 2, Gdx.graphics.getHeight() / 2 - bankWindow.getHeight() / 2);
-//
-//				stage.addActor(bankWindow);
-//			}
-//		});
-//		root.add(bankButton).center();
-//		root.row();
-
-
-//		scrollPane.validate();
 	}
 
 	@Override

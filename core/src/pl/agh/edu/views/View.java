@@ -21,7 +21,7 @@ public class View extends Table {
                     root.add(new HotelView(root,skin));
                 }
             });
-            this.add(home);
+            this.add(home).expandX().left().expandY().top();
 
         }
 

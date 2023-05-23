@@ -1,10 +1,20 @@
 package pl.agh.edu.model;
 
 import java.math.BigDecimal;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Bank {
     private static volatile Bank instance = null;
     private BigDecimal balance = new BigDecimal(0);
+
+    private List loans = new LinkedList();
+
+    public int getInterestRate() {
+        return interestRate;
+    }
+
+    private int interestRate;
 
 
     public static Bank getInstance(){
@@ -17,7 +27,14 @@ public class Bank {
         }
         return instance;
     }
+
+    public Bank setInterestRate(int interestRate){
+        this.interestRate = interestRate;
+        return instance;
+    }
     private Bank(){}
+
+
 
 
     public BigDecimal getBalance() {
@@ -36,6 +53,12 @@ public class Bank {
             return false;
         }
         return true;
+    }
+
+
+    public Loan obtainLoan(BigDecimal value,int period){
+        Loan loan = new Loan(value,period);
+        return loan;
     }
 
 
