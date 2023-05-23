@@ -6,8 +6,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import pl.agh.edu.model.Bank;
 
 public class BankView extends View{
-    public BankView(Table root, Skin skin, Bank bank){
-        super();
+    public BankView(Table root, Skin skin){
+        super(skin,root);
+        Bank bank = Bank.getInstance();
         this.add(new Label("Account balance: "+bank.printBalance(),skin));
         this.row();
     }

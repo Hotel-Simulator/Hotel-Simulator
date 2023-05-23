@@ -17,6 +17,7 @@ public class Bank {
         }
         return instance;
     }
+    private Bank(){}
 
 
     public BigDecimal getBalance() {

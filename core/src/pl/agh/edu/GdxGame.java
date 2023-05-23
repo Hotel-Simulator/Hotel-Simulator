@@ -58,8 +58,7 @@ public class GdxGame extends ApplicationAdapter {
 		root = new Table();
 		root.setFillParent(true);
 		stage.addActor(root);
-		Bank bank = new Bank();
-		HotelView bankView = new HotelView(root,skin,bank);
+		HotelView bankView = new HotelView(root,skin);
 		root.add(bankView);
 
 //		final HireEmployeesWindow table = new HireEmployeesWindow(stage, "hire emplyees", skin); //custom window that extends CustomWindow that extends Window
