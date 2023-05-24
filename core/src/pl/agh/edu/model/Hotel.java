@@ -1,14 +1,17 @@
 package pl.agh.edu.model;
 
+import org.json.simple.parser.ParseException;
 import pl.agh.edu.enums.RoomRank;
+import pl.agh.edu.generator.client_generator.JSONExtractor;
 
 import javax.swing.plaf.RootPaneUI;
+import java.io.IOException;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 
-// TODO: 10.05.2023 attrcativeness comeptity 
+// TODO: 10.05.2023 how to count competitiveness
 public class Hotel {
     private static Hotel instance;
     private static ArrayList<Integer> employees;
@@ -20,16 +23,19 @@ public class Hotel {
     private static Integer attractiveness = null;
     private static Integer competitiveness;
 
-    public Hotel(ArrayList<Room> rooms, Time checkInTime, Time checkOutTime, Integer attractiveness) {
+    public Hotel(ArrayList<Room> rooms, Time checkInTime, Time checkOutTime) throws IOException, ParseException {
         Hotel.rooms = rooms;
         Hotel.checkInTime = checkInTime;
         Hotel.checkOutTime = checkOutTime;
-        Hotel.attractiveness = attractiveness;
+
+        HashMap<String, Long>  attractivenessConstants = JSONExtractor.getAttractivenessConstantsFromJSON();
+        Hotel.attractiveness = (int)(attractivenessConstants.get("local_market") + attractivenessConstants.get("local_attractions"));
 
         for(RoomRank rank: RoomRank.values()){
             roomsByRank.put(rank, new ArrayList<>());
         }
 
+        // config do wielkości
         for(int i = 1; i < 6; i++){
             roomsByCapacity.put(i, new ArrayList<>());
         }
@@ -40,9 +46,9 @@ public class Hotel {
         }
     }
 
-    public static Hotel getInstance(){
+    public static Hotel getInstance() throws IOException, ParseException {
         if (instance == null){
-            instance = new Hotel(new ArrayList<>(), new Time(15), new Time(12), 87);
+            instance = new Hotel(new ArrayList<>(), new Time(15), new Time(12));
         }
         return instance;
     }
@@ -113,5 +119,9 @@ public class Hotel {
                 roomsByRank.get(room.getRank()).add(room);
             }
         }
+    }
+
+    public void updateCompetitveness(){
+
     }
 }
