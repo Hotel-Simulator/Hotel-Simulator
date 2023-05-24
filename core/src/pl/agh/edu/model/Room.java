@@ -7,11 +7,29 @@ public class Room {
     private RoomRank rank;
     private RoomState state;
     private final int capacity;
+    private Integer rentPrice;
+    private Integer maintenancePrice;
 
     public Room(RoomRank rank, int capacity) {
         this.rank = rank;
         this.state = RoomState.CLEAN;
         this.capacity = capacity;
+    }
+
+    public Integer getRentPrice() {
+        return rentPrice;
+    }
+
+    public void setRentPrice(Integer rentPrice) {
+        this.rentPrice = rentPrice;
+    }
+
+    public Integer getMaintenancePrice() {
+        return maintenancePrice;
+    }
+
+    public void setMaintenancePrice(Integer maintenancePrice) {
+        this.maintenancePrice = maintenancePrice;
     }
 
     public RoomRank getRank() {
@@ -32,5 +50,18 @@ public class Room {
 
     public int getCapacity() {
         return capacity;
+    }
+
+    public boolean upgradeRank(){
+        switch (rank){
+            case ONE -> rank = RoomRank.TWO;
+            case TWO -> rank = RoomRank.THREE;
+            case THREE -> rank = RoomRank.FOUR;
+            case FOUR -> rank = RoomRank.FIVE;
+            case FIVE -> {
+                return false;
+            }
+        }
+        return true;
     }
 }
