@@ -3,6 +3,7 @@ package pl.agh.edu.model;
 import pl.agh.edu.time.Time;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 public class Loan {
@@ -28,6 +29,8 @@ public class Loan {
 
     public int getMonthsLeft(){
         LocalDateTime curr = Time.getInstance().getTime();
+        Duration.between(endDate,curr);
+
         //TODO odjąć curr od this.endDate i zwrócić miesiące
         return -1;
     }
