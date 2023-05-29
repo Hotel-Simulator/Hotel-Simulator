@@ -1,11 +1,15 @@
 package pl.agh.edu.model.advertisement;
 
 import org.json.simple.parser.ParseException;
+import pl.agh.edu.enums.HotelVisitPurpose;
 import pl.agh.edu.generator.client_generator.JSONExtractor;
+import pl.agh.edu.model.advertisement.json_data.ConstantAdvertisementData;
+import pl.agh.edu.model.advertisement.json_data.SingleAdvertisementData;
 import pl.agh.edu.time.Time;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -13,8 +17,8 @@ import java.util.stream.Stream;
 
 public class AdvertisementHandler {
     private static AdvertisementHandler instance;
-    private EnumMap<SingleAdvertisementType, Map<String,Integer>> simpleAdvertisementData;
-    private EnumMap<ConstantAdvertisementType,Map<String,Integer>> constantAdvertisementData;
+    private EnumMap<SingleAdvertisementType, SingleAdvertisementData> simpleAdvertisementData;
+    private EnumMap<ConstantAdvertisementType, ConstantAdvertisementData> constantAdvertisementData;
     private final EnumMap<SingleAdvertisementType,List<SingleAdvertisement> > singleAdvertisements;
     private final EnumMap<ConstantAdvertisementType,ConstantAdvertisement> constantAdvertisements;
 
@@ -44,8 +48,7 @@ public class AdvertisementHandler {
         if(singleAdvertisements.get(simpleAdvertisementType).stream().noneMatch(it -> it.getEmissionDate().equals(emissionDate))){
             singleAdvertisements.get(simpleAdvertisementType).add(new SingleAdvertisement(
                     simpleAdvertisementType,
-                    simpleAdvertisementData.get(simpleAdvertisementType).get("effectiveness")/100.,
-                    BigDecimal.valueOf(simpleAdvertisementData.get(simpleAdvertisementType).get("cost_of_purchase")),
+                    simpleAdvertisementData.get(simpleAdvertisementType),
                     emissionDate
             ));
             return true;
@@ -57,9 +60,7 @@ public class AdvertisementHandler {
         if(!constantAdvertisements.containsKey(constantAdvertisementType)){
             constantAdvertisements.put(constantAdvertisementType,new ConstantAdvertisement(
                     constantAdvertisementType,
-                    constantAdvertisementData.get(constantAdvertisementType).get("effectiveness")/100.,
-                    BigDecimal.valueOf(constantAdvertisementData.get(constantAdvertisementType).get("cost_of_purchase")),
-                    BigDecimal.valueOf(constantAdvertisementData.get(constantAdvertisementType).get("cost_of_maintenance")),
+                    constantAdvertisementData.get(constantAdvertisementType),
                     startDate,
                     endDate
             ));
@@ -68,19 +69,40 @@ public class AdvertisementHandler {
         return false;
     }
 
-    public double getCumulatedModifier(LocalDate date){
-        double modifier = 0.;
-        for(SingleAdvertisementType type : SingleAdvertisementType.values()){
-            modifier += Math.min(
-                    singleAdvertisements.get(type)
-                            .stream()
-                            .mapToDouble(ad -> ad.getModifier(date))
-                            .sum(),
-                    simpleAdvertisementData.get(type).get("effectiveness")/100.);
-        }
+    public EnumMap<HotelVisitPurpose,Double> getCumulatedModifier(LocalDate date){
+        return Stream.concat(
+                singleAdvertisements.entrySet()
+                        .stream()
+                        .map(entry -> entry.getValue()
+                                .stream()
+                                .map(singleAdvertisement -> singleAdvertisement.getModifier(date))
+                                .reduce(
+                                        new EnumMap<>(HotelVisitPurpose.class),
+                                        (resultMap, enumMap) -> {
+                                            for (HotelVisitPurpose key : enumMap.keySet()) {
+                                                Double value = enumMap.get(key);
+                                                resultMap.merge(key, value, (a,b) -> Math.min(a+b,simpleAdvertisementData.get(entry.getKey()).effectiveness().get(key)) );
+                                            }
+                                            return resultMap;})),
+                constantAdvertisements.values()
+                        .stream()
+                        .map(constantAdvertisement -> constantAdvertisement.getModifier(date))
 
+        )
+                .reduce(
+                        Stream.of(HotelVisitPurpose.values())
+                                .collect(Collectors.toMap(
+                                        e -> e,
+                                        e -> 0.,
+                                        (a, b) -> b,
+                                        () -> new EnumMap<>(HotelVisitPurpose.class))),
+                (resultMap, enumMap) -> {
+                    for (HotelVisitPurpose key : enumMap.keySet()) {
+                        Double value = enumMap.get(key);
+                        resultMap.merge(key, value,Double::sum );
+                    }
+                    return resultMap;});
 
-        return modifier + constantAdvertisements.values().stream().mapToDouble(ad -> ad.getModifier(date)).sum();
     }
 
     public void removeOldAdvertisements(){

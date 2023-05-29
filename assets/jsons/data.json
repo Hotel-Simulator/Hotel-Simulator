@@ -56,35 +56,63 @@
 
   "single_advertisement": {
     "NEWSPAPER_ADVERTISEMENT": {
-      "effectiveness": 10,
+      "effectiveness": {
+        "VACATION": 5,
+        "BUSINESS_TRIP": 5,
+        "REHABILITATION": 10
+      },
       "cost_of_purchase": 200
     },
     "TV_ADVERTISEMENT": {
-      "effectiveness": 10,
+      "effectiveness": {
+        "VACATION": 10,
+        "BUSINESS_TRIP": 3,
+        "REHABILITATION": 7
+      },
       "cost_of_purchase": 200
     },
     "RADIO_ADVERTISEMENT": {
-      "effectiveness": 10,
+      "effectiveness": {
+        "VACATION": 7,
+        "BUSINESS_TRIP": 3,
+        "REHABILITATION": 10
+      },
       "cost_of_purchase": 200
     },
     "INTERNET_ADVERTISEMENT": {
-      "effectiveness": 10,
+      "effectiveness": {
+        "VACATION": 10,
+        "BUSINESS_TRIP": 7,
+        "REHABILITATION": 3
+      },
       "cost_of_purchase": 200
     }
   },
   "constant_advertisement" : {
       "BILLBOARD":{
-        "effectiveness" : 10,
+        "effectiveness": {
+          "VACATION": 7,
+          "BUSINESS_TRIP": 6,
+          "REHABILITATION": 7
+        },
         "cost_of_purchase" : 200,
         "cost_of_maintenance" : 50
       }  ,
       "WEB_PAGE": {
-        "effectiveness" : 10,
+        "effectiveness": {
+          "VACATION": 10,
+          "BUSINESS_TRIP": 7,
+          "REHABILITATION": 3
+        },
         "cost_of_purchase" : 200,
         "cost_of_maintenance" : 50
       },
       "FLYERS" : {
-        "effectiveness": 10,
+        "effectiveness": {
+          "VACATION": 7,
+          "BUSINESS_TRIP": 3,
+          "REHABILITATION": 10
+        },
         "cost_of_purchase": 200,
         "cost_of_maintenance": 50
       }

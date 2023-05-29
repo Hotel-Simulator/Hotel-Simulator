@@ -6,12 +6,15 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import pl.agh.edu.enums.HotelVisitPurpose;
 import pl.agh.edu.enums.RoomRank;
-import pl.agh.edu.model.advertisement.ConstantAdvertisement;
+import pl.agh.edu.model.Hotel;
+import pl.agh.edu.model.advertisement.json_data.ConstantAdvertisementData;
 import pl.agh.edu.model.advertisement.ConstantAdvertisementType;
 import pl.agh.edu.model.advertisement.SingleAdvertisementType;
+import pl.agh.edu.model.advertisement.json_data.SingleAdvertisementData;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.*;
 
 public class JSONExtractor {
@@ -101,30 +104,37 @@ public class JSONExtractor {
         return prices;
     }
 
-    public static EnumMap<SingleAdvertisementType,Map<String,Integer>> getSingleAdvertisementDataFromJSON() throws IOException, ParseException{
-        EnumMap<SingleAdvertisementType,Map<String,Integer>> singleAdvertisementData = new EnumMap<>(SingleAdvertisementType.class);
+    public static EnumMap<SingleAdvertisementType, SingleAdvertisementData> getSingleAdvertisementDataFromJSON() throws IOException, ParseException{
+        EnumMap<SingleAdvertisementType,SingleAdvertisementData> singleAdvertisementData = new EnumMap<>(SingleAdvertisementType.class);
         JSONObject jsonObject = (JSONObject)((JSONObject) parser.parse(new FileReader(filePath))).get("single_advertisement");
         for(SingleAdvertisementType type : SingleAdvertisementType.values()){
-            Map<String,Integer> map = new HashMap<>();
-
+            EnumMap<HotelVisitPurpose,Double> effectiveness = new EnumMap<>(HotelVisitPurpose.class);
             JSONObject data = (JSONObject) jsonObject.get(type.toString());
-            map.put("effectiveness",((Long)data.get("effectiveness")).intValue());
-            map.put("cost_of_purchase",((Long)data.get("effectiveness")).intValue());
-            singleAdvertisementData.put(type,map);
+            JSONObject effectivenessData = (JSONObject) data.get("effectiveness");
+            for(HotelVisitPurpose hotelVisitPurpose : HotelVisitPurpose.values()){
+                effectiveness.put(hotelVisitPurpose, ((Long)effectivenessData.get(hotelVisitPurpose.toString())).doubleValue() / 100);
+            }
+            BigDecimal costOfPurchase = BigDecimal.valueOf(((Long)data.get("cost_of_purchase")).doubleValue());
+
+
+            singleAdvertisementData.put(type,new SingleAdvertisementData(costOfPurchase,effectiveness));
         }
         return singleAdvertisementData;
     }
 
-    public static EnumMap<ConstantAdvertisementType,Map<String,Integer>> getConstantAdvertisementDataFromJSON() throws IOException, ParseException{
-        EnumMap<ConstantAdvertisementType,Map<String,Integer>> constantAdvertisementData = new EnumMap<>(ConstantAdvertisementType.class);
+    public static EnumMap<ConstantAdvertisementType, ConstantAdvertisementData> getConstantAdvertisementDataFromJSON() throws IOException, ParseException{
+        EnumMap<ConstantAdvertisementType,ConstantAdvertisementData> constantAdvertisementData = new EnumMap<>(ConstantAdvertisementType.class);
         JSONObject jsonObject = (JSONObject)((JSONObject) parser.parse(new FileReader(filePath))).get("constant_advertisement");
         for(ConstantAdvertisementType type : ConstantAdvertisementType.values()){
-            Map<String,Integer> map = new HashMap<>();
+            EnumMap<HotelVisitPurpose,Double> effectiveness = new EnumMap<>(HotelVisitPurpose.class);
             JSONObject data = (JSONObject) jsonObject.get(type.toString());
-            map.put("effectiveness",((Long)data.get("effectiveness")).intValue());
-            map.put("cost_of_purchase",((Long)data.get("effectiveness")).intValue());
-            map.put("cost_of_maintenance",((Long)data.get("cost_of_maintenance")).intValue());
-            constantAdvertisementData.put(type,map);
+            JSONObject effectivenessData = (JSONObject) data.get("effectiveness");
+            for(HotelVisitPurpose hotelVisitPurpose : HotelVisitPurpose.values()){
+                effectiveness.put(hotelVisitPurpose, ((Long)effectivenessData.get(hotelVisitPurpose.toString())).doubleValue() / 100);
+            }
+            BigDecimal costOfPurchase = BigDecimal.valueOf(((Long)data.get("cost_of_purchase")).doubleValue());
+            BigDecimal costOfMaintenance = BigDecimal.valueOf(((Long)data.get("cost_of_maintenance")).doubleValue());
+            constantAdvertisementData.put(type,new ConstantAdvertisementData(costOfPurchase,costOfMaintenance,effectiveness));
         }
         return constantAdvertisementData;
     }
