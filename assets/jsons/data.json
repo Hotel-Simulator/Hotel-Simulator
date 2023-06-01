@@ -6,9 +6,9 @@
   },
 
   "hotel_visit_purpose_probabilities": {
-    "VACATION": 70,
-    "BUSINESS_TRIP": 20,
-    "REHABILITATION": 10
+    "VACATION": 0.7,
+    "BUSINESS_TRIP": 0.2,
+    "REHABILITATION": 0.1
   },
 
   "desired_rank_probabilities": {
