@@ -49,14 +49,14 @@ public class AdvertisementReportHandler {
     }
 
     public static void main(String[] args) {
-        AdvertisementReportHandler.collectData(new AdvertisementReportData(LocalDate.now().minusDays(7),2,new EnumMap<>(HotelVisitPurpose.class)));
-        AdvertisementReportHandler.collectData(new AdvertisementReportData(LocalDate.now().minusDays(6),2,new EnumMap<>(HotelVisitPurpose.class)));
-        AdvertisementReportHandler.collectData(new AdvertisementReportData(LocalDate.now().minusDays(5),2,new EnumMap<>(HotelVisitPurpose.class)));
-        AdvertisementReportHandler.collectData(new AdvertisementReportData(LocalDate.now().minusDays(4),2,new EnumMap<>(HotelVisitPurpose.class)));
-        AdvertisementReportHandler.collectData(new AdvertisementReportData(LocalDate.now().minusDays(3),2,new EnumMap<>(HotelVisitPurpose.class)));
-        AdvertisementReportHandler.collectData(new AdvertisementReportData(LocalDate.now().minusDays(2),2,new EnumMap<>(HotelVisitPurpose.class)));
-        AdvertisementReportHandler.collectData(new AdvertisementReportData(LocalDate.now().minusDays(1),2,new EnumMap<>(HotelVisitPurpose.class)));
-        AdvertisementReportHandler.collectData(new AdvertisementReportData(LocalDate.now(),2,new EnumMap<>(HotelVisitPurpose.class)));
+        AdvertisementReportHandler.collectData(new AdvertisementReportData(LocalDate.now().minusDays(7),new EnumMap<>(HotelVisitPurpose.class),new EnumMap<>(HotelVisitPurpose.class)));
+        AdvertisementReportHandler.collectData(new AdvertisementReportData(LocalDate.now().minusDays(6),new EnumMap<>(HotelVisitPurpose.class),new EnumMap<>(HotelVisitPurpose.class)));
+        AdvertisementReportHandler.collectData(new AdvertisementReportData(LocalDate.now().minusDays(5),new EnumMap<>(HotelVisitPurpose.class),new EnumMap<>(HotelVisitPurpose.class)));
+        AdvertisementReportHandler.collectData(new AdvertisementReportData(LocalDate.now().minusDays(4),new EnumMap<>(HotelVisitPurpose.class),new EnumMap<>(HotelVisitPurpose.class)));
+        AdvertisementReportHandler.collectData(new AdvertisementReportData(LocalDate.now().minusDays(3),new EnumMap<>(HotelVisitPurpose.class),new EnumMap<>(HotelVisitPurpose.class)));
+        AdvertisementReportHandler.collectData(new AdvertisementReportData(LocalDate.now().minusDays(2),new EnumMap<>(HotelVisitPurpose.class),new EnumMap<>(HotelVisitPurpose.class)));
+        AdvertisementReportHandler.collectData(new AdvertisementReportData(LocalDate.now().minusDays(1),new EnumMap<>(HotelVisitPurpose.class),new EnumMap<>(HotelVisitPurpose.class)));
+        AdvertisementReportHandler.collectData(new AdvertisementReportData(LocalDate.now(),new EnumMap<>(HotelVisitPurpose.class),new EnumMap<>(HotelVisitPurpose.class)));
 
         System.out.println(AdvertisementReportHandler.getData().size());
         System.out.println(AdvertisementReportHandler.getData(LocalDate.now().minusDays(1)).size());

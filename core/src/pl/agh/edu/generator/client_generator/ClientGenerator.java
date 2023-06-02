@@ -7,6 +7,7 @@ import pl.agh.edu.enums.Sex;
 import pl.agh.edu.model.Client;
 import pl.agh.edu.model.ClientGroup;
 import pl.agh.edu.model.advertisement.AdvertisementHandler;
+import pl.agh.edu.model.advertisement.SingleAdvertisementType;
 import pl.agh.edu.model.advertisement.report.AdvertisementReportData;
 import pl.agh.edu.model.advertisement.report.AdvertisementReportHandler;
 
@@ -44,7 +45,7 @@ public class ClientGenerator {
 
     private final Random random = new Random();
     private final HashMap<String, Long> attractivenessConstants;
-    private List<HotelVisitPurpose> hotelVisitPurposeProbabilityList;
+    private EnumMap<HotelVisitPurpose,Double> hotelVisitPurposeProbability;
     private EnumMap<HotelVisitPurpose, List<Integer>> roomSizeProbabilityLists;
     private EnumMap<HotelVisitPurpose, List<RoomRank>> desiredRoomRankProbabilityLists;
     private EnumMap<HotelVisitPurpose, List<Integer>> numberOfNightsProbabilityLists;
@@ -56,7 +57,7 @@ public class ClientGenerator {
 
         attractivenessConstants = JSONExtractor.getAttractivenessConstantsFromJSON();
         averagePricesPerNight = JSONExtractor.getAveragePricesPerNightFromJSON();
-        hotelVisitPurposeProbabilityList = ProbabilityListGenerator.getProbabilityList(JSONExtractor.getHotelVisitPurposeProbabilitiesFromJSON());
+        hotelVisitPurposeProbability = JSONExtractor.getHotelVisitPurposeProbabilitiesFromJSON();
         roomSizeProbabilityLists = ProbabilityListGenerator.getMapOfProbabilityLists(JSONExtractor.getRoomSizeProbabilitiesFromJSON(),HotelVisitPurpose.class);
         desiredRoomRankProbabilityLists = ProbabilityListGenerator.getMapOfProbabilityLists(JSONExtractor.getDesiredRoomRankProbabilitiesFromJSON(),HotelVisitPurpose.class);
         numberOfNightsProbabilityLists = ProbabilityListGenerator.getMapOfProbabilityLists(JSONExtractor.getNumberOfNightsProbabilitiesFromJSON(),HotelVisitPurpose.class);
@@ -100,11 +101,11 @@ public class ClientGenerator {
                 .collect(Collectors.toList());
     }
 
-    private ClientGroup generateClientGroup(LocalDate date, LocalTime checkoutMaxTime){
-
-        HotelVisitPurpose hotelVisitPurpose = getRandomValue(hotelVisitPurposeProbabilityList);
-        return generateClientGroupForGivenHotelVisitPurpose(date,checkoutMaxTime,hotelVisitPurpose);
-    }
+//    private ClientGroup generateClientGroup(LocalDate date, LocalTime checkoutMaxTime){
+//
+//        HotelVisitPurpose hotelVisitPurpose = getRandomValue(hotelVisitPurposeProbabilityList);
+//        return generateClientGroupForGivenHotelVisitPurpose(date,checkoutMaxTime,hotelVisitPurpose);
+//    }
 
     private ClientGroup generateClientGroupForGivenHotelVisitPurpose(LocalDate date, LocalTime checkoutMaxTime,HotelVisitPurpose hotelVisitPurpose){
         RoomRank desiredRoomRank  = getRandomValue(desiredRoomRankProbabilityLists.get(hotelVisitPurpose));
@@ -117,46 +118,57 @@ public class ClientGenerator {
     }
 
 
-    private EnumMap<HotelVisitPurpose,Integer> getNumberOfClientGroupsFromAdvertisement(LocalDate date, int noClientsWithoutAdvertisements){
+    private EnumMap<HotelVisitPurpose,Integer> getNumberOfClientGroupsFromAdvertisement(LocalDate date, EnumMap<HotelVisitPurpose,Integer> noClientsWithoutAdvertisements){
         return advertisementHandler.getCumulatedModifier(date).entrySet()
                 .stream()
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
-                        e ->  (int)Math.round(e.getValue() * noClientsWithoutAdvertisements),
+                        e ->  (int)Math.round(e.getValue() * noClientsWithoutAdvertisements.get(e.getKey())),
                         (a, b) ->  b,
                         () -> new EnumMap<>(HotelVisitPurpose.class)));
     }
 
 
-    private int getNumberOfClientGroups(){
+    private EnumMap<HotelVisitPurpose,Integer> getNumberOfClientGroups(){
         double popularityModifier = 0.1;
-        double basicNumberOfClients = (((attractivenessConstants.get("local_market") + attractivenessConstants.get("local_attractions"))) * Math.abs(1 + random.nextGaussian()/3));
-        return (int)Math.round(basicNumberOfClients * popularityModifier);
+        int basicNumberOfClients = (int)Math.round(((attractivenessConstants.get("local_market") + attractivenessConstants.get("local_attractions"))) * popularityModifier);
+        return Stream.of(HotelVisitPurpose.values()).collect(Collectors.toMap(
+                e -> e,
+                e -> (int)Math.round(basicNumberOfClients * hotelVisitPurposeProbability.get(e) * Math.abs(1 + random.nextGaussian()/3)),
+                (a, b) ->b,
+                () -> new EnumMap<>(HotelVisitPurpose.class)
+        ));
     }
 
     public List<Arrival> generateArrivalsForDay(LocalDate date, LocalTime checkInMinTime, LocalTime checkOutMaxTime){
-        int numberOfClients = getNumberOfClientGroups();
-        EnumMap<HotelVisitPurpose,Integer> numberOfClientsFromAdvertisements = getNumberOfClientGroupsFromAdvertisement(date,numberOfClients);
+        EnumMap<HotelVisitPurpose,Integer> numberOfClientGroups = getNumberOfClientGroups();
+        EnumMap<HotelVisitPurpose,Integer> numberOfClientGroupsFromAdvertisements = getNumberOfClientGroupsFromAdvertisement(date,numberOfClientGroups);
         AdvertisementReportHandler.collectData(
                 new AdvertisementReportData(
                         date,
-                        numberOfClients,
-                        numberOfClientsFromAdvertisements
+                        numberOfClientGroups,
+                        numberOfClientGroupsFromAdvertisements
                 )
         );
-        return Stream.concat(
-                IntStream
-                        .range(0,numberOfClients)
+//        return Stream.concat(
+//                IntStream
+//                        .range(0,numberOfClientGroups)
+//                        .mapToObj(it -> new Arrival(
+//                                getRandomLocalTime(checkInMinTime,LocalTime.MAX),
+//                                generateClientGroup(date,checkOutMaxTime))),
+//                numberOfClientGroupsFromAdvertisements.entrySet().stream().flatMap(
+//                        entry -> IntStream.range(0,entry.getValue()).mapToObj(it -> new Arrival(
+//                                getRandomLocalTime(checkInMinTime,LocalTime.MAX),
+//                                generateClientGroupForGivenHotelVisitPurpose(date,checkOutMaxTime,entry.getKey())))
+//                )
+//
+//        )
+        return Stream.of(HotelVisitPurpose.values())
+                .flatMap(e -> IntStream.range(0,numberOfClientGroups.get(e) + numberOfClientGroupsFromAdvertisements.get(e))
                         .mapToObj(it -> new Arrival(
                                 getRandomLocalTime(checkInMinTime,LocalTime.MAX),
-                                generateClientGroup(date,checkOutMaxTime))),
-                numberOfClientsFromAdvertisements.entrySet().stream().flatMap(
-                        entry -> IntStream.range(0,entry.getValue()).mapToObj(it -> new Arrival(
-                                getRandomLocalTime(checkInMinTime,LocalTime.MAX),
-                                generateClientGroupForGivenHotelVisitPurpose(date,checkOutMaxTime,entry.getKey())))
+                                generateClientGroupForGivenHotelVisitPurpose(date,checkOutMaxTime,e)))
                 )
-
-        )
                 .sorted(Arrival::compareTo)
                 .collect(Collectors.toList());
     }
@@ -167,7 +179,8 @@ public class ClientGenerator {
 
     public static void main(String[] args) throws IOException, ParseException {
        ClientGenerator generator = getInstance();
-        AdvertisementHandler advertisementHandler = AdvertisementHandler.getInstance();
+       AdvertisementHandler advertisementHandler = AdvertisementHandler.getInstance();
+       advertisementHandler.create(SingleAdvertisementType.INTERNET_ADVERTISEMENT,LocalDate.now());
 
         System.out.println(advertisementHandler.getAdvertisements());
         System.out.println(generator.generateArrivalsForDay(LocalDate.now(),LocalTime.of(15,0),LocalTime.of(12,0)));

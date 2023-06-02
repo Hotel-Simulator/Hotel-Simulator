@@ -21,11 +21,11 @@ public class JSONExtractor {
     private static final JSONParser parser = new JSONParser();
     private static final String filePath = "assets/jsons/data.json";
 
-    public static EnumMap<HotelVisitPurpose,Integer> getHotelVisitPurposeProbabilitiesFromJSON() throws IOException, ParseException {
-        EnumMap<HotelVisitPurpose,Integer> probabilities = new EnumMap<>(HotelVisitPurpose.class);
+    public static EnumMap<HotelVisitPurpose,Double> getHotelVisitPurposeProbabilitiesFromJSON() throws IOException, ParseException {
+        EnumMap<HotelVisitPurpose,Double> probabilities = new EnumMap<>(HotelVisitPurpose.class);
         JSONObject jsonObject = (JSONObject)((JSONObject) parser.parse(new FileReader(filePath))).get("hotel_visit_purpose_probabilities");
         for(HotelVisitPurpose hotelVisitPurpose : HotelVisitPurpose.values()){
-            int probability = ((Long) jsonObject.get(hotelVisitPurpose.toString())).intValue();
+            double probability = (double)jsonObject.get(hotelVisitPurpose.toString());
             probabilities.put(hotelVisitPurpose,probability);
         }
         return probabilities;
