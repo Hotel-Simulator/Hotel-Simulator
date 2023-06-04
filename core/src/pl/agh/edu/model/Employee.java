@@ -1,5 +1,8 @@
 package pl.agh.edu.model;
 
+import pl.agh.edu.enums.Role;
+import pl.agh.edu.enums.TypeOfContract;
+
 import java.util.ArrayList;
 import java.util.List;
 

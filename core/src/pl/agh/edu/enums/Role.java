@@ -1,4 +1,4 @@
-package pl.agh.edu.model;
+package pl.agh.edu.enums;
 
 import java.util.Arrays;
 import java.util.Collections;

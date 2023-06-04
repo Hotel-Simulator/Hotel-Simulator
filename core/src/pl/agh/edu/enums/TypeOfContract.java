@@ -1,4 +1,4 @@
-package pl.agh.edu.model;
+package pl.agh.edu.enums;
 
 public enum TypeOfContract {
     pernament,

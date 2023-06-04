@@ -2,7 +2,7 @@ package pl.agh.edu.generator.employee_generator;
 
 import com.github.javafaker.Faker;
 import pl.agh.edu.model.Employee;
-import pl.agh.edu.model.Role;
+import pl.agh.edu.enums.Role;
 
 import java.util.ArrayList;
 import java.util.List;

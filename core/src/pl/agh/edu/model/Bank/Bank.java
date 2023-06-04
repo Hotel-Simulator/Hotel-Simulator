@@ -1,4 +1,4 @@
-package pl.agh.edu.model;
+package pl.agh.edu.model.Bank;
 
 import java.math.BigDecimal;
 import java.util.LinkedList;
@@ -56,7 +56,7 @@ public class Bank {
     }
 
 
-    public Loan obtainLoan(BigDecimal value,int period){
+    public Loan obtainLoan(BigDecimal value, int period){
         Loan loan = new Loan(value,period);
         return loan;
     }

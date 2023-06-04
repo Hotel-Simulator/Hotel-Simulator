@@ -1,5 +1,6 @@
-package pl.agh.edu.model;
+package pl.agh.edu.model.Bank;
 
+import pl.agh.edu.model.Bank.Bank;
 import pl.agh.edu.time.Time;
 
 import java.math.BigDecimal;

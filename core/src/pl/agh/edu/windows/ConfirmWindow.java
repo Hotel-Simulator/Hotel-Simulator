@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import pl.agh.edu.model.Employee;
-import pl.agh.edu.model.TypeOfContract;
+import pl.agh.edu.enums.TypeOfContract;
 
 
 public class ConfirmWindow extends CustomWindow {

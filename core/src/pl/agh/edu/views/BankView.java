@@ -5,8 +5,8 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import pl.agh.edu.model.Bank;
-import pl.agh.edu.model.Loan;
+import pl.agh.edu.model.Bank.Bank;
+import pl.agh.edu.model.Bank.Loan;
 
 import java.math.BigDecimal;
 

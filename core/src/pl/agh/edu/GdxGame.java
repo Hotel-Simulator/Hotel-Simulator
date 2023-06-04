@@ -7,20 +7,15 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import pl.agh.edu.command.CommandExecutor;
-import pl.agh.edu.model.Bank;
+import pl.agh.edu.model.Bank.Bank;
 import pl.agh.edu.time.Time;
-import pl.agh.edu.views.BankView;
 import pl.agh.edu.views.HotelView;
-import pl.agh.edu.windows.BankWindow;
-import pl.agh.edu.windows.HireEmployeesWindow;
 
 public class GdxGame extends ApplicationAdapter {
 	private Texture dropImage;
