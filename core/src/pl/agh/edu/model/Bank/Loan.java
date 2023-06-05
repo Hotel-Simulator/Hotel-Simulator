@@ -9,6 +9,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.Period;
 
+//TODO charge monthlyPayment each month (Time observer?)
 public class Loan {
     private final BigDecimal loanValue; // value of loan that player gets
 
@@ -23,6 +24,7 @@ public class Loan {
     private final int interestRate; // Bank's interest rate for loans
     private final BigDecimal monthlyPayments; // Amount that player has to pay each month
     private boolean isPaid = false;
+    private LocalDateTime nextPaymentDate;
 
 
     public Loan(BigDecimal loanValue,int period){
@@ -33,6 +35,7 @@ public class Loan {
         this.loanValue = loanValue;
         this.loanValueToPay = loanValue.multiply(BigDecimal.valueOf(100+interestRate)).divide(BigDecimal.valueOf(100), RoundingMode.CEILING);
         this.monthlyPayments = this.loanValueToPay.divideToIntegralValue(BigDecimal.valueOf(period));
+        this.nextPaymentDate = beginDate.plusMonths(1);
     }
 
     public Loan(int loanValue, int period){ // int version for convenience
@@ -41,13 +44,16 @@ public class Loan {
 
     public void payMonth(){
         paidValue.add(monthlyPayments);
+        nextPaymentDate = nextPaymentDate.plusMonths(1);
         if(paidValue.compareTo(loanValueToPay)==0){
             isPaid = true;
+            nextPaymentDate = null;
         }
     }
     public void payAll(){
         paidValue = loanValueToPay;
         isPaid = true;
+        nextPaymentDate = null;
     }
 
     public int getMonthsLeft(){
@@ -87,6 +93,8 @@ public class Loan {
     public int getInterestRate() {
         return interestRate;
     }
+    public boolean isPaid(){return isPaid; }
+    public LocalDateTime getNextPaymentDate(){return nextPaymentDate;}
 
     public static void main(String args[]){
         Bank b = Bank.getInstance().setInterestRate(10);

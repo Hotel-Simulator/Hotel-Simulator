@@ -18,20 +18,7 @@ import pl.agh.edu.time.Time;
 import pl.agh.edu.views.HotelView;
 
 public class GdxGame extends ApplicationAdapter {
-	private Texture dropImage;
-	private Texture bucketImage;
-	private Sound dropSound;
-	private Music rainMusic;
-	private SpriteBatch batch;
-	private OrthographicCamera camera;
-	private Rectangle bucket;
-	private Array<Rectangle> raindrops;
-	private long lastDropTime;
 	private Stage stage;
-	private ScrollPane pane;
-	private VerticalGroup verticalGroup;
-
-
 	Skin skin;
 	private Table root;
 
