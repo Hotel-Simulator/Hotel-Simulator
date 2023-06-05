@@ -84,7 +84,7 @@ public class BankView extends View{
     }
 
     private void addLoanToRow(Table loanRow,Loan loan){
-        loanRow.add(new Label(String.valueOf(loan.getPaidValue())+" / "+String.valueOf(loan.getValue()),skin)).space(10);
+        loanRow.add(new Label(String.valueOf(loan.getPaidValue())+" / "+String.valueOf(loan.getLoanValue()),skin)).space(10);
         loanRow.add(new Label(String.valueOf(loan.getMonthlyPayments()),skin)).space(10);
         loanRow.add(new Label(String.valueOf(loan.getMonthsLeft()),skin)).space(10);
         TextButton payAll = new TextButton("Pay all",skin );
