@@ -1,11 +1,9 @@
-package pl.agh.edu.model.Bank;
+package pl.agh.edu.model.bank;
 
-import pl.agh.edu.model.Bank.Bank;
 import pl.agh.edu.time.Time;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.Period;
 

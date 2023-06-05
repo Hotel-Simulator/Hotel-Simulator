@@ -1,4 +1,4 @@
-package pl.agh.edu.model.Bank;
+package pl.agh.edu.model.bank;
 
 import pl.agh.edu.time.Time;
 
