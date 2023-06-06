@@ -1,7 +1,9 @@
 package pl.agh.edu.model;
 
 import org.json.simple.parser.ParseException;
+import pl.agh.edu.enums.Role;
 import pl.agh.edu.enums.RoomRank;
+import pl.agh.edu.enums.RoomState;
 import pl.agh.edu.generator.client_generator.JSONExtractor;
 
 import javax.swing.plaf.RootPaneUI;
@@ -15,7 +17,7 @@ import java.util.HashMap;
 // TODO: 10.05.2023 how to count competitiveness
 public class Hotel {
     private static Hotel instance;
-    private static ArrayList<Integer> employees;
+    private static ArrayList<Employee> employees;
     private static HashMap<RoomRank, ArrayList<Room>> roomsByRank;
     private static HashMap<Integer, ArrayList<Room>> roomsByCapacity;
     private static ArrayList<Room> rooms;
@@ -54,11 +56,11 @@ public class Hotel {
         return instance;
     }
 
-    public ArrayList<Integer> getEmployees() {
+    public ArrayList<Employee> getEmployees() {
         return employees;
     }
 
-    public void setEmployees(ArrayList<Integer> employees) {
+    public void setEmployees(ArrayList<Employee> employees) {
         Hotel.employees = employees;
     }
 
@@ -124,5 +126,33 @@ public class Hotel {
 
     public void updateCompetitveness(){
 
+    }
+
+    public void checkForMaintenance(){
+        for(Room room: rooms){
+            if(room.getState().equals(RoomState.DIRTY)){
+                maintainRoom(room, Role.cleaner);
+            }
+            else if (room.getState().equals(RoomState.FAULT)){
+                maintainRoom(room, Role.technician);
+            }
+        }
+    }
+
+    public void maintainRoom(Room room, Role role){
+        for(Employee employee: employees){
+            if(employee.getRole().equals(role) && !employee.isOccupied()){
+                Thread fix = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            employee.doRoomMaintenance(room);
+                        } catch (InterruptedException | IOException | ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        }
     }
 }

@@ -4,7 +4,6 @@ public enum RoomState {
     CLEAN,
     DIRTY,
     FAULT,
-    CLEANING,
-    FIXING,
+    MAINTENANCE,
     UPGRADING
 }

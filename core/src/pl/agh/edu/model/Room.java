@@ -14,8 +14,6 @@ public class Room {
     private final int capacity;
     private BigDecimal rentPrice;
     private BigDecimal maintenancePrice;
-    private long changeStart;  // whole date or just hour?
-    private Double changeLength;   // length of change in hours / days
 
     public Room(RoomRank rank, int capacity) {
         this.rank = rank;
@@ -72,23 +70,17 @@ public class Room {
         return true;
     }
 
-    private boolean clean(){
+    public boolean clean(){
         if (state == RoomState.DIRTY){
-            setState(RoomState.CLEANING);
-            Date time = (Date) new java.util.Date();
-            changeStart = time.getTime();
-            changeLength = 5.;
+            setState(RoomState.MAINTENANCE);
             return true;
         }
         return false;
     }
 
-    private boolean fix(){
+    public boolean fix(){
         if (state == RoomState.FAULT){
-            setState(RoomState.FIXING);
-            Date time = (Date) new java.util.Date();
-            changeStart = time.getTime();
-            changeLength = 10.;
+            setState(RoomState.MAINTENANCE);
             return true;
         }
         return false;
@@ -103,10 +95,6 @@ public class Room {
         }
 
         setState(RoomState.UPGRADING);
-        Date time = (Date) new java.util.Date();
-        changeStart = time.getTime();
-        changeLength = 30 * Math.pow(0.9, num-1);
-
         return true;
     }
 }

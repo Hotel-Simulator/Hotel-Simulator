@@ -1,5 +1,10 @@
 {
 
+  "maintenance_times": {
+    "clean" : 30,
+    "fix" : 60
+  },
+
   "max_room_size" : {
     "max_size" : 5
   },

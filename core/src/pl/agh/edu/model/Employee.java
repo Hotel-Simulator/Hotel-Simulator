@@ -1,9 +1,14 @@
 package pl.agh.edu.model;
 
+import org.json.simple.parser.ParseException;
 import pl.agh.edu.enums.Role;
+import pl.agh.edu.enums.RoomState;
 import pl.agh.edu.enums.TypeOfContract;
+import pl.agh.edu.generator.client_generator.JSONExtractor;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Employee {
@@ -15,6 +20,7 @@ public class Employee {
     private int expectedWage;
     private int wage;
     private int satisfaction;
+    private boolean isOccupied = false;
     private TypeOfContract typeOfContract;
     private Role role;
     private double skills;
@@ -45,6 +51,14 @@ public class Employee {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public boolean isOccupied() {
+        return isOccupied;
+    }
+
+    public void setOccupied(boolean occupied) {
+        isOccupied = occupied;
     }
 
     public int getAge() {
@@ -94,5 +108,25 @@ public class Employee {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public void doRoomMaintenance(Room room) throws InterruptedException, IOException, ParseException {
+        this.isOccupied = true;
+        HashMap<String, Long> times = JSONExtractor.getMaintenanceTimesFromJSON();
+
+        if(role.equals(Role.cleaner) && room.getState() == RoomState.DIRTY){
+            room.setState(RoomState.MAINTENANCE);
+            Thread.sleep(100 * times.get("clean"));
+            room.clean();
+        }
+        else if(role.equals(Role.technician) && room.getState() == RoomState.FAULT){
+            room.setState(RoomState.MAINTENANCE);
+            Thread.sleep(100 * times.get("fix"));
+            room.fix();
+        }
+
+        this.isOccupied = false;
+
+        Thread.currentThread().stop();
     }
 }
