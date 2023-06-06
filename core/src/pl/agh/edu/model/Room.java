@@ -12,6 +12,7 @@ public class Room {
     private RoomRank rank;
     private RoomState state;
     private final int capacity;
+    private BigDecimal marketPrice;
     private BigDecimal rentPrice;
     private BigDecimal maintenancePrice;
 
@@ -96,5 +97,11 @@ public class Room {
 
         setState(RoomState.UPGRADING);
         return true;
+    }
+
+    public BigDecimal getStandard(){
+        BigDecimal added = rentPrice.add(marketPrice);
+        BigDecimal multiplied = rentPrice.multiply(BigDecimal.valueOf(2));
+        return  added.divide(multiplied, BigDecimal.ROUND_DOWN).min(BigDecimal.valueOf(1));
     }
 }

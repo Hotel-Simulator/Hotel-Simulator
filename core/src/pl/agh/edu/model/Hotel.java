@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
-// TODO: 10.05.2023 how to count competitiveness
 public class Hotel {
     private static Hotel instance;
     private static ArrayList<Employee> employees;
@@ -125,7 +124,21 @@ public class Hotel {
     }
 
     public void updateCompetitveness(){
+        BigDecimal avgRoomStandard = BigDecimal.valueOf(0);
+        BigDecimal avgWorkerHappiness = BigDecimal.valueOf(0);
 
+        for(Room room: rooms){
+            avgRoomStandard.add(room.getStandard());
+        }
+
+        for(Employee employee: employees){
+            avgWorkerHappiness.add(BigDecimal.valueOf(employee.getSatisfaction()));
+        }
+
+        avgRoomStandard.divide(BigDecimal.valueOf(rooms.size()));
+        avgWorkerHappiness.divide(BigDecimal.valueOf(employees.size()));
+
+        competitiveness = (Integer) avgRoomStandard.add(avgWorkerHappiness).divide(BigDecimal.valueOf(2)).intValue();
     }
 
     public void checkForMaintenance(){

@@ -57,6 +57,10 @@ public class Employee {
         return isOccupied;
     }
 
+    public int getSatisfaction() {
+        return satisfaction;
+    }
+
     public void setOccupied(boolean occupied) {
         isOccupied = occupied;
     }
