@@ -6,6 +6,7 @@ import pl.agh.edu.generator.client_generator.JSONExtractor;
 
 import javax.swing.plaf.RootPaneUI;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,12 +33,12 @@ public class Hotel {
         Hotel.attractiveness = (int)(attractivenessConstants.get("local_market") + attractivenessConstants.get("local_attractions"));
 
         for(RoomRank rank: RoomRank.values()){
-            roomsByRank.put(rank, new ArrayList<>());
+            roomsByRank.put(rank, new ArrayList<Room>());
         }
 
         // config do wielkości
-        for(int i = 1; i < 6; i++){
-            roomsByCapacity.put(i, new ArrayList<>());
+        for(int i = 1; i < JSONExtractor.getMaxRoomSize(); i++){
+            roomsByCapacity.put(i, new ArrayList<Room>());
         }
 
         for(Room room : rooms){
@@ -48,7 +49,7 @@ public class Hotel {
 
     public static Hotel getInstance() throws IOException, ParseException {
         if (instance == null){
-            instance = new Hotel(new ArrayList<>(), new Time(15), new Time(12));
+            instance = new Hotel(new ArrayList<Room>(), new Time(15), new Time(12));
         }
         return instance;
     }
@@ -105,7 +106,7 @@ public class Hotel {
         Hotel.roomsByCapacity = roomsByCapacity;
     }
 
-    public void setPrices(ArrayList<Room> roomsToSet, int newPrice){
+    public void setPrices(ArrayList<Room> roomsToSet, BigDecimal newPrice){
         for(Room room : roomsToSet){
             room.setRentPrice(newPrice);
         }

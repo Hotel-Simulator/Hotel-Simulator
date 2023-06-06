@@ -98,13 +98,24 @@ public class JSONExtractor {
         return prices;
     }
 
+    public static Integer getMaxRoomSize() throws IOException, ParseException {
+        JSONObject jsonObject = (JSONObject)((JSONObject) parser.parse(new FileReader(filePath))).get("max_room_size");
+        Integer res = -1;
+        for(Object constant: jsonObject.keySet()){
+            res = (Integer) jsonObject.get(constant);
+        }
+        return res;
+    }
+
     public static void main(String[] args) throws IOException, ParseException {
-        System.out.println(getHotelVisitPurposeProbabilitiesFromJSON());
-        System.out.println(getDesiredRoomRankProbabilitiesFromJSON());
-        System.out.println(getRoomSizeProbabilitiesFromJSON());
-        System.out.println(getNumberOfNightsProbabilitiesFromJSON());
-        System.out.println(getAttractivenessConstantsFromJSON());
-        System.out.println(getAveragePricesPerNightFromJSON());
+//        System.out.println(getHotelVisitPurposeProbabilitiesFromJSON());
+//        System.out.println(getDesiredRoomRankProbabilitiesFromJSON());
+//        System.out.println(getRoomSizeProbabilitiesFromJSON());
+//        System.out.println(getNumberOfNightsProbabilitiesFromJSON());
+//        System.out.println(getAttractivenessConstantsFromJSON());
+//        System.out.println(getAveragePricesPerNightFromJSON());
+
+//        System.out.println(getMaxRoomSize());
 
     }
 
