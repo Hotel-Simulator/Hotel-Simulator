@@ -169,8 +169,6 @@
       "cost_of_maintenance": 50,
       "preparation_days": 7
     }
-
-
   },
 
   "bank_scenarios": [
@@ -186,5 +184,9 @@
       "deposit_interest_rate": 1,
       "account_fee": 1000
     }
-  ]
+  ],
+
+  "game_start_date": "2020-01-01",
+  "game_end_date": "2040-01-01"
+
 }
