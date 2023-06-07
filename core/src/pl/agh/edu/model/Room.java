@@ -87,7 +87,7 @@ public class Room {
         return false;
     }
 
-    private boolean upgradeRankMany(int num){
+    public boolean upgradeRankMany(int num){
         if(rank.ordinal()+ 1 + num > 5){
             return false;
         }

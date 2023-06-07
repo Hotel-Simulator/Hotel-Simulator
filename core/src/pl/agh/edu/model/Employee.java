@@ -120,12 +120,12 @@ public class Employee {
 
         if(role.equals(Role.cleaner) && room.getState() == RoomState.DIRTY){
             room.setState(RoomState.MAINTENANCE);
-            Thread.sleep(100 * times.get("clean"));
+            Thread.sleep(1000 * times.get("clean"));
             room.clean();
         }
         else if(role.equals(Role.technician) && room.getState() == RoomState.FAULT){
             room.setState(RoomState.MAINTENANCE);
-            Thread.sleep(100 * times.get("fix"));
+            Thread.sleep(1000 * times.get("fix"));
             room.fix();
         }
 

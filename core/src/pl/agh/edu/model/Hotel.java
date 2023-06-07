@@ -5,6 +5,7 @@ import pl.agh.edu.enums.Role;
 import pl.agh.edu.enums.RoomRank;
 import pl.agh.edu.enums.RoomState;
 import pl.agh.edu.generator.client_generator.JSONExtractor;
+import pl.agh.edu.room_builder.Builder;
 
 import javax.swing.plaf.RootPaneUI;
 import java.io.IOException;
@@ -19,6 +20,7 @@ public class Hotel {
     private static ArrayList<Employee> employees;
     private static HashMap<RoomRank, ArrayList<Room>> roomsByRank;
     private static HashMap<Integer, ArrayList<Room>> roomsByCapacity;
+    private static ArrayList<Builder> builders = new ArrayList<>();
     private static ArrayList<Room> rooms;
     private static Time checkInTime;
     private static Time checkOutTime;
@@ -46,6 +48,8 @@ public class Hotel {
             roomsByRank.get(room.getRank()).add(room);
             roomsByCapacity.get(room.getCapacity()).add(room);
         }
+
+        builders.add(new Builder());
     }
 
     public static Hotel getInstance() throws IOException, ParseException {
@@ -113,14 +117,18 @@ public class Hotel {
         }
     }
 
-    public void upgradeRooms(ArrayList<Room> roomsToUpgrade){
-        for(Room room : roomsToUpgrade){
-            RoomRank prev = room.getRank();
-            if(room.upgradeRank()){
-                roomsByRank.get(prev).remove(room);
-                roomsByRank.get(room.getRank()).add(room);
-            }
-        }
+//    public void upgradeRooms(ArrayList<Room> roomsToUpgrade){
+//        for(Room room : roomsToUpgrade){
+//            RoomRank prev = room.getRank();
+//            if(room.upgradeRank()){
+//                roomsByRank.get(prev).remove(room);
+//                roomsByRank.get(room.getRank()).add(room);
+//            }
+//        }
+//    }
+
+    public void addBuilder() throws IOException, ParseException {
+        builders.add(new Builder());
     }
 
     public void updateCompetitveness(){
@@ -155,7 +163,7 @@ public class Hotel {
     public void maintainRoom(Room room, Role role){
         for(Employee employee: employees){
             if(employee.getRole().equals(role) && !employee.isOccupied()){
-                Thread fix = new Thread(new Runnable() {
+                new Thread(new Runnable() {
                     @Override
                     public void run() {
                         try {
@@ -164,8 +172,30 @@ public class Hotel {
                             e.printStackTrace();
                         }
                     }
-                });
+                }).start();
             }
         }
+    }
+
+    public void upgradeRoom(Room room, int numUpgrades){
+        RoomRank prev = room.getRank();
+
+        for(Builder builder : builders){
+            if(!builder.isOccupied()){
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            builder.upgradeRoom(room, numUpgrades);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+            }
+        }
+
+        roomsByRank.get(prev).remove(room);
+        roomsByRank.get(room.getRank()).add(room);
     }
 }
