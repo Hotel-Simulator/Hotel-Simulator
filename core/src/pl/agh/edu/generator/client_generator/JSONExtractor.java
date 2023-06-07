@@ -6,6 +6,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import pl.agh.edu.enums.HotelVisitPurpose;
 import pl.agh.edu.enums.RoomRank;
+
 import pl.agh.edu.model.advertisement.json_data.ConstantAdvertisementData;
 import pl.agh.edu.model.advertisement.ConstantAdvertisementType;
 import pl.agh.edu.model.advertisement.SingleAdvertisementType;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
+
 
 public class JSONExtractor {
     private static final JSONParser parser = new JSONParser();
@@ -179,14 +181,14 @@ public class JSONExtractor {
         ));
     }
 
-    public static List<BankData> getBanksFromJSON() throws IOException, ParseException{
-        JSONArray jsonArray = (JSONArray)((JSONObject) parser.parse(new FileReader(filePath))).get("bank_scenarios");
-        return (List<BankData>) StreamSupport.stream(jsonArray.spliterator(),false)
+    public static List<BankData> getBanksFromJSON() throws IOException, ParseException {
+        JSONArray jsonArray = (JSONArray) ((JSONObject) parser.parse(new FileReader(filePath))).get("bank_scenarios");
+        return (List<BankData>) StreamSupport.stream(jsonArray.spliterator(), false)
                 .map(
                         e -> {
                             JSONObject data = (JSONObject) e;
                             return new BankData(
-                                    (String)data.get("name"),
+                                    (String) data.get("name"),
                                     Math.round((Long) data.get("loan_interest_rate")),
                                     Math.round((Long) data.get("deposit_interest_rate")),
                                     BigDecimal.valueOf((Long) data.get("account_fee"))
@@ -194,6 +196,35 @@ public class JSONExtractor {
                         }
                 )
                 .collect(Collectors.toList());
+    }
+
+    public static Integer getMaxRoomSize() throws IOException, ParseException {
+        JSONObject jsonObject = (JSONObject)((JSONObject) parser.parse(new FileReader(filePath))).get("max_room_size");
+        Integer res = -1;
+        for(Object constant: jsonObject.keySet()){
+            res = (Integer) jsonObject.get(constant);
+        }
+        return res;
+    }
+
+    public static HashMap<String, Long> getMaintenanceTimesFromJSON() throws IOException, ParseException {
+        HashMap<String, Long> constants = new HashMap<>();
+        JSONObject jsonObject = (JSONObject)((JSONObject) parser.parse(new FileReader(filePath))).get("maintenance_times");
+
+        for(Object constant: jsonObject.keySet()){
+            constants.put(String.valueOf(constant), (Long) jsonObject.get(constant));
+        }
+        return constants;
+    }
+
+    public static HashMap<String, Long> getUpgradeTimesFromJSON() throws IOException, ParseException {
+        HashMap<String, Long> constants = new HashMap<>();
+        JSONObject jsonObject = (JSONObject)((JSONObject) parser.parse(new FileReader(filePath))).get("upgrade_times");
+
+        for(Object constant: jsonObject.keySet()){
+            constants.put(String.valueOf(constant), (Long) jsonObject.get(constant));
+        }
+        return constants;
     }
 
 

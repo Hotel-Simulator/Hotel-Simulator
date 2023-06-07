@@ -1,9 +1,23 @@
 package pl.agh.edu.model;
 
+<<<<<<< HEAD
 import pl.agh.edu.enums.Role;
 import pl.agh.edu.enums.TypeOfContract;
 
 import java.util.ArrayList;
+=======
+import org.json.simple.parser.ParseException;
+import pl.agh.edu.enums.Role;
+import pl.agh.edu.enums.RoomState;
+import pl.agh.edu.enums.TypeOfContract;
+import pl.agh.edu.generator.client_generator.JSONExtractor;
+import pl.agh.edu.time.Time;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+>>>>>>> room_hotel
 import java.util.List;
 
 public class Employee {
@@ -15,6 +29,12 @@ public class Employee {
     private int expectedWage;
     private int wage;
     private int satisfaction;
+<<<<<<< HEAD
+=======
+    private boolean isOccupied = false;
+    private Room maintainingRoom;
+    private LocalDateTime endMaintenance;
+>>>>>>> room_hotel
     private TypeOfContract typeOfContract;
     private Role role;
     private double skills;
@@ -47,6 +67,21 @@ public class Employee {
         this.lastName = lastName;
     }
 
+<<<<<<< HEAD
+=======
+    public boolean isOccupied() {
+        return isOccupied;
+    }
+
+    public int getSatisfaction() {
+        return satisfaction;
+    }
+
+    public void setOccupied(boolean occupied) {
+        isOccupied = occupied;
+    }
+
+>>>>>>> room_hotel
     public int getAge() {
         return age;
     }
@@ -95,4 +130,37 @@ public class Employee {
     public void setRole(Role role) {
         this.role = role;
     }
+<<<<<<< HEAD
+=======
+
+    public void doRoomMaintenance(Room room) throws IOException, ParseException {
+        this.isOccupied = true;
+        this.maintainingRoom = room;
+        HashMap<String, Long> times = JSONExtractor.getMaintenanceTimesFromJSON();
+
+        if(role.equals(Role.cleaner) && room.getState() == RoomState.DIRTY){
+            room.setState(RoomState.MAINTENANCE);
+            this.endMaintenance = Time.getInstance().getTime().plusMinutes(times.get("clean"));
+        }
+        else if(role.equals(Role.technician) && room.getState() == RoomState.FAULT){
+            room.setState(RoomState.MAINTENANCE);
+            this.endMaintenance = Time.getInstance().getTime().plusMinutes(times.get("fix"));
+        }
+    }
+
+    public void finishMaintenance(){
+
+        if(endMaintenance.isAfter(Time.getInstance().getTime())){
+            if(role.equals(Role.cleaner)){
+                maintainingRoom.clean();
+            }
+            else if(role.equals(Role.technician)){
+                maintainingRoom.fix();
+            }
+
+            isOccupied = false;
+        }
+
+    }
+>>>>>>> room_hotel
 }

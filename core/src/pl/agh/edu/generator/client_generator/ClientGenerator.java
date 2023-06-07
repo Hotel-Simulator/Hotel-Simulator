@@ -93,7 +93,7 @@ public class ClientGenerator {
     }
 
     private List<Client> getMembers(HotelVisitPurpose hotelVisitPurpose, int roomSize) {
-         return IntStream.range(0,roomSize)
+        return IntStream.range(0,roomSize)
                 .mapToObj(it->new Client(
                         random.nextInt(1,99),
                         Sex.values()[random.nextInt(0,3)],
@@ -178,9 +178,9 @@ public class ClientGenerator {
 
 
     public static void main(String[] args) throws IOException, ParseException {
-       ClientGenerator generator = getInstance();
-       AdvertisementHandler advertisementHandler = AdvertisementHandler.getInstance();
-       advertisementHandler.create(SingleAdvertisementType.INTERNET_ADVERTISEMENT,LocalDate.now());
+        ClientGenerator generator = getInstance();
+        AdvertisementHandler advertisementHandler = AdvertisementHandler.getInstance();
+        advertisementHandler.create(SingleAdvertisementType.INTERNET_ADVERTISEMENT,LocalDate.now());
 
         System.out.println(advertisementHandler.getAdvertisements());
         System.out.println(generator.generateArrivalsForDay(LocalDate.now(),LocalTime.of(15,0),LocalTime.of(12,0)));
