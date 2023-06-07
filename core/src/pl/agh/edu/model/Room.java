@@ -6,7 +6,8 @@ import pl.agh.edu.enums.RoomState;
 import java.math.BigDecimal;
 import java.sql.Date;
 
-//TODO room standard = min(moja_cena + cena_runkowa/ 2* moja_cena, 1) decimale builder
+//TODO room standard = min(3* (moja_cena + cena_runkowa)/ 4* moja_cena, 1) decimale builder
+// dopracuj troszkę nizej wartośc wzoru - rename standard for competitiveness
 
 public class Room {
     private RoomRank rank;
@@ -100,8 +101,8 @@ public class Room {
     }
 
     public BigDecimal getStandard(){
-        BigDecimal added = rentPrice.add(marketPrice);
-        BigDecimal multiplied = rentPrice.multiply(BigDecimal.valueOf(2));
+        BigDecimal added = rentPrice.add(marketPrice).multiply(BigDecimal.valueOf(3));
+        BigDecimal multiplied = rentPrice.multiply(BigDecimal.valueOf(4));
         return  added.divide(multiplied, BigDecimal.ROUND_DOWN).min(BigDecimal.valueOf(1));
     }
 }

@@ -5,8 +5,10 @@ import pl.agh.edu.enums.Role;
 import pl.agh.edu.enums.RoomState;
 import pl.agh.edu.enums.TypeOfContract;
 import pl.agh.edu.generator.client_generator.JSONExtractor;
+import pl.agh.edu.time.Time;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +23,8 @@ public class Employee {
     private int wage;
     private int satisfaction;
     private boolean isOccupied = false;
+    private Room maintainingRoom;
+    private LocalDateTime endMaintenance;
     private TypeOfContract typeOfContract;
     private Role role;
     private double skills;
@@ -114,23 +118,33 @@ public class Employee {
         this.role = role;
     }
 
-    public void doRoomMaintenance(Room room) throws InterruptedException, IOException, ParseException {
+    public void doRoomMaintenance(Room room) throws IOException, ParseException {
         this.isOccupied = true;
+        this.maintainingRoom = room;
         HashMap<String, Long> times = JSONExtractor.getMaintenanceTimesFromJSON();
 
         if(role.equals(Role.cleaner) && room.getState() == RoomState.DIRTY){
             room.setState(RoomState.MAINTENANCE);
-            Thread.sleep(1000 * times.get("clean"));
-            room.clean();
+            this.endMaintenance = Time.getInstance().getTime().plusMinutes(times.get("clean"));
         }
         else if(role.equals(Role.technician) && room.getState() == RoomState.FAULT){
             room.setState(RoomState.MAINTENANCE);
-            Thread.sleep(1000 * times.get("fix"));
-            room.fix();
+            this.endMaintenance = Time.getInstance().getTime().plusMinutes(times.get("fix"));
+        }
+    }
+
+    public void finishMaintenance(){
+
+        if(endMaintenance.isAfter(Time.getInstance().getTime())){
+            if(role.equals(Role.cleaner)){
+                maintainingRoom.clean();
+            }
+            else if(role.equals(Role.technician)){
+                maintainingRoom.fix();
+            }
+
+            isOccupied = false;
         }
 
-        this.isOccupied = false;
-
-        Thread.currentThread().stop();
     }
 }

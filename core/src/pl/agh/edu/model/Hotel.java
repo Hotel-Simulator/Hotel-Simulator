@@ -13,8 +13,10 @@ import java.math.BigDecimal;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 
-
+// TODO: popularity by customers reviews
 public class Hotel {
     private static Hotel instance;
     private static ArrayList<Employee> employees;
@@ -141,6 +143,7 @@ public class Hotel {
 
         for(Employee employee: employees){
             avgWorkerHappiness.add(BigDecimal.valueOf(employee.getSatisfaction()));
+            // TODO: też na podstawie opinii kielntów + jaki zapas od wymagań klienta spełniamy plus eventy pokoje i w hotelu ogólnie - dynamiczny współczynnik u klienta
         }
 
         avgRoomStandard.divide(BigDecimal.valueOf(rooms.size()));
@@ -149,7 +152,7 @@ public class Hotel {
         competitiveness = (Integer) avgRoomStandard.add(avgWorkerHappiness).divide(BigDecimal.valueOf(2)).intValue();
     }
 
-    public void checkForMaintenance(){
+    public void checkForMaintenance() throws IOException, ParseException {
         for(Room room: rooms){
             if(room.getState().equals(RoomState.DIRTY)){
                 maintainRoom(room, Role.cleaner);
@@ -160,38 +163,48 @@ public class Hotel {
         }
     }
 
-    public void maintainRoom(Room room, Role role){
+
+    public void maintainRoom(Room room, Role role) throws IOException, ParseException {
         for(Employee employee: employees){
             if(employee.getRole().equals(role) && !employee.isOccupied()){
-                new Thread(new Runnable() {
+                employee.doRoomMaintenance(room);
+
+                int intervalMinutes = 5;
+
+                Timer timer = new Timer();
+                TimerTask task = new TimerTask() {
                     @Override
                     public void run() {
-                        try {
-                            employee.doRoomMaintenance(room);
-                        } catch (InterruptedException | IOException | ParseException e) {
-                            e.printStackTrace();
-                        }
+                        employee.finishMaintenance();
                     }
-                }).start();
+                };
+
+                // Schedule the task to run repeatedly at the specified interval
+                timer.schedule(task, 0, intervalMinutes * 60 * 1000);
+                return;
             }
         }
     }
 
-    public void upgradeRoom(Room room, int numUpgrades){
+    public void upgradeRoom(Room room, int numUpgrades) throws IOException, ParseException {
         RoomRank prev = room.getRank();
 
         for(Builder builder : builders){
             if(!builder.isOccupied()){
-                new Thread(new Runnable() {
+                builder.upgradeRoom(room, numUpgrades);
+                int intervalMinutes = 5;
+
+                Timer timer = new Timer();
+                TimerTask task = new TimerTask() {
                     @Override
                     public void run() {
-                        try {
-                            builder.upgradeRoom(room, numUpgrades);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+                        builder.finishUpgrade();
                     }
-                }).start();
+                };
+
+                // Schedule the task to run repeatedly at the specified interval
+                timer.schedule(task, 0, intervalMinutes * 60 * 1000);
+                break;
             }
         }
 
