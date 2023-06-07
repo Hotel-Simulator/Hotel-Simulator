@@ -10,6 +10,8 @@ import pl.agh.edu.model.advertisement.json_data.ConstantAdvertisementData;
 import pl.agh.edu.model.advertisement.ConstantAdvertisementType;
 import pl.agh.edu.model.advertisement.SingleAdvertisementType;
 import pl.agh.edu.model.advertisement.json_data.SingleAdvertisementData;
+import pl.agh.edu.model.bank.Bank;
+import pl.agh.edu.model.bank.json_data.BankData;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -19,6 +21,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 public class JSONExtractor {
     private static final JSONParser parser = new JSONParser();
@@ -176,6 +179,24 @@ public class JSONExtractor {
         ));
     }
 
+    public static List<BankData> getBanksFromJSON() throws IOException, ParseException{
+        JSONArray jsonArray = (JSONArray)((JSONObject) parser.parse(new FileReader(filePath))).get("bank_scenarios");
+        return (List<BankData>) StreamSupport.stream(jsonArray.spliterator(),false)
+                .map(
+                        e -> {
+                            JSONObject data = (JSONObject) e;
+                            return new BankData(
+                                    (String)data.get("name"),
+                                    Math.round((Long) data.get("loan_interest_rate")),
+                                    Math.round((Long) data.get("deposit_interest_rate")),
+                                    BigDecimal.valueOf((Long) data.get("account_fee"))
+                            );
+                        }
+                )
+                .collect(Collectors.toList());
+    }
+
+
     public static void main(String[] args) throws IOException, ParseException {
         System.out.println(getHotelVisitPurposeProbabilitiesFromJSON());
         System.out.println(getDesiredRoomRankProbabilitiesFromJSON());
@@ -185,6 +206,7 @@ public class JSONExtractor {
         System.out.println(getAveragePricesPerNightFromJSON());
         System.out.println(getSingleAdvertisementDataFromJSON());
         System.out.println(getConstantAdvertisementDataFromJSON());
+        System.out.println(getBanksFromJSON());
     }
 
 
