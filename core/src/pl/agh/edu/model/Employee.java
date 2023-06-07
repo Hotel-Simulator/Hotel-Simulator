@@ -1,11 +1,6 @@
 package pl.agh.edu.model;
 
-<<<<<<< HEAD
-import pl.agh.edu.enums.Role;
-import pl.agh.edu.enums.TypeOfContract;
 
-import java.util.ArrayList;
-=======
 import org.json.simple.parser.ParseException;
 import pl.agh.edu.enums.Role;
 import pl.agh.edu.enums.RoomState;
@@ -17,7 +12,6 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
->>>>>>> room_hotel
 import java.util.List;
 
 public class Employee {
@@ -29,12 +23,9 @@ public class Employee {
     private int expectedWage;
     private int wage;
     private int satisfaction;
-<<<<<<< HEAD
-=======
     private boolean isOccupied = false;
     private Room maintainingRoom;
     private LocalDateTime endMaintenance;
->>>>>>> room_hotel
     private TypeOfContract typeOfContract;
     private Role role;
     private double skills;
@@ -67,8 +58,6 @@ public class Employee {
         this.lastName = lastName;
     }
 
-<<<<<<< HEAD
-=======
     public boolean isOccupied() {
         return isOccupied;
     }
@@ -81,7 +70,6 @@ public class Employee {
         isOccupied = occupied;
     }
 
->>>>>>> room_hotel
     public int getAge() {
         return age;
     }
@@ -130,8 +118,6 @@ public class Employee {
     public void setRole(Role role) {
         this.role = role;
     }
-<<<<<<< HEAD
-=======
 
     public void doRoomMaintenance(Room room) throws IOException, ParseException {
         this.isOccupied = true;
@@ -162,5 +148,4 @@ public class Employee {
         }
 
     }
->>>>>>> room_hotel
 }

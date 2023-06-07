@@ -3,25 +3,19 @@ package pl.agh.edu.model;
 import pl.agh.edu.enums.RoomRank;
 import pl.agh.edu.enums.RoomState;
 
-<<<<<<< HEAD
-=======
 import java.math.BigDecimal;
 import java.sql.Date;
 
 //TODO room standard = min(3* (moja_cena + cena_runkowa)/ 4* moja_cena, 1) decimale builder
 // dopracuj troszkę nizej wartośc wzoru - rename standard for competitiveness
 
->>>>>>> room_hotel
 public class Room {
     private RoomRank rank;
     private RoomState state;
     private final int capacity;
-<<<<<<< HEAD
-=======
     private BigDecimal marketPrice;
     private BigDecimal rentPrice;
     private BigDecimal maintenancePrice;
->>>>>>> room_hotel
 
     public Room(RoomRank rank, int capacity) {
         this.rank = rank;
@@ -29,8 +23,6 @@ public class Room {
         this.capacity = capacity;
     }
 
-<<<<<<< HEAD
-=======
     public BigDecimal getRentPrice() {
         return rentPrice;
     }
@@ -47,7 +39,6 @@ public class Room {
         this.maintenancePrice = maintenancePrice;
     }
 
->>>>>>> room_hotel
     public RoomRank getRank() {
         return rank;
     }
@@ -67,8 +58,7 @@ public class Room {
     public int getCapacity() {
         return capacity;
     }
-<<<<<<< HEAD
-=======
+
 
     public boolean upgradeRank(){
         switch (rank){
@@ -116,5 +106,4 @@ public class Room {
         BigDecimal multiplied = rentPrice.multiply(BigDecimal.valueOf(4));
         return  added.divide(multiplied, BigDecimal.ROUND_DOWN).min(BigDecimal.valueOf(1));
     }
->>>>>>> room_hotel
 }
