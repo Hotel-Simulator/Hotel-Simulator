@@ -25,7 +25,6 @@ public class SingleAdvertisement implements Advertisement {
         this.singleAdvertisementData = singleAdvertisementData;
         this.emissionDate = emissionDate;
     }
-    @Override
     public EnumMap<HotelVisitPurpose,Double> getModifier(LocalDate currentDate) {
         if(currentDate.isEqual(emissionDate)) return singleAdvertisementData.effectiveness();
         else if(currentDate.isAfter(emissionDate)) return
@@ -45,6 +44,12 @@ public class SingleAdvertisement implements Advertisement {
                         (a, b) -> b,
                         () -> new EnumMap<>(HotelVisitPurpose.class)));
     }
+
+    @Override
+    public LocalDate getStartDate() {
+        return emissionDate;
+    }
+
     @Override
     public LocalDate getEndDate() {
         return emissionDate.plusDays(1);
@@ -58,20 +63,22 @@ public class SingleAdvertisement implements Advertisement {
     public String getName() {
         return type.name();
     }
+
     @Override
+    public String getType() {
+        return "Single";
+    }
+
     public EnumMap<HotelVisitPurpose,Double> getEffectiveness() {
         return singleAdvertisementData.effectiveness();
     }
 
-    @Override
+
     public BigDecimal getCostOfPurchase() {
         return singleAdvertisementData.costOfPurchase();
     }
 
-    @Override
-    public BigDecimal getCostOfMaintenance() {
-        return null;
-    }
+
 
     @Override
     public String toString() {

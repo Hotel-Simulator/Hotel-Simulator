@@ -22,7 +22,7 @@ public class AdvertisementHandler {
     private final EnumMap<SingleAdvertisementType,List<SingleAdvertisement> > singleAdvertisements;
     private final EnumMap<ConstantAdvertisementType,ConstantAdvertisement> constantAdvertisements;
 
-    private final List<Advertisement> advertisementHistory;
+    private final LinkedList<Advertisement> advertisementHistory;
 
 
     private final Time time;
@@ -37,36 +37,61 @@ public class AdvertisementHandler {
             this.singleAdvertisements.put(type,new ArrayList<>());
         }
         this.constantAdvertisements = new EnumMap<>(ConstantAdvertisementType.class);
-        this.advertisementHistory = new ArrayList<>();
+        this.advertisementHistory = new LinkedList<>();
     }
 
     public static AdvertisementHandler getInstance() throws IOException, ParseException {
         if(instance == null) instance = new AdvertisementHandler();
         return instance;
     }
-    public boolean create(SingleAdvertisementType simpleAdvertisementType, LocalDate emissionDate){
-        if(singleAdvertisements.get(simpleAdvertisementType).stream().noneMatch(it -> it.getEmissionDate().equals(emissionDate))){
-            singleAdvertisements.get(simpleAdvertisementType).add(new SingleAdvertisement(
-                    simpleAdvertisementType,
-                    simpleAdvertisementData.get(simpleAdvertisementType),
-                    emissionDate
-            ));
+    public boolean create(SingleAdvertisementType simpleAdvertisementType, List<LocalDate> emissionDates){
+
+        if(canCreate(simpleAdvertisementType, emissionDates)){
+            emissionDates.forEach(emissionDate ->
+                    singleAdvertisements.get(simpleAdvertisementType).add(new SingleAdvertisement(
+                            simpleAdvertisementType,
+                            simpleAdvertisementData.get(simpleAdvertisementType),
+                            emissionDate
+                    )));
+
             return true;
         }
 ;       return false;
     }
 
-    public boolean create(ConstantAdvertisementType constantAdvertisementType, LocalDate startDate, LocalDate endDate){
-        if(!constantAdvertisements.containsKey(constantAdvertisementType)){
+    private boolean canCreate(SingleAdvertisementType simpleAdvertisementType, List<LocalDate> emissionDates) {
+        return emissionDates.stream().distinct()
+                .allMatch(emissionDate -> singleAdvertisements.get(simpleAdvertisementType)
+                        .stream()
+                        .noneMatch(it -> it.getEmissionDate().equals(emissionDate)));
+    }
+
+
+    public boolean create(ConstantAdvertisementType constantAdvertisementType){
+
+        if(canCreate(constantAdvertisementType)){
+            LocalDate startDate = time.getTime().toLocalDate().plusDays(constantAdvertisementData.get(constantAdvertisementType).preparationDays());
+            startDate = startDate.minusDays(startDate.getDayOfMonth()-1).plusMonths(1);
             constantAdvertisements.put(constantAdvertisementType,new ConstantAdvertisement(
                     constantAdvertisementType,
                     constantAdvertisementData.get(constantAdvertisementType),
-                    startDate,
-                    endDate
+                    startDate
             ));
             return true;
         }
         return false;
+    }
+
+    private boolean canCreate(ConstantAdvertisementType constantAdvertisementType) {
+        return !constantAdvertisements.containsKey(constantAdvertisementType);
+    }
+
+    public void delete(ConstantAdvertisement constantAdvertisement){
+        if(constantAdvertisement.getEndDate() == null){
+            constantAdvertisement.setEndDate( time.getTime().toLocalDate().isBefore(constantAdvertisement.getStartDate())
+                    ? constantAdvertisement.getStartDate().plusMonths(1)
+                    : time.getTime().toLocalDate().minusDays(time.getTime().toLocalDate().getDayOfMonth()-1).plusMonths(1));
+        }
     }
 
     public EnumMap<HotelVisitPurpose,Double> getCumulatedModifier(LocalDate date){
@@ -107,31 +132,21 @@ public class AdvertisementHandler {
 
     public void removeOldAdvertisements(){
         constantAdvertisements.keySet().removeIf(type -> {
-            if(constantAdvertisements.get(type).getEndDate().equals(time.getTime().toLocalDate())){
-                advertisementHistory.add(constantAdvertisements.get(type));
+            if(constantAdvertisements.get(type).getEndDate() != null && constantAdvertisements.get(type).getEndDate().equals(time.getTime().toLocalDate())){
+                advertisementHistory.addFirst(constantAdvertisements.get(type));
                 return true;
             }
             return false;
         });
         singleAdvertisements.values().forEach(list ->list.removeIf(it -> {
           if(it.getEndDate().equals(time.getTime().toLocalDate())){
-              advertisementHistory.add(it);
+              advertisementHistory.addFirst(it);
               return true;
           }
           return false;
         }));
     }
 
-    public List<Advertisement> getAdvertisements(){
-        return Stream
-                .concat(
-                singleAdvertisements.keySet()
-                        .stream()
-                        .flatMap(key -> singleAdvertisements.get(key).stream()),
-                constantAdvertisements.values()
-                        .stream())
-                .sorted(Advertisement::compareTo).collect(Collectors.toList());
-    }
     public BigDecimal getCostOfMaintenance(){
         return constantAdvertisements.values()
                 .stream()
@@ -139,6 +154,16 @@ public class AdvertisementHandler {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
+    public List<Advertisement> getAdvertisements(){
+        return Stream
+                .concat(
+                        singleAdvertisements.keySet()
+                                .stream()
+                                .flatMap(key -> singleAdvertisements.get(key).stream()),
+                        constantAdvertisements.values()
+                                .stream())
+                .sorted(Advertisement::compareTo).collect(Collectors.toList());
+    }
 
 
     public List<Advertisement> getAdvertisementHistory() {
@@ -146,23 +171,25 @@ public class AdvertisementHandler {
     }
 
     public static void main(String[] args) throws IOException, ParseException {
-        AdvertisementHandler advertisementCreator = AdvertisementHandler.getInstance();
+        AdvertisementHandler advertisementHandler = AdvertisementHandler.getInstance();
         for( ConstantAdvertisementType type: ConstantAdvertisementType.values()){
-            System.out.println(advertisementCreator.create(type,LocalDate.now().plusDays(3),LocalDate.now().plusDays(6)));;
+            System.out.println(advertisementHandler.create(type));;
         }
+
+        System.out.println(advertisementHandler.getAdvertisements());
 
         for(SingleAdvertisementType type: SingleAdvertisementType.values()){
-            System.out.println(advertisementCreator.create(type, advertisementCreator.time.getTime().toLocalDate().minusDays(1)));
-            System.out.println(advertisementCreator.create(type, advertisementCreator.time.getTime().toLocalDate()));
+            System.out.println(advertisementHandler.create(type, List.of(advertisementHandler.time.getTime().toLocalDate().plusDays(10),advertisementHandler.time.getTime().toLocalDate().plusDays(11))));
+            System.out.println(advertisementHandler.create(type, List.of(advertisementHandler.time.getTime().toLocalDate().plusDays(10))));
 
         }
-        System.out.println(advertisementCreator.singleAdvertisements);
-        advertisementCreator.removeOldAdvertisements();
-        System.out.println(advertisementCreator.singleAdvertisements);
-        System.out.println(advertisementCreator.advertisementHistory);
+        System.out.println(advertisementHandler.getAdvertisements());
+        advertisementHandler.removeOldAdvertisements();
+        System.out.println(advertisementHandler.singleAdvertisements);
 
-        System.out.println(advertisementCreator.getAdvertisements());
-        System.out.println(advertisementCreator.getCostOfMaintenance());
+        System.out.println(advertisementHandler.getAdvertisements());
+
+        System.out.println(advertisementHandler.getCostOfMaintenance());
 
     }
 
