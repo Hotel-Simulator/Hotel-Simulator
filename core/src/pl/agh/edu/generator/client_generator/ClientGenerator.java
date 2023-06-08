@@ -180,7 +180,7 @@ public class ClientGenerator {
     public static void main(String[] args) throws IOException, ParseException {
         ClientGenerator generator = getInstance();
         AdvertisementHandler advertisementHandler = AdvertisementHandler.getInstance();
-        advertisementHandler.create(SingleAdvertisementType.INTERNET_ADVERTISEMENT,LocalDate.now());
+        advertisementHandler.create(SingleAdvertisementType.INTERNET_ADVERTISEMENT,List.of(LocalDate.now()));
 
         System.out.println(advertisementHandler.getAdvertisements());
         System.out.println(generator.generateArrivalsForDay(LocalDate.now(),LocalTime.of(15,0),LocalTime.of(12,0)));

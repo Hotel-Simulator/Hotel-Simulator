@@ -7,6 +7,7 @@ import org.json.simple.parser.ParseException;
 import pl.agh.edu.enums.HotelVisitPurpose;
 import pl.agh.edu.enums.RoomRank;
 
+import pl.agh.edu.model.advertisement.AdvertisementEffectiveness;
 import pl.agh.edu.model.advertisement.json_data.ConstantAdvertisementData;
 import pl.agh.edu.model.advertisement.ConstantAdvertisementType;
 import pl.agh.edu.model.advertisement.SingleAdvertisementType;
@@ -17,6 +18,7 @@ import pl.agh.edu.model.bank.json_data.BankData;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -136,7 +138,6 @@ public class JSONExtractor {
     public static EnumMap<SingleAdvertisementType, SingleAdvertisementData> getSingleAdvertisementDataFromJSON() throws IOException, ParseException{
 
         JSONObject jsonObject = (JSONObject)((JSONObject) parser.parse(new FileReader(filePath))).get("single_advertisement");
-
         return Stream.of(SingleAdvertisementType.values()).collect(Collectors.toMap(
                 e -> e,
                 e -> {
@@ -144,9 +145,10 @@ public class JSONExtractor {
                     JSONObject effectivenessData = (JSONObject) data.get("effectiveness");
                     return  new SingleAdvertisementData(
                             BigDecimal.valueOf(((Long)data.get("cost_of_purchase")).doubleValue()),
+                            ((Long)data.get("preparation_days")).intValue(),
                             Stream.of(HotelVisitPurpose.values()).collect(Collectors.toMap(
                                     h -> h,
-                                    h -> (Double)effectivenessData.get(h.toString()),
+                                    h -> AdvertisementEffectiveness.valueOf((String) effectivenessData.get(h.toString())).value(),
                                     (a,b) -> b,
                                     () -> new EnumMap<>(HotelVisitPurpose.class)
                             )));
@@ -168,9 +170,10 @@ public class JSONExtractor {
                     return  new ConstantAdvertisementData(
                             BigDecimal.valueOf(((Long)data.get("cost_of_purchase")).doubleValue()),
                             BigDecimal.valueOf(((Long)data.get("cost_of_maintenance")).doubleValue()),
+                            ((Long)data.get("preparation_days")).intValue(),
                             Stream.of(HotelVisitPurpose.values()).collect(Collectors.toMap(
                                     h -> h,
-                                    h -> (Double)effectivenessData.get(h.toString()),
+                                    h -> AdvertisementEffectiveness.valueOf((String) effectivenessData.get(h.toString())).value(),
                                     (a,b) -> b,
                                     () -> new EnumMap<>(HotelVisitPurpose.class)
                             )));

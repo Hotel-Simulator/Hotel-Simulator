@@ -18,15 +18,15 @@ web-ad
 
 
 public interface Advertisement extends Comparable<Advertisement> {
-    EnumMap<HotelVisitPurpose,Double> getModifier(LocalDate currentDate);
+    LocalDate getStartDate();
     LocalDate getEndDate();
     String getName();
-    EnumMap<HotelVisitPurpose,Double> getEffectiveness();
-    BigDecimal getCostOfPurchase();
-    BigDecimal getCostOfMaintenance();
+    String getType();
+
+
 
     @Override
     default int compareTo(Advertisement o){
-        return - getEndDate().compareTo(o.getEndDate());
+        return  getStartDate().compareTo(o.getStartDate());
     };
 }

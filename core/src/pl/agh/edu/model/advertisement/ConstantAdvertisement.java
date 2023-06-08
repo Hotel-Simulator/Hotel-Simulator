@@ -17,15 +17,14 @@ public class ConstantAdvertisement implements Advertisement {
     private  LocalDate endDate;
 
 
-    public ConstantAdvertisement(ConstantAdvertisementType type, ConstantAdvertisementData constantAdvertisementData, LocalDate startDate, LocalDate endDate) {
+    public ConstantAdvertisement(ConstantAdvertisementType type, ConstantAdvertisementData constantAdvertisementData, LocalDate startDate) {
         this.type = type;
         this. constantAdvertisementData = constantAdvertisementData;
         this.startDate = startDate;
-        this.endDate = endDate;
     }
-    @Override
+
     public EnumMap<HotelVisitPurpose,Double> getModifier(LocalDate currentDate) {
-        if(currentDate.isBefore(endDate) && currentDate.plusDays(1).isAfter(startDate)) return constantAdvertisementData.effectiveness();
+        if(( endDate == null || currentDate.isBefore(endDate)) && !currentDate.isBefore(startDate)) return constantAdvertisementData.effectiveness();
         else  return  Stream.of(HotelVisitPurpose.values())
                 .collect(Collectors.toMap(
                         e -> e,
@@ -40,6 +39,8 @@ public class ConstantAdvertisement implements Advertisement {
         return endDate;
     }
 
+    public LocalDate getStartDate(){return startDate;}
+
     public void setEndDate(LocalDate endDate){
         this.endDate = endDate;
     }
@@ -47,17 +48,20 @@ public class ConstantAdvertisement implements Advertisement {
     public String getName() {
         return type.name();
     }
+
     @Override
+    public String getType() {
+        return "Constant";
+    }
+
     public EnumMap<HotelVisitPurpose,Double> getEffectiveness() {
         return constantAdvertisementData.effectiveness();
     }
 
-    @Override
     public BigDecimal getCostOfPurchase() {
         return constantAdvertisementData.costOfPurchase();
     }
 
-    @Override
     public BigDecimal getCostOfMaintenance() {
         return constantAdvertisementData.costOfMaintenance();
     }
