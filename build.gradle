@@ -63,5 +63,7 @@ project(":core") {
         api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         implementation 'com.github.javafaker:javafaker:0.12'
         implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+        implementation 'com.github.raeleus:stripe:master-SNAPSHOT'
+        implementation 'com.github.raeleus.TenPatch:tenpatch:5.0.0'
     }
 }
