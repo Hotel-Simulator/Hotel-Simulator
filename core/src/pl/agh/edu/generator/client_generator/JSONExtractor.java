@@ -15,10 +15,13 @@ import pl.agh.edu.model.advertisement.json_data.SingleAdvertisementData;
 import pl.agh.edu.model.bank.Bank;
 import pl.agh.edu.model.bank.json_data.BankData;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.time.Duration;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -184,9 +187,10 @@ public class JSONExtractor {
         ));
     }
 
-    public static List<BankData> getBanksFromJSON() throws IOException, ParseException {
-        JSONArray jsonArray = (JSONArray) ((JSONObject) parser.parse(new FileReader(filePath))).get("bank_scenarios");
-        return (List<BankData>) StreamSupport.stream(jsonArray.spliterator(), false)
+
+    public static List<BankData> getBanksFromJSON() throws IOException, ParseException{
+        JSONArray jsonArray = (JSONArray)((JSONObject) parser.parse(new FileReader(filePath))).get("bank_scenarios");
+        return Stream.of(jsonArray.toArray())
                 .map(
                         e -> {
                             JSONObject data = (JSONObject) e;
@@ -230,6 +234,9 @@ public class JSONExtractor {
         return constants;
     }
 
+    public static LocalDate getDate(String key) throws IOException, ParseException {
+        return LocalDate.parse((String)(((JSONObject) parser.parse(new FileReader(filePath))).get(key)), DateTimeFormatter.ISO_LOCAL_DATE) ;
+    }
 
     public static void main(String[] args) throws IOException, ParseException {
         System.out.println(getHotelVisitPurposeProbabilitiesFromJSON());
@@ -241,6 +248,7 @@ public class JSONExtractor {
         System.out.println(getSingleAdvertisementDataFromJSON());
         System.out.println(getConstantAdvertisementDataFromJSON());
         System.out.println(getBanksFromJSON());
+        System.out.println(getDate("game_start_date"));
     }
 
 

@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -33,7 +34,7 @@ public class SingleAdvertisement implements Advertisement {
                         .stream()
                         .collect(Collectors.toMap(
                                 Map.Entry::getKey,
-                                e -> Math.max(e.getValue() - e.getValue() * (Period.between(emissionDate,currentDate).getDays() / 7.),0.),
+                                e -> Math.max(e.getValue() - e.getValue() * (ChronoUnit.DAYS.between(emissionDate,currentDate) / 7.),0.),
                                 (a,b) -> b,
                                 () -> new EnumMap<>(HotelVisitPurpose.class))
                         );
