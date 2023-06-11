@@ -1,28 +1,29 @@
 package pl.agh.edu.model.event.temporary;
 
+import org.json.simple.parser.ParseException;
 import pl.agh.edu.enums.HotelVisitPurpose;
-import pl.agh.edu.model.advertisement.AdvertisementHandler;
+import pl.agh.edu.generator.event_generator.EventGenerator;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.EnumMap;
-import java.util.Iterator;
 import java.util.PriorityQueue;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class TemporaryEventHandler {
-    private static TemporaryEventHandler instance;
+public class ClientNumberModificationTemporaryEventHandler {
+    private static ClientNumberModificationTemporaryEventHandler instance;
     private final PriorityQueue<ClientNumberModificationTemporaryEvent> currentClientNumberModificationTemporaryEvents;
     private final PriorityQueue<ClientNumberModificationTemporaryEvent> upcomingClientNumberModificationTemporaryEvents;
 
-    private TemporaryEventHandler(){
+    private ClientNumberModificationTemporaryEventHandler(){
         this.currentClientNumberModificationTemporaryEvents = new PriorityQueue<>(Comparator.comparing(TemporaryEvent::getEndDate));
         this.upcomingClientNumberModificationTemporaryEvents = new PriorityQueue<>(Comparator.comparing(TemporaryEvent::getStartDate));
     }
 
-    public static TemporaryEventHandler getInstance(){
-        if(instance == null) instance = new TemporaryEventHandler();
+    public static ClientNumberModificationTemporaryEventHandler getInstance(){
+        if(instance == null) instance = new ClientNumberModificationTemporaryEventHandler();
         return instance;
     }
 
@@ -62,14 +63,14 @@ public class TemporaryEventHandler {
                             return resultMap;});
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, ParseException {
         var m1 = new EnumMap<HotelVisitPurpose,Double>(HotelVisitPurpose.class);
         m1.put(HotelVisitPurpose.VACATION,0.1);
         m1.put(HotelVisitPurpose.BUSINESS_TRIP,0.1);
         m1.put(HotelVisitPurpose.REHABILITATION,0.1);
-        var e1 = new ClientNumberModificationTemporaryEvent(LocalDate.now().plusDays(1),LocalDate.now().plusDays(3),"1",m1);
-        var e2 = new ClientNumberModificationTemporaryEvent(LocalDate.now().plusDays(2),LocalDate.now().plusDays(4),"1",m1);
-        var e3 = new ClientNumberModificationTemporaryEvent(LocalDate.now().plusDays(3),LocalDate.now().plusDays(5),"1",m1);
+        var e1 = new ClientNumberModificationTemporaryEvent(LocalDate.now().plusDays(1),LocalDate.now().plusDays(3),m1);
+        var e2 = new ClientNumberModificationTemporaryEvent(LocalDate.now().plusDays(2),LocalDate.now().plusDays(4),m1);
+        var e3 = new ClientNumberModificationTemporaryEvent(LocalDate.now().plusDays(3),LocalDate.now().plusDays(5),m1);
 
         var temporaryEventHandler = getInstance();
         temporaryEventHandler.add(e2);
@@ -94,6 +95,10 @@ public class TemporaryEventHandler {
         System.out.println("modifier: " + temporaryEventHandler.getClientNumberModifier());
         System.out.println(temporaryEventHandler.upcomingClientNumberModificationTemporaryEvents.peek());
         System.out.println(temporaryEventHandler.currentClientNumberModificationTemporaryEvents.peek());
+
+
+        EventGenerator eventGenerator = EventGenerator.getInstance();
+        System.out.println(temporaryEventHandler.upcomingClientNumberModificationTemporaryEvents);
     }
 
 }

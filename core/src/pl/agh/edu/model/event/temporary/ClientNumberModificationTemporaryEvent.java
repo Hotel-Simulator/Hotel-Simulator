@@ -8,10 +8,11 @@ import java.util.EnumMap;
 public class ClientNumberModificationTemporaryEvent extends TemporaryEvent{
     private final EnumMap<HotelVisitPurpose,Double> modifier;
 
-    public ClientNumberModificationTemporaryEvent(LocalDate startDate, LocalDate endDate, String message, EnumMap<HotelVisitPurpose, Double> modifier) {
-        super(startDate, endDate, message);
+    public ClientNumberModificationTemporaryEvent(LocalDate startDate, LocalDate endDate, EnumMap<HotelVisitPurpose, Double> modifier) {
+        super(startDate, endDate);
         this.modifier = modifier;
     }
+
 
     public EnumMap<HotelVisitPurpose, Double> getModifier() {
         return modifier;

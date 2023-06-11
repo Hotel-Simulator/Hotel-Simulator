@@ -12,6 +12,7 @@ public enum AdvertisementEffectiveness {
     FOUR,
     FIVE,
     ;
+
     private  static final double advertisementMultiplier;
 
     static {
@@ -30,5 +31,6 @@ public enum AdvertisementEffectiveness {
 
     public static void main(String[] args) {
         System.out.println(getStars(0.09));
+
     }
 }

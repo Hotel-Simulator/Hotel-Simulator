@@ -6,12 +6,10 @@ public abstract class TemporaryEvent {
     protected final LocalDate startDate;
     protected final LocalDate endDate;
 
-    protected final String message;
-
-    protected TemporaryEvent(LocalDate startDate, LocalDate endDate, String message) {
+    protected TemporaryEvent(LocalDate startDate, LocalDate endDate) {
         this.startDate = startDate;
         this.endDate = endDate;
-        this.message = message;
+
     }
 
 
@@ -23,9 +21,7 @@ public abstract class TemporaryEvent {
         return startDate;
     }
 
-    public String getMessage() {
-        return message;
-    }
+
 
     @Override
     public String toString() {
