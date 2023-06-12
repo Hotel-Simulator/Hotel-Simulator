@@ -1,0 +1,444 @@
+{
+"BitmapFont": {
+	"Body1": {
+		"file": "Body1.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"Body2": {
+		"file": "Body2.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"Button1": {
+		"file": "Button1.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"Button2": {
+		"file": "Button2.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"Button3": {
+		"file": "Button3.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"H1": {
+		"file": "H1.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"H2": {
+		"file": "H2.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"H3": {
+		"file": "H3.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"H4": {
+		"file": "H4.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"Subtitle1": {
+		"file": "Subtitle1.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"Subtitle2": {
+		"file": "Subtitle2.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	}
+},
+"Color": {
+	"Alert_100": {
+		"r": 1,
+		"g": 0.9764706,
+		"b": 0.76862746,
+		"a": 1
+	},
+	"Alert_300": {
+		"r": 1,
+		"g": 0.94509804,
+		"b": 0.4627451,
+		"a": 1
+	},
+	"Alert_500": {
+		"r": 1,
+		"g": 0.92156863,
+		"b": 0.23137255,
+		"a": 1
+	},
+	"Alert_700": {
+		"r": 0.9843137,
+		"g": 0.7529412,
+		"b": 0.1764706,
+		"a": 1
+	},
+	"Alert_900": {
+		"r": 0.9607843,
+		"g": 0.49803922,
+		"b": 0.09019608,
+		"a": 1
+	},
+	"Gray_100": {
+		"r": 0.9607843,
+		"g": 0.9607843,
+		"b": 0.9607843,
+		"a": 1
+	},
+	"Gray_300": {
+		"r": 0.8784314,
+		"g": 0.8784314,
+		"b": 0.8784314,
+		"a": 1
+	},
+	"Gray_500": {
+		"r": 0.61960787,
+		"g": 0.61960787,
+		"b": 0.61960787,
+		"a": 1
+	},
+	"Gray_700": {
+		"r": 0.38039216,
+		"g": 0.38039216,
+		"b": 0.38039216,
+		"a": 1
+	},
+	"Gray_900": {
+		"r": 0.12941177,
+		"g": 0.12941177,
+		"b": 0.12941177,
+		"a": 1
+	},
+	"Primary_100": {
+		"r": 0.5921569,
+		"g": 0.9764706,
+		"b": 0.88235295,
+		"a": 1
+	},
+	"Primary_300": {
+		"r": 0,
+		"g": 0.92941177,
+		"b": 0.7176471,
+		"a": 1
+	},
+	"Primary_500": {
+		"r": 0,
+		"g": 0.84313726,
+		"b": 0.59607846,
+		"a": 1
+	},
+	"Primary_700": {
+		"r": 0,
+		"g": 0.7058824,
+		"b": 0.46666667,
+		"a": 1
+	},
+	"Primary_900": {
+		"r": 0,
+		"g": 0.5176471,
+		"b": 0.2784314,
+		"a": 1
+	},
+	"Secondary_100": {
+		"r": 0.6862745,
+		"g": 0.6,
+		"b": 0.92156863,
+		"a": 1
+	},
+	"Secondary_300": {
+		"r": 0.5529412,
+		"g": 0.43529412,
+		"b": 0.89411765,
+		"a": 1
+	},
+	"Secondary_500": {
+		"r": 0.31764707,
+		"g": 0.18039216,
+		"b": 0.84313726,
+		"a": 1
+	},
+	"Secondary_700": {
+		"r": 0.18039216,
+		"g": 0.13333334,
+		"b": 0.7882353,
+		"a": 1
+	},
+	"Secondary_900": {
+		"r": 0,
+		"g": 0.050980393,
+		"b": 0.7254902,
+		"a": 1
+	},
+	"Shadow": {
+		"r": 0,
+		"g": 0,
+		"b": 0,
+		"a": 0.3019608
+	},
+	"Success_100": {
+		"r": 0.78431374,
+		"g": 0.9019608,
+		"b": 0.7882353,
+		"a": 1
+	},
+	"Success_300": {
+		"r": 0.5058824,
+		"g": 0.78039217,
+		"b": 0.5176471,
+		"a": 1
+	},
+	"Success_500": {
+		"r": 0.29803923,
+		"g": 0.6862745,
+		"b": 0.3137255,
+		"a": 1
+	},
+	"Success_700": {
+		"r": 0.21960784,
+		"g": 0.5568628,
+		"b": 0.23529412,
+		"a": 1
+	},
+	"Success_900": {
+		"r": 0.105882354,
+		"g": 0.36862746,
+		"b": 0.1254902,
+		"a": 1
+	},
+	"Warning_100": {
+		"r": 1,
+		"g": 0.8039216,
+		"b": 0.8235294,
+		"a": 1
+	},
+	"Warning_300": {
+		"r": 0.8980392,
+		"g": 0.4509804,
+		"b": 0.4509804,
+		"a": 1
+	},
+	"Warning_500": {
+		"r": 0.95686275,
+		"g": 0.2627451,
+		"b": 0.21176471,
+		"a": 1
+	},
+	"Warning_700": {
+		"r": 0.827451,
+		"g": 0.18431373,
+		"b": 0.18431373,
+		"a": 1
+	},
+	"Warning_900": {
+		"r": 0.7176471,
+		"g": 0.10980392,
+		"b": 0.10980392,
+		"a": 1
+	}
+},
+"ButtonStyle": {
+	"default": {
+		"up": "default"
+	},
+	"navbar_minus": {
+		"parent": "default",
+		"up": "Time_Minus",
+		"down": "Time_Minus_Press",
+		"over": "Time_Minus_Hover",
+		"focused": "Time_Minus",
+		"disabled": "Time_Minus",
+		"checked": "Time_Minus",
+		"checkedOver": "Time_Minus",
+		"checkedDown": "Time_Minus",
+		"checkedFocused": "Time_Minus"
+	},
+	"navbar_plus": {
+		"up": "Time_Plus",
+		"down": "Time_Plus_Press",
+		"over": "Time_Plus_Hover"
+	},
+	"navbar_play": {
+		"up": "Time_Play",
+		"over": "Time_Play_Hover",
+		"checked": "Time_Pauze",
+		"checkedOver": "Time_Pauze_Hover"
+	},
+	"navbar_hotel": {
+		"up": "Hotel_Normal",
+		"over": "Hotel_Hover",
+		"disabled": "Hotel_Selected"
+	},
+	"navbar_Bank": {
+		"up": "Bank_Normal",
+		"over": "Bank_Hover",
+		"disabled": "Bank_Selected"
+	},
+	"navbar_employee": {
+		"up": "Employee_Normal",
+		"over": "Employee_Hover",
+		"disabled": "Employee_Selected"
+	},
+	"navbar_taxes": {
+		"up": "Taxes_Normal",
+		"over": "Taxes_Hover",
+		"disabled": "Taxes_Selected"
+	},
+	"navbar_ads": {
+		"up": "Ads_Normal",
+		"over": "Ads_Hover",
+		"disabled": "Ads_Selected"
+	},
+	"navbar_offer": {
+		"up": "Offer_Normal",
+		"over": "Offer_Hover",
+		"disabled": "Offer_Selected"
+	},
+	"navbar_account": {
+		"up": "Account_Normal",
+		"over": "Account_Hover",
+		"disabled": "Account_Selected"
+	},
+	"navbar_deposit": {
+		"up": "Deposit_Normal",
+		"over": "Deposit_Hover"
+	},
+	"navbar_credit": {
+		"up": "Credit_Normal",
+		"over": "Creadit_Hover",
+		"disabled": "Credit_Selected"
+	},
+	"navbar_back": {
+		"up": "Back_Normal",
+		"over": "Back_Hover",
+		"disabled": "Back_Selected"
+	},
+	"navbar_history": {
+		"up": "History_Normal",
+		"over": "History_Hover",
+		"disabled": "History_Selected"
+	},
+	"navbar_hire": {
+		"up": "Hire_Normal",
+		"over": "Hire_Hover",
+		"disabled": "Hire_Selected"
+	},
+	"navbar_manage": {
+		"up": "Manage_Normal",
+		"over": "Manage_Hover",
+		"disabled": "Manage_Selected"
+	},
+	"navbar_board": {
+		"up": "Board_Normal",
+		"over": "Board_Hover",
+		"disabled": "Board_Selected"
+	},
+	"navbar_rooms": {
+		"up": "Rooms_Normal",
+		"over": "Rooms_Hover",
+		"disabled": "Rooms_Seleceted"
+	},
+	"navbar_places": {
+		"up": "Places_Normal",
+		"over": "Places_Hover",
+		"disabled": "Places_Selected"
+	},
+	"options": {
+		"up": "Options_Normal",
+		"down": "Options_Press",
+		"over": "Options_Hover"
+	},
+	"calendar": {
+		"up": "Calendar_Normal",
+		"down": "Calendar_Press",
+		"over": "Calendar_Hover"
+	}
+},
+"LabelStyle": {
+	"default": {
+		"font": "H1"
+	},
+	"h4_label": {
+		"font": "H4"
+	}
+},
+"ScrollPaneStyle": {
+	"default": {
+		"vScrollKnob": "Scroll_Knob_console"
+	},
+	"normal": {
+		"vScroll": "Scroll",
+		"vScrollKnob": "Scroll_Knob"
+	}
+},
+"SliderStyle": {
+	"default-horizontal": {
+		"background": "Slider_Line",
+		"knob": "Slider_Knob"
+	}
+},
+"TextButtonStyle": {
+	"Large": {
+		"font": "Button1",
+		"disabledFontColor": "Gray_300",
+		"up": "Button_Large_Normal",
+		"down": "Button_Large_Press",
+		"over": "Button_Large_Hover",
+		"disabled": "Button_Large_Disabled"
+	},
+	"Normal": {
+		"font": "Button2",
+		"disabledFontColor": "Gray_300",
+		"up": "Button_Normal_Normal",
+		"down": "Button_Normal_Press",
+		"over": "Button_Normal_Hover",
+		"disabled": "Button_Normal_Disabled"
+	},
+	"Small": {
+		"font": "Button3",
+		"disabledFontColor": "Gray_300",
+		"up": "Button_Small_Normal",
+		"down": "Button_Small_Press",
+		"over": "Button_Small_Hover",
+		"disabled": "Button_Small_Disabled"
+	}
+},
+"TextFieldStyle": {
+	"default": {
+		"font": "Body1",
+		"fontColor": "Gray_900"
+	},
+	"console_input": {
+		"font": "H4",
+		"fontColor": "Secondary_300",
+		"focusedFontColor": "Secondary_100",
+		"cursor": "textField_console_cursor",
+		"selection": "textField_console_select",
+		"messageFont": "H4",
+		"messageFontColor": "Secondary_300"
+	}
+},
+"TextTooltipStyle": {
+	"default": {
+		"label": "default"
+	}
+}
+}

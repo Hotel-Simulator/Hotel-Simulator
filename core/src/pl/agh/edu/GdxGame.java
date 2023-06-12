@@ -1,70 +1,85 @@
 package pl.agh.edu;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import pl.agh.edu.command.CommandExecutor;
-import pl.agh.edu.model.bank.Bank;
-import pl.agh.edu.time.Time;
-import pl.agh.edu.views.HotelView;
+import com.badlogic.gdx.*;
+import com.badlogic.gdx.graphics.GL20;
+import pl.agh.edu.model.console.CommandExecutor;
+import pl.agh.edu.screen.ConsoleScreen;
+import pl.agh.edu.screen.MainScreen;
+import pl.agh.edu.model.Time;
 
 public class GdxGame extends ApplicationAdapter {
-	private Stage stage;
-	Skin skin;
-	private Table root;
 
+	private Screen currentScreen;
+	private Screen previousScreen;
+	private ConsoleScreen consoleScreen;
 	private Time time;
-    private CommandExecutor commandExecutor;
-
-
-	static{
-		Bank.getInstance().setInterestRate(12);
-	}
-
+	private CommandExecutor commandExecutor;
 
 	@Override
 	public void create() {
 		time = Time.getInstance();
 		commandExecutor=CommandExecutor.getInstance();
-
-		skin = new Skin(Gdx.files.internal("metalui/metal-ui.json")); // some random zip downloaded
-
-		stage = new Stage(new ScreenViewport());
-		Gdx.input.setInputProcessor(stage);
-
-		root = new Table();
-		root.setFillParent(true);
-		stage.addActor(root);
-		HotelView bankView = new HotelView(root,skin);
-		root.add(bankView);
-
+		currentScreen = new MainScreen(this);
+		setScreen(currentScreen);
+		consoleScreen = new ConsoleScreen(this);
+		previousScreen = consoleScreen;
 	}
 
 	@Override
 	public void render() {
+		Gdx.gl.glClearColor(0, 0, 0, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+		// Delegate render to the current screen
+		if (currentScreen != null) {
+			currentScreen.render(Gdx.graphics.getDeltaTime());
+		}
+
 		time.update(Gdx.graphics.getDeltaTime());
 		commandExecutor.executeCommands();
-
-		Gdx.gl.glClearColor(.9f, .9f, .9f, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		stage.act();
-		stage.draw();
-
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		stage.getViewport().update(width, height, true);
+		if (currentScreen != null) {
+			currentScreen.resize(width, height);
+		}
 	}
-
 
 	@Override
-	public void dispose() {
-
-		stage.dispose();
-		skin.dispose();
+	public void dispose () {
+		if (currentScreen != null) {
+			currentScreen.dispose();
+		}
 	}
+
+	public void setScreen(Screen screen) {
+		if (currentScreen != null) {
+			currentScreen.hide();
+			currentScreen.dispose();
+		}
+		currentScreen = screen;
+		currentScreen.show();
+		currentScreen.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+	}
+
+	public void changeScreen(Screen screen){
+		previousScreen = currentScreen;
+		currentScreen = screen;
+		setScreen(screen);
+	}
+
+	public void changeScreenBack(){
+		Screen temp = currentScreen;
+		currentScreen = previousScreen;
+		previousScreen = temp;
+		setScreen(currentScreen);
+	}
+
+	public void changeScreenToConsole(){
+		previousScreen = currentScreen;
+		currentScreen = consoleScreen;
+		setScreen(consoleScreen);
+	}
+
 }
