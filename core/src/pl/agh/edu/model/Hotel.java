@@ -177,7 +177,8 @@ public class Hotel {
                 TimerTask task = new TimerTask() {
                     @Override
                     public void run() {
-                        employee.finishMaintenance();
+                        if(employee.finishMaintenance())
+                            timer.cancel();
                     }
                 };
 
@@ -200,7 +201,8 @@ public class Hotel {
                 TimerTask task = new TimerTask() {
                     @Override
                     public void run() {
-                        builder.finishUpgrade();
+                        if(builder.finishUpgrade())
+                            timer.cancel();
                     }
                 };
 

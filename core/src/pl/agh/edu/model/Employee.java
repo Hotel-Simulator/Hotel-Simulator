@@ -133,7 +133,7 @@ public class Employee {
         }
     }
 
-    public void finishMaintenance(){
+    public boolean finishMaintenance(){
 
         if(endMaintenance.isAfter(Time.getInstance().getTime())){
             if(role.equals(Role.cleaner)){
@@ -144,7 +144,9 @@ public class Employee {
             }
 
             isOccupied = false;
+            return true;
         }
+        return false;
 
     }
 }
