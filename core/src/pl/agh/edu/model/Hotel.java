@@ -5,6 +5,7 @@ import pl.agh.edu.enums.Role;
 import pl.agh.edu.enums.RoomRank;
 import pl.agh.edu.enums.RoomState;
 import pl.agh.edu.generator.client_generator.JSONExtractor;
+import pl.agh.edu.logo.RandomLogoCreator;
 import pl.agh.edu.room_builder.Builder;
 
 import javax.swing.plaf.RootPaneUI;
@@ -28,6 +29,7 @@ public class Hotel {
     private static Time checkOutTime;
     private static Integer attractiveness = null;
     private static Integer competitiveness;
+    private static RandomLogoCreator logo;
 
     public Hotel(ArrayList<Room> rooms, Time checkInTime, Time checkOutTime) throws IOException, ParseException {
         Hotel.rooms = rooms;
