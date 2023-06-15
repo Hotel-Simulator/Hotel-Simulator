@@ -11,6 +11,7 @@ public record ClientNumberModificationRandomTemporaryEventData(
         int minDurationDays,
         int maxDurationDays,
         EnumMap<HotelVisitPurpose,Double> modifiers,
-        double occurrenceProbability
+        double occurrenceProbability,
+        String imagePath
 ) {
 }

@@ -2,11 +2,11 @@ package pl.agh.edu.generator.event_generator;
 
 import org.json.simple.parser.ParseException;
 import pl.agh.edu.generator.event_generator.json_data.ClientNumberModificationCyclicTemporaryEventData;
+import pl.agh.edu.model.Time;
 import pl.agh.edu.model.calendar.Calendar;
 import pl.agh.edu.model.calendar.CalendarEvent;
 import pl.agh.edu.model.event.temporary.ClientNumberModificationTemporaryEvent;
 import pl.agh.edu.model.event.temporary.ClientNumberModificationTemporaryEventHandler;
-import pl.agh.edu.time.Time;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -68,7 +68,7 @@ public class EventLauncher {
         String popupDescription = event.popupDescription().replaceFirst("#",String.valueOf(event.durationDays()));
         calendar.addEvent(new CalendarEvent(startDate,event.name(),calendarDescription));
         clientNumberModificationTemporaryEventHandler.add(new ClientNumberModificationTemporaryEvent(startDate,startDate.plusDays(event.durationDays()),event.modifiers()));
-        new PopUpEvent(event.name(),popupDescription);
+        new PopUpEvent(event.name(),popupDescription,event.imagePath());
     }
 
     public static void main(String[] args) throws IOException, ParseException {

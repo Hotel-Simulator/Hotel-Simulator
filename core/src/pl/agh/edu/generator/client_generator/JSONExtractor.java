@@ -296,7 +296,9 @@ public class JSONExtractor {
                                                     f -> (double) JSONModifiers.get(f.toString()),
                                                     (a, b) -> b,
                                                     () -> new EnumMap<>(HotelVisitPurpose.class))),
-                                    (double)JSONEvent.get("occurrence_probability")
+                                    (double)JSONEvent.get("occurrence_probability"),
+                                    (String) JSONEvent.get("image_path")
+
                                     );
                         }
                 ).collect(Collectors.toList());
