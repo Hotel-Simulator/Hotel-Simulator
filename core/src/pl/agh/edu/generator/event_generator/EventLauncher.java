@@ -68,7 +68,7 @@ public class EventLauncher {
         String popupDescription = event.popupDescription().replaceFirst("#",String.valueOf(event.durationDays()));
         calendar.addEvent(new CalendarEvent(startDate,event.name(),calendarDescription));
         clientNumberModificationTemporaryEventHandler.add(new ClientNumberModificationTemporaryEvent(startDate,startDate.plusDays(event.durationDays()),event.modifiers()));
-        new PopUpEvent(event.name(),popupDescription);
+        new PopUpEvent(event.name(),popupDescription,event.imagePath());
     }
 
     public static void main(String[] args) throws IOException, ParseException {

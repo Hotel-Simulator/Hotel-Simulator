@@ -11,6 +11,7 @@ public record ClientNumberModificationRandomTemporaryEvent(
         String popupDescription,
         int durationDays,
         LocalDate launchDate,
-        EnumMap<HotelVisitPurpose,Double> modifiers
+        EnumMap<HotelVisitPurpose,Double> modifiers,
+        String imagePath
 ) {
 }

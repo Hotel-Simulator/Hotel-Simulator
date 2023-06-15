@@ -238,7 +238,8 @@
             "BUSINESS_TRIP": 0.1,
             "REHABILITATION": 0.0
           },
-          "occurrence_probability": 0.2
+          "occurrence_probability": 0.2,
+          "image_path": ""
         },
         {
           "name": "Music Festival",
@@ -251,7 +252,8 @@
             "BUSINESS_TRIP": 0.0,
             "REHABILITATION": 0.0
           },
-          "occurrence_probability": 0.3
+          "occurrence_probability": 0.3,
+          "image_path": ""
 
         },
         {
@@ -265,7 +267,9 @@
             "BUSINESS_TRIP": 0.0,
             "REHABILITATION": 0.1
           },
-          "occurrence_probability": 0.8
+          "occurrence_probability": 0.8,
+          "image_path": ""
+
         },
         {
           "name": "Business Conference",
@@ -278,7 +282,8 @@
             "BUSINESS_TRIP": 0.2,
             "REHABILITATION": 0.0
           },
-          "occurrence_probability": 0.5
+          "occurrence_probability": 0.5,
+          "image_path": ""
         },
         {
           "name": "Football Tournament",
@@ -291,7 +296,9 @@
             "BUSINESS_TRIP": 0.2,
             "REHABILITATION": 0.0
           },
-          "occurrence_probability": 0.05
+          "occurrence_probability": 0.05,
+          "image_path": ""
+
         }
       ]
     }

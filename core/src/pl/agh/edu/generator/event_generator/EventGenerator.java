@@ -53,12 +53,14 @@ public class EventGenerator {
             LocalDate launchDate = LocalDate.ofYearDay(time.getTime().getYear(), random.nextInt((lastYearDate.get(eventData) == null || lastYearDate.get(eventData) < daysInYear/2) ? 1 : daysInYear/2, (daysInYear) + 1));
             lastYearDate.put(eventData,launchDate.getDayOfYear());
             return new ClientNumberModificationRandomTemporaryEvent(
-                eventData.name(),
-                eventData.calendarDescription(),
-                eventData.popupDescription(),
-                random.nextInt(eventData.minDurationDays(), eventData.maxDurationDays()+1),
-                launchDate,
-                eventData.modifiers());
+                    eventData.name(),
+                    eventData.calendarDescription(),
+                    eventData.popupDescription(),
+                    random.nextInt(eventData.minDurationDays(), eventData.maxDurationDays()+1),
+                    launchDate,
+                    eventData.modifiers(),
+                    eventData.imagePath());
+
         }
         ).forEach(eventLauncher::add);
     }
