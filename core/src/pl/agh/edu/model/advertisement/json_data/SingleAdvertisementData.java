@@ -9,5 +9,6 @@ import java.util.EnumMap;
 public record SingleAdvertisementData(
         BigDecimal costOfPurchase,
         int preparationDays,
+        String imagePath,
         EnumMap<HotelVisitPurpose, Double> effectiveness) {
 }

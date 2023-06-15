@@ -149,6 +149,7 @@ public class JSONExtractor {
                     return  new SingleAdvertisementData(
                             BigDecimal.valueOf(((Long)data.get("cost_of_purchase")).doubleValue()),
                             ((Long)data.get("preparation_days")).intValue(),
+                            (String)data.get("image_path"),
                             Stream.of(HotelVisitPurpose.values()).collect(Collectors.toMap(
                                     h -> h,
                                     h -> AdvertisementEffectiveness.valueOf((String) effectivenessData.get(h.toString())).value(),
@@ -174,6 +175,7 @@ public class JSONExtractor {
                             BigDecimal.valueOf(((Long)data.get("cost_of_purchase")).doubleValue()),
                             BigDecimal.valueOf(((Long)data.get("cost_of_maintenance")).doubleValue()),
                             ((Long)data.get("preparation_days")).intValue(),
+                            (String)data.get("image_path"),
                             Stream.of(HotelVisitPurpose.values()).collect(Collectors.toMap(
                                     h -> h,
                                     h -> AdvertisementEffectiveness.valueOf((String) effectivenessData.get(h.toString())).value(),
