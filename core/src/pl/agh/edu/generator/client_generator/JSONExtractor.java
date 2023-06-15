@@ -7,7 +7,6 @@ import org.json.simple.parser.ParseException;
 import pl.agh.edu.enums.HotelVisitPurpose;
 import pl.agh.edu.enums.RoomRank;
 
-import pl.agh.edu.model.advertisement.AdvertisementEffectiveness;
 import pl.agh.edu.model.advertisement.json_data.ConstantAdvertisementData;
 import pl.agh.edu.model.advertisement.ConstantAdvertisementType;
 import pl.agh.edu.model.advertisement.SingleAdvertisementType;
@@ -138,9 +137,14 @@ public class JSONExtractor {
         ));
     }
 
+    public static double getAdvertisementMultiplier() throws IOException, ParseException {
+        return (double)((JSONObject) parser.parse(new FileReader(filePath))).get("advertisement_multiplier");
+    }
     public static EnumMap<SingleAdvertisementType, SingleAdvertisementData> getSingleAdvertisementDataFromJSON() throws IOException, ParseException{
 
         JSONObject jsonObject = (JSONObject)((JSONObject) parser.parse(new FileReader(filePath))).get("single_advertisement");
+        double advertisementMultiplier = getAdvertisementMultiplier();
+
         return Stream.of(SingleAdvertisementType.values()).collect(Collectors.toMap(
                 e -> e,
                 e -> {
@@ -152,7 +156,7 @@ public class JSONExtractor {
                             (String)data.get("image_path"),
                             Stream.of(HotelVisitPurpose.values()).collect(Collectors.toMap(
                                     h -> h,
-                                    h -> AdvertisementEffectiveness.valueOf((String) effectivenessData.get(h.toString())).value(),
+                                    h -> ((Long)effectivenessData.get(h.toString())) * advertisementMultiplier,
                                     (a,b) -> b,
                                     () -> new EnumMap<>(HotelVisitPurpose.class)
                             )));
@@ -165,7 +169,7 @@ public class JSONExtractor {
 
     public static EnumMap<ConstantAdvertisementType, ConstantAdvertisementData> getConstantAdvertisementDataFromJSON() throws IOException, ParseException{
         JSONObject jsonObject = (JSONObject)((JSONObject) parser.parse(new FileReader(filePath))).get("constant_advertisement");
-
+        double advertisementMultiplier = getAdvertisementMultiplier();
          return Stream.of(ConstantAdvertisementType.values()).collect(Collectors.toMap(
                 e -> e,
                 e -> {
@@ -178,7 +182,7 @@ public class JSONExtractor {
                             (String)data.get("image_path"),
                             Stream.of(HotelVisitPurpose.values()).collect(Collectors.toMap(
                                     h -> h,
-                                    h -> AdvertisementEffectiveness.valueOf((String) effectivenessData.get(h.toString())).value(),
+                                    h -> ((Long)effectivenessData.get(h.toString())) * advertisementMultiplier,
                                     (a,b) -> b,
                                     () -> new EnumMap<>(HotelVisitPurpose.class)
                             )));
