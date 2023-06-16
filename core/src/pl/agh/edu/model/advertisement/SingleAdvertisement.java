@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.temporal.ChronoUnit;
 import java.util.EnumMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -62,12 +63,12 @@ public class SingleAdvertisement implements Advertisement {
 
     @Override
     public String getName() {
-        return type.name();
+        return type.name().toLowerCase(Locale.ROOT).replaceAll("_", " ");
     }
 
     @Override
     public String getType() {
-        return "Single";
+        return "single";
     }
 
     public EnumMap<HotelVisitPurpose,Double> getEffectiveness() {
