@@ -14,6 +14,7 @@ public class ClientGroup {
     private LocalDateTime checkInTime;
     private final LocalDateTime checkOutTime;
 
+    //need BIgDecimal
     private final int budgetPerNight;
     private final RoomRank desiredRoomRank;
     private Room room;

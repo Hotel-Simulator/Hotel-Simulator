@@ -217,4 +217,13 @@ public class Hotel {
         roomsByRank.get(prev).remove(room);
         roomsByRank.get(room.getRank()).add(room);
     }
+
+    public Room findRoomForClientGroup(ClientGroup group){
+        for(Room room : roomsByRank.get(group.getDesiredRoomRank())){
+            if(room.getState().equals(RoomState.EMPTY) && room.getRentPrice().compareTo(BigDecimal.valueOf(group.getBudgetPerNight())) < 1){
+                return room;
+            }
+        }
+        return null;
+    }
 }

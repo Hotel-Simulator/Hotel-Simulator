@@ -16,6 +16,7 @@ public class Room {
     private BigDecimal marketPrice;
     private BigDecimal rentPrice;
     private BigDecimal maintenancePrice;
+    private ClientGroup residents;
 
     public Room(RoomRank rank, int capacity) {
         this.rank = rank;
@@ -105,5 +106,15 @@ public class Room {
         BigDecimal added = rentPrice.add(marketPrice).multiply(BigDecimal.valueOf(3));
         BigDecimal multiplied = rentPrice.multiply(BigDecimal.valueOf(4));
         return  added.divide(multiplied, BigDecimal.ROUND_DOWN).min(BigDecimal.valueOf(1));
+    }
+
+    public void checkIn(ClientGroup residents){
+        this.residents = residents;
+        this.state = RoomState.OCCUPIED;
+    }
+
+    public void checkOut(){
+        this.residents = null;
+        this.state = RoomState.EMPTY;
     }
 }
