@@ -1,9 +1,10 @@
 package pl.agh.edu.enums;
 
 public enum RoomState {
-    CLEAN,
+    EMPTY,
     DIRTY,
     FAULT,
     MAINTENANCE,
-    UPGRADING
+    UPGRADING,
+    OCCUPIED
 }

@@ -18,6 +18,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 // TODO: popularity by customers reviews
+// TODO: checkout handler leave opinions
+// TODO: observery zamiast wątków
 public class Hotel {
     private static Hotel instance;
     private static ArrayList<Employee> employees;

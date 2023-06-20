@@ -19,7 +19,7 @@ public class Room {
 
     public Room(RoomRank rank, int capacity) {
         this.rank = rank;
-        this.state = RoomState.CLEAN;
+        this.state = RoomState.EMPTY;
         this.capacity = capacity;
     }
 
@@ -75,7 +75,7 @@ public class Room {
 
     public boolean clean(){
         if (state == RoomState.DIRTY){
-            setState(RoomState.MAINTENANCE);
+            state = RoomState.EMPTY;
             return true;
         }
         return false;
@@ -83,7 +83,7 @@ public class Room {
 
     public boolean fix(){
         if (state == RoomState.FAULT){
-            setState(RoomState.MAINTENANCE);
+            state = RoomState.EMPTY;
             return true;
         }
         return false;

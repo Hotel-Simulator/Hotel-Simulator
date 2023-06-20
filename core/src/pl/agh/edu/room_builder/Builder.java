@@ -58,6 +58,7 @@ public class Builder {
 
         if(plannedEndTime.isAfter(Time.getInstance().getTime())){
             this.upgradingRoom.upgradeRankMany(upgradesNum);
+            this.upgradingRoom.setState(RoomState.EMPTY);
 
             isOccupied = false;
             return true;
