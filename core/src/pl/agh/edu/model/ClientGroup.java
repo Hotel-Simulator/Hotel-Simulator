@@ -87,8 +87,10 @@ public class ClientGroup {
     public void generateOpinion(){
         double margin = budgetPerNight - room.getRentPrice().doubleValue();
 
-        double val = Math.max(0.75 + margin/budgetPerNight, 1.);
+        double val = Math.min(0.75 + margin/budgetPerNight, 1.);
         this.opinion = new Opinion(val);
+
+        // zalezy tez od eventów
     }
 
     public Opinion getOpinion() {return this.opinion;}

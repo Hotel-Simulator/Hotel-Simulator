@@ -1,18 +1,23 @@
 package pl.agh.edu.logo;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.ray3k.stripe.scenecomposer.SceneComposerStageBuilder;
+import pl.agh.edu.GdxGame;
 
 import java.util.Random;
 
-public class RandomLogoCreator extends ApplicationAdapter {
+public class RandomLogoCreator implements Screen {
 
     private static final int WIDTH = 400;
     private static final int HEIGHT = 400;
+
+    private final GdxGame game;
+    private final Stage stage;
 
     private Texture[] backgrounds;
     private Texture[] frames;
@@ -22,8 +27,13 @@ public class RandomLogoCreator extends ApplicationAdapter {
     private Random random;
     private boolean chosen = false;
 
+    public RandomLogoCreator(GdxGame game) {
+        this.game = game;
+        this.stage = new Stage(new ScreenViewport());
+    }
+
     @Override
-    public void create() {
+    public void show() {
         if(!chosen){
             spriteBatch = new SpriteBatch();
             random = new Random();
@@ -47,11 +57,12 @@ public class RandomLogoCreator extends ApplicationAdapter {
                     new Texture(path+"picture3.png")
             };
         }
-
+//        SceneComposerStageBuilder builder = new SceneComposerStageBuilder();
+//        builder.build(stage, skin, Gdx.files.internal("view/test.json"));
     }
 
     @Override
-    public void render() {
+    public void render(float delta) {
         if(!chosen){
 
             chosen = true;
@@ -92,6 +103,21 @@ public class RandomLogoCreator extends ApplicationAdapter {
     public void resize(int width, int height) {
         Graphics.DisplayMode displayMode = Gdx.graphics.getDisplayMode();
         Gdx.graphics.setWindowedMode(displayMode.width, displayMode.height);
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
+
     }
 
     @Override
