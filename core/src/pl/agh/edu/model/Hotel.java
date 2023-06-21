@@ -11,6 +11,7 @@ import pl.agh.edu.room_builder.Builder;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Time;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Timer;
@@ -20,24 +21,26 @@ import java.util.TimerTask;
 // TODO: checkout handler leave opinions
 // TODO: observery zamiast wątków
 public class Hotel {
+
     private String hotelName;
     private Long hotelId;
     private ArrayList<Opinion> opinions = new ArrayList<>();
     private ArrayList<Employee> employees;
-    private HashMap<RoomRank, ArrayList<Room>> roomsByRank;
-    private HashMap<Integer, ArrayList<Room>> roomsByCapacity;
+    private HashMap<RoomRank, ArrayList<Room>> roomsByRank = new HashMap<>();
+    private HashMap<Integer, ArrayList<Room>> roomsByCapacity = new HashMap<>();
     private ArrayList<Builder> builders = new ArrayList<>();
     private ArrayList<Room> rooms;
-    private Time checkInTime;
-    private Time checkOutTime;
+    private LocalTime checkInTime;
+    private LocalTime checkOutTime;
     private Integer attractiveness = null;
     private Double competitiveness;
     private RandomLogoCreator logo;
 
-    public Hotel(ArrayList<Room> rooms, Time checkInTime, Time checkOutTime) throws IOException, ParseException {
+    public Hotel(ArrayList<Room> rooms, LocalTime checkInTime, LocalTime checkOutTime) throws IOException, ParseException {
         this.rooms = rooms;
         this.checkInTime = checkInTime;
         this.checkOutTime = checkOutTime;
+
 
         HashMap<String, Long>  attractivenessConstants = JSONExtractor.getAttractivenessConstantsFromJSON();
         this.attractiveness = (int)(attractivenessConstants.get("local_market") + attractivenessConstants.get("local_attractions"));
@@ -75,19 +78,20 @@ public class Hotel {
         this.roomsByRank = roomsByRank;
     }
 
-    public Time getCheckInTime() {
+    public LocalTime getCheckInTime() {
         return checkInTime;
     }
 
-    public void setCheckInTime(Time checkInTime) {
+
+    public void setCheckInTime(LocalTime checkInTime) {
         this.checkInTime = checkInTime;
     }
 
-    public Time getCheckOutTime() {
+    public LocalTime getCheckOutTime() {
         return checkOutTime;
     }
 
-    public void setCheckOutTime(Time checkOutTime) {
+    public void setCheckOutTime(LocalTime checkOutTime) {
         this.checkOutTime = checkOutTime;
     }
 

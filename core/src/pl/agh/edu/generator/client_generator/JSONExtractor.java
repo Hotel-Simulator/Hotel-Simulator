@@ -213,13 +213,9 @@ public class JSONExtractor {
                 .collect(Collectors.toList());
     }
 
-    public static Integer getMaxRoomSize() throws IOException, ParseException {
-        JSONObject jsonObject = (JSONObject)((JSONObject) parser.parse(new FileReader(filePath))).get("max_room_size");
-        Integer res = -1;
-        for(Object constant: jsonObject.keySet()){
-            res = (Integer) jsonObject.get(constant);
-        }
-        return res;
+    public static int getMaxRoomSize() throws IOException, ParseException {
+        return  ((Long)((JSONObject) parser.parse(new FileReader(filePath))).get("max_room_size")).intValue();
+
     }
 
     public static HashMap<String, Long> getMaintenanceTimesFromJSON() throws IOException, ParseException {
