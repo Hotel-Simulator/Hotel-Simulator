@@ -85,7 +85,7 @@ public class AdvertisementHandler {
         return !constantAdvertisements.containsKey(constantAdvertisementType);
     }
 
-    public void delete(ConstantAdvertisement constantAdvertisement){
+    public void deleteConstantAdvertisement(ConstantAdvertisement constantAdvertisement){
         if(constantAdvertisement.getEndDate() == null){
             constantAdvertisement.setEndDate( time.getTime().toLocalDate().isBefore(constantAdvertisement.getStartDate())
                     ? constantAdvertisement.getStartDate().plusMonths(1)
@@ -161,13 +161,30 @@ public class AdvertisementHandler {
                                 .flatMap(key -> singleAdvertisements.get(key).stream()),
                         constantAdvertisements.values()
                                 .stream())
-                .sorted(Advertisement::compareTo).collect(Collectors.toList());
+                .collect(Collectors.toList());
     }
 
+    public List<Advertisement> getFilteredAdvertisements(boolean pastAdvertisements,boolean currentAdvertisements, boolean futureAdvertisements, String name, String type){
+        return Stream
+                .concat(getAdvertisements().stream(),
+                        advertisementHistory.stream())
+                .filter(advertisement -> type == null || type.equals(advertisement.getType()))
+                .filter(advertisement -> name == null || name.equals(advertisement.getName()))
+                .filter( advertisement -> pastAdvertisements || advertisement.getEndDate() == null ||time.getTime().toLocalDate().isBefore(advertisement.getEndDate()))
+                .filter(advertisement -> currentAdvertisements || (time.getTime().toLocalDate().isBefore(advertisement.getStartDate()) ||  (advertisement.getEndDate() != null && !advertisement.getEndDate().isAfter(time.getTime().toLocalDate())) ))
+                .filter(advertisement -> futureAdvertisements || !advertisement.getStartDate().isAfter(time.getTime().toLocalDate()))
+                .sorted(Advertisement::compareTo)
+                .collect(Collectors.toList());
 
-    public List<Advertisement> getAdvertisementHistory() {
-        return advertisementHistory;
     }
+    public Map<String, List<String>> getAdvertisementNames(){
+        return  Map.of(
+                "single", Stream.of(SingleAdvertisementType.values()).map(type -> type.name().toLowerCase(Locale.ROOT).replaceAll("_", " ")).collect(Collectors.toList()),
+                "constant", Stream.of(ConstantAdvertisementType.values()).map(type -> type.name().toLowerCase(Locale.ROOT).replaceAll("_", " ")).collect(Collectors.toList())
+        );
+    }
+
+    public List<String> getAdvertisementTypes(){return List.of("single","constant");}
 
     public static void main(String[] args) throws IOException, ParseException {
         AdvertisementHandler advertisementHandler = AdvertisementHandler.getInstance();
@@ -189,8 +206,13 @@ public class AdvertisementHandler {
         System.out.println(advertisementHandler.getAdvertisements());
 
         System.out.println(advertisementHandler.getCostOfMaintenance());
+        System.out.println(advertisementHandler.getAdvertisementNames());
+
+        System.out.println(advertisementHandler.getFilteredAdvertisements(true,true,true,null,null));
+        System.out.println(advertisementHandler.getFilteredAdvertisements(true,true,true,null,null).size());
 
     }
+
 
 
 

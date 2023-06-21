@@ -74,102 +74,113 @@
   "single_advertisement": {
     "NEWSPAPER_ADVERTISEMENT": {
       "effectiveness": {
-        "VACATION": "TWO",
-        "BUSINESS_TRIP": "TWO",
-        "REHABILITATION": "FOUR"
+        "VACATION": 45,
+        "BUSINESS_TRIP": 40,
+        "REHABILITATION": 70
       },
       "cost_of_purchase": 200,
-      "preparation_days": 7
+      "preparation_days": 7,
+      "image_path": ""
     },
     "TV_ADVERTISEMENT": {
       "effectiveness": {
-        "VACATION": "THREE",
-        "BUSINESS_TRIP": "TWO",
-        "REHABILITATION": "TWO"
+        "VACATION": 65,
+        "BUSINESS_TRIP": 45,
+        "REHABILITATION": 40
       },
       "cost_of_purchase": 200,
-      "preparation_days": 7
+      "preparation_days": 7,
+      "image_path": ""
     },
     "RADIO_ADVERTISEMENT": {
       "effectiveness": {
-        "VACATION": "TWO",
-        "BUSINESS_TRIP": "ONE",
-        "REHABILITATION": "FIVE"
+        "VACATION": 30,
+        "BUSINESS_TRIP": 10,
+        "REHABILITATION": 100
       },
       "cost_of_purchase": 200,
-      "preparation_days": 7
+      "preparation_days": 7,
+      "image_path": ""
     },
     "INTERNET_ADVERTISEMENT": {
       "effectiveness": {
-        "VACATION": "FOUR",
-        "BUSINESS_TRIP": "TWO",
-        "REHABILITATION": "ONE"
+        "VACATION": 65,
+        "BUSINESS_TRIP": 25,
+        "REHABILITATION": 10
       },
       "cost_of_purchase": 200,
-      "preparation_days": 7
+      "preparation_days": 7,
+      "image_path": ""
     },
     "FLYERS": {
       "effectiveness": {
-        "VACATION": "ONE",
-        "BUSINESS_TRIP": "ONE",
-        "REHABILITATION": "ONE"
+        "VACATION": 10,
+        "BUSINESS_TRIP": 5,
+        "REHABILITATION": 15
       },
       "cost_of_purchase": 200,
-      "preparation_days": 7
+      "preparation_days": 7,
+      "image_path": ""
     }
   },
   "constant_advertisement" : {
     "BILLBOARD":{
       "effectiveness": {
-        "VACATION": "TWO",
-        "BUSINESS_TRIP": "TWO",
-        "REHABILITATION": "TWO"
+        "VACATION": 25,
+        "BUSINESS_TRIP": 25,
+        "REHABILITATION": 35
       },
       "cost_of_purchase" : 200,
       "cost_of_maintenance" : 50,
-      "preparation_days": 7
+      "preparation_days": 7,
+      "image_path": ""
     }  ,
     "WEB_PAGE": {
       "effectiveness": {
-        "VACATION": "FOUR",
-        "BUSINESS_TRIP": "THREE",
-        "REHABILITATION": "ONE"
+        "VACATION": 75,
+        "BUSINESS_TRIP": 50,
+        "REHABILITATION": 15
       },
       "cost_of_purchase" : 200,
       "cost_of_maintenance" : 50,
-      "preparation_days": 7
+      "preparation_days": 7,
+      "image_path": ""
     },
     "SOCIAL_MEDIA" : {
       "effectiveness": {
-        "VACATION": "THREE",
-        "BUSINESS_TRIP": "TWO",
-        "REHABILITATION": "ONE"
+        "VACATION": 55,
+        "BUSINESS_TRIP": 25,
+        "REHABILITATION": 10
       },
       "cost_of_purchase": 200,
       "cost_of_maintenance": 50,
-      "preparation_days": 7
+      "preparation_days": 7,
+      "image_path": ""
     },
     "BOOKING_PORTALS_PROFILE" : {
       "effectiveness": {
-        "VACATION": "FOUR",
-        "BUSINESS_TRIP": "FOUR",
-        "REHABILITATION": "TWO"
+        "VACATION": 65,
+        "BUSINESS_TRIP": 30,
+        "REHABILITATION": 40
       },
       "cost_of_purchase": 200,
       "cost_of_maintenance": 50,
-      "preparation_days": 7
+      "preparation_days": 7,
+      "image_path": ""
     },
     "LOCAL_ATTRACTIONS_PARTNERSHIP" : {
       "effectiveness": {
-        "VACATION": "FOUR",
-        "BUSINESS_TRIP": "TWO",
-        "REHABILITATION": "THREE"
+        "VACATION": 70,
+        "BUSINESS_TRIP": 40,
+        "REHABILITATION": 55
       },
       "cost_of_purchase": 200,
       "cost_of_maintenance": 50,
-      "preparation_days": 7
+      "preparation_days": 7,
+      "image_path": ""
     }
   },
+  "advertisement_multiplier": 0.0015,
 
   "bank_scenarios": [
     {
