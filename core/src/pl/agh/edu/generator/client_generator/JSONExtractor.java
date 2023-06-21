@@ -7,12 +7,13 @@ import org.json.simple.parser.ParseException;
 import pl.agh.edu.enums.HotelVisitPurpose;
 import pl.agh.edu.enums.RoomRank;
 
-import pl.agh.edu.model.advertisement.AdvertisementEffectiveness;
+
+import pl.agh.edu.generator.event_generator.json_data.ClientNumberModificationCyclicTemporaryEventData;
+import pl.agh.edu.generator.event_generator.json_data.ClientNumberModificationRandomTemporaryEventData;
 import pl.agh.edu.model.advertisement.json_data.ConstantAdvertisementData;
 import pl.agh.edu.model.advertisement.ConstantAdvertisementType;
 import pl.agh.edu.model.advertisement.SingleAdvertisementType;
 import pl.agh.edu.model.advertisement.json_data.SingleAdvertisementData;
-import pl.agh.edu.model.bank.Bank;
 import pl.agh.edu.model.bank.json_data.BankData;
 
 import java.io.FileNotFoundException;
@@ -22,12 +23,12 @@ import java.math.BigDecimal;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 
 public class JSONExtractor {
@@ -138,9 +139,14 @@ public class JSONExtractor {
         ));
     }
 
+    public static double getAdvertisementMultiplier() throws IOException, ParseException {
+        return (double)((JSONObject) parser.parse(new FileReader(filePath))).get("advertisement_multiplier");
+    }
     public static EnumMap<SingleAdvertisementType, SingleAdvertisementData> getSingleAdvertisementDataFromJSON() throws IOException, ParseException{
 
         JSONObject jsonObject = (JSONObject)((JSONObject) parser.parse(new FileReader(filePath))).get("single_advertisement");
+        double advertisementMultiplier = getAdvertisementMultiplier();
+
         return Stream.of(SingleAdvertisementType.values()).collect(Collectors.toMap(
                 e -> e,
                 e -> {
@@ -149,9 +155,10 @@ public class JSONExtractor {
                     return  new SingleAdvertisementData(
                             BigDecimal.valueOf(((Long)data.get("cost_of_purchase")).doubleValue()),
                             ((Long)data.get("preparation_days")).intValue(),
+                            (String)data.get("image_path"),
                             Stream.of(HotelVisitPurpose.values()).collect(Collectors.toMap(
                                     h -> h,
-                                    h -> AdvertisementEffectiveness.valueOf((String) effectivenessData.get(h.toString())).value(),
+                                    h -> ((Long)effectivenessData.get(h.toString())) * advertisementMultiplier,
                                     (a,b) -> b,
                                     () -> new EnumMap<>(HotelVisitPurpose.class)
                             )));
@@ -164,7 +171,7 @@ public class JSONExtractor {
 
     public static EnumMap<ConstantAdvertisementType, ConstantAdvertisementData> getConstantAdvertisementDataFromJSON() throws IOException, ParseException{
         JSONObject jsonObject = (JSONObject)((JSONObject) parser.parse(new FileReader(filePath))).get("constant_advertisement");
-
+        double advertisementMultiplier = getAdvertisementMultiplier();
          return Stream.of(ConstantAdvertisementType.values()).collect(Collectors.toMap(
                 e -> e,
                 e -> {
@@ -174,9 +181,10 @@ public class JSONExtractor {
                             BigDecimal.valueOf(((Long)data.get("cost_of_purchase")).doubleValue()),
                             BigDecimal.valueOf(((Long)data.get("cost_of_maintenance")).doubleValue()),
                             ((Long)data.get("preparation_days")).intValue(),
+                            (String)data.get("image_path"),
                             Stream.of(HotelVisitPurpose.values()).collect(Collectors.toMap(
                                     h -> h,
-                                    h -> AdvertisementEffectiveness.valueOf((String) effectivenessData.get(h.toString())).value(),
+                                    h -> ((Long)effectivenessData.get(h.toString())) * advertisementMultiplier,
                                     (a,b) -> b,
                                     () -> new EnumMap<>(HotelVisitPurpose.class)
                             )));
@@ -238,6 +246,66 @@ public class JSONExtractor {
         return LocalDate.parse((String)(((JSONObject) parser.parse(new FileReader(filePath))).get(key)), DateTimeFormatter.ISO_LOCAL_DATE) ;
     }
 
+    public static List<ClientNumberModificationCyclicTemporaryEventData> getClientModificationCyclicTemporaryEventData() throws IOException, ParseException {
+        JSONArray jsonArray = (JSONArray) ((JSONObject)((JSONObject)((JSONObject) parser.parse(new FileReader(filePath))).get("events")).get("temporary")).get("cyclic");
+        DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+                .appendPattern("--MM-dd")
+                .parseDefaulting(ChronoField.YEAR, 0)
+                .toFormatter();
+
+        return Stream.of(jsonArray.toArray())
+                .map(
+                        e ->{
+                            JSONObject JSONEvent = (JSONObject) e;
+                            JSONObject JSONModifiers = (JSONObject) JSONEvent.get("modifiers");
+                            return new ClientNumberModificationCyclicTemporaryEventData(
+                                    (String) JSONEvent.get("name"),
+                                    (String) JSONEvent.get("calendar_description"),
+                                    LocalDate.parse((String)(JSONEvent.get("start_date")), formatter),
+                                    LocalDate.parse((String)(JSONEvent.get("end_date")), formatter),
+                                    Stream.of(HotelVisitPurpose.values())
+                                            .collect(Collectors.toMap(
+                                                    f -> f,
+                                                    f -> (double) JSONModifiers.get(f.toString()),
+                                                    (a, b) -> b,
+                                                    () -> new EnumMap<>(HotelVisitPurpose.class)))
+
+                            );
+                        }
+
+                )
+                .collect(Collectors.toList());
+    }
+
+    public static List<ClientNumberModificationRandomTemporaryEventData> getClientNumberModificationRandomTemporaryEventData() throws IOException, ParseException {
+        JSONArray jsonArray = (JSONArray) ((JSONObject)((JSONObject)((JSONObject) parser.parse(new FileReader(filePath))).get("events")).get("temporary")).get("random");
+        return Stream.of(jsonArray.toArray())
+                .map(
+                        e -> {
+                            JSONObject JSONEvent = (JSONObject) e;
+                            JSONObject JSONModifiers = (JSONObject) JSONEvent.get("modifiers");
+                            return new ClientNumberModificationRandomTemporaryEventData(
+                                    (String) JSONEvent.get("name"),
+                                    (String) JSONEvent.get("calendar_description"),
+                                    (String) JSONEvent.get("popup_description"),
+                                    ((Long)JSONEvent.get("min_duration_days")).intValue(),
+                                    ((Long)JSONEvent.get("max_duration_days")).intValue(),
+                                    Stream.of(HotelVisitPurpose.values())
+                                            .collect(Collectors.toMap(
+                                                    f -> f,
+                                                    f -> (double) JSONModifiers.get(f.toString()),
+                                                    (a, b) -> b,
+                                                    () -> new EnumMap<>(HotelVisitPurpose.class))),
+                                    (double)JSONEvent.get("occurrence_probability"),
+                                    (String) JSONEvent.get("image_path")
+
+                                    );
+                        }
+                ).collect(Collectors.toList());
+    }
+
+
+
     public static void main(String[] args) throws IOException, ParseException {
         System.out.println(getHotelVisitPurposeProbabilitiesFromJSON());
         System.out.println(getDesiredRoomRankProbabilitiesFromJSON());
@@ -249,6 +317,8 @@ public class JSONExtractor {
         System.out.println(getConstantAdvertisementDataFromJSON());
         System.out.println(getBanksFromJSON());
         System.out.println(getDate("game_start_date"));
+        System.out.println(getClientModificationCyclicTemporaryEventData());
+        System.out.println(getClientNumberModificationRandomTemporaryEventData());
     }
 
 

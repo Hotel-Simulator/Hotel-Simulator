@@ -10,5 +10,6 @@ public record ConstantAdvertisementData(
         BigDecimal costOfPurchase,
         BigDecimal costOfMaintenance,
         int preparationDays,
+        String imagePath,
         EnumMap<HotelVisitPurpose, Double> effectiveness) {
 }

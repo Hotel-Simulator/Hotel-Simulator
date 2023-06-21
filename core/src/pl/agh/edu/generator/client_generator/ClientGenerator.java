@@ -10,6 +10,8 @@ import pl.agh.edu.model.advertisement.AdvertisementHandler;
 import pl.agh.edu.model.advertisement.SingleAdvertisementType;
 import pl.agh.edu.model.advertisement.report.AdvertisementReportData;
 import pl.agh.edu.model.advertisement.report.AdvertisementReportHandler;
+import pl.agh.edu.model.event.temporary.ClientNumberModificationTemporaryEvent;
+import pl.agh.edu.model.event.temporary.ClientNumberModificationTemporaryEventHandler;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -51,6 +53,7 @@ public class ClientGenerator {
     private EnumMap<HotelVisitPurpose, List<Integer>> numberOfNightsProbabilityLists;
     private EnumMap<RoomRank, Map<Integer, Integer>> averagePricesPerNight;
     private final AdvertisementHandler advertisementHandler;
+    private final ClientNumberModificationTemporaryEventHandler clientNumberModificationTemporaryEventHandler;
 
 
     private ClientGenerator() throws IOException, ParseException {
@@ -62,6 +65,7 @@ public class ClientGenerator {
         desiredRoomRankProbabilityLists = ProbabilityListGenerator.getMapOfProbabilityLists(JSONExtractor.getDesiredRoomRankProbabilitiesFromJSON(),HotelVisitPurpose.class);
         numberOfNightsProbabilityLists = ProbabilityListGenerator.getMapOfProbabilityLists(JSONExtractor.getNumberOfNightsProbabilitiesFromJSON(),HotelVisitPurpose.class);
         advertisementHandler = AdvertisementHandler.getInstance();
+        clientNumberModificationTemporaryEventHandler = ClientNumberModificationTemporaryEventHandler.getInstance();
     }
 
 
@@ -134,7 +138,7 @@ public class ClientGenerator {
         int basicNumberOfClients = (int)Math.round(((attractivenessConstants.get("local_market") + attractivenessConstants.get("local_attractions"))) * popularityModifier);
         return Stream.of(HotelVisitPurpose.values()).collect(Collectors.toMap(
                 e -> e,
-                e -> (int)Math.round(basicNumberOfClients * hotelVisitPurposeProbability.get(e) * Math.abs(1 + random.nextGaussian()/3)),
+                e -> (int)Math.round(basicNumberOfClients * hotelVisitPurposeProbability.get(e) * Math.abs(1 + random.nextGaussian()/3) * (clientNumberModificationTemporaryEventHandler.getClientNumberModifier().get(e) + 1)),
                 (a, b) ->b,
                 () -> new EnumMap<>(HotelVisitPurpose.class)
         ));
@@ -178,9 +182,18 @@ public class ClientGenerator {
 
 
     public static void main(String[] args) throws IOException, ParseException {
-        ClientGenerator generator = getInstance();
-        AdvertisementHandler advertisementHandler = AdvertisementHandler.getInstance();
-        advertisementHandler.create(SingleAdvertisementType.INTERNET_ADVERTISEMENT,List.of(LocalDate.now()));
+
+       ClientGenerator generator = getInstance();
+       AdvertisementHandler advertisementHandler = AdvertisementHandler.getInstance();
+       advertisementHandler.create(SingleAdvertisementType.INTERNET_ADVERTISEMENT,List.of(LocalDate.now()));
+
+        ClientNumberModificationTemporaryEventHandler clientNumberModificationTemporaryEventHandler = ClientNumberModificationTemporaryEventHandler.getInstance();
+        var m = new EnumMap<HotelVisitPurpose,Double>(HotelVisitPurpose.class);
+        m.put(HotelVisitPurpose.REHABILITATION,5.);
+        m.put(HotelVisitPurpose.VACATION,0.);
+        m.put(HotelVisitPurpose.BUSINESS_TRIP,0.);
+        clientNumberModificationTemporaryEventHandler.add(new ClientNumberModificationTemporaryEvent(LocalDate.now(),LocalDate.now().plusDays(2),m));
+        clientNumberModificationTemporaryEventHandler.update(LocalDate.now());
 
         System.out.println(advertisementHandler.getAdvertisements());
         System.out.println(generator.generateArrivalsForDay(LocalDate.now(),LocalTime.of(15,0),LocalTime.of(12,0)));

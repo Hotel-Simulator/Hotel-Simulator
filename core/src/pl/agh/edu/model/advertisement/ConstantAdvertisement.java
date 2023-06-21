@@ -6,6 +6,7 @@ import pl.agh.edu.model.advertisement.json_data.ConstantAdvertisementData;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.EnumMap;
+import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -46,12 +47,12 @@ public class ConstantAdvertisement implements Advertisement {
     }
     @Override
     public String getName() {
-        return type.name();
+        return type.name().toLowerCase(Locale.ROOT).replaceAll("_", " ");
     }
 
     @Override
     public String getType() {
-        return "Constant";
+        return "constant";
     }
 
     public EnumMap<HotelVisitPurpose,Double> getEffectiveness() {
