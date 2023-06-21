@@ -13,6 +13,7 @@ public class ClientGroup {
     private final HotelVisitPurpose hotelVisitPurpose;
     private LocalDateTime checkInTime;
     private final LocalDateTime checkOutTime;
+    private Opinion opinion;
 
     //need BIgDecimal
     private final int budgetPerNight;
@@ -82,4 +83,13 @@ public class ClientGroup {
                 ", numberOfMembers=" + members.size() +
                 '}';
     }
+
+    public void generateOpinion(){
+        double margin = budgetPerNight - room.getRentPrice().doubleValue();
+
+        double val = Math.max(0.75 + margin/budgetPerNight, 1.);
+        this.opinion = new Opinion(val);
+    }
+
+    public Opinion getOpinion() {return this.opinion;}
 }

@@ -8,7 +8,6 @@ import pl.agh.edu.generator.client_generator.JSONExtractor;
 import pl.agh.edu.logo.RandomLogoCreator;
 import pl.agh.edu.room_builder.Builder;
 
-import javax.swing.plaf.RootPaneUI;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Time;
@@ -21,25 +20,27 @@ import java.util.TimerTask;
 // TODO: checkout handler leave opinions
 // TODO: observery zamiast wątków
 public class Hotel {
-    private static Hotel instance;
-    private static ArrayList<Employee> employees;
-    private static HashMap<RoomRank, ArrayList<Room>> roomsByRank;
-    private static HashMap<Integer, ArrayList<Room>> roomsByCapacity;
-    private static ArrayList<Builder> builders = new ArrayList<>();
-    private static ArrayList<Room> rooms;
-    private static Time checkInTime;
-    private static Time checkOutTime;
-    private static Integer attractiveness = null;
-    private static Integer competitiveness;
-    private static RandomLogoCreator logo;
+    private String hotelName;
+    private Long hotelId;
+    private ArrayList<Opinion> opinions = new ArrayList<>();
+    private ArrayList<Employee> employees;
+    private HashMap<RoomRank, ArrayList<Room>> roomsByRank;
+    private HashMap<Integer, ArrayList<Room>> roomsByCapacity;
+    private ArrayList<Builder> builders = new ArrayList<>();
+    private ArrayList<Room> rooms;
+    private Time checkInTime;
+    private Time checkOutTime;
+    private Integer attractiveness = null;
+    private Double competitiveness;
+    private RandomLogoCreator logo;
 
     public Hotel(ArrayList<Room> rooms, Time checkInTime, Time checkOutTime) throws IOException, ParseException {
-        Hotel.rooms = rooms;
-        Hotel.checkInTime = checkInTime;
-        Hotel.checkOutTime = checkOutTime;
+        this.rooms = rooms;
+        this.checkInTime = checkInTime;
+        this.checkOutTime = checkOutTime;
 
         HashMap<String, Long>  attractivenessConstants = JSONExtractor.getAttractivenessConstantsFromJSON();
-        Hotel.attractiveness = (int)(attractivenessConstants.get("local_market") + attractivenessConstants.get("local_attractions"));
+        this.attractiveness = (int)(attractivenessConstants.get("local_market") + attractivenessConstants.get("local_attractions"));
 
         for(RoomRank rank: RoomRank.values()){
             roomsByRank.put(rank, new ArrayList<Room>());
@@ -58,19 +59,12 @@ public class Hotel {
         builders.add(new Builder());
     }
 
-    public static Hotel getInstance() throws IOException, ParseException {
-        if (instance == null){
-            instance = new Hotel(new ArrayList<Room>(), new Time(15), new Time(12));
-        }
-        return instance;
-    }
-
     public ArrayList<Employee> getEmployees() {
         return employees;
     }
 
     public void setEmployees(ArrayList<Employee> employees) {
-        Hotel.employees = employees;
+        this.employees = employees;
     }
 
     public HashMap<RoomRank, ArrayList<Room>> getRoomsByRank() {
@@ -78,7 +72,7 @@ public class Hotel {
     }
 
     public void setRoomsByRank(HashMap<RoomRank, ArrayList<Room>> roomsByRank) {
-        Hotel.roomsByRank = roomsByRank;
+        this.roomsByRank = roomsByRank;
     }
 
     public Time getCheckInTime() {
@@ -86,7 +80,7 @@ public class Hotel {
     }
 
     public void setCheckInTime(Time checkInTime) {
-        Hotel.checkInTime = checkInTime;
+        this.checkInTime = checkInTime;
     }
 
     public Time getCheckOutTime() {
@@ -94,19 +88,19 @@ public class Hotel {
     }
 
     public void setCheckOutTime(Time checkOutTime) {
-        Hotel.checkOutTime = checkOutTime;
+        this.checkOutTime = checkOutTime;
     }
 
     public Integer getAttractiveness() {
         return attractiveness;
     }
 
-    public Integer getCompetitiveness() {
+    public Double getCompetitiveness() {
         return competitiveness;
     }
 
-    public void setCompetitiveness(Integer competitiveness) {
-        Hotel.competitiveness = competitiveness;
+    public void setCompetitiveness(Double competitiveness) {
+        this.competitiveness = competitiveness;
     }
 
     public HashMap<Integer, ArrayList<Room>> getRoomsByCapacity() {
@@ -114,7 +108,7 @@ public class Hotel {
     }
 
     public void setRoomsByCapacity(HashMap<Integer, ArrayList<Room>> roomsByCapacity) {
-        Hotel.roomsByCapacity = roomsByCapacity;
+        this.roomsByCapacity = roomsByCapacity;
     }
 
     public void setPrices(ArrayList<Room> roomsToSet, BigDecimal newPrice){
@@ -140,6 +134,7 @@ public class Hotel {
     public void updateCompetitveness(){
         BigDecimal avgRoomStandard = BigDecimal.valueOf(0);
         BigDecimal avgWorkerHappiness = BigDecimal.valueOf(0);
+        Double avgOpinionValue = 0.;
 
         for(Room room: rooms){
             avgRoomStandard.add(room.getStandard());
@@ -150,10 +145,15 @@ public class Hotel {
             // TODO: też na podstawie opinii kielntów + jaki zapas od wymagań klienta spełniamy plus eventy pokoje i w hotelu ogólnie - dynamiczny współczynnik u klienta
         }
 
+        for(Opinion opinion: opinions){
+            avgOpinionValue += opinion.getValue();
+        }
+
         avgRoomStandard.divide(BigDecimal.valueOf(rooms.size()));
         avgWorkerHappiness.divide(BigDecimal.valueOf(employees.size()));
+        avgOpinionValue /= opinions.size();
 
-        competitiveness = (Integer) avgRoomStandard.add(avgWorkerHappiness).divide(BigDecimal.valueOf(2)).intValue();
+        competitiveness =  (avgOpinionValue + avgRoomStandard.doubleValue() + avgWorkerHappiness.doubleValue())/3;
     }
 
     public void checkForMaintenance() throws IOException, ParseException {
@@ -225,5 +225,17 @@ public class Hotel {
             }
         }
         return null;
+    }
+
+    public int getEmployeesNumber(){
+        return this.employees.size();
+    }
+
+    public void checkOutGuest(ClientGroup group){
+        group.generateOpinion();
+        Opinion opinion =  group.getOpinion();
+
+        group.getRoom().checkOut();
+        this.opinions.add(opinion);
     }
 }

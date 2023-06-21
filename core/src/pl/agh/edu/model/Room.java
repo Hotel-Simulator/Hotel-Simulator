@@ -117,4 +117,6 @@ public class Room {
         this.residents = null;
         this.state = RoomState.EMPTY;
     }
+
+    public ClientGroup getResidents() {return this.residents;}
 }
