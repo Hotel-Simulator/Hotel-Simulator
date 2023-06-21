@@ -3,10 +3,13 @@ package pl.agh.edu.model;
 import pl.agh.edu.enums.HotelVisitPurpose;
 import pl.agh.edu.enums.Sex;
 
+import java.math.BigDecimal;
+
 public class Client {
     private final int age;
     private final Sex sex;
     private final HotelVisitPurpose hotelVisitPurpose;
+    private Opinion opinion;
 
     public Client(int age, Sex sex, HotelVisitPurpose hotelVisitPurpose) {
         this.age = age;
@@ -24,5 +27,20 @@ public class Client {
 
     public HotelVisitPurpose getHotelVisitPurpose() {
         return hotelVisitPurpose;
+    }
+
+
+    public Opinion getOpinion() {
+        return opinion;
+    }
+
+    public void setOpinion(Opinion opinion) {
+        this.opinion = opinion;
+    }
+
+    public void generateOpinion(Room room, int budgetPerNight){
+        BigDecimal tmp = room.getRentPrice().subtract(BigDecimal.valueOf(budgetPerNight)).divide(BigDecimal.valueOf(budgetPerNight));
+        BigDecimal res =  BigDecimal.valueOf(Long.parseLong("0.8")).subtract(tmp);
+        this.opinion = new Opinion(res.doubleValue());
     }
 }

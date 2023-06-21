@@ -54,12 +54,15 @@ public class Builder {
 
     }
 
-    public void finishUpgrade(){
+    public boolean finishUpgrade(){
 
         if(plannedEndTime.isAfter(Time.getInstance().getTime())){
             this.upgradingRoom.upgradeRankMany(upgradesNum);
+            this.upgradingRoom.setState(RoomState.EMPTY);
 
             isOccupied = false;
+            return true;
         }
+        return false;
     }
 }

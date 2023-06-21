@@ -16,10 +16,12 @@ public class Room {
     private BigDecimal marketPrice;
     private BigDecimal rentPrice;
     private BigDecimal maintenancePrice;
+    private ClientGroup residents;
+    // bool na isOccupied
 
     public Room(RoomRank rank, int capacity) {
         this.rank = rank;
-        this.state = RoomState.CLEAN;
+        this.state = RoomState.EMPTY;
         this.capacity = capacity;
     }
 
@@ -75,7 +77,7 @@ public class Room {
 
     public boolean clean(){
         if (state == RoomState.DIRTY){
-            setState(RoomState.MAINTENANCE);
+            state = RoomState.EMPTY;
             return true;
         }
         return false;
@@ -83,7 +85,7 @@ public class Room {
 
     public boolean fix(){
         if (state == RoomState.FAULT){
-            setState(RoomState.MAINTENANCE);
+            state = RoomState.EMPTY;
             return true;
         }
         return false;
@@ -106,4 +108,19 @@ public class Room {
         BigDecimal multiplied = rentPrice.multiply(BigDecimal.valueOf(4));
         return  added.divide(multiplied, BigDecimal.ROUND_DOWN).min(BigDecimal.valueOf(1));
     }
+
+
+    // bool isOccupied
+    public void checkIn(ClientGroup residents){
+        this.residents = residents;
+        this.state = RoomState.OCCUPIED;
+    }
+
+
+    public void checkOut(){
+        this.residents = null;
+        this.state = RoomState.EMPTY;
+    }
+
+    public ClientGroup getResidents() {return this.residents;}
 }
