@@ -16,8 +16,8 @@ import java.util.stream.Stream;
 
 public class AdvertisementHandler {
     private static AdvertisementHandler instance;
-    private EnumMap<SingleAdvertisementType, SingleAdvertisementData> simpleAdvertisementData;
-    private EnumMap<ConstantAdvertisementType, ConstantAdvertisementData> constantAdvertisementData;
+    private final EnumMap<SingleAdvertisementType, SingleAdvertisementData> simpleAdvertisementData;
+    private final EnumMap<ConstantAdvertisementType, ConstantAdvertisementData> constantAdvertisementData;
     private final EnumMap<SingleAdvertisementType,List<SingleAdvertisement> > singleAdvertisements;
     private final EnumMap<ConstantAdvertisementType,ConstantAdvertisement> constantAdvertisements;
 
@@ -129,7 +129,7 @@ public class AdvertisementHandler {
 
     }
 
-    public void removeOldAdvertisements(){
+    public void update(){
         constantAdvertisements.keySet().removeIf(type -> {
             if(constantAdvertisements.get(type).getEndDate() != null && constantAdvertisements.get(type).getEndDate().equals(time.getTime().toLocalDate())){
                 advertisementHistory.addFirst(constantAdvertisements.get(type));
@@ -200,10 +200,11 @@ public class AdvertisementHandler {
 
         }
         System.out.println(advertisementHandler.getAdvertisements());
-        advertisementHandler.removeOldAdvertisements();
+        advertisementHandler.update();
         System.out.println(advertisementHandler.singleAdvertisements);
 
         System.out.println(advertisementHandler.getAdvertisements());
+
 
         System.out.println(advertisementHandler.getCostOfMaintenance());
         System.out.println(advertisementHandler.getAdvertisementNames());

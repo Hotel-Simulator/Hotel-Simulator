@@ -198,6 +198,112 @@
   ],
 
   "game_start_date": "2020-01-01",
-  "game_end_date": "2040-01-01"
+  "game_end_date": "2040-01-01",
+
+  "events" : {
+    "temporary": {
+      "cyclic": [
+        {
+          "name": "Summer Holidays",
+          "calendar_description": "Prepare yourself for an increased number of customers during this period!",
+          "start_date": "--07-01",
+          "end_date": "--09-01",
+          "modifiers": {
+            "VACATION": 0.25,
+            "BUSINESS_TRIP": 0.0,
+            "REHABILITATION": 0.05
+          }
+        },
+        {
+          "name": "Winter Holidays",
+          "calendar_description": "Prepare yourself for an increased number of customers during this period!",
+          "start_date": "--01-01",
+          "end_date": "--03-01",
+          "modifiers": {
+            "VACATION": 0.15,
+            "BUSINESS_TRIP": 0.0,
+            "REHABILITATION": 0.03
+          }
+        }
+      ],
+      "random": [
+        {
+          "name": "Scientific Conference",
+          "calendar_description": "Scientific conference will last for # days. Be prepared for an increased number of business clients during this period.",
+          "popup_description": "Soon, there will be a scientific conference in our city. It starts # and will last for # days. Be prepared for an increased number of business clients during this period.",
+          "min_duration_days": 2,
+          "max_duration_days": 5,
+          "modifiers": {
+            "VACATION": 0.0,
+            "BUSINESS_TRIP": 0.1,
+            "REHABILITATION": 0.0
+          },
+          "occurrence_probability": 0.2,
+          "image_path": ""
+        },
+        {
+          "name": "Music Festival",
+          "calendar_description": "Music Festival will last for # days. Be prepared for an increased number of vacation clients during this period.",
+          "popup_description": "Soon, there will be a music festival in our city. It starts # and will last for # days. Be prepared for an increased number of vacation clients during this period.",
+          "min_duration_days": 2,
+          "max_duration_days": 5,
+          "modifiers": {
+            "VACATION": 0.1,
+            "BUSINESS_TRIP": 0.0,
+            "REHABILITATION": 0.0
+          },
+          "occurrence_probability": 0.3,
+          "image_path": ""
+
+        },
+        {
+          "name": "Cultural Festival",
+          "calendar_description": "Cultural festival will last for # days. Be prepared for an increased number of clients during this period.",
+          "popup_description":"Soon, there will be a cultural festival in our city. It starts # and will last for # days. Be prepared for an increased number of clients during this period.",
+          "min_duration_days": 2,
+          "max_duration_days": 5,
+          "modifiers": {
+            "VACATION": 0.1,
+            "BUSINESS_TRIP": 0.0,
+            "REHABILITATION": 0.1
+          },
+          "occurrence_probability": 0.8,
+          "image_path": ""
+
+        },
+        {
+          "name": "Business Conference",
+          "calendar_description": "Business conference will last for # days. Be prepared for an increased number of business clients during this period.",
+          "popup_description":"Soon, there will be a business conference in our city. It starts # and will last for # days. Be prepared for an increased number of business clients during this period.",
+          "min_duration_days": 2,
+          "max_duration_days": 5,
+          "modifiers": {
+            "VACATION": 0.0,
+            "BUSINESS_TRIP": 0.2,
+            "REHABILITATION": 0.0
+          },
+          "occurrence_probability": 0.5,
+          "image_path": ""
+        },
+        {
+          "name": "Football Tournament",
+          "calendar_description": "Football Tournament will last for # days. Get ready for an increased number of business and vacation clients.",
+          "popup_description": "Soon there will be a football tournament in our city. It will start on # and last for # days. Get ready for an increased number of business and vacation clients.",
+          "min_duration_days": 14,
+          "max_duration_days": 21,
+          "modifiers": {
+            "VACATION": 0.0,
+            "BUSINESS_TRIP": 0.2,
+            "REHABILITATION": 0.0
+          },
+          "occurrence_probability": 0.05,
+          "image_path": ""
+
+        }
+      ]
+    }
+
+  }
+
 
 }
