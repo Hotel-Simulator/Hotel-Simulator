@@ -4,11 +4,12 @@ import org.json.simple.parser.ParseException;
 import pl.agh.edu.generator.client_generator.JSONExtractor;
 import pl.agh.edu.generator.event_generator.json_data.ClientNumberModificationCyclicTemporaryEventData;
 import pl.agh.edu.generator.event_generator.json_data.ClientNumberModificationRandomTemporaryEventData;
+import pl.agh.edu.model.Time;
 import pl.agh.edu.model.calendar.Calendar;
 import pl.agh.edu.model.calendar.CalendarEvent;
 import pl.agh.edu.model.event.temporary.ClientNumberModificationTemporaryEvent;
 import pl.agh.edu.model.event.temporary.ClientNumberModificationTemporaryEventHandler;
-import pl.agh.edu.time.Time;
+
 
 import java.io.IOException;
 import java.time.LocalDate;
