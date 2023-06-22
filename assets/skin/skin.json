@@ -31,7 +31,7 @@
 		"flip": false
 	},
 	"H1": {
-		"file": "H1.fnt",
+		"file": "PressStart2P-Regular.fnt",
 		"scaledSize": -1,
 		"markupEnabled": false,
 		"flip": false
@@ -255,6 +255,12 @@
 		"a": 1
 	}
 },
+"TintedDrawable": {
+	"textField_normal_cursor": {
+		"name": "textField_console_cursor",
+		"color": "Gray_900"
+	}
+},
 "ButtonStyle": {
 	"default": {
 		"up": "default"
@@ -370,14 +376,49 @@
 		"up": "Calendar_Normal",
 		"down": "Calendar_Press",
 		"over": "Calendar_Hover"
+	},
+	"filter": {
+		"up": "Button_Filter_Normal",
+		"down": "Button_Filter_Press",
+		"over": "Button_Filter_Hover"
 	}
 },
 "LabelStyle": {
 	"default": {
 		"font": "H1"
 	},
+	"h1_label": {
+		"font": "H1"
+	},
+	"h2_label": {
+		"font": "H2"
+	},
+	"h3_label": {
+		"font": "H3"
+	},
 	"h4_label": {
 		"font": "H4"
+	},
+	"body1_label": {
+		"font": "Body1"
+	},
+	"body2_label": {
+		"font": "Body2"
+	},
+	"button1_label": {
+		"font": "Button1"
+	},
+	"button2_label": {
+		"font": "Button2"
+	},
+	"button3_label": {
+		"font": "Button3"
+	},
+	"subtitle1_label": {
+		"font": "Subtitle1"
+	},
+	"subtitle2_label": {
+		"font": "Subtitle2"
 	}
 },
 "ScrollPaneStyle": {
@@ -423,8 +464,11 @@
 },
 "TextFieldStyle": {
 	"default": {
-		"font": "Body1",
-		"fontColor": "Gray_900"
+		"font": "Button3",
+		"fontColor": "Gray_900",
+		"focusedFontColor": "Gray_700",
+		"background": "textField_normal_background",
+		"cursor": "textField_normal_cursor"
 	},
 	"console_input": {
 		"font": "H4",
@@ -434,6 +478,13 @@
 		"selection": "textField_console_select",
 		"messageFont": "H4",
 		"messageFontColor": "Secondary_300"
+	},
+	"large_default": {
+		"font": "Button1",
+		"fontColor": "Gray_900",
+		"focusedFontColor": "Gray_700",
+		"background": "textField_normal_background",
+		"cursor": "textField_normal_cursor"
 	}
 },
 "TextTooltipStyle": {
