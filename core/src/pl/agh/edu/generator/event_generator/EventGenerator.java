@@ -6,10 +6,6 @@ import pl.agh.edu.generator.event_generator.json_data.ClientNumberModificationCy
 import pl.agh.edu.generator.event_generator.json_data.ClientNumberModificationRandomTemporaryEventData;
 import pl.agh.edu.model.Time;
 import pl.agh.edu.model.calendar.Calendar;
-import pl.agh.edu.model.calendar.CalendarEvent;
-import pl.agh.edu.model.event.temporary.ClientNumberModificationTemporaryEvent;
-import pl.agh.edu.model.event.temporary.ClientNumberModificationTemporaryEventHandler;
-
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -18,7 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class EventGenerator {
@@ -71,7 +66,7 @@ public class EventGenerator {
         return instance;
     }
 
-    private void initializeClientNumberModificationCyclicTemporaryEvents() throws IOException, ParseException {
+    public void initializeClientNumberModificationCyclicTemporaryEvents() throws IOException, ParseException {
         Calendar calendar = Calendar.getInstance();
         Stream.iterate(calendar.getGameStartDate().getYear(), year -> year <=calendar.getGameEndDate().getYear(), year -> year+1)
                 .forEach(year ->{

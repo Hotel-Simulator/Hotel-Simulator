@@ -119,7 +119,7 @@ public class Room {
 
     public void checkOut(){
         this.residents = null;
-        this.state = RoomState.EMPTY;
+        this.state = RoomState.DIRTY;
     }
 
     public ClientGroup getResidents() {return this.residents;}

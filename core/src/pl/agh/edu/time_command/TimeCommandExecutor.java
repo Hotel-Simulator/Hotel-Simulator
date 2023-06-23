@@ -4,10 +4,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class TimeCommandExecutor {
     private static TimeCommandExecutor instance;
-    private final HashMap<LocalDateTime, List<TimeCommand>> commands;
+    private final Map<LocalDateTime, List<TimeCommand>> commands;
 
     private TimeCommandExecutor(){
         this.commands = new HashMap<>();
@@ -18,11 +19,11 @@ public class TimeCommandExecutor {
         return instance;
     }
 
-    public boolean addCommand(LocalDateTime dateTime, TimeCommand timeCommand) {
+    public void addCommand(LocalDateTime dateTime, TimeCommand timeCommand) {
         if (!commands.containsKey(dateTime)) {
             commands.put(dateTime, new ArrayList<>());
         }
-        return commands.get(dateTime).add(timeCommand);
+        commands.get(dateTime).add(timeCommand);
     }
 
     public void executeCommands(LocalDateTime dateTime){
