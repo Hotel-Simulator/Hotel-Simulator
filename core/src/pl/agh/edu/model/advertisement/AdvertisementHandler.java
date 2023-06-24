@@ -93,13 +93,13 @@ public class AdvertisementHandler {
         }
     }
 
-    public EnumMap<HotelVisitPurpose,Double> getCumulatedModifier(LocalDate date){
+    public EnumMap<HotelVisitPurpose,Double> getCumulatedModifier(){
         return Stream.concat(
                 singleAdvertisements.entrySet()
                         .stream()
                         .map(entry -> entry.getValue()
                                 .stream()
-                                .map(singleAdvertisement -> singleAdvertisement.getModifier(date))
+                                .map(singleAdvertisement -> singleAdvertisement.getModifier(time.getTime().toLocalDate()))
                                 .reduce(
                                         new EnumMap<>(HotelVisitPurpose.class),
                                         (resultMap, enumMap) -> {
@@ -110,7 +110,7 @@ public class AdvertisementHandler {
                                             return resultMap;})),
                 constantAdvertisements.values()
                         .stream()
-                        .map(constantAdvertisement -> constantAdvertisement.getModifier(date))
+                        .map(constantAdvertisement -> constantAdvertisement.getModifier(time.getTime().toLocalDate()))
 
         )
                 .reduce(

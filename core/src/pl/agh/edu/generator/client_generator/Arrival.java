@@ -4,7 +4,7 @@ import pl.agh.edu.model.ClientGroup;
 
 import java.time.LocalTime;
 
-record Arrival(LocalTime time, ClientGroup clientGroup) implements Comparable<Arrival> {
+public record Arrival(LocalTime time, ClientGroup clientGroup) implements Comparable<Arrival> {
 
     @Override
     public int compareTo(Arrival o) {

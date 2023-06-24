@@ -11,7 +11,6 @@ import java.util.List;
 public class ClientGroup {
     private final List<Client> members;
     private final HotelVisitPurpose hotelVisitPurpose;
-    private LocalDateTime checkInTime;
     private final LocalDateTime checkOutTime;
     private Opinion opinion;
 
@@ -40,9 +39,6 @@ public class ClientGroup {
         return members.size();
     }
 
-    public LocalDateTime getCheckInTime() {
-        return checkInTime;
-    }
 
     public LocalDateTime getCheckOutTime() {
         return checkOutTime;
@@ -50,12 +46,6 @@ public class ClientGroup {
 
     public Room getRoom() {
         return room;
-    }
-
-    public void checkIn(Room room, LocalDateTime checkInTime){
-        this.room = room;
-        this.room.setState(RoomState.OCCUPIED);
-        this.checkInTime = checkInTime;
     }
 
     public RoomRank getDesiredRoomRank() {

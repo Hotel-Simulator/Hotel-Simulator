@@ -6,38 +6,41 @@ import pl.agh.edu.enums.RoomRank;
 import pl.agh.edu.enums.RoomState;
 import pl.agh.edu.generator.client_generator.JSONExtractor;
 import pl.agh.edu.logo.RandomLogoCreator;
+import pl.agh.edu.model.employee.Employee;
+import pl.agh.edu.model.employee.cleaner.Cleaner;
 import pl.agh.edu.room_builder.Builder;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Time;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.time.LocalTime;
+import java.util.*;
+import java.util.stream.Collectors;
 
 // TODO: popularity by customers reviews
 // TODO: checkout handler leave opinions
 // TODO: observery zamiast wątków
 public class Hotel {
+
     private String hotelName;
     private Long hotelId;
     private ArrayList<Opinion> opinions = new ArrayList<>();
     private ArrayList<Employee> employees;
-    private HashMap<RoomRank, ArrayList<Room>> roomsByRank;
-    private HashMap<Integer, ArrayList<Room>> roomsByCapacity;
+    private HashMap<RoomRank, ArrayList<Room>> roomsByRank = new HashMap<>();
+    private HashMap<Integer, ArrayList<Room>> roomsByCapacity = new HashMap<>();
     private ArrayList<Builder> builders = new ArrayList<>();
     private ArrayList<Room> rooms;
-    private Time checkInTime;
-    private Time checkOutTime;
+    private LocalTime checkInTime;
+    private LocalTime checkOutTime;
     private Integer attractiveness = null;
     private Double competitiveness;
     private RandomLogoCreator logo;
 
-    public Hotel(ArrayList<Room> rooms, Time checkInTime, Time checkOutTime) throws IOException, ParseException {
-        this.rooms = rooms;
+    public Hotel(LocalTime checkInTime, LocalTime checkOutTime) throws IOException, ParseException {
+        this.rooms = new ArrayList<>();
         this.checkInTime = checkInTime;
         this.checkOutTime = checkOutTime;
+
 
         HashMap<String, Long>  attractivenessConstants = JSONExtractor.getAttractivenessConstantsFromJSON();
         this.attractiveness = (int)(attractivenessConstants.get("local_market") + attractivenessConstants.get("local_attractions"));
@@ -62,6 +65,12 @@ public class Hotel {
     public ArrayList<Employee> getEmployees() {
         return employees;
     }
+    public <T extends Employee> List<T> getEmployeesByPosition(Class<T> employeeClass) {
+        return employees.stream()
+                .filter(employee -> employee.getClass().equals(employeeClass))
+                .map(employeeClass::cast)
+                .collect(Collectors.toList());
+    }
 
     public void setEmployees(ArrayList<Employee> employees) {
         this.employees = employees;
@@ -75,19 +84,20 @@ public class Hotel {
         this.roomsByRank = roomsByRank;
     }
 
-    public Time getCheckInTime() {
+    public LocalTime getCheckInTime() {
         return checkInTime;
     }
 
-    public void setCheckInTime(Time checkInTime) {
+
+    public void setCheckInTime(LocalTime checkInTime) {
         this.checkInTime = checkInTime;
     }
 
-    public Time getCheckOutTime() {
+    public LocalTime getCheckOutTime() {
         return checkOutTime;
     }
 
-    public void setCheckOutTime(Time checkOutTime) {
+    public void setCheckOutTime(LocalTime checkOutTime) {
         this.checkOutTime = checkOutTime;
     }
 
@@ -156,40 +166,40 @@ public class Hotel {
         competitiveness =  (avgOpinionValue + avgRoomStandard.doubleValue() + avgWorkerHappiness.doubleValue())/3;
     }
 
-    public void checkForMaintenance() throws IOException, ParseException {
-        for(Room room: rooms){
-            if(room.getState().equals(RoomState.DIRTY)){
-                maintainRoom(room, Role.cleaner);
-            }
-            else if (room.getState().equals(RoomState.FAULT)){
-                maintainRoom(room, Role.technician);
-            }
-        }
-    }
+//    public void checkForMaintenance() throws IOException, ParseException {
+//        for(Room room: rooms){
+//            if(room.getState().equals(RoomState.DIRTY)){
+//                maintainRoom(room, Role.cleaner);
+//            }
+//            else if (room.getState().equals(RoomState.FAULT)){
+//                maintainRoom(room, Role.technician);
+//            }
+//        }
+//    }
 
 
-    public void maintainRoom(Room room, Role role) throws IOException, ParseException {
-        for(Employee employee: employees){
-            if(employee.getRole().equals(role) && !employee.isOccupied()){
-                employee.doRoomMaintenance(room);
-
-                int intervalMinutes = 5;
-
-                Timer timer = new Timer();
-                TimerTask task = new TimerTask() {
-                    @Override
-                    public void run() {
-                        if(employee.finishMaintenance())
-                            timer.cancel();
-                    }
-                };
-
-                // Schedule the task to run repeatedly at the specified interval
-                timer.schedule(task, 0, intervalMinutes * 60 * 1000);
-                return;
-            }
-        }
-    }
+//    public void maintainRoom(Room room, Role role) throws IOException, ParseException {
+//        for(Employee employee: employees){
+//            if(employee.getRole().equals(role) && !employee.isOccupied()){
+//                employee.doRoomMaintenance(room);
+//
+//                int intervalMinutes = 5;
+//
+//                Timer timer = new Timer();
+//                TimerTask task = new TimerTask() {
+//                    @Override
+//                    public void run() {
+//                        if(employee.finishMaintenance())
+//                            timer.cancel();
+//                    }
+//                };
+//
+//                // Schedule the task to run repeatedly at the specified interval
+//                timer.schedule(task, 0, intervalMinutes * 60 * 1000);
+//                return;
+//            }
+//        }
+//    }
 
     public void upgradeRoom(Room room, int numUpgrades) throws IOException, ParseException {
         RoomRank prev = room.getRank();

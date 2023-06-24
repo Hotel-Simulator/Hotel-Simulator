@@ -20,6 +20,8 @@ public class Time {
     private static final int maxAcceleration = 8;
     private static boolean isRunning = true;
 
+    private static final int timeUnitInMinutes = 10;
+
     private Time() {
         Time.interval = 5;
         remaining = Time.interval;
@@ -55,7 +57,7 @@ public class Time {
             remaining -= delta * acceleration;
 
             if (remaining < 0.0F) {
-                minutes+=10;
+                minutes+=timeUnitInMinutes;
                 remaining = interval;
 
                 if (minutes >= 60) {
@@ -128,5 +130,9 @@ public class Time {
         long max = unit.getDuration().toMinutes() * range;
         long randomOffset = ThreadLocalRandom.current().nextLong(max)/10*10;
         return getTime().plus(randomOffset, ChronoUnit.MINUTES);
+    }
+
+    public int getTimeUnitInMinutes(){
+        return timeUnitInMinutes;
     }
 }
