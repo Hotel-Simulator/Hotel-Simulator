@@ -38,6 +38,8 @@
 
   "max_room_size" : 5,
 
+  "employees_to_hire_list_size": 12,
+
   "attractiveness_constants": {
     "local_market" : 50,
     "local_attractions" : 30

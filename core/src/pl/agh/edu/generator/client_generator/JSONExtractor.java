@@ -304,14 +304,18 @@ public class JSONExtractor {
         return BigDecimal.valueOf((Long)(((JSONObject) parser.parse(new FileReader(filePath))).get("min_wage")));
     }
 
+
     public static Map<Shift,Integer> getShiftProbabilitiesFromJSON() throws IOException, ParseException {
-        JSONObject jsonObject = (JSONObject)((JSONObject) parser.parse(new FileReader(filePath))).get("shift_probabilities");
+        JSONObject jsonObject = (JSONObject) ((JSONObject) parser.parse(new FileReader(filePath))).get("shift_probabilities");
         return Stream.of(Shift.values()).collect(Collectors.toMap(
                 e -> e,
-                e ->((Long)jsonObject.get(e.toString())).intValue(),
-                (a,b) -> b,
+                e -> ((Long) jsonObject.get(e.toString())).intValue(),
+                (a, b) -> b,
                 HashMap::new
         ));
+    }
+    public static int getEmployeesToHireListSizeFromJSON() throws IOException, ParseException {
+        return ((Long)((JSONObject) parser.parse(new FileReader(filePath))).get("employees_to_hire_list_size")).intValue();
     }
 
     public static HashMap<String, Integer> getHotelStartingValues() throws IOException, ParseException {
