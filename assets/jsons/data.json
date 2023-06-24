@@ -13,6 +13,14 @@
     "4" : 8
   },
 
+  "min_wage": 4000,
+
+  "shift_probabilities": {
+    "MORNING": 80,
+    "EVENING": 15,
+    "NIGHT": 5
+  },
+
   "max_room_size" : 5,
 
   "attractiveness_constants": {

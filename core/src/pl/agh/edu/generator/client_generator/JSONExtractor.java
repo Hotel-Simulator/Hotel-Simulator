@@ -15,8 +15,8 @@ import pl.agh.edu.model.advertisement.ConstantAdvertisementType;
 import pl.agh.edu.model.advertisement.SingleAdvertisementType;
 import pl.agh.edu.model.advertisement.json_data.SingleAdvertisementData;
 import pl.agh.edu.model.bank.json_data.BankData;
+import pl.agh.edu.model.employee.Shift;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -299,7 +299,19 @@ public class JSONExtractor {
                         }
                 ).collect(Collectors.toList());
     }
+    public static BigDecimal getMinWageFromJSON() throws IOException, ParseException {
+        return BigDecimal.valueOf((Long)(((JSONObject) parser.parse(new FileReader(filePath))).get("min_wage")));
+    }
 
+    public static Map<Shift,Integer> getShiftProbabilitiesFromJSON() throws IOException, ParseException {
+        JSONObject jsonObject = (JSONObject)((JSONObject) parser.parse(new FileReader(filePath))).get("shift_probabilities");
+        return Stream.of(Shift.values()).collect(Collectors.toMap(
+                e -> e,
+                e ->((Long)jsonObject.get(e.toString())).intValue(),
+                (a,b) -> b,
+                HashMap::new
+        ));
+    }
 
 
     public static void main(String[] args) throws IOException, ParseException {
@@ -315,6 +327,7 @@ public class JSONExtractor {
         System.out.println(getDate("game_start_date"));
         System.out.println(getClientModificationCyclicTemporaryEventData());
         System.out.println(getClientNumberModificationRandomTemporaryEventData());
+        System.out.println(getShiftProbabilitiesFromJSON());
     }
 
 
