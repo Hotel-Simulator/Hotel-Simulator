@@ -1,32 +1,72 @@
-//package pl.agh.edu.generator.employee_generator;
-//
-//import com.github.javafaker.Faker;
-//import pl.agh.edu.enums.Role;
-//import pl.agh.edu.model.employee.Employee;
-//
-//import java.util.ArrayList;
-//import java.util.List;
-//import java.util.Random;
-//
-//public class EmployeeGenerator {
-//    static public List<Employee> getEmployees(int n){
-//        Faker faker = new Faker();
-//        List<Employee> employeeList = new ArrayList<>();
-//        Random rand = new Random();
-//        rand.setSeed(0);
-//
-//        for(int i=0;i<n;i++){
-//            String firstName = faker.name().firstName();
-//            String lastName = faker.name().lastName();
-//            double skills = rand.nextDouble();
-//            skills = Math.round(skills*100)/100.0;
-//            int age = rand.nextInt(18,60);
-//            int desired = rand.nextInt();
-//            expectedWage = expectedWage*100;
-//            Employee employee = new Employee(firstName,lastName,age,skills, expectedWage);
-//            employeeList.add(employee);
-//        }
-//        return employeeList;
-//    }
-//
-//}
+
+
+package pl.agh.edu.generator.employee_generator;
+
+import com.github.javafaker.Faker;
+import org.json.simple.parser.ParseException;
+import pl.agh.edu.generator.client_generator.JSONExtractor;
+import pl.agh.edu.generator.client_generator.ProbabilityListGenerator;
+import pl.agh.edu.model.employee.Employee;
+import pl.agh.edu.model.employee.Shift;
+import pl.agh.edu.model.employee.cleaner.Cleaner;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Random;
+import java.util.stream.Stream;
+
+public class EmployeeGenerator {
+    private static final Faker faker = new Faker();
+    private static final Random random = new Random();
+
+    private static final List<Shift> shiftList;
+    private static final BigDecimal minWage;
+
+
+    static {
+        try {
+            shiftList = ProbabilityListGenerator.getProbabilityList(JSONExtractor.getShiftProbabilitiesFromJSON());
+            minWage = JSONExtractor.getMinWageFromJSON();
+
+        } catch (IOException | ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static Employee generateCleaner(){
+        String firstName = faker.name().firstName();
+        String lastName = faker.name().lastName();
+        int age = random.nextInt(18,60); // TODO: 24.06.2023   ustalic co robimy z emeryturami
+        double skills = random.nextInt(100) / 100.;
+        BigDecimal acceptableWage = generateAcceptableWage(skills);
+        BigDecimal desiredWage = generateDesiredWage(skills);
+        Shift desiredShift = generateDesiredShift();
+        return new Cleaner(firstName,lastName,age,skills,desiredWage,acceptableWage,desiredShift);
+    }
+
+    private static BigDecimal generateDesiredWage(double skills) {
+        return BigDecimal.valueOf((int)(minWage.doubleValue() * (1 + 0.5 * (skills + random.nextDouble(0.3,0.4)))) / 100 * 100) ;
+
+    }
+
+    private static BigDecimal generateAcceptableWage(double skills) {
+        return BigDecimal.valueOf((int)(minWage.doubleValue() * (1 + 0.5 * (skills + random.nextDouble(0.2)))) / 100 * 100) ;
+    }
+
+    private static Shift generateDesiredShift(){
+        return shiftList.get(random.nextInt(shiftList.size()));
+    }
+
+
+    public static void main(String[] args) {
+        Stream.iterate(0, i -> i<10, i -> i+1).forEach(
+                i -> {
+                    System.out.println(generateCleaner());
+                }
+
+        );
+    }
+
+
+}

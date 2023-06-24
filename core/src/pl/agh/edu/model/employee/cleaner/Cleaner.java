@@ -29,5 +29,16 @@ public class Cleaner extends Employee {
         return Duration.ofSeconds((long)(baseCleaningTime.getSeconds() * (1 - 0.5*( Math.min(skills, getSatisfaction())))));
     }
 
-
+    @Override
+    public String toString() {
+        return "Cleaner{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", age=" + age +
+                ", desiredWage=" + desiredWage +
+                ", minimalAcceptedWage=" + minimalAcceptedWage +
+                ", skills=" + skills +
+                ", desiredShift=" + desiredShift +
+                '}';
+    }
 }
