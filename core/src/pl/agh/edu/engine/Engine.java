@@ -34,7 +34,7 @@ public class Engine {
         this.advertisementHandler = AdvertisementHandler.getInstance();
         this.eventGenerator = EventGenerator.getInstance();
         this.cleaningScheduler = new CleaningScheduler(hotel);
-        this.employeesToHireHandler = EmployeesToHireHandler.getInstance();
+        this.employeesToHireHandler = new EmployeesToHireHandler(hotel);
 
     }
 
@@ -62,6 +62,10 @@ public class Engine {
         generateClientArrivals();
         cleaningScheduler.update();
         employeesToHireHandler.update();
+    }
+
+    public void everyMonthUpdate(){
+        hotel.update();
     }
 
     public void everyYearUpdate() throws IOException, ParseException {

@@ -134,11 +134,17 @@ public class Hotel {
     public ArrayList<Employee> getEmployees() {
         return employees;
     }
+
+    public void addEmployee(Employee employee){this.employees.add(employee);}
     public <T extends Employee> List<T> getEmployeesByPosition(Class<T> employeeClass) {
         return employees.stream()
                 .filter(employee -> employee.getClass().equals(employeeClass))
                 .map(employeeClass::cast)
                 .collect(Collectors.toList());
+    }
+
+    public void update(){
+        employees.forEach(Employee::update);
     }
 
     public void setEmployees(ArrayList<Employee> employees) {

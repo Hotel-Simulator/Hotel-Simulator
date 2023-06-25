@@ -1,35 +1,35 @@
 package pl.agh.edu.model.employee;
 
 import org.json.simple.parser.ParseException;
+import pl.agh.edu.enums.TypeOfContract;
 import pl.agh.edu.generator.client_generator.JSONExtractor;
 import pl.agh.edu.generator.employee_generator.EmployeeGenerator;
+import pl.agh.edu.model.Hotel;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.IntStream;
 
 public class EmployeesToHireHandler {
-    private static EmployeesToHireHandler instance;
-
+    private final Hotel hotel;
 
     private final List<Employee> employeesToHire;
     private final int employeesToHireListSize;
 
     private final Random random;
 
-    private EmployeesToHireHandler() throws IOException, ParseException {
+    public EmployeesToHireHandler(Hotel hotel) throws IOException, ParseException {
         employeesToHireListSize = JSONExtractor.getEmployeesToHireListSizeFromJSON();
         this.employeesToHire = new ArrayList<>();
         random = new Random();
+        this.hotel = hotel;
         initialize();
     }
 
-    public static EmployeesToHireHandler getInstance() throws IOException, ParseException {
-        if(instance == null) instance = new EmployeesToHireHandler();
-        return instance;
-    }
+
 
     public void initialize(){
         IntStream.range(0,employeesToHireListSize).forEach(i ->
@@ -50,11 +50,12 @@ public class EmployeesToHireHandler {
         employeesToHire.remove(employee);
     }
 
-    public static void main(String[] args) throws IOException, ParseException {
-        EmployeesToHireHandler employeesToHireHandler = EmployeesToHireHandler.getInstance();
-        System.out.println(instance.getEmployeesToHire());
-        IntStream.range(0,10).forEach( i-> employeesToHireHandler.update());
-
-
+    public void offerJob(Employee employee, Shift shift, BigDecimal wage, TypeOfContract typeOfContract){
+        if(employee.offerJob(shift,wage,typeOfContract) == JobOfferResponse.POSITIVE){
+            hotel.addEmployee(employee);
+            employeesToHire.remove(employee);
+        }
     }
+
+
 }

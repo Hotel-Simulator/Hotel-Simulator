@@ -4,6 +4,7 @@ import pl.agh.edu.enums.TypeOfContract;
 import pl.agh.edu.model.Time;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalTime;
 
 public abstract class Employee {
@@ -19,6 +20,8 @@ public abstract class Employee {
     protected Shift shift;
     protected final Shift desiredShift;
 
+    protected BigDecimal bonusForThisMonth;
+
 
     public Employee(String firstName, String lastName, int age, double skills, BigDecimal desiredWage, BigDecimal minimalAcceptedWage, Shift desiredShift) {
         this.firstName = firstName;
@@ -28,6 +31,7 @@ public abstract class Employee {
         this.desiredWage = desiredWage;
         this.minimalAcceptedWage = minimalAcceptedWage;
         this.desiredShift = desiredShift;
+        this.bonusForThisMonth = BigDecimal.ZERO;
     }
 
     public String getFirstName() {
@@ -45,7 +49,7 @@ public abstract class Employee {
     }
 
     public double getSatisfaction() {
-        return Math.min(1.,wage.doubleValue()/ desiredWage.doubleValue());
+        return Math.min(1.,wage.add(bonusForThisMonth).divide(desiredWage,2, RoundingMode.CEILING).doubleValue()) ;
     }
 
     public void setOccupied(boolean occupied) {
@@ -85,6 +89,13 @@ public abstract class Employee {
         return time.isBefore(shift.getEndTime()) && ! time.isBefore(shift.getStartTime());
     }
 
+    public void giveBonus(BigDecimal bonus){
+         bonusForThisMonth = bonusForThisMonth.add(bonus);
+    }
+
+    public void update(){
+        bonusForThisMonth = BigDecimal.ZERO;
+    }
     public Shift getShift() {
         return shift;
     }
@@ -119,4 +130,8 @@ public abstract class Employee {
 //        return false;
 //
 //    }
+
+    public static void main(String[] args) {
+        System.out.println(Math.min(1.,BigDecimal.valueOf(2000).add(BigDecimal.valueOf(500)).divide(BigDecimal.valueOf(4200),3, RoundingMode.CEILING).doubleValue()));
+    }
 }
