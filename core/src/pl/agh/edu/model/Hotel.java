@@ -17,6 +17,8 @@ import java.sql.Time;
 import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 // TODO: popularity by customers reviews
 // TODO: checkout handler leave opinions
@@ -64,55 +66,69 @@ public class Hotel {
     }
 
     public Hotel() throws IOException, ParseException {
+        this.initializeStartingHotelData();
+    }
 
+    public void initializeStartingHotelData() throws IOException, ParseException {
         HashMap<String, Long>  attractivenessConstants = JSONExtractor.getAttractivenessConstantsFromJSON();
         this.attractiveness = (int)(attractivenessConstants.get("local_market") + attractivenessConstants.get("local_attractions"));
 
-        HashMap<String, Integer>  hotelStarting = JSONExtractor.getHotelStartingValues();
-        HashMap<String, LocalTime>  hotelTimes = JSONExtractor.getHotelTimes();
+        HashMap<String, Integer>  hotelStartingValues = JSONExtractor.getHotelStartingValues();
+        HashMap<String, LocalTime>  hotelCheckInOutTimes = JSONExtractor.getHotelTimes();
 
-        for(int i=0; i < hotelStarting.get("cleaner"); i++){
-            employees.add(EmployeeGenerator.generateCleaner());
-        }
+        Stream.of(RoomRank.values()).forEach(e -> this.roomsByRank.put(e, new ArrayList<>()));
+        IntStream.range(0, JSONExtractor.getMaxRoomSize()).forEach(e -> this.roomsByCapacity.put(e, new ArrayList<>()));
 
-        for(int i=0; i < hotelStarting.get("repairman"); i++){
-            employees.add(EmployeeGenerator.tmpGenerateRepairman());
-        }
 
-        for(int i=0; i < hotelStarting.get("builder"); i++){
-            builders.add(new Builder());
-        }
+        IntStream.range(0, hotelStartingValues.get("cleaner")).forEach(e -> employees.add(EmployeeGenerator.generateCleaner()));
 
-        for(int i=0; i < hotelStarting.get("room_size_1"); i++){
-            Room newRoom = new Room(RoomRank.ONE, 1);
-            this.rooms.add(newRoom);
-            this.roomsByRank.get(RoomRank.ONE).add(newRoom);
-            this.roomsByCapacity.get(1).add(newRoom);
-        }
+        IntStream.range(0, hotelStartingValues.get("repairman")).forEach(e -> employees.add(EmployeeGenerator.tmpGenerateRepairman()));
 
-        for(int i=0; i < hotelStarting.get("room_size_2"); i++){
-            Room newRoom = new Room(RoomRank.TWO, 2);
-            this.rooms.add(newRoom);
-            this.roomsByRank.get(RoomRank.TWO).add(newRoom);
-            this.roomsByCapacity.get(2).add(newRoom);
-        }
+        IntStream.range(0, hotelStartingValues.get("builder")).forEach(e -> {
+            try {
+                builders.add(new Builder());
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (ParseException ex) {
+                ex.printStackTrace();
+            }
+        });
 
-        for(int i=0; i < hotelStarting.get("room_size_3"); i++){
-            Room newRoom = new Room(RoomRank.THREE, 3);
-            this.rooms.add(newRoom);
-            this.roomsByRank.get(RoomRank.THREE).add(newRoom);
-            this.roomsByCapacity.get(3).add(newRoom);
-        }
+        IntStream.range(0, hotelStartingValues.get("room_size_1")).forEach(
+                e -> {
+                    Room newRoom = new Room(RoomRank.ONE, 1);
+                    this.rooms.add(newRoom);
+                    this.roomsByRank.get(RoomRank.ONE).add(newRoom);
+                    this.roomsByCapacity.get(1).add(newRoom);
+                });
 
-        for(int i=0; i < hotelStarting.get("room_size_4"); i++){
-            Room newRoom = new Room(RoomRank.FOUR, 4);
-            this.rooms.add(newRoom);
-            this.roomsByRank.get(RoomRank.FOUR).add(newRoom);
-            this.roomsByCapacity.get(4).add(newRoom);
-        }
+        IntStream.range(0, hotelStartingValues.get("room_size_2")).forEach(
+                e -> {
+                    Room newRoom = new Room(RoomRank.ONE, 2);
+                    this.rooms.add(newRoom);
+                    this.roomsByRank.get(RoomRank.ONE).add(newRoom);
+                    this.roomsByCapacity.get(2).add(newRoom);
+                });
 
-        this.checkInTime = hotelTimes.get("check_in");
-        this.checkOutTime = hotelTimes.get("check_out");
+        IntStream.range(0, hotelStartingValues.get("room_size_3")).forEach(
+                e -> {
+                    Room newRoom = new Room(RoomRank.ONE, 3);
+                    this.rooms.add(newRoom);
+                    this.roomsByRank.get(RoomRank.ONE).add(newRoom);
+                    this.roomsByCapacity.get(3).add(newRoom);
+                });
+
+        IntStream.range(0, hotelStartingValues.get("room_size_4")).forEach(
+                e -> {
+                    Room newRoom = new Room(RoomRank.ONE, 4);
+                    this.rooms.add(newRoom);
+                    this.roomsByRank.get(RoomRank.ONE).add(newRoom);
+                    this.roomsByCapacity.get(4).add(newRoom);
+                });
+
+        this.checkInTime = hotelCheckInOutTimes.get("check_in");
+        this.checkOutTime = hotelCheckInOutTimes.get("check_out");
+
     }
 
     public ArrayList<Employee> getEmployees() {

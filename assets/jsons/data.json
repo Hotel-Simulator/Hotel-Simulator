@@ -15,7 +15,7 @@
 
   "hotel_starting_data" : {
     "cleaner" : 2,
-    "reapirman" : 1,
+    "repairman" : 1,
     "builders" : 1,
     "room_size_1" : 4,
     "room_size_2" : 3,

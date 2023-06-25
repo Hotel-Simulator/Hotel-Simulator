@@ -24,7 +24,7 @@ public class Repairman extends Employee {
         super(firstName, lastName, age, skills, desiredWage, minimalAcceptedWage, desiredShift);
     }
 
-    public Duration getCleaningTime(){
+    public Duration getRepairingTime(){
         return Duration.ofSeconds((long)(baseRepairingTime.getSeconds() * (1 - 0.5*( Math.min(skills, getSatisfaction())))));
     }
 
