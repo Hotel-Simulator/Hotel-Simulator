@@ -5,6 +5,7 @@ import pl.agh.edu.enums.Role;
 import pl.agh.edu.enums.RoomRank;
 import pl.agh.edu.enums.RoomState;
 import pl.agh.edu.generator.client_generator.JSONExtractor;
+import pl.agh.edu.generator.employee_generator.EmployeeGenerator;
 import pl.agh.edu.logo.RandomLogoCreator;
 import pl.agh.edu.model.employee.Employee;
 import pl.agh.edu.model.employee.cleaner.Cleaner;
@@ -25,11 +26,11 @@ public class Hotel {
     private String hotelName;
     private Long hotelId;
     private ArrayList<Opinion> opinions = new ArrayList<>();
-    private ArrayList<Employee> employees;
+    private ArrayList<Employee> employees = new ArrayList<>();
     private HashMap<RoomRank, ArrayList<Room>> roomsByRank = new HashMap<>();
     private HashMap<Integer, ArrayList<Room>> roomsByCapacity = new HashMap<>();
     private ArrayList<Builder> builders = new ArrayList<>();
-    private ArrayList<Room> rooms;
+    private ArrayList<Room> rooms = new ArrayList<>();
     private LocalTime checkInTime;
     private LocalTime checkOutTime;
     private Integer attractiveness = null;
@@ -60,6 +61,58 @@ public class Hotel {
         }
 
         builders.add(new Builder());
+    }
+
+    public Hotel() throws IOException, ParseException {
+
+        HashMap<String, Long>  attractivenessConstants = JSONExtractor.getAttractivenessConstantsFromJSON();
+        this.attractiveness = (int)(attractivenessConstants.get("local_market") + attractivenessConstants.get("local_attractions"));
+
+        HashMap<String, Integer>  hotelStarting = JSONExtractor.getHotelStartingValues();
+        HashMap<String, LocalTime>  hotelTimes = JSONExtractor.getHotelTimes();
+
+        for(int i=0; i < hotelStarting.get("cleaner"); i++){
+            employees.add(EmployeeGenerator.generateCleaner());
+        }
+
+        for(int i=0; i < hotelStarting.get("repairman"); i++){
+            employees.add(EmployeeGenerator.tmpGenerateRepairman());
+        }
+
+        for(int i=0; i < hotelStarting.get("builder"); i++){
+            builders.add(new Builder());
+        }
+
+        for(int i=0; i < hotelStarting.get("room_size_1"); i++){
+            Room newRoom = new Room(RoomRank.ONE, 1);
+            this.rooms.add(newRoom);
+            this.roomsByRank.get(RoomRank.ONE).add(newRoom);
+            this.roomsByCapacity.get(1).add(newRoom);
+        }
+
+        for(int i=0; i < hotelStarting.get("room_size_2"); i++){
+            Room newRoom = new Room(RoomRank.TWO, 2);
+            this.rooms.add(newRoom);
+            this.roomsByRank.get(RoomRank.TWO).add(newRoom);
+            this.roomsByCapacity.get(2).add(newRoom);
+        }
+
+        for(int i=0; i < hotelStarting.get("room_size_3"); i++){
+            Room newRoom = new Room(RoomRank.THREE, 3);
+            this.rooms.add(newRoom);
+            this.roomsByRank.get(RoomRank.THREE).add(newRoom);
+            this.roomsByCapacity.get(3).add(newRoom);
+        }
+
+        for(int i=0; i < hotelStarting.get("room_size_4"); i++){
+            Room newRoom = new Room(RoomRank.FOUR, 4);
+            this.rooms.add(newRoom);
+            this.roomsByRank.get(RoomRank.FOUR).add(newRoom);
+            this.roomsByCapacity.get(4).add(newRoom);
+        }
+
+        this.checkInTime = hotelTimes.get("check_in");
+        this.checkOutTime = hotelTimes.get("check_out");
     }
 
     public ArrayList<Employee> getEmployees() {
