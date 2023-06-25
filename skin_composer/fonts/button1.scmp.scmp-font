@@ -1,0 +1,20 @@
+{
+"characters": "",
+"size": 16,
+"hinting": "AutoMedium",
+"color": "Gray_900",
+"colorValue": 555819519,
+"gamma": 1.8,
+"renderCount": 2,
+"borderWidth": 1,
+"borderColor": "Gray_700",
+"borderColorValue": 1633772031,
+"borderGamma": 1.8,
+"shadowOffsetX": 5,
+"shadowOffsetY": 1,
+"shadowColor": "Shadow",
+"shadowColorValue": 77,
+"kerning": true,
+"minFilter": "Nearest",
+"magFilter": "Nearest"
+}
