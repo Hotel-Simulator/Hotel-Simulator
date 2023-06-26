@@ -5,6 +5,7 @@ import pl.agh.edu.enums.Role;
 import pl.agh.edu.enums.RoomRank;
 import pl.agh.edu.enums.RoomState;
 import pl.agh.edu.generator.client_generator.JSONExtractor;
+import pl.agh.edu.generator.employee_generator.EmployeeGenerator;
 import pl.agh.edu.logo.RandomLogoCreator;
 import pl.agh.edu.model.employee.Employee;
 import pl.agh.edu.model.employee.cleaner.Cleaner;
@@ -16,6 +17,8 @@ import java.sql.Time;
 import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 // TODO: popularity by customers reviews
 // TODO: checkout handler leave opinions
@@ -25,11 +28,11 @@ public class Hotel {
     private String hotelName;
     private Long hotelId;
     private ArrayList<Opinion> opinions = new ArrayList<>();
-    private ArrayList<Employee> employees;
+    private ArrayList<Employee> employees = new ArrayList<>();
     private HashMap<RoomRank, ArrayList<Room>> roomsByRank = new HashMap<>();
     private HashMap<Integer, ArrayList<Room>> roomsByCapacity = new HashMap<>();
     private ArrayList<Builder> builders = new ArrayList<>();
-    private ArrayList<Room> rooms;
+    private ArrayList<Room> rooms = new ArrayList<>();
     private LocalTime checkInTime;
     private LocalTime checkOutTime;
     private Integer attractiveness = null;
@@ -60,6 +63,72 @@ public class Hotel {
         }
 
         builders.add(new Builder());
+    }
+
+    public Hotel() throws IOException, ParseException {
+        this.initializeStartingHotelData();
+    }
+
+    public void initializeStartingHotelData() throws IOException, ParseException {
+        HashMap<String, Long>  attractivenessConstants = JSONExtractor.getAttractivenessConstantsFromJSON();
+        this.attractiveness = (int)(attractivenessConstants.get("local_market") + attractivenessConstants.get("local_attractions"));
+
+        HashMap<String, Integer>  hotelStartingValues = JSONExtractor.getHotelStartingValues();
+        HashMap<String, LocalTime>  hotelCheckInOutTimes = JSONExtractor.getHotelTimes();
+
+        Stream.of(RoomRank.values()).forEach(e -> this.roomsByRank.put(e, new ArrayList<>()));
+        IntStream.range(0, JSONExtractor.getMaxRoomSize()).forEach(e -> this.roomsByCapacity.put(e, new ArrayList<>()));
+
+
+        IntStream.range(0, hotelStartingValues.get("cleaner")).forEach(e -> employees.add(EmployeeGenerator.generateCleaner()));
+
+        IntStream.range(0, hotelStartingValues.get("repairman")).forEach(e -> employees.add(EmployeeGenerator.tmpGenerateRepairman()));
+
+        IntStream.range(0, hotelStartingValues.get("builder")).forEach(e -> {
+            try {
+                builders.add(new Builder());
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (ParseException ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        IntStream.range(0, hotelStartingValues.get("room_size_1")).forEach(
+                e -> {
+                    Room newRoom = new Room(RoomRank.ONE, 1);
+                    this.rooms.add(newRoom);
+                    this.roomsByRank.get(RoomRank.ONE).add(newRoom);
+                    this.roomsByCapacity.get(1).add(newRoom);
+                });
+
+        IntStream.range(0, hotelStartingValues.get("room_size_2")).forEach(
+                e -> {
+                    Room newRoom = new Room(RoomRank.ONE, 2);
+                    this.rooms.add(newRoom);
+                    this.roomsByRank.get(RoomRank.ONE).add(newRoom);
+                    this.roomsByCapacity.get(2).add(newRoom);
+                });
+
+        IntStream.range(0, hotelStartingValues.get("room_size_3")).forEach(
+                e -> {
+                    Room newRoom = new Room(RoomRank.ONE, 3);
+                    this.rooms.add(newRoom);
+                    this.roomsByRank.get(RoomRank.ONE).add(newRoom);
+                    this.roomsByCapacity.get(3).add(newRoom);
+                });
+
+        IntStream.range(0, hotelStartingValues.get("room_size_4")).forEach(
+                e -> {
+                    Room newRoom = new Room(RoomRank.ONE, 4);
+                    this.rooms.add(newRoom);
+                    this.roomsByRank.get(RoomRank.ONE).add(newRoom);
+                    this.roomsByCapacity.get(4).add(newRoom);
+                });
+
+        this.checkInTime = hotelCheckInOutTimes.get("check_in");
+        this.checkOutTime = hotelCheckInOutTimes.get("check_out");
+
     }
 
     public ArrayList<Employee> getEmployees() {

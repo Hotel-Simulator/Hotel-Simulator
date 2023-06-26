@@ -13,6 +13,21 @@
     "4" : 8
   },
 
+  "hotel_starting_data" : {
+    "cleaner" : 2,
+    "repairman" : 1,
+    "builder" : 1,
+    "room_size_1" : 4,
+    "room_size_2" : 3,
+    "room_size_3" : 2,
+    "room_size_4" : 1
+  },
+
+  "hotel_check_in_out_times" : {
+    "check_in" : "14:00:00",
+    "check_out" : "11:00:00"
+  },
+
   "min_wage": 4000,
 
   "shift_probabilities": {

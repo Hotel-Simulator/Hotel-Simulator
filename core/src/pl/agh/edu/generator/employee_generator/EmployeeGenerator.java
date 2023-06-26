@@ -9,6 +9,7 @@ import pl.agh.edu.generator.client_generator.ProbabilityListGenerator;
 import pl.agh.edu.model.employee.Employee;
 import pl.agh.edu.model.employee.Shift;
 import pl.agh.edu.model.employee.cleaner.Cleaner;
+import pl.agh.edu.model.employee.repairman.Repairman;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -43,6 +44,17 @@ public class EmployeeGenerator {
         BigDecimal desiredWage = generateDesiredWage(skills);
         Shift desiredShift = generateDesiredShift();
         return new Cleaner(firstName,lastName,age,skills,desiredWage,acceptableWage,desiredShift);
+    }
+
+    public static Employee tmpGenerateRepairman(){
+        String firstName = faker.name().firstName();
+        String lastName = faker.name().lastName();
+        int age = random.nextInt(18,60); // TODO: 24.06.2023   ustalic co robimy z emeryturami
+        double skills = random.nextInt(100) / 100.;
+        BigDecimal acceptableWage = generateAcceptableWage(skills);
+        BigDecimal desiredWage = generateDesiredWage(skills);
+        Shift desiredShift = generateDesiredShift();
+        return new Repairman(firstName,lastName,age,skills,desiredWage,acceptableWage,desiredShift);
     }
 
     private static BigDecimal generateDesiredWage(double skills) {

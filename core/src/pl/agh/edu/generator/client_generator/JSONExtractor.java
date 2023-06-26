@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
@@ -308,6 +309,26 @@ public class JSONExtractor {
         return Stream.of(Shift.values()).collect(Collectors.toMap(
                 e -> e,
                 e ->((Long)jsonObject.get(e.toString())).intValue(),
+                (a,b) -> b,
+                HashMap::new
+        ));
+    }
+
+    public static HashMap<String, Integer> getHotelStartingValues() throws IOException, ParseException {
+        JSONObject jsonObject = (JSONObject)((JSONObject) parser.parse(new FileReader(filePath))).get("hotel_starting_data");
+        return Stream.of(jsonObject.keySet().toArray()).collect(Collectors.toMap(
+                Object::toString,
+                e ->((Long)jsonObject.get(e.toString())).intValue(),
+                (a,b) -> b,
+                HashMap::new
+        ));
+    }
+
+    public static HashMap<String, LocalTime> getHotelTimes() throws IOException, ParseException {
+        JSONObject jsonObject = (JSONObject)((JSONObject) parser.parse(new FileReader(filePath))).get("hotel_check_in_out_times");
+        return Stream.of(jsonObject.keySet().toArray()).collect(Collectors.toMap(
+                Object::toString,
+                e -> LocalTime.parse(jsonObject.get(e.toString()).toString()),
                 (a,b) -> b,
                 HashMap::new
         ));
