@@ -1,7 +1,6 @@
 package pl.agh.edu.model.bank;
 
 import pl.agh.edu.model.Time;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
@@ -10,12 +9,8 @@ import java.time.Period;
 //TODO charge monthlyPayment each month (Time observer?)
 public class Credit {
     private final BigDecimal creditValue; // value of credit that player gets
-
-
-
     private final BigDecimal creditValueToPay; // value of credit that player pays
     private final int period; // months to pay
-
     private BigDecimal paidValue; // amount that already has been paid
     private final LocalDateTime beginDate;
     private final LocalDateTime endDate;
