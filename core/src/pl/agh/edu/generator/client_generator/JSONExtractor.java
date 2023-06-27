@@ -21,6 +21,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -329,13 +330,16 @@ public class JSONExtractor {
     }
 
     public static HashMap<String, LocalTime> getHotelTimes() throws IOException, ParseException {
-        JSONObject jsonObject = (JSONObject)((JSONObject) parser.parse(new FileReader(filePath))).get("hotel_check_in_out_times");
+        JSONObject jsonObject = (JSONObject) ((JSONObject) parser.parse(new FileReader(filePath))).get("hotel_check_in_out_times");
         return Stream.of(jsonObject.keySet().toArray()).collect(Collectors.toMap(
                 Object::toString,
                 e -> LocalTime.parse(jsonObject.get(e.toString()).toString()),
-                (a,b) -> b,
+                (a, b) -> b,
                 HashMap::new
         ));
+    }
+    public static int getNoticePeriodInMonthsFromJSON() throws IOException, ParseException {
+        return ((Long)((JSONObject) parser.parse(new FileReader(filePath))).get("notice_period_in_months")).intValue();
     }
 
 
@@ -353,6 +357,7 @@ public class JSONExtractor {
         System.out.println(getClientModificationCyclicTemporaryEventData());
         System.out.println(getClientNumberModificationRandomTemporaryEventData());
         System.out.println(getShiftProbabilitiesFromJSON());
+        System.out.println(getNoticePeriodInMonthsFromJSON());
     }
 
 

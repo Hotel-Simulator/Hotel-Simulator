@@ -52,7 +52,7 @@ public class EmployeesToHireHandler {
 
     public void offerJob(Employee employee, Shift shift, BigDecimal wage, TypeOfContract typeOfContract){
         if(employee.offerJob(shift,wage,typeOfContract) == JobOfferResponse.POSITIVE){
-            hotel.addEmployee(employee);
+            hotel.hireEmployee(employee);
             employeesToHire.remove(employee);
         }
     }

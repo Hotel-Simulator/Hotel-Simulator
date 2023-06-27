@@ -1,19 +1,20 @@
 package pl.agh.edu.model;
 
 import org.json.simple.parser.ParseException;
-import pl.agh.edu.enums.Role;
 import pl.agh.edu.enums.RoomRank;
 import pl.agh.edu.enums.RoomState;
 import pl.agh.edu.generator.client_generator.JSONExtractor;
 import pl.agh.edu.generator.employee_generator.EmployeeGenerator;
 import pl.agh.edu.logo.RandomLogoCreator;
 import pl.agh.edu.model.employee.Employee;
-import pl.agh.edu.model.employee.cleaner.Cleaner;
 import pl.agh.edu.room_builder.Builder;
+import pl.agh.edu.time_command.NoticePeriodTimeCommand;
+import pl.agh.edu.time_command.TimeCommandExecutor;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -38,11 +39,26 @@ public class Hotel {
     private Integer attractiveness = null;
     private Double competitiveness;
     private RandomLogoCreator logo;
+    private final TimeCommandExecutor timeCommandExecutor;
+    private final Time time;
+
+    private static final int noticePeriodInMonths;
+
+    static {
+        try {
+            noticePeriodInMonths = JSONExtractor.getNoticePeriodInMonthsFromJSON();
+        } catch (IOException | ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public Hotel(LocalTime checkInTime, LocalTime checkOutTime) throws IOException, ParseException {
         this.rooms = new ArrayList<>();
         this.checkInTime = checkInTime;
         this.checkOutTime = checkOutTime;
+        this.timeCommandExecutor = TimeCommandExecutor.getInstance();
+        this.time = Time.getInstance();
+
 
 
         HashMap<String, Long>  attractivenessConstants = JSONExtractor.getAttractivenessConstantsFromJSON();
@@ -66,6 +82,8 @@ public class Hotel {
     }
 
     public Hotel() throws IOException, ParseException {
+        this.timeCommandExecutor = TimeCommandExecutor.getInstance();
+        this.time = Time.getInstance();
         this.initializeStartingHotelData();
     }
 
@@ -135,7 +153,12 @@ public class Hotel {
         return employees;
     }
 
-    public void addEmployee(Employee employee){this.employees.add(employee);}
+    public void hireEmployee(Employee employee){this.employees.add(employee);}
+    public void fireEmployee(Employee employee){
+        timeCommandExecutor.addCommand(LocalDateTime.of(LocalDate.of(time.getTime().getYear(),time.getTime().getMonth(),1).plusMonths(noticePeriodInMonths+1),LocalTime.MIDNIGHT),new NoticePeriodTimeCommand(this,employee));
+    }
+
+    public void removeEmployee(Employee employee){employees.remove(employee);}
     public <T extends Employee> List<T> getEmployeesByPosition(Class<T> employeeClass) {
         return employees.stream()
                 .filter(employee -> employee.getClass().equals(employeeClass))

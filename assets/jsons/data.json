@@ -30,6 +30,8 @@
 
   "min_wage": 4000,
 
+  "notice_period_in_months": 3,
+
   "shift_probabilities": {
     "MORNING": 80,
     "EVENING": 15,
