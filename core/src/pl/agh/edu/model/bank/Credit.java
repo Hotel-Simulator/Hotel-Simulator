@@ -24,7 +24,7 @@ public class Credit {
         this.beginDate = Time.getInstance().getTime();
         this.endDate = beginDate.plusMonths(period);
         this.period = period;
-        this.interestRate = Bank.getInstance().getInterestRate();
+        this.interestRate = Bank.getInstance().getCreditInterestRate();
         this.creditValue = creditValue;
         this.creditValueToPay = creditValue.multiply(BigDecimal.valueOf(100+interestRate)).divide(BigDecimal.valueOf(100), RoundingMode.CEILING);
         this.monthlyPayments = this.creditValueToPay.divideToIntegralValue(BigDecimal.valueOf(period));
@@ -91,7 +91,7 @@ public class Credit {
 
     public static void main(String args[]){
         Bank b = Bank.getInstance();
-        b.setInterestRate(10);
+        b.setCreditInterestRate(10);
         Time.getInstance();
         Credit l = new Credit(100,2);
         System.out.println(Time.getInstance().getTime());

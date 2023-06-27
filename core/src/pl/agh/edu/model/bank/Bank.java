@@ -10,21 +10,15 @@ import java.util.List;
 public class Bank {
     private static volatile Bank instance = null;
     private BigDecimal balance = new BigDecimal(0);
-
-
     private List credits = new LinkedList();
     private List deposits = new LinkedList();
+    private int creditInterestRate;
 
-    public int getInterestRate() {
-        return interestRate;
-    }
-
-    private int interestRate;
+    private int depositInterestRate;
     private BigDecimal accountFee;
     private LocalDateTime nextAccountFeeCharge;
     private List<Transaction> incomes = new LinkedList<>();
     private List<Transaction> expenses = new LinkedList<>();
-
     public static Bank getInstance(){
         if(instance == null){
             synchronized (Bank.class){
@@ -36,28 +30,14 @@ public class Bank {
         return instance;
     }
 
-    public void setInterestRate(int interestRate) {
-        this.interestRate = interestRate;
-    }
-
 
     private Bank(){
         nextAccountFeeCharge = Time.getInstance().getTime().plusMonths(1);
     }
 
-    public void setAccountFee(int fee){
-        this.accountFee.add(BigDecimal.valueOf(fee));
-    }
     public void chargeAccountFee(){
         chargeBalance(accountFee);
         nextAccountFeeCharge = nextAccountFeeCharge.plusMonths(1);
-    }
-
-
-
-
-    public BigDecimal getBalance() {
-        return balance;
     }
 
     public String printBalance(){return balance.toString()+".00$";}
@@ -81,17 +61,39 @@ public class Bank {
     }
 
 
-    public Credit obtainCredit(BigDecimal value, int period){
+    public void obtainCredit(BigDecimal value, int period){
         Credit credit = new Credit(value,period);
         credits.add(credit);
-        addBalance(credit.getCreditValue()); // automatically adds value to balance
-        return credit;
+        addBalance(value); // automatically adds value to balance
     }
 
     public void placeDeposit(BigDecimal value, int period){
         Deposit deposit = new Deposit(value,period);
         deposits.add(deposit);
         chargeBalance(value);
+    }
+
+
+    public void setAccountFee(int fee){
+        this.accountFee.add(BigDecimal.valueOf(fee));
+    }
+
+    public void setCreditInterestRate(int interestRate) {
+        this.creditInterestRate = interestRate;
+    }
+    public void setDepositsInterestRate(int interestRate) {
+        this.creditInterestRate = interestRate;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public int getCreditInterestRate() {
+        return creditInterestRate;
+    }
+    public int getDepositInterestRate() {
+        return depositInterestRate;
     }
 
 

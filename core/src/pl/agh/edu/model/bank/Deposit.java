@@ -19,7 +19,7 @@ public class Deposit {
         this.placedValue = placedValue;
         this.period = period;
 
-        this.interestRate = Bank.getInstance().getInterestRate();
+        this.interestRate = Bank.getInstance().getDepositInterestRate();
         this.beginDate = Time.getInstance().getTime();
         this.endDate = beginDate.plusMonths(period);
         BigDecimal profitPerMonth = this.placedValue.multiply(BigDecimal.valueOf(interestRate)).divide(BigDecimal.valueOf(12));
