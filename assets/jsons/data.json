@@ -30,6 +30,8 @@
 
   "min_wage": 4000,
 
+  "notice_period_in_months": 3,
+
   "shift_probabilities": {
     "MORNING": 80,
     "EVENING": 15,
@@ -37,6 +39,8 @@
   },
 
   "max_room_size" : 5,
+
+  "employees_to_hire_list_size": 12,
 
   "attractiveness_constants": {
     "local_market" : 50,

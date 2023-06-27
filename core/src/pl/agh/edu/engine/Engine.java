@@ -7,6 +7,7 @@ import pl.agh.edu.generator.event_generator.EventGenerator;
 import pl.agh.edu.model.Hotel;
 import pl.agh.edu.model.Time;
 import pl.agh.edu.model.advertisement.AdvertisementHandler;
+import pl.agh.edu.model.employee.EmployeesToHireHandler;
 import pl.agh.edu.model.employee.cleaner.CleaningScheduler;
 import pl.agh.edu.time_command.ClientArrivalTimeCommand;
 import pl.agh.edu.time_command.TimeCommandExecutor;
@@ -22,6 +23,7 @@ public class Engine {
     private final AdvertisementHandler advertisementHandler;
     private final EventGenerator eventGenerator;
     private final CleaningScheduler cleaningScheduler;
+    private final EmployeesToHireHandler employeesToHireHandler;
 
     public Engine() throws IOException, ParseException {
         this.time = Time.getInstance();
@@ -32,6 +34,7 @@ public class Engine {
         this.advertisementHandler = AdvertisementHandler.getInstance();
         this.eventGenerator = EventGenerator.getInstance();
         this.cleaningScheduler = new CleaningScheduler(hotel);
+        this.employeesToHireHandler = new EmployeesToHireHandler(hotel);
 
     }
 
@@ -58,6 +61,11 @@ public class Engine {
         advertisementHandler.update();
         generateClientArrivals();
         cleaningScheduler.update();
+        employeesToHireHandler.update();
+    }
+
+    public void everyMonthUpdate(){
+        hotel.update();
     }
 
     public void everyYearUpdate() throws IOException, ParseException {

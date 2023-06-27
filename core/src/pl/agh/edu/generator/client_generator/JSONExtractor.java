@@ -21,6 +21,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -304,14 +305,18 @@ public class JSONExtractor {
         return BigDecimal.valueOf((Long)(((JSONObject) parser.parse(new FileReader(filePath))).get("min_wage")));
     }
 
+
     public static Map<Shift,Integer> getShiftProbabilitiesFromJSON() throws IOException, ParseException {
-        JSONObject jsonObject = (JSONObject)((JSONObject) parser.parse(new FileReader(filePath))).get("shift_probabilities");
+        JSONObject jsonObject = (JSONObject) ((JSONObject) parser.parse(new FileReader(filePath))).get("shift_probabilities");
         return Stream.of(Shift.values()).collect(Collectors.toMap(
                 e -> e,
-                e ->((Long)jsonObject.get(e.toString())).intValue(),
-                (a,b) -> b,
+                e -> ((Long) jsonObject.get(e.toString())).intValue(),
+                (a, b) -> b,
                 HashMap::new
         ));
+    }
+    public static int getEmployeesToHireListSizeFromJSON() throws IOException, ParseException {
+        return ((Long)((JSONObject) parser.parse(new FileReader(filePath))).get("employees_to_hire_list_size")).intValue();
     }
 
     public static HashMap<String, Integer> getHotelStartingValues() throws IOException, ParseException {
@@ -325,13 +330,16 @@ public class JSONExtractor {
     }
 
     public static HashMap<String, LocalTime> getHotelTimes() throws IOException, ParseException {
-        JSONObject jsonObject = (JSONObject)((JSONObject) parser.parse(new FileReader(filePath))).get("hotel_check_in_out_times");
+        JSONObject jsonObject = (JSONObject) ((JSONObject) parser.parse(new FileReader(filePath))).get("hotel_check_in_out_times");
         return Stream.of(jsonObject.keySet().toArray()).collect(Collectors.toMap(
                 Object::toString,
                 e -> LocalTime.parse(jsonObject.get(e.toString()).toString()),
-                (a,b) -> b,
+                (a, b) -> b,
                 HashMap::new
         ));
+    }
+    public static int getNoticePeriodInMonthsFromJSON() throws IOException, ParseException {
+        return ((Long)((JSONObject) parser.parse(new FileReader(filePath))).get("notice_period_in_months")).intValue();
     }
 
 
@@ -349,6 +357,7 @@ public class JSONExtractor {
         System.out.println(getClientModificationCyclicTemporaryEventData());
         System.out.println(getClientNumberModificationRandomTemporaryEventData());
         System.out.println(getShiftProbabilitiesFromJSON());
+        System.out.println(getNoticePeriodInMonthsFromJSON());
     }
 
 
