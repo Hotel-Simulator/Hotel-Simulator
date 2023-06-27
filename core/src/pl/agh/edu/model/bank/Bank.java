@@ -13,6 +13,7 @@ public class Bank {
 
 
     private List credits = new LinkedList();
+    private List deposits = new LinkedList();
 
     public int getInterestRate() {
         return interestRate;
@@ -86,6 +87,13 @@ public class Bank {
         addBalance(credit.getCreditValue()); // automatically adds value to balance
         return credit;
     }
+
+    public void placeDeposit(BigDecimal value, int period){
+        Deposit deposit = new Deposit(value,period);
+        deposits.add(deposit);
+        chargeBalance(value);
+    }
+
 
 
 
