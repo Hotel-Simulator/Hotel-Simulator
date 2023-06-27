@@ -11,7 +11,7 @@ public class Bank {
     private static volatile Bank instance = null;
     private BigDecimal balance = new BigDecimal(0);
 
-    private List loans = new LinkedList();
+    private List credits = new LinkedList();
 
     public int getInterestRate() {
         return interestRate;
@@ -67,7 +67,7 @@ public class Bank {
         if(operationAbility(value))
             this.balance.subtract(BigDecimal.valueOf(value));
         else{
-            obtainLoan(BigDecimal.valueOf(100000),12);
+            obtainCredit(BigDecimal.valueOf(100000),12);
         }
     }
     public void chargeBalance(BigDecimal value){
@@ -82,11 +82,11 @@ public class Bank {
     }
 
 
-    public Loan obtainLoan(BigDecimal value, int period){
-        Loan loan = new Loan(value,period);
-        loans.add(loan);
-        addBalance(loan.getLoanValue()); // automatically adds value to balance
-        return loan;
+    public Credit obtainCredit(BigDecimal value, int period){
+        Credit credit = new Credit(value,period);
+        credits.add(credit);
+        addBalance(credit.getCreditValue()); // automatically adds value to balance
+        return credit;
     }
 
 
