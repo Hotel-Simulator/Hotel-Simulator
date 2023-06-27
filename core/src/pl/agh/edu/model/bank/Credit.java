@@ -95,7 +95,8 @@ public class Credit {
     public LocalDateTime getNextPaymentDate(){return nextPaymentDate;}
 
     public static void main(String args[]){
-        Bank b = Bank.getInstance().setInterestRate(10);
+        Bank b = Bank.getInstance();
+        b.setInterestRate(10);
         Time.getInstance();
         Credit l = new Credit(100,2);
         System.out.println(Time.getInstance().getTime());

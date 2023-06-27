@@ -33,9 +33,8 @@ public class Bank {
         return instance;
     }
 
-    public Bank setInterestRate(int interestRate) {
+    public void setInterestRate(int interestRate) {
         this.interestRate = interestRate;
-        return instance;
     }
 
 
@@ -43,9 +42,8 @@ public class Bank {
         nextAccountFeeCharge = Time.getInstance().getTime().plusMonths(1);
     }
 
-    public Bank setAccountFee(int fee){
+    public void setAccountFee(int fee){
         this.accountFee.add(BigDecimal.valueOf(fee));
-        return instance;
     }
     public void chargeAccountFee(){
         chargeBalance(accountFee);
