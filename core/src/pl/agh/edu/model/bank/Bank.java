@@ -11,6 +11,7 @@ public class Bank {
     private static volatile Bank instance = null;
     private BigDecimal balance = new BigDecimal(0);
 
+
     private List credits = new LinkedList();
 
     public int getInterestRate() {
@@ -20,7 +21,8 @@ public class Bank {
     private int interestRate;
     private BigDecimal accountFee;
     private LocalDateTime nextAccountFeeCharge;
-
+    private List<Transaction> incomes = new LinkedList<>();
+    private List<Transaction> expenses = new LinkedList<>();
 
     public static Bank getInstance(){
         if(instance == null){
@@ -59,21 +61,19 @@ public class Bank {
 
     public String printBalance(){return balance.toString()+".00$";}
 
-    public void addBalance(int value) {this.balance.add(BigDecimal.valueOf(value));}
-    public void addBalance(BigDecimal value){this.balance.add(value);}
-    public void chargeBalance(int value){
-        if(operationAbility(value))
-            this.balance.subtract(BigDecimal.valueOf(value));
-        else{
-            obtainCredit(BigDecimal.valueOf(100000),12);
-        }
-    }
-    public void chargeBalance(BigDecimal value){
-        this.balance.subtract(value);
+
+    public void addBalance(BigDecimal value){
+        this.balance.add(value);
+        this.incomes.add(new Transaction(Time.getInstance().getTime(),value));
     }
 
-    public boolean operationAbility(double d){
-        if(balance.compareTo(BigDecimal.valueOf(d))<0){
+    public void chargeBalance(BigDecimal value){
+        this.balance.subtract(value);
+        this.expenses.add(new Transaction(Time.getInstance().getTime(),value));
+    }
+
+    public boolean operationAbility(BigDecimal value){
+        if(balance.compareTo(value)<0){
             return false;
         }
         return true;
