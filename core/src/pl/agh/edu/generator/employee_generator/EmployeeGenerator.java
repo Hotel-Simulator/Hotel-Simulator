@@ -9,7 +9,7 @@ import pl.agh.edu.generator.client_generator.ProbabilityListGenerator;
 import pl.agh.edu.model.employee.Employee;
 import pl.agh.edu.model.employee.Shift;
 import pl.agh.edu.model.employee.cleaner.Cleaner;
-import pl.agh.edu.model.employee.repairman.Repairman;
+import pl.agh.edu.model.employee.repairman.Technician;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -54,7 +54,7 @@ public class EmployeeGenerator {
         BigDecimal acceptableWage = generateAcceptableWage(skills);
         BigDecimal desiredWage = generateDesiredWage(skills);
         Shift desiredShift = generateDesiredShift();
-        return new Repairman(firstName,lastName,age,skills,desiredWage,acceptableWage,desiredShift);
+        return new Technician(firstName,lastName,age,skills,desiredWage,acceptableWage,desiredShift);
     }
 
     private static BigDecimal generateDesiredWage(double skills) {

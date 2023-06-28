@@ -9,7 +9,8 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Duration;
 
-public class Repairman extends Employee {
+// TODO: zmiana Technician
+public class Technician extends Employee {
     private static final Duration baseRepairingTime;
 
     static {
@@ -20,7 +21,7 @@ public class Repairman extends Employee {
         }
     }
 
-    public Repairman(String firstName, String lastName, int age, double skills, BigDecimal desiredWage, BigDecimal minimalAcceptedWage, Shift desiredShift) {
+    public Technician(String firstName, String lastName, int age, double skills, BigDecimal desiredWage, BigDecimal minimalAcceptedWage, Shift desiredShift) {
         super(firstName, lastName, age, skills, desiredWage, minimalAcceptedWage, desiredShift);
     }
 
