@@ -381,6 +381,14 @@
 		"backgroundDisabled": "selectbox-background-disabled"
 	}
 },
+"SliderStyle": {
+	"default-horizontal": {
+		"knobOver": "slider-knob-over",
+		"knobDown": "slider-knob-down",
+		"background": "slider-background",
+		"knob": "slider-knob"
+	}
+},
 "TextButtonStyle": {
 	"default": {
 		"font": "button2",

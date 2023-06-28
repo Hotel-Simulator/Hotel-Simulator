@@ -1072,7 +1072,7 @@ navbar-tax-up
   index: -1
 scrollpane-knob
   rotate: false
-  xy: 257, 243
+  xy: 513, 497
   size: 11, 22
   split: 5, 5, 7, 5
   orig: 11, 22
@@ -1080,7 +1080,7 @@ scrollpane-knob
   index: -1
 scrollpane-vscroll
   rotate: false
-  xy: 43, 24
+  xy: 359, 347
   size: 11, 20
   split: 5, 5, 5, 5
   orig: 11, 20
@@ -1088,10 +1088,38 @@ scrollpane-vscroll
   index: -1
 scrollpane-console-knob
   rotate: false
-  xy: 43, 24
+  xy: 359, 347
   size: 11, 20
   split: 5, 5, 5, 5
   orig: 11, 20
+  offset: 0, 0
+  index: -1
+slider-background
+  rotate: false
+  xy: 1, 1
+  size: 20, 1
+  orig: 20, 1
+  offset: 0, 0
+  index: -1
+slider-knob
+  rotate: false
+  xy: 607, 589
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+slider-knob-down
+  rotate: false
+  xy: 257, 241
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+slider-knob-over
+  rotate: false
+  xy: 43, 20
+  size: 24, 24
+  orig: 24, 24
   offset: 0, 0
   index: -1
 textfield-background
@@ -1129,7 +1157,7 @@ textfield-focusedbackground
   index: -1
 textfield-selection
   rotate: false
-  xy: 607, 583
+  xy: 257, 209
   size: 10, 30
   split: 0, 0, 0, 0
   orig: 10, 30

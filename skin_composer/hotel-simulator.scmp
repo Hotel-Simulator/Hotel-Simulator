@@ -2402,6 +2402,86 @@ atlasData: {
 			type: NINE_PATCH
 			hidden: false
 		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/slider-knob-over.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: slider-knob-over
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/slider-knob-down.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: slider-knob-down
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/slider-knob.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: slider-knob
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/slider-background.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: slider-background
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
 	]
 	fontDrawables: [
 		{
@@ -5733,13 +5813,13 @@ jsonData: {
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
 						name: knobOver
 						optional: true
-						value: null
+						value: slider-knob-over
 					}
 					knobDown: {
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
 						name: knobDown
 						optional: true
-						value: null
+						value: slider-knob-down
 					}
 					knobBeforeOver: {
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
@@ -5769,7 +5849,7 @@ jsonData: {
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
 						name: background
 						optional: false
-						value: null
+						value: slider-background
 					}
 					disabledBackground: {
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
@@ -5781,7 +5861,7 @@ jsonData: {
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
 						name: knob
 						optional: true
-						value: null
+						value: slider-knob
 					}
 					disabledKnob: {
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
