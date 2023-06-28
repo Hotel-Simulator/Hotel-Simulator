@@ -30,6 +30,12 @@
 		"markupEnabled": false,
 		"flip": false
 	},
+	"console": {
+		"file": "console.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
 	"h1": {
 		"file": "h1.fnt",
 		"scaledSize": -1,
@@ -421,13 +427,12 @@
 		"messageFontColor": "Shadow"
 	},
 	"console_input": {
-		"font": "h2",
+		"font": "console",
 		"fontColor": "Secondary_300",
-		"focusedFontColor": "Secondary_100",
 		"cursor": "textfield-cursor",
 		"selection": "textfield-selection",
-		"messageFont": "h2",
-		"messageFontColor": "Secondary_300"
+		"messageFont": "console",
+		"messageFontColor": "Secondary_100"
 	}
 },
 "TextTooltipStyle": {
