@@ -1,67 +1,73 @@
 {
 "BitmapFont": {
-	"Body1": {
-		"file": "Body1.fnt",
+	"body1": {
+		"file": "body1.fnt",
 		"scaledSize": -1,
 		"markupEnabled": false,
 		"flip": false
 	},
-	"Body2": {
-		"file": "Body2.fnt",
+	"body2": {
+		"file": "body2.fnt",
 		"scaledSize": -1,
 		"markupEnabled": false,
 		"flip": false
 	},
-	"Button1": {
-		"file": "Button1.fnt",
+	"button1": {
+		"file": "button1.fnt",
 		"scaledSize": -1,
 		"markupEnabled": false,
 		"flip": false
 	},
-	"Button2": {
-		"file": "Button2.fnt",
+	"button2": {
+		"file": "button2.fnt",
 		"scaledSize": -1,
 		"markupEnabled": false,
 		"flip": false
 	},
-	"Button3": {
-		"file": "Button3.fnt",
+	"button3": {
+		"file": "button3.fnt",
 		"scaledSize": -1,
 		"markupEnabled": false,
 		"flip": false
 	},
-	"H1": {
-		"file": "PressStart2P-Regular.fnt",
+	"console": {
+		"file": "console.fnt",
 		"scaledSize": -1,
 		"markupEnabled": false,
 		"flip": false
 	},
-	"H2": {
-		"file": "H2.fnt",
+	"h1": {
+		"file": "h1.fnt",
 		"scaledSize": -1,
 		"markupEnabled": false,
 		"flip": false
 	},
-	"H3": {
-		"file": "H3.fnt",
+	"h2": {
+		"file": "h2.fnt",
 		"scaledSize": -1,
 		"markupEnabled": false,
 		"flip": false
 	},
-	"H4": {
-		"file": "H4.fnt",
+	"h3": {
+		"file": "h3.fnt",
 		"scaledSize": -1,
 		"markupEnabled": false,
 		"flip": false
 	},
-	"Subtitle1": {
-		"file": "Subtitle1.fnt",
+	"h4": {
+		"file": "h4.fnt",
 		"scaledSize": -1,
 		"markupEnabled": false,
 		"flip": false
 	},
-	"Subtitle2": {
-		"file": "Subtitle2.fnt",
+	"subtittle1": {
+		"file": "subtittle1.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"subtittle2": {
+		"file": "subtittle2.fnt",
 		"scaledSize": -1,
 		"markupEnabled": false,
 		"flip": false
@@ -255,236 +261,186 @@
 		"a": 1
 	}
 },
-"TintedDrawable": {
-	"textField_normal_cursor": {
-		"name": "textField_console_cursor",
-		"color": "Gray_900"
+"TiledDrawable": {
+	"progressbar-full-tiled": {
+		"region": "progressbar-full",
+		"color": "Gray_100",
+		"minWidth": 0,
+		"minHeight": 44
 	}
 },
 "ButtonStyle": {
 	"default": {
 		"up": "default"
 	},
-	"navbar_minus": {
+	"navbar-minus": {
 		"parent": "default",
-		"up": "Time_Minus",
-		"down": "Time_Minus_Press",
-		"over": "Time_Minus_Hover",
-		"focused": "Time_Minus",
-		"disabled": "Time_Minus",
-		"checked": "Time_Minus",
-		"checkedOver": "Time_Minus",
-		"checkedDown": "Time_Minus",
-		"checkedFocused": "Time_Minus"
+		"up": "button-time-minus-up",
+		"down": "button-time-minus-down",
+		"over": "button-time-minus-over"
 	},
-	"navbar_plus": {
-		"up": "Time_Plus",
-		"down": "Time_Plus_Press",
-		"over": "Time_Plus_Hover"
+	"navbar-plus": {
+		"up": "button-time-plus-up",
+		"down": "button-time-plus-down",
+		"over": "button-time-plus-over"
 	},
-	"navbar_play": {
-		"up": "Time_Play",
-		"over": "Time_Play_Hover",
-		"checked": "Time_Pauze",
-		"checkedOver": "Time_Pauze_Hover"
-	},
-	"navbar_hotel": {
-		"up": "Hotel_Normal",
-		"over": "Hotel_Hover",
-		"disabled": "Hotel_Selected"
-	},
-	"navbar_Bank": {
-		"up": "Bank_Normal",
-		"over": "Bank_Hover",
-		"disabled": "Bank_Selected"
-	},
-	"navbar_employee": {
-		"up": "Employee_Normal",
-		"over": "Employee_Hover",
-		"disabled": "Employee_Selected"
-	},
-	"navbar_taxes": {
-		"up": "Taxes_Normal",
-		"over": "Taxes_Hover",
-		"disabled": "Taxes_Selected"
-	},
-	"navbar_ads": {
-		"up": "Ads_Normal",
-		"over": "Ads_Hover",
-		"disabled": "Ads_Selected"
-	},
-	"navbar_offer": {
-		"up": "Offer_Normal",
-		"over": "Offer_Hover",
-		"disabled": "Offer_Selected"
-	},
-	"navbar_account": {
-		"up": "Account_Normal",
-		"over": "Account_Hover",
-		"disabled": "Account_Selected"
-	},
-	"navbar_deposit": {
-		"up": "Deposit_Normal",
-		"over": "Deposit_Hover"
-	},
-	"navbar_credit": {
-		"up": "Credit_Normal",
-		"over": "Creadit_Hover",
-		"disabled": "Credit_Selected"
-	},
-	"navbar_back": {
-		"up": "Back_Normal",
-		"over": "Back_Hover",
-		"disabled": "Back_Selected"
-	},
-	"navbar_history": {
-		"up": "History_Normal",
-		"over": "History_Hover",
-		"disabled": "History_Selected"
-	},
-	"navbar_hire": {
-		"up": "Hire_Normal",
-		"over": "Hire_Hover",
-		"disabled": "Hire_Selected"
-	},
-	"navbar_manage": {
-		"up": "Manage_Normal",
-		"over": "Manage_Hover",
-		"disabled": "Manage_Selected"
-	},
-	"navbar_board": {
-		"up": "Board_Normal",
-		"over": "Board_Hover",
-		"disabled": "Board_Selected"
-	},
-	"navbar_rooms": {
-		"up": "Rooms_Normal",
-		"over": "Rooms_Hover",
-		"disabled": "Rooms_Seleceted"
-	},
-	"navbar_places": {
-		"up": "Places_Normal",
-		"over": "Places_Hover",
-		"disabled": "Places_Selected"
+	"navbar-play": {
+		"up": "button-time-play-up",
+		"over": "button-time-play-over",
+		"checked": "button-time-pauze-up",
+		"checkedOver": "button-time-pauze-over"
 	},
 	"options": {
-		"up": "Options_Normal",
-		"down": "Options_Press",
-		"over": "Options_Hover"
+		"up": "button-options-up",
+		"down": "button-options-down",
+		"over": "button-options-over"
 	},
 	"calendar": {
-		"up": "Calendar_Normal",
-		"down": "Calendar_Press",
-		"over": "Calendar_Hover"
-	},
-	"filter": {
-		"up": "Button_Filter_Normal",
-		"down": "Button_Filter_Press",
-		"over": "Button_Filter_Hover"
+		"up": "button-calendar-up",
+		"down": "button-calendar-down",
+		"over": "button-calendar-over"
+	}
+},
+"CheckBoxStyle": {
+	"default": {
+		"checkboxOn": "checkbox-on-up",
+		"checkboxOff": "checkbox-off-up",
+		"checkboxOnOver": "checkbox-on-over",
+		"checkboxOver": "checkbox-off-over",
+		"checkboxOnDisabled": "checkbox-on-disabled",
+		"checkboxOffDisabled": "checkbox-off-disabled",
+		"font": "body1"
 	}
 },
 "LabelStyle": {
 	"default": {
-		"font": "H1"
+		"font": "body1"
 	},
 	"h1_label": {
-		"font": "H1"
+		"font": "h1"
 	},
 	"h2_label": {
-		"font": "H2"
+		"font": "h2"
 	},
 	"h3_label": {
-		"font": "H3"
+		"font": "h3"
 	},
 	"h4_label": {
-		"font": "H4"
+		"font": "h4"
 	},
 	"body1_label": {
-		"font": "Body1"
+		"font": "body1"
 	},
 	"body2_label": {
-		"font": "Body2"
-	},
-	"button1_label": {
-		"font": "Button1"
-	},
-	"button2_label": {
-		"font": "Button2"
-	},
-	"button3_label": {
-		"font": "Button3"
+		"font": "body2"
 	},
 	"subtitle1_label": {
-		"font": "Subtitle1"
+		"font": "subtittle1"
 	},
 	"subtitle2_label": {
-		"font": "Subtitle2"
+		"font": "subtittle2"
+	}
+},
+"ListStyle": {
+	"default": {
+		"font": "body1",
+		"fontColorSelected": "Gray_900",
+		"fontColorUnselected": "Shadow",
+		"selection": "list-selection",
+		"down": "list-down",
+		"over": "list-over",
+		"background": "list-background"
+	}
+},
+"ProgressBarStyle": {
+	"default-horizontal": {
+		"background": "progressbar-empty",
+		"knobBefore": "progressbar-full-tiled"
 	}
 },
 "ScrollPaneStyle": {
 	"default": {
-		"vScrollKnob": "Scroll_Knob_console"
+		"vScroll": "scrollpane-vscroll",
+		"vScrollKnob": "scrollpane-knob"
 	},
-	"normal": {
-		"vScroll": "Scroll",
-		"vScrollKnob": "Scroll_Knob"
+	"console": {
+		"vScrollKnob": "scrollpane-console-knob"
+	}
+},
+"SelectBoxStyle": {
+	"default": {
+		"font": "body1",
+		"fontColor": "Gray_900",
+		"overFontColor": "Shadow",
+		"disabledFontColor": "Shadow",
+		"background": "selectbox-background",
+		"scrollStyle": "default",
+		"listStyle": "default",
+		"backgroundOver": "selectbox-background-over",
+		"backgroundOpen": "selectbox-background-open",
+		"backgroundDisabled": "selectbox-background-disabled"
 	}
 },
 "SliderStyle": {
 	"default-horizontal": {
-		"background": "Slider_Line",
-		"knob": "Slider_Knob"
+		"knobOver": "slider-knob-over",
+		"knobDown": "slider-knob-down",
+		"background": "slider-background",
+		"knob": "slider-knob"
 	}
 },
 "TextButtonStyle": {
-	"Large": {
-		"font": "Button1",
+	"default": {
+		"font": "button2",
+		"downFontColor": "Secondary_300",
+		"overFontColor": "Secondary_100",
 		"disabledFontColor": "Gray_300",
-		"up": "Button_Large_Normal",
-		"down": "Button_Large_Press",
-		"over": "Button_Large_Hover",
-		"disabled": "Button_Large_Disabled"
+		"up": "button-normal-up",
+		"down": "button-normal-down",
+		"over": "button-normal-over",
+		"disabled": "button-normal-disabled"
 	},
-	"Normal": {
-		"font": "Button2",
+	"Large": {
+		"font": "button1",
+		"downFontColor": "Secondary_300",
+		"overFontColor": "Secondary_100",
 		"disabledFontColor": "Gray_300",
-		"up": "Button_Normal_Normal",
-		"down": "Button_Normal_Press",
-		"over": "Button_Normal_Hover",
-		"disabled": "Button_Normal_Disabled"
+		"up": "button-large-up",
+		"down": "button-large-down",
+		"over": "button-large-over",
+		"disabled": "button-large-disabled"
 	},
 	"Small": {
-		"font": "Button3",
+		"font": "button3",
+		"downFontColor": "Secondary_300",
+		"overFontColor": "Secondary_100",
 		"disabledFontColor": "Gray_300",
-		"up": "Button_Small_Normal",
-		"down": "Button_Small_Press",
-		"over": "Button_Small_Hover",
-		"disabled": "Button_Small_Disabled"
+		"up": "button-small-up",
+		"down": "button-small-down",
+		"over": "button-small-over",
+		"disabled": "button-small-disabled"
 	}
 },
 "TextFieldStyle": {
 	"default": {
-		"font": "Button3",
+		"font": "h4",
 		"fontColor": "Gray_900",
-		"focusedFontColor": "Gray_700",
-		"background": "textField_normal_background",
-		"cursor": "textField_normal_cursor"
+		"disabledFontColor": "Gray_100",
+		"background": "textfield-background",
+		"focusedBackground": "textfield-focusedbackground",
+		"disabledBackground": "textfield-disabledbackground",
+		"cursor": "textfield-cursor",
+		"selection": "textfield-selection",
+		"messageFont": "h4",
+		"messageFontColor": "Shadow"
 	},
 	"console_input": {
-		"font": "H4",
+		"font": "console",
 		"fontColor": "Secondary_300",
-		"focusedFontColor": "Secondary_100",
-		"cursor": "textField_console_cursor",
-		"selection": "textField_console_select",
-		"messageFont": "H4",
-		"messageFontColor": "Secondary_300"
-	},
-	"large_default": {
-		"font": "Button1",
-		"fontColor": "Gray_900",
-		"focusedFontColor": "Gray_700",
-		"background": "textField_normal_background",
-		"cursor": "textField_normal_cursor"
+		"cursor": "textfield-cursor",
+		"selection": "textfield-selection",
+		"messageFont": "console",
+		"messageFontColor": "Secondary_100"
 	}
 },
 "TextTooltipStyle": {

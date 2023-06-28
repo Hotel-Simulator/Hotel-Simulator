@@ -1,0 +1,85 @@
+{
+"children": [
+	{
+		"class": "Table",
+		"cells": [
+			{
+				"child": {
+					"class": "Stack",
+					"name": "main-stack",
+					"children": [
+						{
+							"class": "Image",
+							"name": null,
+							"drawable": "night_city",
+							"scaling": "fill",
+							"touchable": "enabled",
+							"visible": true
+						},
+						{
+							"class": "Table",
+							"cells": [],
+							"name": null,
+							"background": null,
+							"color": null,
+							"padLeft": 0,
+							"padRight": 0,
+							"padTop": 0,
+							"padBottom": 0,
+							"paddingEnabled": false,
+							"alignment": 1,
+							"fillParent": false,
+							"touchable": "enabled",
+							"visible": true
+						}
+					],
+					"touchable": "enabled",
+					"visible": true
+				},
+				"row": 0,
+				"column": 0,
+				"padLeft": 0,
+				"padRight": 0,
+				"padTop": 0,
+				"padBottom": 0,
+				"spaceLeft": 0,
+				"spaceRight": 0,
+				"spaceTop": 0,
+				"spaceBottom": 0,
+				"expandX": false,
+				"expandY": false,
+				"fillX": false,
+				"fillY": false,
+				"growX": false,
+				"growY": false,
+				"alignment": 1,
+				"minWidth": -1,
+				"minHeight": -1,
+				"maxWidth": -1,
+				"maxHeight": -1,
+				"preferredWidth": -1,
+				"preferredHeight": -1,
+				"uniformX": false,
+				"uniformY": false,
+				"colSpan": 1
+			}
+		],
+		"name": null,
+		"background": null,
+		"color": null,
+		"padLeft": 0,
+		"padRight": 0,
+		"padTop": 0,
+		"padBottom": 0,
+		"paddingEnabled": false,
+		"alignment": 1,
+		"fillParent": true,
+		"touchable": "childrenOnly",
+		"visible": true
+	}
+],
+"backgroundColor": null,
+"skinPath": "skin.json",
+"packageString": "pl.agh.edu",
+"classString": "GdxGame"
+}
