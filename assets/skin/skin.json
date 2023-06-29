@@ -269,6 +269,117 @@
 		"minHeight": 44
 	}
 },
+"pl.agh.edu.actor.button.NavbarButton": {
+	"default": {
+		"text": "default",
+		"iconUp": "default",
+		"iconOver": "default",
+		"iconDisabled": "default",
+		"font": "h4"
+	},
+	"account": {
+		"text": "account",
+		"iconUp": "navbar-account-up",
+		"iconOver": "navbar-account-over",
+		"iconDisabled": "navbar-account-disabled",
+		"font": "h4"
+	},
+	"add": {
+		"text": "add",
+		"iconUp": "navbar-add-up",
+		"iconOver": "navbar-add-over",
+		"iconDisabled": "navbar-add-disabled",
+		"font": "h4"
+	},
+	"back": {
+		"text": "back",
+		"iconUp": "navbar-back-up",
+		"iconOver": "navbar-back-over",
+		"iconDisabled": "navbar-back-disabled",
+		"font": "h4"
+	},
+	"bank": {
+		"text": "bank",
+		"iconUp": "navbar-bank-up",
+		"iconOver": "navbar-bank-over",
+		"iconDisabled": "navbar-bank-disabled",
+		"font": "h4"
+	},
+	"board": {
+		"text": "board",
+		"iconUp": "navbar-board-up",
+		"iconOver": "navbar-board-over",
+		"iconDisabled": "navbar-board-disabled",
+		"font": "h4"
+	},
+	"credit": {
+		"text": "credit",
+		"iconUp": "navbar-credit-up",
+		"iconOver": "navbar-credit-over",
+		"iconDisabled": "navbar-credit-disabled",
+		"font": "h4"
+	},
+	"deposit": {
+		"text": "deposit",
+		"iconUp": "navbar-deposit-up",
+		"iconOver": "navbar-deposit-over",
+		"iconDisabled": "navbar-deposit-disabled"
+	},
+	"employee": {
+		"text": "employee",
+		"iconUp": "navbar-employee-up",
+		"iconOver": "navbar-employee-over",
+		"iconDisabled": "navbar-employee-disabled"
+	},
+	"hire": {
+		"text": "hire",
+		"iconUp": "navbar-hire-up",
+		"iconOver": "navbar-hire-over",
+		"iconDisabled": "navbar-hire-disabled"
+	},
+	"history": {
+		"text": "history",
+		"iconUp": "navbar-history-up",
+		"iconOver": "navbar-history-over",
+		"iconDisabled": "navbar-history-disabled"
+	},
+	"hotel": {
+		"text": "hotel",
+		"iconUp": "navbar-hotel-up",
+		"iconOver": "navbar-hotel-over",
+		"iconDisabled": "navbar-hotel-disabled"
+	},
+	"manage": {
+		"text": "manage",
+		"iconUp": "navbar-manage-up",
+		"iconOver": "navbar-manage-over",
+		"iconDisabled": "navbar-manage-disabled"
+	},
+	"offer": {
+		"text": "offer",
+		"iconUp": "navbar-offer-up",
+		"iconOver": "navbar-offer-over",
+		"iconDisabled": "navbar-offer-disabled"
+	},
+	"places": {
+		"text": "places",
+		"iconUp": "navbar-places-up",
+		"iconOver": "navbar-places-over",
+		"iconDisabled": "navbar-places-disabled"
+	},
+	"rooms": {
+		"text": "rooms",
+		"iconUp": "navbar-rooms-up",
+		"iconOver": "navbar-rooms-over",
+		"iconDisabled": "navbar-rooms-disabled"
+	},
+	"tax": {
+		"text": "tax",
+		"iconUp": "navbar-tax-up",
+		"iconOver": "navbar-tax-over",
+		"iconDisabled": "navbar-tax-disabled"
+	}
+},
 "ButtonStyle": {
 	"default": {
 		"up": "default"

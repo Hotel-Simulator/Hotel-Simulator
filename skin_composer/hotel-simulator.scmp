@@ -263,1166 +263,6 @@ atlasData: {
 			hidden: false
 		}
 		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-tax-up.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-tax-up
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-tax-over.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-tax-over
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-tax-disabled.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-tax-disabled
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-room-up.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-room-up
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-room-over.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-room-over
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-room-disabled.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-room-disabled
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-places-up.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-places-up
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-places-over.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-places-over
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-places-disabled.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-places-disabled
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-offer-up.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-offer-up
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-offer-over.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-offer-over
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-offer-disabled.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-offer-disabled
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-manage-up.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-manage-up
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-manage-over.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-manage-over
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-manage-disabled.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-manage-disabled
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-hotel-up.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-hotel-up
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-hotel-over.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-hotel-over
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-hotel-disabled.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-hotel-disabled
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-history-up.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-history-up
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-history-over.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-history-over
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-history-disabled.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-history-disabled
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-hire-up.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-hire-up
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-hire-over.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-hire-over
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-hire-disabled.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-hire-disabled
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-employee-up.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-employee-up
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-employee-over.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-employee-over
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-employee-disabled.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-employee-disabled
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-deposit-up.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-deposit-up
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-deposit-over.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-deposit-over
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-deposit-disabled.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-deposit-disabled
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-credit-up.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-credit-up
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-credit-over.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-credit-over
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-credit-disabled.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-credit-disabled
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-board-up.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-board-up
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-board-over.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-board-over
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-board-disabled.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-board-disabled
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-bank-up.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-bank-up
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-bank-over.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-bank-over
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-bank-disabled.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-bank-disabled
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-back-up.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-back-up
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-back-over.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-back-over
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-back-disabled.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-back-disabled
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-add-up.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-add-up
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-add-over.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-add-over
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-add-disabled.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-add-disabled
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-account-up.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-account-up
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-account-over.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-account-over
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-account-disabled.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: navbar-account-disabled
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/button-time-plus-up.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: button-time-plus-up
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/button-time-plus-over.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: button-time-plus-over
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/button-time-plus-down.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: button-time-plus-down
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/button-time-play-up.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: button-time-play-up
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/button-time-play-over.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: button-time-play-over
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/button-time-pauze-up.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: button-time-pauze-up
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/button-time-pauze-over.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: button-time-pauze-over
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/button-time-minus-up.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: button-time-minus-up
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/button-time-minus-over.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: button-time-minus-over
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
-			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/button-time-minus-down.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			tint: null
-			tintName: null
-			name: button-time-minus-down
-			tiled: false
-			minWidth: -1
-			minHeight: -1
-			customized: false
-			tenPatchData: null
-			tvgData: null
-			type: TEXTURE
-			hidden: false
-		}
-		{
 			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/button-options-up.png"
 			bgColor: {
 				r: 1
@@ -2473,6 +1313,1166 @@ atlasData: {
 			tint: null
 			tintName: null
 			name: slider-background
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-tax-up.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-tax-up
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-tax-over.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-tax-over
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-tax-disabled.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-tax-disabled
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-places-up.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-places-up
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-places-over.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-places-over
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-places-disabled.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-places-disabled
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-offer-up.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-offer-up
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-offer-over.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-offer-over
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-offer-disabled.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-offer-disabled
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-manage-up.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-manage-up
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-manage-over.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-manage-over
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-manage-disabled.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-manage-disabled
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-hotel-up.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-hotel-up
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-hotel-over.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-hotel-over
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-hotel-disabled.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-hotel-disabled
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-history-up.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-history-up
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-history-over.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-history-over
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-history-disabled.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-history-disabled
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-hire-up.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-hire-up
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-hire-over.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-hire-over
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-hire-disabled.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-hire-disabled
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-employee-up.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-employee-up
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-employee-over.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-employee-over
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-employee-disabled.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-employee-disabled
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-deposit-up.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-deposit-up
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-deposit-over.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-deposit-over
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-deposit-disabled.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-deposit-disabled
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-credit-up.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-credit-up
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-credit-over.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-credit-over
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-credit-disabled.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-credit-disabled
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-board-up.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-board-up
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-board-over.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-board-over
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-board-disabled.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-board-disabled
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-bank-up.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-bank-up
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-bank-over.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-bank-over
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-bank-disabled.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-bank-disabled
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-back-up.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-back-up
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-back-over.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-back-over
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-back-disabled.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-back-disabled
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-add-up.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-add-up
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-add-over.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-add-over
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-add-disabled.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-add-disabled
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-account-up.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-account-up
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-account-over.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-account-over
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-account-disabled.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-account-disabled
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/button-time-plus-up.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: button-time-plus-up
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/button-time-plus-over.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: button-time-plus-over
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/button-time-plus-down.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: button-time-plus-down
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/button-time-play-up.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: button-time-play-up
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/button-time-play-over.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: button-time-play-over
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/button-time-pauze-up.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: button-time-pauze-up
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/button-time-pauze-over.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: button-time-pauze-over
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/button-time-minus-up.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: button-time-minus-up
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/button-time-minus-over.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: button-time-minus-over
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/button-time-minus-down.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: button-time-minus-down
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-rooms-disabled.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-rooms-disabled
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-rooms-over.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-rooms-over
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-rooms-up.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-rooms-up
 			tiled: false
 			minWidth: -1
 			minHeight: -1
@@ -6452,7 +6452,573 @@ jsonData: {
 			}
 		]
 	}
-	customClasses: []
+	customClasses: [
+		{
+			fullyQualifiedName: pl.agh.edu.actor.button.NavbarButton
+			displayName: NavbarButton
+			styles: [
+				{
+					name: default
+					properties: [
+						{
+							name: text
+							type: TEXT
+							value: default
+						}
+						{
+							name: iconUp
+							type: DRAWABLE
+							value: default
+						}
+						{
+							name: iconOver
+							type: DRAWABLE
+							value: default
+						}
+						{
+							name: iconDisabled
+							type: DRAWABLE
+							value: default
+						}
+						{
+							name: font
+							type: FONT
+							value: h4
+						}
+					]
+					deletable: false
+				}
+				{
+					name: account
+					properties: [
+						{
+							name: text
+							type: TEXT
+							value: account
+						}
+						{
+							name: iconUp
+							type: DRAWABLE
+							value: navbar-account-up
+						}
+						{
+							name: iconOver
+							type: DRAWABLE
+							value: navbar-account-over
+						}
+						{
+							name: iconDisabled
+							type: DRAWABLE
+							value: navbar-account-disabled
+						}
+						{
+							name: font
+							type: FONT
+							value: h4
+						}
+					]
+					deletable: true
+				}
+				{
+					name: add
+					properties: [
+						{
+							name: text
+							type: TEXT
+							value: add
+						}
+						{
+							name: iconUp
+							type: DRAWABLE
+							value: navbar-add-up
+						}
+						{
+							name: iconOver
+							type: DRAWABLE
+							value: navbar-add-over
+						}
+						{
+							name: iconDisabled
+							type: DRAWABLE
+							value: navbar-add-disabled
+						}
+						{
+							name: font
+							type: FONT
+							value: h4
+						}
+					]
+					deletable: true
+				}
+				{
+					name: back
+					properties: [
+						{
+							name: text
+							type: TEXT
+							value: back
+						}
+						{
+							name: iconUp
+							type: DRAWABLE
+							value: navbar-back-up
+						}
+						{
+							name: iconOver
+							type: DRAWABLE
+							value: navbar-back-over
+						}
+						{
+							name: iconDisabled
+							type: DRAWABLE
+							value: navbar-back-disabled
+						}
+						{
+							name: font
+							type: FONT
+							value: h4
+						}
+					]
+					deletable: true
+				}
+				{
+					name: bank
+					properties: [
+						{
+							name: text
+							type: TEXT
+							value: bank
+						}
+						{
+							name: iconUp
+							type: DRAWABLE
+							value: navbar-bank-up
+						}
+						{
+							name: iconOver
+							type: DRAWABLE
+							value: navbar-bank-over
+						}
+						{
+							name: iconDisabled
+							type: DRAWABLE
+							value: navbar-bank-disabled
+						}
+						{
+							name: font
+							type: FONT
+							value: h4
+						}
+					]
+					deletable: true
+				}
+				{
+					name: board
+					properties: [
+						{
+							name: text
+							type: TEXT
+							value: board
+						}
+						{
+							name: iconUp
+							type: DRAWABLE
+							value: navbar-board-up
+						}
+						{
+							name: iconOver
+							type: DRAWABLE
+							value: navbar-board-over
+						}
+						{
+							name: iconDisabled
+							type: DRAWABLE
+							value: navbar-board-disabled
+						}
+						{
+							name: font
+							type: FONT
+							value: h4
+						}
+					]
+					deletable: true
+				}
+				{
+					name: credit
+					properties: [
+						{
+							name: text
+							type: TEXT
+							value: credit
+						}
+						{
+							name: iconUp
+							type: DRAWABLE
+							value: navbar-credit-up
+						}
+						{
+							name: iconOver
+							type: DRAWABLE
+							value: navbar-credit-over
+						}
+						{
+							name: iconDisabled
+							type: DRAWABLE
+							value: navbar-credit-disabled
+						}
+						{
+							name: font
+							type: FONT
+							value: h4
+						}
+					]
+					deletable: true
+				}
+				{
+					name: deposit
+					properties: [
+						{
+							name: text
+							type: TEXT
+							value: deposit
+						}
+						{
+							name: iconUp
+							type: DRAWABLE
+							value: navbar-deposit-up
+						}
+						{
+							name: iconOver
+							type: DRAWABLE
+							value: navbar-deposit-over
+						}
+						{
+							name: iconDisabled
+							type: DRAWABLE
+							value: navbar-deposit-disabled
+						}
+						{
+							name: font
+							type: FONT
+							value: null
+						}
+					]
+					deletable: true
+				}
+				{
+					name: employee
+					properties: [
+						{
+							name: text
+							type: TEXT
+							value: employee
+						}
+						{
+							name: iconUp
+							type: DRAWABLE
+							value: navbar-employee-up
+						}
+						{
+							name: iconOver
+							type: DRAWABLE
+							value: navbar-employee-over
+						}
+						{
+							name: iconDisabled
+							type: DRAWABLE
+							value: navbar-employee-disabled
+						}
+						{
+							name: font
+							type: FONT
+							value: null
+						}
+					]
+					deletable: true
+				}
+				{
+					name: hire
+					properties: [
+						{
+							name: text
+							type: TEXT
+							value: hire
+						}
+						{
+							name: iconUp
+							type: DRAWABLE
+							value: navbar-hire-up
+						}
+						{
+							name: iconOver
+							type: DRAWABLE
+							value: navbar-hire-over
+						}
+						{
+							name: iconDisabled
+							type: DRAWABLE
+							value: navbar-hire-disabled
+						}
+						{
+							name: font
+							type: FONT
+							value: null
+						}
+					]
+					deletable: true
+				}
+				{
+					name: history
+					properties: [
+						{
+							name: text
+							type: TEXT
+							value: history
+						}
+						{
+							name: iconUp
+							type: DRAWABLE
+							value: navbar-history-up
+						}
+						{
+							name: iconOver
+							type: DRAWABLE
+							value: navbar-history-over
+						}
+						{
+							name: iconDisabled
+							type: DRAWABLE
+							value: navbar-history-disabled
+						}
+						{
+							name: font
+							type: FONT
+							value: null
+						}
+					]
+					deletable: true
+				}
+				{
+					name: hotel
+					properties: [
+						{
+							name: text
+							type: TEXT
+							value: hotel
+						}
+						{
+							name: iconUp
+							type: DRAWABLE
+							value: navbar-hotel-up
+						}
+						{
+							name: iconOver
+							type: DRAWABLE
+							value: navbar-hotel-over
+						}
+						{
+							name: iconDisabled
+							type: DRAWABLE
+							value: navbar-hotel-disabled
+						}
+						{
+							name: font
+							type: FONT
+							value: null
+						}
+					]
+					deletable: true
+				}
+				{
+					name: manage
+					properties: [
+						{
+							name: text
+							type: TEXT
+							value: manage
+						}
+						{
+							name: iconUp
+							type: DRAWABLE
+							value: navbar-manage-up
+						}
+						{
+							name: iconOver
+							type: DRAWABLE
+							value: navbar-manage-over
+						}
+						{
+							name: iconDisabled
+							type: DRAWABLE
+							value: navbar-manage-disabled
+						}
+						{
+							name: font
+							type: FONT
+							value: null
+						}
+					]
+					deletable: true
+				}
+				{
+					name: offer
+					properties: [
+						{
+							name: text
+							type: TEXT
+							value: offer
+						}
+						{
+							name: iconUp
+							type: DRAWABLE
+							value: navbar-offer-up
+						}
+						{
+							name: iconOver
+							type: DRAWABLE
+							value: navbar-offer-over
+						}
+						{
+							name: iconDisabled
+							type: DRAWABLE
+							value: navbar-offer-disabled
+						}
+						{
+							name: font
+							type: FONT
+							value: null
+						}
+					]
+					deletable: true
+				}
+				{
+					name: places
+					properties: [
+						{
+							name: text
+							type: TEXT
+							value: places
+						}
+						{
+							name: iconUp
+							type: DRAWABLE
+							value: navbar-places-up
+						}
+						{
+							name: iconOver
+							type: DRAWABLE
+							value: navbar-places-over
+						}
+						{
+							name: iconDisabled
+							type: DRAWABLE
+							value: navbar-places-disabled
+						}
+						{
+							name: font
+							type: FONT
+							value: null
+						}
+					]
+					deletable: true
+				}
+				{
+					name: rooms
+					properties: [
+						{
+							name: text
+							type: TEXT
+							value: rooms
+						}
+						{
+							name: iconUp
+							type: DRAWABLE
+							value: navbar-rooms-up
+						}
+						{
+							name: iconOver
+							type: DRAWABLE
+							value: navbar-rooms-over
+						}
+						{
+							name: iconDisabled
+							type: DRAWABLE
+							value: navbar-rooms-disabled
+						}
+						{
+							name: font
+							type: FONT
+							value: null
+						}
+					]
+					deletable: true
+				}
+				{
+					name: tax
+					properties: [
+						{
+							name: text
+							type: TEXT
+							value: tax
+						}
+						{
+							name: iconUp
+							type: DRAWABLE
+							value: navbar-tax-up
+						}
+						{
+							name: iconOver
+							type: DRAWABLE
+							value: navbar-tax-over
+						}
+						{
+							name: iconDisabled
+							type: DRAWABLE
+							value: navbar-tax-disabled
+						}
+						{
+							name: font
+							type: FONT
+							value: null
+						}
+					]
+					deletable: true
+				}
+			]
+			templateStyle: {
+				name: template
+				properties: [
+					{
+						name: text
+						type: TEXT
+						value: ""
+					}
+					{
+						name: iconUp
+						type: DRAWABLE
+						value: null
+					}
+					{
+						name: iconOver
+						type: DRAWABLE
+						value: null
+					}
+					{
+						name: iconDisabled
+						type: DRAWABLE
+						value: null
+					}
+					{
+						name: font
+						type: FONT
+						value: null
+					}
+				]
+				deletable: true
+			}
+			declareAfterUIclasses: false
+		}
+	]
 }
 preferences: {
 	simple-names: {
