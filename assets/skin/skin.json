@@ -269,115 +269,125 @@
 		"minHeight": 44
 	}
 },
-"pl.agh.edu.actor.button.NavbarButton": {
+"pl.agh.edu.actor.button.NavbarButton$NavbarButtonStyle": {
 	"default": {
 		"text": "default",
 		"iconUp": "default",
 		"iconOver": "default",
 		"iconDisabled": "default",
-		"font": "h4"
+		"font": "subtittle2"
 	},
 	"account": {
 		"text": "account",
 		"iconUp": "navbar-account-up",
 		"iconOver": "navbar-account-over",
 		"iconDisabled": "navbar-account-disabled",
-		"font": "h4"
+		"font": "subtittle2"
 	},
 	"add": {
 		"text": "add",
 		"iconUp": "navbar-add-up",
 		"iconOver": "navbar-add-over",
 		"iconDisabled": "navbar-add-disabled",
-		"font": "h4"
+		"font": "subtittle2"
 	},
 	"back": {
 		"text": "back",
 		"iconUp": "navbar-back-up",
 		"iconOver": "navbar-back-over",
 		"iconDisabled": "navbar-back-disabled",
-		"font": "h4"
+		"font": "subtittle2"
 	},
 	"bank": {
 		"text": "bank",
 		"iconUp": "navbar-bank-up",
 		"iconOver": "navbar-bank-over",
 		"iconDisabled": "navbar-bank-disabled",
-		"font": "h4"
+		"font": "subtittle2"
 	},
 	"board": {
 		"text": "board",
 		"iconUp": "navbar-board-up",
 		"iconOver": "navbar-board-over",
 		"iconDisabled": "navbar-board-disabled",
-		"font": "h4"
+		"font": "subtittle2"
 	},
 	"credit": {
 		"text": "credit",
 		"iconUp": "navbar-credit-up",
 		"iconOver": "navbar-credit-over",
 		"iconDisabled": "navbar-credit-disabled",
-		"font": "h4"
+		"font": "subtittle2"
 	},
 	"deposit": {
 		"text": "deposit",
 		"iconUp": "navbar-deposit-up",
 		"iconOver": "navbar-deposit-over",
-		"iconDisabled": "navbar-deposit-disabled"
+		"iconDisabled": "navbar-deposit-disabled",
+		"font": "subtittle2"
 	},
 	"employee": {
 		"text": "employee",
 		"iconUp": "navbar-employee-up",
 		"iconOver": "navbar-employee-over",
-		"iconDisabled": "navbar-employee-disabled"
+		"iconDisabled": "navbar-employee-disabled",
+		"font": "subtittle2"
 	},
 	"hire": {
 		"text": "hire",
 		"iconUp": "navbar-hire-up",
 		"iconOver": "navbar-hire-over",
-		"iconDisabled": "navbar-hire-disabled"
+		"iconDisabled": "navbar-hire-disabled",
+		"font": "subtittle2"
 	},
 	"history": {
 		"text": "history",
 		"iconUp": "navbar-history-up",
 		"iconOver": "navbar-history-over",
-		"iconDisabled": "navbar-history-disabled"
+		"iconDisabled": "navbar-history-disabled",
+		"font": "subtittle2"
 	},
 	"hotel": {
 		"text": "hotel",
 		"iconUp": "navbar-hotel-up",
 		"iconOver": "navbar-hotel-over",
-		"iconDisabled": "navbar-hotel-disabled"
+		"iconDisabled": "navbar-hotel-disabled",
+		"font": "subtittle2"
 	},
 	"manage": {
 		"text": "manage",
 		"iconUp": "navbar-manage-up",
 		"iconOver": "navbar-manage-over",
-		"iconDisabled": "navbar-manage-disabled"
+		"iconDisabled": "navbar-manage-disabled",
+		"font": "subtittle2"
 	},
 	"offer": {
 		"text": "offer",
 		"iconUp": "navbar-offer-up",
 		"iconOver": "navbar-offer-over",
-		"iconDisabled": "navbar-offer-disabled"
+		"iconDisabled": "navbar-offer-disabled",
+		"font": "subtittle2"
 	},
 	"places": {
 		"text": "places",
 		"iconUp": "navbar-places-up",
 		"iconOver": "navbar-places-over",
-		"iconDisabled": "navbar-places-disabled"
+		"iconDisabled": "navbar-places-disabled",
+		"font": "subtittle2"
 	},
 	"rooms": {
 		"text": "rooms",
 		"iconUp": "navbar-rooms-up",
 		"iconOver": "navbar-rooms-over",
-		"iconDisabled": "navbar-rooms-disabled"
+		"iconDisabled": "navbar-rooms-disabled",
+		"font": "subtittle2"
 	},
 	"tax": {
 		"text": "tax",
 		"iconUp": "navbar-tax-up",
 		"iconOver": "navbar-tax-over",
-		"iconDisabled": "navbar-tax-disabled"
+		"iconDisabled": "navbar-tax-disabled",
+		"font": "subtittle2"
 	}
 },
 "ButtonStyle": {
@@ -445,11 +455,24 @@
 	"body2_label": {
 		"font": "body2"
 	},
+	"button1_label": {
+		"font": "button1"
+	},
+	"button2_label": {
+		"font": "button2"
+	},
+	"button3_label": {
+		"font": "button3"
+	},
 	"subtitle1_label": {
 		"font": "subtittle1"
 	},
 	"subtitle2_label": {
 		"font": "subtittle2"
+	},
+	"navbar": {
+		"font": "h4",
+		"background": "pane-background-lime"
 	}
 },
 "ListStyle": {
@@ -502,14 +525,7 @@
 },
 "TextButtonStyle": {
 	"default": {
-		"font": "button2",
-		"downFontColor": "Secondary_300",
-		"overFontColor": "Secondary_100",
-		"disabledFontColor": "Gray_300",
-		"up": "button-normal-up",
-		"down": "button-normal-down",
-		"over": "button-normal-over",
-		"disabled": "button-normal-disabled"
+		"font": "button2"
 	},
 	"Large": {
 		"font": "button1",
@@ -530,6 +546,16 @@
 		"down": "button-small-down",
 		"over": "button-small-over",
 		"disabled": "button-small-disabled"
+	},
+	"normal": {
+		"font": "button2",
+		"downFontColor": "Secondary_300",
+		"overFontColor": "Secondary_100",
+		"disabledFontColor": "Gray_300",
+		"up": "button-normal-up",
+		"down": "button-normal-down",
+		"over": "button-normal-over",
+		"disabled": "button-normal-disabled"
 	}
 },
 "TextFieldStyle": {
@@ -557,6 +583,12 @@
 "TextTooltipStyle": {
 	"default": {
 		"label": "default"
+	}
+},
+"pl.agh.edu.actor.Navbar$NavbarStyle": {
+	"default": {
+		"topBackground": "navbar-top",
+		"bottomBackground": "navbar-bottom"
 	}
 }
 }

@@ -23,6 +23,7 @@ public class GdxGame extends ApplicationAdapter {
 		setScreen(currentScreen);
 		consoleScreen = new ConsoleScreen(this);
 		previousScreen = consoleScreen;
+
 	}
 
 	@Override

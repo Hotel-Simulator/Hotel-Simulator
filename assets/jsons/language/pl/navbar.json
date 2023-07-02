@@ -1,1 +1,53 @@
- 
+{
+  "Buttons": {
+    "account": {
+      "text": "Konto"
+    },
+    "add": {
+      "text": "Dodaj"
+    },
+    "back": {
+      "text": "Wstecz"
+    },
+    "bank": {
+      "text": "Bank"
+    },
+    "board": {
+      "text": "Tablica"
+    },
+    "credit": {
+      "text": "Kredyt"
+    },
+    "deposit": {
+      "text": "Lokata"
+    },
+    "employee": {
+      "text": "Pracownicy"
+    },
+    "hire": {
+      "text": "Zatrudnij"
+    },
+    "history": {
+      "text": "Historia"
+    },
+    "hotel": {
+      "text": "Hotel"
+    },
+    "manage": {
+      "text": "Zarządzaj"
+    },
+    "offer": {
+      "text": "Oferta"
+    },
+    "places": {
+      "text": "Miejsca"
+    },
+    "rooms": {
+      "text": "Pokoje"
+    },
+    "tax": {
+      "text": "Podatki"
+    }
+  }
+}
+

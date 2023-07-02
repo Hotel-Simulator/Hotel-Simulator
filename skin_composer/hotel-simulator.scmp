@@ -2482,6 +2482,66 @@ atlasData: {
 			type: TEXTURE
 			hidden: false
 		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/pane-background-lime.9.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: pane-background-lime
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: NINE_PATCH
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-bottom.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-bottom
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
+		{
+			file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/navbar-top.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: navbar-top
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: TEXTURE
+			hidden: false
+		}
 	]
 	fontDrawables: [
 		{
@@ -4454,7 +4514,7 @@ jsonData: {
 						type: com.badlogic.gdx.graphics.g2d.BitmapFont
 						name: font
 						optional: false
-						value: null
+						value: button1
 					}
 					fontColor: {
 						type: com.badlogic.gdx.graphics.Color
@@ -4481,7 +4541,7 @@ jsonData: {
 						type: com.badlogic.gdx.graphics.g2d.BitmapFont
 						name: font
 						optional: false
-						value: null
+						value: button2
 					}
 					fontColor: {
 						type: com.badlogic.gdx.graphics.Color
@@ -4508,7 +4568,7 @@ jsonData: {
 						type: com.badlogic.gdx.graphics.g2d.BitmapFont
 						name: font
 						optional: false
-						value: null
+						value: button3
 					}
 					fontColor: {
 						type: com.badlogic.gdx.graphics.Color
@@ -4575,6 +4635,33 @@ jsonData: {
 						name: background
 						optional: true
 						value: null
+					}
+				}
+				deletable: true
+				parent: null
+			}
+			{
+				class: com.ray3k.skincomposer.data.StyleData
+				name: navbar
+				clazz: com.badlogic.gdx.scenes.scene2d.ui.Label
+				properties: {
+					font: {
+						type: com.badlogic.gdx.graphics.g2d.BitmapFont
+						name: font
+						optional: false
+						value: h4
+					}
+					fontColor: {
+						type: com.badlogic.gdx.graphics.Color
+						name: fontColor
+						optional: true
+						value: null
+					}
+					background: {
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: background
+						optional: true
+						value: pane-background-lime
 					}
 				}
 				deletable: true
@@ -5334,13 +5421,13 @@ jsonData: {
 						type: com.badlogic.gdx.graphics.Color
 						name: downFontColor
 						optional: true
-						value: Secondary_300
+						value: null
 					}
 					overFontColor: {
 						type: com.badlogic.gdx.graphics.Color
 						name: overFontColor
 						optional: true
-						value: Secondary_100
+						value: null
 					}
 					focusedFontColor: {
 						type: com.badlogic.gdx.graphics.Color
@@ -5352,7 +5439,7 @@ jsonData: {
 						type: com.badlogic.gdx.graphics.Color
 						name: disabledFontColor
 						optional: true
-						value: Gray_300
+						value: null
 					}
 					checkedFontColor: {
 						type: com.badlogic.gdx.graphics.Color
@@ -5382,19 +5469,19 @@ jsonData: {
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
 						name: up
 						optional: true
-						value: button-normal-up
+						value: null
 					}
 					down: {
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
 						name: down
 						optional: true
-						value: button-normal-down
+						value: null
 					}
 					over: {
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
 						name: over
 						optional: true
-						value: button-normal-over
+						value: null
 					}
 					focused: {
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
@@ -5406,7 +5493,7 @@ jsonData: {
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
 						name: disabled
 						optional: true
-						value: button-normal-disabled
+						value: null
 					}
 					checked: {
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
@@ -5725,6 +5812,165 @@ jsonData: {
 						name: disabled
 						optional: true
 						value: button-small-disabled
+					}
+					checked: {
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: checked
+						optional: true
+						value: null
+					}
+					checkedOver: {
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: checkedOver
+						optional: true
+						value: null
+					}
+					checkedDown: {
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: checkedDown
+						optional: true
+						value: null
+					}
+					checkedFocused: {
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: checkedFocused
+						optional: true
+						value: null
+					}
+					pressedOffsetX: {
+						type: float
+						name: pressedOffsetX
+						optional: true
+						value: 0
+					}
+					pressedOffsetY: {
+						type: float
+						name: pressedOffsetY
+						optional: true
+						value: 0
+					}
+					unpressedOffsetX: {
+						type: float
+						name: unpressedOffsetX
+						optional: true
+						value: 0
+					}
+					unpressedOffsetY: {
+						type: float
+						name: unpressedOffsetY
+						optional: true
+						value: 0
+					}
+					checkedOffsetX: {
+						type: float
+						name: checkedOffsetX
+						optional: true
+						value: 0
+					}
+					checkedOffsetY: {
+						type: float
+						name: checkedOffsetY
+						optional: true
+						value: 0
+					}
+				}
+				deletable: true
+				parent: null
+			}
+			{
+				class: com.ray3k.skincomposer.data.StyleData
+				name: normal
+				clazz: com.badlogic.gdx.scenes.scene2d.ui.TextButton
+				properties: {
+					font: {
+						type: com.badlogic.gdx.graphics.g2d.BitmapFont
+						name: font
+						optional: false
+						value: button2
+					}
+					fontColor: {
+						type: com.badlogic.gdx.graphics.Color
+						name: fontColor
+						optional: true
+						value: null
+					}
+					downFontColor: {
+						type: com.badlogic.gdx.graphics.Color
+						name: downFontColor
+						optional: true
+						value: Secondary_300
+					}
+					overFontColor: {
+						type: com.badlogic.gdx.graphics.Color
+						name: overFontColor
+						optional: true
+						value: Secondary_100
+					}
+					focusedFontColor: {
+						type: com.badlogic.gdx.graphics.Color
+						name: focusedFontColor
+						optional: true
+						value: null
+					}
+					disabledFontColor: {
+						type: com.badlogic.gdx.graphics.Color
+						name: disabledFontColor
+						optional: true
+						value: Gray_300
+					}
+					checkedFontColor: {
+						type: com.badlogic.gdx.graphics.Color
+						name: checkedFontColor
+						optional: true
+						value: null
+					}
+					checkedDownFontColor: {
+						type: com.badlogic.gdx.graphics.Color
+						name: checkedDownFontColor
+						optional: true
+						value: null
+					}
+					checkedOverFontColor: {
+						type: com.badlogic.gdx.graphics.Color
+						name: checkedOverFontColor
+						optional: true
+						value: null
+					}
+					checkedFocusedFontColor: {
+						type: com.badlogic.gdx.graphics.Color
+						name: checkedFocusedFontColor
+						optional: true
+						value: null
+					}
+					up: {
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: up
+						optional: true
+						value: button-normal-up
+					}
+					down: {
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: down
+						optional: true
+						value: button-normal-down
+					}
+					over: {
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: over
+						optional: true
+						value: button-normal-over
+					}
+					focused: {
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: focused
+						optional: true
+						value: null
+					}
+					disabled: {
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: disabled
+						optional: true
+						value: button-normal-disabled
 					}
 					checked: {
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
@@ -6454,7 +6700,7 @@ jsonData: {
 	}
 	customClasses: [
 		{
-			fullyQualifiedName: pl.agh.edu.actor.button.NavbarButton
+			fullyQualifiedName: pl.agh.edu.actor.button.NavbarButton$NavbarButtonStyle
 			displayName: NavbarButton
 			styles: [
 				{
@@ -6483,7 +6729,7 @@ jsonData: {
 						{
 							name: font
 							type: FONT
-							value: h4
+							value: subtittle2
 						}
 					]
 					deletable: false
@@ -6514,7 +6760,7 @@ jsonData: {
 						{
 							name: font
 							type: FONT
-							value: h4
+							value: subtittle2
 						}
 					]
 					deletable: true
@@ -6545,7 +6791,7 @@ jsonData: {
 						{
 							name: font
 							type: FONT
-							value: h4
+							value: subtittle2
 						}
 					]
 					deletable: true
@@ -6576,7 +6822,7 @@ jsonData: {
 						{
 							name: font
 							type: FONT
-							value: h4
+							value: subtittle2
 						}
 					]
 					deletable: true
@@ -6607,7 +6853,7 @@ jsonData: {
 						{
 							name: font
 							type: FONT
-							value: h4
+							value: subtittle2
 						}
 					]
 					deletable: true
@@ -6638,7 +6884,7 @@ jsonData: {
 						{
 							name: font
 							type: FONT
-							value: h4
+							value: subtittle2
 						}
 					]
 					deletable: true
@@ -6669,7 +6915,7 @@ jsonData: {
 						{
 							name: font
 							type: FONT
-							value: h4
+							value: subtittle2
 						}
 					]
 					deletable: true
@@ -6700,7 +6946,7 @@ jsonData: {
 						{
 							name: font
 							type: FONT
-							value: null
+							value: subtittle2
 						}
 					]
 					deletable: true
@@ -6731,7 +6977,7 @@ jsonData: {
 						{
 							name: font
 							type: FONT
-							value: null
+							value: subtittle2
 						}
 					]
 					deletable: true
@@ -6762,7 +7008,7 @@ jsonData: {
 						{
 							name: font
 							type: FONT
-							value: null
+							value: subtittle2
 						}
 					]
 					deletable: true
@@ -6793,7 +7039,7 @@ jsonData: {
 						{
 							name: font
 							type: FONT
-							value: null
+							value: subtittle2
 						}
 					]
 					deletable: true
@@ -6824,7 +7070,7 @@ jsonData: {
 						{
 							name: font
 							type: FONT
-							value: null
+							value: subtittle2
 						}
 					]
 					deletable: true
@@ -6855,7 +7101,7 @@ jsonData: {
 						{
 							name: font
 							type: FONT
-							value: null
+							value: subtittle2
 						}
 					]
 					deletable: true
@@ -6886,7 +7132,7 @@ jsonData: {
 						{
 							name: font
 							type: FONT
-							value: null
+							value: subtittle2
 						}
 					]
 					deletable: true
@@ -6917,7 +7163,7 @@ jsonData: {
 						{
 							name: font
 							type: FONT
-							value: null
+							value: subtittle2
 						}
 					]
 					deletable: true
@@ -6948,7 +7194,7 @@ jsonData: {
 						{
 							name: font
 							type: FONT
-							value: null
+							value: subtittle2
 						}
 					]
 					deletable: true
@@ -6979,7 +7225,7 @@ jsonData: {
 						{
 							name: font
 							type: FONT
-							value: null
+							value: subtittle2
 						}
 					]
 					deletable: true
@@ -7017,6 +7263,45 @@ jsonData: {
 				deletable: true
 			}
 			declareAfterUIclasses: false
+		}
+		{
+			fullyQualifiedName: pl.agh.edu.actor.Navbar$NavbarStyle
+			displayName: Navbar
+			styles: [
+				{
+					name: default
+					properties: [
+						{
+							name: topBackground
+							type: DRAWABLE
+							value: navbar-top
+						}
+						{
+							name: bottomBackground
+							type: DRAWABLE
+							value: navbar-bottom
+						}
+					]
+					deletable: false
+				}
+			]
+			templateStyle: {
+				name: template
+				properties: [
+					{
+						name: topBackground
+						type: DRAWABLE
+						value: null
+					}
+					{
+						name: bottomBackground
+						type: DRAWABLE
+						value: null
+					}
+				]
+				deletable: true
+			}
+			declareAfterUIclasses: true
 		}
 	]
 }
@@ -7062,7 +7347,7 @@ sceneComposer: {
 								class: com.ray3k.skincomposer.dialog.scenecomposer.DialogSceneComposerModel$SimImage
 								name: null
 								drawable: {
-									file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/night_city.png"
+									file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/night-city.png"
 									bgColor: {
 										r: 1
 										g: 1
@@ -7071,7 +7356,7 @@ sceneComposer: {
 									}
 									tint: null
 									tintName: null
-									name: night_city
+									name: night-city
 									tiled: false
 									minWidth: -1
 									minHeight: -1
@@ -7087,8 +7372,125 @@ sceneComposer: {
 							}
 							{
 								class: com.ray3k.skincomposer.dialog.scenecomposer.DialogSceneComposerModel$SimTable
-								cells: []
-								name: null
+								cells: [
+									{
+										child: {
+											class: com.ray3k.skincomposer.dialog.scenecomposer.DialogSceneComposerModel$SimStack
+											name: null
+											children: [
+												{
+													class: com.ray3k.skincomposer.dialog.scenecomposer.DialogSceneComposerModel$SimTable
+													cells: [
+														{
+															child: {
+																class: com.ray3k.skincomposer.dialog.scenecomposer.DialogSceneComposerModel$SimTable
+																cells: []
+																name: null
+																background: {
+																	file: "/home/lawos/IdeaProjects/hotel-simulator/skin_composer/hotel-simulator_data/pane-background-lime.9.png"
+																	bgColor: {
+																		r: 1
+																		g: 1
+																		b: 1
+																		a: 1
+																	}
+																	tint: null
+																	tintName: null
+																	name: pane-background-lime
+																	tiled: false
+																	minWidth: -1
+																	minHeight: -1
+																	customized: false
+																	tenPatchData: null
+																	tvgData: null
+																	type: NINE_PATCH
+																	hidden: false
+																}
+																color: null
+																padLeft: 0
+																padRight: 0
+																padTop: 0
+																padBottom: 0
+																paddingEnabled: false
+																alignment: 2
+																fillParent: false
+																touchable: childrenOnly
+																visible: true
+															}
+															row: 0
+															column: 0
+															padLeft: 0
+															padRight: 0
+															padTop: 0
+															padBottom: 0
+															spaceLeft: 0
+															spaceRight: 0
+															spaceTop: 0
+															spaceBottom: 0
+															expandX: true
+															expandY: true
+															fillX: false
+															fillY: false
+															growX: false
+															growY: false
+															alignment: 2
+															minWidth: -1
+															minHeight: -1
+															maxWidth: -1
+															maxHeight: -1
+															preferredWidth: -1
+															preferredHeight: -1
+															uniformX: false
+															uniformY: false
+															colSpan: 1
+														}
+													]
+													name: null
+													background: null
+													color: null
+													padLeft: 0
+													padRight: 0
+													padTop: 0
+													padBottom: 0
+													paddingEnabled: false
+													alignment: 2
+													fillParent: false
+													touchable: childrenOnly
+													visible: true
+												}
+											]
+											touchable: enabled
+											visible: true
+										}
+										row: 0
+										column: 0
+										padLeft: 0
+										padRight: 0
+										padTop: 0
+										padBottom: 0
+										spaceLeft: 0
+										spaceRight: 0
+										spaceTop: 0
+										spaceBottom: 0
+										expandX: true
+										expandY: true
+										fillX: true
+										fillY: true
+										growX: true
+										growY: true
+										alignment: 1
+										minWidth: -1
+										minHeight: -1
+										maxWidth: -1
+										maxHeight: -1
+										preferredWidth: -1
+										preferredHeight: -1
+										uniformX: false
+										uniformY: false
+										colSpan: 1
+									}
+								]
+								name: main-table
 								background: null
 								color: null
 								padLeft: 0

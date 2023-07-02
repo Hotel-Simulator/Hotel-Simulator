@@ -6,23 +6,37 @@ filter: Linear, Linear
 repeat: none
 PressStart2P-Regular_0
   rotate: false
-  xy: 1, 233
+  xy: 1, 55
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 PressStart2P-Regular_1
   rotate: false
-  xy: 515, 233
+  xy: 515, 55
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 PressStart2P-Regular_2
   rotate: false
-  xy: 1029, 325
+  xy: 1103, 279
   size: 512, 512
   orig: 512, 512
+  offset: 0, 0
+  index: -1
+navbar-bottom
+  rotate: false
+  xy: 1, 727
+  size: 1100, 110
+  orig: 1100, 110
+  offset: 0, 0
+  index: -1
+navbar-top
+  rotate: false
+  xy: 1, 615
+  size: 1100, 110
+  orig: 1100, 110
   offset: 0, 0
   index: -1
 night-city
@@ -34,14 +48,14 @@ night-city
   index: -1
 progressbar-empty
   rotate: false
-  xy: 1, 793
+  xy: 1103, 793
   size: 800, 44
   orig: 800, 44
   offset: 0, 0
   index: -1
 progressbar-full
   rotate: false
-  xy: 1, 747
+  xy: 1, 569
   size: 800, 44
   orig: 800, 44
   offset: 0, 0
@@ -662,42 +676,42 @@ button-time-plus-up
   index: -1
 checkbox-off-disabled
   rotate: false
-  xy: 565, 575
+  xy: 157, 59
   size: 40, 40
   orig: 40, 40
   offset: 0, 0
   index: -1
 checkbox-off-over
   rotate: false
-  xy: 513, 522
+  xy: 565, 575
   size: 40, 40
   orig: 40, 40
   offset: 0, 0
   index: -1
 checkbox-off-up
   rotate: false
-  xy: 359, 371
+  xy: 513, 522
   size: 40, 40
   orig: 40, 40
   offset: 0, 0
   index: -1
 checkbox-on-disabled
   rotate: false
-  xy: 307, 318
+  xy: 359, 371
   size: 40, 40
   orig: 40, 40
   offset: 0, 0
   index: -1
 checkbox-on-over
   rotate: false
-  xy: 257, 269
+  xy: 307, 318
   size: 40, 40
   orig: 40, 40
   offset: 0, 0
   index: -1
 checkbox-on-up
   rotate: false
-  xy: 1, 7
+  xy: 257, 269
   size: 40, 40
   orig: 40, 40
   offset: 0, 0
@@ -727,7 +741,7 @@ list-down
   index: -1
 list-over
   rotate: false
-  xy: 157, 74
+  xy: 205, 113
   size: 25, 25
   split: 9, 9, 9, 9
   orig: 25, 25
@@ -735,7 +749,7 @@ list-over
   index: -1
 list-selection
   rotate: false
-  xy: 205, 113
+  xy: 46, 22
   size: 25, 25
   split: 9, 9, 9, 9
   orig: 25, 25
@@ -1070,9 +1084,18 @@ navbar-tax-up
   orig: 100, 100
   offset: 0, 0
   index: -1
+pane-background-lime
+  rotate: false
+  xy: 1, 4
+  size: 43, 43
+  split: 21, 21, 21, 21
+  pad: 19, 19, 19, 19
+  orig: 43, 43
+  offset: 0, 0
+  index: -1
 scrollpane-knob
   rotate: false
-  xy: 607, 593
+  xy: 488, 460
   size: 11, 22
   split: 5, 5, 7, 5
   orig: 11, 22
@@ -1080,7 +1103,7 @@ scrollpane-knob
   index: -1
 scrollpane-vscroll
   rotate: false
-  xy: 43, 1
+  xy: 436, 425
   size: 11, 20
   split: 5, 5, 5, 5
   orig: 11, 20
@@ -1088,7 +1111,7 @@ scrollpane-vscroll
   index: -1
 scrollpane-console-knob
   rotate: false
-  xy: 43, 1
+  xy: 436, 425
   size: 11, 20
   split: 5, 5, 5, 5
   orig: 11, 20
@@ -1096,28 +1119,28 @@ scrollpane-console-knob
   index: -1
 slider-background
   rotate: false
-  xy: 1, 4
+  xy: 1, 1
   size: 20, 1
   orig: 20, 1
   offset: 0, 0
   index: -1
 slider-knob
   rotate: false
-  xy: 513, 496
+  xy: 607, 591
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: -1
 slider-knob-down
   rotate: false
-  xy: 257, 243
+  xy: 513, 496
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: -1
 slider-knob-over
   rotate: false
-  xy: 43, 23
+  xy: 257, 243
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
