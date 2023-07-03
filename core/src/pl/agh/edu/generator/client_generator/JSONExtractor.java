@@ -206,7 +206,7 @@ public class JSONExtractor {
                             JSONObject data = (JSONObject) e;
                             return new BankData(
                                     (String) data.get("name"),
-                                    Math.round((Long) data.get("loan_interest_rate")),
+                                    Math.round((Long) data.get("credit_interest_rate")),
                                     Math.round((Long) data.get("deposit_interest_rate")),
                                     BigDecimal.valueOf((Long) data.get("account_fee"))
                             );

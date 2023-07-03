@@ -5,7 +5,7 @@ import java.math.BigInteger;
 
 public record BankData (
     String name,
-    int loanInterestRate,
+    int creditInterestRate,
     int depositInterestRate,
     BigDecimal bankAccountFee
 

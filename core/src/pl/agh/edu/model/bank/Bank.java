@@ -10,18 +10,15 @@ import java.util.List;
 public class Bank {
     private static volatile Bank instance = null;
     private BigDecimal balance = new BigDecimal(0);
+    private List credits = new LinkedList();
+    private List deposits = new LinkedList();
+    private int creditInterestRate;
 
-    private List loans = new LinkedList();
-
-    public int getInterestRate() {
-        return interestRate;
-    }
-
-    private int interestRate;
+    private int depositInterestRate;
     private BigDecimal accountFee;
     private LocalDateTime nextAccountFeeCharge;
-
-
+    private List<Transaction> incomes = new LinkedList<>();
+    private List<Transaction> expenses = new LinkedList<>();
     public static Bank getInstance(){
         if(instance == null){
             synchronized (Bank.class){
@@ -33,61 +30,72 @@ public class Bank {
         return instance;
     }
 
-    public Bank setInterestRate(int interestRate) {
-        this.interestRate = interestRate;
-        return instance;
-    }
-
 
     private Bank(){
         nextAccountFeeCharge = Time.getInstance().getTime().plusMonths(1);
     }
 
-    public Bank setAccountFee(int fee){
-        this.accountFee.add(BigDecimal.valueOf(fee));
-        return instance;
-    }
     public void chargeAccountFee(){
         chargeBalance(accountFee);
         nextAccountFeeCharge = nextAccountFeeCharge.plusMonths(1);
     }
 
-
-
-
-    public BigDecimal getBalance() {
-        return balance;
-    }
-
     public String printBalance(){return balance.toString()+".00$";}
 
-    public void addBalance(int value) {this.balance.add(BigDecimal.valueOf(value));}
-    public void addBalance(BigDecimal value){this.balance.add(value);}
-    public void chargeBalance(int value){
-        if(operationAbility(value))
-            this.balance.subtract(BigDecimal.valueOf(value));
-        else{
-            obtainLoan(BigDecimal.valueOf(100000),12);
-        }
-    }
-    public void chargeBalance(BigDecimal value){
-        this.balance.subtract(value);
+
+    public void addBalance(BigDecimal value){
+        this.balance.add(value);
+        this.incomes.add(new Transaction(Time.getInstance().getTime(),value));
     }
 
-    public boolean operationAbility(double d){
-        if(balance.compareTo(BigDecimal.valueOf(d))<0){
+    public void chargeBalance(BigDecimal value){
+        this.balance.subtract(value);
+        this.expenses.add(new Transaction(Time.getInstance().getTime(),value));
+    }
+
+    public boolean operationAbility(BigDecimal value){
+        if(balance.compareTo(value)<0){
             return false;
         }
         return true;
     }
 
 
-    public Loan obtainLoan(BigDecimal value, int period){
-        Loan loan = new Loan(value,period);
-        loans.add(loan);
-        addBalance(loan.getLoanValue()); // automatically adds value to balance
-        return loan;
+    public void obtainCredit(BigDecimal value, int period){
+        Credit credit = new Credit(value,period);
+        credits.add(credit);
+        addBalance(value); // automatically adds value to balance
     }
+
+    public void placeDeposit(BigDecimal value, int period){
+        Deposit deposit = new Deposit(value,period);
+        deposits.add(deposit);
+        chargeBalance(value);
+    }
+
+
+    public void setAccountFee(int fee){
+        this.accountFee.add(BigDecimal.valueOf(fee));
+    }
+
+    public void setCreditInterestRate(int interestRate) {
+        this.creditInterestRate = interestRate;
+    }
+    public void setDepositsInterestRate(int interestRate) {
+        this.creditInterestRate = interestRate;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public int getCreditInterestRate() {
+        return creditInterestRate;
+    }
+    public int getDepositInterestRate() {
+        return depositInterestRate;
+    }
+
 
 
 
