@@ -1,14 +1,13 @@
 package pl.agh.edu.model.employee.cleaner;
 
 import org.json.simple.parser.ParseException;
-import pl.agh.edu.generator.client_generator.JSONExtractor;
+import pl.agh.edu.json_extractor.JSONExtractor;
 import pl.agh.edu.model.employee.Employee;
 import pl.agh.edu.model.employee.Shift;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Duration;
-import java.time.LocalTime;
 
 public class Cleaner extends Employee {
     private static final Duration baseCleaningTime;

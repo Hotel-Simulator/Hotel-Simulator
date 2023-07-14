@@ -1,4 +1,4 @@
-package pl.agh.edu.generator.client_generator;
+package pl.agh.edu.json_extractor;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;

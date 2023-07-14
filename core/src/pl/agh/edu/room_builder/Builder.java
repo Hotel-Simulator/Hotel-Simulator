@@ -2,7 +2,7 @@ package pl.agh.edu.room_builder;
 
 import org.json.simple.parser.ParseException;
 import pl.agh.edu.enums.RoomState;
-import pl.agh.edu.generator.client_generator.JSONExtractor;
+import pl.agh.edu.json_extractor.JSONExtractor;
 import pl.agh.edu.model.Room;
 import pl.agh.edu.model.Time;
 

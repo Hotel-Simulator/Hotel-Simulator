@@ -2,7 +2,7 @@ package pl.agh.edu.model.employee;
 
 import org.json.simple.parser.ParseException;
 import pl.agh.edu.enums.TypeOfContract;
-import pl.agh.edu.generator.client_generator.JSONExtractor;
+import pl.agh.edu.json_extractor.JSONExtractor;
 import pl.agh.edu.generator.employee_generator.EmployeeGenerator;
 import pl.agh.edu.model.Hotel;
 

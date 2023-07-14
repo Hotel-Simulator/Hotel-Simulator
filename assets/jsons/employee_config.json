@@ -1,0 +1,18 @@
+{
+  "min_wage": 4000,
+
+  "notice_period_in_months": 3,
+
+  "employees_to_hire_list_size": 12,
+
+  "shift_probabilities": {
+    "MORNING": 80,
+    "EVENING": 15,
+    "NIGHT": 5
+  },
+
+  "maintenance_times": {
+    "clean" : 30,
+    "fix" : 60
+  }
+}

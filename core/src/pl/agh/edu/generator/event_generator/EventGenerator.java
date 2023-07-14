@@ -1,7 +1,7 @@
 package pl.agh.edu.generator.event_generator;
 
 import org.json.simple.parser.ParseException;
-import pl.agh.edu.generator.client_generator.JSONExtractor;
+import pl.agh.edu.json_extractor.JSONExtractor;
 import pl.agh.edu.generator.event_generator.json_data.ClientNumberModificationCyclicTemporaryEventData;
 import pl.agh.edu.generator.event_generator.json_data.ClientNumberModificationRandomTemporaryEventData;
 import pl.agh.edu.model.Time;

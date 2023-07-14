@@ -1,7 +1,7 @@
 package pl.agh.edu.model.advertisement;
 
 import org.json.simple.parser.ParseException;
-import pl.agh.edu.generator.client_generator.JSONExtractor;
+import pl.agh.edu.json_extractor.JSONExtractor;
 
 import java.io.IOException;
 

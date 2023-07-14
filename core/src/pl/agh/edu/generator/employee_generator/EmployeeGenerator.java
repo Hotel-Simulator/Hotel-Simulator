@@ -4,7 +4,7 @@ package pl.agh.edu.generator.employee_generator;
 
 import com.github.javafaker.Faker;
 import org.json.simple.parser.ParseException;
-import pl.agh.edu.generator.client_generator.JSONExtractor;
+import pl.agh.edu.json_extractor.JSONExtractor;
 import pl.agh.edu.generator.client_generator.ProbabilityListGenerator;
 import pl.agh.edu.model.employee.Employee;
 import pl.agh.edu.model.employee.Shift;

@@ -3,7 +3,7 @@ package pl.agh.edu.model;
 import org.json.simple.parser.ParseException;
 import pl.agh.edu.enums.RoomRank;
 import pl.agh.edu.enums.RoomState;
-import pl.agh.edu.generator.client_generator.JSONExtractor;
+import pl.agh.edu.json_extractor.JSONExtractor;
 import pl.agh.edu.generator.employee_generator.EmployeeGenerator;
 import pl.agh.edu.logo.RandomLogoCreator;
 import pl.agh.edu.model.employee.Employee;

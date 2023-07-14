@@ -4,6 +4,7 @@ import org.json.simple.parser.ParseException;
 import pl.agh.edu.enums.HotelVisitPurpose;
 import pl.agh.edu.enums.RoomRank;
 import pl.agh.edu.enums.Sex;
+import pl.agh.edu.json_extractor.JSONExtractor;
 import pl.agh.edu.model.Client;
 import pl.agh.edu.model.ClientGroup;
 import pl.agh.edu.model.Time;
