@@ -1,5 +1,5 @@
 {
-  "bank_scenarios": [
+  "scenarios": [
     {
       "name": "The bank",
       "credit_interest_rate": 0,

@@ -1,5 +1,5 @@
 {
-  "hotel_starting_data" : {
+  "initial_data" : {
     "cleaner" : 2,
     "repairman" : 1,
     "builder" : 1,
@@ -9,7 +9,7 @@
     "room_size_4" : 1
   },
 
-  "hotel_check_in_out_times" : {
+  "check_in_out_times" : {
     "check_in" : "14:00:00",
     "check_out" : "11:00:00"
   },

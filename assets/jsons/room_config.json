@@ -1,6 +1,6 @@
 {
 
-  "max_room_size" : 5,
+  "max_size" : 5,
 
   "upgrade_times" : {
     "1" : 3,

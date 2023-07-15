@@ -3,8 +3,6 @@
 
   "notice_period_in_months": 3,
 
-  "employees_to_hire_list_size": 12,
-
   "shift_probabilities": {
     "MORNING": 80,
     "EVENING": 15,

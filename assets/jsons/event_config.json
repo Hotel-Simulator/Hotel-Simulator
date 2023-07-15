@@ -1,32 +1,30 @@
 {
+  "cyclic_temporary_events":  [
+  {
+    "name": "Summer Holidays",
+    "calendar_description": "Prepare yourself for an increased number of customers during this period!",
+    "start_date": "--07-01",
+    "end_date": "--09-01",
+    "modifiers": {
+      "VACATION": 0.25,
+      "BUSINESS_TRIP": 0.0,
+      "REHABILITATION": 0.05
+    }
+  },
+  {
+    "name": "Winter Holidays",
+    "calendar_description": "Prepare yourself for an increased number of customers during this period!",
+    "start_date": "--01-01",
+    "end_date": "--03-01",
+    "modifiers": {
+      "VACATION": 0.15,
+      "BUSINESS_TRIP": 0.0,
+      "REHABILITATION": 0.03
+    }
+  }
+],
 
-  "events" : {
-    "temporary": {
-      "cyclic": [
-        {
-          "name": "Summer Holidays",
-          "calendar_description": "Prepare yourself for an increased number of customers during this period!",
-          "start_date": "--07-01",
-          "end_date": "--09-01",
-          "modifiers": {
-            "VACATION": 0.25,
-            "BUSINESS_TRIP": 0.0,
-            "REHABILITATION": 0.05
-          }
-        },
-        {
-          "name": "Winter Holidays",
-          "calendar_description": "Prepare yourself for an increased number of customers during this period!",
-          "start_date": "--01-01",
-          "end_date": "--03-01",
-          "modifiers": {
-            "VACATION": 0.15,
-            "BUSINESS_TRIP": 0.0,
-            "REHABILITATION": 0.03
-          }
-        }
-      ],
-      "random": [
+      "random_temporary_events": [
         {
           "name": "Scientific Conference",
           "calendar_description": "Scientific conference will last for # days. Be prepared for an increased number of business clients during this period.",
@@ -101,7 +99,4 @@
 
         }
       ]
-    }
-
-  }
 }

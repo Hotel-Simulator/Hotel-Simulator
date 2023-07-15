@@ -9,7 +9,6 @@ buildscript {
         google()
     }
     dependencies {
-        
 
     }
 }
@@ -65,5 +64,13 @@ project(":core") {
         implementation 'com.googlecode.json-simple:json-simple:1.1.1'
         implementation 'com.github.raeleus:stripe:master-SNAPSHOT'
         implementation 'com.github.raeleus.TenPatch:tenpatch:5.0.0'
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    }
+
+    test {
+        useJUnitPlatform()
     }
 }
+
+
