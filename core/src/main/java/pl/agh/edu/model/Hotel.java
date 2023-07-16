@@ -3,8 +3,10 @@ package pl.agh.edu.model;
 import org.json.simple.parser.ParseException;
 import pl.agh.edu.enums.RoomRank;
 import pl.agh.edu.enums.RoomState;
-import pl.agh.edu.json.data_extractor.JSONExtractor;
 import pl.agh.edu.generator.employee_generator.EmployeeGenerator;
+import pl.agh.edu.json.data_loader.JSONEmployeeDataLoader;
+import pl.agh.edu.json.data_loader.JSONHotelDataLoader;
+import pl.agh.edu.json.data_loader.JSONRoomDataLoader;
 import pl.agh.edu.logo.RandomLogoCreator;
 import pl.agh.edu.model.employee.Employee;
 import pl.agh.edu.room_builder.Builder;
@@ -42,15 +44,8 @@ public class Hotel {
     private final TimeCommandExecutor timeCommandExecutor;
     private final Time time;
 
-    private static final int noticePeriodInMonths;
+    private static final int noticePeriodInMonths = JSONEmployeeDataLoader.noticePeriodInMonths;
 
-    static {
-        try {
-            noticePeriodInMonths = JSONExtractor.getNoticePeriodInMonthsFromJSON();
-        } catch (IOException | ParseException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     public Hotel(LocalTime checkInTime, LocalTime checkOutTime) throws IOException, ParseException {
         this.rooms = new ArrayList<>();
@@ -61,7 +56,7 @@ public class Hotel {
 
 
 
-        HashMap<String, Long>  attractivenessConstants = JSONExtractor.getAttractivenessConstantsFromJSON();
+        Map<String, Long>  attractivenessConstants = JSONHotelDataLoader.attractivenessConstants;
         this.attractiveness = (int)(attractivenessConstants.get("local_market") + attractivenessConstants.get("local_attractions"));
 
         for(RoomRank rank: RoomRank.values()){
@@ -69,7 +64,7 @@ public class Hotel {
         }
 
         // config do wielkości
-        for(int i = 1; i < JSONExtractor.getMaxRoomSize(); i++){
+        for(int i = 1; i < JSONRoomDataLoader.maxSize; i++){
             roomsByCapacity.put(i, new ArrayList<Room>());
         }
 
@@ -88,14 +83,14 @@ public class Hotel {
     }
 
     public void initializeStartingHotelData() throws IOException, ParseException {
-        HashMap<String, Long>  attractivenessConstants = JSONExtractor.getAttractivenessConstantsFromJSON();
+        Map<String, Long>  attractivenessConstants = JSONHotelDataLoader.attractivenessConstants;
         this.attractiveness = (int)(attractivenessConstants.get("local_market") + attractivenessConstants.get("local_attractions"));
 
-        HashMap<String, Integer>  hotelStartingValues = JSONExtractor.getHotelStartingValues();
-        HashMap<String, LocalTime>  hotelCheckInOutTimes = JSONExtractor.getHotelTimes();
+        Map<String, Integer>  hotelStartingValues = JSONHotelDataLoader.initialData;
+        Map<String, LocalTime>  hotelCheckInOutTimes = JSONHotelDataLoader.checkInAndOutTime;
 
         Stream.of(RoomRank.values()).forEach(e -> this.roomsByRank.put(e, new ArrayList<>()));
-        IntStream.range(0, JSONExtractor.getMaxRoomSize()).forEach(e -> this.roomsByCapacity.put(e, new ArrayList<>()));
+        IntStream.range(0, JSONRoomDataLoader.maxSize).forEach(e -> this.roomsByCapacity.put(e, new ArrayList<>()));
 
 
         IntStream.range(0, hotelStartingValues.get("cleaner")).forEach(e -> employees.add(EmployeeGenerator.generateCleaner()));

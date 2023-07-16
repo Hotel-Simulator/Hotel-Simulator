@@ -1,10 +1,5 @@
 package pl.agh.edu.model.advertisement;
-
-import org.json.simple.parser.ParseException;
-import pl.agh.edu.json.data_extractor.JSONExtractor;
-
-import java.io.IOException;
-
+import pl.agh.edu.json.data_loader.JSONAdvertisementDataLoader;
 public enum AdvertisementEffectiveness {
     ONE,
     TWO,
@@ -13,15 +8,8 @@ public enum AdvertisementEffectiveness {
     FIVE,
     ;
 
-    private  static final double advertisementMultiplier;
+    private  static final double advertisementMultiplier = JSONAdvertisementDataLoader.multiplier;
 
-    static {
-        try {
-            advertisementMultiplier = JSONExtractor.getAdvertisementMultiplier();
-        } catch (IOException | ParseException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     public static AdvertisementEffectiveness getStars(double modifier){
         if(modifier/ advertisementMultiplier >= 100)return AdvertisementEffectiveness.FIVE;

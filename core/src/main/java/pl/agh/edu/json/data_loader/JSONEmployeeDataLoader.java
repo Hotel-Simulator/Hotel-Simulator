@@ -31,7 +31,6 @@ public class JSONEmployeeDataLoader {
                 JSONDataExtractor.extract(JSON_FILE_PATH,"notice_period_in_months",Long.class));
         shiftProbabilities = JSONValueUtil.getEnumMap(
                 JSONDataExtractor.extract(JSON_FILE_PATH,"shift_probabilities", JSONObject.class),
-                entry -> Shift.valueOf(entry.getKey().toString()),
                 entry ->JSONValueUtil.getInt((Long)entry.getValue()),
                 Shift.class
         );

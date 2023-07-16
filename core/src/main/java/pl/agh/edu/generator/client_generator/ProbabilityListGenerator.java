@@ -23,4 +23,14 @@ public class ProbabilityListGenerator {
         return resultEnumMap;
     }
 
+    public static <T extends Enum<T>,K extends Enum<K>> EnumMap<T, List<K>> getEnumMapOfProbabilityLists(EnumMap<T, EnumMap<K,Integer>> enumMap, Class<T> tClass){
+        EnumMap<T, List<K>> resultEnumMap = new EnumMap<>(tClass);
+        for(Map.Entry<T, EnumMap<K, Integer>> entry : enumMap.entrySet()){
+            resultEnumMap.put(entry.getKey(),getProbabilityList(entry.getValue()));
+        }
+        return resultEnumMap;
+    }
+
+
+
 }

@@ -1,7 +1,7 @@
 package pl.agh.edu.model.calendar;
 
 import org.json.simple.parser.ParseException;
-import pl.agh.edu.json.data_extractor.JSONExtractor;
+import pl.agh.edu.json.data_loader.JSONGameDataLoader;
 import pl.agh.edu.model.Time;
 import pl.agh.edu.generator.event_generator.EventGenerator;
 import java.io.IOException;
@@ -20,9 +20,9 @@ public class Calendar {
     private final LocalDate gameEndDate;
 
 
-    private Calendar() throws IOException, ParseException {
-        this.gameStartDate = JSONExtractor.getDate("game_start_date");
-        this.gameEndDate = JSONExtractor.getDate("game_end_date");
+    private Calendar() {
+        this.gameStartDate = JSONGameDataLoader.startDate;
+        this.gameEndDate = JSONGameDataLoader.endDate;
 
         LocalDate mondayDate = getFirstDayOfWeekDate(gameStartDate);
         weeks = Stream.iterate(mondayDate, date -> date.plusDays(7))

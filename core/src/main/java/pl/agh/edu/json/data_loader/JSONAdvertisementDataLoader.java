@@ -34,7 +34,6 @@ public class JSONAdvertisementDataLoader {
         multiplier = JSONDataExtractor.extract(JSON_FILE_PATH,"multiplier",Double.class);
         singleAdvertisementData = JSONValueUtil.getEnumMap(
                 JSONDataExtractor.extract(JSON_FILE_PATH,"single_advertisement_data",JSONObject.class),
-                entry -> SingleAdvertisementType.valueOf(entry.getKey().toString()),
                 entry -> {
                     JSONObject data = (JSONObject) entry.getValue();
                     JSONObject effectivenessData = (JSONObject) data.get("effectiveness");
@@ -54,7 +53,6 @@ public class JSONAdvertisementDataLoader {
 
         constantAdvertisementData = JSONValueUtil.getEnumMap(
                 JSONDataExtractor.extract(JSON_FILE_PATH,"constant_advertisement_data",JSONObject.class),
-                entry -> ConstantAdvertisementType.valueOf(entry.getKey().toString()),
                 entry -> {
                     JSONObject data = (JSONObject) entry.getValue();
                     JSONObject effectivenessData = (JSONObject) data.get("effectiveness");

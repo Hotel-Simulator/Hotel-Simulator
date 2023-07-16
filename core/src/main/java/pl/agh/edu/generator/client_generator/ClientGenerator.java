@@ -4,7 +4,9 @@ import org.json.simple.parser.ParseException;
 import pl.agh.edu.enums.HotelVisitPurpose;
 import pl.agh.edu.enums.RoomRank;
 import pl.agh.edu.enums.Sex;
-import pl.agh.edu.json.data_extractor.JSONExtractor;
+import pl.agh.edu.json.data_loader.JSONClientDataLoader;
+import pl.agh.edu.json.data_loader.JSONGameDataLoader;
+import pl.agh.edu.json.data_loader.JSONHotelDataLoader;
 import pl.agh.edu.model.Client;
 import pl.agh.edu.model.ClientGroup;
 import pl.agh.edu.model.Time;
@@ -48,12 +50,12 @@ public class ClientGenerator {
     private static ClientGenerator clientGeneratorInstance;
 
     private final Random random = new Random();
-    private final HashMap<String, Long> attractivenessConstants;
-    private EnumMap<HotelVisitPurpose,Double> hotelVisitPurposeProbability;
-    private EnumMap<HotelVisitPurpose, List<Integer>> roomSizeProbabilityLists;
-    private EnumMap<HotelVisitPurpose, List<RoomRank>> desiredRoomRankProbabilityLists;
-    private EnumMap<HotelVisitPurpose, List<Integer>> numberOfNightsProbabilityLists;
-    private EnumMap<RoomRank, Map<Integer, Integer>> averagePricesPerNight;
+    private static final Map<String, Long> attractivenessConstants = JSONHotelDataLoader.attractivenessConstants;;
+    private static final EnumMap<HotelVisitPurpose,Double> hotelVisitPurposeProbability = JSONClientDataLoader.hotelVisitPurposeProbabilities;
+    private static final EnumMap<HotelVisitPurpose, List<Integer>> roomSizeProbabilityLists = ProbabilityListGenerator.getMapOfProbabilityLists(JSONClientDataLoader.roomSizeProbabilities,HotelVisitPurpose.class);
+    private static final EnumMap<HotelVisitPurpose, List<RoomRank>> desiredRoomRankProbabilityLists = ProbabilityListGenerator.getEnumMapOfProbabilityLists(JSONClientDataLoader.desiredRankProbabilities,HotelVisitPurpose.class); ;
+    private static final EnumMap<HotelVisitPurpose, List<Integer>> numberOfNightsProbabilityLists = ProbabilityListGenerator.getMapOfProbabilityLists(JSONClientDataLoader.numberOfNightsProbabilities,HotelVisitPurpose.class);
+    private static final EnumMap<RoomRank, Map<Integer,Integer>> averagePricesPerNight = JSONClientDataLoader.averagePricesPerNight;
     private final AdvertisementHandler advertisementHandler;
     private final ClientNumberModificationTemporaryEventHandler clientNumberModificationTemporaryEventHandler;
     private final Time time;
@@ -62,12 +64,6 @@ public class ClientGenerator {
 
         this.time = Time.getInstance();
 
-        attractivenessConstants = JSONExtractor.getAttractivenessConstantsFromJSON();
-        averagePricesPerNight = JSONExtractor.getAveragePricesPerNightFromJSON();
-        hotelVisitPurposeProbability = JSONExtractor.getHotelVisitPurposeProbabilitiesFromJSON();
-        roomSizeProbabilityLists = ProbabilityListGenerator.getMapOfProbabilityLists(JSONExtractor.getRoomSizeProbabilitiesFromJSON(),HotelVisitPurpose.class);
-        desiredRoomRankProbabilityLists = ProbabilityListGenerator.getMapOfProbabilityLists(JSONExtractor.getDesiredRoomRankProbabilitiesFromJSON(),HotelVisitPurpose.class);
-        numberOfNightsProbabilityLists = ProbabilityListGenerator.getMapOfProbabilityLists(JSONExtractor.getNumberOfNightsProbabilitiesFromJSON(),HotelVisitPurpose.class);
         advertisementHandler = AdvertisementHandler.getInstance();
         clientNumberModificationTemporaryEventHandler = ClientNumberModificationTemporaryEventHandler.getInstance();
     }

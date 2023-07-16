@@ -1,9 +1,9 @@
 package pl.agh.edu.generator.event_generator;
 
 import org.json.simple.parser.ParseException;
-import pl.agh.edu.json.data_extractor.JSONExtractor;
 import pl.agh.edu.generator.event_generator.json_data.ClientNumberModificationCyclicTemporaryEventData;
 import pl.agh.edu.generator.event_generator.json_data.ClientNumberModificationRandomTemporaryEventData;
+import pl.agh.edu.json.data_loader.JSONEventDataLoader;
 import pl.agh.edu.model.Time;
 import pl.agh.edu.model.calendar.Calendar;
 
@@ -19,8 +19,8 @@ import java.util.stream.Stream;
 public class EventGenerator {
     private static EventGenerator instance;
     private final EventLauncher eventLauncher;
-    private final List<ClientNumberModificationCyclicTemporaryEventData> clientNumberModificationCyclicTemporaryEventData;
-    private final List<ClientNumberModificationRandomTemporaryEventData> clientNumberModificationRandomTemporaryEventData;
+    private static final List<ClientNumberModificationCyclicTemporaryEventData> clientNumberModificationCyclicTemporaryEventData = JSONEventDataLoader.clientNumberModificationCyclicTemporaryEventData;
+    private static final List<ClientNumberModificationRandomTemporaryEventData> clientNumberModificationRandomTemporaryEventData = JSONEventDataLoader.clientNumberModificationRandomTemporaryEventData;
     private final Map<ClientNumberModificationRandomTemporaryEventData,Integer> lastYearDate;
     private final Time time;
 
@@ -28,8 +28,6 @@ public class EventGenerator {
 
 
     private EventGenerator() throws IOException, ParseException {
-        this.clientNumberModificationCyclicTemporaryEventData = JSONExtractor.getClientModificationCyclicTemporaryEventData();
-        this.clientNumberModificationRandomTemporaryEventData = JSONExtractor.getClientNumberModificationRandomTemporaryEventData();
         this.lastYearDate = new HashMap<>();
         time = Time.getInstance();
         this.eventLauncher = EventLauncher.getInstance();

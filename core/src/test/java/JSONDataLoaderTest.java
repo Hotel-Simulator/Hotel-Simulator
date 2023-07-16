@@ -10,7 +10,7 @@ public class JSONDataLoaderTest {
 
     static {
         try {
-            setFinalStaticField(JSONFilePath.class,"PATH","../assets/jsons/%s.json");
+            changeJSONPath();
         } catch (ReflectiveOperationException e) {
             throw new RuntimeException(e);
         }
@@ -79,13 +79,24 @@ public class JSONDataLoaderTest {
         });
     }
 
+    @Test
+    public void jSONClientDataLoaderTest() {
+        assertDoesNotThrow(() -> {
+            System.out.printf("HotelVisitPurpose probabilities : %s%n", JSONClientDataLoader.hotelVisitPurposeProbabilities);
+            System.out.printf("Desired RoomRank probabilities : %s%n", JSONClientDataLoader.desiredRankProbabilities);
+            System.out.printf("Number of nights probabilities : %s%n", JSONClientDataLoader.numberOfNightsProbabilities);
+            System.out.printf("Room size probabilities : %s%n", JSONClientDataLoader.roomSizeProbabilities);
+            System.out.printf("Average prices per night : %s%n", JSONClientDataLoader.averagePricesPerNight);
+        });
+    }
 
-    private static void setFinalStaticField(Class<?> clazz, String fieldName, Object value)
+
+    private static void changeJSONPath()
             throws ReflectiveOperationException {
 
-        Field field = clazz.getDeclaredField(fieldName);
+        Field field = JSONFilePath.class.getDeclaredField("PATH");
         field.setAccessible(true);
-        field.set(null, value);
+        field.set(null, "../assets/jsons/%s.json");
     }
 
 }

@@ -2,8 +2,8 @@ package pl.agh.edu.model.employee;
 
 import org.json.simple.parser.ParseException;
 import pl.agh.edu.enums.TypeOfContract;
-import pl.agh.edu.json.data_extractor.JSONExtractor;
 import pl.agh.edu.generator.employee_generator.EmployeeGenerator;
+import pl.agh.edu.json.data_loader.JSONGameDataLoader;
 import pl.agh.edu.model.Hotel;
 
 import java.io.IOException;
@@ -22,7 +22,7 @@ public class EmployeesToHireHandler {
     private final Random random;
 
     public EmployeesToHireHandler(Hotel hotel) throws IOException, ParseException {
-        employeesToHireListSize = JSONExtractor.getEmployeesToHireListSizeFromJSON();
+        employeesToHireListSize = JSONGameDataLoader.employeesToHireListSize;
         this.employeesToHire = new ArrayList<>();
         random = new Random();
         this.hotel = hotel;

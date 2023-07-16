@@ -2,7 +2,7 @@ package pl.agh.edu.model.advertisement;
 
 import org.json.simple.parser.ParseException;
 import pl.agh.edu.enums.HotelVisitPurpose;
-import pl.agh.edu.json.data_extractor.JSONExtractor;
+import pl.agh.edu.json.data_loader.JSONAdvertisementDataLoader;
 import pl.agh.edu.model.advertisement.json_data.ConstantAdvertisementData;
 import pl.agh.edu.model.advertisement.json_data.SingleAdvertisementData;
 import pl.agh.edu.model.Time;
@@ -16,8 +16,8 @@ import java.util.stream.Stream;
 
 public class AdvertisementHandler {
     private static AdvertisementHandler instance;
-    private final EnumMap<SingleAdvertisementType, SingleAdvertisementData> simpleAdvertisementData;
-    private final EnumMap<ConstantAdvertisementType, ConstantAdvertisementData> constantAdvertisementData;
+    private static final EnumMap<SingleAdvertisementType, SingleAdvertisementData> simpleAdvertisementData = JSONAdvertisementDataLoader.singleAdvertisementData;
+    private static final EnumMap<ConstantAdvertisementType, ConstantAdvertisementData> constantAdvertisementData = JSONAdvertisementDataLoader.constantAdvertisementData;
     private final EnumMap<SingleAdvertisementType,List<SingleAdvertisement> > singleAdvertisements;
     private final EnumMap<ConstantAdvertisementType,ConstantAdvertisement> constantAdvertisements;
 
@@ -27,9 +27,7 @@ public class AdvertisementHandler {
     private final Time time;
 
 
-    private AdvertisementHandler() throws IOException, ParseException {
-        this.simpleAdvertisementData = JSONExtractor.getSingleAdvertisementDataFromJSON();
-        this.constantAdvertisementData = JSONExtractor.getConstantAdvertisementDataFromJSON();
+    private AdvertisementHandler(){
         this.time = Time.getInstance();
         this.singleAdvertisements = new EnumMap<>(SingleAdvertisementType.class);
         for(SingleAdvertisementType type : SingleAdvertisementType.values()){

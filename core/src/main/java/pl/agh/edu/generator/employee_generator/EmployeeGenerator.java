@@ -3,9 +3,8 @@
 package pl.agh.edu.generator.employee_generator;
 
 import com.github.javafaker.Faker;
-import org.json.simple.parser.ParseException;
-import pl.agh.edu.json.data_extractor.JSONExtractor;
 import pl.agh.edu.generator.client_generator.ProbabilityListGenerator;
+import pl.agh.edu.json.data_loader.JSONEmployeeDataLoader;
 import pl.agh.edu.model.employee.Employee;
 import pl.agh.edu.model.employee.Shift;
 import pl.agh.edu.model.employee.cleaner.Cleaner;
@@ -21,19 +20,9 @@ public class EmployeeGenerator {
     private static final Faker faker = new Faker();
     private static final Random random = new Random();
 
-    private static final List<Shift> shiftList;
-    private static final BigDecimal minWage;
+    private static final List<Shift> shiftList = ProbabilityListGenerator.getProbabilityList(JSONEmployeeDataLoader.shiftProbabilities);
+    private static final BigDecimal minWage = JSONEmployeeDataLoader.minWage;
 
-
-    static {
-        try {
-            shiftList = ProbabilityListGenerator.getProbabilityList(JSONExtractor.getShiftProbabilitiesFromJSON());
-            minWage = JSONExtractor.getMinWageFromJSON();
-
-        } catch (IOException | ParseException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     public static Employee generateCleaner(){
         String firstName = faker.name().firstName();
