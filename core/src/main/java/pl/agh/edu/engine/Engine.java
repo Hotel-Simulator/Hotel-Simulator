@@ -10,11 +10,13 @@ import pl.agh.edu.model.employee.EmployeesToHireHandler;
 import pl.agh.edu.model.employee.cleaner.CleaningScheduler;
 import pl.agh.edu.time_command.ClientArrivalTimeCommand;
 import pl.agh.edu.time_command.TimeCommandExecutor;
+import pl.agh.edu.update.DailyUpdatable;
+import pl.agh.edu.update.Updater;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-public class Engine {
+public class Engine implements DailyUpdatable {
     private final Time time;
     private final ClientGenerator clientGenerator;
     private final Hotel hotel;
@@ -23,6 +25,8 @@ public class Engine {
     private final EventGenerator eventGenerator;
     private final CleaningScheduler cleaningScheduler;
     private final EmployeesToHireHandler employeesToHireHandler;
+    private final Updater updater;
+
 
     public Engine(){
         this.time = Time.getInstance();
@@ -34,6 +38,20 @@ public class Engine {
         this.eventGenerator = EventGenerator.getInstance();
         this.cleaningScheduler = new CleaningScheduler(hotel);
         this.employeesToHireHandler = new EmployeesToHireHandler(hotel);
+        this.updater = Updater.getInstance();
+
+        updater.registerPerShiftUpdatable(cleaningScheduler);
+
+        updater.registerDailyUpdatable(advertisementHandler);
+        updater.registerDailyUpdatable(cleaningScheduler);
+        updater.registerDailyUpdatable(employeesToHireHandler);
+        updater.registerDailyUpdatable(this);
+
+        updater.registerMonthlyUpdatable(hotel);
+
+        updater.registerYearlyUpdatable(eventGenerator);
+
+        ;
 
     }
 
@@ -43,29 +61,11 @@ public class Engine {
                     timeCommandExecutor.addCommand(LocalDateTime.of(time.getTime().toLocalDate(),arrival.time()),new ClientArrivalTimeCommand(this.hotel ,arrival.clientGroup(),cleaningScheduler));
                 });
     }
-
-    private void updateAdvertisements(){
-
-    }
-
-    public void updateEveryShift(){
-        cleaningScheduler.shiftChange();
-    }
-
-    public void everyDayUpdate(){
-        advertisementHandler.update();
+    @Override
+    public void dailyUpdate(){
         generateClientArrivals();
-        cleaningScheduler.update();
-        employeesToHireHandler.update();
     }
 
-    public void everyMonthUpdate(){
-        hotel.update();
-    }
-
-    public void everyYearUpdate(){
-        eventGenerator.initializeClientNumberModificationCyclicTemporaryEvents();
-    }
 
 
     public static void main(String[] args){

@@ -7,11 +7,13 @@ import pl.agh.edu.model.Time;
 import pl.agh.edu.model.employee.Shift;
 import pl.agh.edu.time_command.EndRoomCleaningTimeCommand;
 import pl.agh.edu.time_command.TimeCommandExecutor;
+import pl.agh.edu.update.DailyUpdatable;
+import pl.agh.edu.update.PerShiftUpdatable;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class CleaningScheduler {
+public class CleaningScheduler implements DailyUpdatable, PerShiftUpdatable {
     private List<Cleaner> cleaners;
     private final Hotel hotel;
     private final LinkedList<Room> dirtyRooms;
@@ -35,11 +37,12 @@ public class CleaningScheduler {
         }
     }
 
-
-    public void update(){
+    @Override
+    public void dailyUpdate(){
         cleaners = hotel.getEmployeesByPosition(Cleaner.class);
     }
-    public void shiftChange(){
+    @Override
+    public void perShiftUpdate(){
         currentShift = currentShift.next();
         cleaners.stream()
                 .filter(cleaner -> cleaner.getShift().equals(currentShift))

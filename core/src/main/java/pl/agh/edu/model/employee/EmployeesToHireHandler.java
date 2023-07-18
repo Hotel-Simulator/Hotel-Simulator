@@ -5,6 +5,7 @@ import pl.agh.edu.enums.TypeOfContract;
 import pl.agh.edu.generator.employee_generator.EmployeeGenerator;
 import pl.agh.edu.json.data_loader.JSONGameDataLoader;
 import pl.agh.edu.model.Hotel;
+import pl.agh.edu.update.DailyUpdatable;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.IntStream;
 
-public class EmployeesToHireHandler {
+public class EmployeesToHireHandler implements DailyUpdatable {
     private final Hotel hotel;
 
     private final List<Employee> employeesToHire;
@@ -40,8 +41,8 @@ public class EmployeesToHireHandler {
     public List<Employee> getEmployeesToHire() {
         return employeesToHire;
     }
-
-    public void update(){
+    @Override
+    public void dailyUpdate(){
         employeesToHire.removeIf((employee -> random.nextInt(20) == 0));
         IntStream.range(employeesToHire.size(),employeesToHireListSize).forEach(i -> employeesToHire.add(EmployeeGenerator.generateCleaner()));
     }

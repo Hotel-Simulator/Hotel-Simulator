@@ -12,6 +12,7 @@ import pl.agh.edu.model.employee.Employee;
 import pl.agh.edu.room_builder.Builder;
 import pl.agh.edu.time_command.NoticePeriodTimeCommand;
 import pl.agh.edu.time_command.TimeCommandExecutor;
+import pl.agh.edu.update.MonthlyUpdatable;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -26,7 +27,7 @@ import java.util.stream.Stream;
 // TODO: popularity by customers reviews
 // TODO: checkout handler leave opinions
 // TODO: observery zamiast wątków
-public class Hotel {
+public class Hotel implements MonthlyUpdatable {
 
     private String hotelName;
     private Long hotelId;
@@ -155,7 +156,7 @@ public class Hotel {
                 .collect(Collectors.toList());
     }
 
-    public void update(){
+    public void monthlyUpdate(){
         employees.forEach(Employee::update);
     }
 
