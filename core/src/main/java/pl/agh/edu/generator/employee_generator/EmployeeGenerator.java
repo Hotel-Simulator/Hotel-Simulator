@@ -24,7 +24,7 @@ public class EmployeeGenerator {
     private static final BigDecimal minWage = JSONEmployeeDataLoader.minWage;
 
 
-    public static Employee generateCleaner(){
+    public static Cleaner generateCleaner(){
         String firstName = faker.name().firstName();
         String lastName = faker.name().lastName();
         int age = random.nextInt(18,60); // TODO: 24.06.2023   ustalic co robimy z emeryturami
@@ -35,7 +35,7 @@ public class EmployeeGenerator {
         return new Cleaner(firstName,lastName,age,skills,desiredWage,acceptableWage,desiredShift);
     }
 
-    public static Employee tmpGenerateRepairman(){
+    public static Technician tmpGenerateRepairman(){
         String firstName = faker.name().firstName();
         String lastName = faker.name().lastName();
         int age = random.nextInt(18,60); // TODO: 24.06.2023   ustalic co robimy z emeryturami

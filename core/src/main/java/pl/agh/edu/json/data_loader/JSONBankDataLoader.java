@@ -5,7 +5,7 @@ import org.json.simple.JSONObject;
 import pl.agh.edu.json.data_extractor.JSONDataExtractor;
 import pl.agh.edu.json.data_extractor.JSONFilePath;
 import pl.agh.edu.json.data_extractor.JSONValueUtil;
-import pl.agh.edu.model.bank.json_data.BankData;
+import pl.agh.edu.json.data.BankData;
 
 import java.math.BigDecimal;
 import java.util.List;

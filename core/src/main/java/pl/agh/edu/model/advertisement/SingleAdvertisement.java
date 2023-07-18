@@ -2,7 +2,7 @@
 package pl.agh.edu.model.advertisement;
 
 import pl.agh.edu.enums.HotelVisitPurpose;
-import pl.agh.edu.model.advertisement.json_data.SingleAdvertisementData;
+import pl.agh.edu.json.data.SingleAdvertisementData;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

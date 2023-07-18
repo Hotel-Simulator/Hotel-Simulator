@@ -1,4 +1,4 @@
-package pl.agh.edu.model.advertisement.json_data;
+package pl.agh.edu.json.data;
 
 import pl.agh.edu.enums.HotelVisitPurpose;
 

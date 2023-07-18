@@ -1,18 +1,14 @@
 package pl.agh.edu.json.data_loader;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import pl.agh.edu.enums.HotelVisitPurpose;
 import pl.agh.edu.json.data_extractor.JSONDataExtractor;
 import pl.agh.edu.json.data_extractor.JSONFilePath;
 import pl.agh.edu.json.data_extractor.JSONValueUtil;
 import pl.agh.edu.model.advertisement.ConstantAdvertisementType;
-import pl.agh.edu.model.advertisement.SingleAdvertisement;
 import pl.agh.edu.model.advertisement.SingleAdvertisementType;
-import pl.agh.edu.model.advertisement.json_data.ConstantAdvertisementData;
-import pl.agh.edu.model.advertisement.json_data.SingleAdvertisementData;
-import pl.agh.edu.model.bank.json_data.BankData;
-import pl.agh.edu.model.employee.Shift;
+import pl.agh.edu.json.data.ConstantAdvertisementData;
+import pl.agh.edu.json.data.SingleAdvertisementData;
 
 import java.util.EnumMap;
 import java.util.stream.Collectors;
