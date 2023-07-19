@@ -43,8 +43,7 @@ public class JSONValueUtil {
                 .collect(Collectors.toMap(
                 keyMapper,
                 valueMapper,
-                (a, b) -> b,
-                HashMap::new
+                (a, b) -> b
         ));
     }
 
