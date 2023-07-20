@@ -47,7 +47,7 @@ public class Hotel {
     private static final int noticePeriodInMonths = JSONEmployeeDataLoader.noticePeriodInMonths;
 
 
-    public Hotel(LocalTime checkInTime, LocalTime checkOutTime) throws IOException, ParseException {
+    public Hotel(LocalTime checkInTime, LocalTime checkOutTime){
         this.rooms = new ArrayList<>();
         this.checkInTime = checkInTime;
         this.checkOutTime = checkOutTime;
@@ -76,13 +76,13 @@ public class Hotel {
         builders.add(new Builder());
     }
 
-    public Hotel() throws IOException, ParseException {
+    public Hotel(){
         this.timeCommandExecutor = TimeCommandExecutor.getInstance();
         this.time = Time.getInstance();
         this.initializeStartingHotelData();
     }
 
-    public void initializeStartingHotelData() throws IOException, ParseException {
+    public void initializeStartingHotelData(){
         Map<String, Long>  attractivenessConstants = JSONHotelDataLoader.attractivenessConstants;
         this.attractiveness = (int)(attractivenessConstants.get("local_market") + attractivenessConstants.get("local_attractions"));
 
@@ -98,13 +98,7 @@ public class Hotel {
         IntStream.range(0, hotelStartingValues.get("repairman")).forEach(e -> employees.add(EmployeeGenerator.tmpGenerateRepairman()));
 
         IntStream.range(0, hotelStartingValues.get("builder")).forEach(e -> {
-            try {
-                builders.add(new Builder());
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            } catch (ParseException ex) {
-                ex.printStackTrace();
-            }
+            builders.add(new Builder());
         });
 
         IntStream.range(0, hotelStartingValues.get("room_size_1")).forEach(
@@ -230,7 +224,7 @@ public class Hotel {
 //        }
 //    }
 
-    public void addBuilder() throws IOException, ParseException {
+    public void addBuilder(){
         builders.add(new Builder());
     }
 
@@ -259,7 +253,7 @@ public class Hotel {
         competitiveness =  (avgOpinionValue + avgRoomStandard.doubleValue() + avgWorkerHappiness.doubleValue())/3;
     }
 
-//    public void checkForMaintenance() throws IOException, ParseException {
+//    public void checkForMaintenance(){
 //        for(Room room: rooms){
 //            if(room.getState().equals(RoomState.DIRTY)){
 //                maintainRoom(room, Role.cleaner);
@@ -271,7 +265,7 @@ public class Hotel {
 //    }
 
 
-//    public void maintainRoom(Room room, Role role) throws IOException, ParseException {
+//    public void maintainRoom(Room room, Role role){
 //        for(Employee employee: employees){
 //            if(employee.getRole().equals(role) && !employee.isOccupied()){
 //                employee.doRoomMaintenance(room);
@@ -294,7 +288,7 @@ public class Hotel {
 //        }
 //    }
 
-    public void upgradeRoom(Room room, int numUpgrades) throws IOException, ParseException {
+    public void upgradeRoom(Room room, int numUpgrades){
         RoomRank prev = room.getRank();
 
         for(Builder builder : builders){

@@ -15,7 +15,7 @@ public class ClientArrivalTimeCommand implements TimeCommand {
     private final TimeCommandExecutor timeCommandExecutor;
     private final CleaningScheduler cleaningScheduler;
 
-    public ClientArrivalTimeCommand(Hotel hotel, ClientGroup clientGroup, CleaningScheduler cleaningScheduler) throws IOException, ParseException {
+    public ClientArrivalTimeCommand(Hotel hotel, ClientGroup clientGroup, CleaningScheduler cleaningScheduler){
         this.timeCommandExecutor = TimeCommandExecutor.getInstance();
         this.clientGroup = clientGroup;
         this.hotel = hotel;

@@ -60,7 +60,7 @@ public class ClientGenerator {
     private final ClientNumberModificationTemporaryEventHandler clientNumberModificationTemporaryEventHandler;
     private final Time time;
 
-    private ClientGenerator() throws IOException, ParseException {
+    private ClientGenerator(){
 
         this.time = Time.getInstance();
 
@@ -69,7 +69,7 @@ public class ClientGenerator {
     }
 
 
-    public static ClientGenerator getInstance() throws IOException, ParseException {
+    public static ClientGenerator getInstance(){
         if(clientGeneratorInstance == null) clientGeneratorInstance = new ClientGenerator();
         return clientGeneratorInstance;
     }
@@ -181,7 +181,7 @@ public class ClientGenerator {
 
 
 
-    public static void main(String[] args) throws IOException, ParseException {
+    public static void main(String[] args){
 
        ClientGenerator generator = getInstance();
        AdvertisementHandler advertisementHandler = AdvertisementHandler.getInstance();

@@ -23,14 +23,14 @@ public class EventLauncher {
     private final Time time;
     private final Random random = new Random();
 
-    private EventLauncher() throws IOException, ParseException {
+    private EventLauncher(){
         calendar = Calendar.getInstance();
         clientNumberModificationTemporaryEventHandler = ClientNumberModificationTemporaryEventHandler.getInstance();
         this.eventsToLaunch = new PriorityQueue<>(Comparator.comparing(ClientNumberModificationRandomTemporaryEvent::launchDate));
         this.time = Time.getInstance();
     }
 
-    public static EventLauncher getInstance() throws IOException, ParseException {
+    public static EventLauncher getInstance(){
         if(instance == null) instance = new EventLauncher();
         return instance;
     }
@@ -71,7 +71,7 @@ public class EventLauncher {
         new PopUpEvent(event.name(),popupDescription,event.imagePath());
     }
 
-    public static void main(String[] args) throws IOException, ParseException {
+    public static void main(String[] args){
         EventGenerator eventGenerator = EventGenerator.getInstance();
         EventLauncher eventLauncher = EventLauncher.getInstance();
         System.out.println(eventLauncher.eventsToLaunch);

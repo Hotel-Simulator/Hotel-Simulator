@@ -34,7 +34,7 @@ public class Calendar {
                         HashMap::new
                 ));
     }
-    public static Calendar getInstance() throws IOException, ParseException {
+    public static Calendar getInstance(){
         if(instance == null) instance = new Calendar();
         return instance;
     }
@@ -50,7 +50,7 @@ public class Calendar {
         weeks.get(getFirstDayOfWeekDate(calendarEvent.date())).sort(CalendarEvent::compareTo);
     }
 
-    public static void main(String[] args) throws IOException, ParseException {
+    public static void main(String[] args){
         Calendar calendar = getInstance();
         EventGenerator eventGenerator = EventGenerator.getInstance();
 

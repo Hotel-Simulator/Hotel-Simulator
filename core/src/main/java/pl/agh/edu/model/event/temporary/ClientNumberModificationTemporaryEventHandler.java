@@ -63,7 +63,7 @@ public class ClientNumberModificationTemporaryEventHandler {
                             return resultMap;});
     }
 
-    public static void main(String[] args) throws IOException, ParseException {
+    public static void main(String[] args){
         var m1 = new EnumMap<HotelVisitPurpose,Double>(HotelVisitPurpose.class);
         m1.put(HotelVisitPurpose.VACATION,0.1);
         m1.put(HotelVisitPurpose.BUSINESS_TRIP,0.1);

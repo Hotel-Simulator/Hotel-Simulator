@@ -27,7 +27,7 @@ public class EventGenerator {
     private final Random random = new Random();
 
 
-    private EventGenerator() throws IOException, ParseException {
+    private EventGenerator(){
         this.lastYearDate = new HashMap<>();
         time = Time.getInstance();
         this.eventLauncher = EventLauncher.getInstance();
@@ -59,12 +59,12 @@ public class EventGenerator {
         ).forEach(eventLauncher::add);
     }
 
-    public static EventGenerator getInstance() throws IOException, ParseException {
+    public static EventGenerator getInstance(){
         if(instance == null) instance = new EventGenerator();
         return instance;
     }
 
-    public void initializeClientNumberModificationCyclicTemporaryEvents() throws IOException, ParseException {
+    public void initializeClientNumberModificationCyclicTemporaryEvents(){
         Calendar calendar = Calendar.getInstance();
         Stream.iterate(calendar.getGameStartDate().getYear(), year -> year <=calendar.getGameEndDate().getYear(), year -> year+1)
                 .forEach(year ->{
@@ -78,7 +78,7 @@ public class EventGenerator {
 
 
 
-    public static void main(String[] args) throws IOException, ParseException {
+    public static void main(String[] args){
         EventGenerator eventGenerator = EventGenerator.getInstance();
     }
 

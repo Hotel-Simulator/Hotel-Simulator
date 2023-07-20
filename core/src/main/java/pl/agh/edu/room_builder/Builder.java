@@ -19,7 +19,7 @@ public class Builder {
     private int upgradesNum;
     private LocalDateTime plannedEndTime;
 
-    public Builder() throws IOException, ParseException {
+    public Builder(){
 
         Map<String, Long> upgradeTimes = JSONRoomDataLoader.upgradeTimes;
 
@@ -37,7 +37,7 @@ public class Builder {
         isOccupied = occupied;
     }
 
-    public void upgradeRoom(Room room, int numUpgrades) throws IOException, ParseException {
+    public void upgradeRoom(Room room, int numUpgrades){
 
         if(room.getRank().ordinal() + 1 + numUpgrades > 5){
             return ;

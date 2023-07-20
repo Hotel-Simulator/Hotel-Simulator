@@ -24,7 +24,7 @@ public class Engine {
     private final CleaningScheduler cleaningScheduler;
     private final EmployeesToHireHandler employeesToHireHandler;
 
-    public Engine() throws IOException, ParseException {
+    public Engine(){
         this.time = Time.getInstance();
         this.clientGenerator = ClientGenerator.getInstance();
 
@@ -40,11 +40,7 @@ public class Engine {
     private void generateClientArrivals(){
         clientGenerator.generateArrivalsForDay(hotel.getCheckInTime(),hotel.getCheckOutTime())
                 .forEach(arrival -> {
-                    try {
-                        timeCommandExecutor.addCommand(LocalDateTime.of(time.getTime().toLocalDate(),arrival.time()),new ClientArrivalTimeCommand(this.hotel ,arrival.clientGroup(),cleaningScheduler));
-                    } catch (IOException | ParseException e) {
-                        throw new RuntimeException(e);
-                    }
+                    timeCommandExecutor.addCommand(LocalDateTime.of(time.getTime().toLocalDate(),arrival.time()),new ClientArrivalTimeCommand(this.hotel ,arrival.clientGroup(),cleaningScheduler));
                 });
     }
 
@@ -67,12 +63,12 @@ public class Engine {
         hotel.update();
     }
 
-    public void everyYearUpdate() throws IOException, ParseException {
+    public void everyYearUpdate(){
         eventGenerator.initializeClientNumberModificationCyclicTemporaryEvents();
     }
 
 
-    public static void main(String[] args) throws IOException, ParseException {
+    public static void main(String[] args){
         Engine engine = new Engine();
     }
 

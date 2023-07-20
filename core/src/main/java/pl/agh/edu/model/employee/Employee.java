@@ -98,7 +98,7 @@ public abstract class Employee {
     public Shift getShift() {
         return shift;
     }
-//    public void doRoomMaintenance(Room room) throws IOException, ParseException {
+//    public void doRoomMaintenance(Room room){
 //        this.isOccupied = true;
 //        this.maintainingRoom = room;
 //        HashMap<String, Long> times = JSONExtractor.getMaintenanceTimesFromJSON();

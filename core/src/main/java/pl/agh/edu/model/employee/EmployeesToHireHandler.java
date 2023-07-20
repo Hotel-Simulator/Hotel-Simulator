@@ -21,7 +21,7 @@ public class EmployeesToHireHandler {
 
     private final Random random;
 
-    public EmployeesToHireHandler(Hotel hotel) throws IOException, ParseException {
+    public EmployeesToHireHandler(Hotel hotel){
         employeesToHireListSize = JSONGameDataLoader.employeesToHireListSize;
         this.employeesToHire = new ArrayList<>();
         random = new Random();

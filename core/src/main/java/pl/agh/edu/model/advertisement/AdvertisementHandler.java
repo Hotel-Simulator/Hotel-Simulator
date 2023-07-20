@@ -37,7 +37,7 @@ public class AdvertisementHandler {
         this.advertisementHistory = new LinkedList<>();
     }
 
-    public static AdvertisementHandler getInstance() throws IOException, ParseException {
+    public static AdvertisementHandler getInstance(){
         if(instance == null) instance = new AdvertisementHandler();
         return instance;
     }
@@ -184,7 +184,7 @@ public class AdvertisementHandler {
 
     public List<String> getAdvertisementTypes(){return List.of("single","constant");}
 
-    public static void main(String[] args) throws IOException, ParseException {
+    public static void main(String[] args){
         AdvertisementHandler advertisementHandler = AdvertisementHandler.getInstance();
         for( ConstantAdvertisementType type: ConstantAdvertisementType.values()){
             System.out.println(advertisementHandler.create(type));;
