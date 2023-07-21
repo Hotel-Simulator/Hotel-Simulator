@@ -14,6 +14,8 @@ public class JSONRoomDataLoader  {
     public static int maxSize;
     public static Map<String,Long> upgradeTimes;
 
+    private JSONRoomDataLoader(){}
+
     static{
         load();
     }

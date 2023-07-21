@@ -15,6 +15,8 @@ public class JSONBankDataLoader {
 
     public static List<BankData> scenarios;
 
+    private JSONBankDataLoader(){}
+
     static{
         load();
     }

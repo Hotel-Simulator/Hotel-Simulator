@@ -7,6 +7,8 @@ import java.io.IOException;
 
 public class JSONDataExtractor {
 
+    private JSONDataExtractor(){}
+
      public static  <T> T extract(JSONFilePath path,String key,Class<T> type){
         try(FileReader fileReader = new FileReader(path.get())){
             return type.cast(((JSONObject)JSONValue.parse(fileReader)).get(key));

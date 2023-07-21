@@ -24,6 +24,8 @@ public class JSONEventDataLoader {
     public static List<ClientNumberModificationCyclicTemporaryEventData> clientNumberModificationCyclicTemporaryEventData;
     public static List<ClientNumberModificationRandomTemporaryEventData> clientNumberModificationRandomTemporaryEventData;
 
+    private JSONEventDataLoader(){}
+
     static{
         load();
     }

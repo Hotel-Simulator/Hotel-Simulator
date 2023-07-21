@@ -21,6 +21,7 @@ public class JSONAdvertisementDataLoader {
     public static EnumMap<SingleAdvertisementType, SingleAdvertisementData> singleAdvertisementData;
     public static EnumMap<ConstantAdvertisementType, ConstantAdvertisementData> constantAdvertisementData;
 
+    private JSONAdvertisementDataLoader(){}
 
     static{
         load();

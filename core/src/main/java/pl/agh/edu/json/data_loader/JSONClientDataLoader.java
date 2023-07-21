@@ -18,7 +18,7 @@ public class JSONClientDataLoader {
     public static EnumMap<HotelVisitPurpose,Map<Integer,Integer>> roomSizeProbabilities;
     public static EnumMap<RoomRank,Map<Integer,Integer>> averagePricesPerNight;
 
-
+    private JSONClientDataLoader(){}
 
     static{
         load();

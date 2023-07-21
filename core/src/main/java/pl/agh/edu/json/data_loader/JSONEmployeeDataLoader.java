@@ -20,6 +20,8 @@ public class JSONEmployeeDataLoader {
     public static EnumMap<Shift,Integer> shiftProbabilities;
     public static Map<String,Long> maintenanceTimes;
 
+    private JSONEmployeeDataLoader(){}
+
     static{
         load();
     }

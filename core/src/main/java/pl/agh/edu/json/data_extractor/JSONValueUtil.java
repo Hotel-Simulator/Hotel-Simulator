@@ -14,6 +14,8 @@ import java.util.stream.Stream;
 
 public class JSONValueUtil {
 
+    private JSONValueUtil(){}
+
     public static <R> List<R> getList(JSONArray jsonArray, Function<Object,R> mapper){
         return Stream.of(jsonArray.toArray())
                 .map(mapper)

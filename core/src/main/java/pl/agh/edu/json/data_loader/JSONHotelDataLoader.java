@@ -16,6 +16,8 @@ public class JSONHotelDataLoader {
     public static Map<String,Long> attractivenessConstants;
     public static Map<String, LocalTime> checkInAndOutTime;
 
+    private JSONHotelDataLoader(){}
+
 
     static{
         load();

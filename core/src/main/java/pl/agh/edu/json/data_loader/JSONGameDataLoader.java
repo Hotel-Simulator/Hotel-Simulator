@@ -17,6 +17,8 @@ public class JSONGameDataLoader {
 
     public static int employeesToHireListSize;
 
+    private JSONGameDataLoader(){}
+
     static{
         load();
     }
@@ -28,8 +30,5 @@ public class JSONGameDataLoader {
                 JSONDataExtractor.extract(JSON_FILE_PATH,"end_date",String.class));
         employeesToHireListSize = JSONValueUtil.getInt(
                 JSONDataExtractor.extract(JSON_FILE_PATH,"employees_to_hire_list_size",Long.class));
-
-
-
     }
 }
