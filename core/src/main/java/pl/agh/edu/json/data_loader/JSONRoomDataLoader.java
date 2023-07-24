@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class JSONRoomDataLoader  {
 
-    private static final JSONFilePath JSON_FILE_PATH = JSONFilePath.ROOM_CONFIG;
+    private static final String JSON_FILE_PATH = JSONFilePath.ROOM_CONFIG.get();
 
     public static int maxSize;
     public static Map<String,Long> upgradeTimes;

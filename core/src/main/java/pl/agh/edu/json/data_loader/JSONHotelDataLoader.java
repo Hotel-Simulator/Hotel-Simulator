@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class JSONHotelDataLoader {
 
-    private static final JSONFilePath JSON_FILE_PATH = JSONFilePath.HOTEL_CONFIG;
+    private static final String JSON_FILE_PATH = JSONFilePath.HOTEL_CONFIG.get();
 
     public static Map<String,Integer> initialData;
     public static Map<String,Long> attractivenessConstants;

@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class JSONBankDataLoader {
-    private static final JSONFilePath JSON_FILE_PATH = JSONFilePath.BANK_CONFIG;
+    private static final String JSON_FILE_PATH = JSONFilePath.BANK_CONFIG.get();
 
     public static List<BankData> scenarios;
 

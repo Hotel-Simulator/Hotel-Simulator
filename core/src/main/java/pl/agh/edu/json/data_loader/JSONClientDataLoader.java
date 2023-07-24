@@ -10,7 +10,7 @@ import java.util.Map;
 
 
 public class JSONClientDataLoader {
-    private static final JSONFilePath JSON_FILE_PATH = JSONFilePath.CLIENT_CONFIG;
+    private static final String JSON_FILE_PATH = JSONFilePath.CLIENT_CONFIG.get();
 
     public static EnumMap<HotelVisitPurpose,Double> hotelVisitPurposeProbabilities;
     public static EnumMap<HotelVisitPurpose,EnumMap<RoomRank,Integer>> desiredRankProbabilities;

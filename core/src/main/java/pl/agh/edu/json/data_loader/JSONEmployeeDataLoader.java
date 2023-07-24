@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class JSONEmployeeDataLoader {
 
-    private static final JSONFilePath JSON_FILE_PATH = JSONFilePath.EMPLOYEE_CONFIG;
+    private static final String JSON_FILE_PATH = JSONFilePath.EMPLOYEE_CONFIG.get();
 
     public static BigDecimal minWage;
     public static int noticePeriodInMonths;

@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class JSONAdvertisementDataLoader {
-    private static final JSONFilePath JSON_FILE_PATH = JSONFilePath.ADVERTISEMENT_CONFIG;
+    private static final String JSON_FILE_PATH = JSONFilePath.ADVERTISEMENT_CONFIG.get();
 
     public static double multiplier;
     public static EnumMap<SingleAdvertisementType, SingleAdvertisementData> singleAdvertisementData;

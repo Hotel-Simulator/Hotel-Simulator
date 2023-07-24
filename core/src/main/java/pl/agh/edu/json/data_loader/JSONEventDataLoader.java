@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class JSONEventDataLoader {
-    private static final JSONFilePath JSON_FILE_PATH = JSONFilePath.EVENT_CONFIG;
+    private static final String JSON_FILE_PATH = JSONFilePath.EVENT_CONFIG.get();
 
     public static List<ClientNumberModificationCyclicTemporaryEventData> clientNumberModificationCyclicTemporaryEventData;
     public static List<ClientNumberModificationRandomTemporaryEventData> clientNumberModificationRandomTemporaryEventData;

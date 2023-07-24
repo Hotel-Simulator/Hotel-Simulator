@@ -10,7 +10,7 @@ import java.time.LocalTime;
 import java.util.Map;
 
 public class JSONGameDataLoader {
-    private static final JSONFilePath JSON_FILE_PATH = JSONFilePath.GAME_CONFIG;
+    private static final String JSON_FILE_PATH = JSONFilePath.GAME_CONFIG.get();
 
     public static LocalDate startDate;
     public static LocalDate endDate;
