@@ -1,3 +1,5 @@
+package json;
+
 import org.junit.jupiter.api.Test;
 import pl.agh.edu.json.data_extractor.JSONFilePath;
 import pl.agh.edu.json.data_loader.*;
