@@ -23,7 +23,7 @@ public class CleaningScheduler implements DailyUpdatable, PerShiftUpdatable {
     public CleaningScheduler(Hotel hotel){
         this.hotel = hotel;
         this.dirtyRooms = new LinkedList<>();
-        currentShift = Shift.EVENING;
+        currentShift = Shift.NIGHT;
         this.timeCommandExecutor = TimeCommandExecutor.getInstance();
         this.time = Time.getInstance();
     }

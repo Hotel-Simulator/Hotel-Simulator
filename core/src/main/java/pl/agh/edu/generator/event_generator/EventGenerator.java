@@ -33,7 +33,6 @@ public class EventGenerator implements YearlyUpdatable {
         time = Time.getInstance();
         this.eventLauncher = EventLauncher.getInstance();
         initializeClientNumberModificationCyclicTemporaryEvents();
-        initializeClientNumberModificationRandomTemporaryEventsForThisYear();
     }
 
     private void initializeClientNumberModificationRandomTemporaryEventsForThisYear() {
@@ -86,6 +85,6 @@ public class EventGenerator implements YearlyUpdatable {
 
     @Override
     public void yearlyUpdate() {
-        initializeClientNumberModificationCyclicTemporaryEvents();
+        initializeClientNumberModificationRandomTemporaryEventsForThisYear();
     }
 }

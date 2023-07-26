@@ -34,17 +34,40 @@ public class Updater{
         yearlyUpdatableList.add(yearlyUpdatable);
     }
 
-    public void perShiftUpdate(){
+    private void perShiftUpdate(){
         perShiftUpdatableList.forEach(PerShiftUpdatable::perShiftUpdate);}
-    public void dailyUpdate(){
+    private void dailyUpdate(){
         dailyUpdatableList.forEach(DailyUpdatable::dailyUpdate);
     }
-    public void monthlyUpdate(){
+    private void monthlyUpdate(){
         monthlyUpdatableList.forEach(MonthlyUpdatable::monthlyUpdate);
     }
-    public void yearlyUpdate(){
+    private void yearlyUpdate(){
         yearlyUpdatableList.forEach(YearlyUpdatable::yearlyUpdate);
     }
 
+    public void update(UpdateFrequency updateFrequency){
+        switch(updateFrequency){
+            case YEAR : {
+                yearlyUpdate();
+            }
+            case MONTH : {
+                monthlyUpdate();
+            }
+            case DAY : {
+                dailyUpdate();
+            }
+            case SHIFT : {
+                perShiftUpdate();
+            }
+        }
+    }
+
+    public enum UpdateFrequency{
+        YEAR,
+        MONTH,
+        DAY,
+        SHIFT
+    }
 
 }
