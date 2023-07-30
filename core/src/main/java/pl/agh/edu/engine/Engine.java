@@ -38,17 +38,20 @@ public class Engine implements DailyUpdatable {
         this.employeesToHireHandler = new EmployeesToHireHandler(hotel);
         this.updater = Updater.getInstance();
 
+
         updater.registerPerShiftUpdatable(cleaningScheduler);
 
         updater.registerDailyUpdatable(advertisementHandler);
         updater.registerDailyUpdatable(employeesToHireHandler);
         updater.registerDailyUpdatable(this);
 
+        updater.registerDailyAtCheckOutTimeUpdatable(cleaningScheduler);
+
+        updater.registerDailyAtCheckInTimeUpdatable(cleaningScheduler);
+
         updater.registerMonthlyUpdatable(hotel);
 
         updater.registerYearlyUpdatable(eventGenerator);
-
-        ;
 
     }
 

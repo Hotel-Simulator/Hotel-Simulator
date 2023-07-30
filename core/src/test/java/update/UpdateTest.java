@@ -1,14 +1,7 @@
 package update;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.junit.jupiter.api.Test;
-import pl.agh.edu.json.data_extractor.JSONDataExtractor;
 import pl.agh.edu.update.*;
-
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class UpdateTest {
@@ -24,12 +17,65 @@ public class UpdateTest {
         updater.registerPerShiftUpdatable(updatable);
 
         //when
-        updater.update(Updater.UpdateFrequency.SHIFT);
-        updater.update(Updater.UpdateFrequency.DAY);
-        updater.update(Updater.UpdateFrequency.MONTH);
-        updater.update(Updater.UpdateFrequency.YEAR);
+        updater.update(Updater.UpdateFrequency.PER_SHIFT);
+        updater.update(Updater.UpdateFrequency.DAILY_AT_CHECK_OUT_TIME);
+        updater.update(Updater.UpdateFrequency.DAILY_AT_CHECK_IN_TIME);
+        updater.update(Updater.UpdateFrequency.DAILY);
+        updater.update(Updater.UpdateFrequency.MONTHLY);
+        updater.update(Updater.UpdateFrequency.YEARLY);
         //then
         assertEquals(4,updatable.counter);
+
+    }
+
+    @Test
+    public void dailyAtCheckOutTimeUpdatableTest(){
+        //given
+        Updater updater = Updater.getInstance();
+        var updatable = new DailyAtCheckOutTimeUpdatable() {
+            int counter = 0;
+            @Override
+            public void dailyAtCheckOutTimeUpdate() {
+                counter++;
+            }
+
+        };
+        updater.registerDailyAtCheckOutTimeUpdatable(updatable);
+
+        //when
+        updater.update(Updater.UpdateFrequency.PER_SHIFT);
+        updater.update(Updater.UpdateFrequency.DAILY_AT_CHECK_OUT_TIME);
+        updater.update(Updater.UpdateFrequency.DAILY_AT_CHECK_IN_TIME);
+        updater.update(Updater.UpdateFrequency.DAILY);
+        updater.update(Updater.UpdateFrequency.MONTHLY);
+        updater.update(Updater.UpdateFrequency.YEARLY);
+        //then
+        assertEquals(1,updatable.counter);
+
+    }
+    @Test
+    public void dailyAtHotelCheckInTimeUpdatableTest(){
+        //given
+        Updater updater = Updater.getInstance();
+        var updatable = new DailyAtCheckInTimeUpdatable() {
+            int counter = 0;
+            @Override
+            public void dailyAtCheckInTimeUpdate() {
+                counter++;
+            }
+
+        };
+        updater.registerDailyAtCheckInTimeUpdatable(updatable);
+
+        //when
+        updater.update(Updater.UpdateFrequency.PER_SHIFT);
+        updater.update(Updater.UpdateFrequency.DAILY_AT_CHECK_OUT_TIME);
+        updater.update(Updater.UpdateFrequency.DAILY_AT_CHECK_IN_TIME);
+        updater.update(Updater.UpdateFrequency.DAILY);
+        updater.update(Updater.UpdateFrequency.MONTHLY);
+        updater.update(Updater.UpdateFrequency.YEARLY);
+        //then
+        assertEquals(1,updatable.counter);
 
     }
     @Test
@@ -46,10 +92,12 @@ public class UpdateTest {
         updater.registerDailyUpdatable(updatable);
 
         //when
-        updater.update(Updater.UpdateFrequency.SHIFT);
-        updater.update(Updater.UpdateFrequency.DAY);
-        updater.update(Updater.UpdateFrequency.MONTH);
-        updater.update(Updater.UpdateFrequency.YEAR);
+        updater.update(Updater.UpdateFrequency.PER_SHIFT);
+        updater.update(Updater.UpdateFrequency.DAILY_AT_CHECK_OUT_TIME);
+        updater.update(Updater.UpdateFrequency.DAILY_AT_CHECK_IN_TIME);
+        updater.update(Updater.UpdateFrequency.DAILY);
+        updater.update(Updater.UpdateFrequency.MONTHLY);
+        updater.update(Updater.UpdateFrequency.YEARLY);
         //then
         assertEquals(3,updatable.counter);
 
@@ -69,10 +117,12 @@ public class UpdateTest {
         updater.registerMonthlyUpdatable(updatable);
 
         //when
-        updater.update(Updater.UpdateFrequency.SHIFT);
-        updater.update(Updater.UpdateFrequency.DAY);
-        updater.update(Updater.UpdateFrequency.MONTH);
-        updater.update(Updater.UpdateFrequency.YEAR);
+        updater.update(Updater.UpdateFrequency.PER_SHIFT);
+        updater.update(Updater.UpdateFrequency.DAILY_AT_CHECK_OUT_TIME);
+        updater.update(Updater.UpdateFrequency.DAILY_AT_CHECK_IN_TIME);
+        updater.update(Updater.UpdateFrequency.DAILY);
+        updater.update(Updater.UpdateFrequency.MONTHLY);
+        updater.update(Updater.UpdateFrequency.YEARLY);
         //then
         assertEquals(2,updatable.counter);
 
@@ -92,10 +142,12 @@ public class UpdateTest {
         updater.registerYearlyUpdatable(updatable);
 
         //when
-        updater.update(Updater.UpdateFrequency.SHIFT);
-        updater.update(Updater.UpdateFrequency.DAY);
-        updater.update(Updater.UpdateFrequency.MONTH);
-        updater.update(Updater.UpdateFrequency.YEAR);
+        updater.update(Updater.UpdateFrequency.PER_SHIFT);
+        updater.update(Updater.UpdateFrequency.DAILY_AT_CHECK_OUT_TIME);
+        updater.update(Updater.UpdateFrequency.DAILY_AT_CHECK_IN_TIME);
+        updater.update(Updater.UpdateFrequency.DAILY);
+        updater.update(Updater.UpdateFrequency.MONTHLY);
+        updater.update(Updater.UpdateFrequency.YEARLY);
         //then
         assertEquals(1,updatable.counter);
 

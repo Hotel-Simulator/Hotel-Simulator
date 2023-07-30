@@ -165,6 +165,7 @@ public class Hotel implements MonthlyUpdatable {
     public HashMap<RoomRank, ArrayList<Room>> getRoomsByRank() {
         return roomsByRank;
     }
+    public ArrayList<Room> getRooms() {return rooms;}
 
     public void setRoomsByRank(HashMap<RoomRank, ArrayList<Room>> roomsByRank) {
         this.roomsByRank = roomsByRank;

@@ -12,7 +12,8 @@ public record EndRoomCleaningTimeCommand(Room cleanedRoom,
     @Override
     public void execute() {
         cleaner.setOccupied(false);
-        cleanedRoom.setState(RoomState.EMPTY);
+        if(cleanedRoom().getState() == RoomState.MAINTENANCE) cleanedRoom.setState(RoomState.EMPTY);
+        else if(cleanedRoom.getState() == RoomState.OCCUPIED_MAINTENANCE) cleanedRoom.setState(RoomState.OCCUPIED);
         cleaningScheduler.cleanRoomIfPossible(cleaner);
     }
 }

@@ -9,23 +9,23 @@ import pl.agh.edu.model.employee.Profession;
 import pl.agh.edu.model.employee.Shift;
 import pl.agh.edu.time_command.EndRoomCleaningTimeCommand;
 import pl.agh.edu.time_command.TimeCommandExecutor;
+import pl.agh.edu.update.DailyAtCheckInTimeUpdatable;
+import pl.agh.edu.update.DailyAtCheckOutTimeUpdatable;
 import pl.agh.edu.update.PerShiftUpdatable;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
-public class CleaningScheduler implements PerShiftUpdatable {
+public class CleaningScheduler implements PerShiftUpdatable, DailyAtCheckInTimeUpdatable, DailyAtCheckOutTimeUpdatable {
     private List<Employee> cleaners;
     private final Hotel hotel;
-    private final LinkedList<Room> dirtyRooms;
+    private final PriorityQueue<Room> dirtyRooms;
     private final TimeCommandExecutor timeCommandExecutor;
     private Shift currentShift;
     private final Time time;
     public CleaningScheduler(Hotel hotel){
         this.hotel = hotel;
-        this.dirtyRooms = new LinkedList<>();
+        this.dirtyRooms = new PriorityQueue<>(roomComparator);
         currentShift = Shift.NIGHT;
         this.timeCommandExecutor = TimeCommandExecutor.getInstance();
         this.time = Time.getInstance();
@@ -38,7 +38,7 @@ public class CleaningScheduler implements PerShiftUpdatable {
             cleaners.stream()
                     .filter(cleaner -> !cleaner.isOccupied() && willEmployeeExecuteServiceBeforeShiftEnds(cleaner))
                     .findFirst()
-                    .ifPresent(cleaner -> cleanRoom(cleaner,room));
+                    .ifPresent(cleaner -> cleanRoom(cleaner,dirtyRooms.remove()));
         }
     }
     @Override
@@ -50,16 +50,34 @@ public class CleaningScheduler implements PerShiftUpdatable {
         cleaners.forEach(this::cleanRoomIfPossible);
 
     }
+    @Override
+    public void dailyAtCheckOutTimeUpdate(){
+        int sizeBefore = dirtyRooms.size();
+        dirtyRooms.addAll(hotel.getRooms().stream()
+                .filter(room -> room.getState() == RoomState.OCCUPIED)
+                .toList());
+        if(sizeBefore == 0 && !dirtyRooms.isEmpty()){
+            cleaners.stream()
+                    .filter(cleaner -> !cleaner.isOccupied())
+                    .forEach(this::cleanRoomIfPossible);
+        }
+    }
+    @Override
+    public void dailyAtCheckInTimeUpdate(){
+        dirtyRooms.removeIf(room -> room.getState() == RoomState.OCCUPIED);
+    }
+
 
     public void cleanRoomIfPossible(Employee cleaner){
 
         if(!dirtyRooms.isEmpty() && willEmployeeExecuteServiceBeforeShiftEnds(cleaner)){
-            cleanRoom(cleaner,dirtyRooms.removeFirst());
+            cleanRoom(cleaner,dirtyRooms.remove());
         }
     }
     private void cleanRoom(Employee cleaner, Room room){
         cleaner.setOccupied(true);
-        room.setState(RoomState.MAINTENANCE);
+        if(room.getState() == RoomState.DIRTY) room.setState(RoomState.MAINTENANCE);
+        else if(room.getState() == RoomState.OCCUPIED) room.setState(RoomState.OCCUPIED_MAINTENANCE);
         timeCommandExecutor.addCommand(time.getTime().plusMinutes(cleaner.getServiceExecutionTime().toMinutes()),
                 new EndRoomCleaningTimeCommand(room,cleaner,this));
     }
@@ -67,6 +85,12 @@ public class CleaningScheduler implements PerShiftUpdatable {
     private boolean willEmployeeExecuteServiceBeforeShiftEnds(Employee cleaner){
         return cleaner.isAtWork(time.getTime().toLocalTime().plusMinutes(cleaner.getServiceExecutionTime().toMinutes()));
     }
+
+    private static final Comparator<Room> roomComparator = (o1, o2) -> {
+        if(o1.getState() == o2.getState()) return 0;
+        if(o1.getState() == RoomState.OCCUPIED) return 1;
+        return -1;
+    };
 
 
 }
