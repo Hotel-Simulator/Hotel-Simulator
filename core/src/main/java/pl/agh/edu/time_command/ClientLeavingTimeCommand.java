@@ -1,7 +1,7 @@
 package pl.agh.edu.time_command;
 
 import pl.agh.edu.model.Room;
-import pl.agh.edu.model.employee.cleaner.CleaningScheduler;
+import pl.agh.edu.management.employee.CleaningScheduler;
 
 public class ClientLeavingTimeCommand implements TimeCommand {
 
@@ -16,6 +16,6 @@ public class ClientLeavingTimeCommand implements TimeCommand {
     @Override
     public void execute() {
         room.checkOut();
-        cleaningScheduler.addRoomToClean(room);
+        cleaningScheduler.newDirtyRoom(room);
     }
 }

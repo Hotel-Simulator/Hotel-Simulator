@@ -1,20 +1,18 @@
 package pl.agh.edu.model;
 
-import org.json.simple.parser.ParseException;
 import pl.agh.edu.enums.RoomRank;
 import pl.agh.edu.enums.RoomState;
-import pl.agh.edu.generator.employee_generator.EmployeeGenerator;
 import pl.agh.edu.json.data_loader.JSONEmployeeDataLoader;
 import pl.agh.edu.json.data_loader.JSONHotelDataLoader;
 import pl.agh.edu.json.data_loader.JSONRoomDataLoader;
 import pl.agh.edu.logo.RandomLogoCreator;
 import pl.agh.edu.model.employee.Employee;
+import pl.agh.edu.model.employee.Profession;
 import pl.agh.edu.room_builder.Builder;
 import pl.agh.edu.time_command.NoticePeriodTimeCommand;
 import pl.agh.edu.time_command.TimeCommandExecutor;
 import pl.agh.edu.update.MonthlyUpdatable;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -93,10 +91,11 @@ public class Hotel implements MonthlyUpdatable {
         Stream.of(RoomRank.values()).forEach(e -> this.roomsByRank.put(e, new ArrayList<>()));
         IntStream.range(0, JSONRoomDataLoader.maxSize).forEach(e -> this.roomsByCapacity.put(e, new ArrayList<>()));
 
+//todo ogarnac co zrobic z zatrudnionymi pracownikami w sensie ich kontrakt (Bartek)
 
-        IntStream.range(0, hotelStartingValues.get("cleaner")).forEach(e -> employees.add(EmployeeGenerator.generateCleaner()));
-
-        IntStream.range(0, hotelStartingValues.get("repairman")).forEach(e -> employees.add(EmployeeGenerator.tmpGenerateRepairman()));
+//        IntStream.range(0, hotelStartingValues.get("cleaner")).forEach(e -> employees.add(PossibleEmployeeGenerator.generatePossibleEmployeeWithProfession(Profession.CLEANER)));
+//
+//        IntStream.range(0, hotelStartingValues.get("repairman")).forEach(e -> employees.add(PossibleEmployeeGenerator.tmpGenerateRepairman()));
 
         IntStream.range(0, hotelStartingValues.get("builder")).forEach(e -> {
             builders.add(new Builder());
@@ -149,10 +148,9 @@ public class Hotel implements MonthlyUpdatable {
     }
 
     public void removeEmployee(Employee employee){employees.remove(employee);}
-    public <T extends Employee> List<T> getEmployeesByPosition(Class<T> employeeClass) {
+    public  List<Employee> getEmployeesByProfession(Profession profession) {
         return employees.stream()
-                .filter(employee -> employee.getClass().equals(employeeClass))
-                .map(employeeClass::cast)
+                .filter(employee -> employee.getProfession() == profession)
                 .collect(Collectors.toList());
     }
 

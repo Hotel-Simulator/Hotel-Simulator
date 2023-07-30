@@ -1,12 +1,9 @@
 package pl.agh.edu.time_command;
 
-import org.json.simple.parser.ParseException;
 import pl.agh.edu.model.ClientGroup;
 import pl.agh.edu.model.Hotel;
 import pl.agh.edu.model.Room;
-import pl.agh.edu.model.employee.cleaner.CleaningScheduler;
-
-import java.io.IOException;
+import pl.agh.edu.management.employee.CleaningScheduler;
 
 public class ClientArrivalTimeCommand implements TimeCommand {
     private final ClientGroup clientGroup;

@@ -1,19 +1,17 @@
 package pl.agh.edu.engine;
 
-import org.json.simple.parser.ParseException;
 import pl.agh.edu.generator.client_generator.ClientGenerator;
 import pl.agh.edu.generator.event_generator.EventGenerator;
 import pl.agh.edu.model.Hotel;
 import pl.agh.edu.model.Time;
 import pl.agh.edu.model.advertisement.AdvertisementHandler;
-import pl.agh.edu.model.employee.EmployeesToHireHandler;
-import pl.agh.edu.model.employee.cleaner.CleaningScheduler;
+import pl.agh.edu.management.employee.EmployeesToHireHandler;
+import pl.agh.edu.management.employee.CleaningScheduler;
 import pl.agh.edu.time_command.ClientArrivalTimeCommand;
 import pl.agh.edu.time_command.TimeCommandExecutor;
 import pl.agh.edu.update.DailyUpdatable;
 import pl.agh.edu.update.Updater;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 public class Engine implements DailyUpdatable {
@@ -43,7 +41,6 @@ public class Engine implements DailyUpdatable {
         updater.registerPerShiftUpdatable(cleaningScheduler);
 
         updater.registerDailyUpdatable(advertisementHandler);
-        updater.registerDailyUpdatable(cleaningScheduler);
         updater.registerDailyUpdatable(employeesToHireHandler);
         updater.registerDailyUpdatable(this);
 

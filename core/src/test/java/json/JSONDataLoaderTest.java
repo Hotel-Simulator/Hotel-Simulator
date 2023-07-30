@@ -42,6 +42,8 @@ public class JSONDataLoaderTest {
             System.out.printf("Game start data: %s%n", JSONGameDataLoader.startDate);
             System.out.printf("Game end data: %s%n", JSONGameDataLoader.endDate);
             System.out.printf("EmployeesToHireList size: %s%n", JSONGameDataLoader.employeesToHireListSize);
+            System.out.printf("PossibleEmployee removal probability: %s%n", JSONGameDataLoader.possibleEmployeeRemovalProbability);
+
 
         });
     }
@@ -60,9 +62,9 @@ public class JSONDataLoaderTest {
             System.out.printf("Min wage: %s%n", JSONEmployeeDataLoader.minWage);
             System.out.printf("Notice period in months: %s%n", JSONEmployeeDataLoader.noticePeriodInMonths);
             System.out.printf("Shift probabilities: %s%n", JSONEmployeeDataLoader.shiftProbabilities);
-            System.out.printf("Maintenance: %s%n", JSONEmployeeDataLoader.maintenanceTimes);
-
-
+            System.out.printf("Basic service executionTimes: %s%n", JSONEmployeeDataLoader.basicServiceExecutionTimes);
+            System.out.printf("Profession probabilities: %s%n", JSONEmployeeDataLoader.professionProbabilities);
+            System.out.printf("Type of contract probabilities: %s%n", JSONEmployeeDataLoader.typeOfContractProbabilities);
         });
     }
     @Test

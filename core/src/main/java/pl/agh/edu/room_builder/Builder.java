@@ -24,7 +24,8 @@ public class Builder {
         Map<String, Long> upgradeTimes = JSONRoomDataLoader.upgradeTimes;
 
         for(int i=1; i < JSONRoomDataLoader.maxSize-1; i++){
-            assert false;
+            //todo co to jest?
+            //assert false;
             buildTimes.put(i, Math.toIntExact(upgradeTimes.get(String.valueOf(i))));
         }
     }
