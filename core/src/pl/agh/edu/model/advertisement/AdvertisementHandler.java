@@ -5,7 +5,7 @@ import pl.agh.edu.enums.HotelVisitPurpose;
 import pl.agh.edu.generator.client_generator.JSONExtractor;
 import pl.agh.edu.model.advertisement.json_data.ConstantAdvertisementData;
 import pl.agh.edu.model.advertisement.json_data.SingleAdvertisementData;
-import pl.agh.edu.model.Time;
+import pl.agh.edu.model.time.Time;
 
 import java.io.IOException;
 import java.math.BigDecimal;

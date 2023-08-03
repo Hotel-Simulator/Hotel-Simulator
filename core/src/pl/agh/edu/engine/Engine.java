@@ -1,11 +1,10 @@
 package pl.agh.edu.engine;
 
-import jdk.jfr.Event;
 import org.json.simple.parser.ParseException;
 import pl.agh.edu.generator.client_generator.ClientGenerator;
 import pl.agh.edu.generator.event_generator.EventGenerator;
 import pl.agh.edu.model.Hotel;
-import pl.agh.edu.model.Time;
+import pl.agh.edu.model.time.Time;
 import pl.agh.edu.model.advertisement.AdvertisementHandler;
 import pl.agh.edu.model.employee.EmployeesToHireHandler;
 import pl.agh.edu.model.employee.cleaner.CleaningScheduler;

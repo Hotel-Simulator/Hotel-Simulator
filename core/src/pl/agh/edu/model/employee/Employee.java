@@ -1,7 +1,6 @@
 package pl.agh.edu.model.employee;
 
 import pl.agh.edu.enums.TypeOfContract;
-import pl.agh.edu.model.Time;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

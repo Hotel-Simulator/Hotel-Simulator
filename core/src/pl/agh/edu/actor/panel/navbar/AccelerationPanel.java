@@ -1,11 +1,14 @@
 package pl.agh.edu.actor.panel.navbar;
 
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import pl.agh.edu.actor.HotelSkin;
+import pl.agh.edu.model.time.Time;
 
 public class AccelerationPanel extends Table{
     private Label accelerationLabel;
@@ -26,6 +29,27 @@ public class AccelerationPanel extends Table{
         this.setBackground(skin.getDrawable("pane-background-lime"));
         this.pad(0, 0, 0, 0);
         this.setSize(215, 60);
+
+        increaseButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Time.getInstance().increaseAcceleration();
+            }
+        });
+
+        decreaseButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Time.getInstance().decreaseAcceleration();
+            }
+        });
+
+        playButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Time.getInstance().stop();
+            }
+        });
 
         add(decreaseButton);
         add(accelerationLabel);

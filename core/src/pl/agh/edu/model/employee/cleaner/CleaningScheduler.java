@@ -3,7 +3,7 @@ package pl.agh.edu.model.employee.cleaner;
 import pl.agh.edu.enums.RoomState;
 import pl.agh.edu.model.Hotel;
 import pl.agh.edu.model.Room;
-import pl.agh.edu.model.Time;
+import pl.agh.edu.model.time.Time;
 import pl.agh.edu.model.employee.Shift;
 import pl.agh.edu.time_command.EndRoomCleaningTimeCommand;
 import pl.agh.edu.time_command.TimeCommandExecutor;

@@ -6,56 +6,56 @@ filter: Linear, Linear
 repeat: none
 PressStart2P-Regular_0
   rotate: false
-  xy: 1, 55
+  xy: 1, 1
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 PressStart2P-Regular_1
   rotate: false
-  xy: 515, 55
+  xy: 515, 1
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 PressStart2P-Regular_2
   rotate: false
-  xy: 1103, 279
+  xy: 1203, 357
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 navbar-bottom
   rotate: false
-  xy: 1, 727
-  size: 1100, 110
-  orig: 1100, 110
+  xy: 1, 739
+  size: 1200, 130
+  orig: 1200, 130
   offset: 0, 0
   index: -1
 navbar-top
   rotate: false
-  xy: 1, 615
-  size: 1100, 110
-  orig: 1100, 110
+  xy: 1, 607
+  size: 1200, 130
+  orig: 1200, 130
   offset: 0, 0
   index: -1
 night-city
   rotate: false
-  xy: 1, 839
+  xy: 1, 871
   size: 1920, 1080
   orig: 1920, 1080
   offset: 0, 0
   index: -1
 progressbar-empty
   rotate: false
-  xy: 1103, 793
+  xy: 1, 561
   size: 800, 44
   orig: 800, 44
   offset: 0, 0
   index: -1
 progressbar-full
   rotate: false
-  xy: 1, 569
+  xy: 1, 515
   size: 800, 44
   orig: 800, 44
   offset: 0, 0
@@ -557,7 +557,7 @@ filter: Linear, Linear
 repeat: none
 button-calendar-down
   rotate: false
-  xy: 1, 817
+  xy: 105, 817
   size: 102, 102
   orig: 102, 102
   offset: 0, 0
@@ -578,7 +578,7 @@ button-calendar-up
   index: -1
 button-filter-down
   rotate: false
-  xy: 105, 817
+  xy: 1, 713
   size: 102, 102
   orig: 102, 102
   offset: 0, 0
@@ -592,7 +592,7 @@ button-filter-over
   index: -1
 button-filter-up
   rotate: false
-  xy: 1, 713
+  xy: 105, 921
   size: 102, 102
   orig: 102, 102
   offset: 0, 0
@@ -718,7 +718,7 @@ checkbox-on-up
   index: -1
 default
   rotate: false
-  xy: 105, 921
+  xy: 1, 817
   size: 102, 102
   orig: 102, 102
   offset: 0, 0

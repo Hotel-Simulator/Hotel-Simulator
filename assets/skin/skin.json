@@ -1,5 +1,5 @@
 {
-"BitmapFont": {
+"com.badlogic.gdx.graphics.g2d.BitmapFont": {
 	"body1": {
 		"file": "body1.fnt",
 		"scaledSize": -1,
@@ -73,7 +73,7 @@
 		"flip": false
 	}
 },
-"Color": {
+"com.badlogic.gdx.graphics.Color": {
 	"Alert_100": {
 		"r": 1,
 		"g": 0.9764706,
@@ -261,7 +261,7 @@
 		"a": 1
 	}
 },
-"TiledDrawable": {
+"com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable": {
 	"progressbar-full-tiled": {
 		"region": "progressbar-full",
 		"color": "Gray_100",
@@ -390,7 +390,7 @@
 		"font": "subtittle2"
 	}
 },
-"ButtonStyle": {
+"com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle": {
 	"default": {
 		"up": "default"
 	},
@@ -422,7 +422,7 @@
 		"over": "button-calendar-over"
 	}
 },
-"CheckBoxStyle": {
+"com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle": {
 	"default": {
 		"checkboxOn": "checkbox-on-up",
 		"checkboxOff": "checkbox-off-up",
@@ -433,7 +433,7 @@
 		"font": "body1"
 	}
 },
-"LabelStyle": {
+"com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
 	"default": {
 		"font": "body1"
 	},
@@ -475,7 +475,7 @@
 		"background": "pane-background-lime"
 	}
 },
-"ListStyle": {
+"com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle": {
 	"default": {
 		"font": "body1",
 		"fontColorSelected": "Gray_900",
@@ -486,13 +486,13 @@
 		"background": "list-background"
 	}
 },
-"ProgressBarStyle": {
+"com.badlogic.gdx.scenes.scene2d.ui.ProgressBar$ProgressBarStyle": {
 	"default-horizontal": {
 		"background": "progressbar-empty",
 		"knobBefore": "progressbar-full-tiled"
 	}
 },
-"ScrollPaneStyle": {
+"com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle": {
 	"default": {
 		"vScroll": "scrollpane-vscroll",
 		"vScrollKnob": "scrollpane-knob"
@@ -501,7 +501,7 @@
 		"vScrollKnob": "scrollpane-console-knob"
 	}
 },
-"SelectBoxStyle": {
+"com.badlogic.gdx.scenes.scene2d.ui.SelectBox$SelectBoxStyle": {
 	"default": {
 		"font": "body1",
 		"fontColor": "Gray_900",
@@ -515,7 +515,7 @@
 		"backgroundDisabled": "selectbox-background-disabled"
 	}
 },
-"SliderStyle": {
+"com.badlogic.gdx.scenes.scene2d.ui.Slider$SliderStyle": {
 	"default-horizontal": {
 		"knobOver": "slider-knob-over",
 		"knobDown": "slider-knob-down",
@@ -523,7 +523,7 @@
 		"knob": "slider-knob"
 	}
 },
-"TextButtonStyle": {
+"com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
 	"default": {
 		"font": "button2"
 	},
@@ -558,7 +558,7 @@
 		"disabled": "button-normal-disabled"
 	}
 },
-"TextFieldStyle": {
+"com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle": {
 	"default": {
 		"font": "h4",
 		"fontColor": "Gray_900",
@@ -580,7 +580,7 @@
 		"messageFontColor": "Secondary_100"
 	}
 },
-"TextTooltipStyle": {
+"com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle": {
 	"default": {
 		"label": "default"
 	}

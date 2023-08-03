@@ -7,6 +7,7 @@ import pl.agh.edu.generator.client_generator.JSONExtractor;
 import pl.agh.edu.generator.employee_generator.EmployeeGenerator;
 import pl.agh.edu.logo.RandomLogoCreator;
 import pl.agh.edu.model.employee.Employee;
+import pl.agh.edu.model.time.Time;
 import pl.agh.edu.room_builder.Builder;
 import pl.agh.edu.time_command.NoticePeriodTimeCommand;
 import pl.agh.edu.time_command.TimeCommandExecutor;

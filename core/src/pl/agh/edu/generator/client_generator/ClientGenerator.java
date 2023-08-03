@@ -6,7 +6,7 @@ import pl.agh.edu.enums.RoomRank;
 import pl.agh.edu.enums.Sex;
 import pl.agh.edu.model.Client;
 import pl.agh.edu.model.ClientGroup;
-import pl.agh.edu.model.Time;
+import pl.agh.edu.model.time.Time;
 import pl.agh.edu.model.advertisement.AdvertisementHandler;
 import pl.agh.edu.model.advertisement.SingleAdvertisementType;
 import pl.agh.edu.model.advertisement.report.AdvertisementReportData;

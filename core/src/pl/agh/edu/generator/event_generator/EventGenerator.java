@@ -4,7 +4,7 @@ import org.json.simple.parser.ParseException;
 import pl.agh.edu.generator.client_generator.JSONExtractor;
 import pl.agh.edu.generator.event_generator.json_data.ClientNumberModificationCyclicTemporaryEventData;
 import pl.agh.edu.generator.event_generator.json_data.ClientNumberModificationRandomTemporaryEventData;
-import pl.agh.edu.model.Time;
+import pl.agh.edu.model.time.Time;
 import pl.agh.edu.model.calendar.Calendar;
 
 import java.io.IOException;

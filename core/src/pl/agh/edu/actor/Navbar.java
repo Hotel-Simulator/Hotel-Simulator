@@ -35,9 +35,10 @@ public class Navbar extends Table {
 
         accelerationPanel = new AccelerationPanel();
         topNavBar.add(accelerationPanel).expand().top().padTop(10);
-        topNavBar.pad(0, 140, 0, 140);
+        topNavBar.pad(10, 140, 0, 140);
 
         bottomNavBar = new Table();
+        bottomNavBar.bottom();
 
         Stack topStack = new Stack();
         Image topNavbarImage = new Image(navbarStyle.topBackground);
@@ -87,23 +88,56 @@ public class Navbar extends Table {
     }
 
     public void changeBottomNavbarState(BottomNavbarState state){
-        switch(state){
-            case MAIN:
-                bottomNavBar.add(new NavbarButton("bank"));
-                bottomNavBar.add(new NavbarButton("hotel"));
-                bottomNavBar.add(new NavbarButton("employee"));
-                bottomNavBar.add(new NavbarButton("tax"));
-                bottomNavBar.add(new NavbarButton("add"));
-
-                break;
-            case BANK:
-                break;
-            case EMPLOYEE:
-                break;
-            case TAXES:
-                break;
-            case ADS:
-                break;
+        bottomNavBar.clear();
+        switch (state) {
+            case MAIN -> {
+                bottomNavBar.add(new NavbarButton("bank", () -> changeBottomNavbarState(BottomNavbarState.BANK)));
+                bottomNavBar.add(new NavbarButton("hotel", () -> changeBottomNavbarState(BottomNavbarState.HOTEL)));
+                bottomNavBar.add(new NavbarButton("employee", () -> changeBottomNavbarState(BottomNavbarState.EMPLOYEE)));
+                bottomNavBar.add(new NavbarButton("tax", () -> changeBottomNavbarState(BottomNavbarState.TAXES)));
+                bottomNavBar.add(new NavbarButton("add", () -> changeBottomNavbarState(BottomNavbarState.ADS)));
+            }
+            case HOTEL -> {
+                bottomNavBar.add(new NavbarButton("board", () -> {
+                }));
+                bottomNavBar.add(new NavbarButton("rooms", () -> {
+                }));
+                bottomNavBar.add(new NavbarButton("places", () -> {
+                }));
+                bottomNavBar.add(new NavbarButton("back", () -> changeBottomNavbarState(BottomNavbarState.MAIN)));
+            }
+            case BANK -> {
+                bottomNavBar.add(new NavbarButton("offer", () -> {
+                }));
+                bottomNavBar.add(new NavbarButton("account", () -> {
+                }));
+                bottomNavBar.add(new NavbarButton("deposit", () -> {
+                }));
+                bottomNavBar.add(new NavbarButton("credit", () -> {
+                }));
+                bottomNavBar.add(new NavbarButton("back", () -> changeBottomNavbarState(BottomNavbarState.MAIN)));
+            }
+            case EMPLOYEE -> {
+                bottomNavBar.add(new NavbarButton("hire", () -> {
+                }));
+                bottomNavBar.add(new NavbarButton("manage", () -> {
+                }));
+                bottomNavBar.add(new NavbarButton("back", () -> changeBottomNavbarState(BottomNavbarState.MAIN)));
+            }
+            case TAXES -> {
+                bottomNavBar.add(new NavbarButton("offer", () -> {
+                }));
+                bottomNavBar.add(new NavbarButton("history", () -> {
+                }));
+                bottomNavBar.add(new NavbarButton("back", () -> changeBottomNavbarState(BottomNavbarState.MAIN)));
+            }
+            case ADS -> {
+                bottomNavBar.add(new NavbarButton("add", () -> {
+                }));
+                bottomNavBar.add(new NavbarButton("history", () -> {
+                }));
+                bottomNavBar.add(new NavbarButton("back", () -> changeBottomNavbarState(BottomNavbarState.MAIN)));
+            }
         }
     }
 }
