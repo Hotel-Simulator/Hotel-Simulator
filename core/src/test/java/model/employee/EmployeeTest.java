@@ -43,10 +43,11 @@ public class EmployeeTest {
                 "",
                 18,
                 0.45,
-                BigDecimal.valueOf(5000),
-                BigDecimal.valueOf(6000),
-                Shift.MORNING,
-                TypeOfContract.AGREEMENT,
+                new EmploymentPreferences(
+                        Shift.MORNING,
+                        BigDecimal.valueOf(5000),
+                        BigDecimal.valueOf(6000),
+                        TypeOfContract.AGREEMENT),
                 Profession.CLEANER);
 
         JobOffer jobOffer = new JobOffer(Shift.MORNING,BigDecimal.valueOf(5000),TypeOfContract.AGREEMENT);
@@ -65,10 +66,11 @@ public class EmployeeTest {
                 "",
                 18,
                 0.45,
-                BigDecimal.valueOf(5000),
-                BigDecimal.valueOf(6000),
-                Shift.MORNING,
-                TypeOfContract.AGREEMENT,
+                new EmploymentPreferences(
+                        Shift.MORNING,
+                        BigDecimal.valueOf(5000),
+                        BigDecimal.valueOf(6000),
+                        TypeOfContract.AGREEMENT),
                 Profession.CLEANER);
 
         JobOffer jobOffer = new JobOffer(Shift.MORNING,BigDecimal.valueOf(5000),TypeOfContract.AGREEMENT);
@@ -92,10 +94,11 @@ public class EmployeeTest {
                 "",
                 18,
                 0.45,
-                BigDecimal.valueOf(5000),
-                BigDecimal.valueOf(6000),
-                Shift.MORNING,
-                TypeOfContract.AGREEMENT,
+                new EmploymentPreferences(
+                        Shift.MORNING,
+                        BigDecimal.valueOf(5000),
+                        BigDecimal.valueOf(6000),
+                        TypeOfContract.AGREEMENT),
                 Profession.CLEANER);
 
         JobOffer jobOffer = new JobOffer(Shift.MORNING,BigDecimal.valueOf(5000),TypeOfContract.AGREEMENT);
@@ -131,10 +134,11 @@ public class EmployeeTest {
                 "",
                 18,
                 0.45,
-                BigDecimal.valueOf(4000),
-                desiredWage,
-                Shift.MORNING,
-                TypeOfContract.AGREEMENT,
+                new EmploymentPreferences(
+                        Shift.MORNING,
+                        BigDecimal.valueOf(4000),
+                        desiredWage,
+                        TypeOfContract.AGREEMENT),
                 Profession.CLEANER);
 
         JobOffer jobOffer = new JobOffer(Shift.MORNING,actualWage,TypeOfContract.AGREEMENT);
@@ -165,10 +169,11 @@ public class EmployeeTest {
                 "",
                 18,
                 0.45,
-                BigDecimal.valueOf(4000),
-                desiredWage,
-                Shift.MORNING,
-                TypeOfContract.AGREEMENT,
+                new EmploymentPreferences(
+                        Shift.MORNING,
+                        BigDecimal.valueOf(4000),
+                        desiredWage,
+                        TypeOfContract.AGREEMENT),
                 Profession.CLEANER);
 
         JobOffer jobOffer = new JobOffer(Shift.MORNING,actualWage,TypeOfContract.AGREEMENT);
@@ -198,10 +203,11 @@ public class EmployeeTest {
                 "",
                 18,
                 skills,
-                BigDecimal.valueOf(0),
-                BigDecimal.valueOf(4000),
-                Shift.MORNING,
-                TypeOfContract.AGREEMENT,
+                new EmploymentPreferences(
+                        Shift.MORNING,
+                        BigDecimal.valueOf(0),
+                        BigDecimal.valueOf(4000),
+                        TypeOfContract.AGREEMENT),
                 Profession.CLEANER);
 
         JobOffer jobOffer = new JobOffer(Shift.MORNING, BigDecimal.valueOf(4000*satisfaction), TypeOfContract.AGREEMENT);

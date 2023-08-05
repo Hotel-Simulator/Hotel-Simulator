@@ -6,6 +6,7 @@ import com.github.javafaker.Faker;
 import pl.agh.edu.enums.TypeOfContract;
 import pl.agh.edu.generator.client_generator.ProbabilityListGenerator;
 import pl.agh.edu.json.data_loader.JSONEmployeeDataLoader;
+import pl.agh.edu.model.employee.EmploymentPreferences;
 import pl.agh.edu.model.employee.PossibleEmployee;
 import pl.agh.edu.model.employee.Profession;
 import pl.agh.edu.model.employee.Shift;
@@ -35,12 +36,12 @@ public class PossibleEmployeeGenerator {
                 faker.name().lastName(),
                 random.nextInt(18,60),
                 skills,
-                generateDesiredWage(skills),
-                generateAcceptableWage(skills),
-                generateDesiredShift(),
-                generateDesiredTypeOfContract(),
-                profession
-                );
+                new EmploymentPreferences(
+                        generateDesiredShift(),
+                        generateAcceptableWage(skills),
+                        generateDesiredWage(skills),
+                        generateDesiredTypeOfContract()),
+                profession);
 
     }
 

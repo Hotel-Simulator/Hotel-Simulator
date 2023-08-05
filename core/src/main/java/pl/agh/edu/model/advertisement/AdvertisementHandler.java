@@ -1,21 +1,17 @@
 package pl.agh.edu.model.advertisement;
 
-import org.json.simple.parser.ParseException;
 import pl.agh.edu.enums.HotelVisitPurpose;
 import pl.agh.edu.json.data_loader.JSONAdvertisementDataLoader;
 import pl.agh.edu.json.data.ConstantAdvertisementData;
 import pl.agh.edu.json.data.SingleAdvertisementData;
 import pl.agh.edu.model.Time;
-import pl.agh.edu.update.DailyUpdatable;
-
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class AdvertisementHandler implements DailyUpdatable {
+public class AdvertisementHandler {
     private static AdvertisementHandler instance;
     private static final EnumMap<SingleAdvertisementType, SingleAdvertisementData> simpleAdvertisementData = JSONAdvertisementDataLoader.singleAdvertisementData;
     private static final EnumMap<ConstantAdvertisementType, ConstantAdvertisementData> constantAdvertisementData = JSONAdvertisementDataLoader.constantAdvertisementData;
@@ -127,7 +123,7 @@ public class AdvertisementHandler implements DailyUpdatable {
                     return resultMap;});
 
     }
-    @Override
+
     public void dailyUpdate(){
         constantAdvertisements.keySet().removeIf(type -> {
             if(constantAdvertisements.get(type).getEndDate() != null && constantAdvertisements.get(type).getEndDate().equals(time.getTime().toLocalDate())){

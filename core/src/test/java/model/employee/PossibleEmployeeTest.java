@@ -33,10 +33,11 @@ public class PossibleEmployeeTest {
                 "",
                 18,
                 0.45,
-                BigDecimal.valueOf(5000),
-                BigDecimal.valueOf(6000),
-                Shift.MORNING,
-                TypeOfContract.AGREEMENT,
+                new EmploymentPreferences(
+                        Shift.MORNING,
+                        BigDecimal.valueOf(5000),
+                        BigDecimal.valueOf(6000),
+                        TypeOfContract.AGREEMENT),
                 Profession.CLEANER);
         //when
         JobOfferResponse response = possibleEmployee.offerJob(jobOffer);

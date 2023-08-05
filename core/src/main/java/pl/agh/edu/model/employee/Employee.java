@@ -8,30 +8,43 @@ import java.time.Duration;
 import java.time.LocalTime;
 
 public class Employee {
-    private final PossibleEmployee possibleEmployee;
+
+    private final String firstName;
+    private final String lastName;
+    private final int age;
+    private final double skills;
+    private final EmploymentPreferences preferences;
+    private final Profession profession;
     private BigDecimal wage;
     private TypeOfContract typeOfContract;
     private Shift shift;
     private boolean isOccupied;
     private BigDecimal bonusForThisMonth;
-
     private final Duration basicServiceExecutionTime;
+    private EmployeeStatus employeeStatus;
 
 
     public Employee(PossibleEmployee possibleEmployee, JobOffer jobOffer) {
-        this.possibleEmployee = possibleEmployee;
+        //todo dataklasy
+        this.firstName = possibleEmployee.firstName();
+        this.lastName = possibleEmployee.lastName();
+        this.age = possibleEmployee.age();
+        this.skills = possibleEmployee.skills();
+        this.profession = possibleEmployee.profession();
+        this.preferences = possibleEmployee.preferences();
         this.wage = jobOffer.offeredWage();
         this.typeOfContract = jobOffer.typeOfContract();
         this.shift = jobOffer.shift();
+
         this.isOccupied = false;
         this.bonusForThisMonth = BigDecimal.ZERO;
-        //todo czy da sie lepiej? w senise to moglby byc static
         this.basicServiceExecutionTime = JSONEmployeeDataLoader.basicServiceExecutionTimes.get(possibleEmployee.profession());
+        this.employeeStatus = EmployeeStatus.HIRED_NOT_WORKING;
     }
 
 
     public double getSatisfaction() {
-        return Math.min(1.,wage.add(bonusForThisMonth).divide(possibleEmployee.desiredWage(),2, RoundingMode.CEILING).doubleValue()) ;
+        return Math.min(1.,wage.add(bonusForThisMonth).divide(preferences.desiredWage(),2, RoundingMode.CEILING).doubleValue()) ;
     }
 
     public boolean isAtWork(LocalTime time){
@@ -40,7 +53,7 @@ public class Employee {
     public Duration getServiceExecutionTime(){
         return Duration.ofSeconds(
                 (long)(basicServiceExecutionTime.getSeconds() *
-                        (1 - 0.5*Math.min(possibleEmployee.skills(), getSatisfaction())))
+                        (1 - 0.5*Math.min(skills, getSatisfaction())))
         );
     }
 
@@ -60,28 +73,18 @@ public class Employee {
         isOccupied = occupied;
     }
 
-    public TypeOfContract getTypeOfContract() {
-        return typeOfContract;
-    }
-
-    public void setTypeOfContract(TypeOfContract typeOfContract) {
-        this.typeOfContract = typeOfContract;
-    }
-
     public Shift getShift() {
         return shift;
     }
-    public String getFirstName() {
-        return possibleEmployee.firstName();
+
+    public Profession getProfession(){return profession;}
+
+    public EmployeeStatus getStatus() {
+        return employeeStatus;
     }
-    public String getLastName() {
-        return possibleEmployee.lastName();
+
+    public void setStatus(EmployeeStatus employeeStatus){
+        this.employeeStatus = employeeStatus;
     }
-    public Profession getProfession(){return possibleEmployee.profession();}
-    public int getAge() {
-        return possibleEmployee.age();
-    }
-    public double getSkills() {
-        return possibleEmployee.skills();
-    }
+
 }

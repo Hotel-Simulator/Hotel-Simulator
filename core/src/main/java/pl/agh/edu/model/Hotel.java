@@ -7,12 +7,11 @@ import pl.agh.edu.json.data_loader.JSONHotelDataLoader;
 import pl.agh.edu.json.data_loader.JSONRoomDataLoader;
 import pl.agh.edu.logo.RandomLogoCreator;
 import pl.agh.edu.model.employee.Employee;
+import pl.agh.edu.model.employee.EmployeeStatus;
 import pl.agh.edu.model.employee.Profession;
 import pl.agh.edu.room_builder.Builder;
-import pl.agh.edu.time_command.NoticePeriodTimeCommand;
+import pl.agh.edu.time_command.TimeCommand;
 import pl.agh.edu.time_command.TimeCommandExecutor;
-import pl.agh.edu.update.MonthlyUpdatable;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -25,7 +24,7 @@ import java.util.stream.Stream;
 // TODO: popularity by customers reviews
 // TODO: checkout handler leave opinions
 // TODO: observery zamiast wątków
-public class Hotel implements MonthlyUpdatable {
+public class Hotel {
 
     private String hotelName;
     private Long hotelId;
@@ -142,14 +141,27 @@ public class Hotel implements MonthlyUpdatable {
         return employees;
     }
 
-    public void hireEmployee(Employee employee){this.employees.add(employee);}
+    public void hireEmployee(Employee employee){
+        this.employees.add(employee);
+        timeCommandExecutor.addCommand(
+                LocalDateTime.of(time.getTime()
+                                .toLocalDate()
+                                .minusDays(time.getTime().getDayOfMonth()-1)
+                                .plusMonths(1),
+                        LocalTime.MIDNIGHT),
+                new TimeCommand(()->employee.setStatus(EmployeeStatus.HIRED_WORKING)));
+    }
     public void fireEmployee(Employee employee){
-        timeCommandExecutor.addCommand(LocalDateTime.of(LocalDate.of(time.getTime().getYear(),time.getTime().getMonth(),1).plusMonths(noticePeriodInMonths+1),LocalTime.MIDNIGHT),new NoticePeriodTimeCommand(this,employee));
+        employee.setStatus(EmployeeStatus.FIRED_WORKING);
+        timeCommandExecutor.addCommand(
+                LocalDateTime.of(LocalDate.of(time.getTime().getYear(),time.getTime().getMonth(),1).plusMonths(noticePeriodInMonths+1),LocalTime.MIDNIGHT).minusSeconds(1),
+                new TimeCommand(() ->this.removeEmployee(employee)));
     }
 
     public void removeEmployee(Employee employee){employees.remove(employee);}
-    public  List<Employee> getEmployeesByProfession(Profession profession) {
+    public  List<Employee> getWorkingEmployeesByProfession(Profession profession) {
         return employees.stream()
+                .filter(employee -> employee.getStatus() != EmployeeStatus.HIRED_NOT_WORKING)
                 .filter(employee -> employee.getProfession() == profession)
                 .collect(Collectors.toList());
     }

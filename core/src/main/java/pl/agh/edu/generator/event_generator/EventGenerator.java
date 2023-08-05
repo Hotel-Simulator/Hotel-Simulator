@@ -1,14 +1,10 @@
 package pl.agh.edu.generator.event_generator;
 
-import org.json.simple.parser.ParseException;
 import pl.agh.edu.json.data.ClientNumberModificationCyclicTemporaryEventData;
 import pl.agh.edu.json.data.ClientNumberModificationRandomTemporaryEventData;
 import pl.agh.edu.json.data_loader.JSONEventDataLoader;
 import pl.agh.edu.model.Time;
 import pl.agh.edu.model.calendar.Calendar;
-import pl.agh.edu.update.YearlyUpdatable;
-
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Year;
 import java.util.HashMap;
@@ -17,7 +13,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.stream.Stream;
 
-public class EventGenerator implements YearlyUpdatable {
+public class EventGenerator {
     private static EventGenerator instance;
     private final EventLauncher eventLauncher;
     private static final List<ClientNumberModificationCyclicTemporaryEventData> clientNumberModificationCyclicTemporaryEventData = JSONEventDataLoader.clientNumberModificationCyclicTemporaryEventData;
@@ -83,7 +79,6 @@ public class EventGenerator implements YearlyUpdatable {
         EventGenerator eventGenerator = EventGenerator.getInstance();
     }
 
-    @Override
     public void yearlyUpdate() {
         initializeClientNumberModificationRandomTemporaryEventsForThisYear();
     }

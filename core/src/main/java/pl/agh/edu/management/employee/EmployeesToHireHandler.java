@@ -4,20 +4,17 @@ import pl.agh.edu.generator.possible_employee_generator.PossibleEmployeeGenerato
 import pl.agh.edu.json.data_loader.JSONGameDataLoader;
 import pl.agh.edu.model.Hotel;
 import pl.agh.edu.model.employee.*;
-import pl.agh.edu.update.DailyUpdatable;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.IntStream;
 
-public class EmployeesToHireHandler implements DailyUpdatable {
+public class EmployeesToHireHandler {
     private final Hotel hotel;
 
     private final List<PossibleEmployee> employeesToHire;
     private final int employeesToHireListSize;
     private final double possibleEmployeeRemovalProbability;
-
     private final Random random;
 
     public EmployeesToHireHandler(Hotel hotel){
@@ -40,17 +37,12 @@ public class EmployeesToHireHandler implements DailyUpdatable {
     public List<PossibleEmployee> getEmployeesToHire() {
         return employeesToHire;
     }
-    @Override
+
     public void dailyUpdate(){
         employeesToHire.removeIf((employee -> random.nextDouble() <= possibleEmployeeRemovalProbability));
         IntStream.range(employeesToHire.size(),employeesToHireListSize)
                 .forEach(i -> employeesToHire.add(PossibleEmployeeGenerator.generatePossibleEmployee()));
     }
-
-    public void remove(PossibleEmployee possibleEmployee){
-        employeesToHire.remove(possibleEmployee);
-    }
-
     public void offerJob(PossibleEmployee possibleEmployee, JobOffer jobOffer){
         if(possibleEmployee.offerJob(jobOffer) == JobOfferResponse.POSITIVE){
             hotel.hireEmployee(new Employee(possibleEmployee,jobOffer));
