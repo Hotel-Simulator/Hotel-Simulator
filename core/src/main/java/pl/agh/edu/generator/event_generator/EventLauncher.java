@@ -1,14 +1,12 @@
 package pl.agh.edu.generator.event_generator;
 
-import org.json.simple.parser.ParseException;
 import pl.agh.edu.json.data.ClientNumberModificationCyclicTemporaryEventData;
-import pl.agh.edu.model.Time;
 import pl.agh.edu.model.calendar.Calendar;
 import pl.agh.edu.model.calendar.CalendarEvent;
 import pl.agh.edu.model.event.temporary.ClientNumberModificationTemporaryEvent;
 import pl.agh.edu.model.event.temporary.ClientNumberModificationTemporaryEventHandler;
+import pl.agh.edu.model.time.Time;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.Objects;

@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.GL20;
 import pl.agh.edu.model.console.CommandExecutor;
 import pl.agh.edu.screen.ConsoleScreen;
 import pl.agh.edu.screen.MainScreen;
-import pl.agh.edu.model.Time;
+import pl.agh.edu.model.time.Time;
 
 public class GdxGame extends ApplicationAdapter {
 
@@ -23,6 +23,7 @@ public class GdxGame extends ApplicationAdapter {
 		setScreen(currentScreen);
 		consoleScreen = new ConsoleScreen(this);
 		previousScreen = consoleScreen;
+
 	}
 
 	@Override

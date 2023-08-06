@@ -3,7 +3,7 @@ package pl.agh.edu.model.console.commands;
 import pl.agh.edu.model.console.Command;
 import pl.agh.edu.model.console.LogHistory;
 import pl.agh.edu.model.console.LogLevel;
-import pl.agh.edu.model.Time;
+import pl.agh.edu.model.time.Time;
 
 public class StartTimeCommand implements Command {
     @Override

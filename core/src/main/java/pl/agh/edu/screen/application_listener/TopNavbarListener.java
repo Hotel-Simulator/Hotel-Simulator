@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import pl.agh.edu.model.Time;
+import pl.agh.edu.model.time.Time;
 
 public class TopNavbarListener implements ApplicationListener {
 

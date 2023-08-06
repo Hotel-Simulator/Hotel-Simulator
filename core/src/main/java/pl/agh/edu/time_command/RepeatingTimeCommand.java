@@ -1,6 +1,7 @@
 package pl.agh.edu.time_command;
 
-import pl.agh.edu.model.Time;
+import pl.agh.edu.model.time.Time;
+
 import java.time.LocalDateTime;
 
 public class RepeatingTimeCommand extends TimeCommand {
