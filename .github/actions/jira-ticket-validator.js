@@ -9,7 +9,7 @@ function validateJiraTicket(jiraTicketRegex, input, fieldName) {
     }
 }
 
-const jiraTicketRegex = /HS-\d+/;
+const jiraTicketRegex = /^HS-\d+$/;
 
 const branchName = process.env.GITHUB_HEAD_REF || '';
 const prTitle = process.env.GITHUB_HEAD_REF || '';
