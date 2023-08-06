@@ -3,10 +3,10 @@ package pl.agh.edu.management.employee;
 import pl.agh.edu.enums.RoomState;
 import pl.agh.edu.model.Hotel;
 import pl.agh.edu.model.Room;
-import pl.agh.edu.model.Time;
 import pl.agh.edu.model.employee.Employee;
 import pl.agh.edu.model.employee.Profession;
 import pl.agh.edu.model.employee.Shift;
+import pl.agh.edu.model.time.Time;
 import pl.agh.edu.time_command.TimeCommand;
 import pl.agh.edu.time_command.TimeCommandExecutor;
 

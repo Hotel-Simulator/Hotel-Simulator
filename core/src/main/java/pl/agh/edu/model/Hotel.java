@@ -9,6 +9,7 @@ import pl.agh.edu.logo.RandomLogoCreator;
 import pl.agh.edu.model.employee.Employee;
 import pl.agh.edu.model.employee.EmployeeStatus;
 import pl.agh.edu.model.employee.Profession;
+import pl.agh.edu.model.time.Time;
 import pl.agh.edu.room_builder.Builder;
 import pl.agh.edu.time_command.TimeCommand;
 import pl.agh.edu.time_command.TimeCommandExecutor;
