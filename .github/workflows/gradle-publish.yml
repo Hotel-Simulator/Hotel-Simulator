@@ -34,5 +34,5 @@ jobs:
         if: ${{ always() || success() || failure() }}
         with:
           name: JUnit Tests
-          path: reports/junit-*.xml
+          path: test-reports/TEST-*.xml
           reporter: jest-junit
