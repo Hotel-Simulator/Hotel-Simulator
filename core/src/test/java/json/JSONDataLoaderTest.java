@@ -43,6 +43,7 @@ public class JSONDataLoaderTest {
             System.out.printf("Game end data: %s%n", JSONGameDataLoader.endDate);
             System.out.printf("EmployeesToHireList size: %s%n", JSONGameDataLoader.employeesToHireListSize);
             System.out.printf("PossibleEmployee removal probability: %s%n", JSONGameDataLoader.possibleEmployeeRemovalProbability);
+            System.out.printf("Room fault probability: %s%n", JSONGameDataLoader.roomFaultProbability);
 
 
         });

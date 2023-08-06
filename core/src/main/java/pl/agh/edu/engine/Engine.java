@@ -1,7 +1,10 @@
 package pl.agh.edu.engine;
 
+import pl.agh.edu.enums.RoomState;
 import pl.agh.edu.generator.client_generator.ClientGenerator;
 import pl.agh.edu.generator.event_generator.EventGenerator;
+import pl.agh.edu.json.data_loader.JSONGameDataLoader;
+import pl.agh.edu.management.employee.RepairScheduler;
 import pl.agh.edu.model.Hotel;
 import pl.agh.edu.model.Room;
 import pl.agh.edu.model.Time;
@@ -11,8 +14,12 @@ import pl.agh.edu.management.employee.CleaningScheduler;
 import pl.agh.edu.time_command.RepeatingTimeCommand;
 import pl.agh.edu.time_command.TimeCommand;
 import pl.agh.edu.time_command.TimeCommandExecutor;
+
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
+import java.util.Random;
 
 import static pl.agh.edu.time_command.RepeatingTimeCommand.Frequency.*;
 
@@ -24,7 +31,9 @@ public class Engine {
     private final AdvertisementHandler advertisementHandler;
     private final EventGenerator eventGenerator;
     private final CleaningScheduler cleaningScheduler;
+    private final RepairScheduler repairScheduler;
     private final EmployeesToHireHandler employeesToHireHandler;
+    private final Random random;
 
 
     public Engine(){
@@ -36,10 +45,13 @@ public class Engine {
         this.advertisementHandler = AdvertisementHandler.getInstance();
         this.eventGenerator = EventGenerator.getInstance();
         this.cleaningScheduler = new CleaningScheduler(hotel);
+        this.repairScheduler = new RepairScheduler(hotel);
         this.employeesToHireHandler = new EmployeesToHireHandler(hotel);
+        this.random = new Random();
 
         //todo ustalic z kubą jak robimy zeby time.getTime było teraz o północy
         timeCommandExecutor.addCommand(time.getTime(),new RepeatingTimeCommand(EVERY_SHIFT, cleaningScheduler::perShiftUpdate));
+        timeCommandExecutor.addCommand(time.getTime(),new RepeatingTimeCommand(EVERY_SHIFT, repairScheduler::perShiftUpdate));
 
         timeCommandExecutor.addCommand(time.getTime(),new RepeatingTimeCommand(EVERY_DAY,advertisementHandler::dailyUpdate));
         timeCommandExecutor.addCommand(time.getTime(),new RepeatingTimeCommand(EVERY_DAY,employeesToHireHandler::dailyUpdate));
@@ -61,10 +73,20 @@ public class Engine {
                             Room room = hotel.findRoomForClientGroup(arrival.clientGroup());
                             if(room != null){
                                 room.checkIn(arrival.clientGroup());
+                                if(random.nextDouble() < JSONGameDataLoader.roomFaultProbability){
+                                    long minutes = Duration.between(time.getTime(),arrival.clientGroup().getCheckOutTime()).toMinutes();
+                                    timeCommandExecutor.addCommand(time.generateRandomTime(minutes, ChronoUnit.MINUTES),
+                                            new TimeCommand(() ->{
+                                                room.setState(RoomState.FAULT); // todo zmienic na isFault()
+                                                repairScheduler.addRoom(room);
+                                            })
+
+                                    );
+                                }
                                 timeCommandExecutor.addCommand(arrival.clientGroup().getCheckOutTime(),
                                         new TimeCommand(()->{
                                             room.checkOut();
-                                            cleaningScheduler.newDirtyRoom(room);
+                                            cleaningScheduler.addRoom(room);
                                         }));
                             }
                         })
