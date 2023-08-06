@@ -9,8 +9,6 @@ jobs:
       - name: Run pull request stats
         uses: fo2rist/pull-request-stats@master
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          organization: 'Hotel-Simulator'
           period: 900
           charts: true
           disable-links: true
