@@ -29,13 +29,6 @@ jobs:
       - name: Build and test
         run: ./gradlew clean check
 
-      - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2
-        if: always()
-        with:
-          files: |
-            reports/junit-*.xml
-
       - name: Test Report
         uses: dorny/test-reporter@v1
         if: ${{ always() || success() || failure() }}
