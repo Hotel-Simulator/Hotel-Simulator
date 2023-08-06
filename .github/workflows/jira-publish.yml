@@ -24,3 +24,4 @@ jobs:
           pr-title: ${{ github.event.pull_request.title }}
           commits: ${{ steps.get_pr_commits.outputs.data }}
           prefix: HS
+          separator: '|'
