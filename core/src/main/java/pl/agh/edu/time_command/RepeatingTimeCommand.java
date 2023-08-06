@@ -31,7 +31,7 @@ public class RepeatingTimeCommand extends TimeCommand {
             return switch (this){
                 case EVERY_SHIFT -> localDateTime.plusHours(8);
                 case EVERY_DAY -> localDateTime.plusDays(1);
-                case EVERY_MONTH -> localDateTime.plusMinutes(1);
+                case EVERY_MONTH -> localDateTime.plusMonths(1);
                 case EVERY_YEAR -> localDateTime.plusYears(1);
             };
         }
