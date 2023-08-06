@@ -7,61 +7,40 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import pl.agh.edu.actor.HotelSkin;
 import pl.agh.edu.utils.JsonLanguageLoader;
 
-import java.util.function.Function;
-
 public class NavbarButton extends Table {
-
-    private final float width = 120f;
-    private final float height = 90f;
-
-    private final float labelOffsetX = 0f;
-
+    private final float labelHeight = 30f;
+    private final float gap = 20f;
+    private final float topSpace = 10f;
     private Image iconImage;
     private Label label;
-
     private NavbarButtonStyle navbarButtonStyle;
-
+    private Skin skin;
     private boolean disabled = false;
 
     public NavbarButton(String styleName, Runnable touchUpCallback) {
-        super();
-
-        Skin skin = new Skin(Gdx.files.internal("skin/skin.json"));
+        skin = HotelSkin.getInstance();
         navbarButtonStyle = skin.get(styleName, NavbarButtonStyle.class);
 
-        // Icon Image for the button
         iconImage = new Image(new TextureRegionDrawable(new TextureRegion(navbarButtonStyle.iconUp)));
-        iconImage.setSize(width, height - 10f);
-        iconImage.setOrigin(iconImage.getWidth() / 2, iconImage.getHeight() / 2);
-        iconImage.setScale(1.0f);
 
-        // Label for the button text
         Label.LabelStyle labelStyle = new Label.LabelStyle(navbarButtonStyle.font, null);
         label = new Label("", labelStyle);
-        label.setAlignment(Align.center);
+        label.setAlignment(Align.top);
 
-        // Add the icon and label to the button
-        add(iconImage).size(width, height).center().padBottom(labelOffsetX);
+        add().space(topSpace).row();
+        add(iconImage).fill();
         row();
-        add(label).expand().fill();
+        add(label).height(labelHeight).fill();
 
-        // Set the button's size
-        setSize(width, height);
+        pad(0,gap,0,gap);
 
-        // Set the text (TODO: placeholder for language)
         setText(JsonLanguageLoader.loadLanguageData("jsons/language/en/navbar.json", "Buttons", navbarButtonStyle.text));
-
-        pad(0,10,10,10);
-
-        // Add input listener for hover and disabled effect
         addListener(new InputListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {

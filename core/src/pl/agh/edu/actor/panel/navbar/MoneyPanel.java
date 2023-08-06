@@ -15,17 +15,9 @@ public class MoneyPanel extends Table {
         Label.LabelStyle labelStyle = skin.get("navbar", Label.LabelStyle.class);
         moneyLabel = new Label("200,000$", labelStyle);
         moneyLabel.setAlignment(Align.center);
-        this.pad(0, 0, 0, 0);
-        moneyLabel.setSize(215,60);
 
-        add(moneyLabel).growX();
+        add(moneyLabel).size(220,60).left().growX();
     }
-    @Override
-    public void layout() {
-        super.layout();
-        this.setSize(215, 60);
-    }
-
     public void setMoney(String money) {
         moneyLabel.setText(money);
     }

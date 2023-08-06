@@ -12,6 +12,9 @@ import pl.agh.edu.enums.BottomNavbarState;
 
 
 public class Navbar extends Table {
+
+    private final float navbarHorizonalPadding = 190f;
+    private final float navbarTopPadding = 15f;
     private final MoneyPanel moneyPanel;
     private final TimePanel timePanel;
     private final AccelerationPanel accelerationPanel;
@@ -28,14 +31,14 @@ public class Navbar extends Table {
         topNavBar.top();
 
         moneyPanel = new MoneyPanel();
-        topNavBar.add(moneyPanel).expand().top().padTop(10);
+        topNavBar.add(moneyPanel).expandX().left();
 
         timePanel = new TimePanel();
-        topNavBar.add(timePanel).expand().top();
+        topNavBar.add(timePanel).expandX().top();
 
         accelerationPanel = new AccelerationPanel();
-        topNavBar.add(accelerationPanel).expand().top().padTop(10);
-        topNavBar.pad(10, 140, 0, 140);
+        topNavBar.add(accelerationPanel).expandX().right();
+        topNavBar.pad(navbarTopPadding, navbarHorizonalPadding, 0, navbarHorizonalPadding);
 
         bottomNavBar = new Table();
         bottomNavBar.bottom();

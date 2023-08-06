@@ -50,26 +50,21 @@ public class Time {
         remaining = interval;
     }
 
-    public void reset(float interval) {
-        Time.interval = interval;
-        remaining = interval;
-    }
-
     public void update(float delta) {
         if (isRunning) {
             remaining -= delta * acceleration;
 
             if (remaining < 0.0F) {
                 minutes+=timeUnitInMinutes;
-                remaining = interval;
+                this.reset();
 
                 if (minutes >= 60) {
                     hours++;
-                    minutes = 0;
+                    minutes = minutes%60;
 
                     if (hours >= 24) {
                         days++;
-                        hours = 0;
+                        hours = hours%24;
 
                         int daysInMonth = switch (months) {
                             case 1 ->
@@ -81,16 +76,15 @@ public class Time {
 
                         if (days >= daysInMonth) {
                             months++;
-                            days = 0;
+                            days = days%daysInMonth;
 
                             if (months >= 12) {
                                 years++;
-                                months = 0;
+                                months = months%12;
                             }
                         }
                     }
                 }
-                notifySubscribers();
             }
         }
     }
@@ -138,16 +132,6 @@ public class Time {
 
     public int getTimeUnitInMinutes(){
         return timeUnitInMinutes;
-    }
-
-    public static void subscribe(TimeObserver observer) {
-        subscribers.add(observer);
-    }
-
-    private static void notifySubscribers() {
-        for (TimeObserver subscriber : subscribers) {
-            subscriber.onUpdate(years, months, days, hours, minutes);
-        }
     }
 
 }

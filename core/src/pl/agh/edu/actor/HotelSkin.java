@@ -2,7 +2,6 @@ package pl.agh.edu.actor;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import pl.agh.edu.actor.button.NavbarButton.NavbarButtonStyle;
 
 public class HotelSkin extends Skin {
     private static HotelSkin instance;
