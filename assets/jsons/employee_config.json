@@ -9,8 +9,21 @@
     "NIGHT": 5
   },
 
-  "maintenance_times": {
-    "clean" : 30,
-    "fix" : 60
+  "basic_service_execution_time_in_minutes": {
+    "CLEANER" : 30,
+    "TECHNICIAN" : 60,
+    "RECEPTIONIST" : 10
+  },
+
+  "profession_probabilities": {
+    "CLEANER": 60,
+    "TECHNICIAN": 10,
+    "RECEPTIONIST": 30
+  },
+
+  "type_of_contract_probabilities": {
+    "PERMANENT": 50,
+    "PART_TIME": 20,
+    "AGREEMENT": 30
   }
 }

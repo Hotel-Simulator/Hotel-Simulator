@@ -4,8 +4,10 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.function.Function;
@@ -28,6 +30,10 @@ public class JSONValueUtil {
 
     public static LocalTime getLocalTime(String stringTime) {
         return LocalTime.parse(stringTime, DateTimeFormatter.ISO_LOCAL_TIME);
+    }
+
+    public static Duration getDuration(Long durationInMinutes) {
+        return Duration.ofMinutes(durationInMinutes);
     }
 
     public static int getInt(Long value){
