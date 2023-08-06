@@ -1,4 +1,4 @@
-name: Code Analysis
+name: Jira Ticket Validation
 
 on:
   pull_request
@@ -12,7 +12,7 @@ jobs:
       - uses: octokit/request-action@v2.x
         id: get_pr_commits
         with:
-          route: GET /Hotel-Simulator/Hotel-Simulator/pulls/{pull_number}/commits
+          route: GET /repos/Hotel-Simulator/Hotel-Simulator/pulls/{pull_number}/commits
           pull_number: ${{ github.event.pull_request.number }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
