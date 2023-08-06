@@ -2,6 +2,12 @@ name: Jira Ticket Validation
 
 on:
   pull_request:
+    types:
+      - opened
+      - synchronize
+  push:
+    branches:
+      - '*'
 
 jobs:
   ticketValidation:
@@ -13,25 +19,4 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Validate Jira ticket numbers
-        run: |
-          # Regular expression to match Jira ticket number format "HS-21"
-          JIRA_TICKET_REGEX="HS-[0-9]+"
-
-          # Get the branch name
-          BRANCH_NAME=$(echo "${{ github.ref }}" | sed 's/refs\/heads\///')
-
-          # Get the PR title
-          PR_TITLE="${{ github.event.pull_request.title }}"
-
-          # Get the commit messages
-          COMMIT_MESSAGES=$(git log --pretty=format:%s ${{ github.event.before }}..${{ github.sha }})
-
-          # Check if the Jira ticket number is present in the branch name, PR title, and commit messages
-          if echo "$BRANCH_NAME" | grep -q -E "$JIRA_TICKET_REGEX" &&
-             echo "$PR_TITLE" | grep -q -E "$JIRA_TICKET_REGEX" &&
-             echo "$COMMIT_MESSAGES" | grep -q -E "$JIRA_TICKET_REGEX"; then
-            echo "All commit messages, PR title, and branch name have a Jira ticket number."
-          else
-            echo "Jira ticket number missing in one or more: commit messages, PR title, or branch name."
-            exit 1
-          fi
+        uses: ./.github/actions
