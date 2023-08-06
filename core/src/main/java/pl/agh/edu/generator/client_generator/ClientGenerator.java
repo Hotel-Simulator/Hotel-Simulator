@@ -9,7 +9,7 @@ import pl.agh.edu.json.data_loader.JSONGameDataLoader;
 import pl.agh.edu.json.data_loader.JSONHotelDataLoader;
 import pl.agh.edu.model.Client;
 import pl.agh.edu.model.ClientGroup;
-import pl.agh.edu.model.Time;
+import pl.agh.edu.model.time.Time;
 import pl.agh.edu.model.advertisement.AdvertisementHandler;
 import pl.agh.edu.model.advertisement.SingleAdvertisementType;
 import pl.agh.edu.model.advertisement.report.AdvertisementReportData;

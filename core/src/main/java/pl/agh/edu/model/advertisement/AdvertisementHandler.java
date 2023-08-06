@@ -1,10 +1,11 @@
 package pl.agh.edu.model.advertisement;
 
 import pl.agh.edu.enums.HotelVisitPurpose;
-import pl.agh.edu.json.data_loader.JSONAdvertisementDataLoader;
 import pl.agh.edu.json.data.ConstantAdvertisementData;
 import pl.agh.edu.json.data.SingleAdvertisementData;
-import pl.agh.edu.model.Time;
+import pl.agh.edu.json.data_loader.JSONAdvertisementDataLoader;
+import pl.agh.edu.model.time.Time;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;

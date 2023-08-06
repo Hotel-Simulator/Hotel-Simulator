@@ -1,10 +1,9 @@
 package pl.agh.edu.model.calendar;
 
-import org.json.simple.parser.ParseException;
 import pl.agh.edu.json.data_loader.JSONGameDataLoader;
-import pl.agh.edu.model.Time;
 import pl.agh.edu.generator.event_generator.EventGenerator;
-import java.io.IOException;
+import pl.agh.edu.model.time.Time;
+
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.*;

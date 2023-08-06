@@ -3,17 +3,16 @@ package pl.agh.edu.screen;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.ray3k.stripe.scenecomposer.SceneComposerStageBuilder;
 import pl.agh.edu.GdxGame;
-import pl.agh.edu.screen.application_listener.TopNavbarListener;
+import pl.agh.edu.actor.Navbar;
 
 public class MainScreen implements Screen {
 
     private final GdxGame game;
     private final Stage stage;
-
-    private TopNavbarListener navbarApplicationListener;
 
     public MainScreen(GdxGame game) {
         this.game = game;
@@ -36,17 +35,16 @@ public class MainScreen implements Screen {
         Skin skin = new Skin(Gdx.files.internal("skin/skin.json"));
 
         SceneComposerStageBuilder builder = new SceneComposerStageBuilder();
-        builder.build(stage, skin, Gdx.files.internal("view/test.json"));
-        navbarApplicationListener = new TopNavbarListener(stage);
-        navbarApplicationListener.create();
+        builder.build(stage, skin, Gdx.files.internal("view/empty.json"));
 
+        Stack stack = stage.getRoot().findActor("main-stack");
+        stack.add(new Navbar("default"));
     }
 
     @Override
     public void render(float delta) {
         stage.act();
         stage.draw();
-        navbarApplicationListener.render();
     }
 
     @Override
@@ -73,4 +71,6 @@ public class MainScreen implements Screen {
     public void dispose() {
 
     }
+
+
 }

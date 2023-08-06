@@ -4,7 +4,7 @@ import org.json.simple.parser.ParseException;
 import pl.agh.edu.enums.RoomState;
 import pl.agh.edu.json.data_loader.JSONRoomDataLoader;
 import pl.agh.edu.model.Room;
-import pl.agh.edu.model.Time;
+import pl.agh.edu.model.time.Time;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
