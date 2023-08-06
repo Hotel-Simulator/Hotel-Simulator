@@ -31,9 +31,8 @@ jobs:
 
       - name: Test Report
         uses: dorny/test-reporter@v1
-        if: always()
+        if: success() || failure()
         with:
-          name: DotNET Tests
-          path: "**/test-results.trx"
-          reporter: jest-junit
-          fail-on-error: true
+          name: JUnit Tests
+          path: reports/junit-*.xml
+          reporter: junit
