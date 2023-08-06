@@ -2,6 +2,8 @@ name: Jira Ticket Validation
 
 on:
   pull_request:
+    branches:
+      - main
 
 jobs:
   ticketValidation:
