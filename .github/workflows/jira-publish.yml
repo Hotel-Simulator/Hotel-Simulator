@@ -1,39 +1,26 @@
-name: Jira Ticket Check
+name: Jira Ticket Validation
 
 on:
-  pull_request:
-    types:
-      - opened
-      - synchronize
-  push:
-    branches:
-      - '*'
+  pull_request
 
 jobs:
-  check_jira_ticket:
+  branchName:
+    name: Branch Validation
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
 
-      - name: Install Git
-        run: apt-get update && apt-get install -y git
+      - uses: octokit/request-action@v2.x
+        id: get_pr_commits
+        with:
+          route: GET /repos/Hotel-Simulator/Hotel-Simulator/pulls/{pull_number}/commits
+          pull_number: ${{ github.event.pull_request.number }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Check commit messages, PR titles, and branch names
-        run: |
-          # Fetch all commit messages, PR titles, and branch names
-          COMMIT_MESSAGES=$(git log --pretty=format:%s ${{ github.event.before }}..${{ github.sha }})
-          PR_TITLE=$(git show -s --format=%s ${{ github.event.pull_request.head.sha }})
-          BRANCH_NAME=$(echo ${{ github.ref }} | sed 's/refs\/heads\///')
-
-          # Regular expression to match Jira ticket number format "HS-21"
-          JIRA_TICKET_REGEX="HS-[0-9]+"
-
-          # Check if the Jira ticket number is present in all commit messages, PR title, and branch name
-          if [[ $COMMIT_MESSAGES =~ $JIRA_TICKET_REGEX ]] && [[ $PR_TITLE =~ $JIRA_TICKET_REGEX ]] && [[ $BRANCH_NAME =~ $JIRA_TICKET_REGEX ]]; then
-            echo "All commit messages, PR title, and branch name have a Jira ticket number."
-          else
-            echo "Jira ticket number missing in one or more: commit messages, PR title, or branch name."
-            exit 1
-          fi
+      - name: Validate JIRA branch name and PR/commit consistency
+        uses: worksome/jira-branch-name-validator-action@v2.0.0
+        with:
+          branch-name: ${{ github.event.pull_request.head.ref }}
+          pr-title: ${{ github.event.pull_request.title }}
+          commits: ${{ steps.get_pr_commits.outputs.data }}
+          prefix: HS
