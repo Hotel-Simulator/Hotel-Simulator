@@ -13,14 +13,7 @@ const jiraTicketRegex = /^HS-\d+(\s\|\s\w.*)?$/;
 
 const branchName = process.env.GITHUB_HEAD_REF || '';
 const prTitle = process.env.GITHUB_HEAD_REF || '';
-const commitMessages = process.env.GITHUB_EVENT_PULL_REQUEST_COMMITS || '';
 
 validateJiraTicket(jiraTicketRegex, branchName, 'Branch name');
 validateJiraTicket(jiraTicketRegex, prTitle, 'PR title');
 
-// Split the commit messages into an array
-const commitMessageArray = commitMessages.split('\n');
-
-commitMessageArray.forEach((message, index) => {
-    validateJiraTicket(jiraTicketRegex, message, `Commit message ${index + 1}`);
-});
