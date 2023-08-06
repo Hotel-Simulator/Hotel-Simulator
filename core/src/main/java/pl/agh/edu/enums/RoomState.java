@@ -6,5 +6,6 @@ public enum RoomState {
     FAULT,
     MAINTENANCE,
     UPGRADING,
-    OCCUPIED
+    OCCUPIED,
+    OCCUPIED_MAINTENANCE
 }

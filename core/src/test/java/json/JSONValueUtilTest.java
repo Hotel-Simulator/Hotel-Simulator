@@ -1,25 +1,20 @@
+package json;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.junit.jupiter.api.Test;
 import pl.agh.edu.enums.HotelVisitPurpose;
 import pl.agh.edu.json.data_extractor.JSONDataExtractor;
-import pl.agh.edu.json.data_extractor.JSONFilePath;
 import pl.agh.edu.json.data_extractor.JSONValueUtil;
-
-
-import java.lang.reflect.Field;
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class JSONValueUtilTest {
-
-    private final static String PATH = "./test.json";
 
     @Test
     public void getListCorrectValuesTest(){
@@ -50,6 +45,15 @@ public class JSONValueUtilTest {
         LocalDate result = JSONValueUtil.getLocalDate("2020-01-01");
         //then
         assertEquals(LocalDate.of(2020,1,1), result);
+    }
+
+    @Test
+    public void getDurationCorrectValuesTest(){
+        //given
+        //when
+        Duration result = JSONValueUtil.getDuration(35L);
+        //then
+        assertEquals(Duration.ofMinutes(35), result);
     }
 
     @Test

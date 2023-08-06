@@ -1,8 +1,8 @@
 package pl.agh.edu.enums;
 
 public enum TypeOfContract {
-    pernament,
-    partTime,
-    agreement
+    PERMANENT,
+    PART_TIME,
+    AGREEMENT
 }
 

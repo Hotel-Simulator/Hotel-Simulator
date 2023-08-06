@@ -1,9 +1,9 @@
 package pl.agh.edu.model.advertisement;
 
 import pl.agh.edu.enums.HotelVisitPurpose;
-import pl.agh.edu.json.data_loader.JSONAdvertisementDataLoader;
 import pl.agh.edu.json.data.ConstantAdvertisementData;
 import pl.agh.edu.json.data.SingleAdvertisementData;
+import pl.agh.edu.json.data_loader.JSONAdvertisementDataLoader;
 import pl.agh.edu.model.time.Time;
 
 import java.math.BigDecimal;
@@ -125,7 +125,7 @@ public class AdvertisementHandler {
 
     }
 
-    public void update(){
+    public void dailyUpdate(){
         constantAdvertisements.keySet().removeIf(type -> {
             if(constantAdvertisements.get(type).getEndDate() != null && constantAdvertisements.get(type).getEndDate().equals(time.getTime().toLocalDate())){
                 advertisementHistory.addFirst(constantAdvertisements.get(type));
@@ -196,7 +196,7 @@ public class AdvertisementHandler {
 
         }
         System.out.println(advertisementHandler.getAdvertisements());
-        advertisementHandler.update();
+        advertisementHandler.dailyUpdate();
         System.out.println(advertisementHandler.singleAdvertisements);
 
         System.out.println(advertisementHandler.getAdvertisements());
@@ -209,8 +209,6 @@ public class AdvertisementHandler {
         System.out.println(advertisementHandler.getFilteredAdvertisements(true,true,true,null,null).size());
 
     }
-
-
 
 
 }

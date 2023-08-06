@@ -1,20 +1,17 @@
 package pl.agh.edu.model;
 
-import org.json.simple.parser.ParseException;
 import pl.agh.edu.enums.RoomRank;
 import pl.agh.edu.enums.RoomState;
-import pl.agh.edu.generator.employee_generator.EmployeeGenerator;
 import pl.agh.edu.json.data_loader.JSONEmployeeDataLoader;
 import pl.agh.edu.json.data_loader.JSONHotelDataLoader;
 import pl.agh.edu.json.data_loader.JSONRoomDataLoader;
 import pl.agh.edu.logo.RandomLogoCreator;
 import pl.agh.edu.model.employee.Employee;
-import pl.agh.edu.model.time.Time;
+import pl.agh.edu.model.employee.EmployeeStatus;
+import pl.agh.edu.model.employee.Profession;
 import pl.agh.edu.room_builder.Builder;
-import pl.agh.edu.time_command.NoticePeriodTimeCommand;
+import pl.agh.edu.time_command.TimeCommand;
 import pl.agh.edu.time_command.TimeCommandExecutor;
-
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -93,10 +90,11 @@ public class Hotel {
         Stream.of(RoomRank.values()).forEach(e -> this.roomsByRank.put(e, new ArrayList<>()));
         IntStream.range(0, JSONRoomDataLoader.maxSize).forEach(e -> this.roomsByCapacity.put(e, new ArrayList<>()));
 
+//todo ogarnac co zrobic z zatrudnionymi pracownikami w sensie ich kontrakt (Bartek)
 
-        IntStream.range(0, hotelStartingValues.get("cleaner")).forEach(e -> employees.add(EmployeeGenerator.generateCleaner()));
-
-        IntStream.range(0, hotelStartingValues.get("repairman")).forEach(e -> employees.add(EmployeeGenerator.tmpGenerateRepairman()));
+//        IntStream.range(0, hotelStartingValues.get("cleaner")).forEach(e -> employees.add(PossibleEmployeeGenerator.generatePossibleEmployeeWithProfession(Profession.CLEANER)));
+//
+//        IntStream.range(0, hotelStartingValues.get("repairman")).forEach(e -> employees.add(PossibleEmployeeGenerator.tmpGenerateRepairman()));
 
         IntStream.range(0, hotelStartingValues.get("builder")).forEach(e -> {
             builders.add(new Builder());
@@ -143,20 +141,32 @@ public class Hotel {
         return employees;
     }
 
-    public void hireEmployee(Employee employee){this.employees.add(employee);}
+    public void hireEmployee(Employee employee){
+        this.employees.add(employee);
+        timeCommandExecutor.addCommand(
+                LocalDateTime.of(time.getTime()
+                                .toLocalDate()
+                                .minusDays(time.getTime().getDayOfMonth()-1)
+                                .plusMonths(1),
+                        LocalTime.MIDNIGHT),
+                new TimeCommand(()->employee.setStatus(EmployeeStatus.HIRED_WORKING)));
+    }
     public void fireEmployee(Employee employee){
-        timeCommandExecutor.addCommand(LocalDateTime.of(LocalDate.of(time.getTime().getYear(),time.getTime().getMonth(),1).plusMonths(noticePeriodInMonths+1),LocalTime.MIDNIGHT),new NoticePeriodTimeCommand(this,employee));
+        employee.setStatus(EmployeeStatus.FIRED_WORKING);
+        timeCommandExecutor.addCommand(
+                LocalDateTime.of(LocalDate.of(time.getTime().getYear(),time.getTime().getMonth(),1).plusMonths(noticePeriodInMonths+1),LocalTime.MIDNIGHT).minusSeconds(1),
+                new TimeCommand(() ->this.removeEmployee(employee)));
     }
 
     public void removeEmployee(Employee employee){employees.remove(employee);}
-    public <T extends Employee> List<T> getEmployeesByPosition(Class<T> employeeClass) {
+    public  List<Employee> getWorkingEmployeesByProfession(Profession profession) {
         return employees.stream()
-                .filter(employee -> employee.getClass().equals(employeeClass))
-                .map(employeeClass::cast)
+                .filter(employee -> employee.getStatus() != EmployeeStatus.HIRED_NOT_WORKING)
+                .filter(employee -> employee.getProfession() == profession)
                 .collect(Collectors.toList());
     }
 
-    public void update(){
+    public void monthlyUpdate(){
         employees.forEach(Employee::update);
     }
 
@@ -167,6 +177,7 @@ public class Hotel {
     public HashMap<RoomRank, ArrayList<Room>> getRoomsByRank() {
         return roomsByRank;
     }
+    public ArrayList<Room> getRooms() {return rooms;}
 
     public void setRoomsByRank(HashMap<RoomRank, ArrayList<Room>> roomsByRank) {
         this.roomsByRank = roomsByRank;

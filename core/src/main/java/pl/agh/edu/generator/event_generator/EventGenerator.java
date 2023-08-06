@@ -30,7 +30,6 @@ public class EventGenerator {
         time = Time.getInstance();
         this.eventLauncher = EventLauncher.getInstance();
         initializeClientNumberModificationCyclicTemporaryEvents();
-        initializeClientNumberModificationRandomTemporaryEventsForThisYear();
     }
 
     private void initializeClientNumberModificationRandomTemporaryEventsForThisYear() {
@@ -62,7 +61,8 @@ public class EventGenerator {
         return instance;
     }
 
-    public void initializeClientNumberModificationCyclicTemporaryEvents(){
+
+    private void initializeClientNumberModificationCyclicTemporaryEvents(){
         Calendar calendar = Calendar.getInstance();
         Stream.iterate(calendar.getGameStartDate().getYear(), year -> year <=calendar.getGameEndDate().getYear(), year -> year+1)
                 .forEach(year ->{
@@ -80,4 +80,7 @@ public class EventGenerator {
         EventGenerator eventGenerator = EventGenerator.getInstance();
     }
 
+    public void yearlyUpdate() {
+        initializeClientNumberModificationRandomTemporaryEventsForThisYear();
+    }
 }

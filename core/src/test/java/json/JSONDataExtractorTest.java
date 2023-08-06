@@ -1,9 +1,10 @@
+package json;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.junit.jupiter.api.Test;
 import pl.agh.edu.json.data_extractor.JSONDataExtractor;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 public class JSONDataExtractorTest {
 

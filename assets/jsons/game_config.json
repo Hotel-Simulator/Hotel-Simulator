@@ -3,5 +3,6 @@
   "start_date": "2020-01-01",
   "end_date": "2040-01-01",
 
-  "employees_to_hire_list_size": 12
+  "employees_to_hire_list_size": 12,
+  "possible_employee_removal_probability": 0.05
 }
