@@ -1,0 +1,19 @@
+name: Pull Request Stats
+
+on:
+  pull_request:
+    branches:
+      - main
+permissions:
+  pull-requests: write
+jobs:
+  stats:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run pull request stats
+        uses: fo2rist/pull-request-stats@master
+        with:
+          period: 900
+          charts: true
+          disable-links: true
+          sort-by: 'COMMENTS'
