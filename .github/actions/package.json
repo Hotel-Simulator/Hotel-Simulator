@@ -1,0 +1,11 @@
+{
+  "name": "jira-ticket-validator-action",
+  "version": "1.0.0",
+  "description": "GitHub Action to validate Jira ticket numbers",
+  "main": "jira-ticket-validator.js",
+  "author": "Your Name",
+  "license": "ISC",
+  "dependencies": {
+    "@actions/core": "^1.2.6"
+  }
+}
