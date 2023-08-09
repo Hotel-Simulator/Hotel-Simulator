@@ -71,6 +71,9 @@ project(":core") {
 
     test {
         useJUnitPlatform()
+        reports {
+            junitXml.enabled = true
+        }
     }
 }
 
