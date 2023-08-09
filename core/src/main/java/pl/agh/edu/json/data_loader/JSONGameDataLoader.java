@@ -15,6 +15,8 @@ public class JSONGameDataLoader {
     public static int employeesToHireListSize;
     public static double possibleEmployeeRemovalProbability;
 
+    public static double roomFaultProbability;
+
     private JSONGameDataLoader(){}
 
     static{
@@ -30,5 +32,8 @@ public class JSONGameDataLoader {
                 JSONDataExtractor.extract(JSON_FILE_PATH,"employees_to_hire_list_size",Long.class));
         possibleEmployeeRemovalProbability =
                 JSONDataExtractor.extract(JSON_FILE_PATH,"possible_employee_removal_probability",Double.class);
+        roomFaultProbability =
+                JSONDataExtractor.extract(JSON_FILE_PATH,"room_fault_probability",Double.class);
+
     }
 }
