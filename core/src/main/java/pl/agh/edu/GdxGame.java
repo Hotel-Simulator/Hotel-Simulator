@@ -2,10 +2,11 @@ package pl.agh.edu;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
+
 import pl.agh.edu.model.console.CommandExecutor;
+import pl.agh.edu.model.time.Time;
 import pl.agh.edu.screen.ConsoleScreen;
 import pl.agh.edu.screen.MainScreen;
-import pl.agh.edu.model.time.Time;
 
 public class GdxGame extends ApplicationAdapter {
 
@@ -18,7 +19,7 @@ public class GdxGame extends ApplicationAdapter {
 	@Override
 	public void create() {
 		time = Time.getInstance();
-		commandExecutor=CommandExecutor.getInstance();
+		commandExecutor = CommandExecutor.getInstance();
 		currentScreen = new MainScreen(this);
 		setScreen(currentScreen);
 		consoleScreen = new ConsoleScreen(this);
@@ -31,7 +32,6 @@ public class GdxGame extends ApplicationAdapter {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		// Delegate render to the current screen
 		if (currentScreen != null) {
 			currentScreen.render(Gdx.graphics.getDeltaTime());
 		}
@@ -48,7 +48,7 @@ public class GdxGame extends ApplicationAdapter {
 	}
 
 	@Override
-	public void dispose () {
+	public void dispose() {
 		if (currentScreen != null) {
 			currentScreen.dispose();
 		}
@@ -64,20 +64,20 @@ public class GdxGame extends ApplicationAdapter {
 		currentScreen.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
 
-	public void changeScreen(Screen screen){
+	public void changeScreen(Screen screen) {
 		previousScreen = currentScreen;
 		currentScreen = screen;
 		setScreen(screen);
 	}
 
-	public void changeScreenBack(){
+	public void changeScreenBack() {
 		Screen temp = currentScreen;
 		currentScreen = previousScreen;
 		previousScreen = temp;
 		setScreen(currentScreen);
 	}
 
-	public void changeScreenToConsole(){
+	public void changeScreenToConsole() {
 		previousScreen = currentScreen;
 		currentScreen = consoleScreen;
 		setScreen(consoleScreen);

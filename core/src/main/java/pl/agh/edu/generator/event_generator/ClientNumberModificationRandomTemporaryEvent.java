@@ -1,9 +1,9 @@
 package pl.agh.edu.generator.event_generator;
 
-import pl.agh.edu.enums.HotelVisitPurpose;
-
 import java.time.LocalDate;
 import java.util.EnumMap;
+
+import pl.agh.edu.enums.HotelVisitPurpose;
 
 public record ClientNumberModificationRandomTemporaryEvent(
         String name,

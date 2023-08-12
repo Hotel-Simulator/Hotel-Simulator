@@ -39,9 +39,11 @@ allprojects {
     apply plugin: "java"
     spotless {
         java {
+            removeUnusedImports()
+            cleanthat()
             eclipse().configFile 'spotless.eclipseformat.xml'
             importOrderFile 'spotless.importorder'
-
+            formatAnnotations()
             custom 'Lambda fix', {
                 it.replace('} )', '})').replace('} ,', '},')
             }

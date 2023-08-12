@@ -1,8 +1,8 @@
 package pl.agh.edu.generator.client_generator;
 
-import pl.agh.edu.model.ClientGroup;
-
 import java.time.LocalTime;
+
+import pl.agh.edu.model.ClientGroup;
 
 public record Arrival(LocalTime time, ClientGroup clientGroup) implements Comparable<Arrival> {
 
