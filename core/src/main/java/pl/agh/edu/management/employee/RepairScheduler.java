@@ -17,12 +17,12 @@ public class RepairScheduler extends WorkScheduler {
     protected void executeService(Employee technician, Room room){
         technician.setOccupied(true);
         room.setState(RoomState.MAINTENANCE); //todo tutaj zmienic na isBeingRepaired = true;
-        timeCommandExecutor.addCommand(time.getTime().plusMinutes(technician.getServiceExecutionTime().toMinutes()),
+        timeCommandExecutor.addCommand(
                 new TimeCommand(() ->{
                     technician.setOccupied(false);
                     room.setState(RoomState.EMPTY); //todo tutaj ustawic ze jest naprawiony
                     executeServiceIfPossible(technician);
-                }));
+                },time.getTime().plusMinutes(technician.getServiceExecutionTime().toMinutes())));
     }
 
 }

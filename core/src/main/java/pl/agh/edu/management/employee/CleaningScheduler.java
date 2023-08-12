@@ -35,13 +35,13 @@ public class CleaningScheduler extends WorkScheduler {
         cleaner.setOccupied(true);
         if(room.getState() == RoomState.DIRTY) room.setState(RoomState.MAINTENANCE);
         else if(room.getState() == RoomState.OCCUPIED) room.setState(RoomState.OCCUPIED_MAINTENANCE);
-        timeCommandExecutor.addCommand(time.getTime().plusMinutes(cleaner.getServiceExecutionTime().toMinutes()),
+        timeCommandExecutor.addCommand(
                 new TimeCommand(() ->{
                     cleaner.setOccupied(false);
                     if(room.getState() == RoomState.MAINTENANCE) room.setState(RoomState.EMPTY);
                     else if(room.getState() == RoomState.OCCUPIED_MAINTENANCE) room.setState(RoomState.OCCUPIED);
                     executeServiceIfPossible(cleaner);
-                }));
+                },time.getTime().plusMinutes(cleaner.getServiceExecutionTime().toMinutes())));
     }
 
 

@@ -13,32 +13,28 @@ import pl.agh.edu.enums.BottomNavbarState;
 
 public class Navbar extends Table {
 
-    private final float navbarHorizonalPadding = 190f;
-    private final float navbarTopPadding = 15f;
-    private final MoneyPanel moneyPanel;
-    private final TimePanel timePanel;
-    private final AccelerationPanel accelerationPanel;
-    private final Skin skin;
+    private static final float navbarHorizontalPadding = 190f;
+    private static final float navbarTopPadding = 15f;
 
-    private Table bottomNavBar;
+    private final Table bottomNavBar;
 
     public Navbar(String styleName) {
-        skin = HotelSkin.getInstance();
+        Skin skin = HotelSkin.getInstance();
         NavbarStyle navbarStyle = skin.get(styleName, NavbarStyle.class);
 
         Table topNavBar = new Table();
         topNavBar.align(Align.top);
         topNavBar.top();
 
-        moneyPanel = new MoneyPanel();
+        MoneyPanel moneyPanel = new MoneyPanel();
         topNavBar.add(moneyPanel).expandX().left();
 
-        timePanel = new TimePanel();
+        TimePanel timePanel = new TimePanel();
         topNavBar.add(timePanel).expandX().top();
 
-        accelerationPanel = new AccelerationPanel();
+        AccelerationPanel accelerationPanel = new AccelerationPanel(timePanel);
         topNavBar.add(accelerationPanel).expandX().right();
-        topNavBar.pad(navbarTopPadding, navbarHorizonalPadding, 0, navbarHorizonalPadding);
+        topNavBar.pad(navbarTopPadding, navbarHorizontalPadding, 0, navbarHorizontalPadding);
 
         bottomNavBar = new Table();
         bottomNavBar.bottom();
@@ -79,17 +75,6 @@ public class Navbar extends Table {
             name = style.name;
         }
     }
-    public void setTime(String time){
-        this.timePanel.setTime(time);
-    }
-
-    public void setMoney(String money){
-        this.moneyPanel.setMoney(money);
-    }
-    public void setAcceration(String acceleration){
-        this.accelerationPanel.setAcceleration(acceleration);
-    }
-
     public void changeBottomNavbarState(BottomNavbarState state){
         bottomNavBar.clear();
         switch (state) {

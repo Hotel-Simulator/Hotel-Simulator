@@ -7,18 +7,19 @@ import pl.agh.edu.actor.HotelSkin;
 import pl.agh.edu.model.time.Time;
 
 public class AccelerationPanel extends Table{
-    private Label accelerationLabel;
-    private Button increaseButton;
-    private Button decreaseButton;
-    private Button playButton;
-    private Skin skin;
+    private final Label accelerationLabel;
+    private final Button playButton;
+    private final TimePanel timePanel;
+    private static final Time time = Time.getInstance();
 
-    public AccelerationPanel() {
-        skin = HotelSkin.getInstance();
+    public AccelerationPanel(TimePanel timePanel) {
+        this.timePanel=timePanel;
+
+        Skin skin = HotelSkin.getInstance();
         Label.LabelStyle labelStyle = skin.get("h4_label", Label.LabelStyle.class);
-        accelerationLabel = new Label("1x", labelStyle);
-        increaseButton = new Button(skin, "navbar-plus");
-        decreaseButton = new Button(skin, "navbar-minus");
+        accelerationLabel = new Label(time.getStringAcceleration(), labelStyle);
+        Button increaseButton = new Button(skin, "navbar-plus");
+        Button decreaseButton = new Button(skin, "navbar-minus");
         playButton = new Button(skin, "navbar-play");
 
         this.setBackground(skin.getDrawable("pane-background-lime"));
@@ -28,6 +29,7 @@ public class AccelerationPanel extends Table{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Time.getInstance().increaseAcceleration();
+                setAcceleration();
             }
         });
 
@@ -35,13 +37,18 @@ public class AccelerationPanel extends Table{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Time.getInstance().decreaseAcceleration();
+                setAcceleration();
             }
         });
 
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Time.getInstance().stop();
+                if(playButton.isChecked()) {
+                    playTime();
+                } else {
+                    stopTime();
+                }
             }
         });
         Table insideTable = new Table();
@@ -52,8 +59,20 @@ public class AccelerationPanel extends Table{
 
         add(insideTable).size(220,60).right();
     }
-    public void setAcceleration(String acceleration) {
-        accelerationLabel.setText(acceleration);
+
+    private void playTime() {
+        playButton.setChecked(true);
+        time.start();
+        timePanel.start();
+    }
+
+    private void stopTime() {
+        playButton.setChecked(false);
+        time.stop();
+        timePanel.stop();
+    }
+    public void setAcceleration() {
+        accelerationLabel.setText(time.getStringAcceleration());
     }
 
 }

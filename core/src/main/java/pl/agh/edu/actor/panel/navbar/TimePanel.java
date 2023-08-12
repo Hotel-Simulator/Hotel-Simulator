@@ -5,20 +5,36 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import pl.agh.edu.actor.HotelSkin;
+import pl.agh.edu.enums.Frequency;
+import pl.agh.edu.model.time.Time;
+import pl.agh.edu.time_command.RepeatingTimeCommand;
+import pl.agh.edu.time_command.TimeCommandExecutor;
+
 public class TimePanel extends Table{
-    private Label timeLabel;
-    private Skin skin;
+    private final Label timeLabel;
+    private RepeatingTimeCommand repeatingTimeCommand;
+    private static final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
+
+    private static final Time time = Time.getInstance();
 
     public TimePanel() {
-        skin = HotelSkin.getInstance();
+        Skin skin = HotelSkin.getInstance();
         Label.LabelStyle labelStyle = skin.get("navbar", Label.LabelStyle.class);
-        timeLabel = new Label("20.05.2023\n19:00", labelStyle);
+        timeLabel = new Label(time.getStringTime(), labelStyle);
         this.pad(0, 0, 0, 0);
         timeLabel.setAlignment(Align.center);
         add(timeLabel);
+
     }
-    public void setTime(String time) {
-        timeLabel.setText(time);
+    private void setTime() {
+        timeLabel.setText(time.getStringTime());
+    }
+    public void start() {
+        repeatingTimeCommand = new RepeatingTimeCommand(Frequency.EVERY_UPDATE, this::setTime,time.getTime());
+        timeCommandExecutor.addCommand(repeatingTimeCommand);
+    }
+    public void stop() {
+        repeatingTimeCommand.stop();
     }
 
 }

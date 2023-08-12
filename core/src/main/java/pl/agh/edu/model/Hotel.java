@@ -145,18 +145,19 @@ public class Hotel {
     public void hireEmployee(Employee employee){
         this.employees.add(employee);
         timeCommandExecutor.addCommand(
-                LocalDateTime.of(time.getTime()
+                new TimeCommand(()->employee.setStatus(EmployeeStatus.HIRED_WORKING),
+                        LocalDateTime.of(time.getTime()
                                 .toLocalDate()
                                 .minusDays(time.getTime().getDayOfMonth()-1)
                                 .plusMonths(1),
-                        LocalTime.MIDNIGHT),
-                new TimeCommand(()->employee.setStatus(EmployeeStatus.HIRED_WORKING)));
+                        LocalTime.MIDNIGHT)));
     }
     public void fireEmployee(Employee employee){
         employee.setStatus(EmployeeStatus.FIRED_WORKING);
         timeCommandExecutor.addCommand(
-                LocalDateTime.of(LocalDate.of(time.getTime().getYear(),time.getTime().getMonth(),1).plusMonths(noticePeriodInMonths+1),LocalTime.MIDNIGHT).minusSeconds(1),
-                new TimeCommand(() ->this.removeEmployee(employee)));
+                new TimeCommand(() ->this.removeEmployee(employee),
+                        LocalDateTime.of(LocalDate.of(time.getTime().getYear(),time.getTime().getMonth(),1).plusMonths(noticePeriodInMonths+1),LocalTime.MIDNIGHT).minusSeconds(1)
+                        ));
     }
 
     public void removeEmployee(Employee employee){employees.remove(employee);}

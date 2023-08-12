@@ -1,7 +1,8 @@
 package pl.agh.edu.model.time;
 
+import pl.agh.edu.time_command.TimeCommandExecutor;
+
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalUnit;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -15,16 +16,15 @@ public class Time {
     protected static int months;
     protected static int years;
     private static int acceleration = 1;
-
     private static final int minAcceleration = 1;
     private static final int maxAcceleration = 8;
-    private static boolean isRunning = true;
-
-    private static final int timeUnitInMinutes = 10;
+    private static boolean isRunning = false;
+    public static final int timeUnitInMinutes = 10;
+    private static final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
 
     private Time() {
         Time.interval = 5;
-        remaining = Time.interval;
+        remaining = 0;
         minutes = 0;
         hours = 0;
         days = 1;
@@ -37,10 +37,6 @@ public class Time {
             instance = new Time();
         }
         return instance;
-    }
-
-    public boolean hasTimeElapsed() {
-        return (remaining < 0.0F);
     }
 
     public void reset() {
@@ -82,6 +78,7 @@ public class Time {
                         }
                     }
                 }
+                timeCommandExecutor.executeCommands(getTime());
             }
         }
     }
@@ -124,7 +121,7 @@ public class Time {
     public LocalDateTime generateRandomTime(long range, TemporalUnit unit) {
         long max = unit.getDuration().toMinutes() * range;
         long randomOffset = ThreadLocalRandom.current().nextLong(max)/10*10;
-        return getTime().plus(randomOffset, ChronoUnit.MINUTES);
+        return getTime().plusMinutes(randomOffset);
     }
 
     public int getTimeUnitInMinutes(){
