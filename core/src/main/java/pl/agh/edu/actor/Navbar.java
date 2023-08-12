@@ -32,7 +32,7 @@ public class Navbar extends Table {
         TimePanel timePanel = new TimePanel();
         topNavBar.add(timePanel).expandX().top();
 
-        AccelerationPanel accelerationPanel = new AccelerationPanel(timePanel);
+        AccelerationPanel accelerationPanel = new AccelerationPanel();
         topNavBar.add(accelerationPanel).expandX().right();
         topNavBar.pad(navbarTopPadding, navbarHorizontalPadding, 0, navbarHorizontalPadding);
 

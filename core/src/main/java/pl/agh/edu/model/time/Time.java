@@ -24,7 +24,7 @@ public class Time {
 
     private Time() {
         Time.interval = 5;
-        remaining = 0;
+        remaining = interval;
         minutes = 0;
         hours = 0;
         days = 1;

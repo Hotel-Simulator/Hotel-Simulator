@@ -9,11 +9,9 @@ import pl.agh.edu.model.time.Time;
 public class AccelerationPanel extends Table{
     private final Label accelerationLabel;
     private final Button playButton;
-    private final TimePanel timePanel;
     private static final Time time = Time.getInstance();
 
-    public AccelerationPanel(TimePanel timePanel) {
-        this.timePanel=timePanel;
+    public AccelerationPanel() {
 
         Skin skin = HotelSkin.getInstance();
         Label.LabelStyle labelStyle = skin.get("h4_label", Label.LabelStyle.class);
@@ -63,13 +61,11 @@ public class AccelerationPanel extends Table{
     private void playTime() {
         playButton.setChecked(true);
         time.start();
-        timePanel.initializeSyncWithClock();
     }
 
     private void stopTime() {
         playButton.setChecked(false);
         time.stop();
-        timePanel.stopSyncWithClock();
     }
     public void setAcceleration() {
         accelerationLabel.setText(time.getStringAcceleration());

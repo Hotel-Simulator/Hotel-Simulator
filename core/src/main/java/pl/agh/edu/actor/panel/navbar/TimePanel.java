@@ -12,7 +12,6 @@ import pl.agh.edu.time_command.TimeCommandExecutor;
 
 public class TimePanel extends Table{
     private final Label timeLabel;
-    private RepeatingTimeCommand repeatingTimeCommand;
     private static final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
 
     private static final Time time = Time.getInstance();
@@ -25,16 +24,12 @@ public class TimePanel extends Table{
         timeLabel.setAlignment(Align.center);
         add(timeLabel);
 
+        initializeSyncWithClock();
     }
     private void setTime() {
         timeLabel.setText(time.getStringTime());
     }
     public void initializeSyncWithClock() {
-        repeatingTimeCommand = new RepeatingTimeCommand(Frequency.EVERY_TIME_TICK, this::setTime,time.getTime());
-        timeCommandExecutor.addCommand(repeatingTimeCommand);
+        timeCommandExecutor.addCommand(new RepeatingTimeCommand(Frequency.EVERY_TIME_TICK, this::setTime, time.getTime()));
     }
-    public void stopSyncWithClock() {
-        repeatingTimeCommand.stop();
-    }
-
 }
