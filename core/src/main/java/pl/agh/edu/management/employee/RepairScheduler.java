@@ -9,7 +9,7 @@ import pl.agh.edu.time_command.TimeCommand;
 import java.util.LinkedList;
 
 
-public class RepairScheduler extends WorkScheduler {
+public class RepairScheduler extends WorkScheduler<Room> {
     public RepairScheduler(Hotel hotel){
         super(hotel, new LinkedList<>(),Profession.CLEANER);
     }
@@ -17,7 +17,7 @@ public class RepairScheduler extends WorkScheduler {
     protected void executeService(Employee technician, Room room){
         technician.setOccupied(true);
         room.setState(RoomState.MAINTENANCE); //todo tutaj zmienic na isBeingRepaired = true;
-        timeCommandExecutor.addCommand(time.getTime().plusMinutes(technician.getServiceExecutionTime().toMinutes()),
+        timeCommandExecutor.addCommand(time.getTime().plus(technician.getServiceExecutionTime()),
                 new TimeCommand(() ->{
                     technician.setOccupied(false);
                     room.setState(RoomState.EMPTY); //todo tutaj ustawic ze jest naprawiony

@@ -8,17 +8,17 @@ import pl.agh.edu.model.employee.Profession;
 import pl.agh.edu.time_command.TimeCommand;
 import java.util.*;
 
-public class CleaningScheduler extends WorkScheduler {
+public class CleaningScheduler extends WorkScheduler<Room> {
     public CleaningScheduler(Hotel hotel){
         super(hotel, new PriorityQueue<>(roomComparator),Profession.CLEANER);
     }
 
     public void dailyAtCheckOutTimeUpdate(){
-        int sizeBefore = roomsToExecuteService.size();
-        roomsToExecuteService.addAll(hotel.getRooms().stream()
+        int sizeBefore = entitiesToExecuteService.size();
+        entitiesToExecuteService.addAll(hotel.getRooms().stream()
                 .filter(room -> room.getState() == RoomState.OCCUPIED)
                 .toList());
-        if(sizeBefore == 0 && !roomsToExecuteService.isEmpty()){
+        if(sizeBefore == 0 && !entitiesToExecuteService.isEmpty()){
             workingEmployees.stream()
                     .filter(cleaner -> !cleaner.isOccupied())
                     .forEach(this::executeServiceIfPossible);
@@ -27,7 +27,7 @@ public class CleaningScheduler extends WorkScheduler {
 
     public void dailyAtCheckInTimeUpdate(){
         //todo tutaj Bartek
-        roomsToExecuteService.removeIf(room -> room.getState() == RoomState.OCCUPIED);
+        entitiesToExecuteService.removeIf(room -> room.getState() == RoomState.OCCUPIED);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class CleaningScheduler extends WorkScheduler {
         cleaner.setOccupied(true);
         if(room.getState() == RoomState.DIRTY) room.setState(RoomState.MAINTENANCE);
         else if(room.getState() == RoomState.OCCUPIED) room.setState(RoomState.OCCUPIED_MAINTENANCE);
-        timeCommandExecutor.addCommand(time.getTime().plusMinutes(cleaner.getServiceExecutionTime().toMinutes()),
+        timeCommandExecutor.addCommand(time.getTime().plus(cleaner.getServiceExecutionTime()),
                 new TimeCommand(() ->{
                     cleaner.setOccupied(false);
                     if(room.getState() == RoomState.MAINTENANCE) room.setState(RoomState.EMPTY);

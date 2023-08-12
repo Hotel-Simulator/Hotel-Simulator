@@ -4,6 +4,7 @@ import pl.agh.edu.enums.RoomState;
 import pl.agh.edu.generator.client_generator.ClientGenerator;
 import pl.agh.edu.generator.event_generator.EventGenerator;
 import pl.agh.edu.json.data_loader.JSONGameDataLoader;
+import pl.agh.edu.management.employee.ReceptionScheduler;
 import pl.agh.edu.management.employee.RepairScheduler;
 import pl.agh.edu.model.Hotel;
 import pl.agh.edu.model.Room;
@@ -32,9 +33,8 @@ public class Engine {
     private final EventGenerator eventGenerator;
     private final CleaningScheduler cleaningScheduler;
     private final RepairScheduler repairScheduler;
+    private final ReceptionScheduler receptionScheduler;
     private final EmployeesToHireHandler employeesToHireHandler;
-    private final Random random;
-
 
     public Engine(){
         this.time = Time.getInstance();
@@ -46,11 +46,12 @@ public class Engine {
         this.eventGenerator = EventGenerator.getInstance();
         this.cleaningScheduler = new CleaningScheduler(hotel);
         this.repairScheduler = new RepairScheduler(hotel);
+        this.receptionScheduler = new ReceptionScheduler(hotel,cleaningScheduler,repairScheduler);
         this.employeesToHireHandler = new EmployeesToHireHandler(hotel);
-        this.random = new Random();
 
         //todo ustalic z kubą jak robimy zeby time.getTime było teraz o północy
         timeCommandExecutor.addCommand(time.getTime(),new RepeatingTimeCommand(EVERY_SHIFT, cleaningScheduler::perShiftUpdate));
+        timeCommandExecutor.addCommand(time.getTime(),new RepeatingTimeCommand(EVERY_SHIFT, receptionScheduler::perShiftUpdate));
         timeCommandExecutor.addCommand(time.getTime(),new RepeatingTimeCommand(EVERY_SHIFT, repairScheduler::perShiftUpdate));
 
         timeCommandExecutor.addCommand(time.getTime(),new RepeatingTimeCommand(EVERY_DAY,advertisementHandler::dailyUpdate));
@@ -69,27 +70,7 @@ public class Engine {
     private void generateClientArrivals(){
         clientGenerator.generateArrivalsForDay(hotel.getCheckInTime(),hotel.getCheckOutTime())
                 .forEach(arrival -> timeCommandExecutor.addCommand(LocalDateTime.of(time.getTime().toLocalDate(),arrival.time()),
-                        new TimeCommand(() ->{
-                            Room room = hotel.findRoomForClientGroup(arrival.clientGroup());
-                            if(room != null){
-                                room.checkIn(arrival.clientGroup());
-                                if(random.nextDouble() < JSONGameDataLoader.roomFaultProbability){
-                                    long minutes = Duration.between(time.getTime(),arrival.clientGroup().getCheckOutTime()).toMinutes();
-                                    timeCommandExecutor.addCommand(time.generateRandomTime(minutes, ChronoUnit.MINUTES),
-                                            new TimeCommand(() ->{
-                                                room.setState(RoomState.FAULT); // todo zmienic na isFault()
-                                                repairScheduler.addRoom(room);
-                                            })
-
-                                    );
-                                }
-                                timeCommandExecutor.addCommand(arrival.clientGroup().getCheckOutTime(),
-                                        new TimeCommand(()->{
-                                            room.checkOut();
-                                            cleaningScheduler.addRoom(room);
-                                        }));
-                            }
-                        })
+                        new TimeCommand(() -> receptionScheduler.addEntity(arrival.clientGroup()))
                         ));
     }
 
