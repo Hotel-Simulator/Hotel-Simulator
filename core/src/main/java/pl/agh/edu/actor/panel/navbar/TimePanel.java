@@ -29,11 +29,11 @@ public class TimePanel extends Table{
     private void setTime() {
         timeLabel.setText(time.getStringTime());
     }
-    public void start() {
-        repeatingTimeCommand = new RepeatingTimeCommand(Frequency.EVERY_UPDATE, this::setTime,time.getTime());
+    public void initializeSyncWithClock() {
+        repeatingTimeCommand = new RepeatingTimeCommand(Frequency.EVERY_TIME_TICK, this::setTime,time.getTime());
         timeCommandExecutor.addCommand(repeatingTimeCommand);
     }
-    public void stop() {
+    public void stopSyncWithClock() {
         repeatingTimeCommand.stop();
     }
 

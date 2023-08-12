@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 public class TimeCommand implements Comparable<TimeCommand>{
     protected final Runnable toExecute;
     protected LocalDateTime dueDateTime;
+    private final LocalDateTime createdDateTime = LocalDateTime.now();
 
     public TimeCommand(Runnable toExecute, LocalDateTime dueDateTime) {
         this.toExecute = toExecute;
@@ -15,6 +16,8 @@ public class TimeCommand implements Comparable<TimeCommand>{
     }
     @Override
     public int compareTo(TimeCommand other) {
+        if(dueDateTime.equals(other.dueDateTime))
+            return createdDateTime.compareTo(other.createdDateTime);
         return dueDateTime.compareTo(other.dueDateTime);
     }
 }

@@ -63,13 +63,13 @@ public class AccelerationPanel extends Table{
     private void playTime() {
         playButton.setChecked(true);
         time.start();
-        timePanel.start();
+        timePanel.initializeSyncWithClock();
     }
 
     private void stopTime() {
         playButton.setChecked(false);
         time.stop();
-        timePanel.stop();
+        timePanel.stopSyncWithClock();
     }
     public void setAcceleration() {
         accelerationLabel.setText(time.getStringAcceleration());

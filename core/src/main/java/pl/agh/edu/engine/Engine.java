@@ -48,7 +48,6 @@ public class Engine {
         this.employeesToHireHandler = new EmployeesToHireHandler(hotel);
         this.random = new Random();
 
-        //todo ustalic z kubą jak robimy zeby time.getTime było teraz o północy
         timeCommandExecutor.addCommand(new RepeatingTimeCommand(Frequency.EVERY_SHIFT, cleaningScheduler::perShiftUpdate,time.getTime()));
         timeCommandExecutor.addCommand(new RepeatingTimeCommand(Frequency.EVERY_SHIFT, repairScheduler::perShiftUpdate,time.getTime()));
 
