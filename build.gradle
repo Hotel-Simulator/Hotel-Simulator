@@ -48,15 +48,7 @@ allprojects {
                 it.replace('} )', '})').replace('} ,', '},')
             }
         }
-
-        format 'misc', {
-            target '**/.gitignore', '**/*.gradle', '**/*.md', '**/*.sh'
-            indentWithTabs()
-            trimTrailingWhitespace()
-            endWithNewline()
-        }
     }
-
 }
 
 project(":desktop") {
