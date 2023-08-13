@@ -14,6 +14,9 @@ public class TimeCommand implements Comparable<TimeCommand>{
     public void execute() {
         toExecute.run();
     }
+    public LocalDateTime getDueDateTime() {
+        return dueDateTime;
+    }
     @Override
     public int compareTo(TimeCommand other) {
         if(dueDateTime.equals(other.dueDateTime))

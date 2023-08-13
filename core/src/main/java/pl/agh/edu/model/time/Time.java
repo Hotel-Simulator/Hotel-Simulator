@@ -8,22 +8,19 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Time {
     private static Time instance;
-    protected static float remaining;
-    protected static float interval;
-    protected static int minutes;
-    protected static int hours;
-    protected static int days;
-    protected static int months;
-    protected static int years;
-    private static int acceleration = 1;
-    private static final int minAcceleration = 1;
-    private static final int maxAcceleration = 8;
-    private static boolean isRunning = false;
+    private float remaining;
+    private int minutes;
+    private int hours;
+    private int days;
+    private int months;
+    private int years;
+    private int acceleration = 1;
+    private boolean isRunning = false;
     public static final int timeUnitInMinutes = 10;
-    private static final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
+    public static final float interval = 5;
+    private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
 
     private Time() {
-        Time.interval = 5;
         remaining = interval;
         minutes = 0;
         hours = 0;
@@ -37,6 +34,10 @@ public class Time {
             instance = new Time();
         }
         return instance;
+    }
+
+    public void clearStateForTesting() {
+        instance = null;
     }
 
     public void reset() {
@@ -83,10 +84,12 @@ public class Time {
         }
     }
     public void increaseAcceleration() {
+        int maxAcceleration = 8;
         acceleration = Math.min(acceleration * 2, maxAcceleration);
     }
 
     public void decreaseAcceleration() {
+        int minAcceleration = 1;
         acceleration = Math.max(acceleration / 2, minAcceleration);
     }
 
@@ -104,6 +107,13 @@ public class Time {
 
     public boolean isRunning() {
         return isRunning;
+    }
+
+    public float getRemaining() {
+        return remaining;
+    }
+    public float getInterval() {
+        return interval;
     }
 
     public LocalDateTime getTime() {
