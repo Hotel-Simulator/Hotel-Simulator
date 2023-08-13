@@ -1,4 +1,4 @@
-package pl.agh.edu.management.employee;
+package pl.agh.edu.management.employee.work_scheduler;
 
 import pl.agh.edu.model.Hotel;
 import pl.agh.edu.model.employee.Employee;

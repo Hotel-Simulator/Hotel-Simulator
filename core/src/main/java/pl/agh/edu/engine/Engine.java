@@ -1,26 +1,20 @@
 package pl.agh.edu.engine;
 
-import pl.agh.edu.enums.RoomState;
 import pl.agh.edu.generator.client_generator.ClientGenerator;
 import pl.agh.edu.generator.event_generator.EventGenerator;
-import pl.agh.edu.json.data_loader.JSONGameDataLoader;
-import pl.agh.edu.management.employee.ReceptionScheduler;
-import pl.agh.edu.management.employee.RepairScheduler;
+import pl.agh.edu.management.employee.work_scheduler.ReceptionScheduler;
+import pl.agh.edu.management.employee.work_scheduler.RepairScheduler;
 import pl.agh.edu.model.Hotel;
-import pl.agh.edu.model.Room;
 import pl.agh.edu.model.advertisement.AdvertisementHandler;
 import pl.agh.edu.management.employee.EmployeesToHireHandler;
-import pl.agh.edu.management.employee.CleaningScheduler;
+import pl.agh.edu.management.employee.work_scheduler.CleaningScheduler;
 import pl.agh.edu.model.time.Time;
 import pl.agh.edu.time_command.RepeatingTimeCommand;
 import pl.agh.edu.time_command.TimeCommand;
 import pl.agh.edu.time_command.TimeCommandExecutor;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
-import java.util.Random;
 
 import static pl.agh.edu.time_command.RepeatingTimeCommand.Frequency.*;
 

@@ -1,6 +1,6 @@
 package pl.agh.edu.generator.client_generator;
 
-import pl.agh.edu.model.ClientGroup;
+import pl.agh.edu.model.client.ClientGroup;
 
 import java.time.LocalTime;
 

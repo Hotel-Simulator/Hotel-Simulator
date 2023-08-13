@@ -1,14 +1,12 @@
 package pl.agh.edu.generator.client_generator;
 
-import org.json.simple.parser.ParseException;
 import pl.agh.edu.enums.HotelVisitPurpose;
 import pl.agh.edu.enums.RoomRank;
 import pl.agh.edu.enums.Sex;
 import pl.agh.edu.json.data_loader.JSONClientDataLoader;
-import pl.agh.edu.json.data_loader.JSONGameDataLoader;
 import pl.agh.edu.json.data_loader.JSONHotelDataLoader;
-import pl.agh.edu.model.Client;
-import pl.agh.edu.model.ClientGroup;
+import pl.agh.edu.model.client.Client;
+import pl.agh.edu.model.client.ClientGroup;
 import pl.agh.edu.model.time.Time;
 import pl.agh.edu.model.advertisement.AdvertisementHandler;
 import pl.agh.edu.model.advertisement.SingleAdvertisementType;
@@ -17,7 +15,6 @@ import pl.agh.edu.model.advertisement.report.AdvertisementReportHandler;
 import pl.agh.edu.model.event.temporary.ClientNumberModificationTemporaryEvent;
 import pl.agh.edu.model.event.temporary.ClientNumberModificationTemporaryEventHandler;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;

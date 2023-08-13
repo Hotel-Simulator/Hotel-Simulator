@@ -1,7 +1,9 @@
-package pl.agh.edu.model;
+package pl.agh.edu.model.client;
 
 import pl.agh.edu.enums.HotelVisitPurpose;
 import pl.agh.edu.enums.Sex;
+import pl.agh.edu.model.Opinion;
+import pl.agh.edu.model.Room;
 
 import java.math.BigDecimal;
 

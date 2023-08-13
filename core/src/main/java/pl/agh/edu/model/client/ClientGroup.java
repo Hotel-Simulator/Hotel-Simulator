@@ -1,8 +1,9 @@
-package pl.agh.edu.model;
+package pl.agh.edu.model.client;
 
-import com.badlogic.gdx.utils.Array;
 import pl.agh.edu.enums.HotelVisitPurpose;
 import pl.agh.edu.enums.RoomRank;
+import pl.agh.edu.model.Opinion;
+import pl.agh.edu.model.Room;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,6 +18,7 @@ public class ClientGroup {
     private final int budgetPerNight;
     private final RoomRank desiredRoomRank;
     private Room room;
+    private ClientGroupState state;
 
     public ClientGroup(HotelVisitPurpose hotelVisitPurpose, List<Client> members, LocalDateTime checkOutTime, int budgetPerNight, RoomRank desiredRoomRank) {
         this.hotelVisitPurpose = hotelVisitPurpose;
@@ -24,6 +26,7 @@ public class ClientGroup {
         this.checkOutTime = checkOutTime;
         this.budgetPerNight = budgetPerNight;
         this.desiredRoomRank = desiredRoomRank;
+        this.state = ClientGroupState.CHECKING_IN;
     }
 
     public List<Client> getMembers() {
@@ -83,4 +86,12 @@ public class ClientGroup {
     }
 
     public Opinion getOpinion() {return this.opinion;}
+
+    public ClientGroupState getState() {
+        return state;
+    }
+
+    public void setState(ClientGroupState state) {
+        this.state = state;
+    }
 }
