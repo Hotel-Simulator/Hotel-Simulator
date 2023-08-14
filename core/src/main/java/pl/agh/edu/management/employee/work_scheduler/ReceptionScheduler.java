@@ -33,9 +33,7 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
                 time.getTime().plus(receptionist.getServiceExecutionTime()),
                 serveCheckingInClientsTimeCommand(receptionist, clientGroup));
     }
-
-
-
+    
     private TimeCommand breakRoomTimeCommand(Room room){
         return new TimeCommand( () -> {
             room.setState(RoomState.FAULT); // todo zmienic na isFault()

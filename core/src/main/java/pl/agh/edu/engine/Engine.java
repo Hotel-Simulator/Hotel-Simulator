@@ -1,5 +1,6 @@
 package pl.agh.edu.engine;
 
+import pl.agh.edu.generator.client_generator.Arrival;
 import pl.agh.edu.generator.client_generator.ClientGenerator;
 import pl.agh.edu.generator.event_generator.EventGenerator;
 import pl.agh.edu.management.employee.work_scheduler.ReceptionScheduler;
@@ -65,22 +66,25 @@ public class Engine {
                 .forEach(arrival ->
                         timeCommandExecutor.addCommand(
                                 LocalDateTime.of(time.getTime().toLocalDate(),arrival.time()),
-                                new TimeCommand(() -> {
-                                    receptionScheduler.addEntity(arrival.clientGroup());
-                                    timeCommandExecutor.addCommand(
-                                            LocalDateTime.of(time.getTime().toLocalDate(),arrival.time().plus(arrival.clientGroup().getMaxWaitingTime())),
-                                            new TimeCommand(() -> receptionScheduler.removeEntity(arrival.clientGroup()))
-                                    );
-                                } )
-                        )
+                                clientArrivalTimeCommand(arrival))
                 );
+    }
+
+    private TimeCommand clientArrivalTimeCommand(Arrival arrival){
+        return new TimeCommand(() -> {
+            receptionScheduler.addEntity(arrival.clientGroup());
+            timeCommandExecutor.addCommand(
+                    LocalDateTime.of(
+                            time.getTime().toLocalDate(),
+                            arrival.time().plus(arrival.clientGroup().getMaxWaitingTime())),
+                    new TimeCommand(() -> receptionScheduler.removeEntity(arrival.clientGroup()))
+            );
+        });
     }
 
     public void dailyUpdate(){
         generateClientArrivals();
     }
-
-
 
     public static void main(String[] args){
         Engine engine = new Engine();
