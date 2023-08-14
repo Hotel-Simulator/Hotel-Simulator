@@ -8,7 +8,6 @@ import pl.agh.edu.model.Hotel;
 import pl.agh.edu.model.advertisement.AdvertisementHandler;
 import pl.agh.edu.management.employee.EmployeesToHireHandler;
 import pl.agh.edu.management.employee.work_scheduler.CleaningScheduler;
-import pl.agh.edu.model.client.ClientGroupState;
 import pl.agh.edu.model.time.Time;
 import pl.agh.edu.time_command.RepeatingTimeCommand;
 import pl.agh.edu.time_command.TimeCommand;
@@ -44,7 +43,6 @@ public class Engine {
         this.receptionScheduler = new ReceptionScheduler(hotel,cleaningScheduler,repairScheduler);
         this.employeesToHireHandler = new EmployeesToHireHandler(hotel);
 
-        //todo ustalic z kubą jak robimy zeby time.getTime było teraz o północy
         timeCommandExecutor.addCommand(time.getTime(),new RepeatingTimeCommand(EVERY_SHIFT, cleaningScheduler::perShiftUpdate));
         timeCommandExecutor.addCommand(time.getTime(),new RepeatingTimeCommand(EVERY_SHIFT, receptionScheduler::perShiftUpdate));
         timeCommandExecutor.addCommand(time.getTime(),new RepeatingTimeCommand(EVERY_SHIFT, repairScheduler::perShiftUpdate));
@@ -71,11 +69,7 @@ public class Engine {
                                     receptionScheduler.addEntity(arrival.clientGroup());
                                     timeCommandExecutor.addCommand(
                                             LocalDateTime.of(time.getTime().toLocalDate(),arrival.time().plus(arrival.clientGroup().getMaxWaitingTime())),
-                                            new TimeCommand(() -> {
-                                                if(arrival.clientGroup().getState() == ClientGroupState.CHECKING_IN){
-                                                    receptionScheduler.removeEntity(arrival.clientGroup());
-                                                }
-                                            })
+                                            new TimeCommand(() -> receptionScheduler.removeEntity(arrival.clientGroup()))
                                     );
                                 } )
                         )

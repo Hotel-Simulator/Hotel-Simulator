@@ -19,7 +19,6 @@ public class ClientGroup {
     private final int budgetPerNight;
     private final RoomRank desiredRoomRank;
     private Room room;
-    private ClientGroupState state;
     private final Duration maxWaitingTime;
 
     public ClientGroup(HotelVisitPurpose hotelVisitPurpose, List<Client> members, LocalDateTime checkOutTime, int budgetPerNight, RoomRank desiredRoomRank, Duration maxWaitingTime) {
@@ -28,7 +27,6 @@ public class ClientGroup {
         this.checkOutTime = checkOutTime;
         this.budgetPerNight = budgetPerNight;
         this.desiredRoomRank = desiredRoomRank;
-        this.state = ClientGroupState.CHECKING_IN;
         this.maxWaitingTime = maxWaitingTime;
     }
 
@@ -89,14 +87,6 @@ public class ClientGroup {
     }
 
     public Opinion getOpinion() {return this.opinion;}
-
-    public ClientGroupState getState() {
-        return state;
-    }
-
-    public void setState(ClientGroupState state) {
-        this.state = state;
-    }
 
     public Duration getMaxWaitingTime() {
         return maxWaitingTime;

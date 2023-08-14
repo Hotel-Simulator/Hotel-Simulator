@@ -3,7 +3,6 @@ package pl.agh.edu.model;
 import pl.agh.edu.enums.RoomRank;
 import pl.agh.edu.enums.RoomState;
 import pl.agh.edu.model.client.ClientGroup;
-import pl.agh.edu.model.client.ClientGroupState;
 
 import java.math.BigDecimal;
 
@@ -119,7 +118,6 @@ public class Room {
 
 
     public void checkOut(){
-        residents.setState(ClientGroupState.CHECKING_OUT);
         this.residents = null;
         this.state = RoomState.DIRTY;
     }
