@@ -1,9 +1,9 @@
 package pl.agh.edu.json.data;
 
-import pl.agh.edu.enums.HotelVisitPurpose;
-
 import java.math.BigDecimal;
 import java.util.EnumMap;
+
+import pl.agh.edu.enums.HotelVisitPurpose;
 
 public record SingleAdvertisementData(
         BigDecimal costOfPurchase,

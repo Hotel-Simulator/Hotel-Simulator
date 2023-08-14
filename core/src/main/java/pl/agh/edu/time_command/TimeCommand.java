@@ -1,13 +1,13 @@
 package pl.agh.edu.time_command;
 
 public class TimeCommand {
-    protected final Runnable toExecute;
+	protected final Runnable toExecute;
 
-    public TimeCommand(Runnable toExecute) {
-        this.toExecute = toExecute;
-    }
+	public TimeCommand(Runnable toExecute) {
+		this.toExecute = toExecute;
+	}
 
-    public void execute() {
-        toExecute.run();
-    }
+	public void execute() {
+		toExecute.run();
+	}
 }
