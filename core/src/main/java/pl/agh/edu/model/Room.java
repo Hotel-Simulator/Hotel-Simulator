@@ -5,9 +5,6 @@ import java.math.BigDecimal;
 import pl.agh.edu.enums.RoomRank;
 import java.math.BigDecimal;
 
-//TODO room standard = min(3* (moja_cena + cena_runkowa)/ 4* moja_cena, 1) decimale builder
-// dopracuj troszkę nizej wartośc wzoru - rename standard for competitiveness
-
 public class Room {
 	private RoomRank rank;
 	private final int capacity;
