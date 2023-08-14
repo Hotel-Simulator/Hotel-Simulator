@@ -3,6 +3,7 @@ package pl.agh.edu.model.time;
 import pl.agh.edu.time_command.TimeCommandExecutor;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalUnit;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -20,74 +21,73 @@ public class Time {
     public static final float interval = 5;
     private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
 
-    private Time() {
+	private Time() {
         remaining = interval;
-        minutes = 0;
-        hours = 0;
-        days = 1;
-        months = 1;
-        years = 2020;
-    }
+		minutes = 0;
+		hours = 0;
+		days = 1;
+		months = 1;
+		years = 2020;
+	}
 
-    public static Time getInstance() {
-        if (instance == null) {
-            instance = new Time();
-        }
-        return instance;
-    }
+	public static Time getInstance() {
+		if (instance == null) {
+			instance = new Time();
+		}
+		return instance;
+	}
 
-    public void reset() {
-        remaining = interval;
-    }
+	public void reset() {
+		remaining = interval;
+	}
 
-    public void update(float delta) {
-        if (isRunning) {
-            remaining -= delta * acceleration;
+	public void update(float delta) {
+		if (isRunning) {
+			remaining -= delta * acceleration;
 
-            if (remaining < 0.0F) {
-                minutes+=timeUnitInMinutes;
-                this.reset();
+			if (remaining < 0.0F) {
+				minutes += timeUnitInMinutes;
+				this.reset();
 
-                if (minutes >= 60) {
-                    hours++;
-                    minutes = minutes%60;
+				if (minutes >= 60) {
+					hours++;
+					minutes = minutes % 60;
 
-                    if (hours >= 24) {
-                        days++;
-                        hours = hours%24;
+					if (hours >= 24) {
+						days++;
+						hours = hours % 24;
 
-                        int daysInMonth = switch (months) {
-                            case 1 ->
-                                    (years % 4 == 0 && (years % 100 != 0 || years % 400 == 0)) ? 29 : 28;
-                            case 3, 5, 8, 10 ->
-                                    30;
-                            default -> 31;
-                        };
+						int daysInMonth = switch (months) {
+						case 1 ->
+							(years % 4 == 0 && (years % 100 != 0 || years % 400 == 0)) ? 29 : 28;
+						case 3, 5, 8, 10 ->
+							30;
+						default -> 31;
+						};
 
-                        if (days >= daysInMonth) {
-                            months++;
-                            days = days%daysInMonth;
+						if (days >= daysInMonth) {
+							months++;
+							days = days % daysInMonth;
 
-                            if (months >= 12) {
-                                years++;
-                                months = months%12;
-                            }
-                        }
-                    }
-                }
+							if (months >= 12) {
+								years++;
+								months = months % 12;
+							}
+						}
+					}
+				}
                 timeCommandExecutor.executeCommands(getTime());
-            }
-        }
-    }
-    public void increaseAcceleration() {
-        int maxAcceleration = 8;
-        acceleration = Math.min(acceleration * 2, maxAcceleration);
-    }
+			}
+		}
+	}
 
-    public void decreaseAcceleration() {
-        int minAcceleration = 1;
-        acceleration = Math.max(acceleration / 2, minAcceleration);
-    }
+	public void increaseAcceleration() {
+		acceleration = Math.min(acceleration * 2, maxAcceleration);
+	}
+
+	public void decreaseAcceleration() {
+		acceleration = Math.max(acceleration / 2, minAcceleration);
+	}
 
     public void start() {
         isRunning = true;
@@ -103,13 +103,6 @@ public class Time {
 
     public boolean isRunning() {
         return isRunning;
-    }
-
-    public float getRemaining() {
-        return remaining;
-    }
-    public float getInterval() {
-        return interval;
     }
 
     public LocalDateTime getTime() {

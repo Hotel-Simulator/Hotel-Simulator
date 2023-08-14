@@ -1,8 +1,6 @@
 package pl.agh.edu.model.employee;
 
-import pl.agh.edu.enums.TypeOfContract;
 
-import java.math.BigDecimal;
 
 public record PossibleEmployee(String firstName,
                                String lastName,
@@ -12,7 +10,6 @@ public record PossibleEmployee(String firstName,
                                Profession profession) {
 
     public JobOfferResponse offerJob(JobOffer jobOffer){
-        //todo zapytac czy wywalic desiredTypeOfContract
 
         if(preferences.desiredShift() == jobOffer.shift()
                 && jobOffer.typeOfContract() == preferences.desiredTypeOfContract()){

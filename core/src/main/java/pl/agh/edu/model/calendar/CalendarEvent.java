@@ -9,4 +9,3 @@ public record CalendarEvent(LocalDate date,String title,String description) impl
         return this.date.compareTo(o.date);
     }
 }
-
