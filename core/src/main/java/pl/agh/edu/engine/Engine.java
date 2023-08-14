@@ -8,6 +8,7 @@ import pl.agh.edu.model.Hotel;
 import pl.agh.edu.model.advertisement.AdvertisementHandler;
 import pl.agh.edu.management.employee.EmployeesToHireHandler;
 import pl.agh.edu.management.employee.work_scheduler.CleaningScheduler;
+import pl.agh.edu.model.client.ClientGroupState;
 import pl.agh.edu.model.time.Time;
 import pl.agh.edu.time_command.RepeatingTimeCommand;
 import pl.agh.edu.time_command.TimeCommand;
@@ -63,9 +64,22 @@ public class Engine {
 
     private void generateClientArrivals(){
         clientGenerator.generateArrivalsForDay(hotel.getCheckInTime(),hotel.getCheckOutTime())
-                .forEach(arrival -> timeCommandExecutor.addCommand(LocalDateTime.of(time.getTime().toLocalDate(),arrival.time()),
-                        new TimeCommand(() -> receptionScheduler.addEntity(arrival.clientGroup()))
-                        ));
+                .forEach(arrival ->
+                        timeCommandExecutor.addCommand(
+                                LocalDateTime.of(time.getTime().toLocalDate(),arrival.time()),
+                                new TimeCommand(() -> {
+                                    receptionScheduler.addEntity(arrival.clientGroup());
+                                    timeCommandExecutor.addCommand(
+                                            LocalDateTime.of(time.getTime().toLocalDate(),arrival.time().plus(arrival.clientGroup().getMaxWaitingTime())),
+                                            new TimeCommand(() -> {
+                                                if(arrival.clientGroup().getState() == ClientGroupState.CHECKING_IN){
+                                                    receptionScheduler.removeEntity(arrival.clientGroup());
+                                                }
+                                            })
+                                    );
+                                } )
+                        )
+                );
     }
 
     public void dailyUpdate(){

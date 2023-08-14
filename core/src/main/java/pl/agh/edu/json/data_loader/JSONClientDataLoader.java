@@ -5,6 +5,8 @@ import pl.agh.edu.enums.RoomRank;
 import pl.agh.edu.json.data_extractor.JSONDataExtractor;
 import pl.agh.edu.json.data_extractor.JSONFilePath;
 import pl.agh.edu.json.data_extractor.JSONValueUtil;
+
+import java.time.Duration;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -17,6 +19,8 @@ public class JSONClientDataLoader {
     public static EnumMap<HotelVisitPurpose,Map<Integer,Integer>> numberOfNightsProbabilities;
     public static EnumMap<HotelVisitPurpose,Map<Integer,Integer>> roomSizeProbabilities;
     public static EnumMap<RoomRank,Map<Integer,Integer>> averagePricesPerNight;
+    public static Duration basicMaxWaitingTime;
+    public static int waitingTimeVariation;
 
     private JSONClientDataLoader(){}
 
@@ -70,6 +74,11 @@ public class JSONClientDataLoader {
                 ),
                 RoomRank.class
         );
+
+        basicMaxWaitingTime = JSONValueUtil.getDuration(
+                JSONDataExtractor.extract(JSON_FILE_PATH,"basic_max_waiting_time_in_minutes", Long.class));
+        waitingTimeVariation = JSONValueUtil.getInt(
+                JSONDataExtractor.extract(JSON_FILE_PATH,"waiting_time_variation_in_minutes", Long.class));
 
     }
 

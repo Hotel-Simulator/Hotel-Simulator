@@ -35,7 +35,7 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
                     time.getTime().plus(receptionist.getServiceExecutionTime()),
                     serveCheckingInClientsTimeCommand(receptionist, clientGroup));
             case CHECKING_OUT -> timeCommandExecutor.addCommand(
-                    time.getTime().plus(receptionist.getServiceExecutionTime()), //todo jaki tu dac czas i skad go wziac
+                    time.getTime().plus(receptionist.getServiceExecutionTime()),
                     serveCheckingOutClientsTimeCommand(receptionist ,clientGroup.getRoom()));
             case CHECKED_IN -> throw new IllegalStateException();
         }
@@ -76,8 +76,10 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
                                 clientGroup.getCheckOutTime(),
                                 leaveRoomTimeCommand(clientGroup)
                         );
+                    } else {
+                        clientGroup.setState(ClientGroupState.FAILED_TO_CHECK_IN);
                     }
-                    receptionist.setOccupied(true);
+                    receptionist.setOccupied(false);
                 }
         );
     }
@@ -88,6 +90,10 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
             cleaningScheduler.addEntity(room);
             receptionist.setOccupied(false);
         });
+    }
+
+    public void removeEntity(ClientGroup clientGroup){
+        entitiesToExecuteService.remove(clientGroup);
     }
 
 }

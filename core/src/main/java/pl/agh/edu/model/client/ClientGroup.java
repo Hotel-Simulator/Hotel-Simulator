@@ -5,6 +5,7 @@ import pl.agh.edu.enums.RoomRank;
 import pl.agh.edu.model.Opinion;
 import pl.agh.edu.model.Room;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -19,14 +20,16 @@ public class ClientGroup {
     private final RoomRank desiredRoomRank;
     private Room room;
     private ClientGroupState state;
+    private final Duration maxWaitingTime;
 
-    public ClientGroup(HotelVisitPurpose hotelVisitPurpose, List<Client> members, LocalDateTime checkOutTime, int budgetPerNight, RoomRank desiredRoomRank) {
+    public ClientGroup(HotelVisitPurpose hotelVisitPurpose, List<Client> members, LocalDateTime checkOutTime, int budgetPerNight, RoomRank desiredRoomRank, Duration maxWaitingTime) {
         this.hotelVisitPurpose = hotelVisitPurpose;
         this.members = members;
         this.checkOutTime = checkOutTime;
         this.budgetPerNight = budgetPerNight;
         this.desiredRoomRank = desiredRoomRank;
         this.state = ClientGroupState.CHECKING_IN;
+        this.maxWaitingTime = maxWaitingTime;
     }
 
     public List<Client> getMembers() {
@@ -93,5 +96,9 @@ public class ClientGroup {
 
     public void setState(ClientGroupState state) {
         this.state = state;
+    }
+
+    public Duration getMaxWaitingTime() {
+        return maxWaitingTime;
     }
 }

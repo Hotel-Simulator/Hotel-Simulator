@@ -15,6 +15,7 @@ import pl.agh.edu.model.advertisement.report.AdvertisementReportHandler;
 import pl.agh.edu.model.event.temporary.ClientNumberModificationTemporaryEvent;
 import pl.agh.edu.model.event.temporary.ClientNumberModificationTemporaryEventHandler;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -115,7 +116,12 @@ public class ClientGenerator {
         List<Client> members = getMembers(hotelVisitPurpose, roomSize);
         int desiredPricePerNight = getDesiredPricePerNight(desiredRoomRank, roomSize);
         LocalDateTime checkOutTime = getCheckOutTime(numberOfNight,checkoutMaxTime);
-        return new ClientGroup(hotelVisitPurpose,members,checkOutTime,desiredPricePerNight,desiredRoomRank);
+        Duration maxWaitingTime = getMaxWaitingTime(JSONClientDataLoader.basicMaxWaitingTime, JSONClientDataLoader.waitingTimeVariation);
+        return new ClientGroup(hotelVisitPurpose,members,checkOutTime,desiredPricePerNight,desiredRoomRank,maxWaitingTime);
+    }
+
+    private Duration getMaxWaitingTime(Duration basicMaxWaitingTime, int waitingTimeVariation) {
+        return basicMaxWaitingTime.plusMinutes(random.nextInt(-waitingTimeVariation,waitingTimeVariation));
     }
 
 

@@ -92,6 +92,9 @@ public class JSONDataLoaderTest {
             System.out.printf("Number of nights probabilities : %s%n", JSONClientDataLoader.numberOfNightsProbabilities);
             System.out.printf("Room size probabilities : %s%n", JSONClientDataLoader.roomSizeProbabilities);
             System.out.printf("Average prices per night : %s%n", JSONClientDataLoader.averagePricesPerNight);
+            System.out.printf("Basic maximum waiting time : %s%n", JSONClientDataLoader.basicMaxWaitingTime);
+            System.out.printf("Waiting time variation : %s%n", JSONClientDataLoader.waitingTimeVariation);
+
         });
     }
 
