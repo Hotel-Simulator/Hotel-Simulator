@@ -12,7 +12,11 @@ function validateJiraTicket(jiraTicketRegex, input, fieldName) {
 const jiraTicketRegex = /^HS-\d+(\s\|\s\w.*)?$/;
 
 const branchName = process.env.GITHUB_HEAD_REF || '';
-const prTitle = process.env.GITHUB_REF?.split('/').pop() || '';
+const prRef = process.env.GITHUB_REF || '';
+const prTitle = prRef.split('/').pop() || ''; // Extract PR title from GITHUB_REF
+
+validateJiraTicket(jiraTicketRegex, branchName, 'Branch name');
+validateJiraTicket(jiraTicketRegex, prTitle, 'PR title');
 
 validateJiraTicket(jiraTicketRegex, branchName, 'Branch name');
 validateJiraTicket(jiraTicketRegex, prTitle, 'PR title');
