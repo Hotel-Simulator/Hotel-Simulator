@@ -3,7 +3,6 @@ package pl.agh.edu.model;
 import java.math.BigDecimal;
 
 import pl.agh.edu.enums.RoomRank;
-import java.math.BigDecimal;
 
 public class Room {
 	private RoomRank rank;
@@ -98,27 +97,27 @@ public class Room {
 
 	public boolean upgradeRank() {
 		switch (rank) {
-			case ONE -> this.rank = RoomRank.TWO;
-			case TWO -> this.rank = RoomRank.THREE;
-			case THREE -> this.rank = RoomRank.FOUR;
-			case FOUR -> this.rank = RoomRank.FIVE;
-			case FIVE -> {
-				return false;
-			}
+		case ONE -> this.rank = RoomRank.TWO;
+		case TWO -> this.rank = RoomRank.THREE;
+		case THREE -> this.rank = RoomRank.FOUR;
+		case FOUR -> this.rank = RoomRank.FIVE;
+		case FIVE -> {
+			return false;
+		}
 		}
 		return true;
 	}
 
-	public boolean clean(){
-		if (isDirty){
+	public boolean clean() {
+		if (isDirty) {
 			isDirty = false;
 			return true;
 		}
 		return false;
 	}
 
-	public boolean fix(){
-		if (isFaulty){
+	public boolean fix() {
+		if (isFaulty) {
 			isFaulty = false;
 			return true;
 		}
@@ -142,13 +141,12 @@ public class Room {
 		return added.divide(multiplied, BigDecimal.ROUND_DOWN).min(BigDecimal.valueOf(1));
 	}
 
-	public void checkIn(ClientGroup residents){
+	public void checkIn(ClientGroup residents) {
 		this.residents = residents;
 		isOccupied = true;
 	}
 
-
-	public void checkOut(){
+	public void checkOut() {
 		this.residents = null;
 		isDirty = true;
 	}
