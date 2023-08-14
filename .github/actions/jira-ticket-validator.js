@@ -11,10 +11,8 @@ function validateJiraTicket(jiraTicketRegex, input, fieldName) {
 
 const jiraTicketRegex = /^HS-\d+(\s\|\s\w.*)?$/;
 
-const eventData = JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH, 'utf8'));
-
-const branchName = eventData.pull_request.head.ref || '';
-const prTitle = eventData.pull_request.title || '';
+const branchName = process.env.GITHUB_HEAD_REF || '';
+const prTitle = process.env.prTitle || '';
 
 console.log(`Validating branch name: ${branchName}`);
 validateJiraTicket(jiraTicketRegex, branchName, 'Branch name');

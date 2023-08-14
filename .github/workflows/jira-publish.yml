@@ -24,5 +24,5 @@ jobs:
         working-directory: ./.github/actions
 
       - name: Validate Jira ticket numbers
-        run: node jira-ticket-validator.js
+        run: node ./.github/actions/jira-ticket-validator.js prTitle="${{ github.event.pull_request.title }}"
         working-directory: ./.github/actions
