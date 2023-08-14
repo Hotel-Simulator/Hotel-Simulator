@@ -14,6 +14,8 @@ const jiraTicketRegex = /^HS-\d+(\s\|\s\w.*)?$/;
 const branchName = process.env.GITHUB_HEAD_REF || '';
 const prTitle = process.env.GITHUB_HEAD_REF || '';
 
+console.log(`Validating branch name: ${branchName}`);
 validateJiraTicket(jiraTicketRegex, branchName, 'Branch name');
+console.log(`Validating PR title: ${prTitle}`);
 validateJiraTicket(jiraTicketRegex, prTitle, 'PR title');
 
