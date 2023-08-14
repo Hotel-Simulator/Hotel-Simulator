@@ -1,3 +1,4 @@
+const axios = require('axios');
 const core = require('@actions/core');
 
 function validateJiraTicket(jiraTicketRegex, input, fieldName) {
@@ -12,7 +13,18 @@ function validateJiraTicket(jiraTicketRegex, input, fieldName) {
 const jiraTicketRegex = /^HS-\d+(\s\|\s\w.*)?$/;
 
 const branchName = process.env.GITHUB_HEAD_REF || '';
-const prTitle = process.env.GITHUB_EVENT_PATH  || '';
+const prNumber = process.env.GITHUB_EVENT_NUMBER;
+
+const response = await axios.get(
+    `https://api.github.com/repos/${process.env.GITHUB_REPOSITORY}/pulls/${prNumber}`,
+    {
+        headers: {
+            Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+        },
+    }
+);
+
+const prTitle = response.data.title;
 
 console.log(`Validating branch name: ${branchName}`);
 validateJiraTicket(jiraTicketRegex, branchName, 'Branch name');
