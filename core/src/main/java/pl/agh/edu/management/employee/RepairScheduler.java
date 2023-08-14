@@ -2,7 +2,6 @@ package pl.agh.edu.management.employee;
 
 import java.util.LinkedList;
 
-import pl.agh.edu.enums.RoomState;
 import pl.agh.edu.model.Hotel;
 import pl.agh.edu.model.Room;
 import pl.agh.edu.model.employee.Employee;
@@ -17,11 +16,11 @@ public class RepairScheduler extends WorkScheduler {
 	@Override
 	protected void executeService(Employee technician, Room room) {
 		technician.setOccupied(true);
-		room.setState(RoomState.MAINTENANCE);
+		room.setMaintenance(true);
 		timeCommandExecutor.addCommand(time.getTime().plusMinutes(technician.getServiceExecutionTime().toMinutes()),
 				new TimeCommand(() -> {
 					technician.setOccupied(false);
-					room.setState(RoomState.EMPTY);
+					room.setMaintenance(false);
 					executeServiceIfPossible(technician);
 				}));
 	}

@@ -8,7 +8,6 @@ import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Random;
 
-import pl.agh.edu.enums.RoomState;
 import pl.agh.edu.generator.client_generator.ClientGenerator;
 import pl.agh.edu.generator.event_generator.EventGenerator;
 import pl.agh.edu.json.data_loader.JSONGameDataLoader;
@@ -72,7 +71,7 @@ public class Engine {
 									long minutes = Duration.between(time.getTime(), arrival.clientGroup().getCheckOutTime()).toMinutes();
 									timeCommandExecutor.addCommand(time.generateRandomTime(minutes, ChronoUnit.MINUTES),
 											new TimeCommand(() -> {
-												room.setState(RoomState.FAULT);
+												room.setFaulty(true);
 												repairScheduler.addRoom(room);
 											})
 

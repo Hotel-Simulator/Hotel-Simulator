@@ -10,7 +10,6 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import pl.agh.edu.enums.RoomRank;
-import pl.agh.edu.enums.RoomState;
 import pl.agh.edu.json.data_loader.JSONEmployeeDataLoader;
 import pl.agh.edu.json.data_loader.JSONHotelDataLoader;
 import pl.agh.edu.json.data_loader.JSONRoomDataLoader;
@@ -276,7 +275,7 @@ public class Hotel {
 
 	public Room findRoomForClientGroup(ClientGroup group) {
 		for (Room room : roomsByRank.get(group.getDesiredRoomRank())) {
-			if (room.getState().equals(RoomState.EMPTY) && room.getRentPrice().compareTo(BigDecimal.valueOf(group.getBudgetPerNight())) < 1) {
+			if (!room.isOccupied() && room.getRentPrice().compareTo(BigDecimal.valueOf(group.getBudgetPerNight())) < 1) {
 				return room;
 			}
 		}

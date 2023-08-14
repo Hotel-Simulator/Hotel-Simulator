@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-import pl.agh.edu.enums.RoomState;
 import pl.agh.edu.json.data_loader.JSONRoomDataLoader;
 import pl.agh.edu.model.Room;
 import pl.agh.edu.model.time.Time;
@@ -42,7 +41,7 @@ public class Builder {
 
 		isOccupied = true;
 
-		room.setState(RoomState.UPGRADING);
+		room.setUpgrading(true);
 
 		this.upgradesNum = numUpgrades;
 
@@ -56,7 +55,7 @@ public class Builder {
 
 		if (plannedEndTime.isAfter(Time.getInstance().getTime())) {
 			this.upgradingRoom.upgradeRankMany(upgradesNum);
-			this.upgradingRoom.setState(RoomState.EMPTY);
+			this.upgradingRoom.setUpgrading(false);
 
 			isOccupied = false;
 			return true;

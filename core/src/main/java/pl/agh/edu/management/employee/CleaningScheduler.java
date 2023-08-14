@@ -2,7 +2,6 @@ package pl.agh.edu.management.employee;
 
 import java.util.*;
 
-import pl.agh.edu.enums.RoomState;
 import pl.agh.edu.model.Hotel;
 import pl.agh.edu.model.Room;
 import pl.agh.edu.model.employee.Employee;
@@ -17,7 +16,7 @@ public class CleaningScheduler extends WorkScheduler {
 	public void dailyAtCheckOutTimeUpdate() {
 		int sizeBefore = roomsToExecuteService.size();
 		roomsToExecuteService.addAll(hotel.getRooms().stream()
-				.filter(room -> room.getState() == RoomState.OCCUPIED)
+				.filter(Room::isOccupied)
 				.toList());
 		if (sizeBefore == 0 && !roomsToExecuteService.isEmpty()) {
 			workingEmployees.stream()
@@ -27,31 +26,29 @@ public class CleaningScheduler extends WorkScheduler {
 	}
 
 	public void dailyAtCheckInTimeUpdate() {
-		roomsToExecuteService.removeIf(room -> room.getState() == RoomState.OCCUPIED);
+		roomsToExecuteService.removeIf(Room::isOccupied);
 	}
 
 	@Override
 	protected void executeService(Employee cleaner, Room room) {
 		cleaner.setOccupied(true);
-		if (room.getState() == RoomState.DIRTY)
-			room.setState(RoomState.MAINTENANCE);
-		else if (room.getState() == RoomState.OCCUPIED)
-			room.setState(RoomState.OCCUPIED_MAINTENANCE);
+		if (room.isDirty() || room.isOccupied())
+			room.setMaintenance(true);
+
 		timeCommandExecutor.addCommand(time.getTime().plusMinutes(cleaner.getServiceExecutionTime().toMinutes()),
 				new TimeCommand(() -> {
 					cleaner.setOccupied(false);
-					if (room.getState() == RoomState.MAINTENANCE)
-						room.setState(RoomState.EMPTY);
-					else if (room.getState() == RoomState.OCCUPIED_MAINTENANCE)
-						room.setState(RoomState.OCCUPIED);
+					if (room.isMaintenance())
+						room.setMaintenance(false);
 					executeServiceIfPossible(cleaner);
 				}));
 	}
 
 	private static final Comparator<Room> roomComparator = (o1, o2) -> {
-		if (o1.getState() == o2.getState())
+		// if (o1.getState() == o2.getState()) wcześniej było tak ale nie do końca wiem na co to zmienić
+		if (o1.isOccupied() == o2.isOccupied())
 			return 0;
-		if (o1.getState() == RoomState.OCCUPIED)
+		if (o1.isOccupied())
 			return 1;
 		return -1;
 	};
