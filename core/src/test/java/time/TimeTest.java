@@ -2,11 +2,12 @@ package time;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.agh.edu.model.time.Time;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
@@ -15,12 +16,7 @@ public class TimeTest {
     private Time time;
     @BeforeEach
     public void setUp() {
-        time = Time.getInstance();
-    }
-
-    @AfterEach
-    public void tearDown() {
-        time.clearStateForTesting();
+        time = createNewTimeInstance();
     }
 
     @Test
@@ -102,5 +98,15 @@ public class TimeTest {
         // Then
         assertNotNull(randomTime);
     }
-
+    private Time createNewTimeInstance() {
+        try {
+            Class<?> clazz = Class.forName("pl.agh.edu.model.time.Time");
+            Constructor<?> constructor = clazz.getDeclaredConstructor();
+            constructor.setAccessible(true);
+            return (Time) constructor.newInstance();
+        } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException |
+                 IllegalAccessException | InvocationTargetException e) {
+            throw new RuntimeException("Failed to create Time instance using reflection", e);
+        }
+    }
 }

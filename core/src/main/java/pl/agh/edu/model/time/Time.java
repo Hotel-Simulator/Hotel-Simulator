@@ -36,10 +36,6 @@ public class Time {
         return instance;
     }
 
-    public void clearStateForTesting() {
-        instance = null;
-    }
-
     public void reset() {
         remaining = interval;
     }
