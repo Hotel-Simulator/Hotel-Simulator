@@ -18,4 +18,3 @@ console.log(`Validating branch name: ${branchName}`);
 validateJiraTicket(jiraTicketRegex, branchName, 'Branch name');
 console.log(`Validating PR title: ${prTitle}`);
 validateJiraTicket(jiraTicketRegex, prTitle, 'PR title');
-
