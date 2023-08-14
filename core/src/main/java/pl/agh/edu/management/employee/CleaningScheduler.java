@@ -37,7 +37,7 @@ public class CleaningScheduler extends WorkScheduler {
 			room.setState(RoomState.MAINTENANCE);
 		else if (room.getState() == RoomState.OCCUPIED)
 			room.setState(RoomState.OCCUPIED_MAINTENANCE);
-		timeCommandExecutor.addCommand(time.getTime().plusMinutes(cleaner.getServiceExecutionTime().toMinutes()),
+		timeCommandExecutor.addCommand(
 				new TimeCommand(() -> {
 					cleaner.setOccupied(false);
 					if (room.getState() == RoomState.MAINTENANCE)
@@ -45,7 +45,7 @@ public class CleaningScheduler extends WorkScheduler {
 					else if (room.getState() == RoomState.OCCUPIED_MAINTENANCE)
 						room.setState(RoomState.OCCUPIED);
 					executeServiceIfPossible(cleaner);
-				}));
+				}, time.getTime().plusMinutes(cleaner.getServiceExecutionTime().toMinutes())));
 	}
 
 	private static final Comparator<Room> roomComparator = (o1, o2) -> {

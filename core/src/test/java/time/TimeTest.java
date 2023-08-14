@@ -2,111 +2,113 @@ package time;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import pl.agh.edu.model.time.Time;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import pl.agh.edu.model.time.Time;
+
 public class TimeTest {
 
-    private Time time;
-    @BeforeEach
-    public void setUp() {
-        time = createNewTimeInstance();
-    }
+	private Time time;
 
-    @Test
-    public void testUpdateTime_NoCommands() {
-        // Given
-        time.start();
+	@BeforeEach
+	public void setUp() {
+		time = createNewTimeInstance();
+	}
 
-        // When
-        time.update(time.getInterval()-1.0F);
+	@Test
+	public void testUpdateTime_NoCommands() {
+		// Given
+		time.start();
 
-        // Then
-        assertEquals(1.0F, time.getRemaining());
-    }
+		// When
+		time.update(time.getInterval() - 1.0F);
 
+		// Then
+		assertEquals(1.0F, time.getRemaining());
+	}
 
-    @Test
-    public void testIncreaseAcceleration() {
-        // When
-        time.increaseAcceleration();
+	@Test
+	public void testIncreaseAcceleration() {
+		// When
+		time.increaseAcceleration();
 
-        // Then
-        assertEquals("x2", time.getStringAcceleration());
-    }
+		// Then
+		assertEquals("x2", time.getStringAcceleration());
+	}
 
-    @Test
-    public void testDecreaseAccelerationMeetMinimum() {
-        // When
-        time.decreaseAcceleration();
+	@Test
+	public void testDecreaseAccelerationMeetMinimum() {
+		// When
+		time.decreaseAcceleration();
 
-        // Then
-        assertEquals("x1", time.getStringAcceleration());
-    }
+		// Then
+		assertEquals("x1", time.getStringAcceleration());
+	}
 
-    @Test
-    public void testDecreaseAcceleration() {
-        // When
-        time.increaseAcceleration();
+	@Test
+	public void testDecreaseAcceleration() {
+		// When
+		time.increaseAcceleration();
 
-        time.decreaseAcceleration();
+		time.decreaseAcceleration();
 
-        // Then
-        assertEquals("x1", time.getStringAcceleration());
-    }
+		// Then
+		assertEquals("x1", time.getStringAcceleration());
+	}
 
-    @Test
-    public void testStartAndStop() {
-        // When
-        time.start();
-        // Then
-        assertTrue(time.isRunning());
+	@Test
+	public void testStartAndStop() {
+		// When
+		time.start();
+		// Then
+		assertTrue(time.isRunning());
 
-        // When
-        time.stop();
-        // Then
-        assertFalse(time.isRunning());
-    }
+		// When
+		time.stop();
+		// Then
+		assertFalse(time.isRunning());
+	}
 
-    @Test
-    public void testToggle() {
-        // Given
-        time.start();
+	@Test
+	public void testToggle() {
+		// Given
+		time.start();
 
-        // When
-        time.toggle();
-        // Then
-        assertFalse(time.isRunning());
+		// When
+		time.toggle();
+		// Then
+		assertFalse(time.isRunning());
 
-        // When
-        time.toggle();
-        // Then
-        assertTrue(time.isRunning());
-    }
+		// When
+		time.toggle();
+		// Then
+		assertTrue(time.isRunning());
+	}
 
-    @Test
-    public void testGenerateRandomTime() {
-        // When
-        LocalDateTime randomTime = time.generateRandomTime(10, ChronoUnit.DAYS);
+	@Test
+	public void testGenerateRandomTime() {
+		// When
+		LocalDateTime randomTime = time.generateRandomTime(10, ChronoUnit.DAYS);
 
-        // Then
-        assertNotNull(randomTime);
-    }
-    private Time createNewTimeInstance() {
-        try {
-            Class<?> clazz = Class.forName("pl.agh.edu.model.time.Time");
-            Constructor<?> constructor = clazz.getDeclaredConstructor();
-            constructor.setAccessible(true);
-            return (Time) constructor.newInstance();
-        } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException |
-                 IllegalAccessException | InvocationTargetException e) {
-            throw new RuntimeException("Failed to create Time instance using reflection", e);
-        }
-    }
+		// Then
+		assertNotNull(randomTime);
+	}
+
+	private Time createNewTimeInstance() {
+		try {
+			Class<?> clazz = Class.forName("pl.agh.edu.model.time.Time");
+			Constructor<?> constructor = clazz.getDeclaredConstructor();
+			constructor.setAccessible(true);
+			return (Time) constructor.newInstance();
+		} catch (ClassNotFoundException | NoSuchMethodException | InstantiationException |
+				IllegalAccessException | InvocationTargetException e) {
+			throw new RuntimeException("Failed to create Time instance using reflection", e);
+		}
+	}
 }
