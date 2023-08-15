@@ -1,35 +1,28 @@
 package pl.agh.edu.time_command;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.PriorityQueue;
 
 public class TimeCommandExecutor {
-	private static TimeCommandExecutor instance;
-	private final Map<LocalDateTime, List<TimeCommand>> commands;
+	private static final TimeCommandExecutor instance = new TimeCommandExecutor();
+	private final PriorityQueue<TimeCommand> commands;
 
 	private TimeCommandExecutor() {
-		this.commands = new HashMap<>();
+		this.commands = new PriorityQueue<>();
 	}
 
 	public static TimeCommandExecutor getInstance() {
-		if (instance == null)
-			return new TimeCommandExecutor();
 		return instance;
 	}
 
-	public void addCommand(LocalDateTime dateTime, TimeCommand timeCommand) {
-		if (!commands.containsKey(dateTime)) {
-			commands.put(dateTime, new ArrayList<>());
-		}
-		commands.get(dateTime).add(timeCommand);
+	public void addCommand(TimeCommand timeCommand) {
+		commands.add(timeCommand);
 	}
 
 	public void executeCommands(LocalDateTime dateTime) {
-		if (commands.containsKey(dateTime)) {
-			commands.remove(dateTime).forEach(TimeCommand::execute);
+		while (!commands.isEmpty() && !commands.peek().dueDateTime.isAfter(dateTime)) {
+			TimeCommand command = commands.poll();
+			command.execute();
 		}
 	}
 }

@@ -18,12 +18,12 @@ public class RepairScheduler extends WorkScheduler {
 	protected void executeService(Employee technician, Room room) {
 		technician.setOccupied(true);
 		room.setState(RoomState.MAINTENANCE);
-		timeCommandExecutor.addCommand(time.getTime().plusMinutes(technician.getServiceExecutionTime().toMinutes()),
+		timeCommandExecutor.addCommand(
 				new TimeCommand(() -> {
 					technician.setOccupied(false);
 					room.setState(RoomState.EMPTY);
 					executeServiceIfPossible(technician);
-				}));
+				}, time.getTime().plusMinutes(technician.getServiceExecutionTime().toMinutes())));
 	}
 
 }
