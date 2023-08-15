@@ -13,9 +13,9 @@ import pl.agh.edu.enums.BottomNavbarState;
 
 public class Navbar extends Table {
 
-	private final MoneyPanel moneyPanel;
-	private final TimePanel timePanel;
-	private final AccelerationPanel accelerationPanel;
+	private static final float navbarHorizontalPadding = 190f;
+	private static final float navbarTopPadding = 15f;
+
 	private final Table bottomNavBar;
 
 	public Navbar(String styleName) {
@@ -26,16 +26,14 @@ public class Navbar extends Table {
 		topNavBar.align(Align.top);
 		topNavBar.top();
 
-		moneyPanel = new MoneyPanel();
+		MoneyPanel moneyPanel = new MoneyPanel();
 		topNavBar.add(moneyPanel).expandX().left();
 
-		timePanel = new TimePanel();
+		TimePanel timePanel = new TimePanel();
 		topNavBar.add(timePanel).expandX().top();
 
-		accelerationPanel = new AccelerationPanel();
+		AccelerationPanel accelerationPanel = new AccelerationPanel();
 		topNavBar.add(accelerationPanel).expandX().right();
-		float navbarHorizontalPadding = 190f;
-		float navbarTopPadding = 15f;
 		topNavBar.pad(navbarTopPadding, navbarHorizontalPadding, 0, navbarHorizontalPadding);
 
 		bottomNavBar = new Table();
@@ -76,18 +74,6 @@ public class Navbar extends Table {
 			bottomBackground = style.bottomBackground;
 			name = style.name;
 		}
-	}
-
-	public void setTime(String time) {
-		this.timePanel.setTime(time);
-	}
-
-	public void setMoney(String money) {
-		this.moneyPanel.setMoney(money);
-	}
-
-	public void setAcceration(String acceleration) {
-		this.accelerationPanel.setAcceleration(acceleration);
 	}
 
 	public void changeBottomNavbarState(BottomNavbarState state) {

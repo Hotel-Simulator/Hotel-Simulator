@@ -9,14 +9,17 @@ import pl.agh.edu.model.time.Time;
 
 public class AccelerationPanel extends Table {
 	private final Label accelerationLabel;
+	private final Button playButton;
+	private static final Time time = Time.getInstance();
 
 	public AccelerationPanel() {
+
 		Skin skin = HotelSkin.getInstance();
 		Label.LabelStyle labelStyle = skin.get("h4_label", Label.LabelStyle.class);
-		accelerationLabel = new Label("1x", labelStyle);
+		accelerationLabel = new Label(time.getStringAcceleration(), labelStyle);
 		Button increaseButton = new Button(skin, "navbar-plus");
 		Button decreaseButton = new Button(skin, "navbar-minus");
-		Button playButton = new Button(skin, "navbar-play");
+		playButton = new Button(skin, "navbar-play");
 
 		this.setBackground(skin.getDrawable("pane-background-lime"));
 		this.pad(0, 0, 0, 0);
@@ -25,6 +28,7 @@ public class AccelerationPanel extends Table {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				Time.getInstance().increaseAcceleration();
+				setAcceleration();
 			}
 		});
 
@@ -32,13 +36,18 @@ public class AccelerationPanel extends Table {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				Time.getInstance().decreaseAcceleration();
+				setAcceleration();
 			}
 		});
 
 		playButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				Time.getInstance().stop();
+				if (playButton.isChecked()) {
+					playTime();
+				} else {
+					stopTime();
+				}
 			}
 		});
 		Table insideTable = new Table();
@@ -50,8 +59,18 @@ public class AccelerationPanel extends Table {
 		add(insideTable).size(220, 60).right();
 	}
 
-	public void setAcceleration(String acceleration) {
-		accelerationLabel.setText(acceleration);
+	private void playTime() {
+		playButton.setChecked(true);
+		time.start();
+	}
+
+	private void stopTime() {
+		playButton.setChecked(false);
+		time.stop();
+	}
+
+	public void setAcceleration() {
+		accelerationLabel.setText(time.getStringAcceleration());
 	}
 
 }
