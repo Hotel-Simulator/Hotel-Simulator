@@ -6,71 +6,72 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.ray3k.stripe.scenecomposer.SceneComposerStageBuilder;
+
 import pl.agh.edu.GdxGame;
 import pl.agh.edu.actor.Navbar;
 
 public class MainScreen implements Screen {
 
-    private final GdxGame game;
-    private final Stage stage;
+	private final GdxGame game;
+	private final Stage stage;
 
-    public MainScreen(GdxGame game) {
-        this.game = game;
-        this.stage = new Stage(new ScreenViewport());
-    }
-    @Override
-    public void show() {
-        InputMultiplexer multiplexer = new InputMultiplexer();
-        multiplexer.addProcessor(stage);
-        multiplexer.addProcessor(new InputAdapter() {
-            @Override
-            public boolean keyDown(int keycode) {
-                if (keycode == Input.Keys.GRAVE) {
-                    game.changeScreenToConsole();
-                }
-                return super.keyDown(keycode);
-            }
-        });
-        Gdx.input.setInputProcessor(multiplexer);
-        Skin skin = new Skin(Gdx.files.internal("skin/skin.json"));
+	public MainScreen(GdxGame game) {
+		this.game = game;
+		this.stage = new Stage(new ScreenViewport());
+	}
 
-        SceneComposerStageBuilder builder = new SceneComposerStageBuilder();
-        builder.build(stage, skin, Gdx.files.internal("view/empty.json"));
+	@Override
+	public void show() {
+		InputMultiplexer multiplexer = new InputMultiplexer();
+		multiplexer.addProcessor(stage);
+		multiplexer.addProcessor(new InputAdapter() {
+			@Override
+			public boolean keyDown(int keycode) {
+				if (keycode == Input.Keys.GRAVE) {
+					game.changeScreenToConsole();
+				}
+				return super.keyDown(keycode);
+			}
+		});
+		Gdx.input.setInputProcessor(multiplexer);
+		Skin skin = new Skin(Gdx.files.internal("skin/skin.json"));
 
-        Stack stack = stage.getRoot().findActor("main-stack");
-        stack.add(new Navbar("default"));
-    }
+		SceneComposerStageBuilder builder = new SceneComposerStageBuilder();
+		builder.build(stage, skin, Gdx.files.internal("view/empty.json"));
 
-    @Override
-    public void render(float delta) {
-        stage.act();
-        stage.draw();
-    }
+		Stack stack = stage.getRoot().findActor("main-stack");
+		stack.add(new Navbar("default"));
+	}
 
-    @Override
-    public void resize(int width, int height) {
-        stage.getViewport().update(width, height, true);
-    }
+	@Override
+	public void render(float delta) {
+		stage.act();
+		stage.draw();
+	}
 
-    @Override
-    public void pause() {
+	@Override
+	public void resize(int width, int height) {
+		stage.getViewport().update(width, height, true);
+	}
 
-    }
+	@Override
+	public void pause() {
 
-    @Override
-    public void resume() {
+	}
 
-    }
+	@Override
+	public void resume() {
 
-    @Override
-    public void hide() {
+	}
 
-    }
+	@Override
+	public void hide() {
 
-    @Override
-    public void dispose() {
+	}
 
-    }
+	@Override
+	public void dispose() {
 
+	}
 
 }

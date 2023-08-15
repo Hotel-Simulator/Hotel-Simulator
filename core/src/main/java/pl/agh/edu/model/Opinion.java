@@ -2,14 +2,14 @@ package pl.agh.edu.model;
 
 public class Opinion {
 
-    private final Double value; // 0 - 1
+	private final Double value;
 
-    public Opinion(Double value) {
-        this.value = value;
-    }
+	public Opinion(Double value) {
+		this.value = value;
+	}
 
-    public Double getValue() {
-        return value;
-    }
+	public Double getValue() {
+		return value;
+	}
 
 }

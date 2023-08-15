@@ -1,7 +1,5 @@
 package pl.agh.edu.model.employee;
 
-public enum Profession{
-    CLEANER,
-    TECHNICIAN,
-    RECEPTIONIST
+public enum Profession {
+	CLEANER, TECHNICIAN, RECEPTIONIST
 }

@@ -26,7 +26,6 @@ public class CleaningScheduler extends WorkScheduler<Room> {
     }
 
     public void dailyAtCheckInTimeUpdate(){
-        //todo tutaj Bartek
         entitiesToExecuteService.removeIf(room -> room.getState() == RoomState.OCCUPIED);
     }
 
@@ -35,21 +34,22 @@ public class CleaningScheduler extends WorkScheduler<Room> {
         cleaner.setOccupied(true);
         if(room.getState() == RoomState.DIRTY) room.setState(RoomState.MAINTENANCE);
         else if(room.getState() == RoomState.OCCUPIED) room.setState(RoomState.OCCUPIED_MAINTENANCE);
-        timeCommandExecutor.addCommand(time.getTime().plus(cleaner.getServiceExecutionTime()),
+        timeCommandExecutor.addCommand(
                 new TimeCommand(() ->{
                     cleaner.setOccupied(false);
                     if(room.getState() == RoomState.MAINTENANCE) room.setState(RoomState.EMPTY);
                     else if(room.getState() == RoomState.OCCUPIED_MAINTENANCE) room.setState(RoomState.OCCUPIED);
                     executeServiceIfPossible(cleaner);
-                }));
+                }, time.getTime().plusMinutes(cleaner.getServiceExecutionTime().toMinutes())));
     }
 
 
-    private static final Comparator<Room> roomComparator = (o1, o2) -> {
-        if(o1.getState() == o2.getState()) return 0;
-        if(o1.getState() == RoomState.OCCUPIED) return 1;
-        return -1;
-    };
-
+	private static final Comparator<Room> roomComparator = (o1, o2) -> {
+		if (o1.getState() == o2.getState())
+			return 0;
+		if (o1.getState() == RoomState.OCCUPIED)
+			return 1;
+		return -1;
+	};
 
 }
