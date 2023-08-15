@@ -54,13 +54,18 @@ public abstract class WorkScheduler<T> {
     }
 
     public void addEntity(T entity) {
+        boolean wasEmpty = entitiesToExecuteService.isEmpty();
         this.entitiesToExecuteService.add(entity);
-        if (entitiesToExecuteService.size() == 1) {
-            workingEmployees.stream()
-                    .filter(employee -> !employee.isOccupied() && willEmployeeExecuteServiceBeforeShiftEnds(employee))
-                    .findFirst()
-                    .ifPresent(employee -> executeService(employee, entitiesToExecuteService.remove()));
+        if (wasEmpty) {
+            tryToAssignEmployeeToEntity();
         }
+    }
+
+    private void tryToAssignEmployeeToEntity() {
+        workingEmployees.stream()
+                .filter(employee -> !employee.isOccupied() && willEmployeeExecuteServiceBeforeShiftEnds(employee))
+                .findFirst()
+                .ifPresent(employee -> executeService(employee, entitiesToExecuteService.remove()));
     }
 
     protected abstract void executeService(Employee employee, T entity);

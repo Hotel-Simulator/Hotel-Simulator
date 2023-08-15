@@ -6,6 +6,7 @@ import pl.agh.edu.json.data_extractor.JSONDataExtractor;
 import pl.agh.edu.json.data_extractor.JSONFilePath;
 import pl.agh.edu.json.data_extractor.JSONValueUtil;
 
+import java.math.BigDecimal;
 import java.time.Duration;
 import java.util.EnumMap;
 import java.util.Map;
@@ -18,7 +19,7 @@ public class JSONClientDataLoader {
     public static EnumMap<HotelVisitPurpose,EnumMap<RoomRank,Integer>> desiredRankProbabilities;
     public static EnumMap<HotelVisitPurpose,Map<Integer,Integer>> numberOfNightsProbabilities;
     public static EnumMap<HotelVisitPurpose,Map<Integer,Integer>> roomSizeProbabilities;
-    public static EnumMap<RoomRank,Map<Integer,Integer>> averagePricesPerNight;
+    public static EnumMap<RoomRank,Map<Integer, BigDecimal>> averagePricesPerNight;
     public static Duration basicMaxWaitingTime;
     public static int waitingTimeVariation;
 
@@ -70,7 +71,7 @@ public class JSONClientDataLoader {
                 entry -> JSONValueUtil.getMap(
                         (JSONObject) entry.getValue(),
                         entry2 -> Integer.parseInt((String)entry2.getKey()),
-                        entry2 -> JSONValueUtil.getInt((Long)entry2.getValue())
+                        entry2 -> JSONValueUtil.getBigDecimal((Long)entry2.getValue())
                 ),
                 RoomRank.class
         );

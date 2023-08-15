@@ -15,6 +15,7 @@ import pl.agh.edu.model.advertisement.report.AdvertisementReportHandler;
 import pl.agh.edu.model.event.temporary.ClientNumberModificationTemporaryEvent;
 import pl.agh.edu.model.event.temporary.ClientNumberModificationTemporaryEventHandler;
 
+import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -48,12 +49,12 @@ public class ClientGenerator {
     private static ClientGenerator clientGeneratorInstance;
 
     private final Random random = new Random();
-    private static final Map<String, Long> attractivenessConstants = JSONHotelDataLoader.attractivenessConstants;;
+    private static final Map<String, Long> attractivenessConstants = JSONHotelDataLoader.attractivenessConstants;
     private static final EnumMap<HotelVisitPurpose,Double> hotelVisitPurposeProbability = JSONClientDataLoader.hotelVisitPurposeProbabilities;
     private static final EnumMap<HotelVisitPurpose, List<Integer>> roomSizeProbabilityLists = ProbabilityListGenerator.getMapOfProbabilityLists(JSONClientDataLoader.roomSizeProbabilities,HotelVisitPurpose.class);
-    private static final EnumMap<HotelVisitPurpose, List<RoomRank>> desiredRoomRankProbabilityLists = ProbabilityListGenerator.getEnumMapOfProbabilityLists(JSONClientDataLoader.desiredRankProbabilities,HotelVisitPurpose.class); ;
+    private static final EnumMap<HotelVisitPurpose, List<RoomRank>> desiredRoomRankProbabilityLists = ProbabilityListGenerator.getEnumMapOfProbabilityLists(JSONClientDataLoader.desiredRankProbabilities,HotelVisitPurpose.class);
     private static final EnumMap<HotelVisitPurpose, List<Integer>> numberOfNightsProbabilityLists = ProbabilityListGenerator.getMapOfProbabilityLists(JSONClientDataLoader.numberOfNightsProbabilities,HotelVisitPurpose.class);
-    private static final EnumMap<RoomRank, Map<Integer,Integer>> averagePricesPerNight = JSONClientDataLoader.averagePricesPerNight;
+    private static final EnumMap<RoomRank, Map<Integer, BigDecimal>> averagePricesPerNight = JSONClientDataLoader.averagePricesPerNight;
     private final AdvertisementHandler advertisementHandler;
     private final ClientNumberModificationTemporaryEventHandler clientNumberModificationTemporaryEventHandler;
     private final Time time;
@@ -90,8 +91,13 @@ public class ClientGenerator {
     }
 
 
-    private int getDesiredPricePerNight(RoomRank desiredRoomRank, int roomSize) {
-        return averagePricesPerNight.get(desiredRoomRank).get(roomSize) + (int) Math.round(random.nextGaussian() * 0.2 * averagePricesPerNight.get(desiredRoomRank).get(roomSize));
+    private BigDecimal getDesiredPricePerNight(RoomRank desiredRoomRank, int roomSize) {
+        return BigDecimal.valueOf(averagePricesPerNight.get(desiredRoomRank).get(roomSize).intValue() +
+                (int) Math.round(
+                        random.nextGaussian() *
+                                0.2 * averagePricesPerNight.get(desiredRoomRank).get(roomSize).intValue()
+                )
+        );
     }
 
     private List<Client> getMembers(HotelVisitPurpose hotelVisitPurpose, int roomSize) {
@@ -113,11 +119,14 @@ public class ClientGenerator {
         RoomRank desiredRoomRank  = getRandomValue(desiredRoomRankProbabilityLists.get(hotelVisitPurpose));
         int numberOfNight = getRandomValue(numberOfNightsProbabilityLists.get(hotelVisitPurpose));
         int roomSize = getRandomValue(roomSizeProbabilityLists.get(hotelVisitPurpose));
-        List<Client> members = getMembers(hotelVisitPurpose, roomSize);
-        int desiredPricePerNight = getDesiredPricePerNight(desiredRoomRank, roomSize);
-        LocalDateTime checkOutTime = getCheckOutTime(numberOfNight,checkoutMaxTime);
-        Duration maxWaitingTime = getMaxWaitingTime(JSONClientDataLoader.basicMaxWaitingTime, JSONClientDataLoader.waitingTimeVariation);
-        return new ClientGroup(hotelVisitPurpose,members,checkOutTime,desiredPricePerNight,desiredRoomRank,maxWaitingTime);
+        return new ClientGroup.Builder()
+                .hotelVisitPurpose(hotelVisitPurpose)
+                .members(getMembers(hotelVisitPurpose, roomSize))
+                .checkOutTime(getCheckOutTime(numberOfNight,checkoutMaxTime))
+                .desiredPricePerNight(getDesiredPricePerNight(desiredRoomRank, roomSize))
+                .desiredRoomRank(desiredRoomRank)
+                .maxWaitingTime(getMaxWaitingTime(JSONClientDataLoader.basicMaxWaitingTime, JSONClientDataLoader.waitingTimeVariation))
+                .build();
     }
 
     private Duration getMaxWaitingTime(Duration basicMaxWaitingTime, int waitingTimeVariation) {

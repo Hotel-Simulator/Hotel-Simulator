@@ -36,15 +36,15 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
     
     private TimeCommand breakRoomTimeCommand(Room room){
         return new TimeCommand( () -> {
-            room.setState(RoomState.FAULT); // todo zmienic na isFault()
+            room.setState(RoomState.FAULT);
             repairScheduler.addEntity(room);
         });
     }
 
-    private TimeCommand checkOutTimeCommand(ClientGroup clientGroup){
+    private TimeCommand checkOutTimeCommand(Room room){
         return new TimeCommand( () -> {
-            clientGroup.getRoom().checkOut();
-            cleaningScheduler.addEntity(clientGroup.getRoom());
+            room.checkOut();
+            cleaningScheduler.addEntity(room);
         });
     }
 
@@ -63,7 +63,7 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
                         }
                         timeCommandExecutor.addCommand(
                                 clientGroup.getCheckOutTime(),
-                                checkOutTimeCommand(clientGroup)
+                                checkOutTimeCommand(room)
                         );
                     }
                     receptionist.setOccupied(false);

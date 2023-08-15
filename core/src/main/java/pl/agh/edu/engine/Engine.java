@@ -44,10 +44,24 @@ public class Engine {
         this.receptionScheduler = new ReceptionScheduler(hotel,cleaningScheduler,repairScheduler);
         this.employeesToHireHandler = new EmployeesToHireHandler(hotel);
 
-        timeCommandExecutor.addCommand(time.getTime(),new RepeatingTimeCommand(EVERY_SHIFT, cleaningScheduler::perShiftUpdate));
-        timeCommandExecutor.addCommand(time.getTime(),new RepeatingTimeCommand(EVERY_SHIFT, receptionScheduler::perShiftUpdate));
-        timeCommandExecutor.addCommand(time.getTime(),new RepeatingTimeCommand(EVERY_SHIFT, repairScheduler::perShiftUpdate));
+        initializeEveryShiftUpdates();
 
+        initializeEveryDayUpdates();
+
+        initializeEveryMonthUpdates();
+
+        initializeEveryYearUpdates();
+    }
+
+    private void initializeEveryYearUpdates() {
+        timeCommandExecutor.addCommand(time.getTime(),new RepeatingTimeCommand(EVERY_YEAR,eventGenerator::yearlyUpdate));
+    }
+
+    private void initializeEveryMonthUpdates() {
+        timeCommandExecutor.addCommand(time.getTime(),new RepeatingTimeCommand(EVERY_MONTH,hotel::monthlyUpdate));
+    }
+
+    private void initializeEveryDayUpdates() {
         timeCommandExecutor.addCommand(time.getTime(),new RepeatingTimeCommand(EVERY_DAY,advertisementHandler::dailyUpdate));
         timeCommandExecutor.addCommand(time.getTime(),new RepeatingTimeCommand(EVERY_DAY,employeesToHireHandler::dailyUpdate));
         timeCommandExecutor.addCommand(time.getTime(),new RepeatingTimeCommand(EVERY_DAY,this::dailyUpdate));
@@ -55,10 +69,12 @@ public class Engine {
                 new RepeatingTimeCommand(EVERY_DAY,cleaningScheduler::dailyAtCheckOutTimeUpdate));
         timeCommandExecutor.addCommand(LocalDateTime.of(time.getTime().toLocalDate(),hotel.getCheckInTime()),
                 new RepeatingTimeCommand(EVERY_DAY,cleaningScheduler::dailyAtCheckInTimeUpdate));
+    }
 
-        timeCommandExecutor.addCommand(time.getTime(),new RepeatingTimeCommand(EVERY_MONTH,hotel::monthlyUpdate));
-
-        timeCommandExecutor.addCommand(time.getTime(),new RepeatingTimeCommand(EVERY_YEAR,eventGenerator::yearlyUpdate));
+    private void initializeEveryShiftUpdates() {
+        timeCommandExecutor.addCommand(time.getTime(),new RepeatingTimeCommand(EVERY_SHIFT, cleaningScheduler::perShiftUpdate));
+        timeCommandExecutor.addCommand(time.getTime(),new RepeatingTimeCommand(EVERY_SHIFT, receptionScheduler::perShiftUpdate));
+        timeCommandExecutor.addCommand(time.getTime(),new RepeatingTimeCommand(EVERY_SHIFT, repairScheduler::perShiftUpdate));
     }
 
     private void generateClientArrivals(){

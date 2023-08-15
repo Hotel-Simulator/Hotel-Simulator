@@ -5,6 +5,7 @@ import pl.agh.edu.enums.RoomRank;
 import pl.agh.edu.model.Opinion;
 import pl.agh.edu.model.Room;
 
+import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,57 +14,35 @@ public class ClientGroup {
     private final List<Client> members;
     private final HotelVisitPurpose hotelVisitPurpose;
     private final LocalDateTime checkOutTime;
-    private Opinion opinion;
-
-    //need BIgDecimal
-    private final int budgetPerNight;
+//    private Opinion opinion;
+    private final BigDecimal desiredPricePerNight;
     private final RoomRank desiredRoomRank;
-    private Room room;
     private final Duration maxWaitingTime;
 
-    public ClientGroup(HotelVisitPurpose hotelVisitPurpose, List<Client> members, LocalDateTime checkOutTime, int budgetPerNight, RoomRank desiredRoomRank, Duration maxWaitingTime) {
-        this.hotelVisitPurpose = hotelVisitPurpose;
-        this.members = members;
-        this.checkOutTime = checkOutTime;
-        this.budgetPerNight = budgetPerNight;
-        this.desiredRoomRank = desiredRoomRank;
-        this.maxWaitingTime = maxWaitingTime;
+    private ClientGroup(Builder builder) {
+        this.hotelVisitPurpose = builder.hotelVisitPurpose;
+        this.members = builder.members;
+        this.checkOutTime = builder.checkOutTime;
+        this.desiredPricePerNight = builder.desiredPricePerNight;
+        this.desiredRoomRank = builder.desiredRoomRank;
+        this.maxWaitingTime = builder.maxWaitingTime;
     }
-
-    public List<Client> getMembers() {
-        return members;
-    }
-
-    public HotelVisitPurpose getHotelVisitPurpose() {
-        return hotelVisitPurpose;
-    }
-
-    public int getNumberOfClients(){
-        return members.size();
-    }
-
 
     public LocalDateTime getCheckOutTime() {
         return checkOutTime;
-    }
-
-    public Room getRoom() {
-        return room;
     }
 
     public RoomRank getDesiredRoomRank() {
         return desiredRoomRank;
     }
 
-    public int getBudgetPerNight() {
-        return budgetPerNight;
-    }
 
-    public void generateOpinions(){
-        for(Client client: members){
-            client.generateOpinion(this.room, this.budgetPerNight);
-        }
-    }
+
+//    public void generateOpinions(){
+//        for(Client client: members){
+//            client.generateOpinion(this.room, this.budgetPerNight);
+//        }
+//    }
 
     @Override
     public String toString() {
@@ -71,24 +50,59 @@ public class ClientGroup {
 
                 "hotelVisitPurpose=" + hotelVisitPurpose +
                 ", checkOutTime=" + checkOutTime +
-                ", budgetPerNight=" + budgetPerNight +
+                ", desiredPricePerNight=" + desiredPricePerNight +
                 ", desiredRoomRank=" + desiredRoomRank +
                 ", numberOfMembers=" + members.size() +
                 '}';
     }
-
-    public void generateOpinion(){
-        double margin = budgetPerNight - room.getRentPrice().doubleValue();
-
-        double val = Math.min(0.75 + margin/budgetPerNight, 1.);
-        this.opinion = new Opinion(val);
-
-        // zalezy tez od eventów
-    }
-
-    public Opinion getOpinion() {return this.opinion;}
-
     public Duration getMaxWaitingTime() {
         return maxWaitingTime;
+    }
+
+    public BigDecimal getDesiredPricePerNight() {
+        return desiredPricePerNight;
+    }
+
+    public static class Builder {
+        private HotelVisitPurpose hotelVisitPurpose;
+        private List<Client> members;
+        private LocalDateTime checkOutTime;
+        private BigDecimal desiredPricePerNight;
+        private RoomRank desiredRoomRank;
+        private Duration maxWaitingTime;
+
+        public Builder hotelVisitPurpose(HotelVisitPurpose hotelVisitPurpose) {
+            this.hotelVisitPurpose = hotelVisitPurpose;
+            return this;
+        }
+
+        public Builder members(List<Client> members) {
+            this.members = members;
+            return this;
+        }
+
+        public Builder checkOutTime(LocalDateTime checkOutTime) {
+            this.checkOutTime = checkOutTime;
+            return this;
+        }
+
+        public Builder desiredPricePerNight(BigDecimal desiredPricePerNight) {
+            this.desiredPricePerNight = desiredPricePerNight;
+            return this;
+        }
+
+        public Builder desiredRoomRank(RoomRank desiredRoomRank) {
+            this.desiredRoomRank = desiredRoomRank;
+            return this;
+        }
+
+        public Builder maxWaitingTime(Duration maxWaitingTime) {
+            this.maxWaitingTime = maxWaitingTime;
+            return this;
+        }
+
+        public ClientGroup build() {
+            return new ClientGroup(this);
+        }
     }
 }
