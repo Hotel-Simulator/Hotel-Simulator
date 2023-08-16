@@ -33,6 +33,7 @@ public class JSONDataLoaderTest {
 			throw new RuntimeException(e);
 		}
 	}
+
 	@Test
 	@SuppressWarnings("unused")
 	public void jSONRoomDataLoaderTest() {
@@ -68,10 +69,8 @@ public class JSONDataLoaderTest {
 	@SuppressWarnings("unused")
 	public void jSONEventDataLoaderTest() {
 		assertDoesNotThrow(() -> {
-			List<ClientNumberModificationCyclicTemporaryEventData> clientNumberModificationCyclicTemporaryEventData =
-					JSONEventDataLoader.clientNumberModificationCyclicTemporaryEventData;
-			List<ClientNumberModificationRandomTemporaryEventData> clientNumberModificationRandomTemporaryEventData =
-					JSONEventDataLoader.clientNumberModificationRandomTemporaryEventData;
+			List<ClientNumberModificationCyclicTemporaryEventData> clientNumberModificationCyclicTemporaryEventData = JSONEventDataLoader.clientNumberModificationCyclicTemporaryEventData;
+			List<ClientNumberModificationRandomTemporaryEventData> clientNumberModificationRandomTemporaryEventData = JSONEventDataLoader.clientNumberModificationRandomTemporaryEventData;
 		});
 	}
 
@@ -101,10 +100,8 @@ public class JSONDataLoaderTest {
 	public void jSONAdvertisementDataLoaderTest() {
 		assertDoesNotThrow(() -> {
 			double multiplier = JSONAdvertisementDataLoader.multiplier;
-			EnumMap<SingleAdvertisementType, SingleAdvertisementData> singleAdvertisementData =
-					JSONAdvertisementDataLoader.singleAdvertisementData;
-			EnumMap<ConstantAdvertisementType, ConstantAdvertisementData> constantAdvertisementData =
-					JSONAdvertisementDataLoader.constantAdvertisementData;
+			EnumMap<SingleAdvertisementType, SingleAdvertisementData> singleAdvertisementData = JSONAdvertisementDataLoader.singleAdvertisementData;
+			EnumMap<ConstantAdvertisementType, ConstantAdvertisementData> constantAdvertisementData = JSONAdvertisementDataLoader.constantAdvertisementData;
 		});
 	}
 
