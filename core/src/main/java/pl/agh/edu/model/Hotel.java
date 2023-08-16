@@ -275,23 +275,23 @@ public class Hotel {
 		roomsByRank.get(room.getRank()).add(room);
 	}
 
-    public Room findRoomForClientGroup(ClientGroup group){
-        for(Room room : roomsByRank.get(group.getDesiredRoomRank())){
-            if(room.getState().equals(RoomState.EMPTY) && room.getRentPrice().compareTo(group.getDesiredPricePerNight()) < 1){
-                return room;
-            }
-        }
-        return null;
-    }
+	public Room findRoomForClientGroup(ClientGroup group) {
+		for (Room room : roomsByRank.get(group.getDesiredRoomRank())) {
+			if (room.getState().equals(RoomState.EMPTY) && room.getRentPrice().compareTo(group.getDesiredPricePerNight()) < 1) {
+				return room;
+			}
+		}
+		return null;
+	}
 
 	public int getEmployeesNumber() {
 		return this.employees.size();
 	}
 
-//    public void checkOutGuest(ClientGroup group){
-//        group.generateOpinion();
-//        Opinion opinion =  group.getOpinion();
-//
-//        this.opinions.add(opinion);
-//    }
+	// public void checkOutGuest(ClientGroup group){
+	// group.generateOpinion();
+	// Opinion opinion = group.getOpinion();
+	//
+	// this.opinions.add(opinion);
+	// }
 }

@@ -1,28 +1,30 @@
 package pl.agh.edu.json.data_loader;
 
+import java.math.BigDecimal;
+import java.time.Duration;
 import java.util.EnumMap;
 import java.util.Map;
+
 import org.json.simple.JSONObject;
+
 import pl.agh.edu.enums.HotelVisitPurpose;
 import pl.agh.edu.enums.RoomRank;
 import pl.agh.edu.json.data_extractor.JSONDataExtractor;
 import pl.agh.edu.json.data_extractor.JSONFilePath;
 import pl.agh.edu.json.data_extractor.JSONValueUtil;
 
-
-
 public class JSONClientDataLoader {
 	private static final String JSON_FILE_PATH = JSONFilePath.CLIENT_CONFIG.get();
 
-    public static EnumMap<HotelVisitPurpose,Double> hotelVisitPurposeProbabilities;
-    public static EnumMap<HotelVisitPurpose,EnumMap<RoomRank,Integer>> desiredRankProbabilities;
-    public static EnumMap<HotelVisitPurpose,Map<Integer,Integer>> numberOfNightsProbabilities;
-    public static EnumMap<HotelVisitPurpose,Map<Integer,Integer>> roomSizeProbabilities;
-    public static EnumMap<RoomRank,Map<Integer,Integer>> averagePricesPerNight;
-    public static Duration basicMaxWaitingTime;
-    public static int waitingTimeVariation;
+	public static EnumMap<HotelVisitPurpose, Double> hotelVisitPurposeProbabilities;
+	public static EnumMap<HotelVisitPurpose, EnumMap<RoomRank, Integer>> desiredRankProbabilities;
+	public static EnumMap<HotelVisitPurpose, Map<Integer, Integer>> numberOfNightsProbabilities;
+	public static EnumMap<HotelVisitPurpose, Map<Integer, Integer>> roomSizeProbabilities;
+	public static EnumMap<RoomRank, Map<Integer, BigDecimal>> averagePricesPerNight;
+	public static Duration basicMaxWaitingTime;
+	public static int waitingTimeVariation;
 
-    private JSONClientDataLoader() {}
+	private JSONClientDataLoader() {}
 
 	static {
 		load();
@@ -65,11 +67,11 @@ public class JSONClientDataLoader {
 						entry2 -> JSONValueUtil.getBigDecimal((Long) entry2.getValue())),
 				RoomRank.class);
 
-        basicMaxWaitingTime = JSONValueUtil.getDuration(
-                JSONDataExtractor.extract(JSON_FILE_PATH,"basic_max_waiting_time_in_minutes", Long.class));
-        waitingTimeVariation = JSONValueUtil.getInt(
-                JSONDataExtractor.extract(JSON_FILE_PATH,"waiting_time_variation_in_minutes", Long.class));
+		basicMaxWaitingTime = JSONValueUtil.getDuration(
+				JSONDataExtractor.extract(JSON_FILE_PATH, "basic_max_waiting_time_in_minutes", Long.class));
+		waitingTimeVariation = JSONValueUtil.getInt(
+				JSONDataExtractor.extract(JSON_FILE_PATH, "waiting_time_variation_in_minutes", Long.class));
 
-    }
+	}
 
 }
