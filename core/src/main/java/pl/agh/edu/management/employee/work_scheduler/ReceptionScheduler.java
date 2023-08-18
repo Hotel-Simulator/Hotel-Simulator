@@ -55,12 +55,9 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 					if (room != null) {
 						room.checkIn(clientGroup);
 						if (random.nextDouble() < JSONGameDataLoader.roomFaultProbability) {
-							timeCommandExecutor.addCommand(
-									breakRoomTimeCommand(room, clientGroup));
+							timeCommandExecutor.addCommand(breakRoomTimeCommand(room, clientGroup));
 						}
-						timeCommandExecutor.addCommand(
-
-								checkOutTimeCommand(room, clientGroup));
+						timeCommandExecutor.addCommand(checkOutTimeCommand(room, clientGroup));
 					}
 					receptionist.setOccupied(false);
 				}, time.getTime().plus(receptionist.getServiceExecutionTime()));

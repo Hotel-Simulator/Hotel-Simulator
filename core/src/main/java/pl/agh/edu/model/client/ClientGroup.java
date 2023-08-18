@@ -12,7 +12,6 @@ public class ClientGroup {
 	private final List<Client> members;
 	private final HotelVisitPurpose hotelVisitPurpose;
 	private final LocalDateTime checkOutTime;
-	// private Opinion opinion;
 	private final BigDecimal desiredPricePerNight;
 	private final RoomRank desiredRoomRank;
 	private final Duration maxWaitingTime;
@@ -33,12 +32,6 @@ public class ClientGroup {
 	public RoomRank getDesiredRoomRank() {
 		return desiredRoomRank;
 	}
-
-	// public void generateOpinions(){
-	// for(Client client: members){
-	// client.generateOpinion(this.room, this.budgetPerNight);
-	// }
-	// }
 
 	@Override
 	public String toString() {

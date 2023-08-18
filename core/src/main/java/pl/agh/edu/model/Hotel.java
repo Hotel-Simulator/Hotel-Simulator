@@ -288,10 +288,4 @@ public class Hotel {
 		return this.employees.size();
 	}
 
-	// public void checkOutGuest(ClientGroup group){
-	// group.generateOpinion();
-	// Opinion opinion = group.getOpinion();
-	//
-	// this.opinions.add(opinion);
-	// }
 }
