@@ -1,21 +1,17 @@
 package pl.agh.edu.engine;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
-import java.util.Random;
 
 import pl.agh.edu.enums.Frequency;
-import pl.agh.edu.enums.RoomState;
+import pl.agh.edu.generator.client_generator.Arrival;
 import pl.agh.edu.generator.client_generator.ClientGenerator;
 import pl.agh.edu.generator.event_generator.EventGenerator;
-import pl.agh.edu.json.data_loader.JSONGameDataLoader;
-import pl.agh.edu.management.employee.CleaningScheduler;
 import pl.agh.edu.management.employee.EmployeesToHireHandler;
-import pl.agh.edu.management.employee.RepairScheduler;
+import pl.agh.edu.management.employee.work_scheduler.CleaningScheduler;
+import pl.agh.edu.management.employee.work_scheduler.ReceptionScheduler;
+import pl.agh.edu.management.employee.work_scheduler.RepairScheduler;
 import pl.agh.edu.model.Hotel;
-import pl.agh.edu.model.Room;
 import pl.agh.edu.model.advertisement.AdvertisementHandler;
 import pl.agh.edu.model.time.Time;
 import pl.agh.edu.time_command.RepeatingTimeCommand;
@@ -31,8 +27,8 @@ public class Engine {
 	private final EventGenerator eventGenerator;
 	private final CleaningScheduler cleaningScheduler;
 	private final RepairScheduler repairScheduler;
+	private final ReceptionScheduler receptionScheduler;
 	private final EmployeesToHireHandler employeesToHireHandler;
-	private final Random random;
 
 	public Engine() {
 		this.time = Time.getInstance();
@@ -44,50 +40,59 @@ public class Engine {
 		this.eventGenerator = EventGenerator.getInstance();
 		this.cleaningScheduler = new CleaningScheduler(hotel);
 		this.repairScheduler = new RepairScheduler(hotel);
+		this.receptionScheduler = new ReceptionScheduler(hotel, cleaningScheduler, repairScheduler);
 		this.employeesToHireHandler = new EmployeesToHireHandler(hotel);
-		this.random = new Random();
 
-		timeCommandExecutor.addCommand(new RepeatingTimeCommand(Frequency.EVERY_SHIFT, cleaningScheduler::perShiftUpdate, time.getTime()));
-		timeCommandExecutor.addCommand(new RepeatingTimeCommand(Frequency.EVERY_SHIFT, repairScheduler::perShiftUpdate, time.getTime()));
+		LocalDateTime currentTime = time.getTime();
 
-		timeCommandExecutor.addCommand(new RepeatingTimeCommand(Frequency.EVERY_DAY, advertisementHandler::dailyUpdate, time.getTime()));
-		timeCommandExecutor.addCommand(new RepeatingTimeCommand(Frequency.EVERY_DAY, employeesToHireHandler::dailyUpdate, time.getTime()));
-		timeCommandExecutor.addCommand(new RepeatingTimeCommand(Frequency.EVERY_DAY, this::dailyUpdate, time.getTime()));
-		timeCommandExecutor.addCommand(
-				new RepeatingTimeCommand(Frequency.EVERY_DAY, cleaningScheduler::dailyAtCheckOutTimeUpdate, LocalDateTime.of(time.getTime().toLocalDate(), hotel
-						.getCheckOutTime())));
-		timeCommandExecutor.addCommand(
-				new RepeatingTimeCommand(Frequency.EVERY_DAY, cleaningScheduler::dailyAtCheckInTimeUpdate, LocalDateTime.of(time.getTime().toLocalDate(), hotel.getCheckInTime())));
+		initializeEveryShiftUpdates(currentTime);
 
-		timeCommandExecutor.addCommand(new RepeatingTimeCommand(Frequency.EVERY_MONTH, hotel::monthlyUpdate, time.getTime()));
+		initializeEveryDayUpdates(currentTime);
 
-		timeCommandExecutor.addCommand(new RepeatingTimeCommand(Frequency.EVERY_YEAR, eventGenerator::yearlyUpdate, time.getTime()));
+		initializeEveryMonthUpdates(currentTime);
+
+		initializeEveryYearUpdates(currentTime);
+	}
+
+	private void initializeEveryShiftUpdates(LocalDateTime currentTime) {
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(Frequency.EVERY_SHIFT, cleaningScheduler::perShiftUpdate, currentTime));
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(Frequency.EVERY_SHIFT, receptionScheduler::perShiftUpdate, currentTime));
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(Frequency.EVERY_SHIFT, repairScheduler::perShiftUpdate, currentTime));
+	}
+
+	private void initializeEveryDayUpdates(LocalDateTime currentTime) {
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(Frequency.EVERY_DAY, advertisementHandler::dailyUpdate, currentTime));
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(Frequency.EVERY_DAY, employeesToHireHandler::dailyUpdate, currentTime));
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(Frequency.EVERY_DAY, this::dailyUpdate, currentTime));
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(Frequency.EVERY_DAY, cleaningScheduler::dailyAtCheckOutTimeUpdate, LocalDateTime.of(currentTime.toLocalDate(),
+				hotel.getCheckOutTime())));
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(Frequency.EVERY_DAY, cleaningScheduler::dailyAtCheckInTimeUpdate, LocalDateTime.of(currentTime.toLocalDate(),
+				hotel.getCheckOutTime())));
+	}
+
+	private void initializeEveryMonthUpdates(LocalDateTime currentTime) {
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(Frequency.EVERY_MONTH, hotel::monthlyUpdate, currentTime));
+	}
+
+	private void initializeEveryYearUpdates(LocalDateTime currentTime) {
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(Frequency.EVERY_YEAR, eventGenerator::yearlyUpdate, currentTime));
 	}
 
 	private void generateClientArrivals() {
 		clientGenerator.generateArrivalsForDay(hotel.getCheckInTime(), hotel.getCheckOutTime())
 				.forEach(arrival -> timeCommandExecutor.addCommand(
-						new TimeCommand(() -> {
-							Room room = hotel.findRoomForClientGroup(arrival.clientGroup());
-							if (room != null) {
-								room.checkIn(arrival.clientGroup());
-								if (random.nextDouble() < JSONGameDataLoader.roomFaultProbability) {
-									long minutes = Duration.between(time.getTime(), arrival.clientGroup().getCheckOutTime()).toMinutes();
-									timeCommandExecutor.addCommand(
-											new TimeCommand(() -> {
-												room.setState(RoomState.FAULT);
-												repairScheduler.addRoom(room);
-											}, time.generateRandomTime(minutes, ChronoUnit.MINUTES))
+						clientArrivalTimeCommand(arrival)));
+	}
 
-						);
-								}
-								timeCommandExecutor.addCommand(
-										new TimeCommand(() -> {
-											room.checkOut();
-											cleaningScheduler.addRoom(room);
-										}, arrival.clientGroup().getCheckOutTime()));
-							}
-						}, LocalDateTime.of(time.getTime().toLocalDate(), arrival.time()))));
+	private TimeCommand clientArrivalTimeCommand(Arrival arrival) {
+		return new TimeCommand(() -> {
+			receptionScheduler.addEntity(arrival.clientGroup());
+			timeCommandExecutor.addCommand(
+					new TimeCommand(() -> receptionScheduler.removeEntity(arrival.clientGroup()),
+							LocalDateTime.of(
+									time.getTime().toLocalDate(),
+									arrival.time().plus(arrival.clientGroup().getMaxWaitingTime()))));
+		}, LocalDateTime.of(time.getTime().toLocalDate(), arrival.time()));
 	}
 
 	public void dailyUpdate() {

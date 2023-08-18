@@ -1,4 +1,4 @@
-package pl.agh.edu.management.employee;
+package pl.agh.edu.management.employee.work_scheduler;
 
 import java.util.*;
 
@@ -9,17 +9,17 @@ import pl.agh.edu.model.employee.Employee;
 import pl.agh.edu.model.employee.Profession;
 import pl.agh.edu.time_command.TimeCommand;
 
-public class CleaningScheduler extends WorkScheduler {
+public class CleaningScheduler extends WorkScheduler<Room> {
 	public CleaningScheduler(Hotel hotel) {
 		super(hotel, new PriorityQueue<>(roomComparator), Profession.CLEANER);
 	}
 
 	public void dailyAtCheckOutTimeUpdate() {
-		int sizeBefore = roomsToExecuteService.size();
-		roomsToExecuteService.addAll(hotel.getRooms().stream()
+		int sizeBefore = entitiesToExecuteService.size();
+		entitiesToExecuteService.addAll(hotel.getRooms().stream()
 				.filter(room -> room.getState() == RoomState.OCCUPIED)
 				.toList());
-		if (sizeBefore == 0 && !roomsToExecuteService.isEmpty()) {
+		if (sizeBefore == 0 && !entitiesToExecuteService.isEmpty()) {
 			workingEmployees.stream()
 					.filter(cleaner -> !cleaner.isOccupied())
 					.forEach(this::executeServiceIfPossible);
@@ -27,7 +27,7 @@ public class CleaningScheduler extends WorkScheduler {
 	}
 
 	public void dailyAtCheckInTimeUpdate() {
-		roomsToExecuteService.removeIf(room -> room.getState() == RoomState.OCCUPIED);
+		entitiesToExecuteService.removeIf(room -> room.getState() == RoomState.OCCUPIED);
 	}
 
 	@Override
