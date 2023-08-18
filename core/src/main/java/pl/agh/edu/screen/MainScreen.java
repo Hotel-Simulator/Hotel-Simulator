@@ -9,6 +9,7 @@ import com.ray3k.stripe.scenecomposer.SceneComposerStageBuilder;
 
 import pl.agh.edu.GdxGame;
 import pl.agh.edu.actor.Navbar;
+import pl.agh.edu.actor.pane.TestPanel;
 
 public class MainScreen implements Screen {
 
@@ -41,6 +42,7 @@ public class MainScreen implements Screen {
 
 		Stack stack = stage.getRoot().findActor("main-stack");
 		stack.add(new Navbar("default"));
+		stack.add(new TestPanel());
 	}
 
 	@Override
