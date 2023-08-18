@@ -273,13 +273,13 @@ public class Hotel {
 		roomsByRank.get(room.getRank()).add(room);
 	}
 
-	public Room findRoomForClientGroup(ClientGroup group) {
+	public Optional<Room> findRoomForClientGroup(ClientGroup group) {
 		for (Room room : roomsByRank.get(group.getDesiredRoomRank())) {
-			if (!room.isOccupied() && room.getRentPrice().compareTo(BigDecimal.valueOf(group.getBudgetPerNight())) < 1) {
-				return room;
+			if (!room.getRoomStates().isOccupied()&& !room.getRoomStates().isBeingUpgraded() && room.getRentPrice().compareTo(BigDecimal.valueOf(group.getBudgetPerNight())) < 1) {
+				return Optional.of(room);
 			}
 		}
-		return null;
+		return Optional.empty();
 	}
 
 	public int getEmployeesNumber() {

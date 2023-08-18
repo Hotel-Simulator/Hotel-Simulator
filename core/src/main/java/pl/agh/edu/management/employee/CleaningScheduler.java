@@ -16,7 +16,7 @@ public class CleaningScheduler extends WorkScheduler {
 	public void dailyAtCheckOutTimeUpdate() {
 		int sizeBefore = roomsToExecuteService.size();
 		roomsToExecuteService.addAll(hotel.getRooms().stream()
-				.filter(Room::isOccupied)
+				.filter(room -> room.getRoomStates().isOccupied())
 				.toList());
 		if (sizeBefore == 0 && !roomsToExecuteService.isEmpty()) {
 			workingEmployees.stream()
@@ -26,31 +26,21 @@ public class CleaningScheduler extends WorkScheduler {
 	}
 
 	public void dailyAtCheckInTimeUpdate() {
-		roomsToExecuteService.removeIf(Room::isOccupied);
+		roomsToExecuteService.removeIf(room -> room.getRoomStates().isOccupied());
 	}
 
 	@Override
 	protected void executeService(Employee cleaner, Room room) {
 		cleaner.setOccupied(true);
-		if (room.isDirty() || room.isOccupied())
-			room.setMaintenance(true);
 
 		timeCommandExecutor.addCommand(time.getTime().plusMinutes(cleaner.getServiceExecutionTime().toMinutes()),
 				new TimeCommand(() -> {
 					cleaner.setOccupied(false);
-					if (room.isMaintenance())
-						room.setMaintenance(false);
+					room.getRoomStates().setDirty(false);
 					executeServiceIfPossible(cleaner);
 				}));
 	}
 
-	private static final Comparator<Room> roomComparator = (o1, o2) -> {
-		// if (o1.getState() == o2.getState()) wcześniej było tak ale nie do końca wiem na co to zmienić
-		if (o1.isOccupied() == o2.isOccupied())
-			return 0;
-		if (o1.isOccupied())
-			return 1;
-		return -1;
-	};
+	private static final Comparator<Room> roomComparator = (o1, o2) -> Boolean.compare(o1.getRoomStates().isOccupied(), o2.getRoomStates().isOccupied());
 
 }

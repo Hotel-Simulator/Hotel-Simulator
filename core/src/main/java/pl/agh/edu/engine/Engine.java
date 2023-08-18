@@ -6,6 +6,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Optional;
 import java.util.Random;
 
 import pl.agh.edu.generator.client_generator.ClientGenerator;
@@ -64,14 +65,15 @@ public class Engine {
 		clientGenerator.generateArrivalsForDay(hotel.getCheckInTime(), hotel.getCheckOutTime())
 				.forEach(arrival -> timeCommandExecutor.addCommand(LocalDateTime.of(time.getTime().toLocalDate(), arrival.time()),
 						new TimeCommand(() -> {
-							Room room = hotel.findRoomForClientGroup(arrival.clientGroup());
-							if (room != null) {
+							Optional<Room> roomOptional = hotel.findRoomForClientGroup(arrival.clientGroup());
+							if (roomOptional.isPresent()) {
+								Room room = roomOptional.get();
 								room.checkIn(arrival.clientGroup());
 								if (random.nextDouble() < JSONGameDataLoader.roomFaultProbability) {
 									long minutes = Duration.between(time.getTime(), arrival.clientGroup().getCheckOutTime()).toMinutes();
 									timeCommandExecutor.addCommand(time.generateRandomTime(minutes, ChronoUnit.MINUTES),
 											new TimeCommand(() -> {
-												room.setFaulty(true);
+												room.getRoomStates().setFaulty(true);
 												repairScheduler.addRoom(room);
 											})
 

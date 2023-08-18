@@ -11,60 +11,16 @@ public class Room {
 	private BigDecimal rentPrice;
 	private BigDecimal maintenancePrice;
 	private ClientGroup residents;
-	private boolean isOccupied;
-	private boolean isDirty;
-	private boolean isFaulty;
-	private boolean maintenance;
-	private boolean upgrading;
+	private RoomStates roomStates;
 
 	public Room(RoomRank rank, int capacity) {
 		this.rank = rank;
 		this.capacity = capacity;
-		isOccupied = false;
-		isDirty = false;
-		isFaulty = false;
-		maintenance = false;
-		upgrading = false;
+		roomStates = new RoomStates();
 	}
 
-	public boolean isOccupied() {
-		return isOccupied;
-	}
-
-	public void setOccupied(boolean occupied) {
-		isOccupied = occupied;
-	}
-
-	public boolean isDirty() {
-		return isDirty;
-	}
-
-	public void setDirty(boolean dirty) {
-		isDirty = dirty;
-	}
-
-	public boolean isFaulty() {
-		return isFaulty;
-	}
-
-	public void setFaulty(boolean faulty) {
-		isFaulty = faulty;
-	}
-
-	public boolean isMaintenance() {
-		return maintenance;
-	}
-
-	public void setMaintenance(boolean maintenance) {
-		this.maintenance = maintenance;
-	}
-
-	public boolean isUpgrading() {
-		return upgrading;
-	}
-
-	public void setUpgrading(boolean upgrading) {
-		this.upgrading = upgrading;
+	public RoomStates getRoomStates(){
+		return roomStates;
 	}
 
 	public BigDecimal getRentPrice() {
@@ -95,44 +51,25 @@ public class Room {
 		return capacity;
 	}
 
-	public boolean upgradeRank() {
+	public void upgradeRank() {
 		switch (rank) {
 		case ONE -> this.rank = RoomRank.TWO;
 		case TWO -> this.rank = RoomRank.THREE;
 		case THREE -> this.rank = RoomRank.FOUR;
 		case FOUR -> this.rank = RoomRank.FIVE;
 		case FIVE -> {
-			return false;
 		}
 		}
-		return true;
 	}
 
-	public boolean clean() {
-		if (isDirty) {
-			isDirty = false;
-			return true;
-		}
-		return false;
-	}
-
-	public boolean fix() {
-		if (isFaulty) {
-			isFaulty = false;
-			return true;
-		}
-		return false;
-	}
-
-	public boolean upgradeRankMany(int num) {
+	public void upgradeRankMany(int num) {
 		if (rank.ordinal() + 1 + num > 5) {
-			return false;
+			return;
 		}
 		for (int i = 0; i < num; i++) {
 			this.upgradeRank();
 		}
-		upgrading = true;
-		return true;
+		roomStates.setBeingUpgraded(true);
 	}
 
 	public BigDecimal getStandard() {
@@ -143,12 +80,13 @@ public class Room {
 
 	public void checkIn(ClientGroup residents) {
 		this.residents = residents;
-		isOccupied = true;
+		roomStates.setOccupied(true);
 	}
 
 	public void checkOut() {
 		this.residents = null;
-		isDirty = true;
+		roomStates.setBeingUpgraded(false);
+		roomStates.setDirty(true);
 	}
 
 	public ClientGroup getResidents() {

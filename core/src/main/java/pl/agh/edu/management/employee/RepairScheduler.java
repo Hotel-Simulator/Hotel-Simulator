@@ -16,11 +16,11 @@ public class RepairScheduler extends WorkScheduler {
 	@Override
 	protected void executeService(Employee technician, Room room) {
 		technician.setOccupied(true);
-		room.setMaintenance(true);
+
 		timeCommandExecutor.addCommand(time.getTime().plusMinutes(technician.getServiceExecutionTime().toMinutes()),
 				new TimeCommand(() -> {
 					technician.setOccupied(false);
-					room.setMaintenance(false);
+					room.getRoomStates().setFaulty(false);
 					executeServiceIfPossible(technician);
 				}));
 	}

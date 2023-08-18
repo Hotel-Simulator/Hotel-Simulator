@@ -41,7 +41,8 @@ public class Builder {
 
 		isOccupied = true;
 
-		room.setUpgrading(true);
+		room.getRoomStates().setBeingUpgraded(true);
+		upgradingRoom = room;
 
 		this.upgradesNum = numUpgrades;
 
@@ -55,7 +56,7 @@ public class Builder {
 
 		if (plannedEndTime.isAfter(Time.getInstance().getTime())) {
 			this.upgradingRoom.upgradeRankMany(upgradesNum);
-			this.upgradingRoom.setUpgrading(false);
+			this.upgradingRoom.getRoomStates().setBeingUpgraded(false);
 
 			isOccupied = false;
 			return true;
