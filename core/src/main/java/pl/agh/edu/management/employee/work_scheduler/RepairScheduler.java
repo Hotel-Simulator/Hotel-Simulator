@@ -1,4 +1,4 @@
-package pl.agh.edu.management.employee;
+package pl.agh.edu.management.employee.work_scheduler;
 
 import java.util.LinkedList;
 
@@ -9,7 +9,7 @@ import pl.agh.edu.model.employee.Employee;
 import pl.agh.edu.model.employee.Profession;
 import pl.agh.edu.time_command.TimeCommand;
 
-public class RepairScheduler extends WorkScheduler {
+public class RepairScheduler extends WorkScheduler<Room> {
 	public RepairScheduler(Hotel hotel) {
 		super(hotel, new LinkedList<>(), Profession.CLEANER);
 	}
@@ -23,7 +23,7 @@ public class RepairScheduler extends WorkScheduler {
 					technician.setOccupied(false);
 					room.setState(RoomState.EMPTY);
 					executeServiceIfPossible(technician);
-				}, time.getTime().plusMinutes(technician.getServiceExecutionTime().toMinutes())));
+				}, time.getTime().plus(technician.getServiceExecutionTime())));
 	}
 
 }
