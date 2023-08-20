@@ -6,5 +6,5 @@ public enum BottomNavbarState {
 	BANK,
 	EMPLOYEE,
 	TAXES,
-	ADS
+	ADS,
 }
