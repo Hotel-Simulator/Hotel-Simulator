@@ -338,6 +338,14 @@ console
   orig: 506, 293
   offset: 0, 0
   index: -1
+frame-glass-background
+  rotate: false
+  xy: 1833, 143
+  size: 200, 200
+  split: 19, 19, 19, 19
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
 h1_1
   rotate: false
   xy: 1, 1533
@@ -392,14 +400,6 @@ h4
   xy: 1029, 1132
   size: 506, 269
   orig: 506, 269
-  offset: 0, 0
-  index: -1
-panel-glass-background
-  rotate: false
-  xy: 1833, 143
-  size: 200, 200
-  split: 19, 19, 19, 19
-  orig: 200, 200
   offset: 0, 0
   index: -1
 rating-1-up

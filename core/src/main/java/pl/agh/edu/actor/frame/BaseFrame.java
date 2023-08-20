@@ -17,7 +17,7 @@ public abstract class BaseFrame extends Stack {
 	public BaseFrame() {
 		super();
 		Skin skin = HotelSkin.getInstance();
-		NinePatchDrawable background = new NinePatchDrawable(skin.getPatch("panel-glass-background"));
+		NinePatchDrawable background = new NinePatchDrawable(skin.getPatch("frame-glass-background"));
 		add(new Image(background, Scaling.stretch, Align.center));
 	}
 
