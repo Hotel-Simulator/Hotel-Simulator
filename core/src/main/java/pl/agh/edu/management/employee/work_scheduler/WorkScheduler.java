@@ -1,4 +1,4 @@
-package pl.agh.edu.management.employee;
+package pl.agh.edu.management.employee.work_scheduler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,30 +6,29 @@ import java.util.Queue;
 import java.util.stream.Collectors;
 
 import pl.agh.edu.model.Hotel;
-import pl.agh.edu.model.Room;
 import pl.agh.edu.model.employee.Employee;
 import pl.agh.edu.model.employee.Profession;
 import pl.agh.edu.model.employee.Shift;
 import pl.agh.edu.model.time.Time;
 import pl.agh.edu.time_command.TimeCommandExecutor;
 
-public abstract class WorkScheduler {
+public abstract class WorkScheduler<T> {
 
 	private Shift currentShift;
 	private final Profession employeesProfession;
 	protected final Time time;
 	protected final Hotel hotel;
 	protected List<Employee> workingEmployees;
-	protected final Queue<Room> roomsToExecuteService;
+	protected final Queue<T> entitiesToExecuteService;
 	protected final TimeCommandExecutor timeCommandExecutor;
 
-	protected WorkScheduler(Hotel hotel, Queue<Room> roomsToExecuteService, Profession employeesProfession) {
+	protected WorkScheduler(Hotel hotel, Queue<T> entitiesToExecuteService, Profession employeesProfession) {
 		this.currentShift = Shift.NIGHT;
 		this.employeesProfession = employeesProfession;
 		this.time = Time.getInstance();
 		this.hotel = hotel;
 		this.workingEmployees = new ArrayList<>();
-		this.roomsToExecuteService = roomsToExecuteService;
+		this.entitiesToExecuteService = entitiesToExecuteService;
 		this.timeCommandExecutor = TimeCommandExecutor.getInstance();
 	}
 
@@ -38,8 +37,8 @@ public abstract class WorkScheduler {
 	}
 
 	public void executeServiceIfPossible(Employee employee) {
-		if (!roomsToExecuteService.isEmpty() && willEmployeeExecuteServiceBeforeShiftEnds(employee)) {
-			executeService(employee, roomsToExecuteService.remove());
+		if (!entitiesToExecuteService.isEmpty() && willEmployeeExecuteServiceBeforeShiftEnds(employee)) {
+			executeService(employee, entitiesToExecuteService.remove());
 		}
 	}
 
@@ -52,15 +51,20 @@ public abstract class WorkScheduler {
 
 	}
 
-	public void addRoom(Room room) {
-		this.roomsToExecuteService.add(room);
-		if (roomsToExecuteService.size() == 1) {
-			workingEmployees.stream()
-					.filter(employee -> !employee.isOccupied() && willEmployeeExecuteServiceBeforeShiftEnds(employee))
-					.findFirst()
-					.ifPresent(employee -> executeService(employee, roomsToExecuteService.remove()));
+	public void addEntity(T entity) {
+		boolean wasEmpty = entitiesToExecuteService.isEmpty();
+		this.entitiesToExecuteService.add(entity);
+		if (wasEmpty) {
+			tryToAssignEmployeeToEntity();
 		}
 	}
 
-	protected abstract void executeService(Employee employee, Room room);
+	private void tryToAssignEmployeeToEntity() {
+		workingEmployees.stream()
+				.filter(employee -> !employee.isOccupied() && willEmployeeExecuteServiceBeforeShiftEnds(employee))
+				.findFirst()
+				.ifPresent(employee -> executeService(employee, entitiesToExecuteService.remove()));
+	}
+
+	protected abstract void executeService(Employee employee, T entity);
 }

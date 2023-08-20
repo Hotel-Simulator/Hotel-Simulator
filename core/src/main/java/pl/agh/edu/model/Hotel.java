@@ -15,6 +15,7 @@ import pl.agh.edu.json.data_loader.JSONEmployeeDataLoader;
 import pl.agh.edu.json.data_loader.JSONHotelDataLoader;
 import pl.agh.edu.json.data_loader.JSONRoomDataLoader;
 import pl.agh.edu.logo.RandomLogoCreator;
+import pl.agh.edu.model.client.ClientGroup;
 import pl.agh.edu.model.employee.Employee;
 import pl.agh.edu.model.employee.EmployeeStatus;
 import pl.agh.edu.model.employee.Profession;
@@ -276,7 +277,7 @@ public class Hotel {
 
 	public Room findRoomForClientGroup(ClientGroup group) {
 		for (Room room : roomsByRank.get(group.getDesiredRoomRank())) {
-			if (room.getState().equals(RoomState.EMPTY) && room.getRentPrice().compareTo(BigDecimal.valueOf(group.getBudgetPerNight())) < 1) {
+			if (room.getState().equals(RoomState.EMPTY) && room.getRentPrice().compareTo(group.getDesiredPricePerNight()) < 1) {
 				return room;
 			}
 		}
@@ -287,11 +288,4 @@ public class Hotel {
 		return this.employees.size();
 	}
 
-	public void checkOutGuest(ClientGroup group) {
-		group.generateOpinion();
-		Opinion opinion = group.getOpinion();
-
-		group.getRoom().checkOut();
-		this.opinions.add(opinion);
-	}
 }

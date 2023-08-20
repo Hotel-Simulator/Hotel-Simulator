@@ -1,9 +1,11 @@
-package pl.agh.edu.model;
+package pl.agh.edu.model.client;
 
 import java.math.BigDecimal;
 
 import pl.agh.edu.enums.HotelVisitPurpose;
 import pl.agh.edu.enums.Sex;
+import pl.agh.edu.model.Opinion;
+import pl.agh.edu.model.Room;
 
 public class Client {
 	private final int age;
