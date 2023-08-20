@@ -3,7 +3,11 @@ package pl.agh.edu.model.advertisement;
 import pl.agh.edu.json.data_loader.JSONAdvertisementDataLoader;
 
 public enum AdvertisementEffectiveness {
-	ONE, TWO, THREE, FOUR, FIVE;
+	ONE,
+	TWO,
+	THREE,
+	FOUR,
+	FIVE;
 
 	private static final double advertisementMultiplier = JSONAdvertisementDataLoader.multiplier;
 
