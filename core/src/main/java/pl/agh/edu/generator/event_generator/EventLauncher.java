@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.Objects;
 import java.util.PriorityQueue;
-import java.util.Random;
 
 import pl.agh.edu.json.data.ClientNumberModificationCyclicTemporaryEventData;
 import pl.agh.edu.model.calendar.Calendar;
@@ -12,6 +11,7 @@ import pl.agh.edu.model.calendar.CalendarEvent;
 import pl.agh.edu.model.event.temporary.ClientNumberModificationTemporaryEvent;
 import pl.agh.edu.model.event.temporary.ClientNumberModificationTemporaryEventHandler;
 import pl.agh.edu.model.time.Time;
+import pl.agh.edu.utils.RandomUtils;
 
 public class EventLauncher {
 	private static EventLauncher instance;
@@ -19,7 +19,6 @@ public class EventLauncher {
 	private final ClientNumberModificationTemporaryEventHandler clientNumberModificationTemporaryEventHandler;
 	private final PriorityQueue<ClientNumberModificationRandomTemporaryEvent> eventsToLaunch;
 	private final Time time;
-	private final Random random = new Random();
 
 	private EventLauncher() {
 		calendar = Calendar.getInstance();
@@ -62,7 +61,9 @@ public class EventLauncher {
 	}
 
 	private void launch(ClientNumberModificationRandomTemporaryEvent event) {
-		LocalDate startDate = event.launchDate().plusDays(random.nextInt(80, 100));
+		LocalDate startDate = RandomUtils.randomDate(
+				event.launchDate().plusDays(80),
+				event.launchDate().plusDays(100));
 		String calendarDescription = event.calendarDescription().replaceFirst("#", startDate.toString()).replaceFirst("#", String.valueOf(event.durationDays()));
 		String popupDescription = event.popupDescription().replaceFirst("#", String.valueOf(event.durationDays()));
 		calendar.addEvent(new CalendarEvent(startDate, event.name(), calendarDescription));
