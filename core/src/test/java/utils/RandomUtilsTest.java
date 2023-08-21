@@ -22,7 +22,9 @@ import pl.agh.edu.utils.RandomUtils;
 public class RandomUtilsTest {
 
 	private enum TestEnum {
-		VALUE1, VALUE2, VALUE3
+		VALUE1,
+		VALUE2,
+		VALUE3
 	}
 
 	@Test
