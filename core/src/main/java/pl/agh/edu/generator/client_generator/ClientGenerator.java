@@ -21,20 +21,14 @@ import pl.agh.edu.model.client.Client;
 import pl.agh.edu.model.client.ClientGroup;
 import pl.agh.edu.model.event.temporary.ClientNumberModificationTemporaryEventHandler;
 import pl.agh.edu.model.time.Time;
+import pl.agh.edu.utils.RandomUtils;
 
 public class ClientGenerator {
 
 	private static ClientGenerator clientGeneratorInstance;
 
-	private final Random random = new Random();
 	private static final Map<String, Long> attractivenessConstants = JSONHotelDataLoader.attractivenessConstants;
 	private static final EnumMap<HotelVisitPurpose, Double> hotelVisitPurposeProbability = JSONClientDataLoader.hotelVisitPurposeProbabilities;
-	private static final EnumMap<HotelVisitPurpose, List<Integer>> roomSizeProbabilityLists = ProbabilityListGenerator.getMapOfProbabilityLists(
-			JSONClientDataLoader.roomSizeProbabilities, HotelVisitPurpose.class);
-	private static final EnumMap<HotelVisitPurpose, List<RoomRank>> desiredRoomRankProbabilityLists = ProbabilityListGenerator.getEnumMapOfProbabilityLists(
-			JSONClientDataLoader.desiredRankProbabilities, HotelVisitPurpose.class);
-	private static final EnumMap<HotelVisitPurpose, List<Integer>> numberOfNightsProbabilityLists = ProbabilityListGenerator.getMapOfProbabilityLists(
-			JSONClientDataLoader.numberOfNightsProbabilities, HotelVisitPurpose.class);
 	private static final EnumMap<RoomRank, Map<Integer, BigDecimal>> averagePricesPerNight = JSONClientDataLoader.averagePricesPerNight;
 	private final AdvertisementHandler advertisementHandler;
 	private final ClientNumberModificationTemporaryEventHandler clientNumberModificationTemporaryEventHandler;
@@ -54,46 +48,35 @@ public class ClientGenerator {
 		return clientGeneratorInstance;
 	}
 
-	private <T> T getRandomValue(List<T> list) {
-		return list.get(random.nextInt(0, list.size()));
-	}
-
-	private LocalTime getRandomLocalTime(LocalTime min, LocalTime max) {
-
-		int randomTimeInMinutes = random.nextInt(min.getHour() * 60 + min.getMinute(), max.getHour() * 60 + max.getMinute()) / time.getTimeUnitInMinutes() * time
-				.getTimeUnitInMinutes();
-		return LocalTime.of(randomTimeInMinutes / 60, randomTimeInMinutes % 60);
-	}
-
 	private LocalDateTime getCheckOutTime(int numberOfNight, LocalTime checkOutMaxTime) {
 
-		return LocalDateTime.of(time.getTime().toLocalDate().plusDays(numberOfNight), getRandomLocalTime(LocalTime.of(6, 0), checkOutMaxTime));
+		return LocalDateTime.of(time.getTime().toLocalDate().plusDays(numberOfNight), RandomUtils.randomLocalTime(LocalTime.of(6, 0), checkOutMaxTime));
 	}
 
 	private BigDecimal getDesiredPricePerNight(RoomRank desiredRoomRank, int roomSize) {
-		return BigDecimal.valueOf(averagePricesPerNight.get(desiredRoomRank).get(roomSize).intValue() +
-				(int) Math.round(
-						random.nextGaussian() *
-								0.2 * averagePricesPerNight.get(desiredRoomRank).get(roomSize).intValue()));
+		double meanPrice = averagePricesPerNight.get(desiredRoomRank).get(roomSize).doubleValue();
+		double variation = 0.2 * meanPrice;
+
+		return BigDecimal.valueOf(Math.round(RandomUtils.randomGaussian(meanPrice, variation)));
 	}
 
 	private List<Client> getMembers(HotelVisitPurpose hotelVisitPurpose, int roomSize) {
 		return IntStream.range(0, roomSize)
 				.mapToObj(it -> new Client(
-						random.nextInt(1, 99),
-						Sex.values()[random.nextInt(0, 3)],
+						RandomUtils.randomInt(1, 99),
+						RandomUtils.randomEnumElement(Sex.class),
 						hotelVisitPurpose))
 				.collect(Collectors.toList());
 	}
 
 	private ClientGroup generateClientGroupForGivenHotelVisitPurpose(LocalTime checkoutMaxTime, HotelVisitPurpose hotelVisitPurpose) {
-		RoomRank desiredRoomRank = getRandomValue(desiredRoomRankProbabilityLists.get(hotelVisitPurpose));
-		int numberOfNight = getRandomValue(numberOfNightsProbabilityLists.get(hotelVisitPurpose));
-		int roomSize = getRandomValue(roomSizeProbabilityLists.get(hotelVisitPurpose));
+		RoomRank desiredRoomRank = RandomUtils.randomKeyWithProbabilities(JSONClientDataLoader.desiredRankProbabilities.get(hotelVisitPurpose));
+		int numberOfNights = RandomUtils.randomKeyWithProbabilities(JSONClientDataLoader.numberOfNightsProbabilities.get(hotelVisitPurpose));
+		int roomSize = RandomUtils.randomKeyWithProbabilities(JSONClientDataLoader.roomSizeProbabilities.get(hotelVisitPurpose));
 		return new ClientGroup.Builder()
 				.hotelVisitPurpose(hotelVisitPurpose)
 				.members(getMembers(hotelVisitPurpose, roomSize))
-				.checkOutTime(getCheckOutTime(numberOfNight, checkoutMaxTime))
+				.checkOutTime(getCheckOutTime(numberOfNights, checkoutMaxTime))
 				.desiredPricePerNight(getDesiredPricePerNight(desiredRoomRank, roomSize))
 				.desiredRoomRank(desiredRoomRank)
 				.maxWaitingTime(getMaxWaitingTime(JSONClientDataLoader.basicMaxWaitingTime, JSONClientDataLoader.waitingTimeVariation))
@@ -101,7 +84,7 @@ public class ClientGenerator {
 	}
 
 	private Duration getMaxWaitingTime(Duration basicMaxWaitingTime, int waitingTimeVariation) {
-		return basicMaxWaitingTime.plusMinutes(random.nextInt(-waitingTimeVariation, waitingTimeVariation));
+		return basicMaxWaitingTime.plusMinutes(RandomUtils.randomInt(-waitingTimeVariation, waitingTimeVariation));
 	}
 
 	private EnumMap<HotelVisitPurpose, Integer> getNumberOfClientGroupsFromAdvertisement(EnumMap<HotelVisitPurpose, Integer> noClientsWithoutAdvertisements) {
@@ -119,8 +102,11 @@ public class ClientGenerator {
 		int basicNumberOfClients = (int) Math.round(((attractivenessConstants.get("local_market") + attractivenessConstants.get("local_attractions"))) * popularityModifier);
 		return Stream.of(HotelVisitPurpose.values()).collect(Collectors.toMap(
 				e -> e,
-				e -> (int) Math.round(basicNumberOfClients * hotelVisitPurposeProbability.get(e) * Math.abs(1 + random.nextGaussian() / 3)
-						* (clientNumberModificationTemporaryEventHandler.getClientNumberModifier().get(e) + 1)),
+				e -> (int) Math.round(
+						basicNumberOfClients *
+								hotelVisitPurposeProbability.get(e) *
+								Math.max(0, RandomUtils.randomGaussian(1, 1. / 3)) *
+								(clientNumberModificationTemporaryEventHandler.getClientNumberModifier().get(e) + 1)),
 				(a, b) -> b,
 				() -> new EnumMap<>(HotelVisitPurpose.class)));
 	}
@@ -136,7 +122,7 @@ public class ClientGenerator {
 		return Stream.of(HotelVisitPurpose.values())
 				.flatMap(e -> IntStream.range(0, numberOfClientGroups.get(e) + numberOfClientGroupsFromAdvertisements.get(e))
 						.mapToObj(it -> new Arrival(
-								getRandomLocalTime(checkInMinTime, LocalTime.MAX),
+								RandomUtils.randomLocalTime(checkInMinTime, LocalTime.MAX),
 								generateClientGroupForGivenHotelVisitPurpose(checkOutMaxTime, e))))
 				.sorted(Arrival::compareTo)
 				.collect(Collectors.toList());
