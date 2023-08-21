@@ -5,7 +5,11 @@ import java.time.LocalDateTime;
 import pl.agh.edu.model.time.Time;
 
 public enum Frequency {
-	EVERY_SHIFT, EVERY_TIME_TICK, EVERY_DAY, EVERY_MONTH, EVERY_YEAR;
+	EVERY_SHIFT,
+	EVERY_TIME_TICK,
+	EVERY_DAY,
+	EVERY_MONTH,
+	EVERY_YEAR;
 
 	public LocalDateTime add(LocalDateTime localDateTime) {
 		return switch (this) {

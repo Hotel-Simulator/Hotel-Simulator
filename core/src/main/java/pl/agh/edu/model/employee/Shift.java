@@ -3,7 +3,9 @@ package pl.agh.edu.model.employee;
 import java.time.LocalTime;
 
 public enum Shift {
-	MORNING, EVENING, NIGHT;
+	MORNING,
+	EVENING,
+	NIGHT;
 
 	public LocalTime getStartTime() {
 		return switch (this) {
