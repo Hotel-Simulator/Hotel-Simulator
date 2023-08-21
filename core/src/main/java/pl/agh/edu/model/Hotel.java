@@ -170,6 +170,12 @@ public class Hotel {
 		return roomsByRank;
 	}
 
+	public void addRoom(Room room) { rooms.add(room);}
+
+	public void addRoomByRank(Room room) {
+		roomsByRank.get(room.getRank()).add(room);
+	}
+
 	public ArrayList<Room> getRooms() {
 		return rooms;
 	}

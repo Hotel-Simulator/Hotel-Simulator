@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 
 import pl.agh.edu.enums.RoomRank;
 
+// !!!!!!!!!!!!!!!!!!!!!!!! czy gryzie się Libgdx i lombok poszukaj
+
 public class Room {
 	private RoomRank rank;
 	private final int capacity;
@@ -57,13 +59,11 @@ public class Room {
 		case TWO -> this.rank = RoomRank.THREE;
 		case THREE -> this.rank = RoomRank.FOUR;
 		case FOUR -> this.rank = RoomRank.FIVE;
-		case FIVE -> {
-		}
 		}
 	}
 
 	public void upgradeRankMany(int num) {
-		if (rank.ordinal() + 1 + num > 5) {
+		if (rank.ordinal() + num > RoomRank.FIVE.ordinal()) {
 			return;
 		}
 		for (int i = 0; i < num; i++) {
@@ -85,7 +85,7 @@ public class Room {
 
 	public void checkOut() {
 		this.residents = null;
-		roomStates.setBeingUpgraded(false);
+		roomStates.setOccupied(false);
 		roomStates.setDirty(true);
 	}
 
