@@ -630,23 +630,6 @@ event_icon_music_festival
   orig: 129, 122
   offset: 0, 0
   index: -1
-gray-100-border-round
-  rotate: false
-  xy: 1107, 1990
-  size: 270, 55
-  split: 20, 21, 21, 21
-  pad: 0, 0, 0, 0
-  orig: 270, 55
-  offset: 0, 0
-  index: -1
-gray-500-borderless
-  rotate: false
-  xy: 2045, 1951
-  size: 2, 67
-  split: 0, 0, 0, 0
-  orig: 2, 67
-  offset: 0, 0
-  index: -1
 list-background
   rotate: false
   xy: 1623, 1968
@@ -1161,11 +1144,28 @@ selectbox-background-over
   orig: 139, 50
   offset: 0, 0
   index: -1
+separator-line
+  rotate: false
+  xy: 2045, 1951
+  size: 2, 67
+  split: 0, 0, 0, 0
+  orig: 2, 67
+  offset: 0, 0
+  index: -1
 slider-background
   rotate: false
   xy: 1623, 1913
   size: 20, 1
   orig: 20, 1
+  offset: 0, 0
+  index: -1
+slider-component-background
+  rotate: false
+  xy: 1107, 1990
+  size: 270, 55
+  split: 20, 21, 21, 21
+  pad: 0, 0, 0, 0
+  orig: 270, 55
   offset: 0, 0
   index: -1
 slider-knob

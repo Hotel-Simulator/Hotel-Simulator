@@ -10,23 +10,30 @@ import com.badlogic.gdx.utils.Align;
 import pl.agh.edu.actor.HotelSkin;
 
 public class SliderComponent extends Table {
-	private final float SLIDER_WIDTH = 600f;
-	private final float SLIDER_HEIGHT = 60f;
-	private final float HORIZONTAL_OUTER_PADDING = 50f;
-	private final float HORIZONTAL_INNER_PADDING = 30f;
-	private Label valueLabel;
-	private Slider slider;
-	private Skin skin;
-	private String suffix;
+	private final float SLIDER_WIDTH;
+	private final float SLIDER_HEIGHT;
+	private final float HORIZONTAL_OUTER_PADDING;
+	private final float HORIZONTAL_INNER_PADDING;
+	protected Label valueLabel;
+	protected Slider slider;
+	protected Skin skin;
+	protected String suffix;
+	private float min;
+	private float max;
+	private float step;
 
-	public SliderComponent(String name, String suffix, float min, float max, float step) {
-		Stack stack = new Stack();
-		add(stack).height(SLIDER_HEIGHT);
+	public SliderComponent(String name, String suffix, float min, float max, float step, SliderSize sliderSize) {
+		SLIDER_WIDTH = sliderSize.getSLIDER_WIDTH();
+		SLIDER_HEIGHT = sliderSize.getSLIDER_HEIGHT();
+		HORIZONTAL_OUTER_PADDING = sliderSize.getHORIZONTAL_OUTER_PADDING();
+		HORIZONTAL_INNER_PADDING = sliderSize.getHORIZONTAL_OUTER_PADDING();
+		Stack componentStack = new Stack();
+		add(componentStack).height(SLIDER_HEIGHT);
 		skin = HotelSkin.getInstance();
-		NinePatch texture = skin.getPatch("gray-100-border-round");
-		stack.add(new Image(texture));
+		NinePatch background = skin.getPatch("slider-component-background");
+		componentStack.add(new Image(background));
 		this.suffix = suffix;
-		stack.add(new SliderRowTable(name, min, max, step));
+		componentStack.add(new SliderRowTable(name, min, max, step));
 
 	}
 
@@ -41,11 +48,11 @@ public class SliderComponent extends Table {
 			valueLabel.setText(String.format("%.0f", max) + suffix);
 			add(valueLabel).minWidth(SLIDER_WIDTH / 4);
 
-			Drawable drawable = skin.getDrawable("gray-500-borderless");
-			drawable.setMinHeight(SLIDER_HEIGHT);
-			drawable.setMinWidth(2);
-			Image separator = new Image(drawable);
-			add(separator).bottom().expandY().padLeft(HORIZONTAL_INNER_PADDING).padRight(HORIZONTAL_INNER_PADDING);
+			Drawable lineDrawable = skin.getDrawable("separator-line");
+			lineDrawable.setMinHeight(SLIDER_HEIGHT);
+			lineDrawable.setMinWidth(2);
+			Image separator = new Image(lineDrawable);
+			add(separator).bottom().padLeft(HORIZONTAL_INNER_PADDING).padRight(HORIZONTAL_INNER_PADDING);
 
 			slider = new Slider(min, max, step, false, skin);
 			slider.addListener(new ChangeListener() {
@@ -59,10 +66,20 @@ public class SliderComponent extends Table {
 			setField();
 		}
 
-		private void setField() {
-			valueLabel.setText(String.format("%.0f", getValue()) + suffix);
-		}
+
 	}
+	protected void setField() {
+		String displayedValue;
+
+		if (Math.floor(step)==step){
+			displayedValue = String.format("%.0f", slider.getValue());
+		}
+		else{
+			displayedValue = String.format("%.1f", slider.getValue());
+		}
+		valueLabel.setText(displayedValue + suffix);
+	}
+
 
 	public Float getValue() {
 		return slider.getValue();
