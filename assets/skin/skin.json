@@ -585,10 +585,14 @@
 		"label": "default"
 	}
 },
-"pl.agh.edu.actor.Navbar$NavbarStyle": {
+"pl.agh.edu.actor.NavbarBottom$NavbarBottomStyle": {
 	"default": {
-		"topBackground": "navbar-top",
 		"bottomBackground": "navbar-bottom"
+	}
+},
+"pl.agh.edu.actor.NavbarTop$NavbarTopStyle": {
+	"default": {
+		"topBackground": "navbar-top"
 	}
 }
 }

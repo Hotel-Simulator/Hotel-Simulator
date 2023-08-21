@@ -2,45 +2,59 @@ package pl.agh.edu.screen;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Stack;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.ray3k.stripe.scenecomposer.SceneComposerStageBuilder;
 
 import pl.agh.edu.GdxGame;
-import pl.agh.edu.actor.Navbar;
+import pl.agh.edu.actor.HotelSkin;
+import pl.agh.edu.actor.NavbarBottom;
+import pl.agh.edu.actor.NavbarTop;
+import pl.agh.edu.actor.frame.BaseFrame;
+import pl.agh.edu.actor.frame.TestFrame;
 
 public class MainScreen implements Screen {
-
-	private final GdxGame game;
 	private final Stage stage;
+	private final Cell<BaseFrame> currentFrame;
 
 	public MainScreen(GdxGame game) {
-		this.game = game;
 		this.stage = new Stage(new ScreenViewport());
+		Stack stack = new Stack();
+		Image background = new Image(HotelSkin.getInstance().getDrawable("night-city"));
+		background.setScaling(Scaling.stretch);
+		background.setAlign(Align.center);
+		stack.setFillParent(true);
+		stack.add(background);
+		Table table = new Table();
+		stack.add(table);
+		stage.addActor(stack);
+
+		table.setFillParent(true);
+		this.stage.addActor(table);
+		table.add();
+		table.add(new NavbarTop("default")).growX();
+		table.add();
+		table.row();
+		table.add();
+		currentFrame = table.add();
+		table.add();
+		table.row();
+		table.add();
+		table.add(new NavbarBottom("default", this)).growX();
+		table.add();
+	}
+
+	public void changeFrame(BaseFrame frame) {
+		currentFrame.setActor(frame).grow();
 	}
 
 	@Override
 	public void show() {
 		InputMultiplexer multiplexer = new InputMultiplexer();
 		multiplexer.addProcessor(stage);
-		multiplexer.addProcessor(new InputAdapter() {
-			@Override
-			public boolean keyDown(int keycode) {
-				if (keycode == Input.Keys.GRAVE) {
-					game.changeScreenToConsole();
-				}
-				return super.keyDown(keycode);
-			}
-		});
 		Gdx.input.setInputProcessor(multiplexer);
-		Skin skin = new Skin(Gdx.files.internal("skin/skin.json"));
-
-		SceneComposerStageBuilder builder = new SceneComposerStageBuilder();
-		builder.build(stage, skin, Gdx.files.internal("view/empty.json"));
-
-		Stack stack = stage.getRoot().findActor("main-stack");
-		stack.add(new Navbar("default"));
+		changeFrame(new TestFrame("test"));
 	}
 
 	@Override
