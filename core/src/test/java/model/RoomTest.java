@@ -2,85 +2,70 @@ package model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pl.agh.edu.enums.HotelVisitPurpose;
-import pl.agh.edu.enums.RoomRank;
-import pl.agh.edu.enums.Sex;
-import pl.agh.edu.model.Client;
-import pl.agh.edu.model.ClientGroup;
-import pl.agh.edu.model.Room;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import pl.agh.edu.enums.RoomRank;
+import pl.agh.edu.model.Room;
+import pl.agh.edu.model.client.ClientGroup;
 
 public class RoomTest {
 
-    @Test
-    public void upgradeRankTest(){
-        Room room = new Room(RoomRank.TWO, 5);
-        room.upgradeRank();
+	@Mock
+	private ClientGroup group;
 
-        assertEquals(room.getRank(), RoomRank.THREE);
-    }
+	@BeforeEach
+	public void setUp() {
+		MockitoAnnotations.openMocks(this);
+	}
 
-    @Test
-    public void upgradeRankManySuccessTest(){
-        Room room = new Room(RoomRank.ONE, 5);
-        room.upgradeRankMany(3);
+	@Test
+	public void upgradeRankTest() {
+		Room room = new Room(RoomRank.TWO, 5);
+		room.upgradeRank();
 
-        assertEquals(room.getRank(), RoomRank.FOUR);
-        assertTrue(room.getRoomStates().isBeingUpgraded());
-    }
+		assertEquals(room.getRank(), RoomRank.THREE);
+	}
 
-    @Test
-    public void upgradeRankManyFailTest(){
-        Room room = new Room(RoomRank.ONE, 5);
-        room.upgradeRankMany(6);
+	@Test
+	public void upgradeRankManySuccessTest() {
+		Room room = new Room(RoomRank.ONE, 5);
+		room.upgradeRankMany(3);
 
-        assertEquals(room.getRank(), RoomRank.ONE);
-        assertFalse(room.getRoomStates().isBeingUpgraded());
-    }
+		assertEquals(room.getRank(), RoomRank.FOUR);
+		assertTrue(room.getRoomStates().isBeingUpgraded());
+	}
 
-    @Test
-    public void checkInResidentsTest(){
-        List<Client> clients = new ArrayList<>();
-        clients.add(new Client(23, Sex.MALE, HotelVisitPurpose.BUSINESS_TRIP));
+	@Test
+	public void upgradeRankManyFailTest() {
+		Room room = new Room(RoomRank.ONE, 5);
+		room.upgradeRankMany(6);
 
-        ClientGroup group = new ClientGroup(
-                HotelVisitPurpose.BUSINESS_TRIP,
-                clients,
-                LocalDateTime.now(),
-                2000,
-                RoomRank.THREE
-        );
+		assertEquals(room.getRank(), RoomRank.ONE);
+		assertFalse(room.getRoomStates().isBeingUpgraded());
+	}
 
-        Room room = new Room(RoomRank.THREE, 1);
+	@Test
+	public void checkInResidentsTest() {
 
-        room.checkIn(group);
+		Room room = new Room(RoomRank.THREE, 1);
 
-        assertTrue(room.getRoomStates().isOccupied());
-    }
+		room.checkIn(group);
 
-    @Test
-    public void checkOutResidentsTest(){
-        List<Client> clients = new ArrayList<>();
-        clients.add(new Client(23, Sex.MALE, HotelVisitPurpose.BUSINESS_TRIP));
+		assertTrue(room.getRoomStates().isOccupied());
+	}
 
-        ClientGroup group = new ClientGroup(
-                HotelVisitPurpose.BUSINESS_TRIP,
-                clients,
-                LocalDateTime.now(),
-                2000,
-                RoomRank.THREE
-        );
+	@Test
+	public void checkOutResidentsTest() {
 
-        Room room = new Room(RoomRank.THREE, 1);
+		Room room = new Room(RoomRank.THREE, 1);
 
-        room.checkIn(group);
-        room.checkOut();
+		room.checkIn(group);
+		room.checkOut();
 
-        assertFalse(room.getRoomStates().isOccupied());
-        assertTrue(room.getRoomStates().isDirty());
-    }
+		assertFalse(room.getRoomStates().isOccupied());
+		assertTrue(room.getRoomStates().isDirty());
+	}
 }

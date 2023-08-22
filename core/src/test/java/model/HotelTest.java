@@ -1,44 +1,62 @@
 package model;
 
-import org.junit.jupiter.api.Test;
-import pl.agh.edu.enums.HotelVisitPurpose;
-import pl.agh.edu.enums.RoomRank;
-import pl.agh.edu.enums.Sex;
-import pl.agh.edu.model.Client;
-import pl.agh.edu.model.ClientGroup;
-import pl.agh.edu.model.Hotel;
-import pl.agh.edu.model.Room;
+import static org.junit.jupiter.api.Assertions.*;
 
+import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import pl.agh.edu.enums.HotelVisitPurpose;
+import pl.agh.edu.enums.RoomRank;
+import pl.agh.edu.enums.Sex;
+import pl.agh.edu.json.data_extractor.JSONFilePath;
+import pl.agh.edu.model.Hotel;
+import pl.agh.edu.model.Room;
+import pl.agh.edu.model.client.Client;
+import pl.agh.edu.model.client.ClientGroup;
 
 public class HotelTest {
 
-    @Test
-    public void findRoomForClientGroupSuccessTest(){
-        List<Client> clients = new ArrayList<>();
-        clients.add(new Client(23, Sex.MALE, HotelVisitPurpose.BUSINESS_TRIP));
-        clients.add(new Client(22, Sex.FEMALE, HotelVisitPurpose.BUSINESS_TRIP));
+	@BeforeEach
+	public void setUp() throws ReflectiveOperationException {
+		changeJSONPath();
+	}
 
-        ClientGroup group = new ClientGroup(
-                HotelVisitPurpose.BUSINESS_TRIP,
-                clients,
-                LocalDateTime.now(),
-                2000,
-                RoomRank.THREE
-        );
+	@Test
+	public void findRoomForClientGroupSuccessTest() {
 
-        Hotel hotel = new Hotel(LocalTime.of(15, 0), LocalTime.of(12, 0));
-        Room room = new Room(RoomRank.THREE, 2);
-        room.setRentPrice(BigDecimal.valueOf(1000L));
+		List<Client> clients = new ArrayList<>();
+		clients.add(new Client(23, Sex.MALE, HotelVisitPurpose.BUSINESS_TRIP));
+		clients.add(new Client(22, Sex.FEMALE, HotelVisitPurpose.BUSINESS_TRIP));
 
-        hotel.addRoomByRank(room);
+		ClientGroup group = new ClientGroup.Builder()
+				.hotelVisitPurpose(HotelVisitPurpose.BUSINESS_TRIP)
+				.members(clients)
+				.checkOutTime(LocalDateTime.now())
+				.desiredPricePerNight(BigDecimal.valueOf(2000))
+				.desiredRoomRank(RoomRank.THREE)
+				.build();
 
-        assertEquals(hotel.findRoomForClientGroup(group).get(), room);
-    }
+		Hotel hotel = new Hotel(LocalTime.of(15, 0), LocalTime.of(12, 0));
+		Room room = new Room(RoomRank.THREE, 2);
+		room.setRentPrice(BigDecimal.valueOf(1000L));
+
+		hotel.addRoomByRank(room);
+
+		assertEquals(hotel.findRoomForClientGroup(group).get(), room);
+	}
+
+	private static void changeJSONPath()
+			throws ReflectiveOperationException {
+
+		Field field = JSONFilePath.class.getDeclaredField("PATH");
+		field.setAccessible(true);
+		field.set(null, "../assets/jsons/%s.json");
+	}
 }

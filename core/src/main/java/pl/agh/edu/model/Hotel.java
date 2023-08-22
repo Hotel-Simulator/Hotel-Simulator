@@ -14,6 +14,7 @@ import pl.agh.edu.json.data_loader.JSONEmployeeDataLoader;
 import pl.agh.edu.json.data_loader.JSONHotelDataLoader;
 import pl.agh.edu.json.data_loader.JSONRoomDataLoader;
 import pl.agh.edu.logo.RandomLogoCreator;
+import pl.agh.edu.model.client.ClientGroup;
 import pl.agh.edu.model.employee.Employee;
 import pl.agh.edu.model.employee.EmployeeStatus;
 import pl.agh.edu.model.employee.Profession;
@@ -23,14 +24,13 @@ import pl.agh.edu.time_command.TimeCommand;
 import pl.agh.edu.time_command.TimeCommandExecutor;
 
 public class Hotel {
-
 	private String hotelName;
 	private Long hotelId;
-	private final ArrayList<Opinion> opinions = new ArrayList<>();
+	private ArrayList<Opinion> opinions = new ArrayList<>();
 	private ArrayList<Employee> employees = new ArrayList<>();
 	private HashMap<RoomRank, ArrayList<Room>> roomsByRank = new HashMap<>();
 	private HashMap<Integer, ArrayList<Room>> roomsByCapacity = new HashMap<>();
-	private final ArrayList<Builder> builders = new ArrayList<>();
+	private ArrayList<Builder> builders = new ArrayList<>();
 	private ArrayList<Room> rooms = new ArrayList<>();
 	private LocalTime checkInTime;
 	private LocalTime checkOutTime;
@@ -62,7 +62,7 @@ public class Hotel {
 
 		for (Room room : rooms) {
 			roomsByRank.get(room.getRank()).add(room);
-			roomsByCapacity.get(room.getCapacity()).add(room);
+			roomsByCapacity.get(room.capacity).add(room);
 		}
 
 		builders.add(new Builder());
@@ -132,19 +132,20 @@ public class Hotel {
 	public void hireEmployee(Employee employee) {
 		this.employees.add(employee);
 		timeCommandExecutor.addCommand(
-				LocalDateTime.of(time.getTime()
-						.toLocalDate()
-						.minusDays(time.getTime().getDayOfMonth() - 1)
-						.plusMonths(1),
-						LocalTime.MIDNIGHT),
-				new TimeCommand(() -> employee.setStatus(EmployeeStatus.HIRED_WORKING)));
+				new TimeCommand(() -> employee.setStatus(EmployeeStatus.HIRED_WORKING),
+						LocalDateTime.of(time.getTime()
+								.toLocalDate()
+								.minusDays(time.getTime().getDayOfMonth() - 1)
+								.plusMonths(1),
+								LocalTime.MIDNIGHT)));
 	}
 
 	public void fireEmployee(Employee employee) {
 		employee.setStatus(EmployeeStatus.FIRED_WORKING);
 		timeCommandExecutor.addCommand(
-				LocalDateTime.of(LocalDate.of(time.getTime().getYear(), time.getTime().getMonth(), 1).plusMonths(noticePeriodInMonths + 1), LocalTime.MIDNIGHT).minusSeconds(1),
-				new TimeCommand(() -> this.removeEmployee(employee)));
+				new TimeCommand(() -> this.removeEmployee(employee),
+						LocalDateTime.of(LocalDate.of(time.getTime().getYear(), time.getTime().getMonth(), 1).plusMonths(noticePeriodInMonths + 1), LocalTime.MIDNIGHT)
+								.minusSeconds(1)));
 	}
 
 	public void removeEmployee(Employee employee) {
@@ -170,7 +171,9 @@ public class Hotel {
 		return roomsByRank;
 	}
 
-	public void addRoom(Room room) { rooms.add(room);}
+	public void addRoom(Room room) {
+		rooms.add(room);
+	}
 
 	public void addRoomByRank(Room room) {
 		roomsByRank.get(room.getRank()).add(room);
@@ -281,7 +284,7 @@ public class Hotel {
 
 	public Optional<Room> findRoomForClientGroup(ClientGroup group) {
 		for (Room room : roomsByRank.get(group.getDesiredRoomRank())) {
-			if (!room.getRoomStates().isOccupied()&& !room.getRoomStates().isBeingUpgraded() && room.getRentPrice().compareTo(BigDecimal.valueOf(group.getBudgetPerNight())) < 1) {
+			if (!room.getRoomStates().isOccupied() && !room.getRoomStates().isBeingUpgraded() && room.getRentPrice().compareTo(group.getDesiredPricePerNight()) < 1) {
 				return Optional.of(room);
 			}
 		}
@@ -292,11 +295,4 @@ public class Hotel {
 		return this.employees.size();
 	}
 
-	public void checkOutGuest(ClientGroup group) {
-		group.generateOpinion();
-		Opinion opinion = group.getOpinion();
-
-		group.getRoom().checkOut();
-		this.opinions.add(opinion);
-	}
 }

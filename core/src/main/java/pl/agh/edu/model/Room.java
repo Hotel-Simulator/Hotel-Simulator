@@ -3,12 +3,11 @@ package pl.agh.edu.model;
 import java.math.BigDecimal;
 
 import pl.agh.edu.enums.RoomRank;
-
-// !!!!!!!!!!!!!!!!!!!!!!!! czy gryzie się Libgdx i lombok poszukaj
+import pl.agh.edu.model.client.ClientGroup;
 
 public class Room {
+	public final int capacity;
 	private RoomRank rank;
-	private final int capacity;
 	private BigDecimal marketPrice;
 	private BigDecimal rentPrice;
 	private BigDecimal maintenancePrice;
@@ -21,7 +20,7 @@ public class Room {
 		roomStates = new RoomStates();
 	}
 
-	public RoomStates getRoomStates(){
+	public RoomStates getRoomStates() {
 		return roomStates;
 	}
 
@@ -47,10 +46,6 @@ public class Room {
 
 	public void setRank(RoomRank rank) {
 		this.rank = rank;
-	}
-
-	public int getCapacity() {
-		return capacity;
 	}
 
 	public void upgradeRank() {
