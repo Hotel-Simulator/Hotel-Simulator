@@ -85,4 +85,7 @@ public class SliderComponent extends Table {
 		return slider.getValue();
 	}
 
+
+
+
 }

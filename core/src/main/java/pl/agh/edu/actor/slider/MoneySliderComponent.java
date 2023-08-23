@@ -17,6 +17,6 @@ public class MoneySliderComponent extends SliderComponent{
         } else {
             displayedValue = String.format("%.1fm", value / 1000000);
         }
-        valueLabel.setText(String.format("%.0f", displayedValue) + suffix);
+        valueLabel.setText(displayedValue + suffix);
     }
 }

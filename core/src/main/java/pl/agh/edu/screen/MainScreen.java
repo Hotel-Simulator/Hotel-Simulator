@@ -9,6 +9,10 @@ import com.ray3k.stripe.scenecomposer.SceneComposerStageBuilder;
 
 import pl.agh.edu.GdxGame;
 import pl.agh.edu.actor.Navbar;
+import pl.agh.edu.actor.slider.MoneySliderComponent;
+import pl.agh.edu.actor.slider.SliderComponent;
+import pl.agh.edu.actor.slider.SliderSize;
+import pl.agh.edu.actor.slider.MoneySliderComponent;
 
 public class MainScreen implements Screen {
 
@@ -41,6 +45,8 @@ public class MainScreen implements Screen {
 
 		Stack stack = stage.getRoot().findActor("main-stack");
 		stack.add(new Navbar("default"));
+		SliderSize ss = SliderSize.SMALL;
+		stack.add(new MoneySliderComponent("money",100,10000,1, ss));
 	}
 
 	@Override
