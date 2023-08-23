@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import pl.agh.edu.enums.RoomRank;
 import pl.agh.edu.enums.RoomState;
+import pl.agh.edu.model.client.ClientGroup;
 
 public class Room {
 	private RoomRank rank;
