@@ -166,7 +166,7 @@ public class RandomUtilsTest {
 
 		// When
 		LocalTime randomTime = RandomUtils.randomLocalTime(origin, bound);
-		System.out.println(randomTime);
+
 		// Then
 		assertNotNull(randomTime);
 		assertTrue(!randomTime.isBefore(origin) && randomTime.isBefore(bound));

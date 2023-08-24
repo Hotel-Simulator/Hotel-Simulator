@@ -12,6 +12,9 @@ import java.util.concurrent.ThreadLocalRandom;
 import pl.agh.edu.model.time.Time;
 
 public class RandomUtils {
+	private static final int MAX_PROBABILITY = 100;
+
+	private RandomUtils() {}
 
 	public static int randomInt() {
 		return ThreadLocalRandom.current().nextInt();
@@ -95,11 +98,11 @@ public class RandomUtils {
 	}
 
 	public static <T> T randomKeyWithProbabilities(Map<T, Integer> constantsProbabilities) {
-		if (constantsProbabilities.values().stream().mapToInt(i -> i).sum() != 100) {
+		if (constantsProbabilities.values().stream().mapToInt(i -> i).sum() != MAX_PROBABILITY) {
 			throw new IllegalArgumentException("Probabilities must sum to 100.");
 		}
 		int a = 0;
-		int randInt = ThreadLocalRandom.current().nextInt(100);
+		int randInt = ThreadLocalRandom.current().nextInt(MAX_PROBABILITY);
 		T result = constantsProbabilities.keySet().stream().toList().get(0);
 		for (Map.Entry<T, Integer> entry : constantsProbabilities.entrySet()) {
 			a += entry.getValue();
