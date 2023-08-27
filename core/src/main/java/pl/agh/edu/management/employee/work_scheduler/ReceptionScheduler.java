@@ -1,6 +1,5 @@
 package pl.agh.edu.management.employee.work_scheduler;
 
-
 import java.util.*;
 
 import pl.agh.edu.enums.RoomState;
@@ -14,7 +13,6 @@ import pl.agh.edu.time_command.TimeCommand;
 import pl.agh.edu.utils.RandomUtils;
 
 public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
-
 
 	public ReceptionScheduler(HotelHandler hotelHandler) {
 		super(hotelHandler, new LinkedList<>(), Profession.RECEPTIONIST);
