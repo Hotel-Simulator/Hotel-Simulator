@@ -12,10 +12,10 @@ import pl.agh.edu.model.client.ClientGroup;
 import pl.agh.edu.model.employee.Employee;
 import pl.agh.edu.model.employee.Profession;
 import pl.agh.edu.time_command.TimeCommand;
+import pl.agh.edu.utils.RandomUtils;
 
 public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 
-	private final Random random;
 
 	public ReceptionScheduler(HotelHandler hotelHandler) {
 		super(hotelHandler, new LinkedList<>(), Profession.RECEPTIONIST);
@@ -34,7 +34,7 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 		return new TimeCommand(() -> {
 			room.setState(RoomState.FAULT);
 			hotelHandler.repairScheduler.addEntity(room);
-		}, time.generateRandomTime(minutes, ChronoUnit.MINUTES));
+		}, RandomUtils.randomDateTime(time.getTime(), clientGroup.getCheckOutTime()));
 	}
 
 	private TimeCommand checkOutTimeCommand(Room room, ClientGroup clientGroup) {
@@ -50,7 +50,7 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 					Room room = hotelHandler.roomHandler.findRoomForClientGroup(clientGroup);
 					if (room != null) {
 						room.checkIn(clientGroup);
-						if (random.nextDouble() < JSONGameDataLoader.roomFaultProbability) {
+						if (RandomUtils.randomBooleanWithProbability(JSONGameDataLoader.roomFaultProbability)) {
 							timeCommandExecutor.addCommand(breakRoomTimeCommand(room, clientGroup));
 						}
 						timeCommandExecutor.addCommand(checkOutTimeCommand(room, clientGroup));

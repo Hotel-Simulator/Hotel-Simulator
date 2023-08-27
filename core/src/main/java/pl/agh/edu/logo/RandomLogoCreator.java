@@ -1,7 +1,5 @@
 package pl.agh.edu.logo;
 
-import java.util.Random;
-
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -10,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import pl.agh.edu.GdxGame;
+import pl.agh.edu.utils.RandomUtils;
 
 public class RandomLogoCreator implements Screen {
 
@@ -24,7 +23,6 @@ public class RandomLogoCreator implements Screen {
 	private Texture[] pictures;
 
 	private SpriteBatch spriteBatch;
-	private Random random;
 	private boolean chosen = false;
 
 	public RandomLogoCreator(GdxGame game) {
@@ -36,7 +34,6 @@ public class RandomLogoCreator implements Screen {
 	public void show() {
 		if (!chosen) {
 			spriteBatch = new SpriteBatch();
-			random = new Random();
 
 			String path = "assets/img/";
 
@@ -69,15 +66,15 @@ public class RandomLogoCreator implements Screen {
 
 			spriteBatch.begin();
 
-			Texture background = getRandomTexture(backgrounds);
+			Texture background = RandomUtils.randomArrayElement(backgrounds);
 			spriteBatch.draw(background, 0, 0, WIDTH, HEIGHT);
 
-			Texture frame = getRandomTexture(frames);
+			Texture frame = RandomUtils.randomArrayElement(frames);
 			float frameX = (WIDTH - frame.getWidth()) / 2f;
 			float frameY = (HEIGHT - frame.getHeight()) / 2f;
 			spriteBatch.draw(frame, frameX, frameY);
 
-			Texture picture = getRandomTexture(pictures);
+			Texture picture = RandomUtils.randomArrayElement(pictures);
 			float pictureX = frameX + (frame.getWidth() - picture.getWidth()) / 2f;
 			float pictureY = frameY + (frame.getHeight() - picture.getHeight()) / 2f;
 			spriteBatch.draw(picture, pictureX, pictureY);
@@ -86,11 +83,6 @@ public class RandomLogoCreator implements Screen {
 
 		}
 
-	}
-
-	private Texture getRandomTexture(Texture[] textures) {
-		int index = random.nextInt(textures.length);
-		return textures[index];
 	}
 
 	@Override
