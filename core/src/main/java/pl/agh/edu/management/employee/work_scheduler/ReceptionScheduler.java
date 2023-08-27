@@ -1,7 +1,6 @@
 package pl.agh.edu.management.employee.work_scheduler;
 
-import java.time.Duration;
-import java.time.temporal.ChronoUnit;
+
 import java.util.*;
 
 import pl.agh.edu.enums.RoomState;
@@ -19,7 +18,6 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 
 	public ReceptionScheduler(HotelHandler hotelHandler) {
 		super(hotelHandler, new LinkedList<>(), Profession.RECEPTIONIST);
-		this.random = new Random();
 	}
 
 	@Override
@@ -30,7 +28,6 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 	}
 
 	private TimeCommand breakRoomTimeCommand(Room room, ClientGroup clientGroup) {
-		long minutes = Duration.between(time.getTime(), clientGroup.getCheckOutTime()).toMinutes();
 		return new TimeCommand(() -> {
 			room.setState(RoomState.FAULT);
 			hotelHandler.repairScheduler.addEntity(room);
