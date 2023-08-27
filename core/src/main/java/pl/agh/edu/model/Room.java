@@ -1,6 +1,7 @@
 package pl.agh.edu.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import pl.agh.edu.enums.RoomRank;
 import pl.agh.edu.enums.RoomState;
@@ -11,7 +12,6 @@ public class Room {
 	private RoomState state;
 	private final int capacity;
 	private BigDecimal marketPrice;
-	private BigDecimal rentPrice;
 	private BigDecimal maintenancePrice;
 	private ClientGroup residents;
 
@@ -19,14 +19,6 @@ public class Room {
 		this.rank = rank;
 		this.state = RoomState.EMPTY;
 		this.capacity = capacity;
-	}
-
-	public BigDecimal getRentPrice() {
-		return rentPrice;
-	}
-
-	public void setRentPrice(BigDecimal rentPrice) {
-		this.rentPrice = rentPrice;
 	}
 
 	public BigDecimal getMaintenancePrice() {
@@ -57,17 +49,11 @@ public class Room {
 		return capacity;
 	}
 
-	public boolean upgradeRank() {
-		switch (rank) {
-		case ONE -> this.rank = RoomRank.TWO;
-		case TWO -> this.rank = RoomRank.THREE;
-		case THREE -> this.rank = RoomRank.FOUR;
-		case FOUR -> this.rank = RoomRank.FIVE;
-		case FIVE -> {
-			return false;
+	public void upgradeRank(RoomRank desiredRank) {
+		if (desiredRank.ordinal() <= rank.ordinal()) {
+			throw new IllegalArgumentException("Desired roomRank must be greater than current.");
 		}
-		}
-		return true;
+		this.rank = desiredRank;
 	}
 
 	public boolean clean() {
@@ -86,22 +72,10 @@ public class Room {
 		return false;
 	}
 
-	public boolean upgradeRankMany(int num) {
-		if (rank.ordinal() + 1 + num > 5) {
-			return false;
-		}
-		for (int i = 0; i < num; i++) {
-			this.upgradeRank();
-		}
-
-		setState(RoomState.UPGRADING);
-		return true;
-	}
-
 	public BigDecimal getStandard() {
-		BigDecimal added = rentPrice.add(marketPrice).multiply(BigDecimal.valueOf(3));
-		BigDecimal multiplied = rentPrice.multiply(BigDecimal.valueOf(4));
-		return added.divide(multiplied, BigDecimal.ROUND_DOWN).min(BigDecimal.valueOf(1));
+		BigDecimal added = RoomPriceList.getPrice(this).add(marketPrice).multiply(BigDecimal.valueOf(3));
+		BigDecimal multiplied = RoomPriceList.getPrice(this).multiply(BigDecimal.valueOf(4));
+		return added.divide(multiplied, RoundingMode.DOWN).min(BigDecimal.valueOf(1));
 	}
 
 	public void checkIn(ClientGroup residents) {

@@ -38,8 +38,8 @@ public class JSONDataLoaderTest {
 	@SuppressWarnings("unused")
 	public void jSONRoomDataLoaderTest() {
 		assertDoesNotThrow(() -> {
-			int maxSize = JSONRoomDataLoader.maxSize;
-			Map<String, Long> upgradeTimes = JSONRoomDataLoader.upgradeTimes;
+			int maxSize = JSONRoomDataLoader.maxCapacity;
+			EnumMap<RoomRank, Duration> upgradeTimes = JSONRoomDataLoader.upgradeTimes;
 		});
 	}
 

@@ -1,11 +1,11 @@
 {
 
-  "max_size" : 5,
+  "max_capacity" : 5,
 
-  "upgrade_times" : {
-    "1" : 3,
-    "2" : 5,
-    "3" : 7,
-    "4" : 8
+  "upgrade_times_in_hours" : {
+    "TWO" : 3,
+    "THREE" : 5,
+    "FOUR" : 7,
+    "FIVE" : 8
   }
 }

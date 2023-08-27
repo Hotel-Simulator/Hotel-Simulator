@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Queue;
 import java.util.stream.Collectors;
 
-import pl.agh.edu.model.Hotel;
+import pl.agh.edu.management.hotel.HotelHandler;
 import pl.agh.edu.model.employee.Employee;
 import pl.agh.edu.model.employee.Profession;
 import pl.agh.edu.model.employee.Shift;
@@ -17,16 +17,16 @@ public abstract class WorkScheduler<T> {
 	private Shift currentShift;
 	private final Profession employeesProfession;
 	protected final Time time;
-	protected final Hotel hotel;
+	protected final HotelHandler hotelHandler;
 	protected List<Employee> workingEmployees;
 	protected final Queue<T> entitiesToExecuteService;
 	protected final TimeCommandExecutor timeCommandExecutor;
 
-	protected WorkScheduler(Hotel hotel, Queue<T> entitiesToExecuteService, Profession employeesProfession) {
+	protected WorkScheduler(HotelHandler hotelHandler, Queue<T> entitiesToExecuteService, Profession employeesProfession) {
 		this.currentShift = Shift.NIGHT;
 		this.employeesProfession = employeesProfession;
 		this.time = Time.getInstance();
-		this.hotel = hotel;
+		this.hotelHandler = hotelHandler;
 		this.workingEmployees = new ArrayList<>();
 		this.entitiesToExecuteService = entitiesToExecuteService;
 		this.timeCommandExecutor = TimeCommandExecutor.getInstance();
@@ -44,7 +44,7 @@ public abstract class WorkScheduler<T> {
 
 	public void perShiftUpdate() {
 		currentShift = currentShift.next();
-		workingEmployees = hotel.getWorkingEmployeesByProfession(employeesProfession).stream()
+		workingEmployees = hotelHandler.employeeHandler.getWorkingEmployeesByProfession(employeesProfession).stream()
 				.filter(employee -> employee.getShift().equals(currentShift))
 				.collect(Collectors.toList());
 		workingEmployees.forEach(this::executeServiceIfPossible);
