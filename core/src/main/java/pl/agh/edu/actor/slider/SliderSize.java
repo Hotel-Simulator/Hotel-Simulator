@@ -1,9 +1,9 @@
 package pl.agh.edu.actor.slider;
 
 public enum SliderSize {
-    SMALL,
-    MEDIUM,
-    LARGE,
+    SMALL(500f,40f,20f,20f),
+    MEDIUM(600f,50f,30f,20f),
+    LARGE(800f,60f,40f,20f),
     ;
 
 
@@ -12,28 +12,36 @@ public enum SliderSize {
     private float HORIZONTAL_OUTER_PADDING;
     private float HORIZONTAL_INNER_PADDING;
 
-    SliderSize() {
-        switch (this) {
-            case SMALL -> {
-                SLIDER_WIDTH = 100f;
-                SLIDER_HEIGHT = 10f;
-                HORIZONTAL_OUTER_PADDING = 10f;
-                HORIZONTAL_INNER_PADDING = 10f;
-            }
-            case MEDIUM -> {
-                SLIDER_WIDTH = 300f;
-                SLIDER_HEIGHT = 30f;
-                HORIZONTAL_OUTER_PADDING = 30f;
-                HORIZONTAL_INNER_PADDING = 30f;
-            }
-            case LARGE -> {
-                SLIDER_WIDTH = 600f;
-                SLIDER_HEIGHT = 60f;
-                HORIZONTAL_OUTER_PADDING = 60f;
-                HORIZONTAL_INNER_PADDING = 60f;
-            }
-        }
+    SliderSize(float slider_width, float slider_height, float horizontal_outer_padding, float horizontal_inner_padding){
+        SLIDER_WIDTH = slider_width;
+        SLIDER_HEIGHT = slider_height;
+        HORIZONTAL_OUTER_PADDING = horizontal_outer_padding;
+        HORIZONTAL_INNER_PADDING = horizontal_inner_padding;
     }
+
+//    static{
+//        for(SliderSize sliderSize : values())
+//            switch (sliderSize) {
+//                case SMALL -> {
+//                    sliderSize.SLIDER_WIDTH = 500f;
+//                    sliderSize.SLIDER_HEIGHT = 40f;
+//                    sliderSize.HORIZONTAL_OUTER_PADDING = 20f;
+//                    sliderSize.HORIZONTAL_INNER_PADDING = 20f;
+//                }
+//                case MEDIUM -> {
+//                    sliderSize.SLIDER_WIDTH = 600f;
+//                    sliderSize.SLIDER_HEIGHT = 50f;
+//                    sliderSize.HORIZONTAL_OUTER_PADDING = 30f;
+//                    sliderSize.HORIZONTAL_INNER_PADDING = 20f;
+//                }
+//                case LARGE -> {
+//                    sliderSize.SLIDER_WIDTH = 800f;
+//                    sliderSize.SLIDER_HEIGHT = 60f;
+//                    sliderSize.HORIZONTAL_OUTER_PADDING = 40f;
+//                    sliderSize.HORIZONTAL_INNER_PADDING = 20f;
+//                }
+//        }
+//    }
 
     public float getSLIDER_WIDTH() {
         return SLIDER_WIDTH;
