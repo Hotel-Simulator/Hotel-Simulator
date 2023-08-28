@@ -91,4 +91,8 @@ public class Room {
 	public ClientGroup getResidents() {
 		return this.residents;
 	}
+
+	public boolean canBeUpgraded() {
+		return rank.ordinal() < RoomRank.FIVE.ordinal(); // todo !isOccupied() && !isBroken() && !isBeingUpgraded
+	}
 }
