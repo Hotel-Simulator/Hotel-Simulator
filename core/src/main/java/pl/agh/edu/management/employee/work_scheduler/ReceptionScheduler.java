@@ -1,7 +1,5 @@
 package pl.agh.edu.management.employee.work_scheduler;
 
-import java.time.Duration;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 import pl.agh.edu.json.data_loader.JSONGameDataLoader;
@@ -11,16 +9,15 @@ import pl.agh.edu.model.client.ClientGroup;
 import pl.agh.edu.model.employee.Employee;
 import pl.agh.edu.model.employee.Profession;
 import pl.agh.edu.time_command.TimeCommand;
+import pl.agh.edu.utils.RandomUtils;
 
 public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 
-	private final Random random;
 	private final CleaningScheduler cleaningScheduler;
 	private final RepairScheduler repairScheduler;
 
 	public ReceptionScheduler(Hotel hotel, CleaningScheduler cleaningScheduler, RepairScheduler repairScheduler) {
 		super(hotel, new LinkedList<>(), Profession.RECEPTIONIST);
-		this.random = new Random();
 		this.cleaningScheduler = cleaningScheduler;
 		this.repairScheduler = repairScheduler;
 	}
@@ -33,11 +30,10 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 	}
 
 	private TimeCommand breakRoomTimeCommand(Room room, ClientGroup clientGroup) {
-		long minutes = Duration.between(time.getTime(), clientGroup.getCheckOutTime()).toMinutes();
 		return new TimeCommand(() -> {
 			room.getRoomStates().setFaulty(true);
 			repairScheduler.addEntity(room);
-		}, time.generateRandomTime(minutes, ChronoUnit.MINUTES));
+		}, RandomUtils.randomDateTime(time.getTime(), clientGroup.getCheckOutTime()));
 	}
 
 	private TimeCommand checkOutTimeCommand(Room room, ClientGroup clientGroup) {
@@ -54,7 +50,7 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 					if (optionalRoom.isPresent()) {
 						Room room = optionalRoom.get();
 						room.checkIn(clientGroup);
-						if (random.nextDouble() < JSONGameDataLoader.roomFaultProbability) {
+						if (RandomUtils.randomBooleanWithProbability(JSONGameDataLoader.roomFaultProbability)) {
 							timeCommandExecutor.addCommand(breakRoomTimeCommand(room, clientGroup));
 						}
 						timeCommandExecutor.addCommand(checkOutTimeCommand(room, clientGroup));

@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -89,15 +87,6 @@ public class TimeTest {
 		time.toggle();
 		// Then
 		assertTrue(time.isRunning());
-	}
-
-	@Test
-	public void testGenerateRandomTime() {
-		// When
-		LocalDateTime randomTime = time.generateRandomTime(10, ChronoUnit.DAYS);
-
-		// Then
-		assertNotNull(randomTime);
 	}
 
 	private Time createNewTimeInstance() {

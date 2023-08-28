@@ -2,6 +2,8 @@ package model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.math.BigDecimal;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -10,8 +12,6 @@ import org.mockito.MockitoAnnotations;
 import pl.agh.edu.enums.RoomRank;
 import pl.agh.edu.model.Room;
 import pl.agh.edu.model.client.ClientGroup;
-
-import java.math.BigDecimal;
 
 public class RoomTest {
 
