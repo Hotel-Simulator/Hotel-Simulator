@@ -19,6 +19,7 @@ import pl.agh.edu.enums.TypeOfContract;
 import pl.agh.edu.json.data.*;
 import pl.agh.edu.json.data_extractor.JSONFilePath;
 import pl.agh.edu.json.data_loader.*;
+import pl.agh.edu.model.Room;
 import pl.agh.edu.model.advertisement.ConstantAdvertisementType;
 import pl.agh.edu.model.advertisement.SingleAdvertisementType;
 import pl.agh.edu.model.employee.Profession;
@@ -50,6 +51,7 @@ public class JSONDataLoaderTest {
 			Map<String, Integer> initialData = JSONHotelDataLoader.initialData;
 			Map<String, Long> attractivenessConstants = JSONHotelDataLoader.attractivenessConstants;
 			Map<String, LocalTime> checkInAndOutTime = JSONHotelDataLoader.checkInAndOutTime;
+			List<Room> rooms = JSONHotelDataLoader.rooms;
 		});
 	}
 
