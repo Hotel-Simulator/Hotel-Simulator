@@ -11,6 +11,8 @@ import pl.agh.edu.enums.RoomRank;
 import pl.agh.edu.model.Room;
 import pl.agh.edu.model.client.ClientGroup;
 
+import java.math.BigDecimal;
+
 public class RoomTest {
 
 	@Mock
@@ -23,7 +25,7 @@ public class RoomTest {
 
 	@Test
 	public void upgradeRankTest() {
-		Room room = new Room(RoomRank.TWO, 5);
+		Room room = new Room(RoomRank.TWO, 5, BigDecimal.valueOf(100), BigDecimal.valueOf(200));
 		room.upgradeRank();
 
 		assertEquals(room.getRank(), RoomRank.THREE);
@@ -31,7 +33,7 @@ public class RoomTest {
 
 	@Test
 	public void upgradeRankManySuccessTest() {
-		Room room = new Room(RoomRank.ONE, 5);
+		Room room = new Room(RoomRank.ONE, 5, BigDecimal.valueOf(100), BigDecimal.valueOf(200));
 		room.upgradeRankMany(3);
 
 		assertEquals(room.getRank(), RoomRank.FOUR);
@@ -40,7 +42,7 @@ public class RoomTest {
 
 	@Test
 	public void upgradeRankManyFailTest() {
-		Room room = new Room(RoomRank.ONE, 5);
+		Room room = new Room(RoomRank.ONE, 5, BigDecimal.valueOf(100), BigDecimal.valueOf(200));
 		room.upgradeRankMany(6);
 
 		assertEquals(room.getRank(), RoomRank.ONE);
@@ -50,7 +52,7 @@ public class RoomTest {
 	@Test
 	public void checkInResidentsTest() {
 
-		Room room = new Room(RoomRank.THREE, 1);
+		Room room = new Room(RoomRank.THREE, 1, BigDecimal.valueOf(100), BigDecimal.valueOf(200));
 
 		room.checkIn(group);
 
@@ -60,7 +62,7 @@ public class RoomTest {
 	@Test
 	public void checkOutResidentsTest() {
 
-		Room room = new Room(RoomRank.THREE, 1);
+		Room room = new Room(RoomRank.THREE, 1, BigDecimal.valueOf(100), BigDecimal.valueOf(200));
 
 		room.checkIn(group);
 		room.checkOut();

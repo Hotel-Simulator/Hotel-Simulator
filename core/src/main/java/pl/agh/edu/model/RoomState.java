@@ -1,23 +1,16 @@
 package pl.agh.edu.model;
 
-public class RoomStates {
+public class RoomState {
 	private boolean isOccupied;
 	private boolean isDirty;
 	private boolean isFaulty;
 	private boolean isBeingUpgraded;
 
-	public RoomStates() {
+	public RoomState() {
 		isOccupied = false;
 		isDirty = false;
 		isFaulty = false;
 		isBeingUpgraded = false;
-	}
-
-	public RoomStates(boolean isOccupied, boolean isDirty, boolean isFaulty, boolean isBeingUpgraded) {
-		this.isOccupied = isOccupied;
-		this.isDirty = isDirty;
-		this.isFaulty = isFaulty;
-		this.isBeingUpgraded = isBeingUpgraded;
 	}
 
 	public boolean isOccupied() {

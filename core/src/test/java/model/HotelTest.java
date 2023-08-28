@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,25 +32,83 @@ public class HotelTest {
 	@Test
 	public void findRoomForClientGroupSuccessTest() {
 
+		ClientGroup group = getClientGroup();
+
+		Hotel hotel = new Hotel(LocalTime.of(15, 0), LocalTime.of(12, 0));
+		Room room = new Room(RoomRank.THREE, 2, BigDecimal.valueOf(100), BigDecimal.valueOf(200));
+		room.setRentPrice(BigDecimal.valueOf(1000L));
+
+		hotel.addRoomByRank(room);
+
+		assertEquals(hotel.findRoomForClientGroup(group).get(), room);
+	}
+
+	@Test
+	public void findRoomForClientGroupDirtyRoomTest() {
+
+		ClientGroup group = getClientGroup();
+
+		Hotel hotel = new Hotel(LocalTime.of(15, 0), LocalTime.of(12, 0));
+		Room room = new Room(RoomRank.THREE, 2, BigDecimal.valueOf(100), BigDecimal.valueOf(200));
+		room.getRoomStates().setDirty(true);
+
+		hotel.addRoomByRank(room);
+
+		assertTrue(hotel.findRoomForClientGroup(group).isEmpty());
+	}
+
+	@Test
+	public void findRoomForClientGroupExpensiveRoomTest() {
+
+		ClientGroup group = getClientGroup();
+
+		Hotel hotel = new Hotel(LocalTime.of(15, 0), LocalTime.of(12, 0));
+		Room room = new Room(RoomRank.THREE, 2, BigDecimal.valueOf(3000), BigDecimal.valueOf(4000));
+
+		hotel.addRoomByRank(room);
+
+		assertTrue(hotel.findRoomForClientGroup(group).isEmpty());
+	}
+
+	@Test
+	public void findRoomForClientGroupNoDesiredRoomRankTest() {
+
+		ClientGroup group = getClientGroup();
+
+		Hotel hotel = new Hotel(LocalTime.of(15, 0), LocalTime.of(12, 0));
+		Room room = new Room(RoomRank.ONE, 2, BigDecimal.valueOf(100), BigDecimal.valueOf(200));
+
+		hotel.addRoomByRank(room);
+
+		assertTrue(hotel.findRoomForClientGroup(group).isEmpty());
+	}
+
+	@Test
+	public void findRoomForClientGroupFaultyRoomTest() {
+
+		ClientGroup group = getClientGroup();
+
+		Hotel hotel = new Hotel(LocalTime.of(15, 0), LocalTime.of(12, 0));
+		Room room = new Room(RoomRank.THREE, 2, BigDecimal.valueOf(100), BigDecimal.valueOf(200));
+		room.getRoomStates().setBeingUpgraded(true);
+
+		hotel.addRoomByRank(room);
+
+		assertTrue(hotel.findRoomForClientGroup(group).isEmpty());
+	}
+
+	private ClientGroup getClientGroup() {
 		List<Client> clients = new ArrayList<>();
 		clients.add(new Client(23, Sex.MALE, HotelVisitPurpose.BUSINESS_TRIP));
 		clients.add(new Client(22, Sex.FEMALE, HotelVisitPurpose.BUSINESS_TRIP));
 
-		ClientGroup group = new ClientGroup.Builder()
+		return new ClientGroup.Builder()
 				.hotelVisitPurpose(HotelVisitPurpose.BUSINESS_TRIP)
 				.members(clients)
 				.checkOutTime(LocalDateTime.now())
 				.desiredPricePerNight(BigDecimal.valueOf(2000))
 				.desiredRoomRank(RoomRank.THREE)
 				.build();
-
-		Hotel hotel = new Hotel(LocalTime.of(15, 0), LocalTime.of(12, 0));
-		Room room = new Room(RoomRank.THREE, 2);
-		room.setRentPrice(BigDecimal.valueOf(1000L));
-
-		hotel.addRoomByRank(room);
-
-		assertEquals(hotel.findRoomForClientGroup(group).get(), room);
 	}
 
 	private static void changeJSONPath()

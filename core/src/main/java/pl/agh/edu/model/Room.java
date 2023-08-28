@@ -1,6 +1,7 @@
 package pl.agh.edu.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import pl.agh.edu.enums.RoomRank;
 import pl.agh.edu.model.client.ClientGroup;
@@ -12,16 +13,18 @@ public class Room {
 	private BigDecimal rentPrice;
 	private BigDecimal maintenancePrice;
 	private ClientGroup residents;
-	private RoomStates roomStates;
+	private RoomState roomState;
 
-	public Room(RoomRank rank, int capacity) {
-		this.rank = rank;
+	public Room(RoomRank rank, int capacity, BigDecimal marketPrice, BigDecimal rentPrice) {
 		this.capacity = capacity;
-		roomStates = new RoomStates();
+		this.rank = rank;
+		this.marketPrice = marketPrice;
+		this.rentPrice = rentPrice;
+		this.roomState = new RoomState();
 	}
 
-	public RoomStates getRoomStates() {
-		return roomStates;
+	public RoomState getRoomStates() {
+		return roomState;
 	}
 
 	public BigDecimal getRentPrice() {
@@ -64,24 +67,24 @@ public class Room {
 		for (int i = 0; i < num; i++) {
 			this.upgradeRank();
 		}
-		roomStates.setBeingUpgraded(true);
+		roomState.setBeingUpgraded(true);
 	}
 
 	public BigDecimal getStandard() {
 		BigDecimal added = rentPrice.add(marketPrice).multiply(BigDecimal.valueOf(3));
 		BigDecimal multiplied = rentPrice.multiply(BigDecimal.valueOf(4));
-		return added.divide(multiplied, BigDecimal.ROUND_DOWN).min(BigDecimal.valueOf(1));
+		return added.divide(multiplied, RoundingMode.DOWN).min(BigDecimal.valueOf(1));
 	}
 
 	public void checkIn(ClientGroup residents) {
 		this.residents = residents;
-		roomStates.setOccupied(true);
+		roomState.setOccupied(true);
 	}
 
 	public void checkOut() {
 		this.residents = null;
-		roomStates.setOccupied(false);
-		roomStates.setDirty(true);
+		roomState.setOccupied(false);
+		roomState.setDirty(true);
 	}
 
 	public ClientGroup getResidents() {
