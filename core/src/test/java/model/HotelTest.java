@@ -53,7 +53,7 @@ public class HotelTest {
 
 		hotel.addRoomByRank(room);
 
-		assertTrue(hotel.findRoomForClientGroup(group).isEmpty());
+		assertEquals(hotel.findRoomForClientGroup(group).get(), room);
 	}
 
 	@Test

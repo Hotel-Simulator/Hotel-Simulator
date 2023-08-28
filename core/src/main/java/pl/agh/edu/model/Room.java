@@ -13,7 +13,7 @@ public class Room {
 	private BigDecimal rentPrice;
 	private BigDecimal maintenancePrice;
 	private ClientGroup residents;
-	private RoomState roomState;
+	private final RoomState roomState;
 
 	public Room(RoomRank rank, int capacity, BigDecimal marketPrice, BigDecimal rentPrice) {
 		this.capacity = capacity;
