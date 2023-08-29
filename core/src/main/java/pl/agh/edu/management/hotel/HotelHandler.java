@@ -9,7 +9,7 @@ import pl.agh.edu.management.employee.PossibleEmployeeHandler;
 import pl.agh.edu.management.employee.work_scheduler.CleaningScheduler;
 import pl.agh.edu.management.employee.work_scheduler.ReceptionScheduler;
 import pl.agh.edu.management.employee.work_scheduler.RepairScheduler;
-import pl.agh.edu.management.room.RoomHandler;
+import pl.agh.edu.management.room.RoomManager;
 import pl.agh.edu.model.Opinion;
 import pl.agh.edu.model.Room;
 import pl.agh.edu.model.employee.Employee;
@@ -21,7 +21,7 @@ public class HotelHandler {
 
 	public final PossibleEmployeeHandler possibleEmployeeHandler;
 	public final EmployeeHandler employeeHandler;
-	public final RoomHandler roomHandler;
+	public final RoomManager roomManager;
 
 	private final List<Opinion> opinions;
 
@@ -31,7 +31,7 @@ public class HotelHandler {
 		this.repairScheduler = new RepairScheduler(this);
 		this.possibleEmployeeHandler = new PossibleEmployeeHandler(this);
 		this.employeeHandler = new EmployeeHandler();
-		this.roomHandler = new RoomHandler();
+		this.roomManager = new RoomManager();
 
 		opinions = new ArrayList<>();
 	}
@@ -41,7 +41,7 @@ public class HotelHandler {
 		BigDecimal avgWorkerHappiness = BigDecimal.valueOf(0);
 		Double avgOpinionValue = 0.;
 
-		for (Room room : roomHandler.getRooms()) {
+		for (Room room : roomManager.getRooms()) {
 			avgRoomStandard.add(room.getStandard());
 		}
 
@@ -53,7 +53,7 @@ public class HotelHandler {
 			avgOpinionValue += opinion.getValue();
 		}
 
-		avgRoomStandard.divide(BigDecimal.valueOf(roomHandler.getRooms().size()));
+		avgRoomStandard.divide(BigDecimal.valueOf(roomManager.getRooms().size()));
 		avgWorkerHappiness.divide(BigDecimal.valueOf(employeeHandler.getEmployees().size()));
 		avgOpinionValue /= opinions.size();
 

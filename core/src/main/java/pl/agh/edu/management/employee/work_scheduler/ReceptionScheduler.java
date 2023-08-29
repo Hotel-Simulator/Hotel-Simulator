@@ -42,7 +42,7 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 	private TimeCommand serveCheckingInClientsTimeCommand(Employee receptionist, ClientGroup clientGroup) {
 		return new TimeCommand(
 				() -> {
-					Room room = hotelHandler.roomHandler.findRoomForClientGroup(clientGroup);
+					Room room = hotelHandler.roomManager.findRoomForClientGroup(clientGroup);
 					if (room != null) {
 						room.checkIn(clientGroup);
 						if (RandomUtils.randomBooleanWithProbability(JSONGameDataLoader.roomFaultProbability)) {

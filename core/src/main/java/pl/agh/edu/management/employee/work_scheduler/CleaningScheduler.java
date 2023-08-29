@@ -16,7 +16,7 @@ public class CleaningScheduler extends WorkScheduler<Room> {
 
 	public void dailyAtCheckOutTimeUpdate() {
 		int sizeBefore = entitiesToExecuteService.size();
-		entitiesToExecuteService.addAll(hotelHandler.roomHandler.getRooms().stream()
+		entitiesToExecuteService.addAll(hotelHandler.roomManager.getRooms().stream()
 				.filter(room -> room.getState() == RoomState.OCCUPIED)
 				.toList());
 		if (sizeBefore == 0 && !entitiesToExecuteService.isEmpty()) {

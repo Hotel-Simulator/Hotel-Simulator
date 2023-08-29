@@ -35,17 +35,17 @@
     "REHABILITATION": {"1": 5,"2": 15,"3": 20, "4": 25, "5": 20, "6": 10, "7": 5}
   },
 
-  "room_size_probabilities": {
-    "VACATION": {"1": 10,"2": 35,"3": 25, "4": 20, "5": 10},
-    "BUSINESS_TRIP": {"1": 45,"2": 25,"3": 15, "4": 10, "5": 5},
-    "REHABILITATION": {"1": 60,"2": 20,"3": 10, "4": 5, "5": 5}
+  "room_capacity_probabilities": {
+    "VACATION": {"ONE": 10,"TWO": 35,"THREE": 25, "FOUR": 20, "FIVE": 10},
+    "BUSINESS_TRIP": {"ONE": 45,"TWO": 25,"THREE": 15, "FOUR": 10, "FIVE": 5},
+    "REHABILITATION": {"ONE": 60,"TWO": 20,"THREE": 10, "FOUR": 5, "FIVE": 5}
   },
   "average_prices_per_nights": {
-    "ONE":{"1": 70,"2": 80,"3": 90, "4": 100, "5": 110},
-    "TWO":{"1": 90,"2": 110,"3": 130, "4": 150, "5": 170},
-    "THREE":{"1": 120,"2": 150,"3": 180, "4": 210, "5": 240},
-    "FOUR":{"1": 150,"2": 190,"3": 230, "4":270, "5": 310},
-    "FIVE": {"1": 200,"2": 250,"3": 300, "4": 350, "5": 400}
+    "ONE":{"ONE": 70,"TWO": 80,"THREE": 90, "FOUR": 100, "FIVE": 110},
+    "TWO":{"ONE": 90,"TWO": 110,"THREE": 130, "FOUR": 150, "FIVE": 170},
+    "THREE":{"ONE": 120,"TWO": 150,"THREE": 180, "FOUR": 210, "FIVE": 240},
+    "FOUR":{"ONE": 150,"TWO": 190,"THREE": 230, "FOUR":270, "FIVE": 310},
+    "FIVE": {"ONE": 200,"TWO": 250,"THREE": 300, "FOUR": 350, "FIVE": 400}
   },
 
   "basic_max_waiting_time_in_minutes": 40,

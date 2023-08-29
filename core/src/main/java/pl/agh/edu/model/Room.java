@@ -3,6 +3,7 @@ package pl.agh.edu.model;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+import pl.agh.edu.enums.RoomCapacity;
 import pl.agh.edu.enums.RoomRank;
 import pl.agh.edu.enums.RoomState;
 import pl.agh.edu.model.client.ClientGroup;
@@ -10,12 +11,12 @@ import pl.agh.edu.model.client.ClientGroup;
 public class Room {
 	private RoomRank rank;
 	private RoomState state;
-	private final int capacity;
+	private final RoomCapacity capacity;
 	private BigDecimal marketPrice;
 	private BigDecimal maintenancePrice;
 	private ClientGroup residents;
 
-	public Room(RoomRank rank, int capacity) {
+	public Room(RoomRank rank, RoomCapacity capacity) {
 		this.rank = rank;
 		this.state = RoomState.EMPTY;
 		this.capacity = capacity;
@@ -45,7 +46,7 @@ public class Room {
 		this.state = state;
 	}
 
-	public int getCapacity() {
+	public RoomCapacity getCapacity() {
 		return capacity;
 	}
 
@@ -90,9 +91,5 @@ public class Room {
 
 	public ClientGroup getResidents() {
 		return this.residents;
-	}
-
-	public boolean canBeUpgraded() {
-		return rank.ordinal() < RoomRank.FIVE.ordinal(); // todo !isOccupied() && !isBroken() && !isBeingUpgraded
 	}
 }

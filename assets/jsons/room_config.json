@@ -1,8 +1,6 @@
 {
-
-  "max_capacity" : 5,
-
-  "upgrade_times_in_hours" : {
+  "room_rank_change_duration_in_hours" : {
+    "ONE": 2,
     "TWO" : 3,
     "THREE" : 5,
     "FOUR" : 7,

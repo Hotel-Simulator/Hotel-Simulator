@@ -8,22 +8,22 @@
   "rooms": [
     {
       "rank": "ONE",
-      "capacity": 1,
+      "capacity": "ONE",
       "quantity": 4
     },
     {
       "rank": "ONE",
-      "capacity": 2,
+      "capacity": "TWO",
       "quantity": 3
     },
     {
       "rank": "ONE",
-      "capacity": 3,
+      "capacity": "THREE",
       "quantity": 2
     },
     {
       "rank": "ONE",
-      "capacity": 4,
+      "capacity": "FOUR",
       "quantity": 1
     }
   ],

@@ -7,6 +7,7 @@ import java.util.Map;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import pl.agh.edu.enums.RoomCapacity;
 import pl.agh.edu.enums.RoomRank;
 import pl.agh.edu.json.data_extractor.JSONDataExtractor;
 import pl.agh.edu.json.data_extractor.JSONFilePath;
@@ -44,7 +45,7 @@ public class JSONHotelDataLoader {
 				entry -> JSONValueUtil.getLocalTime((String) entry.getValue()));
 		rooms = JSONValueUtil.getList(
 				JSONDataExtractor.extract(JSON_FILE_PATH, "rooms", JSONArray.class),
-				e -> new Room(RoomRank.valueOf((String) ((JSONObject) e).get("rank")), JSONValueUtil.getInt((long) ((JSONObject) e).get("capacity"))));
+				e -> new Room(RoomRank.valueOf((String) ((JSONObject) e).get("rank")), RoomCapacity.valueOf((String) ((JSONObject) e).get("capacity"))));
 
 	}
 }
