@@ -21,22 +21,28 @@ public class BuilderTest {
 
 	@Test
 	public void builderTest_IsOccupied() {
+		// Given
 		Builder builder = new Builder();
 		Room room = new Room(RoomRank.TWO, 5);
 
+		// When
 		builder.upgradeRoom(room, 1);
 
+		// Then
 		assertTrue(builder.isOccupied());
 	}
 
 	@Test
 	public void builderTest_IsNotOccupied() {
+		// Given
 		Builder builder = new Builder();
 		Room room = new Room(RoomRank.TWO, 5);
 
+		// When
 		builder.upgradeRoom(room, 1);
 		builder.finishUpgrade();
 
+		// Then
 		assertFalse(builder.isOccupied());
 	}
 

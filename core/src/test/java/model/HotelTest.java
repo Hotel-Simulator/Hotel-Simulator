@@ -37,98 +37,108 @@ public class HotelTest {
 
 	@Test
 	public void findRoomForClientGroupTest_Success() {
+		// Given
 		when(mockRoom.getRank()).thenReturn(RoomRank.THREE);
 		when(mockRoom.getRentPrice()).thenReturn(BigDecimal.valueOf(1000L));
 		when(mockRoom.getRoomStates()).thenReturn(new RoomState());
-
+		getClientGroup();
 		Hotel hotel = new Hotel(LocalTime.of(15, 0), LocalTime.of(12, 0));
 		hotel.addRoomByRank(mockRoom);
 
-		getClientGroup();
+		// When
 		Optional<Room> foundRoom = hotel.findRoomForClientGroup(group);
 
+		// Then
 		assertTrue(foundRoom.isPresent());
 		assertEquals(mockRoom, foundRoom.get());
 	}
 
 	@Test
 	public void findRoomForClientGroupTest_DirtyRoom() {
+		// Given
 		when(mockRoom.getRank()).thenReturn(RoomRank.THREE);
 		when(mockRoom.getRentPrice()).thenReturn(BigDecimal.valueOf(1000L));
 		when(mockRoom.getRoomStates()).thenReturn(new RoomState());
 		mockRoom.getRoomStates().setDirty(true);
-
+		getClientGroup();
 		Hotel hotel = new Hotel(LocalTime.of(15, 0), LocalTime.of(12, 0));
 		hotel.addRoomByRank(mockRoom);
 
-		getClientGroup();
+		// When
 		Optional<Room> foundRoom = hotel.findRoomForClientGroup(group);
 
+		// Then
 		assertTrue(foundRoom.isPresent());
 		assertEquals(mockRoom, foundRoom.get());
 	}
 
 	@Test
 	public void findRoomForClientGroupTest_TooExpensiveRoom() {
+		// Given
 		when(mockRoom.getRank()).thenReturn(RoomRank.THREE);
 		when(mockRoom.getRentPrice()).thenReturn(BigDecimal.valueOf(3000L));
 		when(mockRoom.getRoomStates()).thenReturn(new RoomState());
-
-
+		getClientGroup();
 		Hotel hotel = new Hotel(LocalTime.of(15, 0), LocalTime.of(12, 0));
 		hotel.addRoomByRank(mockRoom);
 
-		getClientGroup();
+		// When
 		Optional<Room> foundRoom = hotel.findRoomForClientGroup(group);
 
+		// Then
 		assertTrue(foundRoom.isEmpty());
 	}
 
 	@Test
 	public void findRoomForClientGroupTest_NoDesiredRoomRank() {
+		// Given
 		when(mockRoom.getRank()).thenReturn(RoomRank.ONE);
 		when(mockRoom.getRentPrice()).thenReturn(BigDecimal.valueOf(1000L));
 		when(mockRoom.getRoomStates()).thenReturn(new RoomState());
-
-
+		getClientGroup();
 		Hotel hotel = new Hotel(LocalTime.of(15, 0), LocalTime.of(12, 0));
 		hotel.addRoomByRank(mockRoom);
 
-		getClientGroup();
+		// When
 		Optional<Room> foundRoom = hotel.findRoomForClientGroup(group);
 
+		// Then
 		assertTrue(foundRoom.isEmpty());
 	}
 
 	@Test
 	public void findRoomForClientGroupTest_FaultyRoom() {
+		// Given
 		when(mockRoom.getRank()).thenReturn(RoomRank.THREE);
 		when(mockRoom.getRentPrice()).thenReturn(BigDecimal.valueOf(1000L));
 		when(mockRoom.getRoomStates()).thenReturn(new RoomState());
 		mockRoom.getRoomStates().setFaulty(true);
-
+		getClientGroup();
 		Hotel hotel = new Hotel(LocalTime.of(15, 0), LocalTime.of(12, 0));
 		hotel.addRoomByRank(mockRoom);
 
-		getClientGroup();
+		// When
 		Optional<Room> foundRoom = hotel.findRoomForClientGroup(group);
 
+		// Then
 		assertEquals(foundRoom.get(), mockRoom);
 	}
 
 	@Test
 	public void findRoomForClientGroupTest_UpgradingRoom() {
+		// Given
 		when(mockRoom.getRank()).thenReturn(RoomRank.THREE);
 		when(mockRoom.getRentPrice()).thenReturn(BigDecimal.valueOf(1000L));
 		when(mockRoom.getRoomStates()).thenReturn(new RoomState());
 		mockRoom.getRoomStates().setBeingUpgraded(true);
-
+		getClientGroup();
 		Hotel hotel = new Hotel(LocalTime.of(15, 0), LocalTime.of(12, 0));
 		hotel.addRoomByRank(mockRoom);
 
-		getClientGroup();
+		// When
 		Optional<Room> foundRoom = hotel.findRoomForClientGroup(group);
 
+		// Then
 		assertTrue(foundRoom.isEmpty());
 	}
 
