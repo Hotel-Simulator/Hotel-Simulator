@@ -3,7 +3,6 @@ package model.builder;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.lang.reflect.Field;
-import java.math.BigDecimal;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,9 +20,9 @@ public class BuilderTest {
 	}
 
 	@Test
-	public void builderIsOccupiedTest() {
+	public void builderTest_IsOccupied() {
 		Builder builder = new Builder();
-		Room room = new Room(RoomRank.TWO, 5, BigDecimal.valueOf(100), BigDecimal.valueOf(200));
+		Room room = new Room(RoomRank.TWO, 5);
 
 		builder.upgradeRoom(room, 1);
 
@@ -31,9 +30,9 @@ public class BuilderTest {
 	}
 
 	@Test
-	public void builderIsNotOccupiedTest() {
+	public void builderTest_IsNotOccupied() {
 		Builder builder = new Builder();
-		Room room = new Room(RoomRank.TWO, 5, BigDecimal.valueOf(100), BigDecimal.valueOf(200));
+		Room room = new Room(RoomRank.TWO, 5);
 
 		builder.upgradeRoom(room, 1);
 		builder.finishUpgrade();

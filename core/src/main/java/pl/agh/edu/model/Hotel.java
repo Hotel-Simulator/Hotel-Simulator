@@ -90,7 +90,7 @@ public class Hotel {
 
 		IntStream.range(0, hotelStartingValues.get("room_size_1")).forEach(
 				e -> {
-					Room newRoom = new Room(RoomRank.ONE, 1, BigDecimal.valueOf(100), BigDecimal.valueOf(200));
+					Room newRoom = new Room(RoomRank.ONE, 1);
 					this.rooms.add(newRoom);
 					this.roomsByRank.get(RoomRank.ONE).add(newRoom);
 					this.roomsByCapacity.get(1).add(newRoom);
@@ -98,7 +98,7 @@ public class Hotel {
 
 		IntStream.range(0, hotelStartingValues.get("room_size_2")).forEach(
 				e -> {
-					Room newRoom = new Room(RoomRank.ONE, 2, BigDecimal.valueOf(100), BigDecimal.valueOf(200));
+					Room newRoom = new Room(RoomRank.ONE, 2);
 					this.rooms.add(newRoom);
 					this.roomsByRank.get(RoomRank.ONE).add(newRoom);
 					this.roomsByCapacity.get(2).add(newRoom);
@@ -106,7 +106,7 @@ public class Hotel {
 
 		IntStream.range(0, hotelStartingValues.get("room_size_3")).forEach(
 				e -> {
-					Room newRoom = new Room(RoomRank.ONE, 3, BigDecimal.valueOf(100), BigDecimal.valueOf(200));
+					Room newRoom = new Room(RoomRank.ONE, 3);
 					this.rooms.add(newRoom);
 					this.roomsByRank.get(RoomRank.ONE).add(newRoom);
 					this.roomsByCapacity.get(3).add(newRoom);
@@ -114,7 +114,7 @@ public class Hotel {
 
 		IntStream.range(0, hotelStartingValues.get("room_size_4")).forEach(
 				e -> {
-					Room newRoom = new Room(RoomRank.ONE, 4, BigDecimal.valueOf(100), BigDecimal.valueOf(200));
+					Room newRoom = new Room(RoomRank.ONE, 4);
 					this.rooms.add(newRoom);
 					this.roomsByRank.get(RoomRank.ONE).add(newRoom);
 					this.roomsByCapacity.get(4).add(newRoom);
@@ -237,10 +237,6 @@ public class Hotel {
 		BigDecimal avgRoomStandard = BigDecimal.valueOf(0);
 		BigDecimal avgWorkerHappiness = BigDecimal.valueOf(0);
 		Double avgOpinionValue = 0.;
-
-		for (Room room : rooms) {
-			avgRoomStandard.add(room.getStandard());
-		}
 
 		for (Employee employee : employees) {
 			avgWorkerHappiness.add(BigDecimal.valueOf(employee.getSatisfaction()));

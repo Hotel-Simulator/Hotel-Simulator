@@ -2,8 +2,6 @@ package model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.math.BigDecimal;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -24,16 +22,16 @@ public class RoomTest {
 	}
 
 	@Test
-	public void upgradeRankTest() {
-		Room room = new Room(RoomRank.TWO, 5, BigDecimal.valueOf(100), BigDecimal.valueOf(200));
+	public void upgradeRankTest_Success() {
+		Room room = new Room(RoomRank.TWO, 5);
 		room.upgradeRank();
 
 		assertEquals(room.getRank(), RoomRank.THREE);
 	}
 
 	@Test
-	public void upgradeRankManySuccessTest() {
-		Room room = new Room(RoomRank.ONE, 5, BigDecimal.valueOf(100), BigDecimal.valueOf(200));
+	public void upgradeRankManySuccessTest_Success() {
+		Room room = new Room(RoomRank.ONE, 5);
 		room.upgradeRankMany(3);
 
 		assertEquals(room.getRank(), RoomRank.FOUR);
@@ -41,8 +39,8 @@ public class RoomTest {
 	}
 
 	@Test
-	public void upgradeRankManyFailTest() {
-		Room room = new Room(RoomRank.ONE, 5, BigDecimal.valueOf(100), BigDecimal.valueOf(200));
+	public void upgradeRankManyTest_Failure() {
+		Room room = new Room(RoomRank.ONE, 5);
 		room.upgradeRankMany(6);
 
 		assertEquals(room.getRank(), RoomRank.ONE);
@@ -50,9 +48,9 @@ public class RoomTest {
 	}
 
 	@Test
-	public void checkInResidentsTest() {
+	public void checkInResidentsTest_Success() {
 
-		Room room = new Room(RoomRank.THREE, 1, BigDecimal.valueOf(100), BigDecimal.valueOf(200));
+		Room room = new Room(RoomRank.THREE, 1);
 
 		room.checkIn(group);
 
@@ -60,9 +58,9 @@ public class RoomTest {
 	}
 
 	@Test
-	public void checkOutResidentsTest() {
+	public void checkOutResidentsTest_Success() {
 
-		Room room = new Room(RoomRank.THREE, 1, BigDecimal.valueOf(100), BigDecimal.valueOf(200));
+		Room room = new Room(RoomRank.THREE, 1);
 
 		room.checkIn(group);
 		room.checkOut();
