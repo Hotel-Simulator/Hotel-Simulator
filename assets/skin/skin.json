@@ -473,6 +473,10 @@
 	"navbar": {
 		"font": "h4",
 		"background": "pane-background-lime"
+	},
+	"selectMenu": {
+		"font": "subtittle1",
+		"background": "label-selectBox-background"
 	}
 },
 "ListStyle": {
@@ -481,7 +485,6 @@
 		"fontColorSelected": "Gray_900",
 		"fontColorUnselected": "Shadow",
 		"selection": "list-selection",
-		"down": "list-down",
 		"over": "list-over",
 		"background": "list-background"
 	}
@@ -505,14 +508,20 @@
 	"default": {
 		"font": "body1",
 		"fontColor": "Gray_900",
-		"overFontColor": "Shadow",
 		"disabledFontColor": "Shadow",
 		"background": "selectbox-background",
 		"scrollStyle": "default",
 		"listStyle": "default",
-		"backgroundOver": "selectbox-background-over",
-		"backgroundOpen": "selectbox-background-open",
-		"backgroundDisabled": "selectbox-background-disabled"
+		"backgroundOpen": "selectbox-background-open"
+	},
+	"selectMenu": {
+		"font": "subtittle1",
+		"fontColor": "Gray_900",
+		"disabledFontColor": "Shadow",
+		"background": "selectbox-background",
+		"scrollStyle": "default",
+		"listStyle": "default",
+		"backgroundOpen": "selectbox-background-open"
 	}
 },
 "SliderStyle": {
