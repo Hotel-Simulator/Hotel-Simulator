@@ -10,7 +10,6 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import pl.agh.edu.enums.RoomRank;
-import pl.agh.edu.enums.RoomState;
 import pl.agh.edu.json.data_loader.JSONEmployeeDataLoader;
 import pl.agh.edu.json.data_loader.JSONHotelDataLoader;
 import pl.agh.edu.json.data_loader.JSONRoomDataLoader;
@@ -63,7 +62,7 @@ public class Hotel {
 
 		for (Room room : rooms) {
 			roomsByRank.get(room.getRank()).add(room);
-			roomsByCapacity.get(room.getCapacity()).add(room);
+			roomsByCapacity.get(room.capacity).add(room);
 		}
 
 		builders.add(new Builder());
@@ -172,6 +171,14 @@ public class Hotel {
 		return roomsByRank;
 	}
 
+	public void addRoom(Room room) {
+		rooms.add(room);
+	}
+
+	public void addRoomByRank(Room room) {
+		roomsByRank.get(room.getRank()).add(room);
+	}
+
 	public ArrayList<Room> getRooms() {
 		return rooms;
 	}
@@ -231,10 +238,6 @@ public class Hotel {
 		BigDecimal avgWorkerHappiness = BigDecimal.valueOf(0);
 		Double avgOpinionValue = 0.;
 
-		for (Room room : rooms) {
-			avgRoomStandard.add(room.getStandard());
-		}
-
 		for (Employee employee : employees) {
 			avgWorkerHappiness.add(BigDecimal.valueOf(employee.getSatisfaction()));
 		}
@@ -275,13 +278,13 @@ public class Hotel {
 		roomsByRank.get(room.getRank()).add(room);
 	}
 
-	public Room findRoomForClientGroup(ClientGroup group) {
-		for (Room room : roomsByRank.get(group.getDesiredRoomRank())) {
-			if (room.getState().equals(RoomState.EMPTY) && room.getRentPrice().compareTo(group.getDesiredPricePerNight()) < 1) {
-				return room;
-			}
-		}
-		return null;
+	public Optional<Room> findRoomForClientGroup(ClientGroup group) {
+		return roomsByRank.get(group.getDesiredRoomRank())
+				.stream()
+				.filter(room -> !room.roomState.isOccupied())
+				.filter(room -> !room.roomState.isBeingUpgraded())
+				.filter(room -> room.getRentPrice().compareTo(group.getDesiredPricePerNight()) < 1)
+				.min(Comparator.comparing(room -> room.roomState.isDirty()));
 	}
 
 	public int getEmployeesNumber() {

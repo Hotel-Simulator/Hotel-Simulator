@@ -3,115 +3,64 @@ package pl.agh.edu.model;
 import java.math.BigDecimal;
 
 import pl.agh.edu.enums.RoomRank;
-import pl.agh.edu.enums.RoomState;
 import pl.agh.edu.model.client.ClientGroup;
 
 public class Room {
+	public final int capacity;
 	private RoomRank rank;
-	private RoomState state;
-	private final int capacity;
-	private BigDecimal marketPrice;
 	private BigDecimal rentPrice;
-	private BigDecimal maintenancePrice;
 	private ClientGroup residents;
+	public RoomState roomState = new RoomState();
 
 	public Room(RoomRank rank, int capacity) {
-		this.rank = rank;
-		this.state = RoomState.EMPTY;
 		this.capacity = capacity;
-	}
-
-	public BigDecimal getRentPrice() {
-		return rentPrice;
-	}
-
-	public void setRentPrice(BigDecimal rentPrice) {
-		this.rentPrice = rentPrice;
-	}
-
-	public BigDecimal getMaintenancePrice() {
-		return maintenancePrice;
-	}
-
-	public void setMaintenancePrice(BigDecimal maintenancePrice) {
-		this.maintenancePrice = maintenancePrice;
+		this.rank = rank;
 	}
 
 	public RoomRank getRank() {
 		return rank;
 	}
 
+	public BigDecimal getRentPrice() {
+		return rentPrice;
+	}
+
 	public void setRank(RoomRank rank) {
 		this.rank = rank;
 	}
 
-	public RoomState getState() {
-		return state;
+	public void setRentPrice(BigDecimal rentPrice) {
+		this.rentPrice = rentPrice;
 	}
 
-	public void setState(RoomState state) {
-		this.state = state;
-	}
-
-	public int getCapacity() {
-		return capacity;
-	}
-
-	public boolean upgradeRank() {
+	public void upgradeRank() {
 		switch (rank) {
 		case ONE -> this.rank = RoomRank.TWO;
 		case TWO -> this.rank = RoomRank.THREE;
 		case THREE -> this.rank = RoomRank.FOUR;
 		case FOUR -> this.rank = RoomRank.FIVE;
-		case FIVE -> {
-			return false;
 		}
-		}
-		return true;
 	}
 
-	public boolean clean() {
-		if (state == RoomState.DIRTY) {
-			state = RoomState.EMPTY;
-			return true;
-		}
-		return false;
-	}
-
-	public boolean fix() {
-		if (state == RoomState.FAULT) {
-			state = RoomState.EMPTY;
-			return true;
-		}
-		return false;
-	}
-
-	public boolean upgradeRankMany(int num) {
-		if (rank.ordinal() + 1 + num > 5) {
-			return false;
+	public void upgradeRankMany(int num) {
+		if (rank.ordinal() + num > RoomRank.FIVE.ordinal()) {
+			return;
 		}
 		for (int i = 0; i < num; i++) {
 			this.upgradeRank();
 		}
-
-		setState(RoomState.UPGRADING);
-		return true;
-	}
-
-	public BigDecimal getStandard() {
-		BigDecimal added = rentPrice.add(marketPrice).multiply(BigDecimal.valueOf(3));
-		BigDecimal multiplied = rentPrice.multiply(BigDecimal.valueOf(4));
-		return added.divide(multiplied, BigDecimal.ROUND_DOWN).min(BigDecimal.valueOf(1));
+		roomState.setBeingUpgraded(true);
 	}
 
 	public void checkIn(ClientGroup residents) {
 		this.residents = residents;
-		this.state = RoomState.OCCUPIED;
+		roomState.setOccupied(true);
 	}
 
 	public void checkOut() {
 		this.residents = null;
-		this.state = RoomState.DIRTY;
+		roomState.setOccupied(false);
+		roomState.setDirty(true);
 	}
 
 	public ClientGroup getResidents() {
