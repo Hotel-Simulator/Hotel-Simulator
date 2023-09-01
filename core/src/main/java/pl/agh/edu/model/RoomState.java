@@ -1,17 +1,10 @@
 package pl.agh.edu.model;
 
 public class RoomState {
-	private boolean isOccupied;
-	private boolean isDirty;
-	private boolean isFaulty;
-	private boolean isBeingUpgraded;
-
-	public RoomState() {
-		isOccupied = false;
-		isDirty = false;
-		isFaulty = false;
-		isBeingUpgraded = false;
-	}
+	private boolean isOccupied = false;
+	private boolean isDirty = false;
+	private boolean isFaulty = false;
+	private boolean isBeingUpgraded = false;
 
 	public boolean isOccupied() {
 		return isOccupied;

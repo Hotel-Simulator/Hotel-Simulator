@@ -2,10 +2,8 @@ package model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 import pl.agh.edu.enums.RoomRank;
 import pl.agh.edu.model.Room;
@@ -15,11 +13,6 @@ public class RoomTest {
 
 	@Mock
 	private ClientGroup group;
-
-	@BeforeEach
-	public void setUp() {
-		MockitoAnnotations.openMocks(this);
-	}
 
 	@Test
 	public void upgradeRankTest_Success() {
@@ -43,7 +36,7 @@ public class RoomTest {
 
 		// Then
 		assertEquals(room.getRank(), RoomRank.FOUR);
-		assertTrue(room.getRoomStates().isBeingUpgraded());
+		assertTrue(room.roomState.isBeingUpgraded());
 	}
 
 	@Test
@@ -56,7 +49,7 @@ public class RoomTest {
 
 		// Then
 		assertEquals(room.getRank(), RoomRank.ONE);
-		assertFalse(room.getRoomStates().isBeingUpgraded());
+		assertFalse(room.roomState.isBeingUpgraded());
 	}
 
 	@Test
@@ -68,7 +61,7 @@ public class RoomTest {
 		room.checkIn(group);
 
 		// Then
-		assertTrue(room.getRoomStates().isOccupied());
+		assertTrue(room.roomState.isOccupied());
 	}
 
 	@Test
@@ -81,7 +74,7 @@ public class RoomTest {
 		room.checkOut();
 
 		// Then
-		assertFalse(room.getRoomStates().isOccupied());
-		assertTrue(room.getRoomStates().isDirty());
+		assertFalse(room.roomState.isOccupied());
+		assertTrue(room.roomState.isDirty());
 	}
 }

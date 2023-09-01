@@ -8,41 +8,40 @@ import java.math.BigDecimal;
 import java.time.LocalTime;
 import java.util.Optional;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 import pl.agh.edu.enums.RoomRank;
 import pl.agh.edu.json.data_extractor.JSONFilePath;
 import pl.agh.edu.model.Hotel;
 import pl.agh.edu.model.Room;
-import pl.agh.edu.model.RoomState;
 import pl.agh.edu.model.client.ClientGroup;
 
 public class HotelTest {
 
-	@Mock
+	private final ClientGroup group = mock(ClientGroup.class);
+
 	private Room mockRoom;
 
-	@Mock
-	private ClientGroup group;
+	private Hotel hotel;
+
+	@BeforeAll
+	static void setUp() throws ReflectiveOperationException {
+		changeJSONPath();
+	}
 
 	@BeforeEach
-	public void setUp() throws ReflectiveOperationException {
-		MockitoAnnotations.initMocks(this);
-		changeJSONPath();
-		mockRoom = mock(Room.class);
+	public void setVariables() {
+		hotel = new Hotel(LocalTime.of(15, 0), LocalTime.of(12, 0));
+		setClientGroup();
+		mockRoom = new Room(RoomRank.THREE, 5);
+		mockRoom.setRentPrice(BigDecimal.valueOf(1000L));
 	}
 
 	@Test
 	public void findRoomForClientGroupTest_Success() {
 		// Given
-		when(mockRoom.getRank()).thenReturn(RoomRank.THREE);
-		when(mockRoom.getRentPrice()).thenReturn(BigDecimal.valueOf(1000L));
-		when(mockRoom.getRoomStates()).thenReturn(new RoomState());
-		getClientGroup();
-		Hotel hotel = new Hotel(LocalTime.of(15, 0), LocalTime.of(12, 0));
 		hotel.addRoomByRank(mockRoom);
 
 		// When
@@ -56,12 +55,7 @@ public class HotelTest {
 	@Test
 	public void findRoomForClientGroupTest_DirtyRoom() {
 		// Given
-		when(mockRoom.getRank()).thenReturn(RoomRank.THREE);
-		when(mockRoom.getRentPrice()).thenReturn(BigDecimal.valueOf(1000L));
-		when(mockRoom.getRoomStates()).thenReturn(new RoomState());
-		mockRoom.getRoomStates().setDirty(true);
-		getClientGroup();
-		Hotel hotel = new Hotel(LocalTime.of(15, 0), LocalTime.of(12, 0));
+		mockRoom.roomState.setDirty(true);
 		hotel.addRoomByRank(mockRoom);
 
 		// When
@@ -75,11 +69,7 @@ public class HotelTest {
 	@Test
 	public void findRoomForClientGroupTest_TooExpensiveRoom() {
 		// Given
-		when(mockRoom.getRank()).thenReturn(RoomRank.THREE);
-		when(mockRoom.getRentPrice()).thenReturn(BigDecimal.valueOf(3000L));
-		when(mockRoom.getRoomStates()).thenReturn(new RoomState());
-		getClientGroup();
-		Hotel hotel = new Hotel(LocalTime.of(15, 0), LocalTime.of(12, 0));
+		mockRoom.setRentPrice(BigDecimal.valueOf(3000L));
 		hotel.addRoomByRank(mockRoom);
 
 		// When
@@ -92,11 +82,7 @@ public class HotelTest {
 	@Test
 	public void findRoomForClientGroupTest_NoDesiredRoomRank() {
 		// Given
-		when(mockRoom.getRank()).thenReturn(RoomRank.ONE);
-		when(mockRoom.getRentPrice()).thenReturn(BigDecimal.valueOf(1000L));
-		when(mockRoom.getRoomStates()).thenReturn(new RoomState());
-		getClientGroup();
-		Hotel hotel = new Hotel(LocalTime.of(15, 0), LocalTime.of(12, 0));
+		mockRoom.setRank(RoomRank.ONE);
 		hotel.addRoomByRank(mockRoom);
 
 		// When
@@ -109,12 +95,7 @@ public class HotelTest {
 	@Test
 	public void findRoomForClientGroupTest_FaultyRoom() {
 		// Given
-		when(mockRoom.getRank()).thenReturn(RoomRank.THREE);
-		when(mockRoom.getRentPrice()).thenReturn(BigDecimal.valueOf(1000L));
-		when(mockRoom.getRoomStates()).thenReturn(new RoomState());
-		mockRoom.getRoomStates().setFaulty(true);
-		getClientGroup();
-		Hotel hotel = new Hotel(LocalTime.of(15, 0), LocalTime.of(12, 0));
+		mockRoom.roomState.setFaulty(true);
 		hotel.addRoomByRank(mockRoom);
 
 		// When
@@ -127,12 +108,7 @@ public class HotelTest {
 	@Test
 	public void findRoomForClientGroupTest_UpgradingRoom() {
 		// Given
-		when(mockRoom.getRank()).thenReturn(RoomRank.THREE);
-		when(mockRoom.getRentPrice()).thenReturn(BigDecimal.valueOf(1000L));
-		when(mockRoom.getRoomStates()).thenReturn(new RoomState());
-		mockRoom.getRoomStates().setBeingUpgraded(true);
-		getClientGroup();
-		Hotel hotel = new Hotel(LocalTime.of(15, 0), LocalTime.of(12, 0));
+		mockRoom.roomState.setBeingUpgraded(true);
 		hotel.addRoomByRank(mockRoom);
 
 		// When
@@ -142,7 +118,7 @@ public class HotelTest {
 		assertTrue(foundRoom.isEmpty());
 	}
 
-	private void getClientGroup() {
+	private void setClientGroup() {
 		when(group.getDesiredRoomRank()).thenReturn(RoomRank.THREE);
 		when(group.getDesiredPricePerNight()).thenReturn(BigDecimal.valueOf(2000));
 	}

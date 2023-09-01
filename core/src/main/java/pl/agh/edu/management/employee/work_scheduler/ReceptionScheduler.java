@@ -31,7 +31,7 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 
 	private TimeCommand breakRoomTimeCommand(Room room, ClientGroup clientGroup) {
 		return new TimeCommand(() -> {
-			room.getRoomStates().setFaulty(true);
+			room.roomState.setFaulty(true);
 			repairScheduler.addEntity(room);
 		}, RandomUtils.randomDateTime(time.getTime(), clientGroup.getCheckOutTime()));
 	}

@@ -281,10 +281,10 @@ public class Hotel {
 	public Optional<Room> findRoomForClientGroup(ClientGroup group) {
 		return roomsByRank.get(group.getDesiredRoomRank())
 				.stream()
-				.filter(room -> !room.getRoomStates().isOccupied())
-				.filter(room -> !room.getRoomStates().isBeingUpgraded())
+				.filter(room -> !room.roomState.isOccupied())
+				.filter(room -> !room.roomState.isBeingUpgraded())
 				.filter(room -> room.getRentPrice().compareTo(group.getDesiredPricePerNight()) < 1)
-				.min(Comparator.comparing(room -> room.getRoomStates().isDirty()));
+				.min(Comparator.comparing(room -> room.roomState.isDirty()));
 	}
 
 	public int getEmployeesNumber() {

@@ -20,7 +20,7 @@ public class RepairScheduler extends WorkScheduler<Room> {
 		timeCommandExecutor.addCommand(
 				new TimeCommand(() -> {
 					technician.setOccupied(false);
-					room.getRoomStates().setFaulty(false);
+					room.roomState.setFaulty(false);
 					executeServiceIfPossible(technician);
 				}, time.getTime().plus(technician.getServiceExecutionTime())));
 	}

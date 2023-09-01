@@ -10,16 +10,11 @@ public class Room {
 	private RoomRank rank;
 	private BigDecimal rentPrice;
 	private ClientGroup residents;
-	private final RoomState roomState;
+	public RoomState roomState = new RoomState();
 
 	public Room(RoomRank rank, int capacity) {
 		this.capacity = capacity;
 		this.rank = rank;
-		this.roomState = new RoomState();
-	}
-
-	public RoomState getRoomStates() {
-		return roomState;
 	}
 
 	public RoomRank getRank() {

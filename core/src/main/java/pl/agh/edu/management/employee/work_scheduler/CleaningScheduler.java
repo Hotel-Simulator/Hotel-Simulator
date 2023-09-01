@@ -16,7 +16,7 @@ public class CleaningScheduler extends WorkScheduler<Room> {
 	public void dailyAtCheckOutTimeUpdate() {
 		int sizeBefore = entitiesToExecuteService.size();
 		entitiesToExecuteService.addAll(hotel.getRooms().stream()
-				.filter(room -> room.getRoomStates().isOccupied())
+				.filter(room -> room.roomState.isOccupied())
 				.toList());
 		if (sizeBefore == 0 && !entitiesToExecuteService.isEmpty()) {
 			workingEmployees.stream()
@@ -26,7 +26,7 @@ public class CleaningScheduler extends WorkScheduler<Room> {
 	}
 
 	public void dailyAtCheckInTimeUpdate() {
-		entitiesToExecuteService.removeIf(room -> room.getRoomStates().isOccupied());
+		entitiesToExecuteService.removeIf(room -> room.roomState.isOccupied());
 	}
 
 	@Override
@@ -36,11 +36,11 @@ public class CleaningScheduler extends WorkScheduler<Room> {
 		timeCommandExecutor.addCommand(
 				new TimeCommand(() -> {
 					cleaner.setOccupied(false);
-					room.getRoomStates().setDirty(false);
+					room.roomState.setDirty(false);
 					executeServiceIfPossible(cleaner);
 				}, time.getTime().plusMinutes(cleaner.getServiceExecutionTime().toMinutes())));
 	}
 
-	private static final Comparator<Room> roomComparator = (o1, o2) -> Boolean.compare(o1.getRoomStates().isOccupied(), o2.getRoomStates().isOccupied());
+	private static final Comparator<Room> roomComparator = (o1, o2) -> Boolean.compare(o1.roomState.isOccupied(), o2.roomState.isOccupied());
 
 }
