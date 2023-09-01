@@ -2,7 +2,6 @@ package pl.agh.edu.management.employee.work_scheduler;
 
 import java.util.*;
 
-import pl.agh.edu.enums.RoomState;
 import pl.agh.edu.json.data_loader.JSONGameDataLoader;
 import pl.agh.edu.management.hotel.HotelHandler;
 import pl.agh.edu.model.Room;
@@ -27,7 +26,7 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 
 	private TimeCommand breakRoomTimeCommand(Room room, ClientGroup clientGroup) {
 		return new TimeCommand(() -> {
-			room.setState(RoomState.FAULT);
+			room.roomState.setFaulty(true);
 			hotelHandler.repairScheduler.addEntity(room);
 		}, RandomUtils.randomDateTime(time.getTime(), clientGroup.getCheckOutTime()));
 	}
@@ -42,8 +41,9 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 	private TimeCommand serveCheckingInClientsTimeCommand(Employee receptionist, ClientGroup clientGroup) {
 		return new TimeCommand(
 				() -> {
-					Room room = hotelHandler.roomManager.findRoomForClientGroup(clientGroup);
-					if (room != null) {
+					Optional<Room> optionalRoom = hotelHandler.roomManager.findRoomForClientGroup(clientGroup);
+					if (optionalRoom.isPresent()) {
+						Room room = optionalRoom.get();
 						room.checkIn(clientGroup);
 						if (RandomUtils.randomBooleanWithProbability(JSONGameDataLoader.roomFaultProbability)) {
 							timeCommandExecutor.addCommand(breakRoomTimeCommand(room, clientGroup));

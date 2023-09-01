@@ -5,21 +5,20 @@ import java.math.RoundingMode;
 
 import pl.agh.edu.enums.RoomCapacity;
 import pl.agh.edu.enums.RoomRank;
-import pl.agh.edu.enums.RoomState;
 import pl.agh.edu.model.client.ClientGroup;
 
 public class Room {
 	private RoomRank rank;
-	private RoomState state;
-	private final RoomCapacity capacity;
+	public final RoomCapacity capacity;
 	private BigDecimal marketPrice;
 	private BigDecimal maintenancePrice;
 	private ClientGroup residents;
+	public RoomState roomState = new RoomState();
 
 	public Room(RoomRank rank, RoomCapacity capacity) {
-		this.rank = rank;
-		this.state = RoomState.EMPTY;
 		this.capacity = capacity;
+		this.rank = rank;
+	}
 	}
 
 	public BigDecimal getMaintenancePrice() {
@@ -38,18 +37,6 @@ public class Room {
 		this.rank = rank;
 	}
 
-	public RoomState getState() {
-		return state;
-	}
-
-	public void setState(RoomState state) {
-		this.state = state;
-	}
-
-	public RoomCapacity getCapacity() {
-		return capacity;
-	}
-
 	public void upgradeRank(RoomRank desiredRank) {
 		if (desiredRank.ordinal() <= rank.ordinal()) {
 			throw new IllegalArgumentException("Desired roomRank must be greater than current.");
@@ -57,36 +44,15 @@ public class Room {
 		this.rank = desiredRank;
 	}
 
-	public boolean clean() {
-		if (state == RoomState.DIRTY) {
-			state = RoomState.EMPTY;
-			return true;
-		}
-		return false;
-	}
-
-	public boolean fix() {
-		if (state == RoomState.FAULT) {
-			state = RoomState.EMPTY;
-			return true;
-		}
-		return false;
-	}
-
-	public BigDecimal getStandard() {
-		BigDecimal added = RoomPriceList.getPrice(this).add(marketPrice).multiply(BigDecimal.valueOf(3));
-		BigDecimal multiplied = RoomPriceList.getPrice(this).multiply(BigDecimal.valueOf(4));
-		return added.divide(multiplied, RoundingMode.DOWN).min(BigDecimal.valueOf(1));
-	}
-
 	public void checkIn(ClientGroup residents) {
 		this.residents = residents;
-		this.state = RoomState.OCCUPIED;
+		roomState.setOccupied(true);
 	}
 
 	public void checkOut() {
 		this.residents = null;
-		this.state = RoomState.DIRTY;
+		roomState.setOccupied(false);
+		roomState.setDirty(true);
 	}
 
 	public ClientGroup getResidents() {
