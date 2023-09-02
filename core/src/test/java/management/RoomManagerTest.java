@@ -104,6 +104,19 @@ public class RoomManagerTest {
 	}
 
 	@Test
+	public void canChangeRoomRank_BeingBuild() {
+		// Given
+		Room room = rooms.get(0);
+		room.roomState.setBeingBuild(true);
+
+		// When
+		boolean canChange = roomManager.canChangeRoomRank(room);
+
+		// Then
+		assertFalse(canChange);
+	}
+
+	@Test
 	public void getRoomsByRank() {
 		EnumMap<RoomRank, List<Room>> roomsByRank = roomManager.getRoomsByRank();
 
@@ -241,6 +254,20 @@ public class RoomManagerTest {
 		// Given
 		Room room = new Room(RoomRank.THREE, RoomCapacity.THREE);
 		room.roomState.setBeingUpgraded(true);
+		roomManager.addRoom(room);
+
+		// When
+		Optional<Room> foundRoom = roomManager.findRoomForClientGroup(clientGroup);
+
+		// Then
+		assertFalse(foundRoom.isPresent());
+	}
+
+	@Test
+	public void findRoomForClientGroupTest_BuildingRoom() {
+		// Given
+		Room room = new Room(RoomRank.THREE, RoomCapacity.THREE);
+		room.roomState.setBeingBuild(true);
 		roomManager.addRoom(room);
 
 		// When
