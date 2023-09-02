@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.util.EnumMap;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import pl.agh.edu.enums.RoomCapacity;
@@ -21,7 +22,9 @@ public class RoomPriceListTest {
 	@BeforeAll
 	static void setUpClass() throws ReflectiveOperationException {
 		changeJSONPath();
-
+	}
+	@BeforeEach
+	void setUp(){
 		testPrices = new EnumMap<>(RoomRank.class);
 
 		EnumMap<RoomCapacity, BigDecimal> standardPrices = new EnumMap<>(RoomCapacity.class);
