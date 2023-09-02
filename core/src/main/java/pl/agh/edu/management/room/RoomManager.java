@@ -54,7 +54,7 @@ public class RoomManager {
 				.filter(room -> room.getRank() == group.getDesiredRoomRank())
 				.filter(room -> room.capacity.value == group.getSize())
 				.filter(room -> !room.roomState.isOccupied())
-				.filter(room -> !room.roomState.isBeingUpgraded())
+				.filter(room -> !room.roomState.isUnderRankChange())
 				.filter(room -> roomPriceList.getPrice(room).compareTo(group.getDesiredPricePerNight()) < 1)
 				.min(Comparator.comparing(room -> room.roomState.isDirty()));
 	}
@@ -63,27 +63,27 @@ public class RoomManager {
 		if (desiredRank == room.getRank()) {
 			throw new IllegalArgumentException("Desired roomRank must be other than current.");
 		}
-		room.roomState.setBeingUpgraded(true);
+		room.roomState.setUnderRankChange(true);
 
 		LocalDateTime upgradeTime = time.getTime().plus(JSONRoomDataLoader.roomRankChangeDuration.get(desiredRank));
 		roomRankChangeTimes.put(room, upgradeTime);
 
 		timeCommandExecutor.addCommand(new TimeCommand(
 				() -> {
-					room.roomState.setBeingUpgraded(false);
+					room.roomState.setUnderRankChange(false);
 					room.upgradeRank(desiredRank);
 					roomRankChangeTimes.remove(room);
 				},
 				upgradeTime));
 	}
 
-	public Optional<LocalDateTime> findUpgradeTime(Room room) {
+	public Optional<LocalDateTime> findChangeRankTime(Room room) {
 		return Optional.ofNullable(roomRankChangeTimes.get(room));
 	}
 
 	public boolean canChangeRoomRank(Room room) {
 		return !room.roomState.isOccupied()
-				&& !room.roomState.isBeingUpgraded()
+				&& !room.roomState.isUnderRankChange()
 				&& !room.roomState.isFaulty()
 				&& !room.roomState.isDirty();
 	}

@@ -65,10 +65,10 @@ public class RoomManagerTest {
 	}
 
 	@Test
-	public void canChangeRoomRank_BeingUpgraded() {
+	public void canChangeRoomRank_UnderRankChange() {
 		// Given
 		Room room = rooms.get(0);
-		room.roomState.setBeingUpgraded(true);
+		room.roomState.setUnderRankChange(true);
 
 		// When
 		boolean canChange = roomManager.canChangeRoomRank(room);
@@ -237,10 +237,10 @@ public class RoomManagerTest {
 	}
 
 	@Test
-	public void findRoomForClientGroupTest_UpgradingRoom() {
+	public void findRoomForClientGroupTest_rankChangeRoom() {
 		// Given
 		Room room = new Room(RoomRank.THREE, RoomCapacity.THREE);
-		room.roomState.setBeingUpgraded(true);
+		room.roomState.setUnderRankChange(true);
 		roomManager.addRoom(room);
 
 		// When
