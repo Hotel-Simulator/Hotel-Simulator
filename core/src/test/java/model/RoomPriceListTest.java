@@ -23,8 +23,9 @@ public class RoomPriceListTest {
 	static void setUpClass() throws ReflectiveOperationException {
 		changeJSONPath();
 	}
+
 	@BeforeEach
-	void setUp(){
+	void setUp() {
 		testPrices = new EnumMap<>(RoomRank.class);
 
 		EnumMap<RoomCapacity, BigDecimal> standardPrices = new EnumMap<>(RoomCapacity.class);
