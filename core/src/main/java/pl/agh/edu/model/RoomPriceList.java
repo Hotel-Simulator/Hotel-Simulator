@@ -5,35 +5,34 @@ import java.util.EnumMap;
 
 import pl.agh.edu.enums.RoomCapacity;
 import pl.agh.edu.enums.RoomRank;
-import pl.agh.edu.json.data_loader.JSONClientDataLoader;
 
 public class RoomPriceList {
 
-	private static final EnumMap<RoomRank, EnumMap<RoomCapacity, BigDecimal>> pricesPerNight = JSONClientDataLoader.averagePricesPerNight;
+	private final EnumMap<RoomRank, EnumMap<RoomCapacity, BigDecimal>> pricesPerNight;
 
-	private RoomPriceList() {}
+	public RoomPriceList(EnumMap<RoomRank, EnumMap<RoomCapacity, BigDecimal>> pricesPerNight) {
+		this.pricesPerNight = pricesPerNight;
+	}
 
-	public static EnumMap<RoomRank, EnumMap<RoomCapacity, BigDecimal>> getPrices() {
+	public EnumMap<RoomRank, EnumMap<RoomCapacity, BigDecimal>> getPrices() {
 		return pricesPerNight;
 	}
 
-	public static BigDecimal getPrice(RoomRank roomRank, RoomCapacity roomCapacity) {
+	public BigDecimal getPrice(RoomRank roomRank, RoomCapacity roomCapacity) {
 		return pricesPerNight.get(roomRank).get(roomCapacity);
 	}
 
-	public static BigDecimal getPrice(Room room) {
-		return getPrice(room.getRank(), room.getCapacity());
+	public BigDecimal getPrice(Room room) {
+		return getPrice(room.getRank(), room.capacity);
 	}
 
-	public static void setPrice(RoomRank RoomRank, RoomCapacity roomCapacity, BigDecimal price) {
+	public void setPrice(RoomRank RoomRank, RoomCapacity roomCapacity, BigDecimal price) {
 		pricesPerNight.get(RoomRank).put(roomCapacity, price);
 	}
 
-	public static void setPrices(EnumMap<RoomRank, EnumMap<RoomCapacity, BigDecimal>> prices) {
+	public void setPrices(EnumMap<RoomRank, EnumMap<RoomCapacity, BigDecimal>> prices) {
 		prices.keySet().forEach(
 				roomRank -> prices.get(roomRank).forEach(
-						(roomCapacity, price) -> {
-							pricesPerNight.get(roomRank).put(roomCapacity, price);
-						}));
+						(roomCapacity, price) -> pricesPerNight.get(roomRank).put(roomCapacity, price)));
 	}
 }

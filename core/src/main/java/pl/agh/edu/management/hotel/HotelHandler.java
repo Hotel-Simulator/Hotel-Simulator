@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import pl.agh.edu.json.data_loader.JSONHotelDataLoader;
 import pl.agh.edu.management.employee.EmployeeHandler;
 import pl.agh.edu.management.employee.PossibleEmployeeHandler;
 import pl.agh.edu.management.employee.work_scheduler.CleaningScheduler;
@@ -11,7 +12,6 @@ import pl.agh.edu.management.employee.work_scheduler.ReceptionScheduler;
 import pl.agh.edu.management.employee.work_scheduler.RepairScheduler;
 import pl.agh.edu.management.room.RoomManager;
 import pl.agh.edu.model.Opinion;
-import pl.agh.edu.model.Room;
 import pl.agh.edu.model.employee.Employee;
 
 public class HotelHandler {
@@ -31,7 +31,7 @@ public class HotelHandler {
 		this.repairScheduler = new RepairScheduler(this);
 		this.possibleEmployeeHandler = new PossibleEmployeeHandler(this);
 		this.employeeHandler = new EmployeeHandler();
-		this.roomManager = new RoomManager();
+		this.roomManager = new RoomManager(JSONHotelDataLoader.rooms);
 
 		opinions = new ArrayList<>();
 	}
@@ -40,10 +40,6 @@ public class HotelHandler {
 		BigDecimal avgRoomStandard = BigDecimal.valueOf(0);
 		BigDecimal avgWorkerHappiness = BigDecimal.valueOf(0);
 		Double avgOpinionValue = 0.;
-
-		for (Room room : roomManager.getRooms()) {
-			avgRoomStandard.add(room.getStandard());
-		}
 
 		for (Employee employee : employeeHandler.getEmployees()) {
 			avgWorkerHappiness.add(BigDecimal.valueOf(employee.getSatisfaction()));

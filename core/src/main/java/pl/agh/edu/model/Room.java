@@ -1,7 +1,6 @@
 package pl.agh.edu.model;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 import pl.agh.edu.enums.RoomCapacity;
 import pl.agh.edu.enums.RoomRank;
@@ -18,7 +17,6 @@ public class Room {
 	public Room(RoomRank rank, RoomCapacity capacity) {
 		this.capacity = capacity;
 		this.rank = rank;
-	}
 	}
 
 	public BigDecimal getMaintenancePrice() {
@@ -44,8 +42,11 @@ public class Room {
 		this.rank = desiredRank;
 	}
 
-	public void checkIn(ClientGroup residents) {
-		this.residents = residents;
+	public void checkIn(ClientGroup clientGroup) {
+		if (clientGroup.getSize() != capacity.value) {
+			throw new IllegalArgumentException("Group size is different from the room capacity");
+		}
+		this.residents = clientGroup;
 		roomState.setOccupied(true);
 	}
 

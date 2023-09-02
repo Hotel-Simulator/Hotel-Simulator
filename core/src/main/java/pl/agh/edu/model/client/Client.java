@@ -1,12 +1,8 @@
 package pl.agh.edu.model.client;
 
-import java.math.BigDecimal;
-
 import pl.agh.edu.enums.HotelVisitPurpose;
 import pl.agh.edu.enums.Sex;
 import pl.agh.edu.model.Opinion;
-import pl.agh.edu.model.Room;
-import pl.agh.edu.model.RoomPriceList;
 
 public class Client {
 	private final int age;
@@ -40,9 +36,4 @@ public class Client {
 		this.opinion = opinion;
 	}
 
-	public void generateOpinion(Room room, int budgetPerNight) {
-		BigDecimal tmp = RoomPriceList.getPrice(room).subtract(BigDecimal.valueOf(budgetPerNight)).divide(BigDecimal.valueOf(budgetPerNight));
-		BigDecimal res = BigDecimal.valueOf(Long.parseLong("0.8")).subtract(tmp);
-		this.opinion = new Opinion(res.doubleValue());
-	}
 }
