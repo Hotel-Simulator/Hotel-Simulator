@@ -10,7 +10,6 @@ public class EmploymentPreferences {
 	public final BigDecimal desiredWage;
 	public final TypeOfContract desiredTypeOfContract;
 
-	// Prywatny konstruktor, aby zapobiec tworzeniu obiektu bezpośrednio.
 	private EmploymentPreferences(Builder builder) {
 		this.desiredShift = builder.desiredShift;
 		this.acceptableWage = builder.acceptableWage;
