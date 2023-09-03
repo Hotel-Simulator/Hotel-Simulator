@@ -25,7 +25,6 @@ public class Engine {
 
 	public Engine() {
 
-
 		LocalDateTime currentTime = time.getTime();
 
 		initializeEveryShiftUpdates(currentTime);

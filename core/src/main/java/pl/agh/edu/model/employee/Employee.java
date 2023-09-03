@@ -20,7 +20,7 @@ public class Employee {
 	public final TypeOfContract typeOfContract;
 	public final Shift shift;
 	private boolean isOccupied;
-	private BigDecimal bonusForThisMonth;
+	private BigDecimal bonusForThisMonth = BigDecimal.ZERO;
 	private final Duration basicServiceExecutionTime;
 	private EmployeeStatus employeeStatus = EmployeeStatus.HIRED_NOT_WORKING;
 
@@ -35,7 +35,7 @@ public class Employee {
 		this.typeOfContract = jobOffer.typeOfContract();
 		this.shift = jobOffer.shift();
 
-		this.basicServiceExecutionTime = JSONEmployeeDataLoader.basicServiceExecutionTimes.get(possibleEmployee.profession());
+		this.basicServiceExecutionTime = JSONEmployeeDataLoader.basicServiceExecutionTimes.get(possibleEmployee.profession);
 	}
 
 	public double getSatisfaction() {
