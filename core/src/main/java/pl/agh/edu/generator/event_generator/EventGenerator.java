@@ -5,7 +5,6 @@ import java.time.Year;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.stream.Stream;
 
 import pl.agh.edu.json.data.ClientNumberModificationCyclicTemporaryEventData;
@@ -13,6 +12,7 @@ import pl.agh.edu.json.data.ClientNumberModificationRandomTemporaryEventData;
 import pl.agh.edu.json.data_loader.JSONEventDataLoader;
 import pl.agh.edu.model.calendar.Calendar;
 import pl.agh.edu.model.time.Time;
+import pl.agh.edu.utils.RandomUtils;
 
 public class EventGenerator {
 	private static EventGenerator instance;
@@ -21,8 +21,6 @@ public class EventGenerator {
 	private static final List<ClientNumberModificationRandomTemporaryEventData> clientNumberModificationRandomTemporaryEventData = JSONEventDataLoader.clientNumberModificationRandomTemporaryEventData;
 	private final Map<ClientNumberModificationRandomTemporaryEventData, Integer> lastYearDate;
 	private final Time time;
-
-	private final Random random = new Random();
 
 	private EventGenerator() {
 		this.lastYearDate = new HashMap<>();
@@ -35,19 +33,19 @@ public class EventGenerator {
 		int daysInYear = Year.isLeap(time.getTime().getYear()) ? 366 : 365;
 		clientNumberModificationRandomTemporaryEventData.stream().filter(
 				eventData -> {
-					boolean willOccur = eventData.occurrenceProbability() > random.nextDouble();
+					boolean willOccur = RandomUtils.randomBooleanWithProbability(eventData.occurrenceProbability());
 					if (!willOccur)
 						lastYearDate.remove(eventData);
 					return willOccur;
 				}).map(eventData -> {
-					LocalDate launchDate = LocalDate.ofYearDay(time.getTime().getYear(), random.nextInt((lastYearDate.get(eventData) == null || lastYearDate.get(
+					LocalDate launchDate = LocalDate.ofYearDay(time.getTime().getYear(), RandomUtils.randomInt((lastYearDate.get(eventData) == null || lastYearDate.get(
 							eventData) < daysInYear / 2) ? 1 : daysInYear / 2, (daysInYear) + 1));
 					lastYearDate.put(eventData, launchDate.getDayOfYear());
 					return new ClientNumberModificationRandomTemporaryEvent(
 							eventData.name(),
 							eventData.calendarDescription(),
 							eventData.popupDescription(),
-							random.nextInt(eventData.minDurationDays(), eventData.maxDurationDays() + 1),
+							RandomUtils.randomInt(eventData.minDurationDays(), eventData.maxDurationDays() + 1),
 							launchDate,
 							eventData.modifiers(),
 							eventData.imagePath());

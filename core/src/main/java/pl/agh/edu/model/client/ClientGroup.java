@@ -53,6 +53,10 @@ public class ClientGroup {
 		return desiredPricePerNight;
 	}
 
+	public int getSize() {
+		return members.size();
+	}
+
 	public static class Builder {
 		private HotelVisitPurpose hotelVisitPurpose;
 		private List<Client> members;

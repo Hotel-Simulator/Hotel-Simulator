@@ -1,29 +1,20 @@
 package pl.agh.edu.management.employee.work_scheduler;
 
-import java.time.Duration;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 
-import pl.agh.edu.enums.RoomState;
 import pl.agh.edu.json.data_loader.JSONGameDataLoader;
-import pl.agh.edu.model.Hotel;
+import pl.agh.edu.management.hotel.HotelHandler;
 import pl.agh.edu.model.Room;
 import pl.agh.edu.model.client.ClientGroup;
 import pl.agh.edu.model.employee.Employee;
 import pl.agh.edu.model.employee.Profession;
 import pl.agh.edu.time_command.TimeCommand;
+import pl.agh.edu.utils.RandomUtils;
 
 public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 
-	private final Random random;
-	private final CleaningScheduler cleaningScheduler;
-	private final RepairScheduler repairScheduler;
-
-	public ReceptionScheduler(Hotel hotel, CleaningScheduler cleaningScheduler, RepairScheduler repairScheduler) {
-		super(hotel, new LinkedList<>(), Profession.RECEPTIONIST);
-		this.random = new Random();
-		this.cleaningScheduler = cleaningScheduler;
-		this.repairScheduler = repairScheduler;
+	public ReceptionScheduler(HotelHandler hotelHandler) {
+		super(hotelHandler, new LinkedList<>(), Profession.RECEPTIONIST);
 	}
 
 	@Override
@@ -34,27 +25,27 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 	}
 
 	private TimeCommand breakRoomTimeCommand(Room room, ClientGroup clientGroup) {
-		long minutes = Duration.between(time.getTime(), clientGroup.getCheckOutTime()).toMinutes();
 		return new TimeCommand(() -> {
-			room.setState(RoomState.FAULT);
-			repairScheduler.addEntity(room);
-		}, time.generateRandomTime(minutes, ChronoUnit.MINUTES));
+			room.roomState.setFaulty(true);
+			hotelHandler.repairScheduler.addEntity(room);
+		}, RandomUtils.randomDateTime(time.getTime(), clientGroup.getCheckOutTime()));
 	}
 
 	private TimeCommand checkOutTimeCommand(Room room, ClientGroup clientGroup) {
 		return new TimeCommand(() -> {
 			room.checkOut();
-			cleaningScheduler.addEntity(room);
+			hotelHandler.cleaningScheduler.addEntity(room);
 		}, clientGroup.getCheckOutTime());
 	}
 
 	private TimeCommand serveCheckingInClientsTimeCommand(Employee receptionist, ClientGroup clientGroup) {
 		return new TimeCommand(
 				() -> {
-					Room room = hotel.findRoomForClientGroup(clientGroup);
-					if (room != null) {
+					Optional<Room> optionalRoom = hotelHandler.roomManager.findRoomForClientGroup(clientGroup);
+					if (optionalRoom.isPresent()) {
+						Room room = optionalRoom.get();
 						room.checkIn(clientGroup);
-						if (random.nextDouble() < JSONGameDataLoader.roomFaultProbability) {
+						if (RandomUtils.randomBooleanWithProbability(JSONGameDataLoader.roomFaultProbability)) {
 							timeCommandExecutor.addCommand(breakRoomTimeCommand(room, clientGroup));
 						}
 						timeCommandExecutor.addCommand(checkOutTimeCommand(room, clientGroup));

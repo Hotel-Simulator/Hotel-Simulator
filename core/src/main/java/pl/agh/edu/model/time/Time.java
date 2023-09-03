@@ -1,8 +1,6 @@
 package pl.agh.edu.model.time;
 
 import java.time.LocalDateTime;
-import java.time.temporal.TemporalUnit;
-import java.util.concurrent.ThreadLocalRandom;
 
 import pl.agh.edu.time_command.TimeCommandExecutor;
 
@@ -124,12 +122,6 @@ public class Time {
 
 	public String getStringAcceleration() {
 		return String.format("x%d", acceleration);
-	}
-
-	public LocalDateTime generateRandomTime(long range, TemporalUnit unit) {
-		long max = unit.getDuration().toMinutes() * range;
-		long randomOffset = ThreadLocalRandom.current().nextLong(max) / 10 * 10;
-		return getTime().plusMinutes(randomOffset);
 	}
 
 	public int getTimeUnitInMinutes() {
