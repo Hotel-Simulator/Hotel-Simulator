@@ -2,12 +2,31 @@
   "initial_data" : {
     "cleaner" : 2,
     "repairman" : 1,
-    "builder" : 1,
-    "room_size_1" : 4,
-    "room_size_2" : 3,
-    "room_size_3" : 2,
-    "room_size_4" : 1
+    "builder" : 1
   },
+
+  "initial_rooms": [
+    {
+      "rank": "ONE",
+      "capacity": "ONE",
+      "quantity": 4
+    },
+    {
+      "rank": "ONE",
+      "capacity": "TWO",
+      "quantity": 3
+    },
+    {
+      "rank": "ONE",
+      "capacity": "THREE",
+      "quantity": 2
+    },
+    {
+      "rank": "ONE",
+      "capacity": "FOUR",
+      "quantity": 1
+    }
+  ],
 
   "check_in_out_times" : {
     "check_in" : "14:00:00",

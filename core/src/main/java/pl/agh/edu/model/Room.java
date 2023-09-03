@@ -2,58 +2,51 @@ package pl.agh.edu.model;
 
 import java.math.BigDecimal;
 
+import pl.agh.edu.enums.RoomCapacity;
 import pl.agh.edu.enums.RoomRank;
 import pl.agh.edu.model.client.ClientGroup;
 
 public class Room {
-	public final int capacity;
 	private RoomRank rank;
-	private BigDecimal rentPrice;
+	public final RoomCapacity capacity;
+	private BigDecimal marketPrice;
+	private BigDecimal maintenancePrice;
 	private ClientGroup residents;
 	public RoomState roomState = new RoomState();
 
-	public Room(RoomRank rank, int capacity) {
+	public Room(RoomRank rank, RoomCapacity capacity) {
 		this.capacity = capacity;
 		this.rank = rank;
+	}
+
+	public BigDecimal getMaintenancePrice() {
+		return maintenancePrice;
+	}
+
+	public void setMaintenancePrice(BigDecimal maintenancePrice) {
+		this.maintenancePrice = maintenancePrice;
 	}
 
 	public RoomRank getRank() {
 		return rank;
 	}
 
-	public BigDecimal getRentPrice() {
-		return rentPrice;
-	}
-
 	public void setRank(RoomRank rank) {
 		this.rank = rank;
 	}
 
-	public void setRentPrice(BigDecimal rentPrice) {
-		this.rentPrice = rentPrice;
+	public void upgradeRank(RoomRank desiredRank) {
+		if (desiredRank.ordinal() <= rank.ordinal()) {
+			throw new IllegalArgumentException("Desired roomRank must be greater than current.");
+		}
+		this.rank = desiredRank;
 	}
 
-	public void upgradeRank() {
-		switch (rank) {
-		case ONE -> this.rank = RoomRank.TWO;
-		case TWO -> this.rank = RoomRank.THREE;
-		case THREE -> this.rank = RoomRank.FOUR;
-		case FOUR -> this.rank = RoomRank.FIVE;
+	public void checkIn(ClientGroup clientGroup) {
+		if (clientGroup.getSize() != capacity.value) {
+			throw new IllegalArgumentException("Group size is different from the room capacity");
 		}
-	}
-
-	public void upgradeRankMany(int num) {
-		if (rank.ordinal() + num > RoomRank.FIVE.ordinal()) {
-			return;
-		}
-		for (int i = 0; i < num; i++) {
-			this.upgradeRank();
-		}
-		roomState.setBeingUpgraded(true);
-	}
-
-	public void checkIn(ClientGroup residents) {
-		this.residents = residents;
+		this.residents = clientGroup;
 		roomState.setOccupied(true);
 	}
 

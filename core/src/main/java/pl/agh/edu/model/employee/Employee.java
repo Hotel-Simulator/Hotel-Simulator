@@ -10,27 +10,27 @@ import pl.agh.edu.json.data_loader.JSONEmployeeDataLoader;
 
 public class Employee {
 
-	private final String firstName;
-	private final String lastName;
-	private final int age;
-	private final double skills;
-	private final EmploymentPreferences preferences;
-	private final Profession profession;
-	private final BigDecimal wage;
-	private TypeOfContract typeOfContract;
-	private final Shift shift;
-	private boolean isOccupied = false;
-	private BigDecimal bonusForThisMonth = BigDecimal.ZERO;
+	public final String firstName;
+	public final String lastName;
+	public final int age;
+	public final double skills;
+	public final EmploymentPreferences preferences;
+	public final Profession profession;
+	public final BigDecimal wage;
+	public final TypeOfContract typeOfContract;
+	public final Shift shift;
+	private boolean isOccupied;
+	private BigDecimal bonusForThisMonth;
 	private final Duration basicServiceExecutionTime;
 	private EmployeeStatus employeeStatus = EmployeeStatus.HIRED_NOT_WORKING;
 
 	public Employee(PossibleEmployee possibleEmployee, JobOffer jobOffer) {
-		this.firstName = possibleEmployee.firstName();
-		this.lastName = possibleEmployee.lastName();
-		this.age = possibleEmployee.age();
-		this.skills = possibleEmployee.skills();
-		this.profession = possibleEmployee.profession();
-		this.preferences = possibleEmployee.preferences();
+		this.firstName = possibleEmployee.firstName;
+		this.lastName = possibleEmployee.lastName;
+		this.age = possibleEmployee.age;
+		this.skills = possibleEmployee.skills;
+		this.profession = possibleEmployee.profession;
+		this.preferences = possibleEmployee.preferences;
 		this.wage = jobOffer.offeredWage();
 		this.typeOfContract = jobOffer.typeOfContract();
 		this.shift = jobOffer.shift();
@@ -39,7 +39,7 @@ public class Employee {
 	}
 
 	public double getSatisfaction() {
-		return Math.min(1., wage.add(bonusForThisMonth).divide(preferences.desiredWage(), 2, RoundingMode.CEILING).doubleValue());
+		return Math.min(1., wage.add(bonusForThisMonth).divide(preferences.desiredWage, 2, RoundingMode.CEILING).doubleValue());
 	}
 
 	public boolean isAtWork(LocalTime time) {
@@ -66,14 +66,6 @@ public class Employee {
 
 	public void setOccupied(boolean occupied) {
 		isOccupied = occupied;
-	}
-
-	public Shift getShift() {
-		return shift;
-	}
-
-	public Profession getProfession() {
-		return profession;
 	}
 
 	public EmployeeStatus getStatus() {

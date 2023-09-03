@@ -2,15 +2,15 @@ package pl.agh.edu.management.employee.work_scheduler;
 
 import java.util.LinkedList;
 
-import pl.agh.edu.model.Hotel;
+import pl.agh.edu.management.hotel.HotelHandler;
 import pl.agh.edu.model.Room;
 import pl.agh.edu.model.employee.Employee;
 import pl.agh.edu.model.employee.Profession;
 import pl.agh.edu.time_command.TimeCommand;
 
 public class RepairScheduler extends WorkScheduler<Room> {
-	public RepairScheduler(Hotel hotel) {
-		super(hotel, new LinkedList<>(), Profession.CLEANER);
+	public RepairScheduler(HotelHandler hotelHandler) {
+		super(hotelHandler, new LinkedList<>(), Profession.CLEANER);
 	}
 
 	@Override
