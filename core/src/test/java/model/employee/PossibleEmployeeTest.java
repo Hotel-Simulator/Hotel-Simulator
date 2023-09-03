@@ -28,21 +28,23 @@ public class PossibleEmployeeTest {
 	@ParameterizedTest
 	@MethodSource("providePossibleEmployees")
 	public void jobOfferTest(JobOffer jobOffer, JobOfferResponse expected) {
-		// given
-		PossibleEmployee possibleEmployee = new PossibleEmployee(
-				"",
-				"",
-				18,
-				0.45,
-				new EmploymentPreferences(
-						Shift.MORNING,
-						BigDecimal.valueOf(5000),
-						BigDecimal.valueOf(6000),
-						TypeOfContract.AGREEMENT),
-				Profession.CLEANER);
-		// when
+		// Given
+		PossibleEmployee possibleEmployee = new PossibleEmployee.Builder()
+				.firstName("")
+				.lastName("")
+				.age(18)
+				.skills(0.45)
+				.preferences(new EmploymentPreferences.Builder()
+						.desiredShift(Shift.MORNING)
+						.acceptableWage(BigDecimal.valueOf(5000))
+						.desiredWage(BigDecimal.valueOf(6000))
+						.desiredTypeOfContract(TypeOfContract.AGREEMENT)
+						.build())
+				.profession(Profession.CLEANER)
+				.build();
+		// When
 		JobOfferResponse response = possibleEmployee.offerJob(jobOffer);
-		// then
+		// Then
 		assertEquals(expected, response);
 	}
 

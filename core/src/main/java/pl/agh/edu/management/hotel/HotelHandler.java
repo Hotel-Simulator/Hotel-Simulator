@@ -31,7 +31,7 @@ public class HotelHandler {
 		this.repairScheduler = new RepairScheduler(this);
 		this.possibleEmployeeHandler = new PossibleEmployeeHandler(this);
 		this.employeeHandler = new EmployeeHandler();
-		this.roomManager = new RoomManager(JSONHotelDataLoader.rooms);
+		this.roomManager = new RoomManager(JSONHotelDataLoader.initialRooms);
 
 		opinions = new ArrayList<>();
 	}
