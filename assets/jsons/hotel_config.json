@@ -5,7 +5,7 @@
     "builder" : 1
   },
 
-  "rooms": [
+  "initial_rooms": [
     {
       "rank": "ONE",
       "capacity": "ONE",

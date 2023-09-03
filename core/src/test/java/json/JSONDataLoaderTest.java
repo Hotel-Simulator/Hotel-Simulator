@@ -51,7 +51,7 @@ public class JSONDataLoaderTest {
 			Map<String, Integer> initialData = JSONHotelDataLoader.initialData;
 			Map<String, Long> attractivenessConstants = JSONHotelDataLoader.attractivenessConstants;
 			Map<String, LocalTime> checkInAndOutTime = JSONHotelDataLoader.checkInAndOutTime;
-			List<Room> rooms = JSONHotelDataLoader.rooms;
+			List<Room> initialRooms = JSONHotelDataLoader.initialRooms;
 		});
 	}
 

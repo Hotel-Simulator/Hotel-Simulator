@@ -23,8 +23,8 @@ public class RoomManager {
 	private final Map<Room, LocalDateTime> roomRankChangeTimes;
 	private final RoomPriceList roomPriceList;
 
-	public RoomManager(List<Room> rooms) {
-		this.rooms = rooms;
+	public RoomManager(List<Room> initialRooms) {
+		this.rooms = initialRooms;
 		this.timeCommandExecutor = TimeCommandExecutor.getInstance();
 		this.time = Time.getInstance();
 		this.roomRankChangeTimes = new HashMap<>();

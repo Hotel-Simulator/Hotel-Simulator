@@ -22,7 +22,7 @@ public class JSONHotelDataLoader {
 	public static Map<String, Long> attractivenessConstants;
 	public static Map<String, LocalTime> checkInAndOutTime;
 
-	public static List<Room> rooms;
+	public static List<Room> initialRooms;
 
 	private JSONHotelDataLoader() {}
 
@@ -43,8 +43,8 @@ public class JSONHotelDataLoader {
 				JSONDataExtractor.extract(JSON_FILE_PATH, "check_in_out_times", JSONObject.class),
 				entry -> (String) entry.getKey(),
 				entry -> JSONValueUtil.getLocalTime((String) entry.getValue()));
-		rooms = JSONValueUtil.getList(
-				JSONDataExtractor.extract(JSON_FILE_PATH, "rooms", JSONArray.class),
+		initialRooms = JSONValueUtil.getList(
+				JSONDataExtractor.extract(JSON_FILE_PATH, "initial_rooms", JSONArray.class),
 				e -> new Room(RoomRank.valueOf((String) ((JSONObject) e).get("rank")), RoomCapacity.valueOf((String) ((JSONObject) e).get("capacity"))));
 
 	}

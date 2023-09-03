@@ -1,16 +1,16 @@
 package pl.agh.edu.management.employee;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import pl.agh.edu.enums.TypeOfContract;
 import pl.agh.edu.json.data_loader.JSONEmployeeDataLoader;
-import pl.agh.edu.model.employee.Employee;
-import pl.agh.edu.model.employee.EmployeeStatus;
-import pl.agh.edu.model.employee.Profession;
+import pl.agh.edu.model.employee.*;
 import pl.agh.edu.model.time.Time;
 import pl.agh.edu.time_command.TimeCommand;
 import pl.agh.edu.time_command.TimeCommandExecutor;
@@ -21,7 +21,7 @@ public class EmployeeHandler {
 	private final Time time;
 
 	public EmployeeHandler() {
-		this.employees = new ArrayList<>();
+		this.employees = getInitialEmployees();
 		this.timeCommandExecutor = TimeCommandExecutor.getInstance();
 		this.time = Time.getInstance();
 	}
@@ -62,11 +62,74 @@ public class EmployeeHandler {
 
 	public List<Employee> getWorkingEmployeesByProfession(Profession profession) {
 		return getWorkingEmployees().stream()
-				.filter(employee -> employee.getProfession() == profession)
+				.filter(employee -> employee.profession == profession)
 				.collect(Collectors.toList());
 	}
 
 	public void monthlyUpdate() {
 		employees.forEach(Employee::update);
+	}
+
+	private List<Employee> getInitialEmployees() {
+		List<Employee> initialEmployees = Stream.of(
+				new Employee(new PossibleEmployee.Builder()
+						.firstName("Jan")
+						.lastName("Kowalski")
+						.age(23)
+						.skills(0.55)
+						.preferences(new EmploymentPreferences.Builder()
+								.desiredShift(Shift.MORNING)
+								.acceptableWage(BigDecimal.valueOf(4000))
+								.desiredWage(BigDecimal.valueOf(6000))
+								.desiredTypeOfContract(TypeOfContract.AGREEMENT)
+								.build())
+						.profession(Profession.CLEANER)
+						.build(),
+						new JobOffer(Shift.MORNING, BigDecimal.valueOf(4500), TypeOfContract.AGREEMENT)),
+				new Employee(new PossibleEmployee.Builder()
+						.firstName("Maria")
+						.lastName("Nowak")
+						.age(23)
+						.skills(0.65)
+						.preferences(new EmploymentPreferences.Builder()
+								.desiredShift(Shift.MORNING)
+								.acceptableWage(BigDecimal.valueOf(4500))
+								.desiredWage(BigDecimal.valueOf(7000))
+								.desiredTypeOfContract(TypeOfContract.AGREEMENT)
+								.build())
+						.profession(Profession.CLEANER)
+						.build(),
+						new JobOffer(Shift.MORNING, BigDecimal.valueOf(5500), TypeOfContract.AGREEMENT)),
+				new Employee(new PossibleEmployee.Builder()
+						.firstName("Zofia")
+						.lastName("Wrona")
+						.age(23)
+						.skills(0.65)
+						.preferences(new EmploymentPreferences.Builder()
+								.desiredShift(Shift.MORNING)
+								.acceptableWage(BigDecimal.valueOf(4500))
+								.desiredWage(BigDecimal.valueOf(7000))
+								.desiredTypeOfContract(TypeOfContract.AGREEMENT)
+								.build())
+						.profession(Profession.RECEPTIONIST)
+						.build(),
+						new JobOffer(Shift.EVENING, BigDecimal.valueOf(5500), TypeOfContract.AGREEMENT)),
+				new Employee(new PossibleEmployee.Builder()
+						.firstName("Marcin")
+						.lastName("Szpak")
+						.age(45)
+						.skills(0.45)
+						.preferences(new EmploymentPreferences.Builder()
+								.desiredShift(Shift.MORNING)
+								.acceptableWage(BigDecimal.valueOf(4000))
+								.desiredWage(BigDecimal.valueOf(6000))
+								.desiredTypeOfContract(TypeOfContract.AGREEMENT)
+								.build())
+						.profession(Profession.RECEPTIONIST)
+						.build(),
+						new JobOffer(Shift.MORNING, BigDecimal.valueOf(4500), TypeOfContract.AGREEMENT))).toList();
+		initialEmployees.forEach(employee -> employee.setStatus(EmployeeStatus.HIRED_WORKING));
+
+		return initialEmployees;
 	}
 }

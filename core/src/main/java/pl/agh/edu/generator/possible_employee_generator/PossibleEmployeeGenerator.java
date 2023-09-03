@@ -17,18 +17,19 @@ public class PossibleEmployeeGenerator {
 
 	public static PossibleEmployee generatePossibleEmployeeWithProfession(Profession profession) {
 		double skills = RandomUtils.randomInt(100) / 100.;
-
-		return new PossibleEmployee(
-				faker.name().firstName(),
-				faker.name().lastName(),
-				RandomUtils.randomInt(18, 60),
-				skills,
-				new EmploymentPreferences(
-						RandomUtils.randomKeyWithProbabilities(JSONEmployeeDataLoader.shiftProbabilities),
-						generateAcceptableWage(skills),
-						generateDesiredWage(skills),
-						RandomUtils.randomKeyWithProbabilities(JSONEmployeeDataLoader.typeOfContractProbabilities)),
-				profession);
+		return new PossibleEmployee.Builder()
+				.firstName(faker.name().firstName())
+				.lastName(faker.name().lastName())
+				.age(RandomUtils.randomInt(18, 60))
+				.skills(skills)
+				.preferences(new EmploymentPreferences.Builder()
+						.desiredShift(RandomUtils.randomKeyWithProbabilities(JSONEmployeeDataLoader.shiftProbabilities))
+						.acceptableWage(generateAcceptableWage(skills))
+						.desiredWage(generateDesiredWage(skills))
+						.desiredTypeOfContract(RandomUtils.randomKeyWithProbabilities(JSONEmployeeDataLoader.typeOfContractProbabilities))
+						.build())
+				.profession(profession)
+				.build();
 
 	}
 
