@@ -15,17 +15,13 @@ import pl.agh.edu.utils.RandomUtils;
 
 public class EventLauncher {
 	private static EventLauncher instance;
-	private final Calendar calendar;
-	private final ClientNumberModificationTemporaryEventHandler clientNumberModificationTemporaryEventHandler;
-	private final PriorityQueue<ClientNumberModificationRandomTemporaryEvent> eventsToLaunch;
-	private final Time time;
+	private final Calendar calendar = Calendar.getInstance();
+	private final ClientNumberModificationTemporaryEventHandler clientNumberModificationTemporaryEventHandler = ClientNumberModificationTemporaryEventHandler.getInstance();
+	private final PriorityQueue<ClientNumberModificationRandomTemporaryEvent> eventsToLaunch = new PriorityQueue<>(Comparator.comparing(
+			ClientNumberModificationRandomTemporaryEvent::launchDate));
+	private final Time time = Time.getInstance();
 
-	private EventLauncher() {
-		calendar = Calendar.getInstance();
-		clientNumberModificationTemporaryEventHandler = ClientNumberModificationTemporaryEventHandler.getInstance();
-		this.eventsToLaunch = new PriorityQueue<>(Comparator.comparing(ClientNumberModificationRandomTemporaryEvent::launchDate));
-		this.time = Time.getInstance();
-	}
+	private EventLauncher() {}
 
 	public static EventLauncher getInstance() {
 		if (instance == null)

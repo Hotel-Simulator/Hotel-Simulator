@@ -7,12 +7,11 @@ public class TimeCommand implements Comparable<TimeCommand> {
 	private static final AtomicLong creationVersion = new AtomicLong(1L);
 	protected final Runnable toExecute;
 	protected LocalDateTime dueDateTime;
-	private final Long version;
+	private final Long version = creationVersion.getAndIncrement();
 
 	public TimeCommand(Runnable toExecute, LocalDateTime dueDateTime) {
 		this.toExecute = toExecute;
 		this.dueDateTime = dueDateTime;
-		this.version = creationVersion.getAndIncrement();
 	}
 
 	public void execute() {

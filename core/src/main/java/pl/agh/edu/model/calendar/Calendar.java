@@ -10,24 +10,15 @@ import pl.agh.edu.json.data_loader.JSONGameDataLoader;
 
 public class Calendar {
 	private static Calendar instance;
-	private final Map<LocalDate, List<CalendarEvent>> weeks;
+	private final Map<LocalDate, List<CalendarEvent>> weeks = Stream.iterate(getFirstDayOfWeekDate(JSONGameDataLoader.startDate), date -> date.plusDays(7))
+			.limit(ChronoUnit.DAYS.between(JSONGameDataLoader.startDate, JSONGameDataLoader.endDate.plusYears(1)) / 7)
+			.collect(Collectors.toMap(
+					d -> d,
+					d -> new ArrayList<>(),
+					(a, b) -> b,
+					HashMap::new));
 
-	private final LocalDate gameStartDate;
-	private final LocalDate gameEndDate;
-
-	private Calendar() {
-		this.gameStartDate = JSONGameDataLoader.startDate;
-		this.gameEndDate = JSONGameDataLoader.endDate;
-
-		LocalDate mondayDate = getFirstDayOfWeekDate(gameStartDate);
-		weeks = Stream.iterate(mondayDate, date -> date.plusDays(7))
-				.limit(ChronoUnit.DAYS.between(gameStartDate, gameEndDate.plusYears(1)) / 7)
-				.collect(Collectors.toMap(
-						d -> d,
-						d -> new ArrayList<>(),
-						(a, b) -> b,
-						HashMap::new));
-	}
+	private Calendar() {}
 
 	public static Calendar getInstance() {
 		if (instance == null)
@@ -49,10 +40,10 @@ public class Calendar {
 	}
 
 	public LocalDate getGameStartDate() {
-		return gameStartDate;
+		return JSONGameDataLoader.startDate;
 	}
 
 	public LocalDate getGameEndDate() {
-		return gameEndDate;
+		return JSONGameDataLoader.endDate;
 	}
 }

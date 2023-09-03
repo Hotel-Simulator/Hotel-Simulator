@@ -19,10 +19,10 @@ public class Employee {
 	private final BigDecimal wage;
 	private TypeOfContract typeOfContract;
 	private final Shift shift;
-	private boolean isOccupied;
-	private BigDecimal bonusForThisMonth;
+	private boolean isOccupied = false;
+	private BigDecimal bonusForThisMonth = BigDecimal.ZERO;
 	private final Duration basicServiceExecutionTime;
-	private EmployeeStatus employeeStatus;
+	private EmployeeStatus employeeStatus = EmployeeStatus.HIRED_NOT_WORKING;
 
 	public Employee(PossibleEmployee possibleEmployee, JobOffer jobOffer) {
 		this.firstName = possibleEmployee.firstName();
@@ -35,10 +35,7 @@ public class Employee {
 		this.typeOfContract = jobOffer.typeOfContract();
 		this.shift = jobOffer.shift();
 
-		this.isOccupied = false;
-		this.bonusForThisMonth = BigDecimal.ZERO;
 		this.basicServiceExecutionTime = JSONEmployeeDataLoader.basicServiceExecutionTimes.get(possibleEmployee.profession());
-		this.employeeStatus = EmployeeStatus.HIRED_NOT_WORKING;
 	}
 
 	public double getSatisfaction() {

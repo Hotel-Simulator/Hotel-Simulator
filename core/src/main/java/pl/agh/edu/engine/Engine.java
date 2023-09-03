@@ -19,25 +19,19 @@ import pl.agh.edu.time_command.TimeCommand;
 import pl.agh.edu.time_command.TimeCommandExecutor;
 
 public class Engine {
-	private final Time time;
-	private final ClientGenerator clientGenerator;
+	private final Time time = Time.getInstance();
+	private final ClientGenerator clientGenerator = ClientGenerator.getInstance();
 	private final Hotel hotel;
-	private final TimeCommandExecutor timeCommandExecutor;
-	private final AdvertisementHandler advertisementHandler;
-	private final EventGenerator eventGenerator;
+	private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
+	private final AdvertisementHandler advertisementHandler = AdvertisementHandler.getInstance();
+	private final EventGenerator eventGenerator = EventGenerator.getInstance();
 	private final CleaningScheduler cleaningScheduler;
 	private final RepairScheduler repairScheduler;
 	private final ReceptionScheduler receptionScheduler;
 	private final EmployeesToHireHandler employeesToHireHandler;
 
 	public Engine() {
-		this.time = Time.getInstance();
-		this.clientGenerator = ClientGenerator.getInstance();
-
 		this.hotel = new Hotel(LocalTime.of(15, 0), LocalTime.of(12, 0));
-		this.timeCommandExecutor = TimeCommandExecutor.getInstance();
-		this.advertisementHandler = AdvertisementHandler.getInstance();
-		this.eventGenerator = EventGenerator.getInstance();
 		this.cleaningScheduler = new CleaningScheduler(hotel);
 		this.repairScheduler = new RepairScheduler(hotel);
 		this.receptionScheduler = new ReceptionScheduler(hotel, cleaningScheduler, repairScheduler);

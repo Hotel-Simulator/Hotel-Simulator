@@ -16,21 +16,15 @@ public class AdvertisementHandler {
 	private static AdvertisementHandler instance;
 	private static final EnumMap<SingleAdvertisementType, SingleAdvertisementData> simpleAdvertisementData = JSONAdvertisementDataLoader.singleAdvertisementData;
 	private static final EnumMap<ConstantAdvertisementType, ConstantAdvertisementData> constantAdvertisementData = JSONAdvertisementDataLoader.constantAdvertisementData;
-	private final EnumMap<SingleAdvertisementType, List<SingleAdvertisement>> singleAdvertisements;
-	private final EnumMap<ConstantAdvertisementType, ConstantAdvertisement> constantAdvertisements;
-
-	private final LinkedList<Advertisement> advertisementHistory;
-
-	private final Time time;
+	private final EnumMap<SingleAdvertisementType, List<SingleAdvertisement>> singleAdvertisements = new EnumMap<>(SingleAdvertisementType.class);
+	private final EnumMap<ConstantAdvertisementType, ConstantAdvertisement> constantAdvertisements = new EnumMap<>(ConstantAdvertisementType.class);
+	private final LinkedList<Advertisement> advertisementHistory = new LinkedList<>();
+	private final Time time = Time.getInstance();
 
 	private AdvertisementHandler() {
-		this.time = Time.getInstance();
-		this.singleAdvertisements = new EnumMap<>(SingleAdvertisementType.class);
 		for (SingleAdvertisementType type : SingleAdvertisementType.values()) {
 			this.singleAdvertisements.put(type, new ArrayList<>());
 		}
-		this.constantAdvertisements = new EnumMap<>(ConstantAdvertisementType.class);
-		this.advertisementHistory = new LinkedList<>();
 	}
 
 	public static AdvertisementHandler getInstance() {
@@ -48,7 +42,7 @@ public class AdvertisementHandler {
 					emissionDate)));
 
 			return true;
-		} ;
+		}
 		return false;
 	}
 

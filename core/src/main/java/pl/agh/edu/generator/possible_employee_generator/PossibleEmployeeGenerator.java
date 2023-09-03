@@ -13,7 +13,8 @@ import pl.agh.edu.utils.RandomUtils;
 
 public class PossibleEmployeeGenerator {
 	private static final Faker faker = new Faker();
-	private static final BigDecimal minWage = JSONEmployeeDataLoader.minWage;
+
+	private PossibleEmployeeGenerator() {}
 
 	public static PossibleEmployee generatePossibleEmployeeWithProfession(Profession profession) {
 		double skills = RandomUtils.randomInt(100) / 100.;
@@ -37,12 +38,12 @@ public class PossibleEmployeeGenerator {
 	}
 
 	private static BigDecimal generateDesiredWage(double skills) {
-		return BigDecimal.valueOf((int) (minWage.doubleValue() * (1 + 0.5 * (skills + RandomUtils.randomDouble(0.3, 0.4)))) / 100 * 100);
+		return BigDecimal.valueOf((int) (JSONEmployeeDataLoader.minWage.doubleValue() * (1 + 0.5 * (skills + RandomUtils.randomDouble(0.3, 0.4)))) / 100 * 100);
 
 	}
 
 	private static BigDecimal generateAcceptableWage(double skills) {
-		return BigDecimal.valueOf((int) (minWage.doubleValue() * (1 + 0.5 * (skills + RandomUtils.randomDouble(0.2)))) / 100 * 100);
+		return BigDecimal.valueOf((int) (JSONEmployeeDataLoader.minWage.doubleValue() * (1 + 0.5 * (skills + RandomUtils.randomDouble(0.2)))) / 100 * 100);
 	}
 
 }
