@@ -8,6 +8,7 @@ import java.util.Map;
 import org.json.simple.JSONObject;
 
 import pl.agh.edu.enums.HotelVisitPurpose;
+import pl.agh.edu.enums.RoomCapacity;
 import pl.agh.edu.enums.RoomRank;
 import pl.agh.edu.json.data_extractor.JSONDataExtractor;
 import pl.agh.edu.json.data_extractor.JSONFilePath;
@@ -19,8 +20,8 @@ public class JSONClientDataLoader {
 	public static EnumMap<HotelVisitPurpose, Double> hotelVisitPurposeProbabilities;
 	public static EnumMap<HotelVisitPurpose, EnumMap<RoomRank, Integer>> desiredRankProbabilities;
 	public static EnumMap<HotelVisitPurpose, Map<Integer, Integer>> numberOfNightsProbabilities;
-	public static EnumMap<HotelVisitPurpose, Map<Integer, Integer>> roomSizeProbabilities;
-	public static EnumMap<RoomRank, Map<Integer, BigDecimal>> averagePricesPerNight;
+	public static EnumMap<HotelVisitPurpose, EnumMap<RoomCapacity, Integer>> roomCapacityProbabilities;
+	public static EnumMap<RoomRank, EnumMap<RoomCapacity, BigDecimal>> averagePricesPerNight;
 	public static Duration basicMaxWaitingTime;
 	public static int waitingTimeVariation;
 
@@ -51,20 +52,20 @@ public class JSONClientDataLoader {
 						entry2 -> Integer.parseInt((String) entry2.getKey()),
 						entry2 -> JSONValueUtil.getInt((Long) entry2.getValue())),
 				HotelVisitPurpose.class);
-		roomSizeProbabilities = JSONValueUtil.getEnumMap(
-				JSONDataExtractor.extract(JSON_FILE_PATH, "room_size_probabilities", JSONObject.class),
-				entry -> JSONValueUtil.getMap(
+		roomCapacityProbabilities = JSONValueUtil.getEnumMap(
+				JSONDataExtractor.extract(JSON_FILE_PATH, "room_capacity_probabilities", JSONObject.class),
+				entry -> JSONValueUtil.getEnumMap(
 						(JSONObject) entry.getValue(),
-						entry2 -> Integer.parseInt((String) entry2.getKey()),
-						entry2 -> JSONValueUtil.getInt((Long) entry2.getValue())),
+						entry2 -> JSONValueUtil.getInt((Long) entry2.getValue()),
+						RoomCapacity.class),
 				HotelVisitPurpose.class);
 
 		averagePricesPerNight = JSONValueUtil.getEnumMap(
 				JSONDataExtractor.extract(JSON_FILE_PATH, "average_prices_per_nights", JSONObject.class),
-				entry -> JSONValueUtil.getMap(
+				entry -> JSONValueUtil.getEnumMap(
 						(JSONObject) entry.getValue(),
-						entry2 -> Integer.parseInt((String) entry2.getKey()),
-						entry2 -> JSONValueUtil.getBigDecimal((Long) entry2.getValue())),
+						entry2 -> JSONValueUtil.getBigDecimal((Long) entry2.getValue()),
+						RoomCapacity.class),
 				RoomRank.class);
 
 		basicMaxWaitingTime = JSONValueUtil.getDuration(
