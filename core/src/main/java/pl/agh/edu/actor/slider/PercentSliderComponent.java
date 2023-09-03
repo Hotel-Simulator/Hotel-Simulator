@@ -4,7 +4,8 @@ import java.math.BigDecimal;
 
 public class PercentSliderComponent extends SliderComponent{
     public PercentSliderComponent(String name, SliderSize sliderSize) {
-        super(name, "%", BigDecimal.ZERO, BigDecimal.valueOf(100), BigDecimal.ONE, sliderSize);
+        super(name, "%", 0f, 100f, 1f, sliderSize);
+        setField();
     }
 
 }

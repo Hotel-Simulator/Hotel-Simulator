@@ -17,7 +17,7 @@ public class SliderComponent extends Table {
 	private final float HORIZONTAL_OUTER_PADDING;
 	private final float HORIZONTAL_INNER_PADDING;
 	protected Label valueLabel;
-	protected BigSlider slider;
+	protected Slider slider;
 	protected Skin skin;
 	protected String suffix;
 	private float min;
@@ -25,7 +25,7 @@ public class SliderComponent extends Table {
 	private float step;
 	Label realLabel;
 
-	public SliderComponent(String name, String suffix, BigDecimal min, BigDecimal max, BigDecimal step, SliderSize sliderSize) {
+	public SliderComponent(String name, String suffix, float min, float max, float step, SliderSize sliderSize) {
 		SLIDER_WIDTH = sliderSize.getSLIDER_WIDTH();
 		SLIDER_HEIGHT = sliderSize.getSLIDER_HEIGHT();
 		HORIZONTAL_OUTER_PADDING = sliderSize.getHORIZONTAL_OUTER_PADDING();
@@ -40,13 +40,10 @@ public class SliderComponent extends Table {
 
 	}
 
-//	public SliderComponent(String name, String suffix, Prefix min, Prefix max, BigDecimal step, SliderSize sliderSize) {
-//
-//	}
 
 	private class SliderRowTable extends Table {
 
-		public SliderRowTable(String name, BigDecimal min, BigDecimal max, BigDecimal step) {
+		public SliderRowTable(String name, float min, float max, float step) {
 			Label nameLabel = new Label(name + ":", skin, "subtitle1_label");
 			nameLabel.setAlignment(Align.left, Align.center);
 			add(nameLabel).width(SLIDER_WIDTH / 4 - HORIZONTAL_OUTER_PADDING).padLeft(HORIZONTAL_OUTER_PADDING);
@@ -61,15 +58,11 @@ public class SliderComponent extends Table {
 			lineDrawable.setMinWidth(2);
 			Image separator = new Image(lineDrawable);
 			add(separator).bottom().padLeft(HORIZONTAL_INNER_PADDING).padRight(HORIZONTAL_INNER_PADDING).setActorX(SLIDER_WIDTH/2);
-			System.out.println((max.subtract(min)).floatValue());
-			System.out.println(1f/(max.subtract(min)).floatValue());
-			slider = new BigSlider(min, max, step, false, skin);
+			slider = new Slider(min, max, step, false, skin);
 			slider.addListener(new ChangeListener() {
 				@Override
 				public void changed(ChangeEvent event, Actor actor) {
 					setField();
-					BigSlider sl = (BigSlider) actor;
-					realLabel.setText(String.format( "%f",sl.getValue()));
 				}
 			});
 			add(slider).width(SLIDER_WIDTH / 2 - HORIZONTAL_OUTER_PADDING).padRight(HORIZONTAL_OUTER_PADDING);
@@ -77,7 +70,7 @@ public class SliderComponent extends Table {
 			row();
 			add(realLabel);
 
-			setField();
+
 		}
 
 
@@ -96,13 +89,9 @@ public class SliderComponent extends Table {
 	}
 
 
-	public BigDecimal getValue() {
+	public float getValue() {
 		return slider.getValue();
 	}
 
-//dymamic step
-// multiplier for bigdecimal
-
-	//mniejsza gałka
 
 }
