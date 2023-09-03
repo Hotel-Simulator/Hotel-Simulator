@@ -5,6 +5,7 @@ public class RoomState {
 	private boolean isDirty = false;
 	private boolean isFaulty = false;
 	private boolean isUnderRankChange = false;
+	private boolean isBeingBuild = false;
 
 	public boolean isOccupied() {
 		return isOccupied;
@@ -36,5 +37,13 @@ public class RoomState {
 
 	public void setUnderRankChange(boolean underRankChange) {
 		isUnderRankChange = underRankChange;
+	}
+
+	public boolean isBeingBuild() {
+		return isBeingBuild;
+	}
+
+	public void setBeingBuild(boolean beingBuild) {
+		isBeingBuild = beingBuild;
 	}
 }

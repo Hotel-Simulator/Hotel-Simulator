@@ -21,6 +21,8 @@ public class RoomManager {
 	private final TimeCommandExecutor timeCommandExecutor;
 	private final Time time;
 	private final Map<Room, LocalDateTime> roomRankChangeTimes;
+	private final Map<Room, LocalDateTime> roomBuildingTimes;
+
 	private final RoomPriceList roomPriceList;
 
 	public RoomManager(List<Room> initialRooms) {
@@ -28,6 +30,7 @@ public class RoomManager {
 		this.timeCommandExecutor = TimeCommandExecutor.getInstance();
 		this.time = Time.getInstance();
 		this.roomRankChangeTimes = new HashMap<>();
+		this.roomBuildingTimes = new HashMap<>();
 		this.roomPriceList = new RoomPriceList(JSONClientDataLoader.averagePricesPerNight);
 	}
 
@@ -55,6 +58,7 @@ public class RoomManager {
 				.filter(room -> room.capacity.value == group.getSize())
 				.filter(room -> !room.roomState.isOccupied())
 				.filter(room -> !room.roomState.isUnderRankChange())
+				.filter(room -> !room.roomState.isBeingBuild())
 				.filter(room -> roomPriceList.getPrice(room).compareTo(group.getDesiredPricePerNight()) < 1)
 				.min(Comparator.comparing(room -> room.roomState.isDirty()));
 	}
@@ -81,15 +85,35 @@ public class RoomManager {
 		return Optional.ofNullable(roomRankChangeTimes.get(room));
 	}
 
+	public Optional<LocalDateTime> findBuildTime(Room room) {
+		return Optional.ofNullable(roomBuildingTimes.get(room));
+	}
+
 	public boolean canChangeRoomRank(Room room) {
 		return !room.roomState.isOccupied()
 				&& !room.roomState.isUnderRankChange()
 				&& !room.roomState.isFaulty()
-				&& !room.roomState.isDirty();
+				&& !room.roomState.isDirty()
+				&& !room.roomState.isBeingBuild();
 	}
 
 	public void addRoom(Room room) {
 		rooms.add(room);
+	}
+
+	public void buildRoom(RoomRank roomRank, RoomCapacity roomCapacity) {
+		Room buildRoom = new Room(roomRank, roomCapacity);
+		buildRoom.roomState.setBeingBuild(true);
+		rooms.add(buildRoom);
+
+		LocalDateTime buildTime = time.getTime().plus(JSONRoomDataLoader.roomBuildingDuration.get(roomRank));
+		roomBuildingTimes.put(buildRoom, buildTime);
+
+		timeCommandExecutor.addCommand(new TimeCommand(
+				() -> {
+					buildRoom.roomState.setBeingBuild(false);
+					roomBuildingTimes.remove(buildRoom);
+				}, buildTime));
 	}
 
 }

@@ -15,6 +15,7 @@ public class JSONRoomDataLoader {
 	private static final String JSON_FILE_PATH = JSONFilePath.ROOM_CONFIG.get();
 
 	public static EnumMap<RoomRank, Duration> roomRankChangeDuration;
+	public static EnumMap<RoomRank, Duration> roomBuildingDuration;
 
 	private JSONRoomDataLoader() {}
 
@@ -26,6 +27,10 @@ public class JSONRoomDataLoader {
 		roomRankChangeDuration = JSONValueUtil.getEnumMap(
 				JSONDataExtractor.extract(JSON_FILE_PATH, "room_rank_change_duration_in_hours", JSONObject.class),
 				(entry -> Duration.ofHours((Long) entry.getValue())),
+				RoomRank.class);
+		roomBuildingDuration = JSONValueUtil.getEnumMap(
+				JSONDataExtractor.extract(JSON_FILE_PATH, "room_rank_change_duration_in_hours", JSONObject.class),
+				(entry -> Duration.ofDays((Long) entry.getValue())),
 				RoomRank.class);
 
 	}
