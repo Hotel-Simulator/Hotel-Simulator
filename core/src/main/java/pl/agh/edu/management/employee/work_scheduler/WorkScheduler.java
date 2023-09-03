@@ -45,7 +45,7 @@ public abstract class WorkScheduler<T> {
 	public void perShiftUpdate() {
 		currentShift = currentShift.next();
 		workingEmployees = hotelHandler.employeeHandler.getWorkingEmployeesByProfession(employeesProfession).stream()
-				.filter(employee -> employee.getShift().equals(currentShift))
+				.filter(employee -> employee.shift.equals(currentShift))
 				.collect(Collectors.toList());
 		workingEmployees.forEach(this::executeServiceIfPossible);
 

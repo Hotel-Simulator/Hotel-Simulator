@@ -5,10 +5,10 @@ import java.math.BigDecimal;
 import pl.agh.edu.enums.TypeOfContract;
 
 public class EmploymentPreferences {
-	private final Shift desiredShift;
-	private final BigDecimal acceptableWage;
-	private final BigDecimal desiredWage;
-	private final TypeOfContract desiredTypeOfContract;
+	public final Shift desiredShift;
+	public final BigDecimal acceptableWage;
+	public final BigDecimal desiredWage;
+	public final TypeOfContract desiredTypeOfContract;
 
 	// Prywatny konstruktor, aby zapobiec tworzeniu obiektu bezpośrednio.
 	private EmploymentPreferences(Builder builder) {
@@ -16,22 +16,6 @@ public class EmploymentPreferences {
 		this.acceptableWage = builder.acceptableWage;
 		this.desiredWage = builder.desiredWage;
 		this.desiredTypeOfContract = builder.desiredTypeOfContract;
-	}
-
-	public Shift desiredShift() {
-		return desiredShift;
-	}
-
-	public BigDecimal acceptableWage() {
-		return acceptableWage;
-	}
-
-	public BigDecimal desiredWage() {
-		return desiredWage;
-	}
-
-	public TypeOfContract desiredTypeOfContract() {
-		return desiredTypeOfContract;
 	}
 
 	public static class Builder {

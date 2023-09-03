@@ -62,7 +62,7 @@ public class EmployeeHandler {
 
 	public List<Employee> getWorkingEmployeesByProfession(Profession profession) {
 		return getWorkingEmployees().stream()
-				.filter(employee -> employee.getProfession() == profession)
+				.filter(employee -> employee.profession == profession)
 				.collect(Collectors.toList());
 	}
 

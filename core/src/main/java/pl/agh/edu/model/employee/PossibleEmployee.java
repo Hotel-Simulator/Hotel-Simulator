@@ -1,12 +1,12 @@
 package pl.agh.edu.model.employee;
 
 public class PossibleEmployee {
-	private final String firstName;
-	private final String lastName;
-	private final int age;
-	private final double skills;
-	private final EmploymentPreferences preferences;
-	private final Profession profession;
+	public final String firstName;
+	public final String lastName;
+	public final int age;
+	public final double skills;
+	public final EmploymentPreferences preferences;
+	public final Profession profession;
 
 	private PossibleEmployee(Builder builder) {
 		this.firstName = builder.firstName;
@@ -17,46 +17,22 @@ public class PossibleEmployee {
 		this.profession = builder.profession;
 	}
 
-	public String firstName() {
-		return firstName;
-	}
-
-	public String lastName() {
-		return lastName;
-	}
-
-	public int age() {
-		return age;
-	}
-
-	public double skills() {
-		return skills;
-	}
-
-	public EmploymentPreferences preferences() {
-		return preferences;
-	}
-
-	public Profession profession() {
-		return profession;
-	}
-
 	public JobOfferResponse offerJob(JobOffer jobOffer) {
 
-		if (preferences.desiredShift() == jobOffer.shift()
-				&& jobOffer.typeOfContract() == preferences.desiredTypeOfContract()) {
+		if (preferences.desiredShift == jobOffer.shift()
+				&& jobOffer.typeOfContract() == preferences.desiredTypeOfContract) {
 
-			if (jobOffer.offeredWage().doubleValue() >= preferences.acceptableWage().doubleValue()) {
+			if (jobOffer.offeredWage().doubleValue() >= preferences.acceptableWage.doubleValue()) {
 				return JobOfferResponse.POSITIVE;
 			}
-		} else if (preferences.desiredShift() == jobOffer.shift()
-				|| jobOffer.typeOfContract() == preferences.desiredTypeOfContract()) {
+		} else if (preferences.desiredShift == jobOffer.shift()
+				|| jobOffer.typeOfContract() == preferences.desiredTypeOfContract) {
 
-			if (jobOffer.offeredWage().doubleValue() * 2 >= preferences.acceptableWage().doubleValue() + preferences.desiredWage().doubleValue()) {
+			if (jobOffer.offeredWage().doubleValue() * 2 >= preferences.acceptableWage.doubleValue() + preferences.desiredWage.doubleValue()) {
 				return JobOfferResponse.POSITIVE;
 			}
 		} else {
-			if (jobOffer.offeredWage().doubleValue() >= preferences.desiredWage().doubleValue()) {
+			if (jobOffer.offeredWage().doubleValue() >= preferences.desiredWage.doubleValue()) {
 				return JobOfferResponse.POSITIVE;
 			}
 		}
