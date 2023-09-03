@@ -3,7 +3,6 @@ package pl.agh.edu;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
 
-import pl.agh.edu.enums.Resolution;
 import pl.agh.edu.model.console.CommandExecutor;
 import pl.agh.edu.model.time.Time;
 import pl.agh.edu.screen.MainScreen;

@@ -1,22 +1,17 @@
 package pl.agh.edu.screen;
 
 import com.badlogic.gdx.*;
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import pl.agh.edu.GameConfig;
 import pl.agh.edu.GdxGame;
 import pl.agh.edu.actor.HotelSkin;
-import pl.agh.edu.actor.NavbarBottom;
-import pl.agh.edu.actor.NavbarTop;
+import pl.agh.edu.actor.component.navbar.NavbarBottom;
+import pl.agh.edu.actor.component.navbar.NavbarTop;
 import pl.agh.edu.actor.frame.BaseFrame;
 import pl.agh.edu.actor.frame.TestFrame;
 
