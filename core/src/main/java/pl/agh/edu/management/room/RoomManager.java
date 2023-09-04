@@ -18,20 +18,14 @@ import pl.agh.edu.time_command.TimeCommandExecutor;
 public class RoomManager {
 
 	private final List<Room> rooms;
-	private final TimeCommandExecutor timeCommandExecutor;
-	private final Time time;
-	private final Map<Room, LocalDateTime> roomRankChangeTimes;
-	private final Map<Room, LocalDateTime> roomBuildingTimes;
-
-	private final RoomPriceList roomPriceList;
+	private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
+	private final Time time = Time.getInstance();
+	private final Map<Room, LocalDateTime> roomRankChangeTimes = new HashMap<>();
+	private final Map<Room, LocalDateTime> roomBuildingTimes = new HashMap<>();
+	private final RoomPriceList roomPriceList = new RoomPriceList(JSONClientDataLoader.averagePricesPerNight);
 
 	public RoomManager(List<Room> initialRooms) {
 		this.rooms = initialRooms;
-		this.timeCommandExecutor = TimeCommandExecutor.getInstance();
-		this.time = Time.getInstance();
-		this.roomRankChangeTimes = new HashMap<>();
-		this.roomBuildingTimes = new HashMap<>();
-		this.roomPriceList = new RoomPriceList(JSONClientDataLoader.averagePricesPerNight);
 	}
 
 	public List<Room> getRooms() {

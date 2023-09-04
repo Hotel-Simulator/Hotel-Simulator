@@ -2,7 +2,6 @@ package pl.agh.edu.management.employee;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.IntStream;
 
 import pl.agh.edu.generator.possible_employee_generator.PossibleEmployeeGenerator;
@@ -14,7 +13,7 @@ import pl.agh.edu.utils.RandomUtils;
 public class PossibleEmployeeHandler {
 	private final HotelHandler hotelHandler;
 
-	private final List<PossibleEmployee> possibleEmployees =  new ArrayList<>();
+	private final List<PossibleEmployee> possibleEmployees = new ArrayList<>();
 
 	public PossibleEmployeeHandler(HotelHandler hotelHandler) {
 		this.hotelHandler = hotelHandler;
