@@ -17,13 +17,11 @@ import pl.agh.edu.time_command.TimeCommandExecutor;
 
 public class EmployeeHandler {
 	private final List<Employee> employees;
-	private final TimeCommandExecutor timeCommandExecutor;
-	private final Time time;
+	private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
+	private final Time time = Time.getInstance();
 
 	public EmployeeHandler() {
 		this.employees = getInitialEmployees();
-		this.timeCommandExecutor = TimeCommandExecutor.getInstance();
-		this.time = Time.getInstance();
 	}
 
 	public void hireEmployee(Employee employee) {

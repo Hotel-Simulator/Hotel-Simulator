@@ -9,26 +9,20 @@ import pl.agh.edu.generator.possible_employee_generator.PossibleEmployeeGenerato
 import pl.agh.edu.json.data_loader.JSONGameDataLoader;
 import pl.agh.edu.management.hotel.HotelHandler;
 import pl.agh.edu.model.employee.*;
+import pl.agh.edu.utils.RandomUtils;
 
 public class PossibleEmployeeHandler {
 	private final HotelHandler hotelHandler;
 
-	private final List<PossibleEmployee> possibleEmployees;
-	private final int employeesToHireListSize;
-	private final double possibleEmployeeRemovalProbability;
-	private final Random random;
+	private final List<PossibleEmployee> possibleEmployees =  new ArrayList<>();
 
 	public PossibleEmployeeHandler(HotelHandler hotelHandler) {
-		employeesToHireListSize = JSONGameDataLoader.employeesToHireListSize;
-		possibleEmployeeRemovalProbability = JSONGameDataLoader.possibleEmployeeRemovalProbability;
-		this.possibleEmployees = new ArrayList<>();
-		random = new Random();
 		this.hotelHandler = hotelHandler;
 		initialize();
 	}
 
 	public void initialize() {
-		IntStream.range(0, employeesToHireListSize).forEach(i -> possibleEmployees.add(PossibleEmployeeGenerator.generatePossibleEmployee()));
+		IntStream.range(0, JSONGameDataLoader.employeesToHireListSize).forEach(i -> possibleEmployees.add(PossibleEmployeeGenerator.generatePossibleEmployee()));
 	}
 
 	public List<PossibleEmployee> getPossibleEmployees() {
@@ -36,8 +30,8 @@ public class PossibleEmployeeHandler {
 	}
 
 	public void dailyUpdate() {
-		possibleEmployees.removeIf((employee -> random.nextDouble() <= possibleEmployeeRemovalProbability));
-		IntStream.range(possibleEmployees.size(), employeesToHireListSize)
+		possibleEmployees.removeIf((employee -> RandomUtils.randomBooleanWithProbability(JSONGameDataLoader.possibleEmployeeRemovalProbability)));
+		IntStream.range(possibleEmployees.size(), JSONGameDataLoader.employeesToHireListSize)
 				.forEach(i -> possibleEmployees.add(PossibleEmployeeGenerator.generatePossibleEmployee()));
 	}
 
