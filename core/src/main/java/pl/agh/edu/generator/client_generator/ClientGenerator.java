@@ -9,12 +9,10 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import pl.agh.edu.enums.HotelVisitPurpose;
-import pl.agh.edu.enums.RoomCapacity;
-import pl.agh.edu.enums.RoomRank;
-import pl.agh.edu.enums.Sex;
+import pl.agh.edu.enums.*;
 import pl.agh.edu.json.data_loader.JSONClientDataLoader;
 import pl.agh.edu.json.data_loader.JSONHotelDataLoader;
+import pl.agh.edu.json.data_loader.JSONHotelScenariosDataLoader;
 import pl.agh.edu.model.advertisement.AdvertisementHandler;
 import pl.agh.edu.model.advertisement.report.AdvertisementReportData;
 import pl.agh.edu.model.advertisement.report.AdvertisementReportHandler;
@@ -32,6 +30,9 @@ public class ClientGenerator {
 	private final AdvertisementHandler advertisementHandler;
 	private final ClientNumberModificationTemporaryEventHandler clientNumberModificationTemporaryEventHandler;
 	private final Time time;
+	private EnumMap<HotelVisitPurpose, Double> hotelVisitPurposeProbabilities;
+	private Map<Integer, Double> monthClientsMultiplier;
+	private double difficultyMultiplier;
 
 	private ClientGenerator() {
 
@@ -44,6 +45,10 @@ public class ClientGenerator {
 	public static ClientGenerator getInstance() {
 		if (clientGeneratorInstance == null)
 			clientGeneratorInstance = new ClientGenerator();
+
+		// Input player choice
+		clientGeneratorInstance.setHotelTypeDifficulty(HotelType.values()[RandomUtils.randomInt(HotelType.values().length)]);
+		clientGeneratorInstance.setDifficulty(DifficultyLevel.values()[RandomUtils.randomInt(DifficultyLevel.values().length)]);
 		return clientGeneratorInstance;
 	}
 
@@ -53,7 +58,7 @@ public class ClientGenerator {
 	}
 
 	private BigDecimal getDesiredPricePerNight(RoomRank desiredRoomRank, RoomCapacity roomCapacity) {
-		double meanPrice = JSONClientDataLoader.averagePricesPerNight.get(desiredRoomRank).get(roomCapacity).doubleValue();
+		double meanPrice = JSONClientDataLoader.averagePricesPerNight.get(desiredRoomRank).get(roomCapacity).doubleValue() * difficultyMultiplier;
 		double variation = 0.2 * meanPrice;
 
 		return BigDecimal.valueOf(Math.round(RandomUtils.randomGaussian(meanPrice, variation)));
@@ -97,13 +102,13 @@ public class ClientGenerator {
 	}
 
 	private EnumMap<HotelVisitPurpose, Integer> getNumberOfClientGroups() {
-		double popularityModifier = 0.1;
+		double popularityModifier = seasonClientsMultiplier();
 		int basicNumberOfClients = (int) Math.round(((attractivenessConstants.get("local_market") + attractivenessConstants.get("local_attractions"))) * popularityModifier);
 		return Stream.of(HotelVisitPurpose.values()).collect(Collectors.toMap(
 				e -> e,
 				e -> (int) Math.round(
 						basicNumberOfClients *
-								JSONClientDataLoader.hotelVisitPurposeProbabilities.get(e) *
+								hotelVisitPurposeProbabilities.get(e) *
 								Math.max(0, RandomUtils.randomGaussian(1, 1. / 3)) *
 								(clientNumberModificationTemporaryEventHandler.getClientNumberModifier().get(e) + 1)),
 				(a, b) -> b,
@@ -125,5 +130,34 @@ public class ClientGenerator {
 								generateClientGroupForGivenHotelVisitPurpose(checkOutMaxTime, e))))
 				.sorted(Arrival::compareTo)
 				.collect(Collectors.toList());
+	}
+
+	private void setHotelTypeDifficulty(HotelType hotelType) {
+
+		switch (hotelType) {
+			case HOTEL -> {
+				hotelVisitPurposeProbabilities = JSONHotelScenariosDataLoader.businessVisitsMode;
+				monthClientsMultiplier = JSONHotelScenariosDataLoader.vacationPopularity.get(HotelType.HOTEL);
+			}
+			case RESORT -> {
+				hotelVisitPurposeProbabilities = JSONHotelScenariosDataLoader.vacationVisitsMode;
+				monthClientsMultiplier = JSONHotelScenariosDataLoader.vacationPopularity.get(HotelType.RESORT);
+			}
+			case SANATORIUM -> {
+				hotelVisitPurposeProbabilities = JSONHotelScenariosDataLoader.rehabilitationVisitsMode;
+				monthClientsMultiplier = JSONHotelScenariosDataLoader.vacationPopularity.get(HotelType.SANATORIUM);
+			}
+		}
+	}
+
+	private void setDifficulty(DifficultyLevel difficulty) {
+		difficultyMultiplier = JSONHotelScenariosDataLoader.difficultyMultiplier.get(difficulty);
+	}
+
+	private double seasonClientsMultiplier() {
+		double mean = monthClientsMultiplier.get(time.getTime().getMonthValue());
+		double var = mean * 0.2;
+
+		return RandomUtils.randomGaussian(mean, var);
 	}
 }

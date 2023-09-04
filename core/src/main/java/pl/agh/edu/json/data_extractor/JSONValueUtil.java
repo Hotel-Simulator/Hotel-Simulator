@@ -68,4 +68,7 @@ public class JSONValueUtil {
 						() -> new EnumMap<>(enumClass)));
 	}
 
+	public static double getDouble(Double value) {
+		return value;
+	}
 }
