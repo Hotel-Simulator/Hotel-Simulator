@@ -418,7 +418,6 @@
 	},
 	"calendar": {
 		"up": "button-calendar-up",
-		"down": "button-calendar-down",
 		"over": "button-calendar-over"
 	}
 },
@@ -495,6 +494,14 @@
 		"selection": "list-selection",
 		"over": "list-over",
 		"background": "list-background"
+	},
+	"selectMenuLast": {
+		"font": "body1",
+		"fontColorSelected": "Gray_900",
+		"fontColorUnselected": "Shadow",
+		"selection": "list-last-selection",
+		"over": "list-last-over",
+		"background": "list-background"
 	}
 },
 "ProgressBarStyle": {
@@ -523,7 +530,7 @@
 		"backgroundOpen": "selectbox-background-open"
 	},
 	"selectMenu": {
-		"font": "subtittle1",
+		"font": "body1",
 		"fontColor": "Gray_900",
 		"disabledFontColor": "Shadow",
 		"background": "selectbox-background",
@@ -564,7 +571,7 @@
 		"over": "button-small-over",
 		"disabled": "button-small-disabled"
 	},
-	"normal": {
+	"Normal": {
 		"font": "button2",
 		"downFontColor": "Secondary_300",
 		"overFontColor": "Secondary_100",

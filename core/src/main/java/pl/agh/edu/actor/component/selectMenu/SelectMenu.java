@@ -14,15 +14,15 @@ import com.badlogic.gdx.utils.Array;
 import pl.agh.edu.actor.HotelSkin;
 import pl.agh.edu.actor.utils.Size;
 
-public class SelectMenu<T> extends Table {
+public class SelectMenu<SelectMenuItem> extends Table {
 
 	private final Skin skin = HotelSkin.getInstance();
 	private final Label descriptionLabel = new SelectMenuLabel();
-	private final Array<T> items;
-	private final SelectBox<T> selectOption;
+	private final Array<SelectMenuItem> items;
+	private final SelectBox<SelectMenuItem> selectOption;
 	private final Size size;
 
-	public SelectMenu(Size size, String description, Array<T> items, Function<T, Void> function) {
+	public SelectMenu(Size size, String description, Array<SelectMenuItem> items, Function<SelectMenuItem, Void> function) {
 		this.items = items;
 		this.descriptionLabel.setText(description);
 		this.size = size;
@@ -46,11 +46,11 @@ public class SelectMenu<T> extends Table {
 		}
 	}
 
-	private void setListItems(Array<T> items) {
+	private void setListItems(Array<SelectMenuItem> items) {
 		selectOption.setItems(items);
 	}
 
-	private void setFunction(Function<T, Void> function) {
+	private void setFunction(Function<SelectMenuItem, Void> function) {
 		selectOption.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
@@ -66,7 +66,7 @@ public class SelectMenu<T> extends Table {
 
 	}
 
-	private class DropDownSelect extends SelectBox<T> {
+	private class DropDownSelect extends SelectBox<SelectMenuItem> {
 		public DropDownSelect(Size size) {
 			super(skin.get("selectMenu", SelectBox.SelectBoxStyle.class));
 			this.setSize(SelectMenuStyle.getWidth(size), SelectMenuStyle.getHeight(size));
@@ -89,7 +89,7 @@ public class SelectMenu<T> extends Table {
 		}
 
 		@Override
-		protected GlyphLayout drawItem(Batch batch, BitmapFont font, T item, float x, float y, float width) {
+		protected GlyphLayout drawItem(Batch batch, BitmapFont font, SelectMenuItem item, float x, float y, float width) {
 			String string = this.getSelected().toString();
 			return font.draw(batch, string, x, this.getY() + (this.getHeight() + font.getXHeight()) / 2, 0, string.length(), width, Align.top, false, "...");
 		}
