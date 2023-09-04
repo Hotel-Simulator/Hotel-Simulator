@@ -12,6 +12,6 @@ public class TestFrame extends BaseFrame {
 	public TestFrame(String name) {
 		super();
 		this.add(new Label(name, HotelSkin.getInstance()));
-		this.add(new MoneySliderComponent("Tax fraud", BigDecimal.valueOf(1), BigDecimal.valueOf(100000000), SliderSize.LARGE));
+		this.add(new MoneySliderComponent("Tax", BigDecimal.valueOf(1), new BigDecimal("1000000"), SliderSize.LARGE));
 	}
 }

@@ -6,7 +6,6 @@ import pl.agh.edu.utils.CustomBigDecimal;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
-import java.util.concurrent.Callable;
 
 public class MoneySliderComponent extends SliderComponent{
     private CustomBigDecimal A = new CustomBigDecimal(1);
@@ -28,27 +27,21 @@ public class MoneySliderComponent extends SliderComponent{
     }
 
     public CustomBigDecimal logarithmicMapping(float valueFromSlider){
-        System.out.printf("sliderValue %f\t",valueFromSlider);
 
         BigDecimal linear = c.add(BigDecimal.valueOf(valueFromSlider).multiply(m,init));
-        System.out.printf("linear %s ",linear);
 
-        CustomBigDecimal result = new CustomBigDecimal(linear.multiply(BigDecimalMath.pow(BigDecimal.valueOf(MoneySliderComponent.base), BigDecimal.valueOf(valueFromSlider), mc)).setScale(1,RoundingMode.HALF_UP));
-        System.out.printf("mapped %s \n", result);
+        CustomBigDecimal result = new CustomBigDecimal(linear.multiply(BigDecimalMath.pow(BigDecimal.valueOf(MoneySliderComponent.base), BigDecimal.valueOf(valueFromSlider), mc)).setScale(1,RoundingMode.HALF_UP)).roundToStringValue();
 
 
         return result;
     }
     public void setA(BigDecimal min, BigDecimal max) {
-        System.out.println("min " + min + "  max" + max);
         BigDecimal a = min.multiply(BigDecimalMath.pow(BigDecimal.valueOf(MoneySliderComponent.base), BigDecimal.valueOf(MoneySliderComponent.width), init), init);
         BigDecimal b = max.multiply(BigDecimalMath.pow(BigDecimal.valueOf(MoneySliderComponent.base), BigDecimal.valueOf(1), init), init);
         BigDecimal ff = BigDecimalMath.pow( BigDecimal.valueOf(MoneySliderComponent.base),BigDecimal.valueOf(MoneySliderComponent.width+1),init);
         BigDecimal tmp = a.subtract(b).divide(ff,init);
         m = tmp.divide(BigDecimal.valueOf(1).subtract(BigDecimal.valueOf(MoneySliderComponent.width)),init);
         c = min.divide(BigDecimal.valueOf(MoneySliderComponent.base), init).subtract(m.multiply(BigDecimal.valueOf(1)));
-        System.out.println("C= "+c);
-        System.out.println("m= "+m);
 
     }
 

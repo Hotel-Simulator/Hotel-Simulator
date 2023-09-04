@@ -3,13 +3,14 @@ package pl.agh.edu.utils;
 import ch.obermuhlner.math.big.BigDecimalMath;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.util.Arrays;
+import java.util.List;
 
 public class CustomBigDecimal{
     private BigDecimal value;
-    private MathContext mc = new MathContext(100,RoundingMode.HALF_UP);
+    private final MathContext mc = new MathContext(100,RoundingMode.HALF_UP);
 
     public CustomBigDecimal(String val) {
         this.value = new BigDecimal(val);
@@ -45,39 +46,58 @@ public class CustomBigDecimal{
         return this.value.compareTo(other.value);
     }
 
-    public CustomBigDecimal pow(int n) {
-        return new CustomBigDecimal(this.value.pow(n, mc));
+    public CustomBigDecimal pow(BigDecimal n) {
+        return new CustomBigDecimal(BigDecimalMath.pow(value, n, mc));
     }
 
-    public CustomBigDecimal log() {
-        return new CustomBigDecimal(BigDecimalMath.log(this.value,mc));
+    public CustomBigDecimal log10() {
+        return new CustomBigDecimal(BigDecimalMath.log10(this.value,mc));
     }
 
 
     @Override
-    public String toString(){
+    public String toString(){ // 123 456 = 123k
         int zeros = BigDecimalMath.log10(this.value,mc).intValue();
         int triZeros = zeros/3;
         Prefix prefix = Prefix.getPrefixByValue(BigDecimalMath.pow(BigDecimal.valueOf(1000),BigDecimal.valueOf(triZeros),mc));
-//        System.out.println("pref"+prefix);
         String number = value.toString().split("\\.")[0];
-//        System.out.println("NUMBER "+number);
         int tmp = prefix.getValue().toString().length();
-//        System.out.println("tmp"+tmp);
         String beforeComa = number.substring(0,number.length()-tmp+1);
         String result = beforeComa;
-//        System.out.println("beforeComa "+beforeComa);
         if(prefix.getValue().compareTo(BigDecimal.ONE)>0){
             String afterComa = number.substring(number.length()-tmp+1,number.length());
-//            System.out.println("after coma "+afterComa);
-            result += beforeComa.length() >=3 ? "" : ("." + afterComa.substring(0, 3 - Math.min(3, beforeComa.length())));
+            result += beforeComa.length() >=3 ? "" : ("." + afterComa.substring(0, 3 - beforeComa.length()));
             result+= prefix.name();
         }
         return result;
     }
 
-    public void roundPrefix(){
+    public CustomBigDecimal roundToStringValue(){  // 123 456 = 123 000 = 123 k
 
+        int zeros = BigDecimalMath.log10(this.value,mc).intValue();
+        int triZeros = zeros/3;
+        Prefix prefix = Prefix.getPrefixByValue(BigDecimalMath.pow(BigDecimal.valueOf(1000),BigDecimal.valueOf(triZeros),mc));
+        
+        int correct;
+        List<Prefix> prefixes = new java.util.ArrayList<>(Arrays.stream(Prefix.values()).toList());
+        Prefix biggest = prefixes.get(prefixes.size()-1);
+        if(value.compareTo(BigDecimal.valueOf(1000))<0 || BigDecimalMath.log10(biggest.getValue(), mc).compareTo(BigDecimal.valueOf(zeros-2))<0) {
+            correct = 0;
+        }
+        else if(zeros%3 == 1){ // 10000 = 10.0k
+            correct = 1;
+        }
+        else if(zeros%3 == 2){ // 100000 = 100k
+            correct = 0;
+        }
+        else {
+            correct = 2;
+        }
+
+
+
+        value = value.subtract(value.divideAndRemainder(prefix.getValue().divide(BigDecimalMath.pow(BigDecimal.TEN, BigDecimal.valueOf(correct),mc),mc))[1]);
+        return this;
     }
 
 
@@ -97,8 +117,6 @@ public class CustomBigDecimal{
                     return prefix;
             }
             return Prefix.T;
-
-
         }
         Prefix(BigDecimal value){
             this.value = value;
@@ -107,4 +125,7 @@ public class CustomBigDecimal{
             return value;
         }
     }
+
+
+
 }
