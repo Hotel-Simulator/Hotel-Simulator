@@ -9,8 +9,6 @@ import com.badlogic.gdx.utils.Align;
 
 import pl.agh.edu.actor.HotelSkin;
 
-import java.math.BigDecimal;
-
 public class SliderComponent extends Table {
 	private final float SLIDER_WIDTH;
 	private final float SLIDER_HEIGHT;
@@ -40,7 +38,6 @@ public class SliderComponent extends Table {
 
 	}
 
-
 	private class SliderRowTable extends Table {
 
 		public SliderRowTable(String name, float min, float max, float step) {
@@ -57,7 +54,7 @@ public class SliderComponent extends Table {
 			lineDrawable.setMinHeight(SLIDER_HEIGHT);
 			lineDrawable.setMinWidth(2);
 			Image separator = new Image(lineDrawable);
-			add(separator).bottom().padLeft(HORIZONTAL_INNER_PADDING).padRight(HORIZONTAL_INNER_PADDING).setActorX(SLIDER_WIDTH/2);
+			add(separator).bottom().padLeft(HORIZONTAL_INNER_PADDING).padRight(HORIZONTAL_INNER_PADDING).setActorX(SLIDER_WIDTH / 2);
 			slider = new Slider(min, max, step, false, skin);
 			slider.addListener(new ChangeListener() {
 				@Override
@@ -66,32 +63,28 @@ public class SliderComponent extends Table {
 				}
 			});
 			add(slider).width(SLIDER_WIDTH / 2 - HORIZONTAL_OUTER_PADDING).padRight(HORIZONTAL_OUTER_PADDING);
-			realLabel = new Label("",skin);
+			realLabel = new Label("", skin);
 			row();
 			add(realLabel);
 
-
 		}
 
-
 	}
+
 	protected void setField() {
 
 		String displayedValue;
 
-		if (Math.floor(step)==step){
+		if (Math.floor(step) == step) {
 			displayedValue = String.format("%.0f", slider.getValue());
-		}
-		else{
+		} else {
 			displayedValue = String.format("%.1f", slider.getValue());
 		}
 		valueLabel.setText(displayedValue + suffix);
 	}
 
-
 	public float getValue() {
 		return slider.getValue();
 	}
-
 
 }
