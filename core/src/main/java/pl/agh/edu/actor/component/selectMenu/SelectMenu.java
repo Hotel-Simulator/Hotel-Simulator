@@ -14,7 +14,7 @@ import com.badlogic.gdx.utils.Array;
 import pl.agh.edu.actor.HotelSkin;
 import pl.agh.edu.actor.utils.Size;
 
-public class SelectMenu<SelectMenuItem> extends Table {
+public class SelectMenu extends Table {
 
 	private final Skin skin = HotelSkin.getInstance();
 	private final Label descriptionLabel = new SelectMenuLabel();

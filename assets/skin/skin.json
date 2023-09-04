@@ -474,7 +474,7 @@
 		"background": "pane-background-lime"
 	},
 	"selectMenu": {
-		"font": "subtittle1",
+		"font": "body1",
 		"background": "label-selectBox-background"
 	}
 },
@@ -493,14 +493,6 @@
 		"fontColorUnselected": "Shadow",
 		"selection": "list-selection",
 		"over": "list-over",
-		"background": "list-background"
-	},
-	"selectMenuLast": {
-		"font": "body1",
-		"fontColorSelected": "Gray_900",
-		"fontColorUnselected": "Shadow",
-		"selection": "list-last-selection",
-		"over": "list-last-over",
 		"background": "list-background"
 	}
 },

@@ -3,24 +3,21 @@ package pl.agh.edu.actor.component.selectMenu;
 import pl.agh.edu.actor.utils.Size;
 
 public abstract class SelectMenuItem {
-	private final Size size;
+	protected final Size size;
+	protected final String text;
 
-	protected SelectMenuItem(Size size) {
+	public SelectMenuItem(String text, Size size) {
 		this.size = size;
+		this.text = text;
 	}
 
 	@Override
 	public String toString() {
-		return truncatedToString();
-	}
-
-	public String truncatedToString() {
 		int maxLength = switch (this.size) {
-		case SMALL -> 10;
-		case MEDIUM -> 20;
-		case LARGE -> 30;
+		case SMALL -> 12;
+		case MEDIUM -> 15;
+		case LARGE -> 18;
 		};
-		String fullString = super.toString();
-		return (fullString.length() <= maxLength) ? fullString : fullString.substring(0, maxLength) + "...";
+		return (text.length() <= maxLength) ? text : text.substring(0, maxLength) + "...";
 	}
 }

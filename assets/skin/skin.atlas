@@ -184,6 +184,20 @@ H4
   orig: 506, 313
   offset: 0, 0
   index: -1
+Rating_Normal_2
+  rotate: false
+  xy: 1520, 132
+  size: 180, 60
+  orig: 180, 60
+  offset: 0, 0
+  index: -1
+rating-2-up
+  rotate: false
+  xy: 1520, 132
+  size: 180, 60
+  orig: 180, 60
+  offset: 0, 0
+  index: -1
 Subtitle1
   rotate: false
   xy: 509, 307
@@ -242,30 +256,58 @@ button-large-up
   index: -1
 button-normal-disabled
   rotate: false
-  xy: 1589, 43
+  xy: 885, 15
   size: 300, 80
   orig: 300, 80
   offset: 0, 0
   index: -1
 button-normal-down
   rotate: false
-  xy: 1287, 28
+  xy: 911, 97
   size: 300, 80
   orig: 300, 80
   offset: 0, 0
   index: -1
 button-normal-over
   rotate: false
-  xy: 1589, 125
+  xy: 1531, 194
   size: 300, 80
   orig: 300, 80
   offset: 0, 0
   index: -1
 button-normal-up
   rotate: false
-  xy: 1287, 110
+  xy: 1016, 179
   size: 300, 80
   orig: 300, 80
+  offset: 0, 0
+  index: -1
+button-small-disabled
+  rotate: false
+  xy: 1318, 189
+  size: 200, 70
+  orig: 200, 70
+  offset: 0, 0
+  index: -1
+button-small-down
+  rotate: false
+  xy: 1318, 117
+  size: 200, 70
+  orig: 200, 70
+  offset: 0, 0
+  index: -1
+button-small-over
+  rotate: false
+  xy: 1745, 1533
+  size: 200, 70
+  orig: 200, 70
+  offset: 0, 0
+  index: -1
+button-small-up
+  rotate: false
+  xy: 1543, 1533
+  size: 200, 70
+  orig: 200, 70
   offset: 0, 0
   index: -1
 button1
@@ -294,6 +336,14 @@ console
   xy: 1023, 261
   size: 506, 293
   orig: 506, 293
+  offset: 0, 0
+  index: -1
+frame-glass-background
+  rotate: false
+  xy: 1833, 74
+  size: 200, 200
+  split: 19, 19, 19, 19
+  orig: 200, 200
   offset: 0, 0
   index: -1
 h1_1
@@ -354,50 +404,45 @@ h4
   index: -1
 label-selectBox-background
   rotate: false
-  xy: 1531, 207
+  xy: 1531, 276
   size: 374, 67
   split: 19, 1, 19, 19
   orig: 374, 67
   offset: 0, 0
   index: -1
-list-background
+rating-3-up
   rotate: false
-  xy: 1531, 276
-  size: 374, 67
-  split: 19, 19, 1, 19
-  orig: 374, 67
+  xy: 1759, 12
+  size: 180, 60
+  orig: 180, 60
   offset: 0, 0
   index: -1
-list-last-over
+rating-4-over
   rotate: false
-  xy: 911, 123
-  size: 374, 67
-  split: 19, 19, 1, 19
-  orig: 374, 67
+  xy: 1577, 8
+  size: 180, 60
+  orig: 180, 60
   offset: 0, 0
   index: -1
-list-last-selection
+rating-4-up
   rotate: false
-  xy: 911, 54
-  size: 374, 67
-  split: 19, 19, 1, 19
-  orig: 374, 67
+  xy: 1395, 8
+  size: 180, 60
+  orig: 180, 60
   offset: 0, 0
   index: -1
-list-over
+rating-5-over
   rotate: false
-  xy: 1543, 1536
-  size: 374, 67
-  split: 1, 1, 1, 1
-  orig: 374, 67
+  xy: 1213, 55
+  size: 180, 60
+  orig: 180, 60
   offset: 0, 0
   index: -1
-list-selection
+rating-5-up
   rotate: false
-  xy: 1016, 192
-  size: 374, 67
-  split: 1, 1, 1, 1
-  orig: 374, 67
+  xy: 1520, 70
+  size: 180, 60
+  orig: 180, 60
   offset: 0, 0
   index: -1
 selectbox-background
@@ -436,577 +481,551 @@ size: 1024, 1024
 format: RGBA8888
 filter: Linear, Linear
 repeat: none
-Rating_Normal_2
-  rotate: false
-  xy: 203, 891
-  size: 180, 60
-  orig: 180, 60
-  offset: 0, 0
-  index: -1
-rating-2-up
-  rotate: false
-  xy: 203, 891
-  size: 180, 60
-  orig: 180, 60
-  offset: 0, 0
-  index: -1
 button-calendar-over
   rotate: false
-  xy: 287, 397
+  xy: 808, 921
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 button-calendar-up
   rotate: false
-  xy: 183, 497
+  xy: 600, 919
   size: 102, 102
   orig: 102, 102
   offset: 0, 0
   index: -1
 button-filter-down
   rotate: false
-  xy: 203, 601
+  xy: 1, 629
   size: 102, 102
   orig: 102, 102
   offset: 0, 0
   index: -1
 button-filter-over
   rotate: false
-  xy: 287, 499
+  xy: 1, 423
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 button-filter-up
   rotate: false
-  xy: 1, 27
+  xy: 496, 919
   size: 102, 102
   orig: 102, 102
   offset: 0, 0
   index: -1
 button-options-down
   rotate: false
-  xy: 183, 393
+  xy: 1, 525
   size: 102, 102
   orig: 102, 102
   offset: 0, 0
   index: -1
 button-options-over
   rotate: false
-  xy: 132, 257
+  xy: 1, 321
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 button-options-up
   rotate: false
-  xy: 307, 601
+  xy: 704, 919
   size: 102, 102
   orig: 102, 102
   offset: 0, 0
   index: -1
-button-small-disabled
-  rotate: false
-  xy: 203, 953
-  size: 200, 70
-  orig: 200, 70
-  offset: 0, 0
-  index: -1
-button-small-down
-  rotate: false
-  xy: 1, 809
-  size: 200, 70
-  orig: 200, 70
-  offset: 0, 0
-  index: -1
-button-small-over
-  rotate: false
-  xy: 1, 881
-  size: 200, 70
-  orig: 200, 70
-  offset: 0, 0
-  index: -1
-button-small-up
-  rotate: false
-  xy: 1, 953
-  size: 200, 70
-  orig: 200, 70
-  offset: 0, 0
-  index: -1
 button-time-minus-down
   rotate: false
-  xy: 697, 336
+  xy: 729, 702
   size: 50, 51
   orig: 50, 51
   offset: 0, 0
   index: -1
 button-time-minus-over
   rotate: false
-  xy: 749, 337
+  xy: 565, 539
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 button-time-minus-up
   rotate: false
-  xy: 801, 336
+  xy: 63, 22
   size: 50, 51
   orig: 50, 51
   offset: 0, 0
   index: -1
 button-time-pauze-over
   rotate: false
-  xy: 853, 323
+  xy: 115, 13
   size: 50, 64
   orig: 50, 64
   offset: 0, 0
   index: -1
 button-time-pauze-up
   rotate: false
-  xy: 905, 323
+  xy: 167, 13
   size: 50, 64
   orig: 50, 64
   offset: 0, 0
   index: -1
 button-time-play-over
   rotate: false
-  xy: 957, 323
+  xy: 219, 13
   size: 50, 64
   orig: 50, 64
   offset: 0, 0
   index: -1
 button-time-play-up
   rotate: false
-  xy: 207, 108
+  xy: 271, 12
   size: 50, 65
   orig: 50, 65
   offset: 0, 0
   index: -1
 button-time-plus-down
   rotate: false
-  xy: 207, 56
+  xy: 323, 27
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 button-time-plus-over
   rotate: false
-  xy: 207, 4
+  xy: 375, 27
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 button-time-plus-up
   rotate: false
-  xy: 593, 284
+  xy: 513, 486
   size: 50, 51
   orig: 50, 51
   offset: 0, 0
   index: -1
 checkbox-off-disabled
   rotate: false
-  xy: 234, 267
+  xy: 409, 383
   size: 40, 40
   orig: 40, 40
   offset: 0, 0
   index: -1
 checkbox-off-over
   rotate: false
-  xy: 234, 309
+  xy: 409, 425
   size: 40, 40
   orig: 40, 40
   offset: 0, 0
   index: -1
 checkbox-off-up
   rotate: false
-  xy: 234, 351
+  xy: 453, 467
   size: 40, 40
   orig: 40, 40
   offset: 0, 0
   index: -1
 checkbox-on-disabled
   rotate: false
-  xy: 774, 294
+  xy: 411, 467
   size: 40, 40
   orig: 40, 40
   offset: 0, 0
   index: -1
 checkbox-on-over
   rotate: false
-  xy: 732, 294
+  xy: 617, 554
   size: 40, 40
   orig: 40, 40
   offset: 0, 0
   index: -1
 checkbox-on-up
   rotate: false
-  xy: 690, 294
+  xy: 565, 497
   size: 40, 40
   orig: 40, 40
   offset: 0, 0
   index: -1
 default
   rotate: false
-  xy: 1, 131
+  xy: 1, 733
   size: 102, 102
   orig: 102, 102
   offset: 0, 0
   index: -1
 event_icon_music_festival
   rotate: false
-  xy: 1, 235
+  xy: 365, 899
   size: 129, 122
   orig: 129, 122
   offset: 0, 0
   index: -1
-frame-glass-background
+list-background
   rotate: false
-  xy: 1, 607
-  size: 200, 200
-  split: 19, 19, 19, 19
-  orig: 200, 200
+  xy: 615, 693
+  size: 60, 60
+  split: 1, 1, 1, 1
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+list-over
+  rotate: false
+  xy: 411, 755
+  size: 60, 60
+  split: 1, 1, 1, 1
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+list-selection
+  rotate: false
+  xy: 1, 13
+  size: 60, 60
+  split: 1, 1, 1, 1
+  orig: 60, 60
   offset: 0, 0
   index: -1
 navbar-account-disabled
   rotate: false
-  xy: 132, 175
+  xy: 910, 941
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-account-over
   rotate: false
-  xy: 105, 93
+  xy: 1, 239
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-account-up
   rotate: false
-  xy: 105, 11
+  xy: 1, 157
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-add-disabled
   rotate: false
-  xy: 405, 881
+  xy: 1, 75
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-add-over
   rotate: false
-  xy: 507, 881
+  xy: 183, 817
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-add-up
   rotate: false
-  xy: 609, 881
+  xy: 285, 817
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-back-disabled
   rotate: false
-  xy: 711, 881
+  xy: 387, 817
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-back-over
   rotate: false
-  xy: 813, 881
+  xy: 496, 837
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-back-up
   rotate: false
-  xy: 385, 799
+  xy: 598, 837
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-bank-disabled
   rotate: false
-  xy: 385, 717
+  xy: 700, 837
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-bank-over
   rotate: false
-  xy: 487, 799
+  xy: 910, 859
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-bank-up
   rotate: false
-  xy: 487, 717
+  xy: 808, 839
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-board-disabled
   rotate: false
-  xy: 589, 799
+  xy: 910, 777
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-board-over
   rotate: false
-  xy: 589, 717
+  xy: 489, 755
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-board-up
   rotate: false
-  xy: 691, 799
+  xy: 591, 755
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-credit-disabled
   rotate: false
-  xy: 691, 717
+  xy: 693, 755
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-credit-over
   rotate: false
-  xy: 793, 799
+  xy: 105, 735
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-credit-up
   rotate: false
-  xy: 793, 717
+  xy: 105, 653
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-deposit-disabled
   rotate: false
-  xy: 411, 635
+  xy: 207, 735
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-deposit-over
   rotate: false
-  xy: 513, 635
+  xy: 105, 571
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-deposit-up
   rotate: false
-  xy: 615, 635
+  xy: 207, 653
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-employee-disabled
   rotate: false
-  xy: 717, 635
+  xy: 309, 735
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-employee-over
   rotate: false
-  xy: 819, 635
+  xy: 207, 571
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-employee-up
   rotate: false
-  xy: 411, 553
+  xy: 309, 653
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-hire-disabled
   rotate: false
-  xy: 513, 553
+  xy: 309, 571
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-hire-over
   rotate: false
-  xy: 615, 553
+  xy: 105, 489
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-hire-up
   rotate: false
-  xy: 717, 553
+  xy: 207, 489
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-history-disabled
   rotate: false
-  xy: 819, 553
+  xy: 309, 489
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-history-over
   rotate: false
-  xy: 389, 471
+  xy: 103, 407
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-history-up
   rotate: false
-  xy: 491, 471
+  xy: 103, 325
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-hotel-disabled
   rotate: false
-  xy: 593, 471
+  xy: 205, 407
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-hotel-over
   rotate: false
-  xy: 695, 471
+  xy: 103, 243
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-hotel-up
   rotate: false
-  xy: 797, 471
+  xy: 205, 325
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-manage-disabled
   rotate: false
-  xy: 389, 389
+  xy: 307, 407
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-manage-over
   rotate: false
-  xy: 491, 389
+  xy: 103, 161
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-manage-up
   rotate: false
-  xy: 593, 389
+  xy: 205, 243
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-offer-disabled
   rotate: false
-  xy: 695, 389
+  xy: 307, 325
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-offer-over
   rotate: false
-  xy: 797, 389
+  xy: 103, 79
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-offer-up
   rotate: false
-  xy: 915, 881
+  xy: 205, 161
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-places-disabled
   rotate: false
-  xy: 895, 799
+  xy: 307, 243
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-places-over
   rotate: false
-  xy: 895, 717
+  xy: 205, 79
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-places-up
   rotate: false
-  xy: 921, 635
+  xy: 307, 161
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-rooms-disabled
   rotate: false
-  xy: 921, 553
+  xy: 307, 79
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-rooms-over
   rotate: false
-  xy: 899, 471
+  xy: 411, 673
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-rooms-up
   rotate: false
-  xy: 899, 389
+  xy: 411, 591
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-tax-disabled
   rotate: false
-  xy: 287, 315
+  xy: 513, 673
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-tax-over
   rotate: false
-  xy: 389, 307
+  xy: 411, 509
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 navbar-tax-up
   rotate: false
-  xy: 491, 307
+  xy: 513, 591
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
 pane-background-lime
   rotate: false
-  xy: 645, 292
+  xy: 615, 596
   size: 43, 43
   split: 21, 21, 21, 21
   pad: 19, 19, 19, 19
@@ -1015,84 +1034,49 @@ pane-background-lime
   index: -1
 rating-0-up
   rotate: false
-  xy: 1, 359
+  xy: 183, 899
   size: 180, 60
   orig: 180, 60
   offset: 0, 0
   index: -1
 rating-0-over
   rotate: false
-  xy: 1, 359
+  xy: 183, 899
   size: 180, 60
   orig: 180, 60
   offset: 0, 0
   index: -1
 rating-1-over
   rotate: false
-  xy: 203, 705
+  xy: 1, 837
   size: 180, 60
   orig: 180, 60
   offset: 0, 0
   index: -1
 rating-1-up
   rotate: false
-  xy: 1, 421
+  xy: 183, 961
   size: 180, 60
   orig: 180, 60
   offset: 0, 0
   index: -1
 rating-2--over
   rotate: false
-  xy: 769, 963
+  xy: 1, 899
   size: 180, 60
   orig: 180, 60
   offset: 0, 0
   index: -1
 rating-3-over
   rotate: false
-  xy: 203, 767
-  size: 180, 60
-  orig: 180, 60
-  offset: 0, 0
-  index: -1
-rating-3-up
-  rotate: false
-  xy: 1, 483
-  size: 180, 60
-  orig: 180, 60
-  offset: 0, 0
-  index: -1
-rating-4-over
-  rotate: false
-  xy: 587, 963
-  size: 180, 60
-  orig: 180, 60
-  offset: 0, 0
-  index: -1
-rating-4-up
-  rotate: false
-  xy: 203, 829
-  size: 180, 60
-  orig: 180, 60
-  offset: 0, 0
-  index: -1
-rating-5-over
-  rotate: false
-  xy: 1, 545
-  size: 180, 60
-  orig: 180, 60
-  offset: 0, 0
-  index: -1
-rating-5-up
-  rotate: false
-  xy: 405, 963
+  xy: 1, 961
   size: 180, 60
   orig: 180, 60
   offset: 0, 0
   index: -1
 scrollpane-knob
   rotate: false
-  xy: 385, 929
+  xy: 1012, 977
   size: 11, 22
   split: 5, 5, 7, 5
   orig: 11, 22
@@ -1100,7 +1084,7 @@ scrollpane-knob
   index: -1
 scrollpane-vscroll
   rotate: false
-  xy: 105, 213
+  xy: 1012, 1001
   size: 11, 20
   split: 5, 5, 5, 5
   orig: 11, 20
@@ -1108,7 +1092,7 @@ scrollpane-vscroll
   index: -1
 scrollpane-console-knob
   rotate: false
-  xy: 105, 213
+  xy: 1012, 1001
   size: 11, 20
   split: 5, 5, 5, 5
   orig: 11, 20
@@ -1116,35 +1100,35 @@ scrollpane-console-knob
   index: -1
 slider-background
   rotate: false
-  xy: 389, 598
+  xy: 105, 834
   size: 20, 1
   orig: 20, 1
   offset: 0, 0
   index: -1
 slider-knob
   rotate: false
-  xy: 53, 1
+  xy: 451, 415
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: -1
 slider-knob-down
   rotate: false
-  xy: 27, 1
+  xy: 409, 357
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: -1
 slider-knob-over
   rotate: false
-  xy: 1, 1
+  xy: 451, 441
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: -1
 textfield-background
   rotate: false
-  xy: 951, 973
+  xy: 513, 539
   size: 50, 50
   split: 19, 19, 19, 19
   orig: 50, 50
@@ -1152,7 +1136,7 @@ textfield-background
   index: -1
 textfield-cursor
   rotate: false
-  xy: 1003, 993
+  xy: 667, 661
   size: 7, 30
   split: 3, 3, 4, 4
   pad: 3, 3, 3, 3
@@ -1161,7 +1145,7 @@ textfield-cursor
   index: -1
 textfield-disabledbackground
   rotate: false
-  xy: 593, 337
+  xy: 615, 641
   size: 50, 50
   split: 19, 19, 19, 19
   orig: 50, 50
@@ -1169,7 +1153,7 @@ textfield-disabledbackground
   index: -1
 textfield-focusedbackground
   rotate: false
-  xy: 645, 337
+  xy: 677, 703
   size: 50, 50
   split: 19, 19, 19, 19
   orig: 50, 50
@@ -1177,7 +1161,7 @@ textfield-focusedbackground
   index: -1
 textfield-selection
   rotate: false
-  xy: 997, 849
+  xy: 473, 785
   size: 10, 30
   split: 0, 0, 0, 0
   orig: 10, 30
