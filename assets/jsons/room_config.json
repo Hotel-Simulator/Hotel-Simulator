@@ -1,11 +1,17 @@
 {
+  "room_rank_change_duration_in_hours" : {
+    "ONE": 12,
+    "TWO" : 15,
+    "THREE" : 18,
+    "FOUR" : 21,
+    "FIVE" : 24
+  },
 
-  "max_size" : 5,
-
-  "upgrade_times" : {
-    "1" : 3,
-    "2" : 5,
-    "3" : 7,
-    "4" : 8
+  "room_building_duration_in_days" : {
+    "ONE": 5,
+    "TWO" : 6,
+    "THREE" : 7,
+    "FOUR" : 8,
+    "FIVE" : 9
   }
 }

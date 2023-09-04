@@ -38,73 +38,84 @@ public class EmployeeTest {
 	@ParameterizedTest
 	@MethodSource("provideLocalTime")
 	public void isAtWorkTest(LocalTime time, boolean expected) {
-		// given
-		PossibleEmployee possibleEmployee = new PossibleEmployee(
-				"",
-				"",
-				18,
-				0.45,
-				new EmploymentPreferences(
-						Shift.MORNING,
-						BigDecimal.valueOf(5000),
-						BigDecimal.valueOf(6000),
-						TypeOfContract.AGREEMENT),
-				Profession.CLEANER);
+		// Given
+		PossibleEmployee possibleEmployee = new PossibleEmployee.Builder()
+				.firstName("")
+				.lastName("")
+				.age(18)
+				.skills(0.45)
+				.preferences(new EmploymentPreferences.Builder()
+						.desiredShift(Shift.MORNING)
+						.acceptableWage(BigDecimal.valueOf(5000))
+						.desiredWage(BigDecimal.valueOf(6000))
+						.desiredTypeOfContract(TypeOfContract.AGREEMENT)
+						.build())
+				.profession(Profession.CLEANER)
+				.build();
 
 		JobOffer jobOffer = new JobOffer(Shift.MORNING, BigDecimal.valueOf(5000), TypeOfContract.AGREEMENT);
 		Employee employee = new Employee(possibleEmployee, jobOffer);
-		// when
+
+		// When
 		boolean result = employee.isAtWork(time);
-		// then
+
+		// Then
 		assertEquals(expected, result);
 	}
 
 	@Test
 	public void bonusTest() throws NoSuchFieldException , IllegalAccessException {
-		// given
-		PossibleEmployee possibleEmployee = new PossibleEmployee(
-				"",
-				"",
-				18,
-				0.45,
-				new EmploymentPreferences(
-						Shift.MORNING,
-						BigDecimal.valueOf(5000),
-						BigDecimal.valueOf(6000),
-						TypeOfContract.AGREEMENT),
-				Profession.CLEANER);
+		// Given
+		PossibleEmployee possibleEmployee = new PossibleEmployee.Builder()
+				.firstName("")
+				.lastName("")
+				.age(18)
+				.skills(0.45)
+				.preferences(new EmploymentPreferences.Builder()
+						.desiredShift(Shift.MORNING)
+						.acceptableWage(BigDecimal.valueOf(5000))
+						.desiredWage(BigDecimal.valueOf(6000))
+						.desiredTypeOfContract(TypeOfContract.AGREEMENT)
+						.build())
+				.profession(Profession.CLEANER)
+				.build();
 
 		JobOffer jobOffer = new JobOffer(Shift.MORNING, BigDecimal.valueOf(5000), TypeOfContract.AGREEMENT);
 		Employee employee = new Employee(possibleEmployee, jobOffer);
-		// when
+
+		// When
 		employee.giveBonus(BigDecimal.valueOf(30));
 		employee.giveBonus(BigDecimal.valueOf(30));
 		employee.giveBonus(BigDecimal.valueOf(30));
 
 		Field field = Employee.class.getDeclaredField("bonusForThisMonth");
 		field.setAccessible(true);
-		// then
+
+		// Then
 		assertEquals(BigDecimal.valueOf(90), field.get(employee));
 	}
 
 	@Test
 	public void bonusAfterUpdateTest() throws NoSuchFieldException , IllegalAccessException {
-		// given
-		PossibleEmployee possibleEmployee = new PossibleEmployee(
-				"",
-				"",
-				18,
-				0.45,
-				new EmploymentPreferences(
-						Shift.MORNING,
-						BigDecimal.valueOf(5000),
-						BigDecimal.valueOf(6000),
-						TypeOfContract.AGREEMENT),
-				Profession.CLEANER);
+		// Given
+		PossibleEmployee possibleEmployee = new PossibleEmployee.Builder()
+				.firstName("")
+				.lastName("")
+				.age(18)
+				.skills(0.45)
+				.preferences(new EmploymentPreferences.Builder()
+						.desiredShift(Shift.MORNING)
+						.acceptableWage(BigDecimal.valueOf(5000))
+						.desiredWage(BigDecimal.valueOf(6000))
+						.desiredTypeOfContract(TypeOfContract.AGREEMENT)
+						.build())
+				.profession(Profession.CLEANER)
+				.build();
 
 		JobOffer jobOffer = new JobOffer(Shift.MORNING, BigDecimal.valueOf(5000), TypeOfContract.AGREEMENT);
 		Employee employee = new Employee(possibleEmployee, jobOffer);
-		// when
+
+		// When
 		employee.giveBonus(BigDecimal.valueOf(30));
 		employee.giveBonus(BigDecimal.valueOf(30));
 		employee.giveBonus(BigDecimal.valueOf(30));
@@ -113,7 +124,8 @@ public class EmployeeTest {
 
 		Field field = Employee.class.getDeclaredField("bonusForThisMonth");
 		field.setAccessible(true);
-		// then
+
+		// Then
 		assertEquals(BigDecimal.ZERO, field.get(employee));
 	}
 
@@ -129,25 +141,28 @@ public class EmployeeTest {
 	@ParameterizedTest
 	@MethodSource("provideWagesForSatisfactionWithoutBonusTest")
 	public void satisfactionWithoutBonusTest(BigDecimal actualWage, BigDecimal desiredWage, double expected) {
-		// given
-		PossibleEmployee possibleEmployee = new PossibleEmployee(
-				"",
-				"",
-				18,
-				0.45,
-				new EmploymentPreferences(
-						Shift.MORNING,
-						BigDecimal.valueOf(4000),
-						desiredWage,
-						TypeOfContract.AGREEMENT),
-				Profession.CLEANER);
+		// Given
+		PossibleEmployee possibleEmployee = new PossibleEmployee.Builder()
+				.firstName("")
+				.lastName("")
+				.age(18)
+				.skills(0.45)
+				.preferences(new EmploymentPreferences.Builder()
+						.desiredShift(Shift.MORNING)
+						.acceptableWage(BigDecimal.valueOf(4000))
+						.desiredWage(desiredWage)
+						.desiredTypeOfContract(TypeOfContract.AGREEMENT)
+						.build())
+				.profession(Profession.CLEANER)
+				.build();
 
 		JobOffer jobOffer = new JobOffer(Shift.MORNING, actualWage, TypeOfContract.AGREEMENT);
 		Employee employee = new Employee(possibleEmployee, jobOffer);
 
-		// when
+		// When
 		double satisfaction = employee.getSatisfaction();
-		// then
+
+		// Then
 		assertEquals(0, Double.compare(expected, satisfaction));
 	}
 
@@ -163,26 +178,29 @@ public class EmployeeTest {
 	@ParameterizedTest
 	@MethodSource("provideWagesForSatisfactionWithBonusTest")
 	public void satisfactionWithBonusTest(BigDecimal actualWage, BigDecimal desiredWage, double expected) {
-		// given
-		PossibleEmployee possibleEmployee = new PossibleEmployee(
-				"",
-				"",
-				18,
-				0.45,
-				new EmploymentPreferences(
-						Shift.MORNING,
-						BigDecimal.valueOf(4000),
-						desiredWage,
-						TypeOfContract.AGREEMENT),
-				Profession.CLEANER);
+		// Given
+		PossibleEmployee possibleEmployee = new PossibleEmployee.Builder()
+				.firstName("")
+				.lastName("")
+				.age(18)
+				.skills(0.45)
+				.preferences(new EmploymentPreferences.Builder()
+						.desiredShift(Shift.MORNING)
+						.acceptableWage(BigDecimal.valueOf(4000))
+						.desiredWage(desiredWage)
+						.desiredTypeOfContract(TypeOfContract.AGREEMENT)
+						.build())
+				.profession(Profession.CLEANER)
+				.build();
 
 		JobOffer jobOffer = new JobOffer(Shift.MORNING, actualWage, TypeOfContract.AGREEMENT);
 		Employee employee = new Employee(possibleEmployee, jobOffer);
 
-		// when
+		// When
 		employee.giveBonus(BigDecimal.valueOf(1000));
 		double satisfaction = employee.getSatisfaction();
-		// then
+
+		// Then
 		assertEquals(0, Double.compare(expected, satisfaction));
 	}
 
@@ -196,24 +214,28 @@ public class EmployeeTest {
 	@ParameterizedTest
 	@MethodSource("provideSatisfactionAndSkillsForSatisfactionWithBonusTest")
 	public void serviceExecutionTimeTest(double satisfaction, double skills, Duration expected) {
-		// given
-		PossibleEmployee possibleEmployee = new PossibleEmployee(
-				"",
-				"",
-				18,
-				skills,
-				new EmploymentPreferences(
-						Shift.MORNING,
-						BigDecimal.valueOf(0),
-						BigDecimal.valueOf(4000),
-						TypeOfContract.AGREEMENT),
-				Profession.CLEANER);
+		// Given
+		PossibleEmployee possibleEmployee = new PossibleEmployee.Builder()
+				.firstName("")
+				.lastName("")
+				.age(18)
+				.skills(skills)
+				.preferences(new EmploymentPreferences.Builder()
+						.desiredShift(Shift.MORNING)
+						.acceptableWage(BigDecimal.valueOf(0))
+						.desiredWage(BigDecimal.valueOf(4000))
+						.desiredTypeOfContract(TypeOfContract.AGREEMENT)
+						.build())
+				.profession(Profession.CLEANER)
+				.build();
 
 		JobOffer jobOffer = new JobOffer(Shift.MORNING, BigDecimal.valueOf(4000 * satisfaction), TypeOfContract.AGREEMENT);
 		Employee employee = new Employee(possibleEmployee, jobOffer);
-		// when
+
+		// When
 		Duration result = employee.getServiceExecutionTime();
-		// then
+
+		// Then
 		assertEquals(expected, result);
 	}
 
