@@ -32,9 +32,8 @@ public class SelectMenu extends Table {
 		setListItems(items);
 		setFunction(function);
 
-		this.add(descriptionLabel).size(SelectMenuStyle.getWidth(size), SelectMenuStyle.getHeight(size));
-
 		this.selectOption.setAlignment(Align.right);
+		this.add(descriptionLabel).size(SelectMenuStyle.getWidth(size), SelectMenuStyle.getHeight(size));
 		this.add(selectOption).size(SelectMenuStyle.getWidth(size), SelectMenuStyle.getHeight(size));
 	}
 
