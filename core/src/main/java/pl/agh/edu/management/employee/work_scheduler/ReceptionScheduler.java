@@ -21,24 +21,24 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 	protected void executeService(Employee receptionist, ClientGroup clientGroup) {
 		receptionist.setOccupied(true);
 		timeCommandExecutor.addCommand(
-				serveCheckingInClientsTimeCommand(receptionist, clientGroup));
+				createTimeCommandForServingArrivedClients(receptionist, clientGroup));
 	}
 
-	private TimeCommand breakRoomTimeCommand(Room room, ClientGroup clientGroup) {
+	private TimeCommand createTimeCommandForBreakingRoom(Room room, ClientGroup clientGroup) {
 		return new TimeCommand(() -> {
 			room.roomState.setFaulty(true);
 			hotelHandler.repairScheduler.addEntity(room);
 		}, RandomUtils.randomDateTime(time.getTime(), clientGroup.getCheckOutTime()));
 	}
 
-	private TimeCommand checkOutTimeCommand(Room room, ClientGroup clientGroup) {
+	private TimeCommand createTimeCommandForCheckingOutClients(Room room, ClientGroup clientGroup) {
 		return new TimeCommand(() -> {
 			room.checkOut();
 			hotelHandler.cleaningScheduler.addEntity(room);
 		}, clientGroup.getCheckOutTime());
 	}
 
-	private TimeCommand serveCheckingInClientsTimeCommand(Employee receptionist, ClientGroup clientGroup) {
+	private TimeCommand createTimeCommandForServingArrivedClients(Employee receptionist, ClientGroup clientGroup) {
 		return new TimeCommand(
 				() -> {
 					Optional<Room> optionalRoom = hotelHandler.roomManager.findRoomForClientGroup(clientGroup);
@@ -46,9 +46,9 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 						Room room = optionalRoom.get();
 						room.checkIn(clientGroup);
 						if (RandomUtils.randomBooleanWithProbability(JSONGameDataLoader.roomFaultProbability)) {
-							timeCommandExecutor.addCommand(breakRoomTimeCommand(room, clientGroup));
+							timeCommandExecutor.addCommand(createTimeCommandForBreakingRoom(room, clientGroup));
 						}
-						timeCommandExecutor.addCommand(checkOutTimeCommand(room, clientGroup));
+						timeCommandExecutor.addCommand(createTimeCommandForCheckingOutClients(room, clientGroup));
 					}
 					receptionist.setOccupied(false);
 				}, time.getTime().plus(receptionist.getServiceExecutionTime()));
