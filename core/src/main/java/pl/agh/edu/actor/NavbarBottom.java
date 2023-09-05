@@ -11,7 +11,7 @@ import pl.agh.edu.enums.BottomNavbarState;
 import pl.agh.edu.screen.MainScreen;
 
 public class NavbarBottom extends Table {
-	private final Table bottomNavBar;
+	private final Table bottomNavBar = new Table();
 
 	private final MainScreen mainScreen;
 
@@ -21,7 +21,6 @@ public class NavbarBottom extends Table {
 		Skin skin = HotelSkin.getInstance();
 		NavbarBottomStyle navbarBottomStyle = skin.get(styleName, NavbarBottomStyle.class);
 
-		bottomNavBar = new Table();
 		bottomNavBar.bottom();
 
 		Stack bottomStack = new Stack();

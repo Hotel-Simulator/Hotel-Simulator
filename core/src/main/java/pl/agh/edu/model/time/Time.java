@@ -6,26 +6,19 @@ import pl.agh.edu.time_command.TimeCommandExecutor;
 
 public class Time {
 	private static Time instance;
-	private float remaining;
-	private int minutes;
-	private int hours;
-	private int days;
-	private int months;
-	private int years;
-	private int acceleration = 1;
-	private boolean isRunning = false;
 	public static final int timeUnitInMinutes = 10;
 	public static final float interval = 5;
+	private int minutes = 0;
+	private int hours = 0;
+	private int days = 1;
+	private int months = 1;
+	private int years = 2020;
+	private int acceleration = 1;
+	private boolean isRunning = false;
+	private float remaining = interval;
 	private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
 
-	private Time() {
-		remaining = interval;
-		minutes = 0;
-		hours = 0;
-		days = 1;
-		months = 1;
-		years = 2020;
-	}
+	private Time() {}
 
 	public static Time getInstance() {
 		if (instance == null) {

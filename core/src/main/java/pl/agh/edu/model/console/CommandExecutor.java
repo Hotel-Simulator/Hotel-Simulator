@@ -3,19 +3,16 @@ package pl.agh.edu.model.console;
 import com.badlogic.gdx.utils.Queue;
 
 import pl.agh.edu.model.console.commands.StartTimeCommand;
-import pl.agh.edu.model.console.commands.UnknowCommand;
+import pl.agh.edu.model.console.commands.UnknownCommand;
 
 public class CommandExecutor {
 	private static CommandExecutor instance = null;
 	private final Queue<Command> commands = new Queue<>();
 
-	private final LogHistory logHistory;
-	private final CommandHistory commandHistory;
+	private final LogHistory logHistory = LogHistory.getInstance();
+	private final CommandHistory commandHistory = CommandHistory.getInstance();
 
-	private CommandExecutor() {
-		logHistory = LogHistory.getInstance();
-		commandHistory = CommandHistory.getInstance();
-	}
+	private CommandExecutor() {}
 
 	public static CommandExecutor getInstance() {
 		if (instance == null) {
@@ -41,7 +38,7 @@ public class CommandExecutor {
 		if (commandString.equals("/time start")) {
 			return new StartTimeCommand();
 		} else {
-			return new UnknowCommand();
+			return new UnknownCommand();
 		}
 	}
 }

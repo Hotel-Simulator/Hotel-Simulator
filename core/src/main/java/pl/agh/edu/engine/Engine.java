@@ -15,23 +15,15 @@ import pl.agh.edu.time_command.TimeCommand;
 import pl.agh.edu.time_command.TimeCommandExecutor;
 
 public class Engine {
-	private final Time time;
-	private final ClientGenerator clientGenerator;
-	private final Hotel hotel;
-	private final TimeCommandExecutor timeCommandExecutor;
-	private final AdvertisementHandler advertisementHandler;
-	private final EventGenerator eventGenerator;
-	private final HotelHandler hotelHandler;
+	private final Time time = Time.getInstance();
+	private final ClientGenerator clientGenerator = ClientGenerator.getInstance();
+	private final Hotel hotel = new Hotel();
+	private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
+	private final AdvertisementHandler advertisementHandler = AdvertisementHandler.getInstance();
+	private final EventGenerator eventGenerator = EventGenerator.getInstance();
+	private final HotelHandler hotelHandler = new HotelHandler();
 
 	public Engine() {
-		this.time = Time.getInstance();
-		this.clientGenerator = ClientGenerator.getInstance();
-		this.hotelHandler = new HotelHandler();
-
-		this.hotel = new Hotel();
-		this.timeCommandExecutor = TimeCommandExecutor.getInstance();
-		this.advertisementHandler = AdvertisementHandler.getInstance();
-		this.eventGenerator = EventGenerator.getInstance();
 
 		LocalDateTime currentTime = time.getTime();
 

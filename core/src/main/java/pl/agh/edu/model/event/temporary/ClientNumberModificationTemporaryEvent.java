@@ -8,7 +8,9 @@ import pl.agh.edu.enums.HotelVisitPurpose;
 public class ClientNumberModificationTemporaryEvent extends TemporaryEvent {
 	private final EnumMap<HotelVisitPurpose, Double> modifier;
 
-	public ClientNumberModificationTemporaryEvent(LocalDate startDate, LocalDate endDate, EnumMap<HotelVisitPurpose, Double> modifier) {
+	public ClientNumberModificationTemporaryEvent(LocalDate startDate,
+			LocalDate endDate,
+			EnumMap<HotelVisitPurpose, Double> modifier) {
 		super(startDate, endDate);
 		this.modifier = modifier;
 	}

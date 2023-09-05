@@ -15,11 +15,10 @@ import pl.agh.edu.actor.frame.BaseFrame;
 import pl.agh.edu.actor.frame.TestFrame;
 
 public class MainScreen implements Screen {
-	private final Stage stage;
+	private final Stage stage = new Stage(new ScreenViewport());
 	private final Cell<BaseFrame> currentFrame;
 
 	public MainScreen(GdxGame game) {
-		this.stage = new Stage(new ScreenViewport());
 		Stack stack = new Stack();
 		Image background = new Image(HotelSkin.getInstance().getDrawable("night-city"));
 		background.setScaling(Scaling.stretch);

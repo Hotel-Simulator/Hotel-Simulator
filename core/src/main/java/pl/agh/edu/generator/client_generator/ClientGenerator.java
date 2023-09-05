@@ -29,17 +29,11 @@ public class ClientGenerator {
 	private static ClientGenerator clientGeneratorInstance;
 
 	private static final Map<String, Long> attractivenessConstants = JSONHotelDataLoader.attractivenessConstants;
-	private final AdvertisementHandler advertisementHandler;
-	private final ClientNumberModificationTemporaryEventHandler clientNumberModificationTemporaryEventHandler;
-	private final Time time;
+	private final AdvertisementHandler advertisementHandler = AdvertisementHandler.getInstance();
+	private final ClientNumberModificationTemporaryEventHandler clientNumberModificationTemporaryEventHandler = ClientNumberModificationTemporaryEventHandler.getInstance();
+	private final Time time = Time.getInstance();
 
-	private ClientGenerator() {
-
-		this.time = Time.getInstance();
-
-		advertisementHandler = AdvertisementHandler.getInstance();
-		clientNumberModificationTemporaryEventHandler = ClientNumberModificationTemporaryEventHandler.getInstance();
-	}
+	private ClientGenerator() {}
 
 	public static ClientGenerator getInstance() {
 		if (clientGeneratorInstance == null)
