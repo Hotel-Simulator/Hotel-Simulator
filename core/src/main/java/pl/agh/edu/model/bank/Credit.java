@@ -12,22 +12,19 @@ public class Credit {
 	private final BigDecimal creditValueToPay;
 	private final int period;
 	private BigDecimal paidValue;
-	private final LocalDateTime beginDate;
+	private final LocalDateTime beginDate = Time.getInstance().getTime();
 	private final LocalDateTime endDate;
-	private final int interestRate;
+	private final int interestRate = Bank.getInstance().getCreditInterestRate();
 	private final BigDecimal monthlyPayments;
 	private boolean isPaid = false;
-	private LocalDateTime nextPaymentDate;
+	private LocalDateTime nextPaymentDate = beginDate.plusMonths(1);
 
 	public Credit(BigDecimal creditValue, int period) {
-		this.beginDate = Time.getInstance().getTime();
 		this.endDate = beginDate.plusMonths(period);
 		this.period = period;
-		this.interestRate = Bank.getInstance().getCreditInterestRate();
 		this.creditValue = creditValue;
 		this.creditValueToPay = creditValue.multiply(BigDecimal.valueOf(100 + interestRate)).divide(BigDecimal.valueOf(100), RoundingMode.CEILING);
 		this.monthlyPayments = this.creditValueToPay.divideToIntegralValue(BigDecimal.valueOf(period));
-		this.nextPaymentDate = beginDate.plusMonths(1);
 	}
 
 	public Credit(int creditValue, int period) {

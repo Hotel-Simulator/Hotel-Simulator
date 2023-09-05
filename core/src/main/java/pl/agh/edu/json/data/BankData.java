@@ -7,5 +7,5 @@ public record BankData (
     int creditInterestRate,
     int depositInterestRate,
     BigDecimal bankAccountFee
-
-){}
+){
+}

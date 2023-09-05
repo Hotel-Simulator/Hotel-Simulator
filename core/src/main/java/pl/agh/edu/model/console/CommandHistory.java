@@ -8,11 +8,9 @@ public class CommandHistory {
 	private final Array<String> commands = new Array<>(true, 20);
 	private int index;
 
-	private final LogHistory logHistory;
+	private final LogHistory logHistory = LogHistory.getInstance();
 
-	private CommandHistory() {
-		logHistory = LogHistory.getInstance();
-	}
+	private CommandHistory() {}
 
 	public static CommandHistory getInstance() {
 		if (instance == null) {

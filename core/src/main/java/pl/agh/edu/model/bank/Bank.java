@@ -16,7 +16,7 @@ public class Bank {
 
 	private int depositInterestRate;
 	private BigDecimal accountFee;
-	private LocalDateTime nextAccountFeeCharge;
+	private LocalDateTime nextAccountFeeCharge = Time.getInstance().getTime().plusMonths(1);
 	private final List<Transaction> incomes = new LinkedList<>();
 	private final List<Transaction> expenses = new LinkedList<>();
 
@@ -31,9 +31,7 @@ public class Bank {
 		return instance;
 	}
 
-	private Bank() {
-		nextAccountFeeCharge = Time.getInstance().getTime().plusMonths(1);
-	}
+	private Bank() {}
 
 	public void chargeAccountFee() {
 		chargeBalance(accountFee);

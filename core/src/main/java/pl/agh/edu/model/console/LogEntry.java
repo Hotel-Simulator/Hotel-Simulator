@@ -8,12 +8,11 @@ import com.badlogic.gdx.utils.TimeUtils;
 public class LogEntry {
 	private final String text;
 	private final LogLevel level;
-	private final long timeStamp;
+	private final long timeStamp = TimeUtils.millis();
 
 	protected LogEntry(String msg, LogLevel level) {
 		this.text = msg;
 		this.level = level;
-		timeStamp = TimeUtils.millis();
 	}
 
 	public LogLevel getLogLevel() {

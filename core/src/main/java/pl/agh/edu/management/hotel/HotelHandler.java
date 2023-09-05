@@ -15,26 +15,17 @@ import pl.agh.edu.model.Opinion;
 import pl.agh.edu.model.employee.Employee;
 
 public class HotelHandler {
-	public final CleaningScheduler cleaningScheduler;
-	public final ReceptionScheduler receptionScheduler;
-	public final RepairScheduler repairScheduler;
+	public final CleaningScheduler cleaningScheduler = new CleaningScheduler(this);
+	public final ReceptionScheduler receptionScheduler = new ReceptionScheduler(this);
+	public final RepairScheduler repairScheduler = new RepairScheduler(this);
 
-	public final PossibleEmployeeHandler possibleEmployeeHandler;
-	public final EmployeeHandler employeeHandler;
-	public final RoomManager roomManager;
+	public final PossibleEmployeeHandler possibleEmployeeHandler = new PossibleEmployeeHandler(this);
+	public final EmployeeHandler employeeHandler = new EmployeeHandler();
+	public final RoomManager roomManager = new RoomManager(JSONHotelDataLoader.initialRooms);
 
-	private final List<Opinion> opinions;
+	private final List<Opinion> opinions = new ArrayList<>();
 
-	public HotelHandler() {
-		this.cleaningScheduler = new CleaningScheduler(this);
-		this.receptionScheduler = new ReceptionScheduler(this);
-		this.repairScheduler = new RepairScheduler(this);
-		this.possibleEmployeeHandler = new PossibleEmployeeHandler(this);
-		this.employeeHandler = new EmployeeHandler();
-		this.roomManager = new RoomManager(JSONHotelDataLoader.initialRooms);
-
-		opinions = new ArrayList<>();
-	}
+	public HotelHandler() {}
 
 	public double getCompetitiveness() {
 		BigDecimal avgRoomStandard = BigDecimal.valueOf(0);

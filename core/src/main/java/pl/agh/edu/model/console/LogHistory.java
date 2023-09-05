@@ -4,11 +4,9 @@ import com.badlogic.gdx.utils.Array;
 
 public class LogHistory {
 	private static LogHistory instance;
-	private final Array<LogEntry> logEntries;
+	private final Array<LogEntry> logEntries = new Array<>();
 
-	private LogHistory() {
-		logEntries = new Array<>();
-	}
+	private LogHistory() {}
 
 	public static LogHistory getInstance() {
 		if (instance == null) {
