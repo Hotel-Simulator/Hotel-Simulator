@@ -1,4 +1,4 @@
-package pl.agh.edu.actor.panel.navbar;
+package pl.agh.edu.actor.component.panel.navbar;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
