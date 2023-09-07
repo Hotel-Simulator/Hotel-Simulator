@@ -35,9 +35,9 @@ public class Room {
 		this.rank = rank;
 	}
 
-	public void upgradeRank(RoomRank desiredRank) {
-		if (desiredRank.ordinal() <= rank.ordinal()) {
-			throw new IllegalArgumentException("Desired roomRank must be greater than current.");
+	public void changeRank(RoomRank desiredRank) {
+		if (desiredRank == rank) {
+			throw new IllegalArgumentException("Desired roomRank must be different from the current rank.");
 		}
 		this.rank = desiredRank;
 	}
