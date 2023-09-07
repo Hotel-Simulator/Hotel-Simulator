@@ -20,6 +20,7 @@ import pl.agh.edu.model.client.Client;
 import pl.agh.edu.model.client.ClientGroup;
 import pl.agh.edu.model.event.temporary.ClientNumberModificationTemporaryEventHandler;
 import pl.agh.edu.model.time.Time;
+import pl.agh.edu.utils.HotelPopularityFunction;
 import pl.agh.edu.utils.RandomUtils;
 
 public class ClientGenerator {
@@ -31,7 +32,7 @@ public class ClientGenerator {
 	private final ClientNumberModificationTemporaryEventHandler clientNumberModificationTemporaryEventHandler;
 	private final Time time;
 	private EnumMap<HotelVisitPurpose, Double> hotelVisitPurposeProbabilities;
-	private Map<Integer, Double> monthClientsMultiplier;
+	private HashMap<Integer, HashMap<Integer, Double>> seasonalMultiplier;
 	private double difficultyMultiplier;
 
 	private ClientGenerator() {
@@ -40,15 +41,15 @@ public class ClientGenerator {
 
 		advertisementHandler = AdvertisementHandler.getInstance();
 		clientNumberModificationTemporaryEventHandler = ClientNumberModificationTemporaryEventHandler.getInstance();
+		// Input player choice
+		clientGeneratorInstance.setHotelType(HotelType.values()[RandomUtils.randomInt(HotelType.values().length)]);
+		clientGeneratorInstance.setDifficulty(DifficultyLevel.values()[RandomUtils.randomInt(DifficultyLevel.values().length)]);
 	}
 
 	public static ClientGenerator getInstance() {
 		if (clientGeneratorInstance == null)
 			clientGeneratorInstance = new ClientGenerator();
 
-		// Input player choice
-		clientGeneratorInstance.setHotelTypeDifficulty(HotelType.values()[RandomUtils.randomInt(HotelType.values().length)]);
-		clientGeneratorInstance.setDifficulty(DifficultyLevel.values()[RandomUtils.randomInt(DifficultyLevel.values().length)]);
 		return clientGeneratorInstance;
 	}
 
@@ -102,7 +103,7 @@ public class ClientGenerator {
 	}
 
 	private EnumMap<HotelVisitPurpose, Integer> getNumberOfClientGroups() {
-		double popularityModifier = seasonClientsMultiplier();
+		double popularityModifier = getCurrentDayMultiplier();
 		int basicNumberOfClients = (int) Math.round(((attractivenessConstants.get("local_market") + attractivenessConstants.get("local_attractions"))) * popularityModifier);
 		return Stream.of(HotelVisitPurpose.values()).collect(Collectors.toMap(
 				e -> e,
@@ -132,32 +133,29 @@ public class ClientGenerator {
 				.collect(Collectors.toList());
 	}
 
-	private void setHotelTypeDifficulty(HotelType hotelType) {
+	private void setHotelType(HotelType hotelType) {
 
 		switch (hotelType) {
-			case HOTEL -> {
-				hotelVisitPurposeProbabilities = JSONHotelScenariosDataLoader.businessVisitsMode;
-				monthClientsMultiplier = JSONHotelScenariosDataLoader.vacationPopularity.get(HotelType.HOTEL);
-			}
-			case RESORT -> {
-				hotelVisitPurposeProbabilities = JSONHotelScenariosDataLoader.vacationVisitsMode;
-				monthClientsMultiplier = JSONHotelScenariosDataLoader.vacationPopularity.get(HotelType.RESORT);
-			}
-			case SANATORIUM -> {
-				hotelVisitPurposeProbabilities = JSONHotelScenariosDataLoader.rehabilitationVisitsMode;
-				monthClientsMultiplier = JSONHotelScenariosDataLoader.vacationPopularity.get(HotelType.SANATORIUM);
-			}
+		case HOTEL -> {
+			hotelVisitPurposeProbabilities = JSONHotelScenariosDataLoader.businessVisitsMode;
 		}
+		case RESORT -> {
+			hotelVisitPurposeProbabilities = JSONHotelScenariosDataLoader.vacationVisitsMode;
+		}
+		case SANATORIUM -> {
+			hotelVisitPurposeProbabilities = JSONHotelScenariosDataLoader.rehabilitationVisitsMode;
+		}
+		}
+		seasonalMultiplier = HotelPopularityFunction.getSeasonalMultipliers(hotelType);
 	}
 
 	private void setDifficulty(DifficultyLevel difficulty) {
 		difficultyMultiplier = JSONHotelScenariosDataLoader.difficultyMultiplier.get(difficulty);
 	}
 
-	private double seasonClientsMultiplier() {
-		double mean = monthClientsMultiplier.get(time.getTime().getMonthValue());
-		double var = mean * 0.2;
-
-		return RandomUtils.randomGaussian(mean, var);
+	private double getCurrentDayMultiplier() {
+		int month = time.getTime().getMonthValue();
+		int day = time.getTime().getDayOfMonth();
+		return seasonalMultiplier.get(month).get(day);
 	}
 }
