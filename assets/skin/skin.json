@@ -392,6 +392,15 @@
 },
 "ButtonStyle": {
 	"default": {
+		"up": "default"
+	},
+	"navbar-minus": {
+		"parent": "default",
+		"up": "button-time-minus-up",
+		"down": "button-time-minus-down",
+		"over": "button-time-minus-over"
+	},
+	"navbar-plus": {
 		"up": "button-time-plus-up",
 		"down": "button-time-plus-down",
 		"over": "button-time-plus-over"
@@ -588,13 +597,8 @@
 	}
 },
 "TextTooltipStyle": {
-	"selectMenu": {
-		"font": "body1",
-		"fontColorSelected": "Gray_900",
-		"fontColorUnselected": "Shadow",
-		"selection": "list-selection",
-		"over": "list-over",
-		"background": "list-background"
+	"default": {
+		"label": "default"
 	}
 },
 "pl.agh.edu.actor.component.navbar.NavbarBottom$NavbarBottomStyle": {

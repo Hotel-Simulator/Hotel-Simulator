@@ -24,10 +24,12 @@ public class SliderComponent extends Table {
 	Label realLabel;
 
 	public SliderComponent(String name, String suffix, float min, float max, float step, SliderSize sliderSize) {
+
 		SLIDER_WIDTH = sliderSize.getSLIDER_WIDTH();
 		SLIDER_HEIGHT = sliderSize.getSLIDER_HEIGHT();
 		HORIZONTAL_OUTER_PADDING = sliderSize.getHORIZONTAL_OUTER_PADDING();
 		HORIZONTAL_INNER_PADDING = sliderSize.getHORIZONTAL_INNER_PADDING();
+
 		Stack componentStack = new Stack();
 		add(componentStack).height(SLIDER_HEIGHT);
 		skin = HotelSkin.getInstance();
@@ -64,8 +66,6 @@ public class SliderComponent extends Table {
 			});
 			add(slider).width(SLIDER_WIDTH / 2 - HORIZONTAL_OUTER_PADDING).padRight(HORIZONTAL_OUTER_PADDING);
 			realLabel = new Label("", skin);
-			row();
-			add(realLabel);
 
 		}
 
