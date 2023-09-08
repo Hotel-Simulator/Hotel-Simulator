@@ -16,7 +16,7 @@ public class RandomLogoCreator implements Screen {
 	private static final int HEIGHT = 400;
 
 	private final GdxGame game;
-	private final Stage stage;
+	private final Stage stage = new Stage(new ScreenViewport());
 
 	private Texture[] backgrounds;
 	private Texture[] frames;
@@ -27,7 +27,6 @@ public class RandomLogoCreator implements Screen {
 
 	public RandomLogoCreator(GdxGame game) {
 		this.game = game;
-		this.stage = new Stage(new ScreenViewport());
 	}
 
 	@Override

@@ -21,26 +21,26 @@ public class RoomTest {
 	}
 
 	@Test
-	public void upgradeRankTest_Success() {
+	public void changeRankTest_Success() {
 		// Given
 		Room room = new Room(RoomRank.TWO, RoomCapacity.FIVE);
 
 		// When
-		room.upgradeRank(RoomRank.THREE);
+		room.changeRank(RoomRank.THREE);
 
 		// Then
 		assertEquals(room.getRank(), RoomRank.THREE);
 	}
 
 	@Test
-	public void upgradeRankTest_Failure() {
+	public void changeRankTest_Failure() {
 		// Given
 		Room room = new Room(RoomRank.ONE, RoomCapacity.FIVE);
 
 		// When
 
 		// Then
-		assertThrows(IllegalArgumentException.class, () -> room.upgradeRank(RoomRank.ONE));
+		assertThrows(IllegalArgumentException.class, () -> room.changeRank(RoomRank.ONE));
 	}
 
 	@Test

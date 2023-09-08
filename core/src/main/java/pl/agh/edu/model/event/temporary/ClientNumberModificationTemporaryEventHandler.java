@@ -11,13 +11,12 @@ import pl.agh.edu.enums.HotelVisitPurpose;
 
 public class ClientNumberModificationTemporaryEventHandler {
 	private static ClientNumberModificationTemporaryEventHandler instance;
-	private final PriorityQueue<ClientNumberModificationTemporaryEvent> currentClientNumberModificationTemporaryEvents;
-	private final PriorityQueue<ClientNumberModificationTemporaryEvent> upcomingClientNumberModificationTemporaryEvents;
+	private final PriorityQueue<ClientNumberModificationTemporaryEvent> currentClientNumberModificationTemporaryEvents = new PriorityQueue<>(Comparator.comparing(
+			TemporaryEvent::getEndDate));
+	private final PriorityQueue<ClientNumberModificationTemporaryEvent> upcomingClientNumberModificationTemporaryEvents = new PriorityQueue<>(Comparator.comparing(
+			TemporaryEvent::getStartDate));
 
-	private ClientNumberModificationTemporaryEventHandler() {
-		this.currentClientNumberModificationTemporaryEvents = new PriorityQueue<>(Comparator.comparing(TemporaryEvent::getEndDate));
-		this.upcomingClientNumberModificationTemporaryEvents = new PriorityQueue<>(Comparator.comparing(TemporaryEvent::getStartDate));
-	}
+	private ClientNumberModificationTemporaryEventHandler() {}
 
 	public static ClientNumberModificationTemporaryEventHandler getInstance() {
 		if (instance == null)

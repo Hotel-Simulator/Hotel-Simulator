@@ -16,16 +16,13 @@ import pl.agh.edu.utils.RandomUtils;
 
 public class EventGenerator {
 	private static EventGenerator instance;
-	private final EventLauncher eventLauncher;
+	private final EventLauncher eventLauncher = EventLauncher.getInstance();
 	private static final List<ClientNumberModificationCyclicTemporaryEventData> clientNumberModificationCyclicTemporaryEventData = JSONEventDataLoader.clientNumberModificationCyclicTemporaryEventData;
 	private static final List<ClientNumberModificationRandomTemporaryEventData> clientNumberModificationRandomTemporaryEventData = JSONEventDataLoader.clientNumberModificationRandomTemporaryEventData;
-	private final Map<ClientNumberModificationRandomTemporaryEventData, Integer> lastYearDate;
-	private final Time time;
+	private final Map<ClientNumberModificationRandomTemporaryEventData, Integer> lastYearDate = new HashMap<>();
+	private final Time time = Time.getInstance();
 
 	private EventGenerator() {
-		this.lastYearDate = new HashMap<>();
-		time = Time.getInstance();
-		this.eventLauncher = EventLauncher.getInstance();
 		initializeClientNumberModificationCyclicTemporaryEvents();
 	}
 

@@ -1,4 +1,4 @@
-package pl.agh.edu.actor.button;
+package pl.agh.edu.actor.component.button;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;

@@ -1,13 +1,14 @@
-package pl.agh.edu.actor;
+package pl.agh.edu.actor.component.navbar;
 
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 
-import pl.agh.edu.actor.panel.navbar.AccelerationPanel;
-import pl.agh.edu.actor.panel.navbar.MoneyPanel;
-import pl.agh.edu.actor.panel.navbar.TimePanel;
+import pl.agh.edu.actor.HotelSkin;
+import pl.agh.edu.actor.component.panel.navbar.AccelerationPanel;
+import pl.agh.edu.actor.component.panel.navbar.MoneyPanel;
+import pl.agh.edu.actor.component.panel.navbar.TimePanel;
 
 public class NavbarTop extends Table {
 

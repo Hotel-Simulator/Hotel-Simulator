@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 public class AdvertisementReportHandler {
 	private static final List<AdvertisementReportData> data = new ArrayList<>();
 
+	private AdvertisementReportHandler() {}
+
 	public static void collectData(AdvertisementReportData advertisementReportData) {
 		data.add(advertisementReportData);
 	}
