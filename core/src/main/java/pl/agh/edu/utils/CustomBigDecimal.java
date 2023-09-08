@@ -10,7 +10,7 @@ import ch.obermuhlner.math.big.BigDecimalMath;
 
 public class CustomBigDecimal {
 	private BigDecimal value;
-	private final MathContext mc = new MathContext(100, RoundingMode.HALF_UP);
+	private final MathContext mc = MathContext.DECIMAL128;
 
 	public CustomBigDecimal(String val) {
 		this.value = new BigDecimal(val);
@@ -79,7 +79,7 @@ public class CustomBigDecimal {
 		Prefix prefix = Prefix.getPrefixByValue(BigDecimalMath.pow(BigDecimal.valueOf(1000), BigDecimal.valueOf(triZeros), mc));
 
 		int correct;
-		List<Prefix> prefixes = new java.util.ArrayList<>(Arrays.stream(Prefix.values()).toList());
+		List<Prefix> prefixes = Arrays.stream(Prefix.values()).toList();
 		Prefix biggest = prefixes.get(prefixes.size() - 1);
 		if (value.compareTo(BigDecimal.valueOf(1000)) < 0 || BigDecimalMath.log10(biggest.getValue(), mc).compareTo(BigDecimal.valueOf(zeros - 2)) < 0) {
 			correct = 0;
@@ -105,11 +105,7 @@ public class CustomBigDecimal {
 		private final BigDecimal value;
 
 		public static Prefix getPrefixByValue(BigDecimal value) {
-			for (Prefix prefix : Prefix.values()) {
-				if (value.equals(prefix.getValue()))
-					return prefix;
-			}
-			return Prefix.T;
+			return Arrays.stream(Prefix.values()).filter(prefix -> value.equals(prefix.getValue())).findFirst().orElseThrow();
 		}
 
 		Prefix(BigDecimal value) {

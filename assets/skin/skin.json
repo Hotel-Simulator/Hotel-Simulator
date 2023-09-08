@@ -269,7 +269,7 @@
 		"minHeight": 44
 	}
 },
-"pl.agh.edu.actor.button.NavbarButton$NavbarButtonStyle": {
+"pl.agh.edu.actor.component.button.NavbarButton$NavbarButtonStyle": {
 	"default": {
 		"text": "default",
 		"iconUp": "default",
@@ -392,15 +392,6 @@
 },
 "ButtonStyle": {
 	"default": {
-		"up": "default"
-	},
-	"navbar-minus": {
-		"parent": "default",
-		"up": "button-time-minus-up",
-		"down": "button-time-minus-down",
-		"over": "button-time-minus-over"
-	},
-	"navbar-plus": {
 		"up": "button-time-plus-up",
 		"down": "button-time-plus-down",
 		"over": "button-time-plus-over"
@@ -547,7 +538,7 @@
 		"over": "button-small-over",
 		"disabled": "button-small-disabled"
 	},
-	"normal": {
+	"Normal": {
 		"font": "button2",
 		"downFontColor": "Secondary_300",
 		"overFontColor": "Secondary_100",
@@ -581,16 +572,21 @@
 	}
 },
 "TextTooltipStyle": {
-	"default": {
-		"label": "default"
+	"selectMenu": {
+		"font": "body1",
+		"fontColorSelected": "Gray_900",
+		"fontColorUnselected": "Shadow",
+		"selection": "list-selection",
+		"over": "list-over",
+		"background": "list-background"
 	}
 },
-"pl.agh.edu.actor.NavbarBottom$NavbarBottomStyle": {
+"pl.agh.edu.actor.component.navbar.NavbarBottom$NavbarBottomStyle": {
 	"default": {
 		"bottomBackground": "navbar-bottom"
 	}
 },
-"pl.agh.edu.actor.NavbarTop$NavbarTopStyle": {
+"pl.agh.edu.actor.component.navbar.NavbarTop$NavbarTopStyle": {
 	"default": {
 		"topBackground": "navbar-top"
 	}
