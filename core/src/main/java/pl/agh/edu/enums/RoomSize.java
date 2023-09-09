@@ -1,27 +1,27 @@
 package pl.agh.edu.enums;
 
 import java.util.Arrays;
+import java.util.stream.IntStream;
 
 public enum RoomSize {
 	SINGLE(1),
 	DOUBLE(2),
-	FAMILY(3, 4, 5);
+	FAMILY(5);
 
-	private final int[] acceptableNumberOfGuests;
+	private final int maxNumberOfGuests;
 
-	RoomSize(int... acceptableNumberOfGuests) {
-		this.acceptableNumberOfGuests = acceptableNumberOfGuests;
+	RoomSize(int maxNumberOfGuests) {
+		this.maxNumberOfGuests = maxNumberOfGuests;
 	}
 
 	public boolean canAccommodateGuests(int numberOfGuests) {
-		return Arrays.stream(acceptableNumberOfGuests)
-				.anyMatch(i -> i == numberOfGuests);
+		return maxNumberOfGuests >= numberOfGuests;
 	}
 
-	public static RoomSize getRoomSize(int clientGroupSize) {
+	public static RoomSize getSmallestAvailableRoomSize(int clientGroupSize) {
 		return Arrays.stream(RoomSize.values())
 				.filter(roomSize -> roomSize.canAccommodateGuests(clientGroupSize))
-				.findFirst()
+				.min(RoomSize::compareTo)
 				.orElseThrow();
 	}
 

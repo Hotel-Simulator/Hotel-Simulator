@@ -70,7 +70,7 @@ public class ClientGenerator {
 				.hotelVisitPurpose(hotelVisitPurpose)
 				.members(getMembers(hotelVisitPurpose, clientGroupSize))
 				.checkOutTime(getCheckOutTime(numberOfNights, checkoutMaxTime))
-				.desiredPricePerNight(getDesiredPricePerNight(desiredRoomRank, RoomSize.getRoomSize(clientGroupSize)))
+				.desiredPricePerNight(getDesiredPricePerNight(desiredRoomRank, RoomSize.getSmallestAvailableRoomSize(clientGroupSize)))
 				.desiredRoomRank(desiredRoomRank)
 				.maxWaitingTime(getMaxWaitingTime(JSONClientDataLoader.basicMaxWaitingTime, JSONClientDataLoader.waitingTimeVariation))
 				.build();

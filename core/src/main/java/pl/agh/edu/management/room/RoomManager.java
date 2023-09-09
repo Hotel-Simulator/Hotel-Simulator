@@ -54,6 +54,7 @@ public class RoomManager {
 				.filter(room -> !room.roomState.isUnderRankChange())
 				.filter(room -> !room.roomState.isBeingBuild())
 				.filter(room -> roomPriceList.getPrice(room).compareTo(group.getDesiredPricePerNight()) < 1)
+				.sorted(Comparator.comparing(room -> room.size))
 				.min(Comparator.comparing(room -> room.roomState.isDirty()));
 	}
 
