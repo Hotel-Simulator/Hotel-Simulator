@@ -59,7 +59,7 @@ public class RoomManager {
 	}
 
 	private int roomTimeMultiplier(Room room) {
-		return (room.getRank().ordinal() + 1) + (room.capacity.ordinal() + 1) / 2;
+		return (room.getRank().ordinal() + 1) + (room.size.ordinal() + 1) / 2;
 	}
 
 	public void changeRoomRank(Room room, RoomRank desiredRank) {
