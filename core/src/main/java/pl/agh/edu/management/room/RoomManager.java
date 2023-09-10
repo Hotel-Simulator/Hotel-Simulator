@@ -70,7 +70,7 @@ public class RoomManager {
 		timeCommandExecutor.addCommand(new TimeCommand(
 				() -> {
 					room.roomState.setUnderRankChange(false);
-					room.upgradeRank(desiredRank);
+					room.changeRank(desiredRank);
 					roomRankChangeTimes.remove(room);
 				},
 				upgradeTime));

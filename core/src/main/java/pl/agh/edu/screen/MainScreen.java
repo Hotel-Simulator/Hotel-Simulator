@@ -5,20 +5,23 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 
+import pl.agh.edu.GameConfig;
 import pl.agh.edu.GdxGame;
 import pl.agh.edu.actor.HotelSkin;
-import pl.agh.edu.actor.NavbarBottom;
-import pl.agh.edu.actor.NavbarTop;
+import pl.agh.edu.actor.component.navbar.NavbarBottom;
+import pl.agh.edu.actor.component.navbar.NavbarTop;
 import pl.agh.edu.actor.frame.BaseFrame;
 import pl.agh.edu.actor.frame.TestFrame;
 
 public class MainScreen implements Screen {
-	private final Stage stage = new Stage(new ScreenViewport());
+	private final Stage stage;
 	private final Cell<BaseFrame> currentFrame;
 
 	public MainScreen(GdxGame game) {
+		FitViewport screenViewport = new FitViewport(GameConfig.RESOLUTION.getWidth(), GameConfig.RESOLUTION.getHeight());
+		this.stage = new Stage(screenViewport);
 		Stack stack = new Stack();
 		Image background = new Image(HotelSkin.getInstance().getDrawable("night-city"));
 		background.setScaling(Scaling.stretch);

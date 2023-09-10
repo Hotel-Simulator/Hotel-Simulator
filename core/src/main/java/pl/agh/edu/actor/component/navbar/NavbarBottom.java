@@ -1,11 +1,12 @@
-package pl.agh.edu.actor;
+package pl.agh.edu.actor.component.navbar;
 
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 
-import pl.agh.edu.actor.button.NavbarButton;
+import pl.agh.edu.actor.HotelSkin;
+import pl.agh.edu.actor.component.button.NavbarButton;
 import pl.agh.edu.actor.frame.TestFrame;
 import pl.agh.edu.enums.BottomNavbarState;
 import pl.agh.edu.screen.MainScreen;

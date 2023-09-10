@@ -8,7 +8,7 @@ public class DesktopLauncher {
 	public static void main(String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setTitle("Hotel simulator");
-		config.setResizable(false);
+		config.setResizable(true);
 		new Lwjgl3Application(new GdxGame(), config);
 	}
 }
