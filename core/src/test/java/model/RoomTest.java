@@ -6,8 +6,8 @@ import static org.mockito.Mockito.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import pl.agh.edu.enums.RoomCapacity;
 import pl.agh.edu.enums.RoomRank;
+import pl.agh.edu.enums.RoomSize;
 import pl.agh.edu.model.Room;
 import pl.agh.edu.model.client.ClientGroup;
 
@@ -21,32 +21,32 @@ public class RoomTest {
 	}
 
 	@Test
-	public void upgradeRankTest_Success() {
+	public void changeRankTest_Success() {
 		// Given
-		Room room = new Room(RoomRank.TWO, RoomCapacity.FIVE);
+		Room room = new Room(RoomRank.ECONOMIC, RoomSize.DOUBLE);
 
 		// When
-		room.upgradeRank(RoomRank.THREE);
+		room.changeRank(RoomRank.STANDARD);
 
 		// Then
-		assertEquals(room.getRank(), RoomRank.THREE);
+		assertEquals(room.getRank(), RoomRank.STANDARD);
 	}
 
 	@Test
-	public void upgradeRankTest_Failure() {
+	public void changeRankTest_Failure() {
 		// Given
-		Room room = new Room(RoomRank.ONE, RoomCapacity.FIVE);
+		Room room = new Room(RoomRank.ECONOMIC, RoomSize.DOUBLE);
 
 		// When
 
 		// Then
-		assertThrows(IllegalArgumentException.class, () -> room.upgradeRank(RoomRank.ONE));
+		assertThrows(IllegalArgumentException.class, () -> room.changeRank(RoomRank.ECONOMIC));
 	}
 
 	@Test
 	public void checkInResidentsTest_Success() {
 		// Given
-		Room room = new Room(RoomRank.THREE, RoomCapacity.FIVE);
+		Room room = new Room(RoomRank.STANDARD, RoomSize.FAMILY);
 		when(group.getSize()).thenReturn(5);
 		// When
 		room.checkIn(group);
@@ -56,21 +56,9 @@ public class RoomTest {
 	}
 
 	@Test
-	public void checkInResidentsTest_Failure() {
-		// Given
-		Room room = new Room(RoomRank.THREE, RoomCapacity.FIVE);
-		when(group.getSize()).thenReturn(4);
-
-		// When;
-
-		// Then
-		assertThrows(IllegalArgumentException.class, () -> room.checkIn(group));
-	}
-
-	@Test
 	public void checkOutResidentsTest_Success() {
 		// Given
-		Room room = new Room(RoomRank.THREE, RoomCapacity.THREE);
+		Room room = new Room(RoomRank.STANDARD, RoomSize.FAMILY);
 		when(group.getSize()).thenReturn(3);
 
 		// When

@@ -7,24 +7,19 @@
 
   "initial_rooms": [
     {
-      "rank": "ONE",
-      "capacity": "ONE",
+      "rank": "ECONOMIC",
+      "size": "SINGLE",
       "quantity": 4
     },
     {
-      "rank": "ONE",
-      "capacity": "TWO",
+      "rank": "ECONOMIC",
+      "size": "DOUBLE",
       "quantity": 3
     },
     {
-      "rank": "ONE",
-      "capacity": "THREE",
+      "rank": "ECONOMIC",
+      "size": "FAMILY",
       "quantity": 2
-    },
-    {
-      "rank": "ONE",
-      "capacity": "FOUR",
-      "quantity": 1
     }
   ],
 

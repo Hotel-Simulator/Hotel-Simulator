@@ -65,10 +65,10 @@ public class Engine {
 	private void generateClientArrivals() {
 		clientGenerator.generateArrivalsForDay(hotel.getCheckInTime(), hotel.getCheckOutTime())
 				.forEach(arrival -> timeCommandExecutor.addCommand(
-						clientArrivalTimeCommand(arrival)));
+						createTimeCommandForClientArrival(arrival)));
 	}
 
-	private TimeCommand clientArrivalTimeCommand(Arrival arrival) {
+	private TimeCommand createTimeCommandForClientArrival(Arrival arrival) {
 		return new TimeCommand(() -> {
 			hotelHandler.receptionScheduler.addEntity(arrival.clientGroup());
 			timeCommandExecutor.addCommand(

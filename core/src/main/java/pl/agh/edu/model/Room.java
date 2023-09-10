@@ -2,20 +2,20 @@ package pl.agh.edu.model;
 
 import java.math.BigDecimal;
 
-import pl.agh.edu.enums.RoomCapacity;
 import pl.agh.edu.enums.RoomRank;
+import pl.agh.edu.enums.RoomSize;
 import pl.agh.edu.model.client.ClientGroup;
 
 public class Room {
 	private RoomRank rank;
-	public final RoomCapacity capacity;
+	public final RoomSize size;
 	private BigDecimal marketPrice;
 	private BigDecimal maintenancePrice;
 	private ClientGroup residents;
 	public RoomState roomState = new RoomState();
 
-	public Room(RoomRank rank, RoomCapacity capacity) {
-		this.capacity = capacity;
+	public Room(RoomRank rank, RoomSize size) {
+		this.size = size;
 		this.rank = rank;
 	}
 
@@ -35,17 +35,14 @@ public class Room {
 		this.rank = rank;
 	}
 
-	public void upgradeRank(RoomRank desiredRank) {
-		if (desiredRank.ordinal() <= rank.ordinal()) {
-			throw new IllegalArgumentException("Desired roomRank must be greater than current.");
+	public void changeRank(RoomRank desiredRank) {
+		if (desiredRank == rank) {
+			throw new IllegalArgumentException("Desired roomRank must be different from the current rank.");
 		}
 		this.rank = desiredRank;
 	}
 
 	public void checkIn(ClientGroup clientGroup) {
-		if (clientGroup.getSize() != capacity.value) {
-			throw new IllegalArgumentException("Group size is different from the room capacity");
-		}
 		this.residents = clientGroup;
 		roomState.setOccupied(true);
 	}
