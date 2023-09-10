@@ -66,11 +66,13 @@ public class ClientGenerator {
 		RoomRank desiredRoomRank = RandomUtils.randomKeyWithProbabilities(JSONClientDataLoader.desiredRankProbabilities.get(hotelVisitPurpose));
 		int numberOfNights = RandomUtils.randomKeyWithProbabilities(JSONClientDataLoader.numberOfNightsProbabilities.get(hotelVisitPurpose));
 		int clientGroupSize = RandomUtils.randomKeyWithProbabilities(JSONClientDataLoader.clientGroupSizeProbabilities.get(hotelVisitPurpose));
+		RoomSize roomSize = RoomSize.getSmallestAvailableRoomSize(clientGroupSize).orElseThrow();
+
 		return new ClientGroup.Builder()
 				.hotelVisitPurpose(hotelVisitPurpose)
 				.members(getMembers(hotelVisitPurpose, clientGroupSize))
 				.checkOutTime(getCheckOutTime(numberOfNights, checkoutMaxTime))
-				.desiredPricePerNight(getDesiredPricePerNight(desiredRoomRank, RoomSize.getSmallestAvailableRoomSize(clientGroupSize)))
+				.desiredPricePerNight(getDesiredPricePerNight(desiredRoomRank, roomSize))
 				.desiredRoomRank(desiredRoomRank)
 				.maxWaitingTime(getMaxWaitingTime(JSONClientDataLoader.basicMaxWaitingTime, JSONClientDataLoader.waitingTimeVariation))
 				.build();

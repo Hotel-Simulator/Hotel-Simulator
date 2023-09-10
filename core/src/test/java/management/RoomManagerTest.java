@@ -161,6 +161,26 @@ public class RoomManagerTest {
 	}
 
 	@Test
+	public void findTheCheapestRoomForClientGroupTest() {
+		// Given
+		Room room1 = new Room(RoomRank.STANDARD, RoomSize.FAMILY);
+		Room room2 = new Room(RoomRank.STANDARD, RoomSize.DOUBLE);
+		roomManager.addRoom(room1);
+		roomManager.addRoom(room2);
+
+		when(clientGroup.getDesiredRoomRank()).thenReturn(RoomRank.STANDARD);
+		when(clientGroup.getSize()).thenReturn(2);
+		when(clientGroup.getDesiredPricePerNight()).thenReturn(BigDecimal.valueOf(1000));
+
+		// When
+		Optional<Room> foundRoom = roomManager.findRoomForClientGroup(clientGroup);
+
+		// Then
+		assertTrue(foundRoom.isPresent());
+		assertEquals(room2, foundRoom.get());
+	}
+
+	@Test
 	public void findRoomForClientGroupTest_DirtyRoom() {
 		// Given
 		Room room = new Room(RoomRank.STANDARD, RoomSize.FAMILY);

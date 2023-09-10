@@ -1,7 +1,7 @@
 package pl.agh.edu.enums;
 
 import java.util.Arrays;
-import java.util.stream.IntStream;
+import java.util.Optional;
 
 public enum RoomSize {
 	SINGLE(1),
@@ -15,14 +15,13 @@ public enum RoomSize {
 	}
 
 	public boolean canAccommodateGuests(int numberOfGuests) {
-		return maxNumberOfGuests >= numberOfGuests;
+		return maxNumberOfGuests >= numberOfGuests && numberOfGuests > 0;
 	}
 
-	public static RoomSize getSmallestAvailableRoomSize(int clientGroupSize) {
+	public static Optional<RoomSize> getSmallestAvailableRoomSize(int clientGroupSize) {
 		return Arrays.stream(RoomSize.values())
 				.filter(roomSize -> roomSize.canAccommodateGuests(clientGroupSize))
-				.min(RoomSize::compareTo)
-				.orElseThrow();
+				.min(RoomSize::compareTo);
 	}
 
 }
