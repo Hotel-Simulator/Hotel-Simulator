@@ -58,8 +58,8 @@ public class RoomManager {
 				.min(Comparator.comparing(room -> room.roomState.isDirty()));
 	}
 
-	private int roomTimeMultiplier(Room room) {
-		return (room.getRank().ordinal() + 1) + (room.size.ordinal() + 1) / 2;
+	private double roomTimeMultiplier(Room room) {
+		return (room.getRank().ordinal() + 1) + (room.size.ordinal() + 1) / 2.;
 	}
 
 	public void changeRoomRank(Room room, RoomRank desiredRank) {
@@ -68,8 +68,8 @@ public class RoomManager {
 		}
 		room.roomState.setUnderRankChange(true);
 
-		LocalDateTime upgradeTime = time.getTime().plus(
-				JSONRoomDataLoader.roomRankChangeDuration.multipliedBy(roomTimeMultiplier(room)));
+		LocalDateTime upgradeTime = time.getTime().plusHours(
+				(long) (JSONRoomDataLoader.roomRankChangeDuration.toHours() * roomTimeMultiplier(room)));
 		roomRankChangeTimes.put(room, upgradeTime);
 
 		timeCommandExecutor.addCommand(new TimeCommand(
@@ -106,8 +106,8 @@ public class RoomManager {
 		buildRoom.roomState.setBeingBuild(true);
 		rooms.add(buildRoom);
 
-		LocalDateTime buildTime = time.getTime().plus(
-				JSONRoomDataLoader.roomRankChangeDuration.multipliedBy(roomTimeMultiplier(buildRoom)));
+		LocalDateTime buildTime = time.getTime().plusHours(
+				(long) (JSONRoomDataLoader.roomBuildingDuration.toHours() * roomTimeMultiplier(buildRoom)));
 		roomBuildingTimes.put(buildRoom, buildTime);
 
 		timeCommandExecutor.addCommand(new TimeCommand(
