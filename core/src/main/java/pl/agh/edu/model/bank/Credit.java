@@ -2,54 +2,48 @@ package pl.agh.edu.model.bank;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.LocalDateTime;
-import java.time.Period;
+import java.time.LocalDate;
 
+import pl.agh.edu.enums.Frequency;
 import pl.agh.edu.model.time.Time;
+import pl.agh.edu.time_command.NRepeatingTimeCommand;
+import pl.agh.edu.time_command.TimeCommandExecutor;
 
 public class Credit {
 	private final BigDecimal creditValue;
-	private final BigDecimal creditValueToPay;
-	private final int period;
-	private BigDecimal paidValue;
-	private final LocalDateTime beginDate = Time.getInstance().getTime();
-	private final LocalDateTime endDate;
-	private final int interestRate = Bank.getInstance().getCreditInterestRate();
+	private final BigDecimal creditValueWithInterest;
+	private final int creditLengthInMonths;
+	private final Time time = Time.getInstance();
+	private final LocalDate beginDate = time.getTime().toLocalDate();
+	private final BankAccount bankAccount;
 	private final BigDecimal monthlyPayments;
 	private boolean isPaid = false;
-	private LocalDateTime nextPaymentDate = beginDate.plusMonths(1);
+	private final NRepeatingTimeCommand paymentTimeCommand;
 
-	public Credit(BigDecimal creditValue, int period) {
-		this.endDate = beginDate.plusMonths(period);
-		this.period = period;
+	public Credit(BigDecimal creditValue, int creditLengthInMonths, BankAccount bankAccount) {
 		this.creditValue = creditValue;
-		this.creditValueToPay = creditValue.multiply(BigDecimal.valueOf(100 + interestRate)).divide(BigDecimal.valueOf(100), RoundingMode.CEILING);
-		this.monthlyPayments = this.creditValueToPay.divideToIntegralValue(BigDecimal.valueOf(period));
+		this.creditLengthInMonths = creditLengthInMonths;
+		this.bankAccount = bankAccount;
+
+		this.creditValueWithInterest = creditValue.multiply(BigDecimal.valueOf(100 + bankAccount.getCreditInterestRate())).divide(BigDecimal.valueOf(100), RoundingMode.CEILING);
+		this.monthlyPayments = this.creditValueWithInterest.divide(BigDecimal.valueOf(creditLengthInMonths), 2, RoundingMode.HALF_UP);
+		this.paymentTimeCommand = createTimeCommandForCreditMonthlyPayment(bankAccount);
+		TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
+		timeCommandExecutor.addCommand(paymentTimeCommand);
 	}
 
-	public Credit(int creditValue, int period) {
-		this(new BigDecimal(creditValue), period);
-	}
-
-	public void payMonth() {
-		paidValue.add(monthlyPayments);
-		nextPaymentDate = nextPaymentDate.plusMonths(1);
-		if (paidValue.compareTo(creditValueToPay) == 0) {
-			isPaid = true;
-			nextPaymentDate = null;
-		}
-	}
-
-	public void payAll() {
-		paidValue = creditValueToPay;
-		isPaid = true;
-		nextPaymentDate = null;
+	private NRepeatingTimeCommand createTimeCommandForCreditMonthlyPayment(BankAccount bankAccount) {
+		return new NRepeatingTimeCommand(Frequency.EVERY_MONTH,
+				() -> {
+					bankAccount.registerExpense(monthlyPayments);
+					if (getMonthsLeft() == 1) {
+						isPaid = true;
+					}
+				}, time.getTime().plusMonths(1), creditLengthInMonths);
 	}
 
 	public int getMonthsLeft() {
-		LocalDateTime curr = Time.getInstance().getTime();
-		Period diff = Period.between(curr.toLocalDate(), endDate.toLocalDate());
-		return diff.getMonths();
+		return paymentTimeCommand.getCounter();
 	}
 
 	public BigDecimal getCreditValue() {
@@ -57,39 +51,38 @@ public class Credit {
 	}
 
 	public BigDecimal getMonthlyPayments() {
-
 		return monthlyPayments;
 	}
 
 	public BigDecimal getPaidValue() {
-		return paidValue;
+		return monthlyPayments.multiply(BigDecimal.valueOf(creditLengthInMonths - paymentTimeCommand.getCounter()));
 	}
 
-	public BigDecimal getCreditValueToPay() {
-		return creditValueToPay;
+	public BigDecimal getCreditValueWithInterest() {
+		return creditValueWithInterest;
 	}
 
-	public int getPeriod() {
-		return period;
+	public int getCreditLengthInMonths() {
+		return creditLengthInMonths;
 	}
 
-	public LocalDateTime getBeginDate() {
+	public LocalDate getBeginDate() {
 		return beginDate;
 	}
 
-	public LocalDateTime getEndDate() {
-		return endDate;
+	public LocalDate getEndDate() {
+		return beginDate.plusMonths(creditLengthInMonths);
 	}
 
 	public int getInterestRate() {
-		return interestRate;
+		return bankAccount.getCreditInterestRate();
 	}
 
 	public boolean isPaid() {
 		return isPaid;
 	}
 
-	public LocalDateTime getNextPaymentDate() {
-		return nextPaymentDate;
+	public LocalDate getNextPaymentDate() {
+		return paymentTimeCommand.getDueDateTime().toLocalDate();
 	}
 }
