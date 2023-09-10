@@ -8,8 +8,8 @@ import java.util.Map;
 import org.json.simple.JSONObject;
 
 import pl.agh.edu.enums.HotelVisitPurpose;
-import pl.agh.edu.enums.RoomCapacity;
 import pl.agh.edu.enums.RoomRank;
+import pl.agh.edu.enums.RoomSize;
 import pl.agh.edu.json.data_extractor.JSONDataExtractor;
 import pl.agh.edu.json.data_extractor.JSONFilePath;
 import pl.agh.edu.json.data_extractor.JSONValueUtil;
@@ -20,8 +20,8 @@ public class JSONClientDataLoader {
 	public static EnumMap<HotelVisitPurpose, Double> hotelVisitPurposeProbabilities;
 	public static EnumMap<HotelVisitPurpose, EnumMap<RoomRank, Integer>> desiredRankProbabilities;
 	public static EnumMap<HotelVisitPurpose, Map<Integer, Integer>> numberOfNightsProbabilities;
-	public static EnumMap<HotelVisitPurpose, EnumMap<RoomCapacity, Integer>> roomCapacityProbabilities;
-	public static EnumMap<RoomRank, EnumMap<RoomCapacity, BigDecimal>> averagePricesPerNight;
+	public static EnumMap<HotelVisitPurpose, Map<Integer, Integer>> clientGroupSizeProbabilities;
+	public static EnumMap<RoomRank, EnumMap<RoomSize, BigDecimal>> averagePricesPerNight;
 	public static Duration basicMaxWaitingTime;
 	public static int waitingTimeVariation;
 
@@ -52,12 +52,12 @@ public class JSONClientDataLoader {
 						entry2 -> Integer.parseInt((String) entry2.getKey()),
 						entry2 -> JSONValueUtil.getInt((Long) entry2.getValue())),
 				HotelVisitPurpose.class);
-		roomCapacityProbabilities = JSONValueUtil.getEnumMap(
-				JSONDataExtractor.extract(JSON_FILE_PATH, "room_capacity_probabilities", JSONObject.class),
-				entry -> JSONValueUtil.getEnumMap(
+		clientGroupSizeProbabilities = JSONValueUtil.getEnumMap(
+				JSONDataExtractor.extract(JSON_FILE_PATH, "client_group_size_probabilities", JSONObject.class),
+				entry -> JSONValueUtil.getMap(
 						(JSONObject) entry.getValue(),
-						entry2 -> JSONValueUtil.getInt((Long) entry2.getValue()),
-						RoomCapacity.class),
+						entry2 -> Integer.parseInt((String) entry2.getKey()),
+						entry2 -> JSONValueUtil.getInt((Long) entry2.getValue())),
 				HotelVisitPurpose.class);
 
 		averagePricesPerNight = JSONValueUtil.getEnumMap(
@@ -65,7 +65,7 @@ public class JSONClientDataLoader {
 				entry -> JSONValueUtil.getEnumMap(
 						(JSONObject) entry.getValue(),
 						entry2 -> JSONValueUtil.getBigDecimal((Long) entry2.getValue()),
-						RoomCapacity.class),
+						RoomSize.class),
 				RoomRank.class);
 
 		basicMaxWaitingTime = JSONValueUtil.getDuration(

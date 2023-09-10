@@ -1,17 +1,14 @@
 {
   "room_rank_change_duration_in_hours" : {
-    "ONE": 12,
-    "TWO" : 15,
-    "THREE" : 18,
-    "FOUR" : 21,
-    "FIVE" : 24
+    "ECONOMIC": 12,
+    "STANDARD" : 15,
+    "DELUXE" : 18
+
   },
 
   "room_building_duration_in_days" : {
-    "ONE": 5,
-    "TWO" : 6,
-    "THREE" : 7,
-    "FOUR" : 8,
-    "FIVE" : 9
+    "ECONOMIC": 5,
+    "STANDARD" : 6,
+    "DELUXE" : 7
   }
 }
