@@ -22,7 +22,7 @@ public class SelectMenu extends Table {
 	private final SelectBox<SelectMenuItem> selectOption;
 	private final Size size;
 
-	public SelectMenu(Size size, String description, Array<SelectMenuItem> items, Function<SelectMenuItem, Void> function) {
+	public SelectMenu(Size size, String description, Array<SelectMenuItem> items, Function<? super SelectMenuItem, Void> function) {
 		this.items = items;
 		this.descriptionLabel.setText(description);
 		this.size = size;
@@ -49,7 +49,7 @@ public class SelectMenu extends Table {
 		selectOption.setItems(items);
 	}
 
-	private void setFunction(Function<SelectMenuItem, Void> function) {
+	private void setFunction(Function<? super SelectMenuItem, Void> function) {
 		selectOption.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {

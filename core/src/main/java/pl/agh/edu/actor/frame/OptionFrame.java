@@ -39,7 +39,7 @@ public class OptionFrame extends Stack {
 			selectMenuItems.add(selectMenuItem);
 		}
 
-		Function<SelectMenuItem, Void> function = selectedOption -> {
+		 Function<? super SelectMenuItem, Void> function = selectedOption -> {
 			if (selectedOption instanceof SelectMenuResolutionItem resolutionItem) {
 				GameConfig.changeResolution(resolutionItem.resolution);
 			}
