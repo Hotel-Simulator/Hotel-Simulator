@@ -481,6 +481,13 @@ size: 1024, 1024
 format: RGBA8888
 filter: Linear, Linear
 repeat: none
+blur-background
+  rotate: false
+  xy: 615, 653
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
 button-calendar-over
   rotate: false
   xy: 808, 921
@@ -539,112 +546,112 @@ button-options-up
   index: -1
 button-time-minus-down
   rotate: false
-  xy: 729, 702
+  xy: 63, 22
   size: 50, 51
   orig: 50, 51
   offset: 0, 0
   index: -1
 button-time-minus-over
   rotate: false
-  xy: 565, 539
+  xy: 115, 27
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 button-time-minus-up
   rotate: false
-  xy: 63, 22
+  xy: 167, 26
   size: 50, 51
   orig: 50, 51
   offset: 0, 0
   index: -1
 button-time-pauze-over
   rotate: false
-  xy: 115, 13
+  xy: 219, 13
   size: 50, 64
   orig: 50, 64
   offset: 0, 0
   index: -1
 button-time-pauze-up
   rotate: false
-  xy: 167, 13
+  xy: 271, 13
   size: 50, 64
   orig: 50, 64
   offset: 0, 0
   index: -1
 button-time-play-over
   rotate: false
-  xy: 219, 13
+  xy: 323, 13
   size: 50, 64
   orig: 50, 64
   offset: 0, 0
   index: -1
 button-time-play-up
   rotate: false
-  xy: 271, 12
+  xy: 575, 524
   size: 50, 65
   orig: 50, 65
   offset: 0, 0
   index: -1
 button-time-plus-down
   rotate: false
-  xy: 323, 27
+  xy: 627, 549
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 button-time-plus-over
   rotate: false
-  xy: 375, 27
+  xy: 679, 549
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 button-time-plus-up
   rotate: false
-  xy: 513, 486
+  xy: 375, 26
   size: 50, 51
   orig: 50, 51
   offset: 0, 0
   index: -1
 checkbox-off-disabled
   rotate: false
-  xy: 409, 383
+  xy: 711, 507
   size: 40, 40
   orig: 40, 40
   offset: 0, 0
   index: -1
 checkbox-off-over
   rotate: false
-  xy: 409, 425
+  xy: 513, 487
   size: 40, 40
   orig: 40, 40
   offset: 0, 0
   index: -1
 checkbox-off-up
   rotate: false
-  xy: 453, 467
+  xy: 669, 507
   size: 40, 40
   orig: 40, 40
   offset: 0, 0
   index: -1
 checkbox-on-disabled
   rotate: false
-  xy: 411, 467
+  xy: 627, 507
   size: 40, 40
   orig: 40, 40
   offset: 0, 0
   index: -1
 checkbox-on-over
   rotate: false
-  xy: 617, 554
+  xy: 769, 713
   size: 40, 40
   orig: 40, 40
   offset: 0, 0
   index: -1
 checkbox-on-up
   rotate: false
-  xy: 565, 497
+  xy: 719, 616
   size: 40, 40
   orig: 40, 40
   offset: 0, 0
@@ -665,7 +672,7 @@ event_icon_music_festival
   index: -1
 list-background
   rotate: false
-  xy: 615, 693
+  xy: 513, 529
   size: 60, 60
   split: 1, 1, 1, 1
   orig: 60, 60
@@ -1025,7 +1032,7 @@ navbar-tax-up
   index: -1
 pane-background-lime
   rotate: false
-  xy: 615, 596
+  xy: 717, 658
   size: 43, 43
   split: 21, 21, 21, 21
   pad: 19, 19, 19, 19
@@ -1107,28 +1114,28 @@ slider-background
   index: -1
 slider-knob
   rotate: false
-  xy: 451, 415
+  xy: 463, 483
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: -1
 slider-knob-down
   rotate: false
-  xy: 409, 357
+  xy: 437, 483
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: -1
 slider-knob-over
   rotate: false
-  xy: 451, 441
+  xy: 411, 483
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: -1
 textfield-background
   rotate: false
-  xy: 513, 539
+  xy: 615, 601
   size: 50, 50
   split: 19, 19, 19, 19
   orig: 50, 50
@@ -1136,7 +1143,7 @@ textfield-background
   index: -1
 textfield-cursor
   rotate: false
-  xy: 667, 661
+  xy: 555, 497
   size: 7, 30
   split: 3, 3, 4, 4
   pad: 3, 3, 3, 3
@@ -1145,7 +1152,7 @@ textfield-cursor
   index: -1
 textfield-disabledbackground
   rotate: false
-  xy: 615, 641
+  xy: 717, 703
   size: 50, 50
   split: 19, 19, 19, 19
   orig: 50, 50
@@ -1153,7 +1160,7 @@ textfield-disabledbackground
   index: -1
 textfield-focusedbackground
   rotate: false
-  xy: 677, 703
+  xy: 667, 601
   size: 50, 50
   split: 19, 19, 19, 19
   orig: 50, 50

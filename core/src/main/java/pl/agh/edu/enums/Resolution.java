@@ -1,5 +1,8 @@
 package pl.agh.edu.enums;
 
+import pl.agh.edu.actor.component.selectMenu.SelectMenuResolutionItem;
+import pl.agh.edu.actor.utils.Size;
+
 public enum Resolution {
 	_1366x768(1366, 768),
 	_1440x900(1440, 900),
@@ -27,11 +30,6 @@ public enum Resolution {
 		return height;
 	}
 
-	@Override
-	public String toString() {
-		return width + "x" + height;
-	}
-
 	public static Resolution fromInts(int width, int height) {
 		for (Resolution resolution : Resolution.values()) {
 			if (resolution.width == width && resolution.height == height) {
@@ -39,5 +37,9 @@ public enum Resolution {
 			}
 		}
 		throw new IllegalArgumentException("No matching Resolution for width=" + width + " and height=" + height);
+	}
+
+	public SelectMenuResolutionItem toSelectMenuResolutionItem(Size size) {
+		return new SelectMenuResolutionItem(this.toString(), size, this);
 	}
 }
