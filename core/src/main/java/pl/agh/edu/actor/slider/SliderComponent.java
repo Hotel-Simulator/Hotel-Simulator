@@ -89,7 +89,6 @@ public class SliderComponent extends Table {
 		return slider.getValue();
 	}
 
-
 	private enum SliderSize {
 		SMALL(500f, 40f, 20f, 20f),
 		MEDIUM(600f, 50f, 30f, 20f),

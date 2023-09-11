@@ -34,7 +34,8 @@ public class MoneySliderComponent extends SliderComponent {
 	}
 
 	public void setup(BigDecimal minValue, BigDecimal maxValue) {
-		coefficient = (maxValue.subtract(minValue)).divide(BigDecimalMath.pow(base, BigDecimal.valueOf(MoneySliderComponent.sliderMax), fine).subtract(BigDecimalMath.pow(base, BigDecimal.ONE,
+		coefficient = (maxValue.subtract(minValue)).divide(BigDecimalMath.pow(base, BigDecimal.valueOf(MoneySliderComponent.sliderMax), fine).subtract(BigDecimalMath.pow(base,
+				BigDecimal.ONE,
 				fine)), fine);
 		offset = minValue.subtract(coefficient.multiply(BigDecimalMath.pow(base, BigDecimal.ONE, fine), fine));
 	}
