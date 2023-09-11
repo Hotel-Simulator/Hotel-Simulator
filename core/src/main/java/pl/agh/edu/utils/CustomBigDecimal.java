@@ -28,8 +28,6 @@ public class CustomBigDecimal {
 		return new CustomBigDecimal(this.value.add(other.value));
 	}
 
-
-
 	@Override
 	public String toString() { // 123 456 = 123k
 		Prefix prefix = Prefix.getAdequatePrefixByValue(value);
@@ -88,7 +86,6 @@ public class CustomBigDecimal {
 		Prefix(BigDecimal value) {
 			this.value = value;
 		}
-
 
 	}
 
