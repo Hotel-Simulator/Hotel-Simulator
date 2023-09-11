@@ -1,21 +1,16 @@
 package pl.agh.edu.json.data_loader;
 
 import java.time.Duration;
-import java.util.EnumMap;
 
-import org.json.simple.JSONObject;
-
-import pl.agh.edu.enums.RoomRank;
 import pl.agh.edu.json.data_extractor.JSONDataExtractor;
 import pl.agh.edu.json.data_extractor.JSONFilePath;
-import pl.agh.edu.json.data_extractor.JSONValueUtil;
 
 public class JSONRoomDataLoader {
 
 	private static final String JSON_FILE_PATH = JSONFilePath.ROOM_CONFIG.get();
 
-	public static EnumMap<RoomRank, Duration> roomRankChangeDuration;
-	public static EnumMap<RoomRank, Duration> roomBuildingDuration;
+	public static Duration roomRankChangeDuration;
+	public static Duration roomBuildingDuration;
 
 	private JSONRoomDataLoader() {}
 
@@ -24,15 +19,8 @@ public class JSONRoomDataLoader {
 	}
 
 	protected static void load() {
-		roomRankChangeDuration = JSONValueUtil.getEnumMap(
-				JSONDataExtractor.extract(JSON_FILE_PATH, "room_rank_change_duration_in_hours", JSONObject.class),
-				(entry -> Duration.ofHours((Long) entry.getValue())),
-				RoomRank.class);
-		roomBuildingDuration = JSONValueUtil.getEnumMap(
-				JSONDataExtractor.extract(JSON_FILE_PATH, "room_rank_change_duration_in_hours", JSONObject.class),
-				(entry -> Duration.ofDays((Long) entry.getValue())),
-				RoomRank.class);
-
+		roomRankChangeDuration = Duration.ofDays(JSONDataExtractor.extract(JSON_FILE_PATH, "room_rank_change_base_duration_in_days", Long.class));
+		roomBuildingDuration = Duration.ofDays(JSONDataExtractor.extract(JSON_FILE_PATH, "room_building_base_duration_in_days", Long.class));
 	}
 
 }

@@ -40,8 +40,8 @@ public class JSONDataLoaderTest {
 	@SuppressWarnings("unused")
 	public void jSONRoomDataLoaderTest() {
 		assertDoesNotThrow(() -> {
-			EnumMap<RoomRank, Duration> roomRankChangeDuration = JSONRoomDataLoader.roomRankChangeDuration;
-			EnumMap<RoomRank, Duration> roomBuildingDuration = JSONRoomDataLoader.roomBuildingDuration;
+			Duration roomRankChangeDuration = JSONRoomDataLoader.roomRankChangeDuration;
+			Duration roomBuildingDuration = JSONRoomDataLoader.roomBuildingDuration;
 		});
 	}
 
