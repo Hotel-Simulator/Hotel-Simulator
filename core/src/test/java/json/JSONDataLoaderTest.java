@@ -14,8 +14,8 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 import pl.agh.edu.enums.HotelVisitPurpose;
-import pl.agh.edu.enums.RoomCapacity;
 import pl.agh.edu.enums.RoomRank;
+import pl.agh.edu.enums.RoomSize;
 import pl.agh.edu.enums.TypeOfContract;
 import pl.agh.edu.json.data.*;
 import pl.agh.edu.json.data_extractor.JSONFilePath;
@@ -40,8 +40,8 @@ public class JSONDataLoaderTest {
 	@SuppressWarnings("unused")
 	public void jSONRoomDataLoaderTest() {
 		assertDoesNotThrow(() -> {
-			EnumMap<RoomRank, Duration> roomRankChangeDuration = JSONRoomDataLoader.roomRankChangeDuration;
-			EnumMap<RoomRank, Duration> roomBuildingDuration = JSONRoomDataLoader.roomBuildingDuration;
+			Duration roomRankChangeDuration = JSONRoomDataLoader.roomRankChangeDuration;
+			Duration roomBuildingDuration = JSONRoomDataLoader.roomBuildingDuration;
 		});
 	}
 
@@ -115,8 +115,8 @@ public class JSONDataLoaderTest {
 			EnumMap<HotelVisitPurpose, Double> hotelVisitPurposeProbabilities = JSONClientDataLoader.hotelVisitPurposeProbabilities;
 			EnumMap<HotelVisitPurpose, EnumMap<RoomRank, Integer>> desiredRankProbabilities = JSONClientDataLoader.desiredRankProbabilities;
 			EnumMap<HotelVisitPurpose, Map<Integer, Integer>> numberOfNightsProbabilities = JSONClientDataLoader.numberOfNightsProbabilities;
-			EnumMap<HotelVisitPurpose, EnumMap<RoomCapacity, Integer>> roomCapacityProbabilities = JSONClientDataLoader.roomCapacityProbabilities;
-			EnumMap<RoomRank, EnumMap<RoomCapacity, BigDecimal>> averagePricesPerNight = JSONClientDataLoader.averagePricesPerNight;
+			EnumMap<HotelVisitPurpose, Map<Integer, Integer>> clientGroupSizeProbabilities = JSONClientDataLoader.clientGroupSizeProbabilities;
+			EnumMap<RoomRank, EnumMap<RoomSize, BigDecimal>> averagePricesPerNight = JSONClientDataLoader.averagePricesPerNight;
 			Duration basicMaxWaitingTime = JSONClientDataLoader.basicMaxWaitingTime;
 			int waitingTimeVariation = JSONClientDataLoader.waitingTimeVariation;
 		});

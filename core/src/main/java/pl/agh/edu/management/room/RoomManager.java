@@ -4,8 +4,8 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import pl.agh.edu.enums.RoomCapacity;
 import pl.agh.edu.enums.RoomRank;
+import pl.agh.edu.enums.RoomSize;
 import pl.agh.edu.json.data_loader.JSONClientDataLoader;
 import pl.agh.edu.json.data_loader.JSONRoomDataLoader;
 import pl.agh.edu.model.Room;
@@ -39,22 +39,27 @@ public class RoomManager {
 				Collectors.toList()));
 	}
 
-	public Map<RoomCapacity, List<Room>> getRoomsByCapacity() {
+	public Map<RoomSize, List<Room>> getRoomsBySize() {
 		return rooms.stream().collect(Collectors.groupingBy(
-				room -> room.capacity,
-				() -> new EnumMap<>(RoomCapacity.class),
+				room -> room.size,
+				() -> new EnumMap<>(RoomSize.class),
 				Collectors.toList()));
 	}
 
 	public Optional<Room> findRoomForClientGroup(ClientGroup group) {
 		return rooms.stream()
 				.filter(room -> room.getRank() == group.getDesiredRoomRank())
-				.filter(room -> room.capacity.value == group.getSize())
+				.filter(room -> room.size.canAccommodateGuests(group.getSize()))
 				.filter(room -> !room.roomState.isOccupied())
 				.filter(room -> !room.roomState.isUnderRankChange())
 				.filter(room -> !room.roomState.isBeingBuild())
 				.filter(room -> roomPriceList.getPrice(room).compareTo(group.getDesiredPricePerNight()) < 1)
+				.sorted(Comparator.comparing(roomPriceList::getPrice))
 				.min(Comparator.comparing(room -> room.roomState.isDirty()));
+	}
+
+	private double roomTimeMultiplier(Room room) {
+		return (room.getRank().ordinal() + 1) + (room.size.ordinal() + 1) / 2.;
 	}
 
 	public void changeRoomRank(Room room, RoomRank desiredRank) {
@@ -63,7 +68,8 @@ public class RoomManager {
 		}
 		room.roomState.setUnderRankChange(true);
 
-		LocalDateTime upgradeTime = time.getTime().plus(JSONRoomDataLoader.roomRankChangeDuration.get(desiredRank));
+		LocalDateTime upgradeTime = time.getTime().plusHours(
+				(long) (JSONRoomDataLoader.roomRankChangeDuration.toHours() * roomTimeMultiplier(room)));
 		roomRankChangeTimes.put(room, upgradeTime);
 
 		timeCommandExecutor.addCommand(new TimeCommand(
@@ -95,12 +101,13 @@ public class RoomManager {
 		rooms.add(room);
 	}
 
-	public void buildRoom(RoomRank roomRank, RoomCapacity roomCapacity) {
-		Room buildRoom = new Room(roomRank, roomCapacity);
+	public void buildRoom(RoomRank roomRank, RoomSize roomSize) {
+		Room buildRoom = new Room(roomRank, roomSize);
 		buildRoom.roomState.setBeingBuild(true);
 		rooms.add(buildRoom);
 
-		LocalDateTime buildTime = time.getTime().plus(JSONRoomDataLoader.roomBuildingDuration.get(roomRank));
+		LocalDateTime buildTime = time.getTime().plusHours(
+				(long) (JSONRoomDataLoader.roomBuildingDuration.toHours() * roomTimeMultiplier(buildRoom)));
 		roomBuildingTimes.put(buildRoom, buildTime);
 
 		timeCommandExecutor.addCommand(new TimeCommand(

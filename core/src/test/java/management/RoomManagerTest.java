@@ -12,8 +12,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import pl.agh.edu.enums.RoomCapacity;
 import pl.agh.edu.enums.RoomRank;
+import pl.agh.edu.enums.RoomSize;
 import pl.agh.edu.json.data_extractor.JSONFilePath;
 import pl.agh.edu.management.room.RoomManager;
 import pl.agh.edu.model.Room;
@@ -34,8 +34,8 @@ public class RoomManagerTest {
 	@BeforeEach
 	public void setUp() {
 		rooms = new ArrayList<>();
-		rooms.add(new Room(RoomRank.ONE, RoomCapacity.ONE));
-		rooms.add(new Room(RoomRank.FIVE, RoomCapacity.FIVE));
+		rooms.add(new Room(RoomRank.STANDARD, RoomSize.SINGLE));
+		rooms.add(new Room(RoomRank.DELUXE, RoomSize.DOUBLE));
 
 		roomManager = new RoomManager(rooms);
 
@@ -122,33 +122,33 @@ public class RoomManagerTest {
 
 		assertNotNull(roomsByRank);
 		assertEquals(2, roomsByRank.size());
-		assertTrue(roomsByRank.containsKey(RoomRank.ONE));
-		assertEquals(1, roomsByRank.get(RoomRank.ONE).size());
-		assertTrue(roomsByRank.containsKey(RoomRank.FIVE));
-		assertEquals(1, roomsByRank.get(RoomRank.FIVE).size());
+		assertTrue(roomsByRank.containsKey(RoomRank.STANDARD));
+		assertEquals(1, roomsByRank.get(RoomRank.STANDARD).size());
+		assertTrue(roomsByRank.containsKey(RoomRank.DELUXE));
+		assertEquals(1, roomsByRank.get(RoomRank.DELUXE).size());
 
 	}
 
 	@Test
-	public void getRoomsByCapacity() {
-		Map<RoomCapacity, List<Room>> roomsByCapacity = roomManager.getRoomsByCapacity();
+	public void getRoomsBySize() {
+		Map<RoomSize, List<Room>> roomsBySize = roomManager.getRoomsBySize();
 
-		assertNotNull(roomsByCapacity);
-		assertEquals(2, roomsByCapacity.size());
-		assertTrue(roomsByCapacity.containsKey(RoomCapacity.ONE));
-		assertEquals(1, roomsByCapacity.get(RoomCapacity.ONE).size());
-		assertTrue(roomsByCapacity.containsKey(RoomCapacity.FIVE));
-		assertEquals(1, roomsByCapacity.get(RoomCapacity.FIVE).size());
+		assertNotNull(roomsBySize);
+		assertEquals(2, roomsBySize.size());
+		assertTrue(roomsBySize.containsKey(RoomSize.SINGLE));
+		assertEquals(1, roomsBySize.get(RoomSize.SINGLE).size());
+		assertTrue(roomsBySize.containsKey(RoomSize.DOUBLE));
+		assertEquals(1, roomsBySize.get(RoomSize.DOUBLE).size());
 
 	}
 
 	@Test
 	public void findRoomForClientGroupTest_Success() {
 		// Given
-		Room room = new Room(RoomRank.THREE, RoomCapacity.THREE);
+		Room room = new Room(RoomRank.STANDARD, RoomSize.FAMILY);
 		roomManager.addRoom(room);
 
-		when(clientGroup.getDesiredRoomRank()).thenReturn(RoomRank.THREE);
+		when(clientGroup.getDesiredRoomRank()).thenReturn(RoomRank.STANDARD);
 		when(clientGroup.getSize()).thenReturn(3);
 		when(clientGroup.getDesiredPricePerNight()).thenReturn(BigDecimal.valueOf(1000));
 
@@ -161,13 +161,33 @@ public class RoomManagerTest {
 	}
 
 	@Test
+	public void findTheCheapestRoomForClientGroupTest() {
+		// Given
+		Room room1 = new Room(RoomRank.STANDARD, RoomSize.FAMILY);
+		Room room2 = new Room(RoomRank.STANDARD, RoomSize.DOUBLE);
+		roomManager.addRoom(room1);
+		roomManager.addRoom(room2);
+
+		when(clientGroup.getDesiredRoomRank()).thenReturn(RoomRank.STANDARD);
+		when(clientGroup.getSize()).thenReturn(2);
+		when(clientGroup.getDesiredPricePerNight()).thenReturn(BigDecimal.valueOf(1000));
+
+		// When
+		Optional<Room> foundRoom = roomManager.findRoomForClientGroup(clientGroup);
+
+		// Then
+		assertTrue(foundRoom.isPresent());
+		assertEquals(room2, foundRoom.get());
+	}
+
+	@Test
 	public void findRoomForClientGroupTest_DirtyRoom() {
 		// Given
-		Room room = new Room(RoomRank.THREE, RoomCapacity.THREE);
+		Room room = new Room(RoomRank.STANDARD, RoomSize.FAMILY);
 		room.roomState.setDirty(true);
 		roomManager.addRoom(room);
 
-		when(clientGroup.getDesiredRoomRank()).thenReturn(RoomRank.THREE);
+		when(clientGroup.getDesiredRoomRank()).thenReturn(RoomRank.STANDARD);
 		when(clientGroup.getSize()).thenReturn(3);
 		when(clientGroup.getDesiredPricePerNight()).thenReturn(BigDecimal.valueOf(1000));
 
@@ -182,14 +202,14 @@ public class RoomManagerTest {
 	@Test
 	public void shouldReturnCleanRoom_DirtyRoomPossible() {
 		// Given
-		Room dirtyRoom = new Room(RoomRank.THREE, RoomCapacity.THREE);
-		Room cleanRoom = new Room(RoomRank.THREE, RoomCapacity.THREE);
+		Room dirtyRoom = new Room(RoomRank.STANDARD, RoomSize.FAMILY);
+		Room cleanRoom = new Room(RoomRank.STANDARD, RoomSize.FAMILY);
 
 		dirtyRoom.roomState.setDirty(true);
 		roomManager.addRoom(dirtyRoom);
 		roomManager.addRoom(cleanRoom);
 
-		when(clientGroup.getDesiredRoomRank()).thenReturn(RoomRank.THREE);
+		when(clientGroup.getDesiredRoomRank()).thenReturn(RoomRank.STANDARD);
 		when(clientGroup.getSize()).thenReturn(3);
 		when(clientGroup.getDesiredPricePerNight()).thenReturn(BigDecimal.valueOf(1000));
 
@@ -204,10 +224,10 @@ public class RoomManagerTest {
 	@Test
 	public void findRoomForClientGroupTest_TooExpensiveRoom() {
 		// Given
-		Room room = new Room(RoomRank.THREE, RoomCapacity.THREE);
+		Room room = new Room(RoomRank.STANDARD, RoomSize.FAMILY);
 		roomManager.addRoom(room);
 
-		when(clientGroup.getDesiredRoomRank()).thenReturn(RoomRank.THREE);
+		when(clientGroup.getDesiredRoomRank()).thenReturn(RoomRank.STANDARD);
 		when(clientGroup.getSize()).thenReturn(3);
 		when(clientGroup.getDesiredPricePerNight()).thenReturn(BigDecimal.ZERO);
 
@@ -221,10 +241,10 @@ public class RoomManagerTest {
 	@Test
 	public void findRoomForClientGroupTest_NoDesiredRoomRank() {
 		// Given
-		Room room = new Room(RoomRank.ONE, RoomCapacity.THREE);
+		Room room = new Room(RoomRank.STANDARD, RoomSize.FAMILY);
 		roomManager.addRoom(room);
 
-		when(clientGroup.getDesiredRoomRank()).thenReturn(RoomRank.THREE);
+		when(clientGroup.getDesiredRoomRank()).thenReturn(RoomRank.ECONOMIC);
 		when(clientGroup.getSize()).thenReturn(3);
 		when(clientGroup.getDesiredPricePerNight()).thenReturn(BigDecimal.valueOf(1000));
 
@@ -238,7 +258,7 @@ public class RoomManagerTest {
 	@Test
 	public void findRoomForClientGroupTest_FaultyRoom() {
 		// Given
-		Room room = new Room(RoomRank.THREE, RoomCapacity.THREE);
+		Room room = new Room(RoomRank.STANDARD, RoomSize.FAMILY);
 		room.roomState.setFaulty(true);
 		roomManager.addRoom(room);
 
@@ -252,7 +272,7 @@ public class RoomManagerTest {
 	@Test
 	public void findRoomForClientGroupTest_rankChangeRoom() {
 		// Given
-		Room room = new Room(RoomRank.THREE, RoomCapacity.THREE);
+		Room room = new Room(RoomRank.STANDARD, RoomSize.FAMILY);
 		room.roomState.setUnderRankChange(true);
 		roomManager.addRoom(room);
 
@@ -266,7 +286,7 @@ public class RoomManagerTest {
 	@Test
 	public void findRoomForClientGroupTest_BuildingRoom() {
 		// Given
-		Room room = new Room(RoomRank.THREE, RoomCapacity.THREE);
+		Room room = new Room(RoomRank.STANDARD, RoomSize.FAMILY);
 		room.roomState.setBeingBuild(true);
 		roomManager.addRoom(room);
 
