@@ -1,6 +1,5 @@
-package pl.agh.edu.actor.component;
+package pl.agh.edu.actor.component.TextComponents;
 
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
@@ -24,8 +23,7 @@ public class ValueTag extends Table {
         Stack componentStack = new Stack();
         add(componentStack).height(HEIGHT).width(WIDTH);
         skin = HotelSkin.getInstance();
-        // TODO: 11.09.2023 add enw background to skin  
-        NinePatch background = skin.getPatch("slider-component-background");
+        NinePatch background = skin.getPatch("valuetag-background");
         componentStack.add(new Image(background));
         componentStack.add(new ValueTagContent(tag, value));
     }
@@ -48,8 +46,8 @@ public class ValueTag extends Table {
     }
 
     public enum ValueTagSize{
-        SMALL(500f,40f,40f),
-        MEDIUM(550f,40f,40f),
+        SMALL(400f,40f,40f),
+        MEDIUM(500f,40f,40f),
         LARGE(600f,40f,40f);
 
         private final float WIDTH;
