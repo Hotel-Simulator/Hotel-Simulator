@@ -93,10 +93,10 @@ public class CustomBigDecimal {
 	}
 
 	public enum Prefix {
-		n(BigDecimal.valueOf(1)),
-		k(BigDecimal.valueOf(1000)),
-		M(BigDecimal.valueOf(1000000)),
-		B(BigDecimal.valueOf(1000000000)),
+		n(new BigDecimal("1")),
+		k(new BigDecimal("1000")),
+		M(new BigDecimal("1000000")),
+		B(new BigDecimal("1000000000")),
 		T(new BigDecimal("1000000000000"));
 
 		private final BigDecimal value;
