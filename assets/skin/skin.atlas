@@ -1134,6 +1134,14 @@ textfield-background
   orig: 50, 50
   offset: 0, 0
   index: -1
+valuetag-background
+  rotate: false
+  xy: 513, 539
+  size: 50, 50
+  split: 19, 19, 19, 19
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
 textfield-cursor
   rotate: false
   xy: 667, 661
