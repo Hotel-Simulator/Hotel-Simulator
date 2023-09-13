@@ -16,12 +16,11 @@ import pl.agh.edu.model.bank.Credit;
 import pl.agh.edu.model.time.Time;
 
 public class CreditTest {
-	private BankAccount bankAccount;
+	private final BankAccount bankAccount = mock(BankAccount.class);
 	private Credit credit;
 
 	@BeforeEach
 	public void setUp() {
-		bankAccount = mock(BankAccount.class);
 		when(bankAccount.getCreditInterestRate()).thenReturn(new BigDecimal("0.05"));
 	}
 

@@ -16,6 +16,7 @@ public class NRepeatingTimeCommandTest {
 
 	private static final LocalDateTime DUE_DATE_TIME = LocalDateTime.of(2023, 8, 13, 12, 0);
 	private static final Frequency FREQUENCY = Frequency.EVERY_DAY;
+	private static final Runnable runnable = mock(Runnable.class);
 
 	@BeforeEach
 	public void setUp() {
@@ -25,7 +26,6 @@ public class NRepeatingTimeCommandTest {
 	@Test
 	public void testCounterDecrease() {
 		// Given
-		Runnable runnable = mock(Runnable.class);
 		int N = 3;
 		NRepeatingTimeCommand command = new NRepeatingTimeCommand(FREQUENCY, runnable, DUE_DATE_TIME, N);
 
@@ -40,7 +40,6 @@ public class NRepeatingTimeCommandTest {
 	@Test
 	public void testCommandStops_ExecutedNTimes() {
 		// Given
-		Runnable runnable = mock(Runnable.class);
 		int N = 1;
 		NRepeatingTimeCommand command = new NRepeatingTimeCommand(FREQUENCY, runnable, DUE_DATE_TIME, N);
 
