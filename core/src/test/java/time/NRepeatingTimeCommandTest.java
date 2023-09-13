@@ -16,11 +16,12 @@ public class NRepeatingTimeCommandTest {
 
 	private static final LocalDateTime DUE_DATE_TIME = LocalDateTime.of(2023, 8, 13, 12, 0);
 	private static final Frequency FREQUENCY = Frequency.EVERY_DAY;
-	private static final Runnable runnable = mock(Runnable.class);
+	private static Runnable runnable;
 
 	@BeforeEach
 	public void setUp() {
 		MockitoAnnotations.openMocks(this);
+		runnable = mock(Runnable.class);
 	}
 
 	@Test
