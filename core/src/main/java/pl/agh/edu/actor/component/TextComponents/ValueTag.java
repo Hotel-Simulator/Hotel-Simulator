@@ -1,5 +1,6 @@
 package pl.agh.edu.actor.component.TextComponents;
 
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
@@ -33,12 +34,17 @@ public class ValueTag extends Table {
             setDebug(true);
             this.padLeft(HORIZONTAL_PADDING).padRight(HORIZONTAL_PADDING);
 
-            Label tagLabel = new Label(tag,skin, "body1_label");
-            tagLabel.setAlignment(Align.left);
+            Label tagLabel = new Label(tag,skin, "white_body1_label");
+//            BitmapFont white = skin.getFont("white-body1");
+//            Label.LabelStyle ls = tagLabel.getStyle();
+//            ls.font = white;
+//            tagLabel.setStyle(ls);
+            tagLabel.setColor(skin.getColor("Primary_700"));
+//            tagLabel.setColor();
             this.add(tagLabel).growX();
 
 
-            Label valueLabel = new Label(value,skin, "body1_label");
+            Label valueLabel = new Label(value,skin, "white_body1_label");
 
             this.add(valueLabel);
 

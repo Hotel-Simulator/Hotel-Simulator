@@ -71,6 +71,12 @@
 		"scaledSize": -1,
 		"markupEnabled": false,
 		"flip": false
+	},
+	"white-body1": {
+		"file": "white-body1.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
 	}
 },
 "Color": {
@@ -132,6 +138,12 @@
 		"r": 0.12941177,
 		"g": 0.12941177,
 		"b": 0.12941177,
+		"a": 1
+	},
+	"Mr_White": {
+		"r": 1,
+		"g": 1,
+		"b": 1,
 		"a": 1
 	},
 	"Primary_100": {
@@ -476,6 +488,10 @@
 	"selectMenu": {
 		"font": "body1",
 		"background": "label-selectBox-background"
+	},
+	"white_body1_label": {
+		"font": "white-body1",
+		"fontColor": "Mr_White"
 	}
 },
 "ListStyle": {
