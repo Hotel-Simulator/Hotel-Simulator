@@ -1,6 +1,8 @@
 package model.bank;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -19,7 +21,8 @@ public class CreditTest {
 
 	@BeforeEach
 	public void setUp() {
-		bankAccount = new BankAccount(new BigDecimal("0.05"), BigDecimal.valueOf(100));
+		bankAccount = mock(BankAccount.class);
+		when(bankAccount.getCreditInterestRate()).thenReturn(new BigDecimal("0.05"));
 	}
 
 	@Test
@@ -33,9 +36,9 @@ public class CreditTest {
 
 		// Then
 		BigDecimal expectedMonthlyPayments = creditValue
-				.multiply(BigDecimal.ONE.add(bankAccount.getCreditInterestRate()))
+				.multiply(BigDecimal.ONE.add(credit.getInterestRate()))
 				.divide(BigDecimal.valueOf(creditLengthInMonths), 2, RoundingMode.HALF_UP);
-		assertEquals(expectedMonthlyPayments, credit.getMonthlyPayments());
+		assertEquals(expectedMonthlyPayments, credit.monthlyPayments);
 	}
 
 	@Test

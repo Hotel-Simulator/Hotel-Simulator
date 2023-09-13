@@ -25,7 +25,7 @@ public class NRepeatingTimeCommandTest {
 	@Test
 	public void testCounterDecrease() {
 		// Given
-		Runnable runnable = createMockRunnable();
+		Runnable runnable = mock(Runnable.class);
 		int N = 3;
 		NRepeatingTimeCommand command = new NRepeatingTimeCommand(FREQUENCY, runnable, DUE_DATE_TIME, N);
 
@@ -40,7 +40,7 @@ public class NRepeatingTimeCommandTest {
 	@Test
 	public void testCommandStops_ExecutedNTimes() {
 		// Given
-		Runnable runnable = createMockRunnable();
+		Runnable runnable = mock(Runnable.class);
 		int N = 1;
 		NRepeatingTimeCommand command = new NRepeatingTimeCommand(FREQUENCY, runnable, DUE_DATE_TIME, N);
 
@@ -52,7 +52,4 @@ public class NRepeatingTimeCommandTest {
 		verify(runnable, times(1)).run();
 	}
 
-	private Runnable createMockRunnable() {
-		return mock(Runnable.class);
-	}
 }

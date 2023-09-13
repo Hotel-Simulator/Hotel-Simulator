@@ -10,17 +10,17 @@ import pl.agh.edu.time_command.NRepeatingTimeCommand;
 import pl.agh.edu.time_command.TimeCommandExecutor;
 
 public class Credit {
-	private final BigDecimal creditValue;
-	private final BigDecimal creditValueWithInterest;
-	private final int creditLengthInMonths;
+	public final BigDecimal creditValue;
+	public final BigDecimal creditValueWithInterest;
+	public final long creditLengthInMonths;
 	private final Time time = Time.getInstance();
 	private final LocalDate beginDate = time.getTime().toLocalDate();
 	private final BankAccount bankAccount;
-	private final BigDecimal monthlyPayments;
+	public final BigDecimal monthlyPayments;
 	private boolean isPaid = false;
 	private final NRepeatingTimeCommand paymentTimeCommand;
 
-	public Credit(BigDecimal creditValue, int creditLengthInMonths, BankAccount bankAccount) {
+	public Credit(BigDecimal creditValue, long creditLengthInMonths, BankAccount bankAccount) {
 		this.creditValue = creditValue;
 		this.creditLengthInMonths = creditLengthInMonths;
 		this.bankAccount = bankAccount;
@@ -42,28 +42,12 @@ public class Credit {
 				}, time.getTime().plusMonths(1), creditLengthInMonths);
 	}
 
-	public int getMonthsLeft() {
+	public long getMonthsLeft() {
 		return paymentTimeCommand.getCounter();
-	}
-
-	public BigDecimal getCreditValue() {
-		return creditValue;
-	}
-
-	public BigDecimal getMonthlyPayments() {
-		return monthlyPayments;
 	}
 
 	public BigDecimal getPaidValue() {
 		return monthlyPayments.multiply(BigDecimal.valueOf(creditLengthInMonths - paymentTimeCommand.getCounter()));
-	}
-
-	public BigDecimal getCreditValueWithInterest() {
-		return creditValueWithInterest;
-	}
-
-	public int getCreditLengthInMonths() {
-		return creditLengthInMonths;
 	}
 
 	public LocalDate getBeginDate() {
