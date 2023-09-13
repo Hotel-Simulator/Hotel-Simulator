@@ -10,13 +10,13 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import pl.agh.edu.enums.RoomCapacity;
 import pl.agh.edu.enums.RoomRank;
+import pl.agh.edu.enums.RoomSize;
 import pl.agh.edu.json.data_extractor.JSONFilePath;
 import pl.agh.edu.model.RoomPriceList;
 
 public class RoomPriceListTest {
-	private static EnumMap<RoomRank, EnumMap<RoomCapacity, BigDecimal>> testPrices;
+	private static EnumMap<RoomRank, EnumMap<RoomSize, BigDecimal>> testPrices;
 	private static RoomPriceList roomPriceList;
 
 	@BeforeAll
@@ -28,18 +28,18 @@ public class RoomPriceListTest {
 	void setUp() {
 		testPrices = new EnumMap<>(RoomRank.class);
 
-		EnumMap<RoomCapacity, BigDecimal> standardPrices = new EnumMap<>(RoomCapacity.class);
-		standardPrices.put(RoomCapacity.ONE, BigDecimal.valueOf(100));
-		standardPrices.put(RoomCapacity.TWO, BigDecimal.valueOf(150));
-		standardPrices.put(RoomCapacity.THREE, BigDecimal.valueOf(200));
+		EnumMap<RoomSize, BigDecimal> standardPrices = new EnumMap<>(RoomSize.class);
+		standardPrices.put(RoomSize.SINGLE, BigDecimal.valueOf(100));
+		standardPrices.put(RoomSize.DOUBLE, BigDecimal.valueOf(150));
+		standardPrices.put(RoomSize.FAMILY, BigDecimal.valueOf(200));
 
-		EnumMap<RoomCapacity, BigDecimal> deluxePrices = new EnumMap<>(RoomCapacity.class);
-		deluxePrices.put(RoomCapacity.ONE, BigDecimal.valueOf(200));
-		deluxePrices.put(RoomCapacity.TWO, BigDecimal.valueOf(300));
-		deluxePrices.put(RoomCapacity.THREE, BigDecimal.valueOf(400));
+		EnumMap<RoomSize, BigDecimal> deluxePrices = new EnumMap<>(RoomSize.class);
+		deluxePrices.put(RoomSize.SINGLE, BigDecimal.valueOf(200));
+		deluxePrices.put(RoomSize.DOUBLE, BigDecimal.valueOf(300));
+		deluxePrices.put(RoomSize.FAMILY, BigDecimal.valueOf(400));
 
-		testPrices.put(RoomRank.ONE, standardPrices);
-		testPrices.put(RoomRank.FIVE, deluxePrices);
+		testPrices.put(RoomRank.STANDARD, standardPrices);
+		testPrices.put(RoomRank.DELUXE, deluxePrices);
 
 		roomPriceList = new RoomPriceList(testPrices);
 	}
@@ -48,7 +48,7 @@ public class RoomPriceListTest {
 	public void getPrices() {
 		// Given
 		// When
-		EnumMap<RoomRank, EnumMap<RoomCapacity, BigDecimal>> prices = roomPriceList.getPrices();
+		EnumMap<RoomRank, EnumMap<RoomSize, BigDecimal>> prices = roomPriceList.getPrices();
 
 		// Then
 		assertNotNull(prices);
@@ -59,7 +59,7 @@ public class RoomPriceListTest {
 	public void getPrice() {
 		// Given
 		// When
-		BigDecimal price = roomPriceList.getPrice(RoomRank.ONE, RoomCapacity.ONE);
+		BigDecimal price = roomPriceList.getPrice(RoomRank.STANDARD, RoomSize.SINGLE);
 
 		// Then
 		assertEquals(BigDecimal.valueOf(100), price);
@@ -70,8 +70,8 @@ public class RoomPriceListTest {
 		// Given
 
 		// When
-		roomPriceList.setPrice(RoomRank.FIVE, RoomCapacity.TWO, BigDecimal.valueOf(350));
-		BigDecimal price = roomPriceList.getPrice(RoomRank.FIVE, RoomCapacity.TWO);
+		roomPriceList.setPrice(RoomRank.DELUXE, RoomSize.DOUBLE, BigDecimal.valueOf(350));
+		BigDecimal price = roomPriceList.getPrice(RoomRank.DELUXE, RoomSize.DOUBLE);
 
 		// Then
 		assertEquals(BigDecimal.valueOf(350), price);
@@ -80,20 +80,20 @@ public class RoomPriceListTest {
 	@Test
 	public void setPrices() {
 		// Given
-		EnumMap<RoomRank, EnumMap<RoomCapacity, BigDecimal>> newPrices = new EnumMap<>(RoomRank.class);
+		EnumMap<RoomRank, EnumMap<RoomSize, BigDecimal>> newPrices = new EnumMap<>(RoomRank.class);
 
-		EnumMap<RoomCapacity, BigDecimal> newStandardPrices = new EnumMap<>(RoomCapacity.class);
-		newStandardPrices.put(RoomCapacity.ONE, BigDecimal.valueOf(120));
-		newStandardPrices.put(RoomCapacity.TWO, BigDecimal.valueOf(180));
-		newStandardPrices.put(RoomCapacity.THREE, BigDecimal.valueOf(240));
+		EnumMap<RoomSize, BigDecimal> newStandardPrices = new EnumMap<>(RoomSize.class);
+		newStandardPrices.put(RoomSize.SINGLE, BigDecimal.valueOf(120));
+		newStandardPrices.put(RoomSize.DOUBLE, BigDecimal.valueOf(180));
+		newStandardPrices.put(RoomSize.FAMILY, BigDecimal.valueOf(240));
 
-		EnumMap<RoomCapacity, BigDecimal> newDeluxePrices = new EnumMap<>(RoomCapacity.class);
-		newDeluxePrices.put(RoomCapacity.ONE, BigDecimal.valueOf(220));
-		newDeluxePrices.put(RoomCapacity.TWO, BigDecimal.valueOf(330));
-		newDeluxePrices.put(RoomCapacity.THREE, BigDecimal.valueOf(440));
+		EnumMap<RoomSize, BigDecimal> newDeluxePrices = new EnumMap<>(RoomSize.class);
+		newDeluxePrices.put(RoomSize.SINGLE, BigDecimal.valueOf(220));
+		newDeluxePrices.put(RoomSize.DOUBLE, BigDecimal.valueOf(330));
+		newDeluxePrices.put(RoomSize.FAMILY, BigDecimal.valueOf(440));
 		// When
-		newPrices.put(RoomRank.ONE, newStandardPrices);
-		newPrices.put(RoomRank.FIVE, newDeluxePrices);
+		newPrices.put(RoomRank.STANDARD, newStandardPrices);
+		newPrices.put(RoomRank.DELUXE, newDeluxePrices);
 
 		roomPriceList.setPrices(newPrices);
 
