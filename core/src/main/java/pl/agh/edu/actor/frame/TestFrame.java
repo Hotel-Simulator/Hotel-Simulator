@@ -15,18 +15,17 @@ public class TestFrame extends BaseFrame {
 		this.add(new Label(name, HotelSkin.getInstance()));
 
 		Array<SelectMenuItem> items = new Array<>();
-		items.add(new SelectedMenuStringItem("Option 1 Example Example Example", Size.SMALL));
-		items.add(new SelectedMenuStringItem("Option 2", Size.SMALL));
-		items.add(new SelectedMenuStringItem("Option 3", Size.SMALL));
-		items.add(new SelectedMenuStringItem("Option 4", Size.SMALL));
-		items.add(new SelectedMenuStringItem("Option 5", Size.SMALL));
-		items.add(new SelectedMenuStringItem("Option 6", Size.SMALL));
-		items.add(new SelectedMenuStringItem("Option 7", Size.SMALL));
-		items.add(new SelectedMenuStringItem("Option 8", Size.SMALL));
-		items.add(new SelectedMenuStringItem("Option 9", Size.SMALL));
+		items.add(new SelectedMenuStringItem("Option 1 Example Example Example"));
+		items.add(new SelectedMenuStringItem("Option 2"));
+		items.add(new SelectedMenuStringItem("Option 3"));
+		items.add(new SelectedMenuStringItem("Option 4"));
+		items.add(new SelectedMenuStringItem("Option 5"));
+		items.add(new SelectedMenuStringItem("Option 6"));
+		items.add(new SelectedMenuStringItem("Option 7"));
+		items.add(new SelectedMenuStringItem("Option 8"));
+		items.add(new SelectedMenuStringItem("Option 9"));
 
 		SelectMenu selectMenu = new SelectMenu(
-				Size.SMALL,
 				"Example",
 				items,
 				selectedOption -> {

@@ -6,8 +6,8 @@ import pl.agh.edu.enums.Resolution;
 public class SelectMenuResolutionItem extends SelectMenuItem {
 	public final Resolution resolution;
 
-	public SelectMenuResolutionItem(String text, Size size, Resolution resolution) {
-		super(text, size);
+	public SelectMenuResolutionItem(String text, Resolution resolution) {
+		super(text);
 		this.resolution = resolution;
 	}
 }

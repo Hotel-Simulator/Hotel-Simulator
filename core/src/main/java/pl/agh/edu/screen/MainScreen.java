@@ -17,7 +17,7 @@ import pl.agh.edu.actor.frame.OptionFrame;
 import pl.agh.edu.actor.frame.TestFrame;
 
 public class MainScreen implements Screen {
-	private final Stage stage;
+	private final Stage stage = GameConfig.stage;
 	private final Cell<BaseFrame> currentFrame;
 
 	private final Skin skin = HotelSkin.getInstance();
@@ -25,8 +25,9 @@ public class MainScreen implements Screen {
 	private final Stack stack = new Stack();
 	private final Table table = new Table();
 
+	private boolean isOptionsOpen = false;
+
 	public MainScreen(GdxGame game) {
-		this.stage = new Stage(GameConfig.screenViewport);
 		Image background = new Image(skin.getDrawable("night-city"));
 		background.setScaling(Scaling.stretch);
 		background.setAlign(Align.center);
@@ -71,6 +72,7 @@ public class MainScreen implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
+
 		stage.getViewport().update(width, height, true);
 	}
 
@@ -99,6 +101,7 @@ public class MainScreen implements Screen {
 	}
 
 	private void openOptions() {
+		if (isOptionsOpen) return;
 		OptionFrame optionFrame = new OptionFrame();
 		stack.add(optionFrame);
 	}

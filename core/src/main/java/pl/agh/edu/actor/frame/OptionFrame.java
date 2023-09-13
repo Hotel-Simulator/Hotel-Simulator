@@ -20,10 +20,9 @@ import pl.agh.edu.actor.utils.Size;
 import pl.agh.edu.enums.Resolution;
 
 public class OptionFrame extends Stack {
-	private final float WIDTH = (float) GameConfig.RESOLUTION.getWidth() / 9 * 4;
-	private final float HEIGHT = (float) GameConfig.RESOLUTION.getHeight() / 9 * 4;
-
 	private final Table table = new Table();
+
+	private final SelectMenu selectResolutionMenu = createSelectMenuForResolution();
 
 	public OptionFrame() {
 		super();
@@ -31,34 +30,46 @@ public class OptionFrame extends Stack {
 		NinePatchDrawable background = new NinePatchDrawable(skin.getPatch("frame-glass-background"));
 		add(new Image(background, Scaling.stretch, Align.center));
 
+		table.add(selectResolutionMenu).fill();
+
 		this.add(table);
+		this.add(selectResolutionMenu);
+	}
+
+	private SelectMenu createSelectMenuForResolution(){
 
 		Array<SelectMenuItem> selectMenuItems = new Array<>();
 		for (Resolution resolution : Resolution.values()) {
-			SelectMenuResolutionItem selectMenuItem = resolution.toSelectMenuResolutionItem(Size.SMALL);
+			SelectMenuResolutionItem selectMenuItem = resolution.toSelectMenuResolutionItem();
 			selectMenuItems.add(selectMenuItem);
 		}
 
-		 Function<? super SelectMenuItem, Void> function = selectedOption -> {
+		Function<? super SelectMenuItem, Void> function = selectedOption -> {
 			if (selectedOption instanceof SelectMenuResolutionItem resolutionItem) {
-				GameConfig.changeResolution(resolutionItem.resolution);
+				if(resolutionItem.resolution != GameConfig.RESOLUTION){
+					GameConfig.changeResolution(resolutionItem.resolution);
+				}
 			}
 			return null;
 		};
 
-		SelectMenu selectMenu = new SelectMenu(
-				Size.SMALL,
+		return new SelectMenu(
 				"Resolution",
 				selectMenuItems,
 				function);
-
-		table.add(selectMenu);
 	}
 
 	@Override
 	public void layout() {
+		System.out.println("OptionFrame.layout()");
 		super.layout();
-		this.setBounds((float) GameConfig.RESOLUTION.getWidth() / 18 * 5, (float) GameConfig.RESOLUTION.getHeight() / 18 * 5, WIDTH, HEIGHT);
+		this.setBounds(
+				(float) GameConfig.RESOLUTION.WIDTH / 4,
+				(float) GameConfig.RESOLUTION.HEIGHT / 4,
+				(float) GameConfig.RESOLUTION.WIDTH / 2,
+				(float) GameConfig.RESOLUTION.HEIGHT / 2);
+		this.selectResolutionMenu.layout();
+		this.table.layout();
 	}
 
 }

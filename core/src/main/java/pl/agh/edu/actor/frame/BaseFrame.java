@@ -11,9 +11,6 @@ import pl.agh.edu.GameConfig;
 import pl.agh.edu.actor.HotelSkin;
 
 public abstract class BaseFrame extends Stack {
-	private final float WIDTH = (float) GameConfig.RESOLUTION.getWidth() / 9 * 6;
-	private final float HEIGHT = (float) GameConfig.RESOLUTION.getHeight() / 9 * 6;
-
 	public BaseFrame() {
 		super();
 		Skin skin = HotelSkin.getInstance();
@@ -24,7 +21,11 @@ public abstract class BaseFrame extends Stack {
 	@Override
 	public void layout() {
 		super.layout();
-		this.setBounds((float) GameConfig.RESOLUTION.getWidth() / 18 * 3, (float) GameConfig.RESOLUTION.getHeight() / 18 * 3, WIDTH, HEIGHT);
+		this.setBounds(
+				(float) GameConfig.RESOLUTION.WIDTH / 18 * 3,
+				(float) GameConfig.RESOLUTION.HEIGHT / 18 * 3,
+				(float) GameConfig.RESOLUTION.WIDTH / 9 * 6,
+				(float) GameConfig.RESOLUTION.HEIGHT / 9 * 6);
 	}
 
 }
