@@ -10,11 +10,11 @@ public class BankAccount {
 	private BigDecimal balance = BigDecimal.ZERO;
 	private final List<Credit> credits = new ArrayList<>();
 	private final List<Transaction> transactions = new ArrayList<>();
-	private int creditInterestRate;
+	private BigDecimal creditInterestRate;
 	private BigDecimal accountFee;
 	private final Time time = Time.getInstance();
 
-	public BankAccount(int creditInterestRate, BigDecimal accountFee) {
+	public BankAccount(BigDecimal creditInterestRate, BigDecimal accountFee) {
 		this.creditInterestRate = creditInterestRate;
 		this.accountFee = accountFee;
 	}
@@ -66,7 +66,7 @@ public class BankAccount {
 		return balance;
 	}
 
-	public int getCreditInterestRate() {
+	public BigDecimal getCreditInterestRate() {
 		return creditInterestRate;
 	}
 
@@ -74,7 +74,7 @@ public class BankAccount {
 		return accountFee;
 	}
 
-	public void setCreditInterestRate(int creditInterestRate) {
+	public void setCreditInterestRate(BigDecimal creditInterestRate) {
 		this.creditInterestRate = creditInterestRate;
 	}
 

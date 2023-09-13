@@ -25,7 +25,7 @@ public class Credit {
 		this.creditLengthInMonths = creditLengthInMonths;
 		this.bankAccount = bankAccount;
 
-		this.creditValueWithInterest = creditValue.multiply(BigDecimal.valueOf(100 + bankAccount.getCreditInterestRate())).divide(BigDecimal.valueOf(100), RoundingMode.CEILING);
+		this.creditValueWithInterest = creditValue.multiply(BigDecimal.ONE.add(bankAccount.getCreditInterestRate()));
 		this.monthlyPayments = this.creditValueWithInterest.divide(BigDecimal.valueOf(creditLengthInMonths), 2, RoundingMode.HALF_UP);
 		this.paymentTimeCommand = createTimeCommandForCreditMonthlyPayment(bankAccount);
 		TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
@@ -74,7 +74,7 @@ public class Credit {
 		return beginDate.plusMonths(creditLengthInMonths);
 	}
 
-	public int getInterestRate() {
+	public BigDecimal getInterestRate() {
 		return bankAccount.getCreditInterestRate();
 	}
 

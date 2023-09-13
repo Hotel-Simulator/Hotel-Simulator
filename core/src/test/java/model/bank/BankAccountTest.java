@@ -20,7 +20,7 @@ public class BankAccountTest {
 
 	@BeforeEach
 	public void setUp() {
-		bankAccount = new BankAccount(5, accountFee);
+		bankAccount = new BankAccount(new BigDecimal("0.05"), accountFee);
 	}
 
 	@Test
