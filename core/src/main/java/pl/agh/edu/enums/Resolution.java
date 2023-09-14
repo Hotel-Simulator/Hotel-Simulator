@@ -25,6 +25,7 @@ public enum Resolution {
 		this.HEIGHT = height;
 		this.SIZE = size;
 	}
+
 	public SelectMenuResolutionItem toSelectMenuResolutionItem() {
 		return new SelectMenuResolutionItem(this.toString(), this);
 	}
