@@ -36,16 +36,16 @@ public class CustomBigDecimal {
 		String[] twoParts = division.toPlainString().split("\\.");
 		String beforeComa = twoParts[0];
 		String afterComa = "";
-		if(twoParts.length>1)
+		if (twoParts.length > 1)
 			afterComa = twoParts[1];
-		afterComa+="00";
+		afterComa += "00";
 
-		if(prefix.name().equals("n"))
+		if (prefix.name().equals("n"))
 			return beforeComa;
-		if(beforeComa.length()>=3)
+		if (beforeComa.length() >= 3)
 			return beforeComa + prefix;
 
-		return beforeComa + "." + afterComa.substring(0,3 -beforeComa.length()) + prefix;
+		return beforeComa + "." + afterComa.substring(0, 3 - beforeComa.length()) + prefix;
 
 	}
 
