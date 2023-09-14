@@ -31,13 +31,22 @@ public class CustomBigDecimal {
 	@Override
 	public String toString() { // 123 456 = 123k
 		Prefix prefix = Prefix.getAdequatePrefixByValue(value);
-		BigDecimal displayed = value.divide(prefix.value).stripTrailingZeros();
-		if (!prefix.name().equals("n")) {
-			String zeros = displayed.toPlainString().contains(".") ? "0".repeat(Math.max(4 - displayed.toPlainString().length(), 0))
-					: ".".repeat(displayed.toPlainString().length() >= 3 ? 0 : 1) + "0".repeat(Math.max(3 - displayed.toPlainString().length(), 0));
-			return displayed.toPlainString() + zeros + prefix.name();
-		}
-		return displayed.toPlainString();
+
+		BigDecimal division = value.divide(prefix.value);
+		String[] twoParts = division.toPlainString().split("\\.");
+		String beforeComa = twoParts[0];
+		String afterComa = "";
+		if(twoParts.length>1)
+			afterComa = twoParts[1];
+		afterComa+="00";
+
+		if(prefix.name().equals("n"))
+			return beforeComa;
+		if(beforeComa.length()>=3)
+			return beforeComa + prefix;
+
+		return beforeComa + "." + afterComa.substring(0,3 -beforeComa.length()) + prefix;
+
 	}
 
 	public CustomBigDecimal roundToStringValue() { // 123 456 = 123 000 = 123 k
