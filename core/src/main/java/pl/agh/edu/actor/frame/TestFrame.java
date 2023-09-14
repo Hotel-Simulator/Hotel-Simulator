@@ -7,7 +7,6 @@ import pl.agh.edu.actor.HotelSkin;
 import pl.agh.edu.actor.component.selectMenu.SelectMenu;
 import pl.agh.edu.actor.component.selectMenu.SelectMenuItem;
 import pl.agh.edu.actor.component.selectMenu.SelectedMenuStringItem;
-import pl.agh.edu.actor.utils.Size;
 
 public class TestFrame extends BaseFrame {
 	public TestFrame(String name) {

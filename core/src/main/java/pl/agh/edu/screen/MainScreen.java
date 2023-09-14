@@ -18,7 +18,7 @@ import pl.agh.edu.actor.frame.TestFrame;
 
 public class MainScreen implements Screen {
 	private final Stage stage = GameConfig.stage;
-	private final Cell<BaseFrame> currentFrame;
+	private final Cell<?> currentFrame;
 
 	private final Skin skin = HotelSkin.getInstance();
 
@@ -26,6 +26,7 @@ public class MainScreen implements Screen {
 	private final Table table = new Table();
 
 	private boolean isOptionsOpen = false;
+	private final OptionFrame optionFrame = new OptionFrame();
 
 	public MainScreen(GdxGame game) {
 		Image background = new Image(skin.getDrawable("night-city"));
@@ -39,7 +40,7 @@ public class MainScreen implements Screen {
 		this.stage.addActor(table);
 		table.add();
 		table.add(new NavbarTop("default")).growX();
-		table.add(new OptionButton(this::openOptions));
+		table.add(new OptionButton(this::openOptions, this::closeOptions));
 		table.row();
 		table.add();
 		currentFrame = table.add();
@@ -96,14 +97,17 @@ public class MainScreen implements Screen {
 
 	}
 
-	private void addBlur() {
-		// PLACEHOLDER
-	}
-
 	private void openOptions() {
-		if (isOptionsOpen) return;
-		OptionFrame optionFrame = new OptionFrame();
+		if (isOptionsOpen)
+			return;
+		isOptionsOpen = true;
 		stack.add(optionFrame);
 	}
 
+	private void closeOptions() {
+		if (!isOptionsOpen)
+			return;
+		isOptionsOpen = false;
+		stack.removeActor(optionFrame);
+	}
 }

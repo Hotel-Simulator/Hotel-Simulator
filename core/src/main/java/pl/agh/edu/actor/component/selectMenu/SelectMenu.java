@@ -13,19 +13,17 @@ import com.badlogic.gdx.utils.Array;
 
 import pl.agh.edu.GameConfig;
 import pl.agh.edu.actor.HotelSkin;
-import pl.agh.edu.actor.utils.Size;
 
 public class SelectMenu extends Table {
 
 	private final Skin skin = HotelSkin.getInstance();
 	private final Label descriptionLabel = new SelectMenuLabel();
 	private final Array<SelectMenuItem> items;
-	private final SelectBox<SelectMenuItem> selectOption;
+	private final SelectBox<SelectMenuItem> selectOption = new DropDownSelect();
 
 	public SelectMenu(String description, Array<SelectMenuItem> items, Function<? super SelectMenuItem, Void> function) {
 		this.items = items;
 		this.descriptionLabel.setText(description);
-		this.selectOption = new DropDownSelect();
 
 		setMaxListCount();
 		setListItems(items);
@@ -34,6 +32,15 @@ public class SelectMenu extends Table {
 		this.selectOption.setAlignment(Align.right);
 		this.add(descriptionLabel).size(SelectMenuStyle.getWidth(), SelectMenuStyle.getHeight());
 		this.add(selectOption).size(SelectMenuStyle.getWidth(), SelectMenuStyle.getHeight());
+	}
+
+	public void setItem(String text) {
+		for (SelectMenuItem selectMenuItem : this.items) {
+			if (selectMenuItem.text.equals(text)) {
+				this.selectOption.setSelected(selectMenuItem);
+				break;
+			}
+		}
 	}
 
 	private void setMaxListCount() {
@@ -60,14 +67,15 @@ public class SelectMenu extends Table {
 	@Override
 	public void layout() {
 		super.layout();
-		this.getCells().forEach(cell -> {
-			cell.size(SelectMenuStyle.getWidth(), SelectMenuStyle.getHeight());
-		});
+		descriptionLabel.setSize(SelectMenuStyle.getWidth(), SelectMenuStyle.getHeight());
+		selectOption.setSize(SelectMenuStyle.getWidth(), SelectMenuStyle.getHeight());
+		this.getCells().forEach(cell -> cell.size(SelectMenuStyle.getWidth(), SelectMenuStyle.getHeight()));
 	}
 
 	private class SelectMenuLabel extends Label {
 		public SelectMenuLabel() {
 			super("Test", skin.get("selectMenu", Label.LabelStyle.class));
+			this.setAlignment(Align.center);
 		}
 
 	}
@@ -76,7 +84,7 @@ public class SelectMenu extends Table {
 		public DropDownSelect() {
 			super(skin.get("selectMenu", SelectBox.SelectBoxStyle.class));
 			this.setSize(SelectMenuStyle.getWidth(), SelectMenuStyle.getHeight());
-			this.getList().setAlignment(Align.right);
+			this.getList().setAlignment(Align.center);
 			setUpSelectionPane();
 		}
 
@@ -97,13 +105,7 @@ public class SelectMenu extends Table {
 		@Override
 		protected GlyphLayout drawItem(Batch batch, BitmapFont font, SelectMenuItem item, float x, float y, float width) {
 			String string = this.getSelected().toString();
-			return font.draw(batch, string, x, this.getY() + (this.getHeight() + font.getXHeight()) / 2, 0, string.length(), width, Align.top, false, "...");
-		}
-
-		@Override
-		public void layout() {
-			super.layout();
-			this.setSize(SelectMenuStyle.getWidth(), SelectMenuStyle.getHeight());
+			return font.draw(batch, string, x, this.getY() + (this.getHeight() + font.getXHeight()) / 2, 0, string.length(), width, Align.center, false, "...");
 		}
 	}
 
