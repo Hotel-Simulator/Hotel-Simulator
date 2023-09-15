@@ -17,7 +17,6 @@ public class Credit {
 	private final LocalDate beginDate = time.getTime().toLocalDate();
 	private final BankAccount bankAccount;
 	public final BigDecimal monthlyPayments;
-	private boolean isPaid = false;
 	private final NRepeatingTimeCommand paymentTimeCommand;
 
 	public Credit(BigDecimal creditValue, long creditLengthInMonths, BankAccount bankAccount) {
@@ -34,12 +33,7 @@ public class Credit {
 
 	private NRepeatingTimeCommand createTimeCommandForCreditMonthlyPayment(BankAccount bankAccount) {
 		return new NRepeatingTimeCommand(Frequency.EVERY_MONTH,
-				() -> {
-					bankAccount.registerExpense(monthlyPayments);
-					if (getMonthsLeft() == 1) {
-						isPaid = true;
-					}
-				}, time.getTime().plusMonths(1), creditLengthInMonths);
+				() -> bankAccount.registerExpense(monthlyPayments), time.getTime().toLocalDate().plusMonths(1).atStartOfDay(), creditLengthInMonths);
 	}
 
 	public long getMonthsLeft() {
@@ -63,7 +57,7 @@ public class Credit {
 	}
 
 	public boolean isPaid() {
-		return isPaid;
+		return paymentTimeCommand.getCounter() == 0;
 	}
 
 	public LocalDate getNextPaymentDate() {
