@@ -1,19 +1,17 @@
 package pl.agh.edu.actor.component.selectMenu;
 
-import pl.agh.edu.actor.utils.Size;
+import pl.agh.edu.GameConfig;
 
 public abstract class SelectMenuItem {
-	protected final Size size;
 	protected final String text;
 
-	public SelectMenuItem(String text, Size size) {
-		this.size = size;
+	public SelectMenuItem(String text) {
 		this.text = text;
 	}
 
 	@Override
 	public String toString() {
-		int maxLength = switch (this.size) {
+		int maxLength = switch (GameConfig.RESOLUTION.SIZE) {
 		case SMALL -> 12;
 		case MEDIUM -> 15;
 		case LARGE -> 18;
