@@ -38,7 +38,7 @@ public class SliderComponent extends Table {
 		public SliderRowTable(String name, float minValue, float maxValue, float step) {
 			Label nameLabel = new Label(name + ":", skin, "subtitle1_label");
 			nameLabel.setAlignment(Align.left, Align.center);
-			add(nameLabel).width(SliderStyle.getWidth() / 4 - SliderStyle.getOutherPadding()).padLeft(SliderStyle.getOutherPadding());
+			add(nameLabel).width(SliderStyle.getWidth() / 4 - SliderStyle.getOuterPadding()).padLeft(SliderStyle.getOuterPadding());
 
 			valueLabel = new Label("", skin, "subtitle1_label");
 			valueLabel.setAlignment(Align.right);
@@ -59,7 +59,7 @@ public class SliderComponent extends Table {
 					stateChangeHandler();
 				}
 			});
-			add(slider).width(SliderStyle.getWidth() / 2 - SliderStyle.getOutherPadding()).padRight(SliderStyle.getOutherPadding());
+			add(slider).width(SliderStyle.getWidth() / 2 - SliderStyle.getOuterPadding()).padRight(SliderStyle.getOuterPadding());
 		}
 	}
 
@@ -97,7 +97,7 @@ public class SliderComponent extends Table {
 			};
 		}
 
-		public static float getOutherPadding() {
+		public static float getOuterPadding() {
 			return switch (GameConfig.RESOLUTION.SIZE) {
 			case SMALL -> 20f;
 			case MEDIUM -> 20f;
