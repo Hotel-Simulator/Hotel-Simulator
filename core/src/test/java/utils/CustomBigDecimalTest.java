@@ -20,8 +20,8 @@ public class CustomBigDecimalTest {
 	@ParameterizedTest
 	@CsvFileSource(resources = "/utils/customBigDecimal/roundToStringValue.csv")
 	public void testRounding(String value, String expected) {
-		BigDecimal actual = new CustomBigDecimal(value).roundToStringValue().getValue();
-		assertEquals(new BigDecimal(expected), actual);
+		BigDecimal actual = new CustomBigDecimal(value).getValue();
+		assertEquals(expected, actual.toPlainString());
 	}
 
 }
