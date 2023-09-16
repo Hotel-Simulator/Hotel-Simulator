@@ -5,8 +5,8 @@ import java.time.LocalDateTime;
 import pl.agh.edu.enums.Frequency;
 
 public class RepeatingTimeCommand extends TimeCommand {
-	private final Frequency frequency;
-	private Boolean toStop = false;
+	protected final Frequency frequency;
+	protected Boolean toStop = false;
 	private static final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
 
 	public RepeatingTimeCommand(Frequency frequency, Runnable toExecute, LocalDateTime dueTime) {
@@ -22,7 +22,7 @@ public class RepeatingTimeCommand extends TimeCommand {
 		}
 	}
 
-	private void repeat() {
+	protected void repeat() {
 		if (!toStop) {
 			updateDueDateTime();
 			timeCommandExecutor.addCommand(this);
