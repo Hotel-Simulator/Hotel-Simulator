@@ -95,6 +95,7 @@ public class JSONDataLoaderTest {
 	public void jSONBankDataLoaderTest() {
 		assertDoesNotThrow(() -> {
 			List<BankData> scenarios = JSONBankDataLoader.scenarios;
+			int chargeAccountFeeDayOfMonth = JSONBankDataLoader.chargeAccountFeeDayOfMonth;
 		});
 	}
 
