@@ -18,7 +18,6 @@ public class CustomBigDecimal {
 	}
 	@Override
 	public String toString() {
-		System.out.println(value);
 		return value.toPlainString() + " " + prefix.code;
 	}
 
