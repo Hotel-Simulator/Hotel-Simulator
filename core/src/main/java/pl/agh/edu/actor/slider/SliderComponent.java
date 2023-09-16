@@ -16,12 +16,9 @@ public class SliderComponent extends Table {
 	private final float HORIZONTAL_OUTER_PADDING;
 	private final float HORIZONTAL_INNER_PADDING;
 	protected Label valueLabel;
-	protected Slider slider;
+	private Slider slider;
 	protected Skin skin;
 	protected String suffix;
-	private float minValue;
-	private float maxValue;
-	private float step;
 	Label realLabel;
 
 	public SliderComponent(String name, String suffix, float minValue, float maxValue, float step, Size size) {
@@ -39,7 +36,16 @@ public class SliderComponent extends Table {
 		componentStack.add(new Image(background));
 		this.suffix = suffix;
 		componentStack.add(new SliderRowTable(name, minValue, maxValue, step));
+	}
 
+	protected float getMaxValue() {
+		return slider.getMaxValue();
+	}
+	protected float getMinValue() {
+		return slider.getMinValue();
+	}
+	protected float getStep() {
+		return slider.getStepSize();
 	}
 
 	private class SliderRowTable extends Table {
@@ -77,7 +83,7 @@ public class SliderComponent extends Table {
 
 		String displayedValue;
 
-		if (Math.floor(step) == step) {
+		if (Math.floor(getStep()) == getStep()) {
 			displayedValue = String.format("%.0f", slider.getValue());
 		} else {
 			displayedValue = String.format("%.1f", slider.getValue());

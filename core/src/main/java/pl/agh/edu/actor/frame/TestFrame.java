@@ -11,7 +11,7 @@ public class TestFrame extends BaseFrame {
 	public TestFrame(String name) {
 		super();
 		Table root = new Table();
-		root.add(new MoneySliderComponent("Tax", new BigDecimal("1"), new BigDecimal("100"), Size.LARGE));
+		root.add(new MoneySliderComponent("Tax", new BigDecimal("0"), new BigDecimal("1000000000000000000000000000000"), Size.LARGE));
 		root.row();
 
 		this.add(root);

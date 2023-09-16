@@ -2,42 +2,42 @@ package pl.agh.edu.actor.slider;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.math.RoundingMode;
 
 import ch.obermuhlner.math.big.BigDecimalMath;
 import pl.agh.edu.actor.utils.Size;
 import pl.agh.edu.utils.CustomBigDecimal;
 
 public class MoneySliderComponent extends SliderComponent {
-	private BigDecimal coefficient;
-	private BigDecimal offset;
-	private final MathContext coarse = MathContext.DECIMAL64;
-	private final MathContext fine = MathContext.DECIMAL128;
-	private static final float sliderMax = 200f;
-	private final BigDecimal base;
+	private final static MathContext fine = MathContext.DECIMAL128;
+
+	private final BigDecimal maxMoneyValue;
+	private final BigDecimal minMoneyValue;
 
 	public MoneySliderComponent(String name, BigDecimal minValue, BigDecimal maxValue, Size size) {
-		super(name, "$", 1f, MoneySliderComponent.sliderMax, 1f, size);
-		base = BigDecimal.ONE.add(BigDecimalMath.log10(minValue, fine).add(BigDecimal.ONE).divide(BigDecimal.valueOf(200), fine));
-		setup(minValue, maxValue);
+		super(name, "$", logarithmicMapping(CustomBigDecimal.getMinValue(minValue)), logarithmicMapping(CustomBigDecimal.getMaxValue(maxValue)), 0.01f, size);
+		maxMoneyValue = CustomBigDecimal.getMaxValue(maxValue);
+		minMoneyValue = CustomBigDecimal.getMinValue(minValue);
 		setField();
 	}
+	private static float logarithmicMapping(BigDecimal value) {
+		return BigDecimalMath.log10(value.add(BigDecimal.ONE), fine).floatValue();
+	}
+
+	private BigDecimal reverseLogarithmicMapping(float valueFromSlider) {
+		if(this.getMaxValue() == valueFromSlider)
+			return maxMoneyValue;
+		if(this.getMinValue() == valueFromSlider)
+			return minMoneyValue;
+		return BigDecimalMath.pow(BigDecimal.TEN, BigDecimal.valueOf(valueFromSlider), fine).subtract(BigDecimal.ONE);
+	}
+
+	private CustomBigDecimal getSliderValue() {
+		return new CustomBigDecimal(reverseLogarithmicMapping(this.getValue()));
+	}
+
 
 	@Override
 	protected void setField() {
-		valueLabel.setText(logarithmicMapping(slider.getValue()) + suffix);
+		valueLabel.setText(getSliderValue() + " " + suffix);
 	}
-
-	public CustomBigDecimal logarithmicMapping(float valueFromSlider) {
-		return new CustomBigDecimal(coefficient.multiply(BigDecimalMath.pow(base, Math.round(valueFromSlider), coarse)).add(offset).setScale(1, RoundingMode.HALF_UP))
-				.roundToStringValue();
-	}
-
-	public void setup(BigDecimal minValue, BigDecimal maxValue) {
-		coefficient = (maxValue.subtract(minValue)).divide(BigDecimalMath.pow(base, BigDecimal.valueOf(MoneySliderComponent.sliderMax), fine).subtract(BigDecimalMath.pow(base,
-				BigDecimal.ONE,
-				fine)), fine);
-		offset = minValue.subtract(coefficient.multiply(BigDecimalMath.pow(base, BigDecimal.ONE, fine), fine));
-	}
-
 }
