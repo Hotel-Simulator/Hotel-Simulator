@@ -38,9 +38,9 @@ public class MainScreen implements Screen {
 
 		table.setFillParent(true);
 		this.stage.addActor(table);
-		table.add();
+		table.add().uniform();
 		table.add(new NavbarTop("default")).growX();
-		table.add(new OptionButton(this::openOptions, this::closeOptions));
+		table.add(new OptionButton(this::openOptions, this::closeOptions)).uniform();
 		table.row();
 		table.add();
 		currentFrame = table.add();
