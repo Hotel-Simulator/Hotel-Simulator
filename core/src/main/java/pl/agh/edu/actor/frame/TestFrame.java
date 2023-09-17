@@ -1,37 +1,35 @@
 package pl.agh.edu.actor.frame;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.utils.Array;
+import java.math.BigDecimal;
 
-import pl.agh.edu.actor.HotelSkin;
-import pl.agh.edu.actor.component.selectMenu.SelectMenu;
-import pl.agh.edu.actor.component.selectMenu.SelectMenuItem;
-import pl.agh.edu.actor.component.selectMenu.SelectedMenuStringItem;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+
+import pl.agh.edu.actor.slider.MoneySliderComponent;
+import pl.agh.edu.actor.slider.PercentSliderComponent;
 
 public class TestFrame extends BaseFrame {
 	public TestFrame(String name) {
 		super();
-		this.add(new Label(name, HotelSkin.getInstance()));
+		Table root = new Table();
 
-		Array<SelectMenuItem> items = new Array<>();
-		items.add(new SelectedMenuStringItem("Option 1 Example Example Example"));
-		items.add(new SelectedMenuStringItem("Option 2"));
-		items.add(new SelectedMenuStringItem("Option 3"));
-		items.add(new SelectedMenuStringItem("Option 4"));
-		items.add(new SelectedMenuStringItem("Option 5"));
-		items.add(new SelectedMenuStringItem("Option 6"));
-		items.add(new SelectedMenuStringItem("Option 7"));
-		items.add(new SelectedMenuStringItem("Option 8"));
-		items.add(new SelectedMenuStringItem("Option 9"));
-
-		SelectMenu selectMenu = new SelectMenu(
-				"Example",
-				items,
+		root.add(new MoneySliderComponent(
+				"Tax",
+				new BigDecimal("0"),
+				new BigDecimal("1000000000000000000000000000000"),
 				selectedOption -> {
 					System.out.println("Selected: " + selectedOption);
 					return null;
-				});
+				}));
 
-		this.add(selectMenu);
+		root.row();
+
+		root.add(new PercentSliderComponent(
+				"Tax",
+				selectedOption -> {
+					System.out.println("Selected: " + selectedOption);
+					return null;
+				}));
+
+		this.add(root);
 	}
 }
