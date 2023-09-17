@@ -13,11 +13,11 @@ public enum Frequency {
 
 	public LocalDateTime add(LocalDateTime localDateTime) {
 		return switch (this) {
-		case EVERY_SHIFT -> localDateTime.plusHours(8);
-		case EVERY_TIME_TICK -> localDateTime.plusMinutes(Time.timeUnitInMinutes);
-		case EVERY_DAY -> localDateTime.plusDays(1);
-		case EVERY_MONTH -> localDateTime.plusMonths(1);
-		case EVERY_YEAR -> localDateTime.plusYears(1);
+			case EVERY_SHIFT -> localDateTime.plusHours(8);
+			case EVERY_TIME_TICK -> localDateTime.plusMinutes(Time.timeUnitInMinutes);
+			case EVERY_DAY -> localDateTime.plusDays(1);
+			case EVERY_MONTH -> localDateTime.plusMonths(1);
+			case EVERY_YEAR -> localDateTime.plusYears(1);
 		};
 	}
 }

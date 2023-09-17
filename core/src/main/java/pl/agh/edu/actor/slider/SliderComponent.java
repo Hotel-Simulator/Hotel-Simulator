@@ -75,33 +75,33 @@ public class SliderComponent extends Table {
 	private static class SliderStyle {
 		public static float getHeight() {
 			return switch (GameConfig.RESOLUTION.SIZE) {
-			case SMALL -> 40f;
-			case MEDIUM -> 50f;
-			case LARGE -> 60f;
+				case SMALL -> 40f;
+				case MEDIUM -> 50f;
+				case LARGE -> 60f;
 			};
 		}
 
 		public static float getWidth() {
 			return switch (GameConfig.RESOLUTION.SIZE) {
-			case SMALL -> 500f;
-			case MEDIUM -> 600f;
-			case LARGE -> 800f;
+				case SMALL -> 500f;
+				case MEDIUM -> 600f;
+				case LARGE -> 800f;
 			};
 		}
 
 		public static float getInnerPadding() {
 			return switch (GameConfig.RESOLUTION.SIZE) {
-			case SMALL -> 20f;
-			case MEDIUM -> 30f;
-			case LARGE -> 40f;
+				case SMALL -> 20f;
+				case MEDIUM -> 30f;
+				case LARGE -> 40f;
 			};
 		}
 
 		public static float getOuterPadding() {
 			return switch (GameConfig.RESOLUTION.SIZE) {
-			case SMALL -> 20f;
-			case MEDIUM -> 20f;
-			case LARGE -> 20f;
+				case SMALL -> 20f;
+				case MEDIUM -> 20f;
+				case LARGE -> 20f;
 			};
 		}
 	}
