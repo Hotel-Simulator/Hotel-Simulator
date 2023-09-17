@@ -7,14 +7,15 @@ import java.util.List;
 import pl.agh.edu.model.time.Time;
 
 public class BankAccount {
-	private BigDecimal balance = BigDecimal.ZERO;
+	private BigDecimal balance;
 	private final List<Credit> credits = new ArrayList<>();
 	private final List<Transaction> transactions = new ArrayList<>();
 	private BigDecimal creditInterestRate;
 	private BigDecimal accountFee;
 	private final Time time = Time.getInstance();
 
-	public BankAccount(BigDecimal creditInterestRate, BigDecimal accountFee) {
+	public BankAccount(BigDecimal initialBalance, BigDecimal creditInterestRate, BigDecimal accountFee) {
+		this.balance = initialBalance;
 		this.creditInterestRate = creditInterestRate;
 		this.accountFee = accountFee;
 	}
