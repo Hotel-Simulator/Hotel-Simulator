@@ -13,5 +13,6 @@
       "account_fee": 1000
     }
   ],
-  "charge_account_fee_day_of_month": 10
+  "charge_account_fee_day_of_month": 10,
+  "initial_balance": 100000
 }

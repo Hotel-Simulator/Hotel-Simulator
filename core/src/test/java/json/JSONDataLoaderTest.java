@@ -96,6 +96,7 @@ public class JSONDataLoaderTest {
 		assertDoesNotThrow(() -> {
 			List<BankData> scenarios = JSONBankDataLoader.scenarios;
 			int chargeAccountFeeDayOfMonth = JSONBankDataLoader.chargeAccountFeeDayOfMonth;
+			BigDecimal initialBalance = JSONBankDataLoader.initialBalance;
 		});
 	}
 

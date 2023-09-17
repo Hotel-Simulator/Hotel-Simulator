@@ -17,17 +17,16 @@ import pl.agh.edu.model.bank.TransactionType;
 public class BankAccountTest {
 	private final BigDecimal accountFee = BigDecimal.valueOf(10);
 	private BankAccount bankAccount;
+	private final BigDecimal initialBalance = BigDecimal.valueOf(100);
 
 	@BeforeEach
 	public void setUp() {
-		bankAccount = new BankAccount(new BigDecimal("0.05"), accountFee);
+		bankAccount = new BankAccount(initialBalance, new BigDecimal("0.05"), accountFee);
 	}
 
 	@Test
 	public void chargeAccountFee_ShouldDeductAccountFeeFromBalance() {
 		// Given
-		BigDecimal initialBalance = BigDecimal.valueOf(100);
-		bankAccount.registerIncome(initialBalance);
 
 		// When
 		bankAccount.monthlyUpdate();
@@ -40,22 +39,19 @@ public class BankAccountTest {
 	@Test
 	public void registerIncome_ShouldIncreaseBalance() {
 		// Given
-		BigDecimal initialBalance = BigDecimal.valueOf(100);
+		BigDecimal income = BigDecimal.valueOf(100);
 
 		// When
-		bankAccount.registerIncome(initialBalance);
-		bankAccount.registerIncome(initialBalance);
+		bankAccount.registerIncome(income);
 
 		// Then
-		BigDecimal expectedBalance = initialBalance.add(initialBalance);
+		BigDecimal expectedBalance = initialBalance.add(income);
 		assertEquals(expectedBalance, bankAccount.getBalance());
 	}
 
 	@Test
 	public void registerExpense_ShouldDecreaseBalance() {
 		// Given
-		BigDecimal initialBalance = BigDecimal.valueOf(100);
-		bankAccount.registerIncome(initialBalance);
 
 		// When
 		BigDecimal expense = BigDecimal.valueOf(50);
@@ -68,15 +64,14 @@ public class BankAccountTest {
 
 	private static Stream<Arguments> hasOperationAbilityTestArgs() {
 		return Stream.of(
-				Arguments.of(BigDecimal.valueOf(100), BigDecimal.valueOf(100), true),
-				Arguments.of(BigDecimal.valueOf(100), BigDecimal.valueOf(101), false));
+				Arguments.of(BigDecimal.valueOf(100), true),
+				Arguments.of(BigDecimal.valueOf(101), false));
 	}
 
 	@ParameterizedTest
 	@MethodSource("hasOperationAbilityTestArgs")
-	public void hasOperationAbilityTest(BigDecimal initialBalance, BigDecimal expense, boolean expectedResult) {
+	public void hasOperationAbilityTest(BigDecimal expense, boolean expectedResult) {
 		// Given
-		bankAccount.registerIncome(initialBalance);
 
 		// When
 		boolean actualResult = bankAccount.hasOperationAbility(expense);
@@ -88,12 +83,10 @@ public class BankAccountTest {
 	@Test
 	public void registerCredit_ShouldIncreaseBalanceAndAddCredit() {
 		// Given
-		BigDecimal initialBalance = BigDecimal.valueOf(100);
 
 		// When
 		BigDecimal creditValue = BigDecimal.valueOf(50);
 		int creditLengthInMonths = 12;
-		bankAccount.registerIncome(initialBalance);
 		bankAccount.registerCredit(creditValue, creditLengthInMonths);
 
 		// Then

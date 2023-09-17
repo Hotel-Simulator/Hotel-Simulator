@@ -16,6 +16,7 @@ public class JSONBankDataLoader {
 
 	public static List<BankData> scenarios;
 	public static int chargeAccountFeeDayOfMonth;
+	public static BigDecimal initialBalance;
 
 	private JSONBankDataLoader() {}
 
@@ -36,5 +37,6 @@ public class JSONBankDataLoader {
 				});
 		chargeAccountFeeDayOfMonth = JSONValueUtil.getInt(
 				JSONDataExtractor.extract(JSON_FILE_PATH, "charge_account_fee_day_of_month", Long.class));
+		initialBalance = JSONValueUtil.getBigDecimal(JSONDataExtractor.extract(JSON_FILE_PATH, "initial_balance", Long.class));
 	}
 }

@@ -26,7 +26,7 @@ public class Engine {
 	private final EventGenerator eventGenerator = EventGenerator.getInstance();
 	private final HotelHandler hotelHandler = new HotelHandler();
 
-	private final BankAccount bankAccount = new BankAccount(new BigDecimal("0.05"), BigDecimal.valueOf(2));
+	private final BankAccount bankAccount = new BankAccount(new BigDecimal("0.05"), BigDecimal.valueOf(2), JSONBankDataLoader.initialBalance);
 
 	public Engine() {
 
