@@ -15,6 +15,7 @@ import pl.agh.edu.enums.RoomSize;
 import pl.agh.edu.enums.Sex;
 import pl.agh.edu.json.data_loader.JSONClientDataLoader;
 import pl.agh.edu.json.data_loader.JSONHotelDataLoader;
+import pl.agh.edu.management.game.GameDifficultyManager;
 import pl.agh.edu.management.hotel.HotelScenariosManager;
 import pl.agh.edu.model.advertisement.AdvertisementHandler;
 import pl.agh.edu.model.advertisement.report.AdvertisementReportData;
@@ -34,6 +35,7 @@ public class ClientGenerator {
 	private final ClientNumberModificationTemporaryEventHandler clientNumberModificationTemporaryEventHandler = ClientNumberModificationTemporaryEventHandler.getInstance();
 	private final Time time = Time.getInstance();
 	private final HotelScenariosManager hotelScenariosManager = new HotelScenariosManager();
+	private final GameDifficultyManager gameDifficultyManager = new GameDifficultyManager();
 
 	private ClientGenerator() {}
 
@@ -49,7 +51,7 @@ public class ClientGenerator {
 	}
 
 	private BigDecimal getDesiredPricePerNight(RoomRank desiredRoomRank, RoomSize roomSize) {
-		double meanPrice = JSONClientDataLoader.averagePricesPerNight.get(desiredRoomRank).get(roomSize).doubleValue() / hotelScenariosManager.getDifficultyMultiplier();
+		double meanPrice = JSONClientDataLoader.averagePricesPerNight.get(desiredRoomRank).get(roomSize).doubleValue() / gameDifficultyManager.getDifficultyMultiplier();
 		double variation = 0.2 * meanPrice;
 
 		return BigDecimal.valueOf(Math.round(RandomUtils.randomGaussian(meanPrice, variation)));

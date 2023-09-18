@@ -3,13 +3,16 @@ package management;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.lang.reflect.Field;
+import java.time.MonthDay;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import pl.agh.edu.enums.HotelType;
 import pl.agh.edu.json.data_extractor.JSONFilePath;
 import pl.agh.edu.management.hotel.HotelScenariosManager;
+import pl.agh.edu.model.HotelPopularityFunction;
 
 public class HotelScenariosManagerTest {
 	private static HotelScenariosManager hotelScenariosManager;
@@ -24,14 +27,6 @@ public class HotelScenariosManagerTest {
 		hotelScenariosManager = new HotelScenariosManager();
 	}
 
-	@Test
-	public void testGetDifficultyMultiplier() {
-		// When
-		double difficultyMultiplier = hotelScenariosManager.getDifficultyMultiplier();
-
-		// Then
-		assertTrue(difficultyMultiplier >= 0.5 && difficultyMultiplier <= 2.0);
-	}
 
 	@Test
 	public void testGetHotelVisitPurposeProbabilities() {
@@ -62,7 +57,6 @@ public class HotelScenariosManagerTest {
 
 	private static void changeJSONPath()
 			throws ReflectiveOperationException {
-		System.out.println("cos");
 		Field field = JSONFilePath.class.getDeclaredField("PATH");
 		field.setAccessible(true);
 		field.set(null, "../assets/jsons/%s.json");

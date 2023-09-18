@@ -34,11 +34,6 @@ public class JSONHotelScenariosDataLoader {
 						entry2 -> (Double) entry2.getValue(),
 						HotelVisitPurpose.class), HotelType.class);
 
-		difficultyMultiplier = JSONValueUtil.getEnumMap(
-				JSONDataExtractor.extract(JSON_FILE_PATH, "difficulty_multiplier", JSONObject.class),
-				entry -> (Double) entry.getValue(),
-				DifficultyLevel.class);
-
 		vacationPopularity = JSONValueUtil.getEnumMap(
 				JSONDataExtractor.extract(JSON_FILE_PATH, "clients_per_month_multiplier", JSONObject.class),
 				entry -> JSONValueUtil.getMap(

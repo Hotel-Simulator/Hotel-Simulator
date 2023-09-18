@@ -1,7 +1,10 @@
 package pl.agh.edu.json.data_loader;
 
 import java.time.LocalDate;
+import java.util.EnumMap;
 
+import org.json.simple.JSONObject;
+import pl.agh.edu.enums.DifficultyLevel;
 import pl.agh.edu.json.data_extractor.JSONDataExtractor;
 import pl.agh.edu.json.data_extractor.JSONFilePath;
 import pl.agh.edu.json.data_extractor.JSONValueUtil;
@@ -16,6 +19,7 @@ public class JSONGameDataLoader {
 	public static double possibleEmployeeRemovalProbability;
 
 	public static double roomFaultProbability;
+	public static EnumMap<DifficultyLevel, Double> difficultyMultiplier;
 
 	private JSONGameDataLoader() {}
 
@@ -32,6 +36,10 @@ public class JSONGameDataLoader {
 				JSONDataExtractor.extract(JSON_FILE_PATH, "employees_to_hire_list_size", Long.class));
 		possibleEmployeeRemovalProbability = JSONDataExtractor.extract(JSON_FILE_PATH, "possible_employee_removal_probability", Double.class);
 		roomFaultProbability = JSONDataExtractor.extract(JSON_FILE_PATH, "room_fault_probability", Double.class);
+		difficultyMultiplier = JSONValueUtil.getEnumMap(
+				JSONDataExtractor.extract(JSON_FILE_PATH, "difficulty_multiplier", JSONObject.class),
+				entry -> (Double) entry.getValue(),
+				DifficultyLevel.class);
 
 	}
 }
