@@ -3,16 +3,13 @@ package management;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.lang.reflect.Field;
-import java.time.MonthDay;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import pl.agh.edu.enums.HotelType;
 import pl.agh.edu.json.data_extractor.JSONFilePath;
 import pl.agh.edu.management.hotel.HotelScenariosManager;
-import pl.agh.edu.model.HotelPopularityFunction;
 
 public class HotelScenariosManagerTest {
 	private static HotelScenariosManager hotelScenariosManager;
@@ -26,7 +23,6 @@ public class HotelScenariosManagerTest {
 	public void setUp() {
 		hotelScenariosManager = new HotelScenariosManager();
 	}
-
 
 	@Test
 	public void testGetHotelVisitPurposeProbabilities() {

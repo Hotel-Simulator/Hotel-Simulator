@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.EnumMap;
 
 import org.json.simple.JSONObject;
+
 import pl.agh.edu.enums.DifficultyLevel;
 import pl.agh.edu.json.data_extractor.JSONDataExtractor;
 import pl.agh.edu.json.data_extractor.JSONFilePath;

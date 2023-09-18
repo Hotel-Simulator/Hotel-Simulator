@@ -36,13 +36,9 @@ public class HotelPopularityFunction {
 		PolynomialSplineFunction splineFunction = interpolator.interpolate(x, y);
 
 		IntStream.range(0, 31).forEach(i -> {
-			Stream.of(1, 3, 5, 7, 8, 10, 12).forEach(key ->
-				multipliers.put(MonthDay.of(key, i + 1), splineFunction.value(key + i / 31.0))
-			);
+			Stream.of(1, 3, 5, 7, 8, 10, 12).forEach(key -> multipliers.put(MonthDay.of(key, i + 1), splineFunction.value(key + i / 31.0)));
 			if (i < 30) {
-				Stream.of(4, 6, 9, 11).forEach(key ->
-					multipliers.put(MonthDay.of(key, i + 1), splineFunction.value(key + i / 30.0))
-				);
+				Stream.of(4, 6, 9, 11).forEach(key -> multipliers.put(MonthDay.of(key, i + 1), splineFunction.value(key + i / 30.0)));
 			}
 			if (i < 28)
 				multipliers.put(MonthDay.of(2, i + 1), splineFunction.value(2 + 1 / 28.0));
