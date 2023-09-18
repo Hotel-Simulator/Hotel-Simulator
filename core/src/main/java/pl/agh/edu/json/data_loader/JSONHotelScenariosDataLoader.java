@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.json.simple.JSONObject;
 
-import pl.agh.edu.enums.DifficultyLevel;
 import pl.agh.edu.enums.HotelType;
 import pl.agh.edu.enums.HotelVisitPurpose;
 import pl.agh.edu.json.data_extractor.JSONDataExtractor;
