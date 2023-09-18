@@ -112,7 +112,6 @@ public class JSONDataLoaderTest {
 	@SuppressWarnings("unused")
 	public void jSONClientDataLoaderTest() {
 		assertDoesNotThrow(() -> {
-			EnumMap<HotelVisitPurpose, Double> hotelVisitPurposeProbabilities = JSONClientDataLoader.hotelVisitPurposeProbabilities;
 			EnumMap<HotelVisitPurpose, EnumMap<RoomRank, Integer>> desiredRankProbabilities = JSONClientDataLoader.desiredRankProbabilities;
 			EnumMap<HotelVisitPurpose, Map<Integer, Integer>> numberOfNightsProbabilities = JSONClientDataLoader.numberOfNightsProbabilities;
 			EnumMap<HotelVisitPurpose, Map<Integer, Integer>> clientGroupSizeProbabilities = JSONClientDataLoader.clientGroupSizeProbabilities;

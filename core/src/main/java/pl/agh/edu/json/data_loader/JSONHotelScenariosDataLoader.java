@@ -15,7 +15,6 @@ import pl.agh.edu.json.data_extractor.JSONValueUtil;
 public class JSONHotelScenariosDataLoader {
 	private static final String JSON_FILE_PATH = JSONFilePath.HOTEL_SCENARIOS_CONFIG.get();
 
-	public static EnumMap<DifficultyLevel, Double> difficultyMultiplier;
 	public static Map<HotelType, Map<Integer, Double>> vacationPopularity;
 	public static EnumMap<HotelType, EnumMap<HotelVisitPurpose, Double>> hotelTypeVisitProbabilities;
 
