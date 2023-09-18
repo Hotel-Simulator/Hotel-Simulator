@@ -16,16 +16,11 @@ public class GdxGame extends ApplicationAdapter {
 
 	@Override
 	public void create() {
-		if (GameConfig.FULLSCREEN) {
-			Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
-		} else {
-			Gdx.graphics.setWindowedMode(GameConfig.RESOLUTION.getWidth(), GameConfig.RESOLUTION.getHeight());
-		}
 		time = Time.getInstance();
 		commandExecutor = CommandExecutor.getInstance();
 		currentScreen = new MainScreen(this);
 		setScreen(currentScreen);
-
+		GameConfig.setFullscreenMode(false);
 	}
 
 	@Override
@@ -43,6 +38,7 @@ public class GdxGame extends ApplicationAdapter {
 
 	@Override
 	public void resize(int width, int height) {
+		changeScreen(currentScreen);
 		if (currentScreen != null) {
 			currentScreen.resize(width, height);
 		}
