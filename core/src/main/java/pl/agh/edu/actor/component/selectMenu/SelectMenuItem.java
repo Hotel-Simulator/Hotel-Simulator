@@ -11,7 +11,7 @@ public abstract class SelectMenuItem {
 
 	@Override
 	public String toString() {
-		int maxLength = switch (GameConfig.RESOLUTION.SIZE) {
+		int maxLength = switch (GameConfig.getResolution().SIZE) {
 		case SMALL -> 12;
 		case MEDIUM -> 15;
 		case LARGE -> 18;

@@ -40,7 +40,7 @@ public class OptionFrame extends Stack {
 
 		Function<? super SelectMenuItem, Void> function = selectedOption -> {
 			if (selectedOption instanceof SelectMenuResolutionItem resolutionItem) {
-				if (resolutionItem.resolution != GameConfig.RESOLUTION) {
+				if (resolutionItem.resolution != GameConfig.getResolution()) {
 					GameConfig.changeResolution(resolutionItem.resolution);
 				}
 			}
@@ -71,16 +71,16 @@ public class OptionFrame extends Stack {
 	}
 
 	private void setStartingValue() {
-		selectResolutionMenu.setItem(GameConfig.RESOLUTION.toString());
+		selectResolutionMenu.setItem(GameConfig.getResolution().toString());
 		selectFullScreenMenu.setItem(GameConfig.isFullscreen() ? "Yes" : "No");
 	}
 
 	private float getFrameWidth() {
-		return (float) GameConfig.RESOLUTION.WIDTH / 2;
+		return (float) GameConfig.getResolution().WIDTH / 2;
 	}
 
 	private float getFrameHeight() {
-		return (float) GameConfig.RESOLUTION.HEIGHT / 2;
+		return (float) GameConfig.getResolution().HEIGHT / 2;
 	}
 
 	@Override

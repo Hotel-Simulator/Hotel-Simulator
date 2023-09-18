@@ -19,19 +19,19 @@ public abstract class BaseFrame extends Stack {
 	}
 
 	private float getFrameWidth() {
-		return (float) GameConfig.RESOLUTION.WIDTH / 9 * 6;
+		return (float) GameConfig.getResolution().WIDTH / 9 * 6;
 	}
 
 	private float getFrameHeight() {
-		return (float) GameConfig.RESOLUTION.HEIGHT / 9 * 6;
+		return (float) GameConfig.getResolution().HEIGHT / 9 * 6;
 	}
 
 	@Override
 	public void layout() {
 		super.layout();
 		this.setBounds(
-				(GameConfig.RESOLUTION.WIDTH - getFrameWidth()) / 2,
-				(GameConfig.RESOLUTION.HEIGHT - getFrameHeight()) / 2,
+				(GameConfig.getResolution().WIDTH - getFrameWidth()) / 2,
+				(GameConfig.getResolution().HEIGHT - getFrameHeight()) / 2,
 				getFrameWidth(),
 				getFrameHeight());
 	}

@@ -8,14 +8,16 @@ import pl.agh.edu.enums.Language;
 import pl.agh.edu.enums.Resolution;
 
 public class GameConfig {
-	public static Resolution RESOLUTION = Resolution._1920x1080;
+	private static Resolution resolution = Resolution._1920x1080;
 	private static boolean fullscreenMode = false;
-	public static Language LANGUAGE = Language.ENGLISH;
-	public static final Stage stage = new Stage(new FitViewport(RESOLUTION.WIDTH, RESOLUTION.HEIGHT));
+	private static Language language = Language.ENGLISH;
+	private static long musicVolume = 100;
+	private static long audioVolume = 100;
+	public static final Stage stage = new Stage(new FitViewport(resolution.WIDTH, resolution.HEIGHT));
 
-	public static void changeResolution(Resolution resolution) {
-		RESOLUTION = resolution;
-		Viewport viewport = new FitViewport(resolution.WIDTH, resolution.HEIGHT);
+	public static void changeResolution(Resolution newResolution) {
+		resolution = newResolution;
+		Viewport viewport = new FitViewport(newResolution.WIDTH, newResolution.HEIGHT);
 		stage.setViewport(viewport);
 		if (isFullscreen()) {
 			setFullscreenMode(false);
@@ -24,7 +26,7 @@ public class GameConfig {
 			setFullscreenMode(false);
 		}
 
-		viewport.update(resolution.WIDTH, resolution.HEIGHT, true);
+		viewport.update(newResolution.WIDTH, newResolution.HEIGHT, true);
 		viewport.getCamera().update();
 	}
 
@@ -33,11 +35,27 @@ public class GameConfig {
 		if (isFullscreen())
 			Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
 		else
-			Gdx.graphics.setWindowedMode(RESOLUTION.WIDTH, RESOLUTION.HEIGHT);
+			Gdx.graphics.setWindowedMode(resolution.WIDTH, resolution.HEIGHT);
 	}
 
 	public static boolean isFullscreen() {
 		return fullscreenMode;
 	}
 
+	public static void setAudioVolume(long value) {
+		audioVolume = value;
+	}
+	public static void setMusicVolume(long value) {
+		musicVolume = value;
+	}
+	public static long getAudioVolume() {
+		return audioVolume;
+	}
+	public static long getMusicVolume() {
+		return musicVolume;
+	}
+
+	public static Resolution getResolution() {
+		return resolution;
+	}
 }

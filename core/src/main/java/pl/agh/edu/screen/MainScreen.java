@@ -15,6 +15,7 @@ import pl.agh.edu.actor.component.navbar.NavbarTop;
 import pl.agh.edu.actor.frame.BaseFrame;
 import pl.agh.edu.actor.frame.OptionFrame;
 import pl.agh.edu.actor.frame.TestFrame;
+import pl.agh.edu.audio.SoundAudio;
 
 public class MainScreen implements Screen {
 	private final Stage stage = GameConfig.stage;
@@ -51,6 +52,7 @@ public class MainScreen implements Screen {
 		table.add();
 
 		stack.add(table);
+		SoundAudio.CLICK.play();
 	}
 
 	public void changeFrame(BaseFrame frame) {
