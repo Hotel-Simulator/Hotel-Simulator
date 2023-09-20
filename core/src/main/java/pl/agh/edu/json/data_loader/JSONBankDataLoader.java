@@ -41,6 +41,6 @@ public class JSONBankDataLoader {
 				JSONDataExtractor.extract(JSON_FILE_PATH, "charge_account_fee_day_of_month", Long.class));
 		initialBalance = JSONValueUtil.getBigDecimal(JSONDataExtractor.extract(JSON_FILE_PATH, "initial_balance", Long.class));
 		minCreditValue = JSONValueUtil.getBigDecimal(JSONDataExtractor.extract(JSON_FILE_PATH, "min_credit_value", Long.class));
-		basicCreditLengthInMonths = JSONDataExtractor.extract(JSON_FILE_PATH, "charge_account_fee_day_of_month", Long.class);
+		basicCreditLengthInMonths = JSONDataExtractor.extract(JSON_FILE_PATH, "basic_credit_length_in_months", Long.class);
 	}
 }
