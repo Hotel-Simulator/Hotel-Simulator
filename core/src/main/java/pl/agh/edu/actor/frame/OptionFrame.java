@@ -10,12 +10,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 
-import pl.agh.edu.GameConfig;
 import pl.agh.edu.actor.HotelSkin;
 import pl.agh.edu.actor.component.selectMenu.SelectMenu;
 import pl.agh.edu.actor.component.selectMenu.SelectMenuBoolean;
 import pl.agh.edu.actor.component.selectMenu.SelectMenuItem;
 import pl.agh.edu.actor.component.selectMenu.SelectMenuResolutionItem;
+import pl.agh.edu.config.GraphicConfig;
 
 public class OptionFrame extends Stack {
 	private final Table table = new Table();
@@ -40,8 +40,8 @@ public class OptionFrame extends Stack {
 
 		Function<? super SelectMenuItem, Void> function = selectedOption -> {
 			if (selectedOption instanceof SelectMenuResolutionItem resolutionItem) {
-				if (resolutionItem.resolution != GameConfig.getResolution()) {
-					GameConfig.changeResolution(resolutionItem.resolution);
+				if (resolutionItem.resolution != GraphicConfig.getResolution()) {
+					GraphicConfig.changeResolution(resolutionItem.resolution);
 				}
 			}
 			return null;
@@ -57,8 +57,8 @@ public class OptionFrame extends Stack {
 
 		Function<? super SelectMenuItem, Void> function = selectedOption -> {
 			if (selectedOption instanceof SelectMenuBoolean resolutionItem) {
-				if (resolutionItem.value != GameConfig.isFullscreen()) {
-					GameConfig.setFullscreenMode(resolutionItem.value);
+				if (resolutionItem.value != GraphicConfig.isFullscreen()) {
+					GraphicConfig.setFullscreenMode(resolutionItem.value);
 				}
 			}
 			return null;
@@ -71,16 +71,16 @@ public class OptionFrame extends Stack {
 	}
 
 	private void setStartingValue() {
-		selectResolutionMenu.setItem(GameConfig.getResolution().toString());
-		selectFullScreenMenu.setItem(GameConfig.isFullscreen() ? "Yes" : "No");
+		selectResolutionMenu.setItem(GraphicConfig.getResolution().toString());
+		selectFullScreenMenu.setItem(GraphicConfig.isFullscreen() ? "Yes" : "No");
 	}
 
 	private float getFrameWidth() {
-		return (float) GameConfig.getResolution().WIDTH / 2;
+		return (float) GraphicConfig.getResolution().WIDTH / 2;
 	}
 
 	private float getFrameHeight() {
-		return (float) GameConfig.getResolution().HEIGHT / 2;
+		return (float) GraphicConfig.getResolution().HEIGHT / 2;
 	}
 
 	@Override

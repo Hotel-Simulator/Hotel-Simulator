@@ -11,8 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 
-import pl.agh.edu.GameConfig;
 import pl.agh.edu.actor.HotelSkin;
+import pl.agh.edu.config.GraphicConfig;
 
 public class SelectMenu extends Table {
 
@@ -44,7 +44,7 @@ public class SelectMenu extends Table {
 	}
 
 	private void setMaxListCount() {
-		switch (GameConfig.getResolution().SIZE) {
+		switch (GraphicConfig.getResolution().SIZE) {
 		case SMALL -> selectOption.setMaxListCount(3);
 		case MEDIUM -> selectOption.setMaxListCount(5);
 		case LARGE -> selectOption.setMaxListCount(7);
@@ -111,7 +111,7 @@ public class SelectMenu extends Table {
 
 	private static class SelectMenuStyle {
 		public static float getHeight() {
-			switch (GameConfig.getResolution().SIZE) {
+			switch (GraphicConfig.getResolution().SIZE) {
 			case SMALL -> {
 				return 50f;
 			}
@@ -126,7 +126,7 @@ public class SelectMenu extends Table {
 		}
 
 		public static float getWidth() {
-			switch (GameConfig.getResolution().SIZE) {
+			switch (GraphicConfig.getResolution().SIZE) {
 			case SMALL -> {
 				return 300f;
 			}

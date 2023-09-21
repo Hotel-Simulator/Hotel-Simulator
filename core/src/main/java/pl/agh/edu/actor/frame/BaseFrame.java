@@ -7,8 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 
-import pl.agh.edu.GameConfig;
 import pl.agh.edu.actor.HotelSkin;
+import pl.agh.edu.config.GraphicConfig;
 
 public abstract class BaseFrame extends Stack {
 	public BaseFrame() {
@@ -19,19 +19,19 @@ public abstract class BaseFrame extends Stack {
 	}
 
 	private float getFrameWidth() {
-		return (float) GameConfig.getResolution().WIDTH / 9 * 6;
+		return (float) GraphicConfig.getResolution().WIDTH / 9 * 6;
 	}
 
 	private float getFrameHeight() {
-		return (float) GameConfig.getResolution().HEIGHT / 9 * 6;
+		return (float) GraphicConfig.getResolution().HEIGHT / 9 * 6;
 	}
 
 	@Override
 	public void layout() {
 		super.layout();
 		this.setBounds(
-				(GameConfig.getResolution().WIDTH - getFrameWidth()) / 2,
-				(GameConfig.getResolution().HEIGHT - getFrameHeight()) / 2,
+				(GraphicConfig.getResolution().WIDTH - getFrameWidth()) / 2,
+				(GraphicConfig.getResolution().HEIGHT - getFrameHeight()) / 2,
 				getFrameWidth(),
 				getFrameHeight());
 	}

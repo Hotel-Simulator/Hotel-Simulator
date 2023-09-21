@@ -1,52 +1,36 @@
 package pl.agh.edu.audio;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.files.FileHandle;
+import pl.agh.edu.config.AudioConfig;
+import pl.agh.edu.enums.Frequency;
+import pl.agh.edu.model.time.Time;
+import pl.agh.edu.time_command.RepeatingTimeCommand;
+import pl.agh.edu.time_command.TimeCommandExecutor;
 
 public class AudioController {
-    private Music backgroundMusic;
-    private float backgroundMusicVolume;
-    private float soundVolume;
-
+    private MusicTrack musicTrack = MusicTrack.CITY_DAY;
+    private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
+    private final Time time = Time.getInstance();
+    private static RepeatingTimeCommand repeatingTimeCommand;
     public AudioController() {
-        backgroundMusicVolume = 0.5f;
-        soundVolume = 0.5f;
+        musicTrack.music.setVolume(AudioConfig.getMusicVolume());
+        musicTrack.music.setLooping(true);
+        musicTrack.music.play();
+        repeatingTimeCommand = new RepeatingTimeCommand(Frequency.EVERY_PART_OF_DAY, this::playNextTrack,time.getStartOfTheDayPart());
+        timeCommandExecutor.addCommand(repeatingTimeCommand);
     }
-
-    public void playBackgroundMusic(String musicPath) {
-        stopBackgroundMusic();
-
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(musicPath));
-        backgroundMusic.setVolume(backgroundMusicVolume);
-        backgroundMusic.setLooping(true);
-        backgroundMusic.play();
-    }
-
     public void stopBackgroundMusic() {
-        if (backgroundMusic != null) {
-            backgroundMusic.stop();
-            backgroundMusic.dispose();
-            backgroundMusic = null;
-        }
+        musicTrack.music.stop();
+        repeatingTimeCommand.stop();
     }
-
-    public void playSoundEffect(String soundPath) {
-        FileHandle soundFile = Gdx.files.internal(soundPath);
-        Sound sound = Gdx.audio.newSound(soundFile);
-        sound.play(soundVolume);
-        sound.dispose(); // Dispose of the sound after playing it
+    public void updateMusicVolume() {
+        System.out.println(AudioConfig.getMusicVolume());
+        musicTrack.music.setVolume(AudioConfig.getMusicVolume()/100f);
     }
-
-    public void setBackgroundMusicVolume(float volume) {
-        backgroundMusicVolume = volume;
-        if (backgroundMusic != null) {
-            backgroundMusic.setVolume(volume);
-        }
-    }
-
-    public void setSoundVolume(float volume) {
-        soundVolume = volume;
+    public void playNextTrack() {
+        musicTrack.music.stop();
+        musicTrack = MusicTrack.parse(time.getPartOfDay());
+        musicTrack.music.setVolume(AudioConfig.getMusicVolume());
+        musicTrack.music.setLooping(true);
+        musicTrack.music.play();
     }
 }

@@ -6,7 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 
-import pl.agh.edu.GameConfig;
 import pl.agh.edu.GdxGame;
 import pl.agh.edu.actor.HotelSkin;
 import pl.agh.edu.actor.component.button.OptionButton;
@@ -15,10 +14,13 @@ import pl.agh.edu.actor.component.navbar.NavbarTop;
 import pl.agh.edu.actor.frame.BaseFrame;
 import pl.agh.edu.actor.frame.OptionFrame;
 import pl.agh.edu.actor.frame.TestFrame;
+import pl.agh.edu.audio.MusicTrack;
 import pl.agh.edu.audio.SoundAudio;
+import pl.agh.edu.config.AudioConfig;
+import pl.agh.edu.config.GraphicConfig;
 
 public class MainScreen implements Screen {
-	private final Stage stage = GameConfig.stage;
+	private final Stage stage = GraphicConfig.stage;
 	private final Cell<?> currentFrame;
 
 	private final Skin skin = HotelSkin.getInstance();
@@ -52,7 +54,9 @@ public class MainScreen implements Screen {
 		table.add();
 
 		stack.add(table);
-		SoundAudio.CLICK.play();
+//		SoundAudio.CLICK.play();
+//		MusicTrack.CITY_DAY.music.play();
+		AudioConfig.setUpAudioController();
 	}
 
 	public void changeFrame(BaseFrame frame) {

@@ -1,7 +1,9 @@
 package pl.agh.edu.model.time;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
+import pl.agh.edu.enums.PartOfDay;
 import pl.agh.edu.time_command.TimeCommandExecutor;
 
 public class Time {
@@ -121,4 +123,11 @@ public class Time {
 		return timeUnitInMinutes;
 	}
 
+	public LocalDateTime getStartOfTheDayPart() {
+		return getTime().withHour(PartOfDay.parseHour(hours).startHour);
+	}
+
+	public PartOfDay getPartOfDay() {
+		return PartOfDay.parseHour(hours);
+	}
 }

@@ -2,7 +2,7 @@ package pl.agh.edu.audio;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
-import pl.agh.edu.GameConfig;
+import pl.agh.edu.config.AudioConfig;
 
 public enum SoundAudio {
     CLICK("audio/sound/click1.wav"),
@@ -13,7 +13,7 @@ public enum SoundAudio {
     }
 
     public void play(){
-        sound.setVolume(sound.play(), GameConfig.getAudioVolume() / 100f);
+        sound.setVolume(sound.play(), AudioConfig.getAudioVolume());
     }
 
 }

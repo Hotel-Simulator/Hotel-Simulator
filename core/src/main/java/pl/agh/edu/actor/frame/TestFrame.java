@@ -6,6 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import pl.agh.edu.actor.slider.MoneySliderComponent;
 import pl.agh.edu.actor.slider.PercentSliderComponent;
+import pl.agh.edu.audio.AudioController;
+import pl.agh.edu.config.AudioConfig;
 
 public class TestFrame extends BaseFrame {
 	public TestFrame(String name) {
@@ -16,17 +18,14 @@ public class TestFrame extends BaseFrame {
 				"Tax",
 				new BigDecimal("0"),
 				new BigDecimal("1000000000000000000000000000000"),
-				selectedOption -> {
-					System.out.println("Selected: " + selectedOption);
-					return null;
-				}));
+				selectedOption -> null));
 
 		root.row();
 
 		root.add(new PercentSliderComponent(
 				"Tax",
 				selectedOption -> {
-					System.out.println("Selected: " + selectedOption);
+					AudioConfig.setMusicVolume(selectedOption);
 					return null;
 				}));
 
