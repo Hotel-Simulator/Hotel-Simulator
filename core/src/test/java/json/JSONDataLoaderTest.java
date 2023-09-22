@@ -97,6 +97,7 @@ public class JSONDataLoaderTest {
 			List<BankData> scenarios = JSONBankDataLoader.scenarios;
 			int chargeAccountFeeDayOfMonth = JSONBankDataLoader.chargeAccountFeeDayOfMonth;
 			BigDecimal initialBalance = JSONBankDataLoader.initialBalance;
+			BigDecimal basicCreditValue = JSONBankDataLoader.minCreditValue;
 		});
 	}
 

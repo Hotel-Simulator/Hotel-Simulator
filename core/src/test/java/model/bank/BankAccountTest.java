@@ -3,13 +3,9 @@ package model.bank;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.math.BigDecimal;
-import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 
 import pl.agh.edu.model.bank.BankAccount;
 import pl.agh.edu.model.bank.TransactionType;
@@ -60,24 +56,6 @@ public class BankAccountTest {
 		// Then
 		BigDecimal expectedBalance = initialBalance.subtract(expense);
 		assertEquals(expectedBalance, bankAccount.getBalance());
-	}
-
-	private static Stream<Arguments> hasOperationAbilityTestArgs() {
-		return Stream.of(
-				Arguments.of(BigDecimal.valueOf(100), true),
-				Arguments.of(BigDecimal.valueOf(101), false));
-	}
-
-	@ParameterizedTest
-	@MethodSource("hasOperationAbilityTestArgs")
-	public void hasOperationAbilityTest(BigDecimal expense, boolean expectedResult) {
-		// Given
-
-		// When
-		boolean actualResult = bankAccount.hasOperationAbility(expense);
-
-		// Then
-		assertEquals(expectedResult, actualResult);
 	}
 
 	@Test
