@@ -15,12 +15,12 @@ import pl.agh.edu.time_command.TimeCommandExecutor;
 public class EmployeeSalaryHandler {
 	private final EmployeeHandler employeeHandler;
 	private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
-	private final BankAccountHandler bankAccountHandler;
+	private final BankConnector bankConnector;
 	private final Time time = Time.getInstance();
 
-	public EmployeeSalaryHandler(EmployeeHandler employeeHandler, BankAccountHandler bankAccountHandler) {
+	public EmployeeSalaryHandler(EmployeeHandler employeeHandler, BankConnector bankConnector) {
 		this.employeeHandler = employeeHandler;
-		this.bankAccountHandler = bankAccountHandler;
+		this.bankConnector = bankConnector;
 	}
 
 	public void monthlyUpdate() {
@@ -28,7 +28,7 @@ public class EmployeeSalaryHandler {
 				.map(Employee::getWageWithBonus)
 				.reduce(BigDecimal.ZERO, BigDecimal::add);
 
-		timeCommandExecutor.addCommand(new TimeCommand(() -> bankAccountHandler.registerExpense(salaryToPayForThisMonth),
+		timeCommandExecutor.addCommand(new TimeCommand(() -> bankConnector.registerExpense(salaryToPayForThisMonth),
 				LocalDateTime.of(
 						LocalDate.of(
 								time.getTime().getYear(),

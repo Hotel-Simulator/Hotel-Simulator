@@ -5,10 +5,10 @@ import java.math.BigDecimal;
 import pl.agh.edu.json.data_loader.JSONBankDataLoader;
 import pl.agh.edu.model.bank.BankAccount;
 
-public class BankAccountHandler {
+public class BankConnector {
 	private final BankAccount account;
 
-	public BankAccountHandler(BankAccount account) {
+	public BankConnector(BankAccount account) {
 		this.account = account;
 	}
 

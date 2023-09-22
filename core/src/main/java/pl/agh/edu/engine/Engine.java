@@ -8,7 +8,7 @@ import pl.agh.edu.generator.client_generator.Arrival;
 import pl.agh.edu.generator.client_generator.ClientGenerator;
 import pl.agh.edu.generator.event_generator.EventGenerator;
 import pl.agh.edu.json.data_loader.JSONBankDataLoader;
-import pl.agh.edu.management.bank.BankAccountHandler;
+import pl.agh.edu.management.bank.BankConnector;
 import pl.agh.edu.management.bank.EmployeeSalaryHandler;
 import pl.agh.edu.management.hotel.HotelHandler;
 import pl.agh.edu.model.Hotel;
@@ -28,8 +28,8 @@ public class Engine {
 	private final EventGenerator eventGenerator = EventGenerator.getInstance();
 	private final HotelHandler hotelHandler = new HotelHandler();
 	private final BankAccount bankAccount = new BankAccount(new BigDecimal("0.05"), BigDecimal.valueOf(2), JSONBankDataLoader.initialBalance);
-	private final BankAccountHandler bankAccountHandler = new BankAccountHandler(bankAccount);
-	private final EmployeeSalaryHandler employeeSalaryHandler = new EmployeeSalaryHandler(hotelHandler.employeeHandler, bankAccountHandler);
+	private final BankConnector bankConnector = new BankConnector(bankAccount);
+	private final EmployeeSalaryHandler employeeSalaryHandler = new EmployeeSalaryHandler(hotelHandler.employeeHandler, bankConnector);
 
 	public Engine() {
 
