@@ -10,10 +10,12 @@ public class NRepeatingTimeCommand extends RepeatingTimeCommand {
 	}
 
 	private long counter;
+	private final Runnable toExecuteAfterLast;
 
-	public NRepeatingTimeCommand(Frequency frequency, Runnable toExecute, LocalDateTime dueTime, long N) {
+	public NRepeatingTimeCommand(Frequency frequency, Runnable toExecute, LocalDateTime dueTime, long N, Runnable toExecuteAfterLast) {
 		super(frequency, toExecute, dueTime);
 		this.counter = N;
+		this.toExecuteAfterLast = toExecuteAfterLast;
 	}
 
 	@Override
@@ -21,6 +23,7 @@ public class NRepeatingTimeCommand extends RepeatingTimeCommand {
 		super.execute();
 		if (--counter == 0) {
 			stop();
+			toExecuteAfterLast.run();
 		}
 	}
 }

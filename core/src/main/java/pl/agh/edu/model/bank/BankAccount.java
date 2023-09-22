@@ -34,9 +34,9 @@ public class BankAccount {
 		balance = balance.subtract(value);
 	}
 
-	public void registerCredit(BigDecimal value, long creditLengthInMonths) {
-		credits.add(new Credit(value, creditLengthInMonths, this));
-		registerIncome(value);
+	public void registerCredit(Credit credit) {
+		credits.add(credit);
+		registerIncome(credit.value());
 	}
 
 	public List<Credit> getCredits() {
