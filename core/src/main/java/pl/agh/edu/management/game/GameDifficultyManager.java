@@ -6,11 +6,8 @@ import pl.agh.edu.json.data_loader.JSONGameDataLoader;
 public class GameDifficultyManager {
 	private double difficultyMultiplier;
 
-	public GameDifficultyManager() {
-		// Set user input here
-		DifficultyLevel userChoice = DifficultyLevel.MEDIUM;
-		setDifficulty(userChoice);
-
+	public GameDifficultyManager(DifficultyLevel difficultyLevel) {
+		setDifficulty(difficultyLevel);
 	}
 
 	public double getDifficultyMultiplier() {

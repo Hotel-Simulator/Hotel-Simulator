@@ -9,10 +9,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import pl.agh.edu.enums.HotelVisitPurpose;
-import pl.agh.edu.enums.RoomRank;
-import pl.agh.edu.enums.RoomSize;
-import pl.agh.edu.enums.Sex;
+import pl.agh.edu.enums.*;
 import pl.agh.edu.json.data_loader.JSONClientDataLoader;
 import pl.agh.edu.json.data_loader.JSONHotelDataLoader;
 import pl.agh.edu.management.game.GameDifficultyManager;
@@ -34,8 +31,10 @@ public class ClientGenerator {
 	private final AdvertisementHandler advertisementHandler = AdvertisementHandler.getInstance();
 	private final ClientNumberModificationTemporaryEventHandler clientNumberModificationTemporaryEventHandler = ClientNumberModificationTemporaryEventHandler.getInstance();
 	private final Time time = Time.getInstance();
-	private final HotelScenariosManager hotelScenariosManager = new HotelScenariosManager();
-	private final GameDifficultyManager gameDifficultyManager = new GameDifficultyManager();
+	// Set user input here (set hotelType)
+	private final HotelScenariosManager hotelScenariosManager = new HotelScenariosManager(HotelType.HOTEL);
+	// Set user input here (set difficultyLevel)
+	private final GameDifficultyManager gameDifficultyManager = new GameDifficultyManager(DifficultyLevel.MEDIUM);
 
 	private ClientGenerator() {}
 

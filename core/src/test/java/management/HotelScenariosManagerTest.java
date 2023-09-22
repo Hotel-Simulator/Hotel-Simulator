@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import pl.agh.edu.enums.HotelType;
 import pl.agh.edu.json.data_extractor.JSONFilePath;
 import pl.agh.edu.management.hotel.HotelScenariosManager;
 
@@ -21,7 +22,7 @@ public class HotelScenariosManagerTest {
 
 	@BeforeEach
 	public void setUp() {
-		hotelScenariosManager = new HotelScenariosManager();
+		hotelScenariosManager = new HotelScenariosManager(HotelType.HOTEL);
 	}
 
 	@Test

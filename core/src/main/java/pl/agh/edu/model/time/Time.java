@@ -1,6 +1,7 @@
 package pl.agh.edu.model.time;
 
 import java.time.LocalDateTime;
+import java.time.MonthDay;
 
 import pl.agh.edu.time_command.TimeCommandExecutor;
 
@@ -119,6 +120,10 @@ public class Time {
 
 	public int getTimeUnitInMinutes() {
 		return timeUnitInMinutes;
+	}
+
+	public MonthDay getCurrentMonthDay() {
+		return MonthDay.of(months, days);
 	}
 
 }
