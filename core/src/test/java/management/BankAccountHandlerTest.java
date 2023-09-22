@@ -16,16 +16,16 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import pl.agh.edu.json.data_extractor.JSONFilePath;
 import pl.agh.edu.json.data_loader.JSONBankDataLoader;
-import pl.agh.edu.management.bank.BankConnector;
+import pl.agh.edu.management.bank.BankAccountHandler;
 import pl.agh.edu.model.bank.BankAccount;
 
-public class BankConnectorTest {
+public class BankAccountHandlerTest {
 	private final BankAccount account = mock(BankAccount.class);
-	private BankConnector connector;
+	private BankAccountHandler connector;
 
 	@BeforeEach
 	public void setUp() {
-		connector = new BankConnector(account);
+		connector = new BankAccountHandler(account);
 	}
 
 	@BeforeAll

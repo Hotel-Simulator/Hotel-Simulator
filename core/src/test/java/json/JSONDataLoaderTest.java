@@ -87,6 +87,7 @@ public class JSONDataLoaderTest {
 			EnumMap<Profession, Duration> basicServiceExecutionTimes = JSONEmployeeDataLoader.basicServiceExecutionTimes;
 			EnumMap<Profession, Integer> professionProbabilities = JSONEmployeeDataLoader.professionProbabilities;
 			EnumMap<TypeOfContract, Integer> typeOfContractProbabilities = JSONEmployeeDataLoader.typeOfContractProbabilities;
+			int payDay = JSONEmployeeDataLoader.payDayOfMonth;
 		});
 	}
 

@@ -39,7 +39,7 @@ public class Employee {
 	}
 
 	public double getSatisfaction() {
-		return Math.min(1., wage.add(bonusForThisMonth).divide(preferences.desiredWage, 2, RoundingMode.CEILING).doubleValue());
+		return Math.min(1., getWageWithBonus().divide(preferences.desiredWage, 2, RoundingMode.CEILING).doubleValue());
 	}
 
 	public boolean isAtWork(LocalTime time) {
@@ -74,6 +74,10 @@ public class Employee {
 
 	public void setStatus(EmployeeStatus employeeStatus) {
 		this.employeeStatus = employeeStatus;
+	}
+
+	public BigDecimal getWageWithBonus() {
+		return wage.add(bonusForThisMonth);
 	}
 
 }
