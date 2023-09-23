@@ -31,7 +31,7 @@ public class NRepeatingTimeCommandTest {
 	public void testCounterDecrease() {
 		// Given
 		int N = 3;
-		NRepeatingTimeCommand command = new NRepeatingTimeCommand(FREQUENCY, runnable, DUE_DATE_TIME, N, runnable);
+		NRepeatingTimeCommand command = new NRepeatingTimeCommand(FREQUENCY, runnable, DUE_DATE_TIME, N);
 
 		// When
 		command.execute();

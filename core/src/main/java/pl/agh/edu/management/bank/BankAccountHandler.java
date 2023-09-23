@@ -3,6 +3,7 @@ package pl.agh.edu.management.bank;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -58,7 +59,7 @@ public class BankAccountHandler {
 			Credit credit) {
 		return new NRepeatingTimeCommand(Frequency.EVERY_MONTH,
 				() -> bankAccount.registerExpense(monthlyPayments),
-				time.getTime().toLocalDate().plusMonths(1).atStartOfDay(),
+				time.getTime().plusMonths(1).truncatedTo(ChronoUnit.DAYS),
 				credit.lengthInMonths(),
 				() -> currentCredits.remove(credit));
 	}
