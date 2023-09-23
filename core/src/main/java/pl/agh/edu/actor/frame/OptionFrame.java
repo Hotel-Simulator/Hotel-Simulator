@@ -97,7 +97,6 @@ public class OptionFrame extends Stack {
 					AudioConfig.setAudioVolume(selectedOption);
 					return null;
 				});
-		System.out.println(AudioConfig.getAudioVolume());
 		sliderComponent.setValue(AudioConfig.getAudioVolume());
 		return sliderComponent;
 	}
