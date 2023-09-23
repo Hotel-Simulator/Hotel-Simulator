@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.time.MonthDay;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -87,6 +88,18 @@ public class TimeTest {
 		time.toggle();
 		// Then
 		assertTrue(time.isRunning());
+	}
+
+	@Test
+	public void testGetMonthDay() {
+		// Given
+		MonthDay expected = MonthDay.of(1, 1);
+
+		// When
+		MonthDay result = time.getMonthDay();
+
+		// Then
+		assertEquals(expected, result, "MonthDay should match the expected value");
 	}
 
 	private Time createNewTimeInstance() {

@@ -17,7 +17,6 @@ import pl.agh.edu.json.data_extractor.JSONValueUtil;
 public class JSONClientDataLoader {
 	private static final String JSON_FILE_PATH = JSONFilePath.CLIENT_CONFIG.get();
 
-	public static EnumMap<HotelVisitPurpose, Double> hotelVisitPurposeProbabilities;
 	public static EnumMap<HotelVisitPurpose, EnumMap<RoomRank, Integer>> desiredRankProbabilities;
 	public static EnumMap<HotelVisitPurpose, Map<Integer, Integer>> numberOfNightsProbabilities;
 	public static EnumMap<HotelVisitPurpose, Map<Integer, Integer>> clientGroupSizeProbabilities;
@@ -32,10 +31,6 @@ public class JSONClientDataLoader {
 	}
 
 	public static void load() {
-		hotelVisitPurposeProbabilities = JSONValueUtil.getEnumMap(
-				JSONDataExtractor.extract(JSON_FILE_PATH, "hotel_visit_purpose_probabilities", JSONObject.class),
-				entry -> (Double) entry.getValue(),
-				HotelVisitPurpose.class);
 
 		desiredRankProbabilities = JSONValueUtil.getEnumMap(
 				JSONDataExtractor.extract(JSON_FILE_PATH, "desired_rank_probabilities", JSONObject.class),
