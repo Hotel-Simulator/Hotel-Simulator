@@ -24,31 +24,66 @@ public class HotelPopularityFunction {
 
 	private static Map<MonthDay, Double> getDailyMultiplierFromSpline(PolynomialSplineFunction splineFunction) {
 		return Stream.of(Month.values())
-				.flatMap(month -> IntStream.range(1, month.maxLength() + 1).mapToObj(day -> MonthDay.of(month, day)))
+				.flatMap(HotelPopularityFunction::generateMonthDays)
 				.collect(Collectors.toMap(
 						Function.identity(),
-						monthDay -> splineFunction.value(monthDay.getMonth().getValue() + (monthDay.getDayOfMonth() - 1.) / monthDay.getMonth().maxLength()),
+						monthDay -> calculateMultiplier(splineFunction, monthDay),
 						(a, b) -> b,
 						HashMap::new));
+	}
+
+	private static Stream<MonthDay> generateMonthDays(Month month) {
+		return IntStream.range(1, month.maxLength() + 1).mapToObj(day -> MonthDay.of(month, day));
+	}
+
+	private static double calculateMultiplier(PolynomialSplineFunction splineFunction, MonthDay monthDay) {
+		return splineFunction.value(calculateDayFraction(monthDay));
+	}
+
+	private static double calculateDayFraction(MonthDay monthDay) {
+		int monthValue = monthDay.getMonth().getValue();
+		int day = monthDay.getDayOfMonth();
+		int monthLength = monthDay.getMonth().maxLength();
+		return monthValue + (day - 1.) / monthLength;
 	}
 
 	private static PolynomialSplineFunction getSplineFunction(HotelType hotelType) {
 		Map<Integer, Double> monthClientsMultiplier = JSONHotelScenariosDataLoader.vacationPopularity.get(hotelType);
 
-		double[] x = new double[14];
-		double[] y = new double[14];
+		double[] x = generateXValues();
+		double[] y = generateYValues(monthClientsMultiplier);
 
-		x[0] = 0.0;
 		y[0] = monthClientsMultiplier.get(12);
 
 		IntStream.range(1, 13).forEach(i -> {
-			x[i] = i;
 			y[i] = monthClientsMultiplier.get(i);
 		});
 
-		x[13] = 13.0;
 		y[13] = monthClientsMultiplier.get(1);
 
+		return createSplineFunction(x, y);
+	}
+
+	private static double[] generateXValues() {
+		return IntStream.rangeClosed(0, 13)
+				.asDoubleStream()
+				.toArray();
+	}
+
+	private static double[] generateYValues(Map<Integer, Double> monthClientsMultiplier) {
+		return IntStream.rangeClosed(0, 13)
+				.mapToDouble(i -> calculateYValue(monthClientsMultiplier, i))
+				.toArray();
+	}
+
+	private static double calculateYValue(Map<Integer, Double> monthClientsMultiplier, int i) {
+		if (i == 0)
+			return monthClientsMultiplier.getOrDefault(12, 0.0);
+		int month = (i % 13) + 1;
+		return monthClientsMultiplier.getOrDefault(month, 0.0);
+	}
+
+	private static PolynomialSplineFunction createSplineFunction(double[] x, double[] y) {
 		SplineInterpolator interpolator = new SplineInterpolator();
 		return interpolator.interpolate(x, y);
 	}

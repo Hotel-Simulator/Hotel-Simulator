@@ -122,7 +122,7 @@ public class Time {
 		return timeUnitInMinutes;
 	}
 
-	public MonthDay getCurrentMonthDay() {
+	public MonthDay getMonthDay() {
 		return MonthDay.of(months, days);
 	}
 
