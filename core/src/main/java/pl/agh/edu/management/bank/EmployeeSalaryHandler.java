@@ -1,9 +1,7 @@
 package pl.agh.edu.management.bank;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 
 import pl.agh.edu.json.data_loader.JSONEmployeeDataLoader;
 import pl.agh.edu.management.employee.EmployeeHandler;
@@ -29,13 +27,10 @@ public class EmployeeSalaryHandler {
 				.reduce(BigDecimal.ZERO, BigDecimal::add);
 
 		timeCommandExecutor.addCommand(new TimeCommand(() -> bankConnector.registerExpense(salaryToPayForThisMonth),
-				LocalDateTime.of(
-						LocalDate.of(
-								time.getTime().getYear(),
-								time.getTime().plusMonths(1).getMonth(),
-								JSONEmployeeDataLoader.payDayOfMonth),
-						LocalTime.NOON)));
-
+				time.getTime().plusMonths(1)
+						.truncatedTo(ChronoUnit.MONTHS)
+						.withDayOfMonth(JSONEmployeeDataLoader.payDayOfMonth)
+						.withHour(12)));
 	}
 
 }
