@@ -1,9 +1,8 @@
-package pl.agh.edu.actor.component.TextComponents;
+package pl.agh.edu.actor.TextActors;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.utils.Align;
 import pl.agh.edu.actor.HotelSkin;
 
 public class ValueTag extends Table {
@@ -19,8 +18,6 @@ public class ValueTag extends Table {
         WIDTH = size.getWIDTH();
         HEIGHT = size.getHEIGHT();
         HORIZONTAL_PADDING = size.getHORIZONTAL_PADDING();
-        System.out.println("HEIGHT = " + HEIGHT);
-        System.out.println("WIDTH = " + WIDTH);
         Stack componentStack = new Stack();
         add(componentStack).height(HEIGHT).width(WIDTH);
         skin = HotelSkin.getInstance();
@@ -34,27 +31,45 @@ public class ValueTag extends Table {
             setDebug(true);
             this.padLeft(HORIZONTAL_PADDING).padRight(HORIZONTAL_PADDING);
 
-            Label tagLabel = new Label(tag,skin, "white_body1_label");
+            Label tagLabel = new Label(tag,skin);
 //            BitmapFont white = skin.getFont("white-body1");
 //            Label.LabelStyle ls = tagLabel.getStyle();
 //            ls.font = white;
 //            tagLabel.setStyle(ls);
             tagLabel.setColor(skin.getColor("Primary_700"));
 //            tagLabel.setColor();
+
+
+            BitmapFont font = skin.getFont("subtittle1");
+            BitmapFont.BitmapFontData fontData = font.getData();
+//            fontData.capHeight = 20f;
+//            fontData.setLineHeight(0.1f);
+//            fontData.ascent = -4f;
+            Label.LabelStyle ls = new Label.LabelStyle();
+            ls.font = font;
+//            ls.font.
+            ls.fontColor = skin.getColor("Primary_700");
+//            tagLabel.moveBy(0,10);
+            tagLabel.setStyle(ls);
             this.add(tagLabel).growX();
 
 
-            Label valueLabel = new Label(value,skin, "white_body1_label");
 
-            this.add(valueLabel);
+
+
+
+
+//            Label valueLabel = new Label(value,skin, "white_body1_label");
+
+//            this.add(valueLabel);
 
         }
     }
 
     public enum ValueTagSize{
-        SMALL(400f,40f,40f),
-        MEDIUM(500f,40f,40f),
-        LARGE(600f,40f,40f);
+        SMALL(400f,100f,40f),
+        MEDIUM(500f,100f,40f),
+        LARGE(600f,100f,40f);
 
         private final float WIDTH;
         private final float HEIGHT;
