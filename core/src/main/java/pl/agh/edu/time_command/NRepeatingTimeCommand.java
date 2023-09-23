@@ -19,9 +19,7 @@ public class NRepeatingTimeCommand extends RepeatingTimeCommand {
 	}
 
 	public NRepeatingTimeCommand(Frequency frequency, Runnable toExecute, LocalDateTime dueTime, long N) {
-		super(frequency, toExecute, dueTime);
-		this.counter = N;
-		this.toExecuteAfterLastRepetition = () -> {};
+		this(frequency, toExecute, dueTime, N, () -> {});
 	}
 
 	@Override
