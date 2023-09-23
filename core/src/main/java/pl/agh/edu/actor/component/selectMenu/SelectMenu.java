@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 
 import pl.agh.edu.actor.HotelSkin;
+import pl.agh.edu.audio.SoundAudio;
 import pl.agh.edu.config.GraphicConfig;
 
 public class SelectMenu extends Table {
@@ -106,6 +107,18 @@ public class SelectMenu extends Table {
 		protected GlyphLayout drawItem(Batch batch, BitmapFont font, SelectMenuItem item, float x, float y, float width) {
 			String string = this.getSelected().toString();
 			return font.draw(batch, string, x, this.getY() + (this.getHeight() + font.getXHeight()) / 2, 0, string.length(), width, Align.center, false, "...");
+		}
+
+		@Override
+		protected void onShow(Actor scrollPane, boolean below) {
+			super.onShow(scrollPane, below);
+			SoundAudio.PIP_1.play();
+		}
+
+		@Override
+		protected void onHide(Actor scrollPane) {
+			super.onHide(scrollPane);
+			SoundAudio.PIP_1.play();
 		}
 	}
 

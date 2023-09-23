@@ -15,12 +15,17 @@ import pl.agh.edu.actor.component.selectMenu.SelectMenu;
 import pl.agh.edu.actor.component.selectMenu.SelectMenuBoolean;
 import pl.agh.edu.actor.component.selectMenu.SelectMenuItem;
 import pl.agh.edu.actor.component.selectMenu.SelectMenuResolutionItem;
+import pl.agh.edu.actor.slider.PercentSliderComponent;
+import pl.agh.edu.actor.slider.SliderComponent;
+import pl.agh.edu.config.AudioConfig;
 import pl.agh.edu.config.GraphicConfig;
 
 public class OptionFrame extends Stack {
 	private final Table table = new Table();
 	private final SelectMenu selectResolutionMenu = createSelectMenuForResolution();
 	private final SelectMenu selectFullScreenMenu = createSelectMenuForFullScreenMode();
+	private final SliderComponent musicVolumeSlider = createSliderComponentForMusicVolume();
+	private final SliderComponent soundVolumeSlider = createSliderComponentForSoundVolume();
 
 	public OptionFrame() {
 		super();
@@ -32,6 +37,10 @@ public class OptionFrame extends Stack {
 		table.add(selectResolutionMenu).grow();
 		table.row();
 		table.add(selectFullScreenMenu).grow();
+		table.row();
+		table.add(musicVolumeSlider).grow();
+		table.row();
+		table.add(soundVolumeSlider).grow();
 
 		setStartingValue();
 	}
@@ -68,6 +77,29 @@ public class OptionFrame extends Stack {
 				"Full screen mode",
 				SelectMenuBoolean.getArray(),
 				function);
+	}
+
+	private SliderComponent createSliderComponentForMusicVolume() {
+		PercentSliderComponent sliderComponent = new PercentSliderComponent(
+				"Music",
+				selectedOption -> {
+					AudioConfig.setMusicVolume(selectedOption);
+					return null;
+				});
+		sliderComponent.setValue(AudioConfig.getMusicVolume());
+		return sliderComponent;
+	}
+
+	private SliderComponent createSliderComponentForSoundVolume() {
+		PercentSliderComponent sliderComponent = new PercentSliderComponent(
+				"Sound",
+				selectedOption -> {
+					AudioConfig.setAudioVolume(selectedOption);
+					return null;
+				});
+		System.out.println(AudioConfig.getAudioVolume());
+		sliderComponent.setValue(AudioConfig.getAudioVolume());
+		return sliderComponent;
 	}
 
 	private void setStartingValue() {

@@ -6,8 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import pl.agh.edu.actor.slider.MoneySliderComponent;
 import pl.agh.edu.actor.slider.PercentSliderComponent;
-import pl.agh.edu.audio.AudioController;
-import pl.agh.edu.config.AudioConfig;
 
 public class TestFrame extends BaseFrame {
 	public TestFrame(String name) {
@@ -25,7 +23,6 @@ public class TestFrame extends BaseFrame {
 		root.add(new PercentSliderComponent(
 				"Tax",
 				selectedOption -> {
-					AudioConfig.setMusicVolume(selectedOption);
 					return null;
 				}));
 

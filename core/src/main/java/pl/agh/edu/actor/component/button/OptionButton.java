@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import pl.agh.edu.actor.HotelSkin;
+import pl.agh.edu.audio.SoundAudio;
 
 public class OptionButton extends Button {
 	private Boolean isOpen = false;
@@ -14,7 +15,8 @@ public class OptionButton extends Button {
 		addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				if (isOpen)
+				SoundAudio.BUTTON_1.play();
+				if (!isOpen)
 					clickedCallbackToOpen.run();
 				else
 					clickedCallbackToClose.run();

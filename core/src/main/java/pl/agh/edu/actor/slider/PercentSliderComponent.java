@@ -12,13 +12,18 @@ public class PercentSliderComponent extends SliderComponent {
 	}
 
 	private float getPercentageValue() {
-		return this.getValue();
+		return this.getValue() / 100f;
 	}
 
 	@Override
 	protected void stateChangeHandler() {
 		stateChangeHandler.apply(getPercentageValue());
-		valueLabel.setText(getPercentageValue() + " " + suffix);
+		valueLabel.setText(getValue() + " " + suffix);
+	}
+
+	@Override
+	public void setValue(float value) {
+		super.setValue(value * 100f);
 	}
 
 }

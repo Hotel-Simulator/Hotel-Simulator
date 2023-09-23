@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 
 import pl.agh.edu.actor.HotelSkin;
+import pl.agh.edu.audio.SoundAudio;
 import pl.agh.edu.config.GraphicConfig;
 
 public class SliderComponent extends Table {
@@ -56,6 +57,7 @@ public class SliderComponent extends Table {
 			slider.addListener(new ChangeListener() {
 				@Override
 				public void changed(ChangeEvent event, Actor actor) {
+					SoundAudio.PIP_1.play();
 					stateChangeHandler();
 				}
 			});
@@ -70,6 +72,10 @@ public class SliderComponent extends Table {
 
 	public float getValue() {
 		return slider.getValue();
+	}
+
+	public void setValue(float value) {
+		slider.setValue(value);
 	}
 
 	private static class SliderStyle {
