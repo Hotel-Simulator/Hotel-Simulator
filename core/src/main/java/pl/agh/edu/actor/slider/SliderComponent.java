@@ -6,8 +6,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 
-import pl.agh.edu.GameConfig;
 import pl.agh.edu.actor.HotelSkin;
+import pl.agh.edu.audio.SoundAudio;
+import pl.agh.edu.config.GraphicConfig;
 
 public class SliderComponent extends Table {
 	protected Label valueLabel;
@@ -56,6 +57,7 @@ public class SliderComponent extends Table {
 			slider.addListener(new ChangeListener() {
 				@Override
 				public void changed(ChangeEvent event, Actor actor) {
+					SoundAudio.PIP_1.play();
 					stateChangeHandler();
 				}
 			});
@@ -72,9 +74,13 @@ public class SliderComponent extends Table {
 		return slider.getValue();
 	}
 
+	public void setValue(float value) {
+		slider.setValue(value);
+	}
+
 	private static class SliderStyle {
 		public static float getHeight() {
-			return switch (GameConfig.RESOLUTION.SIZE) {
+			return switch (GraphicConfig.getResolution().SIZE) {
 				case SMALL -> 40f;
 				case MEDIUM -> 50f;
 				case LARGE -> 60f;
@@ -82,7 +88,7 @@ public class SliderComponent extends Table {
 		}
 
 		public static float getWidth() {
-			return switch (GameConfig.RESOLUTION.SIZE) {
+			return switch (GraphicConfig.getResolution().SIZE) {
 				case SMALL -> 500f;
 				case MEDIUM -> 600f;
 				case LARGE -> 800f;
@@ -90,7 +96,7 @@ public class SliderComponent extends Table {
 		}
 
 		public static float getInnerPadding() {
-			return switch (GameConfig.RESOLUTION.SIZE) {
+			return switch (GraphicConfig.getResolution().SIZE) {
 				case SMALL -> 20f;
 				case MEDIUM -> 30f;
 				case LARGE -> 40f;
@@ -98,7 +104,7 @@ public class SliderComponent extends Table {
 		}
 
 		public static float getOuterPadding() {
-			return switch (GameConfig.RESOLUTION.SIZE) {
+			return switch (GraphicConfig.getResolution().SIZE) {
 				case SMALL -> 20f;
 				case MEDIUM -> 20f;
 				case LARGE -> 20f;

@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 
 import pl.agh.edu.actor.HotelSkin;
+import pl.agh.edu.audio.SoundAudio;
 import pl.agh.edu.utils.JsonLanguageLoader;
 
 public class NavbarButton extends Table {
@@ -64,6 +65,7 @@ public class NavbarButton extends Table {
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 				if (!disabled) {
 					if (touchUpCallback != null) {
+						SoundAudio.KNOCK_1.play();
 						touchUpCallback.run();
 					}
 				}

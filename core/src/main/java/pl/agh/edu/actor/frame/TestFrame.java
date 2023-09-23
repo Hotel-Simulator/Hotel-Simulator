@@ -16,17 +16,13 @@ public class TestFrame extends BaseFrame {
 				"Tax",
 				new BigDecimal("0"),
 				new BigDecimal("1000000000000000000000000000000"),
-				selectedOption -> {
-					System.out.println("Selected: " + selectedOption);
-					return null;
-				}));
+				selectedOption -> null));
 
 		root.row();
 
 		root.add(new PercentSliderComponent(
 				"Tax",
 				selectedOption -> {
-					System.out.println("Selected: " + selectedOption);
 					return null;
 				}));
 

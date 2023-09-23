@@ -11,8 +11,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 
-import pl.agh.edu.GameConfig;
 import pl.agh.edu.actor.HotelSkin;
+import pl.agh.edu.audio.SoundAudio;
+import pl.agh.edu.config.GraphicConfig;
 
 public class SelectMenu extends Table {
 
@@ -44,7 +45,7 @@ public class SelectMenu extends Table {
 	}
 
 	private void setMaxListCount() {
-		switch (GameConfig.RESOLUTION.SIZE) {
+		switch (GraphicConfig.getResolution().SIZE) {
 			case SMALL -> selectOption.setMaxListCount(3);
 			case MEDIUM -> selectOption.setMaxListCount(5);
 			case LARGE -> selectOption.setMaxListCount(7);
@@ -107,11 +108,23 @@ public class SelectMenu extends Table {
 			String string = this.getSelected().toString();
 			return font.draw(batch, string, x, this.getY() + (this.getHeight() + font.getXHeight()) / 2, 0, string.length(), width, Align.center, false, "...");
 		}
+
+		@Override
+		protected void onShow(Actor scrollPane, boolean below) {
+			super.onShow(scrollPane, below);
+			SoundAudio.PIP_1.play();
+		}
+
+		@Override
+		protected void onHide(Actor scrollPane) {
+			super.onHide(scrollPane);
+			SoundAudio.PIP_1.play();
+		}
 	}
 
 	private static class SelectMenuStyle {
 		public static float getHeight() {
-			return switch (GameConfig.RESOLUTION.SIZE) {
+			return switch (GraphicConfig.getResolution().SIZE) {
 				case SMALL -> 50f;
 				case MEDIUM -> 70f;
 				case LARGE -> 80f;
@@ -119,7 +132,7 @@ public class SelectMenu extends Table {
 		}
 
 		public static float getWidth() {
-			return switch (GameConfig.RESOLUTION.SIZE) {
+			return switch (GraphicConfig.getResolution().SIZE) {
 				case SMALL -> 300f;
 				case MEDIUM -> 350f;
 				case LARGE -> 400f;

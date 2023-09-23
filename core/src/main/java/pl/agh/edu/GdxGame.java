@@ -3,6 +3,7 @@ package pl.agh.edu;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
 
+import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.model.console.CommandExecutor;
 import pl.agh.edu.model.time.Time;
 import pl.agh.edu.screen.MainScreen;
@@ -20,7 +21,7 @@ public class GdxGame extends ApplicationAdapter {
 		commandExecutor = CommandExecutor.getInstance();
 		currentScreen = new MainScreen(this);
 		setScreen(currentScreen);
-		GameConfig.setFullscreenMode(false);
+		GraphicConfig.setFullscreenMode(false);
 	}
 
 	@Override

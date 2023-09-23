@@ -7,6 +7,7 @@ import pl.agh.edu.model.time.Time;
 public enum Frequency {
 	EVERY_SHIFT,
 	EVERY_TIME_TICK,
+	EVERY_PART_OF_DAY,
 	EVERY_DAY,
 	EVERY_MONTH,
 	EVERY_YEAR;
@@ -18,6 +19,7 @@ public enum Frequency {
 			case EVERY_DAY -> localDateTime.plusDays(1);
 			case EVERY_MONTH -> localDateTime.plusMonths(1);
 			case EVERY_YEAR -> localDateTime.plusYears(1);
+			case EVERY_PART_OF_DAY -> localDateTime.plusHours((PartOfDay.parseHour(localDateTime.getHour()).getEndHour() - localDateTime.getHour() + 24) % 24);
 		};
 	}
 }
