@@ -134,6 +134,12 @@
 		"b": 0.12941177,
 		"a": 1
 	},
+	"Mr_White": {
+		"r": 1,
+		"g": 1,
+		"b": 1,
+		"a": 1
+	},
 	"Primary_100": {
 		"r": 0.5921569,
 		"g": 0.9764706,
@@ -229,6 +235,12 @@
 		"g": 0.36862746,
 		"b": 0.1254902,
 		"a": 1
+	},
+	"Transparent": {
+		"r": 1,
+		"g": 1,
+		"b": 1,
+		"a": 0
 	},
 	"Warning_100": {
 		"r": 1,
@@ -419,6 +431,15 @@
 	"calendar": {
 		"up": "button-calendar-up",
 		"over": "button-calendar-over"
+	},
+	"star-normal": {
+		"up": "rating-star-up"
+	},
+	"star-over": {
+		"up": "rating-star-over"
+	},
+	"star-dimmed": {
+		"up": "rating-star-dimmed"
 	}
 },
 "CheckBoxStyle": {
