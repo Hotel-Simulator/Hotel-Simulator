@@ -3,7 +3,7 @@ package pl.agh.edu.config;
 import pl.agh.edu.audio.MusicController;
 
 public class AudioConfig {
-	private static float musicVolume = 0.50f;
+	private static float musicVolume = 0.00f;
 	private static float audioVolume = 0.50f;
 	private static MusicController musicController = new MusicController();
 
