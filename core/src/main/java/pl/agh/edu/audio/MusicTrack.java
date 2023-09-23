@@ -17,10 +17,10 @@ public enum MusicTrack {
 
 	public static MusicTrack parse(PartOfDay partOfDay) {
 		return switch (partOfDay) {
-		case MORNING -> CITY_DAY;
-		case DAY -> CITY_DAY;
-		case EVENING -> CITY_NIGHT;
-		case NIGHT -> CITY_NIGHT;
+			case MORNING -> CITY_DAY;
+			case DAY -> CITY_DAY;
+			case EVENING -> CITY_NIGHT;
+			case NIGHT -> CITY_NIGHT;
 		};
 	}
 }

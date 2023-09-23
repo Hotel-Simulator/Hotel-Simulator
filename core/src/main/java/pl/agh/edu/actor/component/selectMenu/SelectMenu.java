@@ -46,9 +46,9 @@ public class SelectMenu extends Table {
 
 	private void setMaxListCount() {
 		switch (GraphicConfig.getResolution().SIZE) {
-		case SMALL -> selectOption.setMaxListCount(3);
-		case MEDIUM -> selectOption.setMaxListCount(5);
-		case LARGE -> selectOption.setMaxListCount(7);
+			case SMALL -> selectOption.setMaxListCount(3);
+			case MEDIUM -> selectOption.setMaxListCount(5);
+			case LARGE -> selectOption.setMaxListCount(7);
 		}
 	}
 

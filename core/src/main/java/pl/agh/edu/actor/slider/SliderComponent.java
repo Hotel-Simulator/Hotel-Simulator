@@ -80,15 +80,15 @@ public class SliderComponent extends Table {
 
 	private static class SliderStyle {
 		public static float getHeight() {
-            return switch (GraphicConfig.getResolution().SIZE) {
-                case SMALL -> 40f;
-                case MEDIUM -> 50f;
-                case LARGE -> 60f;
+			return switch (GraphicConfig.getResolution().SIZE) {
+				case SMALL -> 40f;
+				case MEDIUM -> 50f;
+				case LARGE -> 60f;
 			};
 		}
 
 		public static float getWidth() {
-            return switch (GraphicConfig.getResolution().SIZE) {
+			return switch (GraphicConfig.getResolution().SIZE) {
 				case SMALL -> 500f;
 				case MEDIUM -> 600f;
 				case LARGE -> 800f;
@@ -96,7 +96,7 @@ public class SliderComponent extends Table {
 		}
 
 		public static float getInnerPadding() {
-            return switch (GraphicConfig.getResolution().SIZE) {
+			return switch (GraphicConfig.getResolution().SIZE) {
 				case SMALL -> 20f;
 				case MEDIUM -> 30f;
 				case LARGE -> 40f;
@@ -104,7 +104,7 @@ public class SliderComponent extends Table {
 		}
 
 		public static float getOuterPadding() {
-            return switch (GraphicConfig.getResolution().SIZE) {
+			return switch (GraphicConfig.getResolution().SIZE) {
 				case SMALL -> 20f;
 				case MEDIUM -> 20f;
 				case LARGE -> 20f;
