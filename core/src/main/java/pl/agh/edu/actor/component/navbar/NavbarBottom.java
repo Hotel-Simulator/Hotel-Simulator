@@ -50,41 +50,41 @@ public class NavbarBottom extends Table {
 	public void changeBottomNavbarState(BottomNavbarState state) {
 		bottomNavBar.clear();
 		switch (state) {
-		case MAIN -> {
-			bottomNavBar.add(new NavbarButton("bank", () -> changeBottomNavbarState(BottomNavbarState.BANK)));
-			bottomNavBar.add(new NavbarButton("hotel", () -> changeBottomNavbarState(BottomNavbarState.HOTEL)));
-			bottomNavBar.add(new NavbarButton("employee", () -> changeBottomNavbarState(BottomNavbarState.EMPLOYEE)));
-			bottomNavBar.add(new NavbarButton("tax", () -> changeBottomNavbarState(BottomNavbarState.TAXES)));
-			bottomNavBar.add(new NavbarButton("add", () -> changeBottomNavbarState(BottomNavbarState.ADS)));
-		}
-		case HOTEL -> {
-			bottomNavBar.add(new NavbarButton("board", () -> mainScreen.changeFrame(new TestFrame("board"))));
-			bottomNavBar.add(new NavbarButton("rooms", () -> mainScreen.changeFrame(new TestFrame("rooms"))));
-			bottomNavBar.add(new NavbarButton("places", () -> mainScreen.changeFrame(new TestFrame("places"))));
-			bottomNavBar.add(new NavbarButton("back", () -> changeBottomNavbarState(BottomNavbarState.MAIN)));
-		}
-		case BANK -> {
-			bottomNavBar.add(new NavbarButton("offer", () -> mainScreen.changeFrame(new TestFrame("offer"))));
-			bottomNavBar.add(new NavbarButton("account", () -> mainScreen.changeFrame(new TestFrame("account"))));
-			bottomNavBar.add(new NavbarButton("deposit", () -> mainScreen.changeFrame(new TestFrame("deposit"))));
-			bottomNavBar.add(new NavbarButton("credit", () -> mainScreen.changeFrame(new TestFrame("credit"))));
-			bottomNavBar.add(new NavbarButton("back", () -> changeBottomNavbarState(BottomNavbarState.MAIN)));
-		}
-		case EMPLOYEE -> {
-			bottomNavBar.add(new NavbarButton("hire", () -> mainScreen.changeFrame(new TestFrame("hire"))));
-			bottomNavBar.add(new NavbarButton("manage", () -> mainScreen.changeFrame(new TestFrame("manage"))));
-			bottomNavBar.add(new NavbarButton("back", () -> changeBottomNavbarState(BottomNavbarState.MAIN)));
-		}
-		case TAXES -> {
-			bottomNavBar.add(new NavbarButton("offer", () -> mainScreen.changeFrame(new TestFrame("offer"))));
-			bottomNavBar.add(new NavbarButton("history", () -> mainScreen.changeFrame(new TestFrame("history"))));
-			bottomNavBar.add(new NavbarButton("back", () -> changeBottomNavbarState(BottomNavbarState.MAIN)));
-		}
-		case ADS -> {
-			bottomNavBar.add(new NavbarButton("add", () -> mainScreen.changeFrame(new TestFrame("add"))));
-			bottomNavBar.add(new NavbarButton("history", () -> mainScreen.changeFrame(new TestFrame("history"))));
-			bottomNavBar.add(new NavbarButton("back", () -> changeBottomNavbarState(BottomNavbarState.MAIN)));
-		}
+			case MAIN -> {
+				bottomNavBar.add(new NavbarButton("bank", () -> changeBottomNavbarState(BottomNavbarState.BANK)));
+				bottomNavBar.add(new NavbarButton("hotel", () -> changeBottomNavbarState(BottomNavbarState.HOTEL)));
+				bottomNavBar.add(new NavbarButton("employee", () -> changeBottomNavbarState(BottomNavbarState.EMPLOYEE)));
+				bottomNavBar.add(new NavbarButton("tax", () -> changeBottomNavbarState(BottomNavbarState.TAXES)));
+				bottomNavBar.add(new NavbarButton("add", () -> changeBottomNavbarState(BottomNavbarState.ADS)));
+			}
+			case HOTEL -> {
+				bottomNavBar.add(new NavbarButton("board", () -> mainScreen.changeFrame(new TestFrame("board"))));
+				bottomNavBar.add(new NavbarButton("rooms", () -> mainScreen.changeFrame(new TestFrame("rooms"))));
+				bottomNavBar.add(new NavbarButton("places", () -> mainScreen.changeFrame(new TestFrame("places"))));
+				bottomNavBar.add(new NavbarButton("back", () -> changeBottomNavbarState(BottomNavbarState.MAIN)));
+			}
+			case BANK -> {
+				bottomNavBar.add(new NavbarButton("offer", () -> mainScreen.changeFrame(new TestFrame("offer"))));
+				bottomNavBar.add(new NavbarButton("account", () -> mainScreen.changeFrame(new TestFrame("account"))));
+				bottomNavBar.add(new NavbarButton("deposit", () -> mainScreen.changeFrame(new TestFrame("deposit"))));
+				bottomNavBar.add(new NavbarButton("credit", () -> mainScreen.changeFrame(new TestFrame("credit"))));
+				bottomNavBar.add(new NavbarButton("back", () -> changeBottomNavbarState(BottomNavbarState.MAIN)));
+			}
+			case EMPLOYEE -> {
+				bottomNavBar.add(new NavbarButton("hire", () -> mainScreen.changeFrame(new TestFrame("hire"))));
+				bottomNavBar.add(new NavbarButton("manage", () -> mainScreen.changeFrame(new TestFrame("manage"))));
+				bottomNavBar.add(new NavbarButton("back", () -> changeBottomNavbarState(BottomNavbarState.MAIN)));
+			}
+			case TAXES -> {
+				bottomNavBar.add(new NavbarButton("offer", () -> mainScreen.changeFrame(new TestFrame("offer"))));
+				bottomNavBar.add(new NavbarButton("history", () -> mainScreen.changeFrame(new TestFrame("history"))));
+				bottomNavBar.add(new NavbarButton("back", () -> changeBottomNavbarState(BottomNavbarState.MAIN)));
+			}
+			case ADS -> {
+				bottomNavBar.add(new NavbarButton("add", () -> mainScreen.changeFrame(new TestFrame("add"))));
+				bottomNavBar.add(new NavbarButton("history", () -> mainScreen.changeFrame(new TestFrame("history"))));
+				bottomNavBar.add(new NavbarButton("back", () -> changeBottomNavbarState(BottomNavbarState.MAIN)));
+			}
 		}
 	}
 }

@@ -12,9 +12,9 @@ public abstract class SelectMenuItem {
 	@Override
 	public String toString() {
 		int maxLength = switch (GraphicConfig.getResolution().SIZE) {
-		case SMALL -> 12;
-		case MEDIUM -> 15;
-		case LARGE -> 18;
+			case SMALL -> 12;
+			case MEDIUM -> 15;
+			case LARGE -> 18;
 		};
 		return (text.length() <= maxLength) ? text : text.substring(0, maxLength) + "...";
 	}

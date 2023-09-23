@@ -49,11 +49,11 @@ public class Time {
 						hours = hours % 24;
 
 						int daysInMonth = switch (months) {
-						case 1 ->
-							(years % 4 == 0 && (years % 100 != 0 || years % 400 == 0)) ? 29 : 28;
-						case 3, 5, 8, 10 ->
-							30;
-						default -> 31;
+							case 1 ->
+								(years % 4 == 0 && (years % 100 != 0 || years % 400 == 0)) ? 29 : 28;
+							case 3, 5, 8, 10 ->
+								30;
+							default -> 31;
 						};
 
 						if (days >= daysInMonth) {

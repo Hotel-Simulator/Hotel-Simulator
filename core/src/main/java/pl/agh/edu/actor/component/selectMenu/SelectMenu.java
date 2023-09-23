@@ -124,33 +124,19 @@ public class SelectMenu extends Table {
 
 	private static class SelectMenuStyle {
 		public static float getHeight() {
-			switch (GraphicConfig.getResolution().SIZE) {
-			case SMALL -> {
-				return 50f;
-			}
-			case MEDIUM -> {
-				return 70f;
-			}
-			case LARGE -> {
-				return 80f;
-			}
-			}
-			return 0;
+			return switch (GraphicConfig.getResolution().SIZE) {
+				case SMALL -> 50f;
+				case MEDIUM -> 70f;
+				case LARGE -> 80f;
+			};
 		}
 
 		public static float getWidth() {
-			switch (GraphicConfig.getResolution().SIZE) {
-			case SMALL -> {
-				return 300f;
-			}
-			case MEDIUM -> {
-				return 350f;
-			}
-			case LARGE -> {
-				return 400f;
-			}
-			}
-			return 0;
+			return switch (GraphicConfig.getResolution().SIZE) {
+				case SMALL -> 300f;
+				case MEDIUM -> 350f;
+				case LARGE -> 400f;
+			};
 		}
 	}
 }

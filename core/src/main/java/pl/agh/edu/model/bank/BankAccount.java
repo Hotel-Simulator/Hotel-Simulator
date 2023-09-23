@@ -34,11 +34,7 @@ public class BankAccount {
 		balance = balance.subtract(value);
 	}
 
-	public boolean hasOperationAbility(BigDecimal expense) {
-		return balance.compareTo(expense) >= 0;
-	}
-
-	public void registerCredit(BigDecimal value, int creditLengthInMonths) {
+	public void registerCredit(BigDecimal value, long creditLengthInMonths) {
 		credits.add(new Credit(value, creditLengthInMonths, this));
 		registerIncome(value);
 	}
