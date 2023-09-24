@@ -3,11 +3,13 @@ package model.bank;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import pl.agh.edu.model.bank.BankAccount;
+import pl.agh.edu.model.bank.Credit;
 import pl.agh.edu.model.bank.TransactionType;
 
 public class BankAccountTest {
@@ -65,7 +67,8 @@ public class BankAccountTest {
 		// When
 		BigDecimal creditValue = BigDecimal.valueOf(50);
 		int creditLengthInMonths = 12;
-		bankAccount.registerCredit(creditValue, creditLengthInMonths);
+		Credit credit = new Credit(creditValue, creditLengthInMonths, BigDecimal.ZERO, LocalDate.MIN);
+		bankAccount.registerCredit(credit);
 
 		// Then
 		BigDecimal expectedBalance = initialBalance.add(creditValue);

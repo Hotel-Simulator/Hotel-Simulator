@@ -19,6 +19,8 @@ public class NRepeatingTimeCommandTest {
 	private static final Frequency FREQUENCY = Frequency.EVERY_DAY;
 	@Mock
 	private static Runnable runnable;
+	@Mock
+	private static Runnable runnableAfterLast;
 
 	@BeforeEach
 	public void setUp() {
@@ -43,7 +45,7 @@ public class NRepeatingTimeCommandTest {
 	public void testCommandStops_ExecutedNTimes() {
 		// Given
 		int N = 1;
-		NRepeatingTimeCommand command = new NRepeatingTimeCommand(FREQUENCY, runnable, DUE_DATE_TIME, N);
+		NRepeatingTimeCommand command = new NRepeatingTimeCommand(FREQUENCY, runnable, DUE_DATE_TIME, N, runnableAfterLast);
 
 		// When
 		command.execute();
@@ -51,6 +53,7 @@ public class NRepeatingTimeCommandTest {
 
 		// Then
 		verify(runnable, times(1)).run();
+		verify(runnableAfterLast, times(1)).run();
 	}
 
 }

@@ -5,6 +5,7 @@ import static org.mockito.Mockito.*;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -16,16 +17,19 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import pl.agh.edu.json.data_extractor.JSONFilePath;
 import pl.agh.edu.json.data_loader.JSONBankDataLoader;
-import pl.agh.edu.management.bank.BankConnector;
+import pl.agh.edu.management.bank.BankAccountHandler;
 import pl.agh.edu.model.bank.BankAccount;
+import pl.agh.edu.model.bank.Credit;
+import pl.agh.edu.model.time.Time;
 
-public class BankConnectorTest {
+public class BankAccountHandlerTest {
 	private final BankAccount account = mock(BankAccount.class);
-	private BankConnector connector;
+	private BankAccountHandler bankAccountHandler;
+	private static final long creditLengthInMonths = 12;
 
 	@BeforeEach
 	public void setUp() {
-		connector = new BankConnector(account);
+		bankAccountHandler = new BankAccountHandler(account);
 	}
 
 	@BeforeAll
@@ -46,7 +50,7 @@ public class BankConnectorTest {
         when(account.getBalance()).thenReturn(BigDecimal.valueOf(100));
 
         // When
-        boolean actualResult = connector.hasOperationAbility(expense);
+        boolean actualResult = bankAccountHandler.hasOperationAbility(expense);
 
         // Then
         assertEquals(expectedResult, actualResult);
@@ -59,7 +63,7 @@ public class BankConnectorTest {
 		when(account.getBalance()).thenReturn(expense);
 
 		// When
-		connector.registerExpense(expense);
+		bankAccountHandler.registerExpense(expense);
 
 		// Then
 		verify(account, times(1)).registerExpense(any());
@@ -71,13 +75,14 @@ public class BankConnectorTest {
 		// Given
 		var expense = BigDecimal.valueOf(500);
 		when(account.getBalance()).thenReturn(expense.subtract(BigDecimal.valueOf(1)));
+		when(account.getCreditInterestRate()).thenReturn(BigDecimal.ZERO);
 
 		// When
-		connector.registerExpense(expense);
+		bankAccountHandler.registerExpense(expense);
 
 		// Then
 		verify(account, times(1)).registerExpense(expense);
-		verify(account, times(1)).registerCredit(JSONBankDataLoader.minCreditValue, JSONBankDataLoader.basicCreditLengthInMonths);
+		verify(account, times(1)).registerCredit(any());
 	}
 
 	@Test
@@ -85,13 +90,14 @@ public class BankConnectorTest {
 		// Given
 		var expense = JSONBankDataLoader.minCreditValue.add(BigDecimal.ONE);
 		when(account.getBalance()).thenReturn(BigDecimal.ZERO);
+		when(account.getCreditInterestRate()).thenReturn(BigDecimal.ZERO);
 
 		// When
-		connector.registerExpense(expense);
+		bankAccountHandler.registerExpense(expense);
 
 		// Then
 		verify(account, times(1)).registerExpense(expense);
-		verify(account, times(1)).registerCredit(expense, JSONBankDataLoader.basicCreditLengthInMonths);
+		verify(account, times(1)).registerCredit(any());
 	}
 
 	@Test
@@ -99,10 +105,55 @@ public class BankConnectorTest {
 		// Given
 		var income = BigDecimal.ONE;
 		// When
-		connector.registerIncome(income);
+		bankAccountHandler.registerIncome(income);
 
 		// Then
 		verify(account, times(1)).registerIncome(BigDecimal.ONE);
+	}
+
+	@Test
+	public void creditInitialization_ShouldSetRemainingMonthsCorrectly() {
+		// Given
+		BigDecimal creditValue = BigDecimal.valueOf(1000);
+		when(account.getCreditInterestRate()).thenReturn(BigDecimal.ZERO);
+
+		// When
+		bankAccountHandler.registerCredit(creditValue, creditLengthInMonths);
+		Credit credit = (Credit) bankAccountHandler.getCurrentCredits().keySet().toArray()[0];
+
+		// Then
+		assertEquals(creditLengthInMonths, bankAccountHandler.getMonthsLeft(credit));
+	}
+
+	@Test
+	public void getNextPaymentDate_ShouldReturnCorrectDate() {
+		// Given
+		BigDecimal creditValue = BigDecimal.valueOf(1000);
+		when(account.getCreditInterestRate()).thenReturn(BigDecimal.ZERO);
+
+		// When
+		bankAccountHandler.registerCredit(creditValue, creditLengthInMonths);
+		Credit credit = (Credit) bankAccountHandler.getCurrentCredits().keySet().toArray()[0];
+		LocalDate nextPaymentDate = bankAccountHandler.getNextPaymentDate(credit);
+
+		// Then
+		LocalDate expectedNextPaymentDate = Time.getInstance().getTime().toLocalDate().plusMonths(1);
+		assertEquals(expectedNextPaymentDate, nextPaymentDate);
+	}
+
+	@Test
+	public void getPaidValue_ShouldReturnCorrectValueAfterPayments() {
+		// Given
+		when(account.getCreditInterestRate()).thenReturn(BigDecimal.ZERO);
+		BigDecimal creditValue = BigDecimal.valueOf(1000);
+
+		// When
+		bankAccountHandler.registerCredit(creditValue,creditLengthInMonths);
+		Credit credit = (Credit) bankAccountHandler.getCurrentCredits().keySet().toArray()[0];
+
+
+		// Then
+		assertEquals(new BigDecimal("0.00"), bankAccountHandler.getPaidValue(credit));
 	}
 
 	private static void changeJSONPath()
