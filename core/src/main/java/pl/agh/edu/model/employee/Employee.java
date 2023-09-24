@@ -13,16 +13,16 @@ public class Employee {
 	public final String firstName;
 	public final String lastName;
 	public final int age;
-	public final double skills;
+	public final BigDecimal skills;
 	public final EmploymentPreferences preferences;
 	public final Profession profession;
 	public final BigDecimal wage;
 	public final TypeOfContract typeOfContract;
 	public final Shift shift;
 	private boolean isOccupied;
-	private BigDecimal bonusForThisMonth = BigDecimal.ZERO;
 	private final Duration basicServiceExecutionTime;
 	private EmployeeStatus employeeStatus = EmployeeStatus.HIRED_NOT_WORKING;
+	private BigDecimal satisfaction;
 
 	public Employee(PossibleEmployee possibleEmployee, JobOffer jobOffer) {
 		this.firstName = possibleEmployee.firstName;
@@ -36,10 +36,20 @@ public class Employee {
 		this.shift = jobOffer.shift();
 
 		this.basicServiceExecutionTime = JSONEmployeeDataLoader.basicServiceExecutionTimes.get(possibleEmployee.profession);
+		this.satisfaction = BigDecimal.ONE.min(wage.divide(preferences.desiredWage, 4, RoundingMode.CEILING));
 	}
 
-	public double getSatisfaction() {
-		return Math.min(1., wage.add(bonusForThisMonth).divide(preferences.desiredWage, 2, RoundingMode.CEILING).doubleValue());
+	public BigDecimal getSatisfaction() {
+		return satisfaction.setScale(2, RoundingMode.HALF_EVEN).stripTrailingZeros();
+	}
+
+	public void setSatisfaction(BigDecimal satisfaction) {
+		this.satisfaction = satisfaction;
+	}
+
+	public void giveBonus(BigDecimal bonus) {
+		var moneyEarnedInLast30Days = satisfaction.multiply(preferences.desiredWage);
+		satisfaction = BigDecimal.ONE.min(moneyEarnedInLast30Days.add(bonus).divide(preferences.desiredWage, 4, RoundingMode.HALF_EVEN));
 	}
 
 	public boolean isAtWork(LocalTime time) {
@@ -49,15 +59,7 @@ public class Employee {
 	public Duration getServiceExecutionTime() {
 		return Duration.ofSeconds(
 				(long) (basicServiceExecutionTime.getSeconds() *
-						(1 - 0.5 * Math.min(skills, getSatisfaction()))));
-	}
-
-	public void giveBonus(BigDecimal bonus) {
-		bonusForThisMonth = bonusForThisMonth.add(bonus);
-	}
-
-	public void update() {
-		bonusForThisMonth = BigDecimal.ZERO;
+						(BigDecimal.ONE.subtract(skills.min(getSatisfaction()).divide(BigDecimal.valueOf(2), 2, RoundingMode.HALF_EVEN))).doubleValue()));
 	}
 
 	public boolean isOccupied() {

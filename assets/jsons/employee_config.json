@@ -25,5 +25,6 @@
     "PERMANENT": 50,
     "PART_TIME": 20,
     "AGREEMENT": 30
-  }
+  },
+  "pay_day_of_month": 10
 }

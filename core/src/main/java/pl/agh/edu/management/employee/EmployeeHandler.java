@@ -64,17 +64,13 @@ public class EmployeeHandler {
 				.collect(Collectors.toList());
 	}
 
-	public void monthlyUpdate() {
-		employees.forEach(Employee::update);
-	}
-
 	private List<Employee> getInitialEmployees() {
 		List<Employee> initialEmployees = Stream.of(
 				new Employee(new PossibleEmployee.Builder()
 						.firstName("Jan")
 						.lastName("Kowalski")
 						.age(23)
-						.skills(0.55)
+						.skills(new BigDecimal("0.55"))
 						.preferences(new EmploymentPreferences.Builder()
 								.desiredShift(Shift.MORNING)
 								.acceptableWage(BigDecimal.valueOf(4000))
@@ -88,7 +84,7 @@ public class EmployeeHandler {
 						.firstName("Maria")
 						.lastName("Nowak")
 						.age(23)
-						.skills(0.65)
+						.skills(new BigDecimal("0.65"))
 						.preferences(new EmploymentPreferences.Builder()
 								.desiredShift(Shift.MORNING)
 								.acceptableWage(BigDecimal.valueOf(4500))
@@ -102,7 +98,7 @@ public class EmployeeHandler {
 						.firstName("Zofia")
 						.lastName("Wrona")
 						.age(23)
-						.skills(0.65)
+						.skills(new BigDecimal("0.65"))
 						.preferences(new EmploymentPreferences.Builder()
 								.desiredShift(Shift.MORNING)
 								.acceptableWage(BigDecimal.valueOf(4500))
@@ -116,7 +112,7 @@ public class EmployeeHandler {
 						.firstName("Marcin")
 						.lastName("Szpak")
 						.age(45)
-						.skills(0.45)
+						.skills(new BigDecimal("0.45"))
 						.preferences(new EmploymentPreferences.Builder()
 								.desiredShift(Shift.MORNING)
 								.acceptableWage(BigDecimal.valueOf(4000))
