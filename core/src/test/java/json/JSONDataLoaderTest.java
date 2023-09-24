@@ -42,6 +42,7 @@ public class JSONDataLoaderTest {
 		assertDoesNotThrow(() -> {
 			Duration roomRankChangeDuration = JSONRoomDataLoader.roomRankChangeDuration;
 			Duration roomBuildingDuration = JSONRoomDataLoader.roomBuildingDuration;
+			EnumMap<RoomRank, EnumMap<RoomSize, BigDecimal>> roomBuildingCosts = JSONRoomDataLoader.roomBuildingCosts;
 		});
 	}
 

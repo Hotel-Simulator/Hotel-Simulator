@@ -43,6 +43,10 @@ public class JSONValueUtil {
 		return BigDecimal.valueOf(value);
 	}
 
+	public static BigDecimal getBigDecimal(Double value) {
+		return BigDecimal.valueOf(value);
+	}
+
 	public static <K, V> Map<K, V> getMap(
 			JSONObject jsonObject,
 			Function<Map.Entry<?, ?>, K> keyMapper,

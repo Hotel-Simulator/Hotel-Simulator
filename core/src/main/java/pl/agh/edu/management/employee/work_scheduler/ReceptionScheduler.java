@@ -45,6 +45,7 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 					if (optionalRoom.isPresent()) {
 						Room room = optionalRoom.get();
 						room.checkIn(clientGroup);
+						hotelHandler.bankAccountHandler.registerIncome(hotelHandler.roomManager.getRoomPriceList().getPrice(room));
 						if (RandomUtils.randomBooleanWithProbability(JSONGameDataLoader.roomFaultProbability)) {
 							timeCommandExecutor.addCommand(createTimeCommandForBreakingRoom(room, clientGroup));
 						}
