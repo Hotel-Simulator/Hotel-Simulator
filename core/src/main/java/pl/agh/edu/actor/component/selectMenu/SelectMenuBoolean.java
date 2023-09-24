@@ -1,6 +1,7 @@
 package pl.agh.edu.actor.component.selectMenu;
 
 import com.badlogic.gdx.utils.Array;
+
 import pl.agh.edu.language.LanguageManager;
 
 public class SelectMenuBoolean extends SelectMenuItem {

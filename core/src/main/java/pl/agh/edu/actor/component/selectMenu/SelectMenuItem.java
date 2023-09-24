@@ -1,8 +1,8 @@
 package pl.agh.edu.actor.component.selectMenu;
 
-import pl.agh.edu.config.GraphicConfig;
-
 import java.util.function.Supplier;
+
+import pl.agh.edu.config.GraphicConfig;
 
 public abstract class SelectMenuItem {
 	protected final Supplier<String> getStringFunction;

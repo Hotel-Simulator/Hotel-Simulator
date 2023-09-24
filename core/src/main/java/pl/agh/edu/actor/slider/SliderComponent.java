@@ -35,6 +35,7 @@ public class SliderComponent extends Table {
 	protected float getMinValue() {
 		return slider.getMinValue();
 	}
+
 	private class SliderRowTable extends Table implements LanguageChangeListener {
 
 		private final String languagePath;
