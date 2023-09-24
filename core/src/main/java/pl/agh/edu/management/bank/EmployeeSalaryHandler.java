@@ -14,12 +14,12 @@ import pl.agh.edu.time_command.TimeCommandExecutor;
 public class EmployeeSalaryHandler {
 	private final EmployeeHandler employeeHandler;
 	private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
-	private final BankConnector bankConnector;
+	private final BankAccountHandler bankAccountHandler;
 	private final Time time = Time.getInstance();
 
-	public EmployeeSalaryHandler(EmployeeHandler employeeHandler, BankConnector bankConnector) {
+	public EmployeeSalaryHandler(EmployeeHandler employeeHandler, BankAccountHandler bankAccountHandler) {
 		this.employeeHandler = employeeHandler;
-		this.bankConnector = bankConnector;
+		this.bankAccountHandler = bankAccountHandler;
 	}
 
 	public void monthlyUpdate() {
@@ -27,7 +27,7 @@ public class EmployeeSalaryHandler {
 				.map(employee -> employee.wage)
 				.reduce(BigDecimal.ZERO, BigDecimal::add);
 
-		timeCommandExecutor.addCommand(new TimeCommand(() -> bankConnector.registerExpense(salaryToPayForThisMonth),
+		timeCommandExecutor.addCommand(new TimeCommand(() -> bankAccountHandler.registerExpense(salaryToPayForThisMonth),
 				time.getTime().plusMonths(1)
 						.truncatedTo(ChronoUnit.MONTHS)
 						.withDayOfMonth(JSONEmployeeDataLoader.payDayOfMonth)
@@ -36,7 +36,7 @@ public class EmployeeSalaryHandler {
 
 	public void giveBonus(Employee employee, BigDecimal bonus) {
 		employee.giveBonus(bonus);
-		bankConnector.registerExpense(bonus);
+		bankAccountHandler.registerExpense(bonus);
 		timeCommandExecutor.addCommand(new TimeCommand(
 				() -> {
 					var moneyEarnedInLast30Days = employee.getSatisfaction()
