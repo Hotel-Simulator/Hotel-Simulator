@@ -1,10 +1,12 @@
 package pl.agh.edu.model.employee;
 
+import java.math.BigDecimal;
+
 public class PossibleEmployee {
 	public final String firstName;
 	public final String lastName;
 	public final int age;
-	public final double skills;
+	public final BigDecimal skills;
 	public final EmploymentPreferences preferences;
 	public final Profession profession;
 
@@ -43,7 +45,7 @@ public class PossibleEmployee {
 		private String firstName;
 		private String lastName;
 		private int age;
-		private double skills;
+		private BigDecimal skills;
 		private EmploymentPreferences preferences;
 		private Profession profession;
 
@@ -64,7 +66,7 @@ public class PossibleEmployee {
 			return this;
 		}
 
-		public Builder skills(double skills) {
+		public Builder skills(BigDecimal skills) {
 			this.skills = skills;
 			return this;
 		}

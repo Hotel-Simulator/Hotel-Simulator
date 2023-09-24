@@ -33,7 +33,7 @@ public class HotelHandler {
 		Double avgOpinionValue = 0.;
 
 		for (Employee employee : employeeHandler.getEmployees()) {
-			avgWorkerHappiness.add(BigDecimal.valueOf(employee.getSatisfaction()));
+			avgWorkerHappiness.add(employee.getSatisfaction());
 		}
 
 		for (Opinion opinion : opinions) {

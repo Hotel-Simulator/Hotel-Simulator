@@ -2,6 +2,7 @@
 package pl.agh.edu.generator.possible_employee_generator;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import com.github.javafaker.Faker;
 
@@ -17,7 +18,7 @@ public class PossibleEmployeeGenerator {
 	private PossibleEmployeeGenerator() {}
 
 	public static PossibleEmployee generatePossibleEmployeeWithProfession(Profession profession) {
-		double skills = RandomUtils.randomInt(100) / 100.;
+		BigDecimal skills = BigDecimal.valueOf(RandomUtils.randomInt(1, 101)).divide(BigDecimal.valueOf(100), 2, RoundingMode.CEILING);
 		return new PossibleEmployee.Builder()
 				.firstName(faker.name().firstName())
 				.lastName(faker.name().lastName())
@@ -38,13 +39,13 @@ public class PossibleEmployeeGenerator {
 		return generatePossibleEmployeeWithProfession(RandomUtils.randomKeyWithProbabilities(JSONEmployeeDataLoader.professionProbabilities));
 	}
 
-	private static BigDecimal generateDesiredWage(double skills) {
-		return BigDecimal.valueOf((int) (JSONEmployeeDataLoader.minWage.doubleValue() * (1 + 0.5 * (skills + RandomUtils.randomDouble(0.3, 0.4)))) / 100 * 100);
+	private static BigDecimal generateDesiredWage(BigDecimal skills) {
+		return BigDecimal.valueOf((int) (JSONEmployeeDataLoader.minWage.doubleValue() * (1 + 0.5 * (skills.doubleValue() + RandomUtils.randomDouble(0.3, 0.4)))) / 100 * 100);
 
 	}
 
-	private static BigDecimal generateAcceptableWage(double skills) {
-		return BigDecimal.valueOf((int) (JSONEmployeeDataLoader.minWage.doubleValue() * (1 + 0.5 * (skills + RandomUtils.randomDouble(0.2)))) / 100 * 100);
+	private static BigDecimal generateAcceptableWage(BigDecimal skills) {
+		return BigDecimal.valueOf((int) (JSONEmployeeDataLoader.minWage.doubleValue() * (1 + 0.5 * (skills.doubleValue() + RandomUtils.randomDouble(0.2)))) / 100 * 100);
 	}
 
 }

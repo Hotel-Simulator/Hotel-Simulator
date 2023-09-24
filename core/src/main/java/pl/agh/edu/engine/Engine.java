@@ -64,7 +64,6 @@ public class Engine {
 
 	private void initializeEveryMonthUpdates(LocalDateTime currentTime) {
 		timeCommandExecutor.addCommand(new RepeatingTimeCommand(Frequency.EVERY_MONTH, employeeSalaryHandler::monthlyUpdate, currentTime));
-		timeCommandExecutor.addCommand(new RepeatingTimeCommand(Frequency.EVERY_MONTH, hotelHandler.employeeHandler::monthlyUpdate, currentTime));
 		timeCommandExecutor.addCommand(new RepeatingTimeCommand(Frequency.EVERY_MONTH, bankAccount::monthlyUpdate, currentTime.plusDays(
 				JSONBankDataLoader.chargeAccountFeeDayOfMonth - 1)));
 	}
