@@ -17,7 +17,7 @@ import pl.agh.edu.model.client.ClientGroup;
 import pl.agh.edu.model.time.Time;
 import pl.agh.edu.time_command.TimeCommand;
 import pl.agh.edu.time_command.TimeCommandExecutor;
-import pl.agh.edu.utils.EnumPair;
+import pl.agh.edu.utils.Pair;
 
 public class RoomManager {
 
@@ -94,8 +94,8 @@ public class RoomManager {
 	}
 
 	private BigDecimal getChangeCost(RoomRank currentRank, RoomRank desiredRank, RoomSize size) {
-		return JSONRoomDataLoader.roomBuildingCosts.get(new EnumPair<>(desiredRank, size))
-				.subtract(JSONRoomDataLoader.roomBuildingCosts.get(new EnumPair<>(currentRank, size)))
+		return JSONRoomDataLoader.roomBuildingCosts.get(new Pair<>(desiredRank, size))
+				.subtract(JSONRoomDataLoader.roomBuildingCosts.get(new Pair<>(currentRank, size)))
 				.divide(BigDecimal.valueOf(2), 0, RoundingMode.HALF_EVEN);
 	}
 
@@ -123,7 +123,7 @@ public class RoomManager {
 		Room buildRoom = new Room(roomRank, roomSize);
 		buildRoom.roomState.setBeingBuild(true);
 		rooms.add(buildRoom);
-		bankAccountHandler.registerExpense(JSONRoomDataLoader.roomBuildingCosts.get(new EnumPair<>(roomRank, roomSize)));
+		bankAccountHandler.registerExpense(JSONRoomDataLoader.roomBuildingCosts.get(new Pair<>(roomRank, roomSize)));
 
 		LocalDateTime buildTime = time.getTime().plusHours(
 				(long) (JSONRoomDataLoader.roomBuildingDuration.toHours() * roomTimeMultiplier(buildRoom)));

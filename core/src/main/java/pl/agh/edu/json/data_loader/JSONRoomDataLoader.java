@@ -12,7 +12,7 @@ import pl.agh.edu.enums.RoomSize;
 import pl.agh.edu.json.data_extractor.JSONDataExtractor;
 import pl.agh.edu.json.data_extractor.JSONFilePath;
 import pl.agh.edu.json.data_extractor.JSONValueUtil;
-import pl.agh.edu.utils.EnumPair;
+import pl.agh.edu.utils.Pair;
 
 public class JSONRoomDataLoader {
 
@@ -20,7 +20,7 @@ public class JSONRoomDataLoader {
 
 	public static Duration roomRankChangeDuration;
 	public static Duration roomBuildingDuration;
-	public static Map<EnumPair<RoomRank, RoomSize>, BigDecimal> roomBuildingCosts;
+	public static Map<Pair<RoomRank, RoomSize>, BigDecimal> roomBuildingCosts;
 
 	private JSONRoomDataLoader() {}
 

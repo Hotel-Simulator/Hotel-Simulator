@@ -25,7 +25,7 @@ import pl.agh.edu.model.advertisement.ConstantAdvertisementType;
 import pl.agh.edu.model.advertisement.SingleAdvertisementType;
 import pl.agh.edu.model.employee.Profession;
 import pl.agh.edu.model.employee.Shift;
-import pl.agh.edu.utils.EnumPair;
+import pl.agh.edu.utils.Pair;
 
 public class JSONDataLoaderTest {
 
@@ -43,7 +43,7 @@ public class JSONDataLoaderTest {
 		assertDoesNotThrow(() -> {
 			Duration roomRankChangeDuration = JSONRoomDataLoader.roomRankChangeDuration;
 			Duration roomBuildingDuration = JSONRoomDataLoader.roomBuildingDuration;
-			Map<EnumPair<RoomRank, RoomSize>, BigDecimal> roomBuildingCosts = JSONRoomDataLoader.roomBuildingCosts;
+			Map<Pair<RoomRank, RoomSize>, BigDecimal> roomBuildingCosts = JSONRoomDataLoader.roomBuildingCosts;
 			System.out.println(roomBuildingCosts);
 		});
 	}
