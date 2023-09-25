@@ -13,6 +13,8 @@ import java.util.stream.Stream;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import pl.agh.edu.utils.EnumPair;
+
 public class JSONValueUtil {
 
 	private JSONValueUtil() {}
@@ -57,6 +59,13 @@ public class JSONValueUtil {
 						keyMapper,
 						valueMapper,
 						(a, b) -> b));
+	}
+
+	public static <F extends Enum<F>, S extends Enum<S>, V> Map<EnumPair<F, S>, V> convertMap(Map<F, Map<S, V>> inputMap) {
+		return inputMap.entrySet().stream()
+				.flatMap(outerEntry -> outerEntry.getValue().entrySet().stream()
+						.map(innerEntry -> new AbstractMap.SimpleEntry<>(new EnumPair<>(outerEntry.getKey(), innerEntry.getKey()), innerEntry.getValue())))
+				.collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
 	}
 
 	public static <K extends Enum<K>, V> EnumMap<K, V> getEnumMap(
