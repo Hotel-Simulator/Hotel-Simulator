@@ -3,6 +3,7 @@ package pl.agh.edu;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
 
+import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.model.console.CommandExecutor;
 import pl.agh.edu.model.time.Time;
 import pl.agh.edu.screen.MainScreen;
@@ -16,16 +17,11 @@ public class GdxGame extends ApplicationAdapter {
 
 	@Override
 	public void create() {
-		if (GameConfig.FULLSCREEN) {
-			Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
-		} else {
-			Gdx.graphics.setWindowedMode(GameConfig.RESOLUTION.getWidth(), GameConfig.RESOLUTION.getHeight());
-		}
 		time = Time.getInstance();
 		commandExecutor = CommandExecutor.getInstance();
 		currentScreen = new MainScreen(this);
 		setScreen(currentScreen);
-
+		GraphicConfig.setFullscreenMode(false);
 	}
 
 	@Override
@@ -43,6 +39,7 @@ public class GdxGame extends ApplicationAdapter {
 
 	@Override
 	public void resize(int width, int height) {
+		changeScreen(currentScreen);
 		if (currentScreen != null) {
 			currentScreen.resize(width, height);
 		}

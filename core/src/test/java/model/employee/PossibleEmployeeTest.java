@@ -33,7 +33,7 @@ public class PossibleEmployeeTest {
 				.firstName("")
 				.lastName("")
 				.age(18)
-				.skills(0.45)
+				.skills(new BigDecimal("0.45"))
 				.preferences(new EmploymentPreferences.Builder()
 						.desiredShift(Shift.MORNING)
 						.acceptableWage(BigDecimal.valueOf(5000))

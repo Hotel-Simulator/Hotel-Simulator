@@ -23,6 +23,7 @@ public class JSONEmployeeDataLoader {
 	public static EnumMap<Profession, Duration> basicServiceExecutionTimes;
 	public static EnumMap<Profession, Integer> professionProbabilities;
 	public static EnumMap<TypeOfContract, Integer> typeOfContractProbabilities;
+	public static int payDayOfMonth;
 
 	private JSONEmployeeDataLoader() {}
 
@@ -51,5 +52,7 @@ public class JSONEmployeeDataLoader {
 				JSONDataExtractor.extract(JSON_FILE_PATH, "type_of_contract_probabilities", JSONObject.class),
 				entry -> JSONValueUtil.getInt((Long) entry.getValue()),
 				TypeOfContract.class);
+		payDayOfMonth = JSONValueUtil.getInt(
+				JSONDataExtractor.extract(JSON_FILE_PATH, "pay_day_of_month", Long.class));
 	}
 }

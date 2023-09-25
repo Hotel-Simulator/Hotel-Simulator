@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import pl.agh.edu.actor.HotelSkin;
+import pl.agh.edu.audio.SoundAudio;
 import pl.agh.edu.model.time.Time;
 
 public class AccelerationPanel extends Table {
@@ -27,6 +28,7 @@ public class AccelerationPanel extends Table {
 		increaseButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+				SoundAudio.BUTTON_1.play();
 				Time.getInstance().increaseAcceleration();
 				setAcceleration();
 			}
@@ -35,6 +37,7 @@ public class AccelerationPanel extends Table {
 		decreaseButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+				SoundAudio.BUTTON_1.play();
 				Time.getInstance().decreaseAcceleration();
 				setAcceleration();
 			}
@@ -45,8 +48,10 @@ public class AccelerationPanel extends Table {
 			public void clicked(InputEvent event, float x, float y) {
 				if (playButton.isChecked()) {
 					playTime();
+					SoundAudio.BUTTON_2.play();
 				} else {
 					stopTime();
+					SoundAudio.BUTTON_3.play();
 				}
 			}
 		});

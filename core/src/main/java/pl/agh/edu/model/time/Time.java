@@ -1,7 +1,9 @@
 package pl.agh.edu.model.time;
 
 import java.time.LocalDateTime;
+import java.time.MonthDay;
 
+import pl.agh.edu.enums.PartOfDay;
 import pl.agh.edu.time_command.TimeCommandExecutor;
 
 public class Time {
@@ -48,11 +50,11 @@ public class Time {
 						hours = hours % 24;
 
 						int daysInMonth = switch (months) {
-						case 1 ->
-							(years % 4 == 0 && (years % 100 != 0 || years % 400 == 0)) ? 29 : 28;
-						case 3, 5, 8, 10 ->
-							30;
-						default -> 31;
+							case 1 ->
+								(years % 4 == 0 && (years % 100 != 0 || years % 400 == 0)) ? 29 : 28;
+							case 3, 5, 8, 10 ->
+								30;
+							default -> 31;
 						};
 
 						if (days >= daysInMonth) {
@@ -119,6 +121,21 @@ public class Time {
 
 	public int getTimeUnitInMinutes() {
 		return timeUnitInMinutes;
+	}
+
+	public LocalDateTime getNextPartOfDayTime() {
+		PartOfDay partOfDay = getPartOfDay();
+		LocalDateTime currentTime = getTime();
+		int hoursUntilNextPart = (partOfDay.startHour + partOfDay.getDuration() - currentTime.getHour() + 24) % 24;
+		return currentTime.plusHours(hoursUntilNextPart);
+	}
+
+	public PartOfDay getPartOfDay() {
+		return PartOfDay.parseHour(hours);
+	}
+
+	public MonthDay getMonthDay() {
+		return MonthDay.of(months, days);
 	}
 
 }

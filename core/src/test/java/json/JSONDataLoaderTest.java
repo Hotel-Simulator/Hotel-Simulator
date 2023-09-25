@@ -40,8 +40,8 @@ public class JSONDataLoaderTest {
 	@SuppressWarnings("unused")
 	public void jSONRoomDataLoaderTest() {
 		assertDoesNotThrow(() -> {
-			EnumMap<RoomRank, Duration> roomRankChangeDuration = JSONRoomDataLoader.roomRankChangeDuration;
-			EnumMap<RoomRank, Duration> roomBuildingDuration = JSONRoomDataLoader.roomBuildingDuration;
+			Duration roomRankChangeDuration = JSONRoomDataLoader.roomRankChangeDuration;
+			Duration roomBuildingDuration = JSONRoomDataLoader.roomBuildingDuration;
 		});
 	}
 
@@ -87,6 +87,7 @@ public class JSONDataLoaderTest {
 			EnumMap<Profession, Duration> basicServiceExecutionTimes = JSONEmployeeDataLoader.basicServiceExecutionTimes;
 			EnumMap<Profession, Integer> professionProbabilities = JSONEmployeeDataLoader.professionProbabilities;
 			EnumMap<TypeOfContract, Integer> typeOfContractProbabilities = JSONEmployeeDataLoader.typeOfContractProbabilities;
+			int payDay = JSONEmployeeDataLoader.payDayOfMonth;
 		});
 	}
 
@@ -95,6 +96,9 @@ public class JSONDataLoaderTest {
 	public void jSONBankDataLoaderTest() {
 		assertDoesNotThrow(() -> {
 			List<BankData> scenarios = JSONBankDataLoader.scenarios;
+			int chargeAccountFeeDayOfMonth = JSONBankDataLoader.chargeAccountFeeDayOfMonth;
+			BigDecimal initialBalance = JSONBankDataLoader.initialBalance;
+			BigDecimal basicCreditValue = JSONBankDataLoader.minCreditValue;
 		});
 	}
 
@@ -112,7 +116,6 @@ public class JSONDataLoaderTest {
 	@SuppressWarnings("unused")
 	public void jSONClientDataLoaderTest() {
 		assertDoesNotThrow(() -> {
-			EnumMap<HotelVisitPurpose, Double> hotelVisitPurposeProbabilities = JSONClientDataLoader.hotelVisitPurposeProbabilities;
 			EnumMap<HotelVisitPurpose, EnumMap<RoomRank, Integer>> desiredRankProbabilities = JSONClientDataLoader.desiredRankProbabilities;
 			EnumMap<HotelVisitPurpose, Map<Integer, Integer>> numberOfNightsProbabilities = JSONClientDataLoader.numberOfNightsProbabilities;
 			EnumMap<HotelVisitPurpose, Map<Integer, Integer>> clientGroupSizeProbabilities = JSONClientDataLoader.clientGroupSizeProbabilities;

@@ -15,6 +15,10 @@ public class JSONBankDataLoader {
 	private static final String JSON_FILE_PATH = JSONFilePath.BANK_CONFIG.get();
 
 	public static List<BankData> scenarios;
+	public static int chargeAccountFeeDayOfMonth;
+	public static BigDecimal initialBalance;
+	public static BigDecimal minCreditValue;
+	public static long basicCreditLengthInMonths;
 
 	private JSONBankDataLoader() {}
 
@@ -33,5 +37,10 @@ public class JSONBankDataLoader {
 							Math.round((Long) data.get("deposit_interest_rate")),
 							BigDecimal.valueOf((Long) data.get("account_fee")));
 				});
+		chargeAccountFeeDayOfMonth = JSONValueUtil.getInt(
+				JSONDataExtractor.extract(JSON_FILE_PATH, "charge_account_fee_day_of_month", Long.class));
+		initialBalance = JSONValueUtil.getBigDecimal(JSONDataExtractor.extract(JSON_FILE_PATH, "initial_balance", Long.class));
+		minCreditValue = JSONValueUtil.getBigDecimal(JSONDataExtractor.extract(JSON_FILE_PATH, "min_credit_value", Long.class));
+		basicCreditLengthInMonths = JSONDataExtractor.extract(JSON_FILE_PATH, "basic_credit_length_in_months", Long.class);
 	}
 }

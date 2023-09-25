@@ -431,6 +431,15 @@
 	"calendar": {
 		"up": "button-calendar-up",
 		"over": "button-calendar-over"
+	},
+	"star-normal": {
+		"up": "rating-star-up"
+	},
+	"star-over": {
+		"up": "rating-star-over"
+	},
+	"star-dimmed": {
+		"up": "rating-star-dimmed"
 	}
 },
 "CheckBoxStyle": {
