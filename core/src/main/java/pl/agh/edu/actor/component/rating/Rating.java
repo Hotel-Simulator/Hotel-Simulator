@@ -4,14 +4,10 @@ import java.util.Arrays;
 import java.util.function.Function;
 import java.util.stream.IntStream;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
+
 import pl.agh.edu.actor.HotelSkin;
-import pl.agh.edu.config.GraphicConfig;
 
 public class Rating extends Table {
 	private static final int maxRating = 5;
@@ -25,7 +21,7 @@ public class Rating extends Table {
 		this.function = function;
 		this.setBackground(new NinePatchDrawable(HotelSkin.getInstance().getPatch("rating-background")));
 		Arrays.stream(stars).sequential().forEach(this::add);
-		this.setSize(RatingStyle.getWidth(),RatingStyle.getHeight());
+		this.setSize(RatingStyle.getWidth(), RatingStyle.getHeight());
 		this.center();
 	}
 
@@ -56,12 +52,13 @@ public class Rating extends Table {
 		public static float getPadding() {
 			return 20f;
 		}
+
 		public static float getHeight() {
-			return Star.getSize()+getPadding();
+			return Star.getSize() + getPadding();
 		}
 
 		public static float getWidth() {
-			return 5*Star.getSize()+getPadding();
+			return 5 * Star.getSize() + getPadding();
 		}
 	}
 }

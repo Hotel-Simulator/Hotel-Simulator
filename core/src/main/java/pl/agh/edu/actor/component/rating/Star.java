@@ -74,6 +74,7 @@ public class Star extends Table {
 			changeStateToDimmed();
 		}
 	}
+
 	public static float getSize() {
 		return StarStyle.getSize();
 	}
