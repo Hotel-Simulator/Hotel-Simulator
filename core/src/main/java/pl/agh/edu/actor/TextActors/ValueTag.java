@@ -27,18 +27,10 @@ public class ValueTag extends Table {
         ValueTagContent(String tag, String value){
             this.padLeft(ValueTagStyle.getPadding()).padRight(ValueTagStyle.getPadding());
 
-            Label tagLabel = new Label(tag,skin,"subtittle1");
-
-
-            BitmapFont font = skin.getFont("white-subtittle1");
-            Label.LabelStyle ls = new Label.LabelStyle();
-            ls.font = font;
-
-            ls.fontColor = skin.getColor("Primary_700");
-            tagLabel.setStyle(ls);
+            Label tagLabel = new Label(tag,skin,"subtitle1_label");
             this.add(tagLabel).growX();
 
-            Label valueLabel = new Label(value,skin,"white-subtittle1");
+            Label valueLabel = new Label(value,skin,"white_subtitle1_label");
             valueLabel.setColor(skin.getColor("Gray_700"));
 
         }
