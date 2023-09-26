@@ -33,8 +33,7 @@ public class ClientGenerator {
 	private final Time time = Time.getInstance();
 	// Set user input here (set hotelType)
 	private final HotelScenariosManager hotelScenariosManager = new HotelScenariosManager(HotelType.HOTEL);
-	// Set user input here (set difficultyLevel)
-	private final GameDifficultyManager gameDifficultyManager = new GameDifficultyManager(DifficultyLevel.MEDIUM);
+	private final GameDifficultyManager gameDifficultyManager = GameDifficultyManager.getInstance();
 
 	private ClientGenerator() {}
 

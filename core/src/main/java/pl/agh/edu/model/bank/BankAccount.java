@@ -1,9 +1,11 @@
 package pl.agh.edu.model.bank;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
+import pl.agh.edu.management.game.GameDifficultyManager;
 import pl.agh.edu.model.time.Time;
 
 public class BankAccount {
@@ -15,7 +17,8 @@ public class BankAccount {
 	private final Time time = Time.getInstance();
 
 	public BankAccount(BigDecimal initialBalance, BigDecimal creditInterestRate, BigDecimal accountFee) {
-		this.balance = initialBalance;
+		GameDifficultyManager gameDifficultyManager = GameDifficultyManager.getInstance();
+		this.balance = initialBalance.divide(BigDecimal.valueOf(gameDifficultyManager.getDifficultyMultiplier()), 2, RoundingMode.HALF_UP);
 		this.creditInterestRate = creditInterestRate;
 		this.accountFee = accountFee;
 	}
