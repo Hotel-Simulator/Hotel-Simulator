@@ -97,10 +97,10 @@ public class SelectMenu extends Table {
 			listStyle.background.setLeftWidth(0f);
 			listStyle.background.setTopHeight(0f);
 
-			listStyle.selection.setBottomHeight(20f);
-			listStyle.selection.setLeftWidth(20f);
-			listStyle.selection.setTopHeight(20f);
-			listStyle.selection.setRightWidth(20f);
+			listStyle.selection.setBottomHeight(SelectMenuStyle.getPadding());
+			listStyle.selection.setLeftWidth(SelectMenuStyle.getPadding());
+			listStyle.selection.setTopHeight(SelectMenuStyle.getPadding());
+			listStyle.selection.setRightWidth(SelectMenuStyle.getPadding());
 		}
 
 		@Override
@@ -125,17 +125,25 @@ public class SelectMenu extends Table {
 	private static class SelectMenuStyle {
 		public static float getHeight() {
 			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> 50f;
-				case MEDIUM -> 70f;
-				case LARGE -> 80f;
+				case SMALL -> 40f;
+				case MEDIUM -> 50f;
+				case LARGE -> 60f;
 			};
 		}
 
 		public static float getWidth() {
 			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> 300f;
-				case MEDIUM -> 350f;
-				case LARGE -> 400f;
+				case SMALL -> 250f + 2*getPadding();
+				case MEDIUM -> 300f + 2*getPadding();
+				case LARGE -> 400f + 2*getPadding();
+			};
+		}
+
+		public static float getPadding(){
+			return switch (GraphicConfig.getResolution().SIZE) {
+				case SMALL -> 20f;
+				case MEDIUM -> 20f;
+				case LARGE -> 20f;
 			};
 		}
 	}

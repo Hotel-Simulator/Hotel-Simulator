@@ -24,6 +24,8 @@ public class SliderComponent extends Table {
 		componentStack.add(new SliderRowTable(name, minValue, maxValue, step));
 
 		this.add(componentStack).height(SliderStyle.getHeight());
+
+		this.debugAll();
 	}
 
 	protected float getMaxValue() {
@@ -37,16 +39,16 @@ public class SliderComponent extends Table {
 	private class SliderRowTable extends Table {
 
 		public SliderRowTable(String name, float minValue, float maxValue, float step) {
-			Label nameLabel = new Label(name + ":", skin, "subtitle1_label");
+			Label nameLabel = new Label(name + ":", skin, "subtitle2_label");
 			nameLabel.setAlignment(Align.left, Align.center);
-			add(nameLabel).width(SliderStyle.getWidth() / 4 - SliderStyle.getOuterPadding()).padLeft(SliderStyle.getOuterPadding());
+			add(nameLabel).width(SliderStyle.getWidth() /4 ).padLeft(SliderStyle.getOuterPadding());
 
-			valueLabel = new Label("", skin, "subtitle1_label");
+			valueLabel = new Label("", skin, "subtitle2_label");
 			valueLabel.setAlignment(Align.right);
 			valueLabel.setText(String.format("%.0f", maxValue) + suffix);
 			add(valueLabel).width(SliderStyle.getWidth() / 4);
 
-			Drawable lineDrawable = skin.getDrawable("separator-line");
+			Drawable lineDrawable = skin.getDrawable("line-separator");
 			lineDrawable.setMinHeight(SliderStyle.getHeight());
 			lineDrawable.setMinWidth(2);
 
