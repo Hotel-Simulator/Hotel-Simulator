@@ -5,8 +5,8 @@ import java.util.function.Function;
 public class PercentSliderComponent extends SliderComponent {
 	private final Function<Float, Void> stateChangeHandler;
 
-	public PercentSliderComponent(String name, Function<Float, Void> stateChangeHandler) {
-		super(name, "%", 0f, 100f, 1f);
+	public PercentSliderComponent(String languagePath, Function<Float, Void> stateChangeHandler) {
+		super(languagePath, "%", 0f, 100f, 1f);
 		this.stateChangeHandler = stateChangeHandler;
 		valueLabel.setText(getPercentageValue() + " " + suffix);
 	}
