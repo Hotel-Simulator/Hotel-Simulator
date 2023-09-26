@@ -58,7 +58,7 @@ public class Rating extends Table {
 		}
 
 		public static float getWidth() {
-			return 5 * Star.getSize() + getPadding();
+			return maxRating * Star.getSize() + getPadding();
 		}
 	}
 }
