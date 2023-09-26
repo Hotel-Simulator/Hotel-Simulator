@@ -4,22 +4,19 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import pl.agh.edu.actor.HotelSkin;
+import pl.agh.edu.actor.utils.Size;
+import pl.agh.edu.config.GraphicConfig;
 
 public class ValueTag extends Table {
     private String Tag;
     private String Value;
-    private Skin skin;
+    private final Skin skin;
+    private static Size size = Size.SMALL;
 
-    private final float WIDTH;
-    private final float HEIGHT;
-    private final float HORIZONTAL_PADDING;
 
-    public ValueTag(String tag, String value, ValueTagSize size) {
-        WIDTH = size.getWIDTH();
-        HEIGHT = size.getHEIGHT();
-        HORIZONTAL_PADDING = size.getHORIZONTAL_PADDING();
+    public ValueTag(String tag, String value) {
         Stack componentStack = new Stack();
-        add(componentStack).height(HEIGHT).width(WIDTH);
+        add(componentStack).height(ValueTagStyle.getHeight()).width(ValueTagStyle.getWidth());
         skin = HotelSkin.getInstance();
         NinePatch background = skin.getPatch("valuetag-background");
         componentStack.add(new Image(background));
@@ -28,73 +25,47 @@ public class ValueTag extends Table {
 
     private class ValueTagContent extends Table{
         ValueTagContent(String tag, String value){
-            setDebug(true);
-            this.padLeft(HORIZONTAL_PADDING).padRight(HORIZONTAL_PADDING);
+            this.padLeft(ValueTagStyle.getPadding()).padRight(ValueTagStyle.getPadding());
 
-            Label tagLabel = new Label(tag,skin);
-//            BitmapFont white = skin.getFont("white-body1");
-//            Label.LabelStyle ls = tagLabel.getStyle();
-//            ls.font = white;
-//            tagLabel.setStyle(ls);
-            tagLabel.setColor(skin.getColor("Primary_700"));
-//            tagLabel.setColor();
+            Label tagLabel = new Label(tag,skin,"subtittle1");
 
 
-            BitmapFont font = skin.getFont("subtittle1");
-            BitmapFont.BitmapFontData fontData = font.getData();
-//            fontData.capHeight = 20f;
-//            fontData.setLineHeight(0.1f);
-//            fontData.ascent = -4f;
+            BitmapFont font = skin.getFont("white-subtittle1");
             Label.LabelStyle ls = new Label.LabelStyle();
             ls.font = font;
-//            ls.font.
+
             ls.fontColor = skin.getColor("Primary_700");
-//            tagLabel.moveBy(0,10);
             tagLabel.setStyle(ls);
             this.add(tagLabel).growX();
 
-
-
-
-
-
-
-//            Label valueLabel = new Label(value,skin, "white_body1_label");
-
-//            this.add(valueLabel);
+            Label valueLabel = new Label(value,skin,"white-subtittle1");
+            valueLabel.setColor(skin.getColor("Gray_700"));
 
         }
     }
 
-    public enum ValueTagSize{
-        SMALL(400f,100f,40f),
-        MEDIUM(500f,100f,40f),
-        LARGE(600f,100f,40f);
-
-        private final float WIDTH;
-        private final float HEIGHT;
-        private final float HORIZONTAL_PADDING;
-
-        ValueTagSize(float WIDTH, float HEIGHT, float HORIZONTAL_PADDING) {
-            this.WIDTH = WIDTH;
-            this.HEIGHT = HEIGHT;
-            this.HORIZONTAL_PADDING = HORIZONTAL_PADDING;
-
+    private static class ValueTagStyle {
+        public static float getHeight() {
+            return switch (size) {
+                case SMALL -> 60f;
+                case MEDIUM -> 70f;
+                case LARGE -> 80f;
+            };
         }
-
-
-        public float getWIDTH() {
-            return WIDTH;
+        public static float getWidth() {
+            return switch (size) {
+                case SMALL -> 250f;
+                case MEDIUM -> 270f;
+                case LARGE -> 300f;
+            };
         }
-
-        public float getHEIGHT() {
-            return HEIGHT;
+        public static float getPadding() {
+            return switch (size) {
+                case SMALL -> 250f;
+                case MEDIUM -> 270f;
+                case LARGE -> 300f;
+            };
         }
-
-        public float getHORIZONTAL_PADDING() {
-            return HORIZONTAL_PADDING;
-        }
-
 
     }
 

@@ -71,6 +71,78 @@
 		"scaledSize": -1,
 		"markupEnabled": false,
 		"flip": false
+	},
+	"white-body1": {
+		"file": "white-body1.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"white-body2": {
+		"file": "white-body2.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"white-button1": {
+		"file": "white-button1.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"white-button2": {
+		"file": "white-button2.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"white-button3": {
+		"file": "white-button3.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"white-console": {
+		"file": "white-console.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"white-h1": {
+		"file": "white-h1.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"white-h2": {
+		"file": "white-h2.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"white-h3": {
+		"file": "white-h3.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"white-h4": {
+		"file": "white-h4.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"white-subtittle1": {
+		"file": "white-subtittle1.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"white-subtittle2": {
+		"file": "white-subtittle2.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
 	}
 },
 "Color": {
@@ -290,112 +362,112 @@
 		"font": "subtittle2"
 	},
 	"account": {
-		"text": "account",
+		"text": "navbar.button.account",
 		"iconUp": "navbar-account-up",
 		"iconOver": "navbar-account-over",
 		"iconDisabled": "navbar-account-disabled",
 		"font": "subtittle2"
 	},
 	"add": {
-		"text": "add",
+		"text": "navbar.button.add",
 		"iconUp": "navbar-add-up",
 		"iconOver": "navbar-add-over",
 		"iconDisabled": "navbar-add-disabled",
 		"font": "subtittle2"
 	},
 	"back": {
-		"text": "back",
+		"text": "navbar.button.back",
 		"iconUp": "navbar-back-up",
 		"iconOver": "navbar-back-over",
 		"iconDisabled": "navbar-back-disabled",
 		"font": "subtittle2"
 	},
 	"bank": {
-		"text": "bank",
+		"text": "navbar.button.bank",
 		"iconUp": "navbar-bank-up",
 		"iconOver": "navbar-bank-over",
 		"iconDisabled": "navbar-bank-disabled",
 		"font": "subtittle2"
 	},
 	"board": {
-		"text": "board",
+		"text": "navbar.button.board",
 		"iconUp": "navbar-board-up",
 		"iconOver": "navbar-board-over",
 		"iconDisabled": "navbar-board-disabled",
 		"font": "subtittle2"
 	},
 	"credit": {
-		"text": "credit",
+		"text": "navbar.button.credit",
 		"iconUp": "navbar-credit-up",
 		"iconOver": "navbar-credit-over",
 		"iconDisabled": "navbar-credit-disabled",
 		"font": "subtittle2"
 	},
 	"deposit": {
-		"text": "deposit",
+		"text": "navbar.button.deposit",
 		"iconUp": "navbar-deposit-up",
 		"iconOver": "navbar-deposit-over",
 		"iconDisabled": "navbar-deposit-disabled",
 		"font": "subtittle2"
 	},
 	"employee": {
-		"text": "employee",
+		"text": "navbar.button.employee",
 		"iconUp": "navbar-employee-up",
 		"iconOver": "navbar-employee-over",
 		"iconDisabled": "navbar-employee-disabled",
 		"font": "subtittle2"
 	},
 	"hire": {
-		"text": "hire",
+		"text": "navbar.button.hire",
 		"iconUp": "navbar-hire-up",
 		"iconOver": "navbar-hire-over",
 		"iconDisabled": "navbar-hire-disabled",
 		"font": "subtittle2"
 	},
 	"history": {
-		"text": "history",
+		"text": "navbar.button.history",
 		"iconUp": "navbar-history-up",
 		"iconOver": "navbar-history-over",
 		"iconDisabled": "navbar-history-disabled",
 		"font": "subtittle2"
 	},
 	"hotel": {
-		"text": "hotel",
+		"text": "navbar.button.hotel",
 		"iconUp": "navbar-hotel-up",
 		"iconOver": "navbar-hotel-over",
 		"iconDisabled": "navbar-hotel-disabled",
 		"font": "subtittle2"
 	},
 	"manage": {
-		"text": "manage",
+		"text": "navbar.button.manage",
 		"iconUp": "navbar-manage-up",
 		"iconOver": "navbar-manage-over",
 		"iconDisabled": "navbar-manage-disabled",
 		"font": "subtittle2"
 	},
 	"offer": {
-		"text": "offer",
+		"text": "navbar.button.offer",
 		"iconUp": "navbar-offer-up",
 		"iconOver": "navbar-offer-over",
 		"iconDisabled": "navbar-offer-disabled",
 		"font": "subtittle2"
 	},
 	"places": {
-		"text": "places",
+		"text": "navbar.button.places",
 		"iconUp": "navbar-places-up",
 		"iconOver": "navbar-places-over",
 		"iconDisabled": "navbar-places-disabled",
 		"font": "subtittle2"
 	},
 	"rooms": {
-		"text": "rooms",
+		"text": "navbar.button.rooms",
 		"iconUp": "navbar-rooms-up",
 		"iconOver": "navbar-rooms-over",
 		"iconDisabled": "navbar-rooms-disabled",
 		"font": "subtittle2"
 	},
 	"tax": {
-		"text": "tax",
+		"text": "navbar.button.tax",
 		"iconUp": "navbar-tax-up",
 		"iconOver": "navbar-tax-over",
 		"iconDisabled": "navbar-tax-disabled",
@@ -497,6 +569,39 @@
 	"selectMenu": {
 		"font": "body1",
 		"background": "label-selectBox-background"
+	},
+	"white_h1_label": {
+		"font": "white-h1"
+	},
+	"white_h2_label": {
+		"font": "white-h2"
+	},
+	"white_h3_label": {
+		"font": "white-h3"
+	},
+	"white_h4_label": {
+		"font": "white-h4"
+	},
+	"white_body1_label": {
+		"font": "white-body1"
+	},
+	"white_body2_label": {
+		"font": "white-body2"
+	},
+	"white_button1_label": {
+		"font": "white-button1"
+	},
+	"white_button2_label": {
+		"font": "white-button2"
+	},
+	"white_button3_label": {
+		"font": "white-button3"
+	},
+	"white_subtitle1_label": {
+		"font": "white-subtittle1"
+	},
+	"white_subtitle2_label": {
+		"font": "white-subtittle2"
 	}
 },
 "ListStyle": {

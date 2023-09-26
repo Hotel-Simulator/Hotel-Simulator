@@ -71,6 +71,7 @@ public class Star extends Table {
 		} else {
 			changeStateToDimmed();
 		}
+
 	}
 
 	private static class StarStyle {
