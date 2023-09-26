@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Null;
 
 import pl.agh.edu.actor.HotelSkin;
+import pl.agh.edu.audio.SoundAudio;
 import pl.agh.edu.config.GraphicConfig;
 
 public class Star extends Table {
@@ -24,6 +25,7 @@ public class Star extends Table {
 
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				SoundAudio.BUTTON_3.play();
 				return true;
 			}
 
@@ -72,12 +74,15 @@ public class Star extends Table {
 			changeStateToDimmed();
 		}
 	}
+	public static float getSize() {
+		return StarStyle.getSize();
+	}
 
 	private static class StarStyle {
 		public static float getSize() {
 			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> 40f;
-				case MEDIUM -> 45f;
+				case SMALL -> 30f;
+				case MEDIUM -> 40f;
 				case LARGE -> 50f;
 			};
 		}

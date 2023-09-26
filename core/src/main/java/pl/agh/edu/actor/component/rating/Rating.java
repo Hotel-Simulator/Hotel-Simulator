@@ -8,13 +8,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import pl.agh.edu.actor.HotelSkin;
 import pl.agh.edu.config.GraphicConfig;
 
 public class Rating extends Table {
-
-	private final Table table = new Table();
-	private final Stack stack = new Stack();
 	private static final int maxRating = 5;
 	private final Star[] stars = IntStream.range(0, maxRating)
 			.mapToObj(index -> new Star(index, this))
@@ -24,11 +23,10 @@ public class Rating extends Table {
 
 	public Rating(Function<Integer, Void> function) {
 		this.function = function;
-		stack.add(new Image(HotelSkin.getInstance().getPatch("rating-background")));
-		stack.add(table);
-		Arrays.stream(stars).sequential().forEach(table::add);
-		this.add(stack).width(RatingStyle.getWidth()).height(RatingStyle.getHeight()).center();
-		this.debug();
+		this.setBackground(new NinePatchDrawable(HotelSkin.getInstance().getPatch("rating-background")));
+		Arrays.stream(stars).sequential().forEach(this::add);
+		this.setSize(RatingStyle.getWidth(),RatingStyle.getHeight());
+		this.center();
 	}
 
 	public void setRating(int rating) {
@@ -54,20 +52,16 @@ public class Rating extends Table {
 	}
 
 	private static class RatingStyle {
+
+		public static float getPadding() {
+			return 20f;
+		}
 		public static float getHeight() {
-			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> 60f;
-				case MEDIUM -> 70f;
-				case LARGE -> 80f;
-			};
+			return Star.getSize()+getPadding();
 		}
 
 		public static float getWidth() {
-			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> 250f;
-				case MEDIUM -> 270f;
-				case LARGE -> 300f;
-			};
+			return 5*Star.getSize()+getPadding();
 		}
 	}
 }
