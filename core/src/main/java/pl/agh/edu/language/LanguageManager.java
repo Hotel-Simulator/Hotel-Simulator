@@ -20,7 +20,6 @@ public class LanguageManager {
 	}
 
 	public static void updateLanguage() {
-		System.out.println(LanguageConfig.getLanguage());
 		loadBundle(LanguageConfig.getLanguage());
 		notifyListeners();
 	}
