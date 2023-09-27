@@ -4,6 +4,7 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
 
 import pl.agh.edu.config.GraphicConfig;
+import pl.agh.edu.language.LanguageManager;
 import pl.agh.edu.model.console.CommandExecutor;
 import pl.agh.edu.model.time.Time;
 import pl.agh.edu.screen.MainScreen;
@@ -17,6 +18,7 @@ public class GdxGame extends ApplicationAdapter {
 
 	@Override
 	public void create() {
+		LanguageManager.updateLanguage();
 		time = Time.getInstance();
 		commandExecutor = CommandExecutor.getInstance();
 		currentScreen = new MainScreen(this);

@@ -1,12 +1,14 @@
 package pl.agh.edu.actor.component.selectMenu;
 
+import java.util.function.Supplier;
+
 import pl.agh.edu.config.GraphicConfig;
 
 public abstract class SelectMenuItem {
-	protected final String text;
+	protected final Supplier<String> getStringFunction;
 
-	public SelectMenuItem(String text) {
-		this.text = text;
+	public SelectMenuItem(Supplier<String> getStringFunction) {
+		this.getStringFunction = getStringFunction;
 	}
 
 	@Override
@@ -16,6 +18,6 @@ public abstract class SelectMenuItem {
 			case MEDIUM -> 15;
 			case LARGE -> 18;
 		};
-		return (text.length() <= maxLength) ? text : text.substring(0, maxLength) + "...";
+		return (getStringFunction.get().length() <= maxLength) ? getStringFunction.get() : getStringFunction.get().substring(0, maxLength) + "...";
 	}
 }
