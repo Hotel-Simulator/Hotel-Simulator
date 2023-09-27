@@ -1,7 +1,7 @@
 package pl.agh.edu.actor.component.rating;
 
 import java.util.Arrays;
-import java.util.function.Function;
+import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -15,18 +15,38 @@ public class Rating extends Table {
 			.mapToObj(index -> new Star(index, this))
 			.toArray(Star[]::new);
 	private int currentRating = 0;
-	private final Function<Integer, Void> function;
+	private final Consumer<Integer> function;
 
-	public Rating(Function<Integer, Void> function) {
+	private boolean disabled = true;
+
+	public Rating(Integer currentRating, Consumer<Integer> function) {
+		this.currentRating = currentRating;
 		this.function = function;
 		this.setBackground(new NinePatchDrawable(HotelSkin.getInstance().getPatch("rating-background")));
 		Arrays.stream(stars).sequential().forEach(this::add);
 		this.setSize(RatingStyle.getWidth(), RatingStyle.getHeight());
 		this.center();
+		this.setRating(currentRating);
+	}
+
+	public Rating(Consumer<Integer> function) {
+		this(0, function);
+	}
+
+	public Rating(Integer currentRating) {
+		this(currentRating, (Integer i) -> {});
+	}
+
+	public boolean isDisabled() {
+		return disabled;
+	}
+
+	public void setDisabled(boolean disabled) {
+		this.disabled = disabled;
 	}
 
 	public void setRating(int rating) {
-		function.apply(rating);
+		function.accept(rating);
 		currentRating = rating;
 		Arrays.stream(stars)
 				.sequential()

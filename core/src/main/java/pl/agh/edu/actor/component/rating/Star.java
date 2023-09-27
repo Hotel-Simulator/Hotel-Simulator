@@ -25,18 +25,19 @@ public class Star extends Table {
 
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				SoundAudio.BUTTON_3.play();
-				return true;
+				return rating.isDisabled();
 			}
 
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				SoundAudio.BUTTON_3.play();
 				rating.setRating(index);
 			}
 
 			@Override
 			public void enter(InputEvent event, float x, float y, int pointer, @Null Actor fromActor) {
-				rating.setOverRating(index);
+				if (rating.isDisabled())
+					rating.setOverRating(index);
 			}
 
 			@Override

@@ -9,9 +9,11 @@ public class TestFrame extends BaseFrame {
 		super();
 		Table root = new Table();
 
-		Rating rating = new Rating(integer -> {
-			return null;
+		Rating rating = new Rating(1, (Integer i) -> {
+			System.out.println("Rating: " + i);
 		});
+
+		rating.setDisabled(true);
 
 		root.add(rating);
 		this.add(root);
