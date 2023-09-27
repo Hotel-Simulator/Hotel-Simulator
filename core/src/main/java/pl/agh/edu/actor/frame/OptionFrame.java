@@ -11,14 +11,12 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 
 import pl.agh.edu.actor.HotelSkin;
-import pl.agh.edu.actor.component.selectMenu.SelectMenu;
-import pl.agh.edu.actor.component.selectMenu.SelectMenuBoolean;
-import pl.agh.edu.actor.component.selectMenu.SelectMenuItem;
-import pl.agh.edu.actor.component.selectMenu.SelectMenuResolutionItem;
+import pl.agh.edu.actor.component.selectMenu.*;
 import pl.agh.edu.actor.slider.PercentSliderComponent;
 import pl.agh.edu.actor.slider.SliderComponent;
 import pl.agh.edu.config.AudioConfig;
 import pl.agh.edu.config.GraphicConfig;
+import pl.agh.edu.config.LanguageConfig;
 
 public class OptionFrame extends Stack {
 	private final Table table = new Table();
@@ -26,6 +24,7 @@ public class OptionFrame extends Stack {
 	private final SelectMenu selectFullScreenMenu = createSelectMenuForFullScreenMode();
 	private final SliderComponent musicVolumeSlider = createSliderComponentForMusicVolume();
 	private final SliderComponent soundVolumeSlider = createSliderComponentForSoundVolume();
+	private final SelectMenu selectLanguageMenu = createSelectMenuForLanguage();
 
 	public OptionFrame() {
 		super();
@@ -41,6 +40,8 @@ public class OptionFrame extends Stack {
 		table.add(musicVolumeSlider).grow();
 		table.row();
 		table.add(soundVolumeSlider).grow();
+		table.row();
+		table.add(selectLanguageMenu).grow();
 
 		setStartingValue();
 	}
@@ -57,7 +58,7 @@ public class OptionFrame extends Stack {
 		};
 
 		return new SelectMenu(
-				"Resolution",
+				"optionsFrame.resolution.label",
 				SelectMenuResolutionItem.getArray(),
 				function);
 	}
@@ -74,14 +75,29 @@ public class OptionFrame extends Stack {
 		};
 
 		return new SelectMenu(
-				"Full screen mode",
+				"optionsFrame.fullScreen.label",
 				SelectMenuBoolean.getArray(),
+				function);
+	}
+
+	private SelectMenu createSelectMenuForLanguage() {
+
+		Function<? super SelectMenuItem, Void> function = selectedOption -> {
+			if (selectedOption instanceof SelectMenuLanguage languageItem) {
+				LanguageConfig.setLanguage(languageItem.value.locale);
+			}
+			return null;
+		};
+
+		return new SelectMenu(
+				"optionsFrame.language.label",
+				SelectMenuLanguage.getArray(),
 				function);
 	}
 
 	private SliderComponent createSliderComponentForMusicVolume() {
 		PercentSliderComponent sliderComponent = new PercentSliderComponent(
-				"Music",
+				"optionsFrame.music.label",
 				selectedOption -> {
 					AudioConfig.setMusicVolume(selectedOption);
 					return null;
@@ -92,7 +108,7 @@ public class OptionFrame extends Stack {
 
 	private SliderComponent createSliderComponentForSoundVolume() {
 		PercentSliderComponent sliderComponent = new PercentSliderComponent(
-				"Sound",
+				"optionsFrame.sound.label",
 				selectedOption -> {
 					AudioConfig.setAudioVolume(selectedOption);
 					return null;
