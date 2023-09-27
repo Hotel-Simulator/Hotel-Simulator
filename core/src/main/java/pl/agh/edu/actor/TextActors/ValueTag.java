@@ -91,5 +91,4 @@ public class ValueTag extends Table implements LanguageChangeListener {
 		}
 
 	}
-
 }
