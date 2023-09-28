@@ -13,6 +13,8 @@ import java.util.stream.Stream;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import pl.agh.edu.utils.Pair;
+
 public class JSONValueUtil {
 
 	private JSONValueUtil() {}
@@ -43,6 +45,10 @@ public class JSONValueUtil {
 		return BigDecimal.valueOf(value);
 	}
 
+	public static BigDecimal getBigDecimal(Double value) {
+		return BigDecimal.valueOf(value);
+	}
+
 	public static <K, V> Map<K, V> getMap(
 			JSONObject jsonObject,
 			Function<Map.Entry<?, ?>, K> keyMapper,
@@ -53,6 +59,13 @@ public class JSONValueUtil {
 						keyMapper,
 						valueMapper,
 						(a, b) -> b));
+	}
+
+	public static <F, S, V> Map<Pair<F, S>, V> convertMap(Map<F, Map<S, V>> inputMap) {
+		return inputMap.entrySet().stream()
+				.flatMap(outerEntry -> outerEntry.getValue().entrySet().stream()
+						.map(innerEntry -> new AbstractMap.SimpleEntry<>(new Pair<>(outerEntry.getKey(), innerEntry.getKey()), innerEntry.getValue())))
+				.collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
 	}
 
 	public static <K extends Enum<K>, V> EnumMap<K, V> getEnumMap(
