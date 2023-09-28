@@ -14,18 +14,21 @@ public class Rating extends Table {
 	private final Star[] stars = IntStream.range(0, maxRating)
 			.mapToObj(index -> new Star(index, this))
 			.toArray(Star[]::new);
-	private int currentRating = 0;
+	private int currentRating;
 	private final Consumer<Integer> function;
 
-	private boolean disabled = true;
+	private boolean disabled = false;
 
 	public Rating(Integer currentRating, Consumer<Integer> function) {
 		this.currentRating = currentRating;
 		this.function = function;
+
 		this.setBackground(new NinePatchDrawable(HotelSkin.getInstance().getPatch("rating-background")));
+
 		Arrays.stream(stars).sequential().forEach(this::add);
 		this.setSize(RatingStyle.getWidth(), RatingStyle.getHeight());
 		this.center();
+
 		this.setRating(currentRating);
 	}
 
@@ -35,13 +38,14 @@ public class Rating extends Table {
 
 	public Rating(Integer currentRating) {
 		this(currentRating, (Integer i) -> {});
+		this.setDisabled(true);
 	}
 
 	public boolean isDisabled() {
 		return disabled;
 	}
 
-	public void setDisabled(boolean disabled) {
+	private void setDisabled(boolean disabled) {
 		this.disabled = disabled;
 	}
 

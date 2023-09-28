@@ -13,9 +13,10 @@ public class TestFrame extends BaseFrame {
 			System.out.println("Rating: " + i);
 		});
 
-		rating.setDisabled(true);
-
+		Rating rating2 = new Rating(1);
 		root.add(rating);
+		root.row();
+		root.add(rating2);
 		this.add(root);
 	}
 }

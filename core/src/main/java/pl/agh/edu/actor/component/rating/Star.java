@@ -21,11 +21,12 @@ public class Star extends Table {
 	public Star(int index, Rating rating) {
 		this.add(button).width(StarStyle.getSize()).height(StarStyle.getSize()).center();
 		this.index = index;
+
 		button.addListener(new InputListener() {
 
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				return rating.isDisabled();
+				return !rating.isDisabled();
 			}
 
 			@Override
@@ -36,16 +37,17 @@ public class Star extends Table {
 
 			@Override
 			public void enter(InputEvent event, float x, float y, int pointer, @Null Actor fromActor) {
-				if (rating.isDisabled())
+				if (!rating.isDisabled())
 					rating.setOverRating(index);
 			}
 
 			@Override
 			public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-				rating.setDefaultRating();
+				if (!rating.isDisabled()) {
+					rating.setDefaultRating();
+				}
 			}
 		});
-
 	}
 
 	private void changeStateToOver() {
