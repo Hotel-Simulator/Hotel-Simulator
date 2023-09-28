@@ -122,7 +122,7 @@ public class JSONDataLoaderTest {
 			EnumMap<HotelVisitPurpose, EnumMap<RoomRank, Integer>> desiredRankProbabilities = JSONClientDataLoader.desiredRankProbabilities;
 			EnumMap<HotelVisitPurpose, Map<Integer, Integer>> numberOfNightsProbabilities = JSONClientDataLoader.numberOfNightsProbabilities;
 			EnumMap<HotelVisitPurpose, Map<Integer, Integer>> clientGroupSizeProbabilities = JSONClientDataLoader.clientGroupSizeProbabilities;
-			EnumMap<RoomRank, EnumMap<RoomSize, BigDecimal>> averagePricesPerNight = JSONClientDataLoader.averagePricesPerNight;
+			Map<Pair<RoomRank, RoomSize>, BigDecimal> averagePricesPerNight = JSONClientDataLoader.averagePricesPerNight;
 			Duration basicMaxWaitingTime = JSONClientDataLoader.basicMaxWaitingTime;
 			int waitingTimeVariation = JSONClientDataLoader.waitingTimeVariation;
 		});
