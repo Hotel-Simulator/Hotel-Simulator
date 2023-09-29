@@ -36,6 +36,6 @@ public class GameDifficultyManager {
 
 	public void setDifficulty(DifficultyLevel difficulty) {
 		this.difficultyMultiplier = JSONGameDataLoader.difficultyMultiplier.get(difficulty);
-		this.difficultyMultiplier = JSONGameDataLoader.initialBalance.get(difficulty);
+		this.initialBalance = JSONGameDataLoader.initialBalance.get(difficulty);
 	}
 }

@@ -28,6 +28,7 @@ public class GameDifficultyManagerTest {
 	@Test
 	public void testDifficulty() {
 		// Then
+		System.out.println(gameDifficultyManager.getDifficultyMultiplier());
 		assertTrue(0.5 <= gameDifficultyManager.getDifficultyMultiplier());
 		assertTrue(2 >= gameDifficultyManager.getDifficultyMultiplier());
 	}
