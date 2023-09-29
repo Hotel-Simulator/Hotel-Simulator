@@ -21,6 +21,7 @@ public class JSONGameDataLoader {
 
 	public static double roomFaultProbability;
 	public static EnumMap<DifficultyLevel, Double> difficultyMultiplier;
+	public static EnumMap<DifficultyLevel, Long> initialBalance;
 
 	private JSONGameDataLoader() {}
 
@@ -41,6 +42,9 @@ public class JSONGameDataLoader {
 				JSONDataExtractor.extract(JSON_FILE_PATH, "difficulty_multiplier", JSONObject.class),
 				entry -> (Double) entry.getValue(),
 				DifficultyLevel.class);
-
+		initialBalance = JSONValueUtil.getEnumMap(
+				JSONDataExtractor.extract(JSON_FILE_PATH, "initial_balance", JSONObject.class),
+				entry -> (Long) entry.getValue(),
+				DifficultyLevel.class);
 	}
 }

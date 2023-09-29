@@ -12,5 +12,12 @@
     "MEDIUM": 1.0,
     "HARD": 1.5,
     "BRUTAL": 2.0
+  },
+
+  "initial_balance": {
+    "EASY": 100000,
+    "MEDIUM": 10000,
+    "HARD": 1000,
+    "BRUTAL": 100
   }
 }
