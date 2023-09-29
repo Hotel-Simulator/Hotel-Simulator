@@ -1,4 +1,10 @@
 {
   "room_rank_change_base_duration_in_days" : 7,
-  "room_building_base_duration_in_days" : 14
+  "room_building_base_duration_in_days" : 14,
+  "base_building_cost": 10000,
+  "building_cost_multipliers": {
+    "ECONOMIC":{"SINGLE": 1.0,"DOUBLE": 1.2,"FAMILY": 1.5},
+    "STANDARD":{"SINGLE": 1.2,"DOUBLE": 1.5,"FAMILY": 1.9},
+    "DELUXE":{"SINGLE": 1.5,"DOUBLE": 1.9,"FAMILY": 2.4}
+  }
 }
