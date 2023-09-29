@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import pl.agh.edu.json.data_loader.JSONBankDataLoader;
 import pl.agh.edu.json.data_loader.JSONHotelDataLoader;
 import pl.agh.edu.management.bank.BankAccountHandler;
 import pl.agh.edu.management.bank.EmployeeSalaryHandler;
@@ -25,7 +24,7 @@ public class HotelHandler {
 
 	public final PossibleEmployeeHandler possibleEmployeeHandler = new PossibleEmployeeHandler(this);
 	public final EmployeeHandler employeeHandler = new EmployeeHandler();
-	public final BankAccount bankAccount = new BankAccount(BigDecimal.valueOf(2), JSONBankDataLoader.initialBalance);
+	public final BankAccount bankAccount = new BankAccount(new BigDecimal("0.05"), BigDecimal.valueOf(2));
 	public final BankAccountHandler bankAccountHandler = new BankAccountHandler(bankAccount);
 	public final EmployeeSalaryHandler employeeSalaryHandler = new EmployeeSalaryHandler(employeeHandler, bankAccountHandler);
 	public final RoomManager roomManager = new RoomManager(JSONHotelDataLoader.initialRooms, bankAccountHandler);

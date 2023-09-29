@@ -17,11 +17,7 @@ public class GameDifficultyManager {
 
 	public static GameDifficultyManager getInstance() {
 		if (instance == null) {
-			synchronized (GameDifficultyManager.class) {
-				if (instance == null) {
-					instance = new GameDifficultyManager();
-				}
-			}
+			instance = new GameDifficultyManager();
 		}
 		return instance;
 	}
