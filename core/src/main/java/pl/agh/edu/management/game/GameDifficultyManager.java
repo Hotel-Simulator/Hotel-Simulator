@@ -1,10 +1,9 @@
 package pl.agh.edu.management.game;
 
+import java.math.BigDecimal;
+
 import pl.agh.edu.enums.DifficultyLevel;
 import pl.agh.edu.json.data_loader.JSONGameDataLoader;
-
-import java.math.BigDecimal;
-import java.util.EnumMap;
 
 public class GameDifficultyManager {
 	private static GameDifficultyManager instance;
@@ -31,7 +30,7 @@ public class GameDifficultyManager {
 		return difficultyMultiplier;
 	}
 
-	public BigDecimal getInitialBalance(){
+	public BigDecimal getInitialBalance() {
 		return BigDecimal.valueOf(initialBalance);
 	}
 
