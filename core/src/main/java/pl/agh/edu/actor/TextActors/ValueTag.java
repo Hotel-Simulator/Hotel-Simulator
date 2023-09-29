@@ -26,7 +26,7 @@ public class ValueTag extends Table implements LanguageChangeListener {
 		componentStack.add(new Image(background));
 		componentStack.add(new ValueTagContent(languagePath, value));
 		LanguageManager.addListener(this);
-
+		onLanguageChange();
 	}
 
 	private class ValueTagContent extends Table {

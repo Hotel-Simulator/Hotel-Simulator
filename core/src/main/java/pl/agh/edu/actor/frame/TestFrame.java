@@ -9,7 +9,7 @@ public class TestFrame extends BaseFrame {
 		super();
 		Table root = new Table();
 
-		ValueTag valueTag = new ValueTag("sth", "sth");
+		ValueTag valueTag = new ValueTag("valueTag.credit.interest", "3%");
 
 		root.add(valueTag);
 		this.add(root);
