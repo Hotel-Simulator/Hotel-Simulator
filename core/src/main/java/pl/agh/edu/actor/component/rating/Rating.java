@@ -28,7 +28,6 @@ public class Rating extends Table {
 		stack.add(table);
 		Arrays.stream(stars).sequential().forEach(table::add);
 		this.add(stack).width(RatingStyle.getWidth()).height(RatingStyle.getHeight()).center();
-		this.debug();
 	}
 
 	public void setRating(int rating) {

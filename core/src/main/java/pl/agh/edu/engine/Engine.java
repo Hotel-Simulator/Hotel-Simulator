@@ -1,6 +1,5 @@
 package pl.agh.edu.engine;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import pl.agh.edu.enums.Frequency;
@@ -8,12 +7,9 @@ import pl.agh.edu.generator.client_generator.Arrival;
 import pl.agh.edu.generator.client_generator.ClientGenerator;
 import pl.agh.edu.generator.event_generator.EventGenerator;
 import pl.agh.edu.json.data_loader.JSONBankDataLoader;
-import pl.agh.edu.management.bank.BankAccountHandler;
-import pl.agh.edu.management.bank.EmployeeSalaryHandler;
 import pl.agh.edu.management.hotel.HotelHandler;
 import pl.agh.edu.model.Hotel;
 import pl.agh.edu.model.advertisement.AdvertisementHandler;
-import pl.agh.edu.model.bank.BankAccount;
 import pl.agh.edu.model.time.Time;
 import pl.agh.edu.time_command.RepeatingTimeCommand;
 import pl.agh.edu.time_command.TimeCommand;
@@ -27,9 +23,6 @@ public class Engine {
 	private final AdvertisementHandler advertisementHandler = AdvertisementHandler.getInstance();
 	private final EventGenerator eventGenerator = EventGenerator.getInstance();
 	private final HotelHandler hotelHandler = new HotelHandler();
-	private final BankAccount bankAccount = new BankAccount(new BigDecimal("0.05"), BigDecimal.valueOf(2), JSONBankDataLoader.initialBalance);
-	private final BankAccountHandler bankAccountHandler = new BankAccountHandler(bankAccount);
-	private final EmployeeSalaryHandler employeeSalaryHandler = new EmployeeSalaryHandler(hotelHandler.employeeHandler, bankAccountHandler);
 
 	public Engine() {
 
@@ -63,8 +56,8 @@ public class Engine {
 	}
 
 	private void initializeEveryMonthUpdates(LocalDateTime currentTime) {
-		timeCommandExecutor.addCommand(new RepeatingTimeCommand(Frequency.EVERY_MONTH, employeeSalaryHandler::monthlyUpdate, currentTime));
-		timeCommandExecutor.addCommand(new RepeatingTimeCommand(Frequency.EVERY_MONTH, bankAccount::monthlyUpdate, currentTime.plusDays(
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(Frequency.EVERY_MONTH, hotelHandler.employeeSalaryHandler::monthlyUpdate, currentTime));
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(Frequency.EVERY_MONTH, hotelHandler.bankAccount::monthlyUpdate, currentTime.plusDays(
 				JSONBankDataLoader.chargeAccountFeeDayOfMonth - 1)));
 	}
 

@@ -1,5 +1,7 @@
 package pl.agh.edu.management.room;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -8,12 +10,14 @@ import pl.agh.edu.enums.RoomRank;
 import pl.agh.edu.enums.RoomSize;
 import pl.agh.edu.json.data_loader.JSONClientDataLoader;
 import pl.agh.edu.json.data_loader.JSONRoomDataLoader;
+import pl.agh.edu.management.bank.BankAccountHandler;
 import pl.agh.edu.model.Room;
 import pl.agh.edu.model.RoomPriceList;
 import pl.agh.edu.model.client.ClientGroup;
 import pl.agh.edu.model.time.Time;
 import pl.agh.edu.time_command.TimeCommand;
 import pl.agh.edu.time_command.TimeCommandExecutor;
+import pl.agh.edu.utils.Pair;
 
 public class RoomManager {
 
@@ -23,9 +27,11 @@ public class RoomManager {
 	private final Map<Room, LocalDateTime> roomRankChangeTimes = new HashMap<>();
 	private final Map<Room, LocalDateTime> roomBuildingTimes = new HashMap<>();
 	private final RoomPriceList roomPriceList = new RoomPriceList(JSONClientDataLoader.averagePricesPerNight);
+	private final BankAccountHandler bankAccountHandler;
 
-	public RoomManager(List<Room> initialRooms) {
+	public RoomManager(List<Room> initialRooms, BankAccountHandler bankAccountHandler) {
 		this.rooms = initialRooms;
+		this.bankAccountHandler = bankAccountHandler;
 	}
 
 	public List<Room> getRooms() {
@@ -66,6 +72,12 @@ public class RoomManager {
 		if (desiredRank == room.getRank()) {
 			throw new IllegalArgumentException("Desired roomRank must be other than current.");
 		}
+		BigDecimal changeCost = getChangeCost(room.getRank(), desiredRank, room.size);
+		if (changeCost.signum() > 0) {
+			bankAccountHandler.registerExpense(changeCost);
+		} else {
+			bankAccountHandler.registerIncome(changeCost.negate());
+		}
 		room.roomState.setUnderRankChange(true);
 
 		LocalDateTime upgradeTime = time.getTime().plusHours(
@@ -79,6 +91,12 @@ public class RoomManager {
 					roomRankChangeTimes.remove(room);
 				},
 				upgradeTime));
+	}
+
+	private BigDecimal getChangeCost(RoomRank currentRank, RoomRank desiredRank, RoomSize size) {
+		return JSONRoomDataLoader.roomBuildingCosts.get(new Pair<>(desiredRank, size))
+				.subtract(JSONRoomDataLoader.roomBuildingCosts.get(new Pair<>(currentRank, size)))
+				.divide(BigDecimal.valueOf(2), 0, RoundingMode.HALF_EVEN);
 	}
 
 	public Optional<LocalDateTime> findChangeRankTime(Room room) {
@@ -105,6 +123,7 @@ public class RoomManager {
 		Room buildRoom = new Room(roomRank, roomSize);
 		buildRoom.roomState.setBeingBuild(true);
 		rooms.add(buildRoom);
+		bankAccountHandler.registerExpense(JSONRoomDataLoader.roomBuildingCosts.get(new Pair<>(roomRank, roomSize)));
 
 		LocalDateTime buildTime = time.getTime().plusHours(
 				(long) (JSONRoomDataLoader.roomBuildingDuration.toHours() * roomTimeMultiplier(buildRoom)));
@@ -117,4 +136,7 @@ public class RoomManager {
 				}, buildTime));
 	}
 
+	public RoomPriceList getRoomPriceList() {
+		return roomPriceList;
+	}
 }

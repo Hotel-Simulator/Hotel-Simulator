@@ -12,9 +12,10 @@ import com.badlogic.gdx.utils.Align;
 
 import pl.agh.edu.actor.HotelSkin;
 import pl.agh.edu.audio.SoundAudio;
-import pl.agh.edu.utils.JsonLanguageLoader;
+import pl.agh.edu.language.LanguageChangeListener;
+import pl.agh.edu.language.LanguageManager;
 
-public class NavbarButton extends Table {
+public class NavbarButton extends Table implements LanguageChangeListener {
 	private final Image iconImage;
 	private final Label label;
 	private final NavbarButtonStyle navbarButtonStyle;
@@ -32,15 +33,17 @@ public class NavbarButton extends Table {
 
 		float topSpace = 10f;
 		add().space(topSpace).row();
-		add(iconImage).fill();
+		add(iconImage).width(100f);
 		row();
 		float labelHeight = 30f;
-		add(label).height(labelHeight).fill();
+		add(label).height(labelHeight).width(120f);
 
 		float gap = 20f;
 		pad(0, gap, 0, gap);
 
-		setText(JsonLanguageLoader.loadLanguageData("jsons/language/en/navbar.json", "Buttons", navbarButtonStyle.text));
+		setText(LanguageManager.get(navbarButtonStyle.text));
+		LanguageManager.addListener(this);
+
 		addListener(new InputListener() {
 			@Override
 			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
@@ -84,6 +87,11 @@ public class NavbarButton extends Table {
 		} else {
 			iconImage.setDrawable(new TextureRegionDrawable(new TextureRegion(navbarButtonStyle.iconUp)));
 		}
+	}
+
+	@Override
+	public void onLanguageChange() {
+		setText(LanguageManager.get(navbarButtonStyle.text));
 	}
 
 	public static class NavbarButtonStyle {

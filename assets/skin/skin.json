@@ -362,112 +362,112 @@
 		"font": "subtittle2"
 	},
 	"account": {
-		"text": "account",
+		"text": "navbar.button.account",
 		"iconUp": "navbar-account-up",
 		"iconOver": "navbar-account-over",
 		"iconDisabled": "navbar-account-disabled",
 		"font": "subtittle2"
 	},
 	"add": {
-		"text": "add",
+		"text": "navbar.button.add",
 		"iconUp": "navbar-add-up",
 		"iconOver": "navbar-add-over",
 		"iconDisabled": "navbar-add-disabled",
 		"font": "subtittle2"
 	},
 	"back": {
-		"text": "back",
+		"text": "navbar.button.back",
 		"iconUp": "navbar-back-up",
 		"iconOver": "navbar-back-over",
 		"iconDisabled": "navbar-back-disabled",
 		"font": "subtittle2"
 	},
 	"bank": {
-		"text": "bank",
+		"text": "navbar.button.bank",
 		"iconUp": "navbar-bank-up",
 		"iconOver": "navbar-bank-over",
 		"iconDisabled": "navbar-bank-disabled",
 		"font": "subtittle2"
 	},
 	"board": {
-		"text": "board",
+		"text": "navbar.button.board",
 		"iconUp": "navbar-board-up",
 		"iconOver": "navbar-board-over",
 		"iconDisabled": "navbar-board-disabled",
 		"font": "subtittle2"
 	},
 	"credit": {
-		"text": "credit",
+		"text": "navbar.button.credit",
 		"iconUp": "navbar-credit-up",
 		"iconOver": "navbar-credit-over",
 		"iconDisabled": "navbar-credit-disabled",
 		"font": "subtittle2"
 	},
 	"deposit": {
-		"text": "deposit",
+		"text": "navbar.button.deposit",
 		"iconUp": "navbar-deposit-up",
 		"iconOver": "navbar-deposit-over",
 		"iconDisabled": "navbar-deposit-disabled",
 		"font": "subtittle2"
 	},
 	"employee": {
-		"text": "employee",
+		"text": "navbar.button.employee",
 		"iconUp": "navbar-employee-up",
 		"iconOver": "navbar-employee-over",
 		"iconDisabled": "navbar-employee-disabled",
 		"font": "subtittle2"
 	},
 	"hire": {
-		"text": "hire",
+		"text": "navbar.button.hire",
 		"iconUp": "navbar-hire-up",
 		"iconOver": "navbar-hire-over",
 		"iconDisabled": "navbar-hire-disabled",
 		"font": "subtittle2"
 	},
 	"history": {
-		"text": "history",
+		"text": "navbar.button.history",
 		"iconUp": "navbar-history-up",
 		"iconOver": "navbar-history-over",
 		"iconDisabled": "navbar-history-disabled",
 		"font": "subtittle2"
 	},
 	"hotel": {
-		"text": "hotel",
+		"text": "navbar.button.hotel",
 		"iconUp": "navbar-hotel-up",
 		"iconOver": "navbar-hotel-over",
 		"iconDisabled": "navbar-hotel-disabled",
 		"font": "subtittle2"
 	},
 	"manage": {
-		"text": "manage",
+		"text": "navbar.button.manage",
 		"iconUp": "navbar-manage-up",
 		"iconOver": "navbar-manage-over",
 		"iconDisabled": "navbar-manage-disabled",
 		"font": "subtittle2"
 	},
 	"offer": {
-		"text": "offer",
+		"text": "navbar.button.offer",
 		"iconUp": "navbar-offer-up",
 		"iconOver": "navbar-offer-over",
 		"iconDisabled": "navbar-offer-disabled",
 		"font": "subtittle2"
 	},
 	"places": {
-		"text": "places",
+		"text": "navbar.button.places",
 		"iconUp": "navbar-places-up",
 		"iconOver": "navbar-places-over",
 		"iconDisabled": "navbar-places-disabled",
 		"font": "subtittle2"
 	},
 	"rooms": {
-		"text": "rooms",
+		"text": "navbar.button.rooms",
 		"iconUp": "navbar-rooms-up",
 		"iconOver": "navbar-rooms-over",
 		"iconDisabled": "navbar-rooms-disabled",
 		"font": "subtittle2"
 	},
 	"tax": {
-		"text": "tax",
+		"text": "navbar.button.tax",
 		"iconUp": "navbar-tax-up",
 		"iconOver": "navbar-tax-over",
 		"iconDisabled": "navbar-tax-disabled",

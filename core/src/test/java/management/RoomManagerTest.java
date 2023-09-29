@@ -11,10 +11,12 @@ import java.util.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 
 import pl.agh.edu.enums.RoomRank;
 import pl.agh.edu.enums.RoomSize;
 import pl.agh.edu.json.data_extractor.JSONFilePath;
+import pl.agh.edu.management.bank.BankAccountHandler;
 import pl.agh.edu.management.room.RoomManager;
 import pl.agh.edu.model.Room;
 import pl.agh.edu.model.client.ClientGroup;
@@ -25,6 +27,8 @@ public class RoomManagerTest {
 	private List<Room> rooms;
 
 	private ClientGroup clientGroup;
+	@Mock
+	BankAccountHandler bankAccountHandler;
 
 	@BeforeAll
 	public static void setUpClass() throws ReflectiveOperationException {
@@ -37,7 +41,7 @@ public class RoomManagerTest {
 		rooms.add(new Room(RoomRank.STANDARD, RoomSize.SINGLE));
 		rooms.add(new Room(RoomRank.DELUXE, RoomSize.DOUBLE));
 
-		roomManager = new RoomManager(rooms);
+		roomManager = new RoomManager(rooms, bankAccountHandler);
 
 		clientGroup = mock(ClientGroup.class);
 

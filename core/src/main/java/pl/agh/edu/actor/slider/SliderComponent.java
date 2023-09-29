@@ -9,6 +9,8 @@ import com.badlogic.gdx.utils.Align;
 import pl.agh.edu.actor.HotelSkin;
 import pl.agh.edu.audio.SoundAudio;
 import pl.agh.edu.config.GraphicConfig;
+import pl.agh.edu.language.LanguageChangeListener;
+import pl.agh.edu.language.LanguageManager;
 
 public class SliderComponent extends Table {
 	protected Label valueLabel;
@@ -24,8 +26,6 @@ public class SliderComponent extends Table {
 		componentStack.add(new SliderRowTable(name, minValue, maxValue, step));
 
 		this.add(componentStack).height(SliderStyle.getHeight());
-
-		this.debugAll();
 	}
 
 	protected float getMaxValue() {
@@ -36,19 +36,23 @@ public class SliderComponent extends Table {
 		return slider.getMinValue();
 	}
 
-	private class SliderRowTable extends Table {
+	private class SliderRowTable extends Table implements LanguageChangeListener {
 
-		public SliderRowTable(String name, float minValue, float maxValue, float step) {
-			Label nameLabel = new Label(name + ":", skin, "subtitle2_label");
+		private final String languagePath;
+		private final Label nameLabel = new Label("", skin, "subtitle1_label");
+
+		public SliderRowTable(String languagePath, float minValue, float maxValue, float step) {
+			this.languagePath = languagePath;
+			updateLabel();
 			nameLabel.setAlignment(Align.left, Align.center);
-			add(nameLabel).width(SliderStyle.getWidth() /4 ).padLeft(SliderStyle.getOuterPadding());
+			add(nameLabel).width(SliderStyle.getWidth() / 4 - SliderStyle.getOuterPadding()).padLeft(SliderStyle.getOuterPadding());
 
-			valueLabel = new Label("", skin, "subtitle2_label");
+			valueLabel = new Label("", skin, "subtitle1_label");
 			valueLabel.setAlignment(Align.right);
 			valueLabel.setText(String.format("%.0f", maxValue) + suffix);
 			add(valueLabel).width(SliderStyle.getWidth() / 4);
 
-			Drawable lineDrawable = skin.getDrawable("line-separator");
+			Drawable lineDrawable = skin.getDrawable("separator-line");
 			lineDrawable.setMinHeight(SliderStyle.getHeight());
 			lineDrawable.setMinWidth(2);
 
@@ -64,6 +68,16 @@ public class SliderComponent extends Table {
 				}
 			});
 			add(slider).width(SliderStyle.getWidth() / 2 - SliderStyle.getOuterPadding()).padRight(SliderStyle.getOuterPadding());
+			LanguageManager.addListener(this);
+		}
+
+		public void updateLabel() {
+			nameLabel.setText(LanguageManager.get(languagePath));
+		}
+
+		@Override
+		public void onLanguageChange() {
+			updateLabel();
 		}
 	}
 

@@ -14,17 +14,23 @@ import com.badlogic.gdx.utils.Array;
 import pl.agh.edu.actor.HotelSkin;
 import pl.agh.edu.audio.SoundAudio;
 import pl.agh.edu.config.GraphicConfig;
+import pl.agh.edu.language.LanguageChangeListener;
+import pl.agh.edu.language.LanguageManager;
 
-public class SelectMenu extends Table {
+public class SelectMenu extends Table implements LanguageChangeListener {
 
 	private final Skin skin = HotelSkin.getInstance();
 	private final Label descriptionLabel = new SelectMenuLabel();
+
+	private final String languagePath;
 	private final Array<SelectMenuItem> items;
 	private final SelectBox<SelectMenuItem> selectOption = new DropDownSelect();
 
-	public SelectMenu(String description, Array<SelectMenuItem> items, Function<? super SelectMenuItem, Void> function) {
+	public SelectMenu(String languagePath, Array<SelectMenuItem> items, Function<? super SelectMenuItem, Void> function) {
 		this.items = items;
-		this.descriptionLabel.setText(description);
+		this.languagePath = languagePath;
+		this.updateLabel();
+		LanguageManager.addListener(this);
 
 		setMaxListCount();
 		setListItems(items);
@@ -37,7 +43,7 @@ public class SelectMenu extends Table {
 
 	public void setItem(String text) {
 		for (SelectMenuItem selectMenuItem : this.items) {
-			if (selectMenuItem.text.equals(text)) {
+			if (selectMenuItem.getStringFunction.equals(text)) {
 				this.selectOption.setSelected(selectMenuItem);
 				break;
 			}
@@ -71,6 +77,16 @@ public class SelectMenu extends Table {
 		descriptionLabel.setSize(SelectMenuStyle.getWidth(), SelectMenuStyle.getHeight());
 		selectOption.setSize(SelectMenuStyle.getWidth(), SelectMenuStyle.getHeight());
 		this.getCells().forEach(cell -> cell.size(SelectMenuStyle.getWidth(), SelectMenuStyle.getHeight()));
+	}
+
+	@Override
+	public void onLanguageChange() {
+		updateLabel();
+		this.selectOption.setItems(items);
+	}
+
+	private void updateLabel() {
+		this.descriptionLabel.setText(LanguageManager.get(languagePath));
 	}
 
 	private class SelectMenuLabel extends Label {
