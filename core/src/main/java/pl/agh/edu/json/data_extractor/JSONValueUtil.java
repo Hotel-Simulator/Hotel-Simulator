@@ -64,7 +64,7 @@ public class JSONValueUtil {
 	public static <F, S, V> Map<Pair<F, S>, V> convertMap(Map<F, Map<S, V>> inputMap) {
 		return inputMap.entrySet().stream()
 				.flatMap(outerEntry -> outerEntry.getValue().entrySet().stream()
-						.map(innerEntry -> new AbstractMap.SimpleEntry<>(new Pair<>(outerEntry.getKey(), innerEntry.getKey()), innerEntry.getValue())))
+						.map(innerEntry -> new AbstractMap.SimpleEntry<>(Pair.of(outerEntry.getKey(), innerEntry.getKey()), innerEntry.getValue())))
 				.collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
 	}
 

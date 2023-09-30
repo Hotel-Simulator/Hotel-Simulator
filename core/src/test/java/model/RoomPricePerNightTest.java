@@ -31,13 +31,13 @@ public class RoomPricePerNightTest {
 	void setUp() {
 		testPrices = new HashMap<>();
 
-		testPrices.put(new Pair<>(RoomRank.STANDARD, RoomSize.SINGLE), BigDecimal.valueOf(100));
-		testPrices.put(new Pair<>(RoomRank.STANDARD, RoomSize.DOUBLE), BigDecimal.valueOf(150));
-		testPrices.put(new Pair<>(RoomRank.STANDARD, RoomSize.FAMILY), BigDecimal.valueOf(200));
+		testPrices.put(Pair.of(RoomRank.STANDARD, RoomSize.SINGLE), BigDecimal.valueOf(100));
+		testPrices.put(Pair.of(RoomRank.STANDARD, RoomSize.DOUBLE), BigDecimal.valueOf(150));
+		testPrices.put(Pair.of(RoomRank.STANDARD, RoomSize.FAMILY), BigDecimal.valueOf(200));
 
-		testPrices.put(new Pair<>(RoomRank.DELUXE, RoomSize.SINGLE), BigDecimal.valueOf(200));
-		testPrices.put(new Pair<>(RoomRank.DELUXE, RoomSize.DOUBLE), BigDecimal.valueOf(300));
-		testPrices.put(new Pair<>(RoomRank.DELUXE, RoomSize.FAMILY), BigDecimal.valueOf(400));
+		testPrices.put(Pair.of(RoomRank.DELUXE, RoomSize.SINGLE), BigDecimal.valueOf(200));
+		testPrices.put(Pair.of(RoomRank.DELUXE, RoomSize.DOUBLE), BigDecimal.valueOf(300));
+		testPrices.put(Pair.of(RoomRank.DELUXE, RoomSize.FAMILY), BigDecimal.valueOf(400));
 
 		roomPricePerNight = new RoomPricePerNight(testPrices);
 	}
@@ -80,13 +80,13 @@ public class RoomPricePerNightTest {
 		// Given
 		Map<Pair<RoomRank, RoomSize>, BigDecimal> newPrices = new HashMap<>();
 
-		newPrices.put(new Pair<>(RoomRank.STANDARD, RoomSize.SINGLE), BigDecimal.valueOf(100));
-		newPrices.put(new Pair<>(RoomRank.STANDARD, RoomSize.DOUBLE), BigDecimal.valueOf(150));
-		newPrices.put(new Pair<>(RoomRank.STANDARD, RoomSize.FAMILY), BigDecimal.valueOf(200));
+		newPrices.put(Pair.of(RoomRank.STANDARD, RoomSize.SINGLE), BigDecimal.valueOf(100));
+		newPrices.put(Pair.of(RoomRank.STANDARD, RoomSize.DOUBLE), BigDecimal.valueOf(150));
+		newPrices.put(Pair.of(RoomRank.STANDARD, RoomSize.FAMILY), BigDecimal.valueOf(200));
 
-		newPrices.put(new Pair<>(RoomRank.DELUXE, RoomSize.SINGLE), BigDecimal.valueOf(200));
-		newPrices.put(new Pair<>(RoomRank.DELUXE, RoomSize.DOUBLE), BigDecimal.valueOf(300));
-		newPrices.put(new Pair<>(RoomRank.DELUXE, RoomSize.FAMILY), BigDecimal.valueOf(400));
+		newPrices.put(Pair.of(RoomRank.DELUXE, RoomSize.SINGLE), BigDecimal.valueOf(200));
+		newPrices.put(Pair.of(RoomRank.DELUXE, RoomSize.DOUBLE), BigDecimal.valueOf(300));
+		newPrices.put(Pair.of(RoomRank.DELUXE, RoomSize.FAMILY), BigDecimal.valueOf(400));
 
 		roomPricePerNight = new RoomPricePerNight(testPrices);
 		// When

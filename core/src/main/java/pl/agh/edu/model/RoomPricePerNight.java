@@ -20,7 +20,7 @@ public class RoomPricePerNight {
 	}
 
 	public BigDecimal getPrice(RoomRank roomRank, RoomSize roomSize) {
-		return pricesPerNightMap.get(new Pair<>(roomRank, roomSize));
+		return pricesPerNightMap.get(Pair.of(roomRank, roomSize));
 	}
 
 	public BigDecimal getPrice(Room room) {
@@ -28,7 +28,7 @@ public class RoomPricePerNight {
 	}
 
 	public void setPrice(RoomRank roomRank, RoomSize roomSize, BigDecimal price) {
-		pricesPerNightMap.put(new Pair<>(roomRank, roomSize), price);
+		pricesPerNightMap.put(Pair.of(roomRank, roomSize), price);
 	}
 
 	public void setPrices(Map<Pair<RoomRank, RoomSize>, BigDecimal> prices) {

@@ -94,8 +94,8 @@ public class RoomManager {
 	}
 
 	private BigDecimal getChangeCost(RoomRank currentRank, RoomRank desiredRank, RoomSize size) {
-		return JSONRoomDataLoader.roomBuildingCosts.get(new Pair<>(desiredRank, size))
-				.subtract(JSONRoomDataLoader.roomBuildingCosts.get(new Pair<>(currentRank, size)))
+		return JSONRoomDataLoader.roomBuildingCosts.get(Pair.of(desiredRank, size))
+				.subtract(JSONRoomDataLoader.roomBuildingCosts.get(Pair.of(currentRank, size)))
 				.divide(BigDecimal.valueOf(2), 0, RoundingMode.HALF_EVEN);
 	}
 
@@ -123,7 +123,7 @@ public class RoomManager {
 		Room buildRoom = new Room(roomRank, roomSize);
 		buildRoom.roomState.setBeingBuild(true);
 		rooms.add(buildRoom);
-		bankAccountHandler.registerExpense(JSONRoomDataLoader.roomBuildingCosts.get(new Pair<>(roomRank, roomSize)));
+		bankAccountHandler.registerExpense(JSONRoomDataLoader.roomBuildingCosts.get(Pair.of(roomRank, roomSize)));
 
 		LocalDateTime buildTime = time.getTime().plusHours(
 				(long) (JSONRoomDataLoader.roomBuildingDuration.toHours() * roomTimeMultiplier(buildRoom)));

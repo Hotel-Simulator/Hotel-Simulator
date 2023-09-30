@@ -44,7 +44,6 @@ public class JSONDataLoaderTest {
 			Duration roomRankChangeDuration = JSONRoomDataLoader.roomRankChangeDuration;
 			Duration roomBuildingDuration = JSONRoomDataLoader.roomBuildingDuration;
 			Map<Pair<RoomRank, RoomSize>, BigDecimal> roomBuildingCosts = JSONRoomDataLoader.roomBuildingCosts;
-			System.out.println(roomBuildingCosts);
 		});
 	}
 
