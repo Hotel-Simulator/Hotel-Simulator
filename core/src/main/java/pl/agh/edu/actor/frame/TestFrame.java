@@ -9,11 +9,14 @@ public class TestFrame extends BaseFrame {
 		super();
 		Table root = new Table();
 
-		Rating rating = new Rating(integer -> {
-			return null;
+		Rating rating = new Rating(1, (Integer i) -> {
+			System.out.println("Rating: " + i);
 		});
 
+		Rating rating2 = new Rating(1);
 		root.add(rating);
+		root.row();
+		root.add(rating2);
 		this.add(root);
 	}
 }

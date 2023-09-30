@@ -1,37 +1,56 @@
 package pl.agh.edu.actor.component.rating;
 
 import java.util.Arrays;
-import java.util.function.Function;
+import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 
 import pl.agh.edu.actor.HotelSkin;
-import pl.agh.edu.config.GraphicConfig;
 
 public class Rating extends Table {
-
-	private final Table table = new Table();
-	private final Stack stack = new Stack();
 	private static final int maxRating = 5;
 	private final Star[] stars = IntStream.range(0, maxRating)
 			.mapToObj(index -> new Star(index, this))
 			.toArray(Star[]::new);
-	private int currentRating = 0;
-	private final Function<Integer, Void> function;
+	private int currentRating;
+	private final Consumer<Integer> function;
 
-	public Rating(Function<Integer, Void> function) {
+	private boolean disabled = false;
+
+	public Rating(Integer currentRating, Consumer<Integer> function) {
+		this.currentRating = currentRating;
 		this.function = function;
-		stack.add(new Image(HotelSkin.getInstance().getPatch("rating-background")));
-		stack.add(table);
-		Arrays.stream(stars).sequential().forEach(table::add);
-		this.add(stack).width(RatingStyle.getWidth()).height(RatingStyle.getHeight()).center();
+
+		this.setBackground(new NinePatchDrawable(HotelSkin.getInstance().getPatch("rating-background")));
+
+		Arrays.stream(stars).sequential().forEach(this::add);
+		this.setSize(RatingStyle.getWidth(), RatingStyle.getHeight());
+		this.center();
+
+		this.setRating(currentRating);
+	}
+
+	public Rating(Consumer<Integer> function) {
+		this(0, function);
+	}
+
+	public Rating(Integer currentRating) {
+		this(currentRating, (Integer i) -> {});
+		this.setDisabled(true);
+	}
+
+	public boolean isDisabled() {
+		return disabled;
+	}
+
+	private void setDisabled(boolean disabled) {
+		this.disabled = disabled;
 	}
 
 	public void setRating(int rating) {
-		function.apply(rating);
+		function.accept(rating);
 		currentRating = rating;
 		Arrays.stream(stars)
 				.sequential()
@@ -53,20 +72,17 @@ public class Rating extends Table {
 	}
 
 	private static class RatingStyle {
+
+		public static float getPadding() {
+			return 20f;
+		}
+
 		public static float getHeight() {
-			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> 60f;
-				case MEDIUM -> 70f;
-				case LARGE -> 80f;
-			};
+			return Star.getSize() + getPadding();
 		}
 
 		public static float getWidth() {
-			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> 250f;
-				case MEDIUM -> 270f;
-				case LARGE -> 300f;
-			};
+			return maxRating * Star.getSize() + getPadding();
 		}
 	}
 }
