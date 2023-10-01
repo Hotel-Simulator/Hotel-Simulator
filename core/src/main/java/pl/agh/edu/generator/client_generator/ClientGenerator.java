@@ -21,6 +21,7 @@ import pl.agh.edu.model.client.Client;
 import pl.agh.edu.model.client.ClientGroup;
 import pl.agh.edu.model.event.temporary.ClientNumberModificationTemporaryEventHandler;
 import pl.agh.edu.model.time.Time;
+import pl.agh.edu.utils.Pair;
 import pl.agh.edu.utils.RandomUtils;
 
 public class ClientGenerator {
@@ -50,7 +51,8 @@ public class ClientGenerator {
 	}
 
 	private BigDecimal getDesiredPricePerNight(RoomRank desiredRoomRank, RoomSize roomSize) {
-		double meanPrice = JSONClientDataLoader.averagePricesPerNight.get(desiredRoomRank).get(roomSize).doubleValue() / gameDifficultyManager.getDifficultyMultiplier();
+		double meanPrice = JSONClientDataLoader.averagePricesPerNight
+				.get(Pair.of(desiredRoomRank, roomSize)).doubleValue() / gameDifficultyManager.getDifficultyMultiplier();
 		double variation = 0.2 * meanPrice;
 
 		return BigDecimal.valueOf(Math.round(RandomUtils.randomGaussian(meanPrice, variation)));

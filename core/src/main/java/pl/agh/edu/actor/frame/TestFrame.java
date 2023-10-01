@@ -12,6 +12,7 @@ public class TestFrame extends BaseFrame {
 		ValueTag valueTag = new ValueTag("valueTag.credit.interest", "3%");
 
 		root.add(valueTag);
+
 		this.add(root);
 	}
 }

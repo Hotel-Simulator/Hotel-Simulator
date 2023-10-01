@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Null;
 
 import pl.agh.edu.actor.HotelSkin;
+import pl.agh.edu.audio.SoundAudio;
 import pl.agh.edu.config.GraphicConfig;
 
 public class Star extends Table {
@@ -20,29 +21,33 @@ public class Star extends Table {
 	public Star(int index, Rating rating) {
 		this.add(button).width(StarStyle.getSize()).height(StarStyle.getSize()).center();
 		this.index = index;
+
 		button.addListener(new InputListener() {
 
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				return true;
+				return !rating.isDisabled();
 			}
 
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				SoundAudio.BUTTON_3.play();
 				rating.setRating(index);
 			}
 
 			@Override
 			public void enter(InputEvent event, float x, float y, int pointer, @Null Actor fromActor) {
-				rating.setOverRating(index);
+				if (!rating.isDisabled())
+					rating.setOverRating(index);
 			}
 
 			@Override
 			public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-				rating.setDefaultRating();
+				if (!rating.isDisabled()) {
+					rating.setDefaultRating();
+				}
 			}
 		});
-
 	}
 
 	private void changeStateToOver() {
@@ -74,11 +79,15 @@ public class Star extends Table {
 
 	}
 
+	public static float getSize() {
+		return StarStyle.getSize();
+	}
+
 	private static class StarStyle {
 		public static float getSize() {
 			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> 40f;
-				case MEDIUM -> 45f;
+				case SMALL -> 30f;
+				case MEDIUM -> 40f;
 				case LARGE -> 50f;
 			};
 		}
