@@ -12,40 +12,40 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 
 import pl.agh.edu.actor.HotelSkin;
+import pl.agh.edu.actor.utils.CustomLabel;
+import pl.agh.edu.actor.utils.WrapperTable;
 import pl.agh.edu.audio.SoundAudio;
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.language.LanguageChangeListener;
-import pl.agh.edu.language.LanguageManager;
 
-public class SelectMenu extends Table implements LanguageChangeListener {
+public class SelectMenu extends WrapperTable implements LanguageChangeListener {
 
 	private final Skin skin = HotelSkin.getInstance();
-	private final Label descriptionLabel = new SelectMenuLabel();
-
-	private final String languagePath;
+	private final SelectMenuLabel descriptionLabel = new SelectMenuLabel();
 	private final Array<SelectMenuItem> items;
 	private final SelectBox<SelectMenuItem> selectOption = new DropDownSelect();
 
 	public SelectMenu(String languagePath, Array<SelectMenuItem> items, Function<? super SelectMenuItem, Void> function) {
+		super(languagePath);
 		this.items = items;
-		this.languagePath = languagePath;
-		this.updateLabel();
-		LanguageManager.addListener(this);
 
 		setMaxListCount();
 		setListItems(items);
 		setFunction(function);
 
-		this.selectOption.setAlignment(Align.right);
-		this.add(descriptionLabel).size(SelectMenuStyle.getWidth(), SelectMenuStyle.getHeight());
-		this.add(selectOption).size(SelectMenuStyle.getWidth(), SelectMenuStyle.getHeight());
+		innerTable.add(descriptionLabel).pad(0f).grow().uniform();
+		innerTable.add(selectOption).pad(0f).grow().uniform();
+		innerTable.setFillParent(true);
+
+		this.setResolutionChangeHandler(this::changeResolutionHandler);
+		this.setLanguageChangeHandler(descriptionLabel::setText);
 	}
 
-	public void setItem(String text) {
-		for (SelectMenuItem selectMenuItem : this.items) {
-			if (selectMenuItem.getStringFunction.equals(text)) {
+	public void setItem(String languagePath) {
+		for (SelectMenuItem selectMenuItem : items) {
+			if (selectMenuItem.name.equals(languagePath)) {
 				this.selectOption.setSelected(selectMenuItem);
-				break;
+				return;
 			}
 		}
 	}
@@ -71,28 +71,17 @@ public class SelectMenu extends Table implements LanguageChangeListener {
 		});
 	}
 
-	@Override
-	public void layout() {
-		super.layout();
-		descriptionLabel.setSize(SelectMenuStyle.getWidth(), SelectMenuStyle.getHeight());
-		selectOption.setSize(SelectMenuStyle.getWidth(), SelectMenuStyle.getHeight());
-		this.getCells().forEach(cell -> cell.size(SelectMenuStyle.getWidth(), SelectMenuStyle.getHeight()));
-	}
-
-	@Override
-	public void onLanguageChange() {
-		updateLabel();
-		this.selectOption.setItems(items);
-	}
-
-	private void updateLabel() {
-		this.descriptionLabel.setText(LanguageManager.get(languagePath));
-	}
-
-	private class SelectMenuLabel extends Label {
+	private class SelectMenuLabel extends CustomLabel {
 		public SelectMenuLabel() {
-			super("Test", skin.get("selectMenu", Label.LabelStyle.class));
-			this.setAlignment(Align.center);
+			super("subtitle1", "label-select-box-background");
+			this.setAlignment(Align.center, Align.center);
+		}
+
+		@Override
+		public void validate() {
+			if (this.getParent() != null)
+				setHeight(this.getParent().getHeight());
+			this.layout();
 		}
 
 	}
@@ -100,29 +89,31 @@ public class SelectMenu extends Table implements LanguageChangeListener {
 	private class DropDownSelect extends SelectBox<SelectMenuItem> {
 		public DropDownSelect() {
 			super(skin.get("selectMenu", SelectBox.SelectBoxStyle.class));
-			this.setSize(SelectMenuStyle.getWidth(), SelectMenuStyle.getHeight());
-			this.getList().setAlignment(Align.center);
+			SelectBoxStyle selectBoxStyle = this.getStyle();
 			setUpSelectionPane();
+			this.getList().setAlignment(Align.center);
 		}
 
 		private void setUpSelectionPane() {
 			List.ListStyle listStyle = this.getList().getStyle();
 
-			listStyle.background.setRightWidth(0f);
-			listStyle.background.setBottomHeight(0f);
-			listStyle.background.setLeftWidth(0f);
-			listStyle.background.setTopHeight(0f);
-
 			listStyle.selection.setBottomHeight(SelectMenuStyle.getPadding());
-			listStyle.selection.setLeftWidth(SelectMenuStyle.getPadding());
 			listStyle.selection.setTopHeight(SelectMenuStyle.getPadding());
-			listStyle.selection.setRightWidth(SelectMenuStyle.getPadding());
+
+			this.getList().setStyle(listStyle);
+		}
+
+		@Override
+		public void validate() {
+			if (this.getParent() != null)
+				setHeight(this.getParent().getHeight());
+			this.layout();
 		}
 
 		@Override
 		protected GlyphLayout drawItem(Batch batch, BitmapFont font, SelectMenuItem item, float x, float y, float width) {
 			String string = this.getSelected().toString();
-			return font.draw(batch, string, x, this.getY() + (this.getHeight() + font.getXHeight()) / 2, 0, string.length(), width, Align.center, false, "...");
+			return font.draw(batch, string, this.getX(), this.getY() + (this.getHeight() + font.getXHeight()) / 2, 0, string.length(), this.getWidth(), Align.center, false, "...");
 		}
 
 		@Override
@@ -138,28 +129,32 @@ public class SelectMenu extends Table implements LanguageChangeListener {
 		}
 	}
 
+	private void changeResolutionHandler() {
+		this.size(SelectMenuStyle.getWidth(), SelectMenuStyle.getHeight());
+	}
+
 	private static class SelectMenuStyle {
 		public static float getHeight() {
 			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> 40f;
-				case MEDIUM -> 50f;
-				case LARGE -> 60f;
+				case SMALL -> 30f + 2 * getPadding();
+				case MEDIUM -> 35f + 2 * getPadding();
+				case LARGE -> 40f + 2 * getPadding();
 			};
 		}
 
 		public static float getWidth() {
 			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> 250f + 2*getPadding();
-				case MEDIUM -> 300f + 2*getPadding();
-				case LARGE -> 400f + 2*getPadding();
+				case SMALL -> 650f;
+				case MEDIUM -> 750f;
+				case LARGE -> 900f;
 			};
 		}
 
-		public static float getPadding(){
+		public static float getPadding() {
 			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> 20f;
-				case MEDIUM -> 20f;
-				case LARGE -> 20f;
+				case SMALL -> 5f;
+				case MEDIUM -> 10f;
+				case LARGE -> 15f;
 			};
 		}
 	}

@@ -9,7 +9,7 @@ public class SelectMenuLanguage extends SelectMenuItem {
 	public final Language value;
 
 	public SelectMenuLanguage(Language value) {
-		super(value::toString);
+		super(value.languagePath, value::toString);
 		this.value = value;
 	}
 

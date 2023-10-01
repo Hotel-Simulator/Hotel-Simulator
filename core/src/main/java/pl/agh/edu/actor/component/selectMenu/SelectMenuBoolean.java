@@ -9,7 +9,7 @@ public class SelectMenuBoolean extends SelectMenuItem {
 	private static final String languagePath = "selectMenu.boolean.";
 
 	public SelectMenuBoolean(boolean value) {
-		super(() -> LanguageManager.get(languagePath + (value ? "yes" : "no")));
+		super(getLanguagePath(value), () -> LanguageManager.get(getLanguagePath(value)));
 		this.value = value;
 	}
 
@@ -20,5 +20,9 @@ public class SelectMenuBoolean extends SelectMenuItem {
 		itemArray.add(new SelectMenuBoolean(false));
 
 		return itemArray;
+	}
+
+	public static String getLanguagePath(boolean value) {
+		return "selectMenu.boolean." + (value ? "yes" : "no");
 	}
 }

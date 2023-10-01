@@ -1,21 +1,19 @@
 package pl.agh.edu.config;
 
-import java.util.Locale;
-
 import pl.agh.edu.language.Language;
 import pl.agh.edu.language.LanguageManager;
 
 public class LanguageConfig {
 
-	private static Locale locale = Language.Polish.locale;
+	private static Language language = Language.Polish;
 
-	public static void setLanguage(Locale locale) {
-		LanguageConfig.locale = locale;
+	public static void setLanguage(Language language) {
+		LanguageConfig.language = language;
 		LanguageManager.updateLanguage();
 	}
 
-	public static Locale getLanguage() {
-		return locale;
+	public static Language getLanguage() {
+		return language;
 	}
 
 }

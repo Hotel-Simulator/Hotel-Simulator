@@ -4,12 +4,10 @@ import java.util.Arrays;
 import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
+import pl.agh.edu.actor.utils.WrapperTable;
+import pl.agh.edu.config.GraphicConfig;
 
-import pl.agh.edu.actor.HotelSkin;
-
-public class Rating extends Table {
+public class Rating extends WrapperTable {
 	private static final int maxRating = 5;
 	private final Star[] stars = IntStream.range(0, maxRating)
 			.mapToObj(index -> new Star(index, this))
@@ -20,16 +18,18 @@ public class Rating extends Table {
 	private boolean disabled = false;
 
 	public Rating(Integer currentRating, Consumer<Integer> function) {
+		super();
 		this.currentRating = currentRating;
 		this.function = function;
 
-		this.setBackground(new NinePatchDrawable(HotelSkin.getInstance().getPatch("rating-background")));
+		this.setBackground("rating-background");
+		Arrays.stream(stars).sequential().forEach(innerTable::add);
 
-		Arrays.stream(stars).sequential().forEach(this::add);
-		this.setSize(RatingStyle.getWidth(), RatingStyle.getHeight());
-		this.center();
+		innerTable.setFillParent(true);
 
+		this.setResolutionChangeHandler(this::changeResolutionHandler);
 		this.setRating(currentRating);
+		changeResolutionHandler();
 	}
 
 	public Rating(Consumer<Integer> function) {
@@ -71,18 +71,26 @@ public class Rating extends Table {
 		return currentRating;
 	}
 
+	private void changeResolutionHandler() {
+		this.size(RatingStyle.getWidth(), RatingStyle.getHeight());
+	}
+
 	private static class RatingStyle {
 
 		public static float getPadding() {
-			return 20f;
+			return switch (GraphicConfig.getResolution().SIZE) {
+				case SMALL -> 15f;
+				case MEDIUM -> 20f;
+				case LARGE -> 30f;
+			};
 		}
 
 		public static float getHeight() {
-			return Star.getSize() + getPadding();
+			return Star.getSize() + 2 * getPadding();
 		}
 
 		public static float getWidth() {
-			return maxRating * Star.getSize() + getPadding();
+			return maxRating * Star.getSize() + 2 * getPadding();
 		}
 	}
 }

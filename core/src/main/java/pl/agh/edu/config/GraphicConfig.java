@@ -5,17 +5,20 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import pl.agh.edu.actor.utils.ResolutionManager;
 import pl.agh.edu.enums.Resolution;
 
 public class GraphicConfig {
 	private static Resolution resolution = Resolution._1920x1080;
 	private static boolean fullscreenMode = false;
-	public static final Stage stage = new Stage(new FitViewport(resolution.WIDTH, resolution.HEIGHT));
+	public static final Stage stage = new Stage();
 
 	public static void changeResolution(Resolution newResolution) {
 		resolution = newResolution;
 		Viewport viewport = new FitViewport(newResolution.WIDTH, newResolution.HEIGHT);
 		stage.setViewport(viewport);
+		viewport.apply(true);
+
 		if (isFullscreen()) {
 			setFullscreenMode(false);
 			setFullscreenMode(true);
@@ -25,6 +28,8 @@ public class GraphicConfig {
 
 		viewport.update(newResolution.WIDTH, newResolution.HEIGHT, true);
 		viewport.getCamera().update();
+		stage.getViewport().update(newResolution.WIDTH, newResolution.HEIGHT, true);
+		ResolutionManager.notifyListeners();
 	}
 
 	public static void setFullscreenMode(Boolean value) {

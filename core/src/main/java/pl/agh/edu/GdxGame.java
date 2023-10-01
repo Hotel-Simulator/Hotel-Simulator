@@ -4,8 +4,8 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
 
 import pl.agh.edu.config.GraphicConfig;
+import pl.agh.edu.config.LanguageConfig;
 import pl.agh.edu.language.LanguageManager;
-import pl.agh.edu.model.console.CommandExecutor;
 import pl.agh.edu.model.time.Time;
 import pl.agh.edu.screen.MainScreen;
 
@@ -13,17 +13,16 @@ public class GdxGame extends ApplicationAdapter {
 
 	private Screen currentScreen;
 	private Screen previousScreen;
-	private Time time;
-	private CommandExecutor commandExecutor;
+	private final Time time = Time.getInstance();
 
 	@Override
 	public void create() {
 		LanguageManager.updateLanguage();
-		time = Time.getInstance();
-		commandExecutor = CommandExecutor.getInstance();
 		currentScreen = new MainScreen(this);
 		setScreen(currentScreen);
-		GraphicConfig.setFullscreenMode(false);
+		GraphicConfig.setFullscreenMode(GraphicConfig.isFullscreen());
+		GraphicConfig.changeResolution(GraphicConfig.getResolution());
+		LanguageConfig.setLanguage(LanguageConfig.getLanguage());
 	}
 
 	@Override
@@ -36,7 +35,6 @@ public class GdxGame extends ApplicationAdapter {
 		}
 
 		time.update(Gdx.graphics.getDeltaTime());
-		commandExecutor.executeCommands();
 	}
 
 	@Override

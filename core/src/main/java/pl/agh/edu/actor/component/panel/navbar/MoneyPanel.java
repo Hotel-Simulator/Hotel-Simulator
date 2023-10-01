@@ -2,21 +2,27 @@ package pl.agh.edu.actor.component.panel.navbar;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 
 import pl.agh.edu.actor.HotelSkin;
+import pl.agh.edu.actor.utils.CustomLabel;
+import pl.agh.edu.actor.utils.WrapperTable;
 
-public class MoneyPanel extends Table {
-	private final Label moneyLabel;
+public class MoneyPanel extends WrapperTable {
+	private final Label moneyLabel = new MoneyLabel();
+	private final Skin skin = HotelSkin.getInstance();
 
 	public MoneyPanel() {
-		Skin skin = HotelSkin.getInstance();
-		Label.LabelStyle labelStyle = skin.get("navbar", Label.LabelStyle.class);
-		moneyLabel = new Label("200,000$", labelStyle);
-		moneyLabel.setAlignment(Align.center);
+		innerTable.add(moneyLabel).grow().center();
+		this.size(220, 80);
+	}
 
-		add(moneyLabel).size(220, 60).left().growX();
+	private class MoneyLabel extends CustomLabel {
+		public MoneyLabel() {
+			super("h4", "label-money-background");
+			this.setText("100$");
+			this.setAlignment(Align.center, Align.center);
+		}
 	}
 
 	public void setMoney(String money) {
