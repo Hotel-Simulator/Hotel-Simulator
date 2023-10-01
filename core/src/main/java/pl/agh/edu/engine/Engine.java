@@ -9,7 +9,6 @@ import pl.agh.edu.generator.event_generator.EventGenerator;
 import pl.agh.edu.json.data_loader.JSONBankDataLoader;
 import pl.agh.edu.management.hotel.HotelHandler;
 import pl.agh.edu.model.Hotel;
-import pl.agh.edu.model.advertisement.AdvertisementHandler;
 import pl.agh.edu.model.time.Time;
 import pl.agh.edu.time_command.RepeatingTimeCommand;
 import pl.agh.edu.time_command.TimeCommand;
@@ -20,7 +19,6 @@ public class Engine {
 	private final ClientGenerator clientGenerator = ClientGenerator.getInstance();
 	private final Hotel hotel = new Hotel();
 	private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
-	private final AdvertisementHandler advertisementHandler = AdvertisementHandler.getInstance();
 	private final EventGenerator eventGenerator = EventGenerator.getInstance();
 	private final HotelHandler hotelHandler = new HotelHandler();
 
@@ -44,7 +42,6 @@ public class Engine {
 	}
 
 	private void initializeEveryDayUpdates(LocalDateTime currentTime) {
-		timeCommandExecutor.addCommand(new RepeatingTimeCommand(Frequency.EVERY_DAY, advertisementHandler::dailyUpdate, currentTime));
 		timeCommandExecutor.addCommand(new RepeatingTimeCommand(Frequency.EVERY_DAY, hotelHandler.possibleEmployeeHandler::dailyUpdate, currentTime));
 		timeCommandExecutor.addCommand(new RepeatingTimeCommand(Frequency.EVERY_DAY, this::dailyUpdate, currentTime));
 		timeCommandExecutor.addCommand(new RepeatingTimeCommand(Frequency.EVERY_DAY, hotelHandler.cleaningScheduler::dailyAtCheckOutTimeUpdate, LocalDateTime.of(currentTime

@@ -1,6 +1,7 @@
 package pl.agh.edu.generator.client_generator;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -12,9 +13,9 @@ import java.util.stream.Stream;
 import pl.agh.edu.enums.*;
 import pl.agh.edu.json.data_loader.JSONClientDataLoader;
 import pl.agh.edu.json.data_loader.JSONHotelDataLoader;
+import pl.agh.edu.management.advertisement.AdvertisementHandler;
 import pl.agh.edu.management.game.GameDifficultyManager;
 import pl.agh.edu.management.hotel.HotelScenariosManager;
-import pl.agh.edu.model.advertisement.AdvertisementHandler;
 import pl.agh.edu.model.advertisement.report.AdvertisementReportData;
 import pl.agh.edu.model.advertisement.report.AdvertisementReportHandler;
 import pl.agh.edu.model.client.Client;
@@ -28,7 +29,7 @@ public class ClientGenerator {
 	private static ClientGenerator clientGeneratorInstance;
 
 	private static final Map<String, Long> attractivenessConstants = JSONHotelDataLoader.attractivenessConstants;
-	private final AdvertisementHandler advertisementHandler = AdvertisementHandler.getInstance();
+	private final AdvertisementHandler advertisementHandler = new AdvertisementHandler();
 	private final ClientNumberModificationTemporaryEventHandler clientNumberModificationTemporaryEventHandler = ClientNumberModificationTemporaryEventHandler.getInstance();
 	private final Time time = Time.getInstance();
 	// Set user input here (set hotelType)
@@ -90,7 +91,9 @@ public class ClientGenerator {
 				.stream()
 				.collect(Collectors.toMap(
 						Map.Entry::getKey,
-						e -> (int) Math.round(e.getValue() * noClientsWithoutAdvertisements.get(e.getKey())),
+						e -> e.getValue().multiply(BigDecimal.valueOf(noClientsWithoutAdvertisements.get(e.getKey())))
+								.setScale(0, RoundingMode.HALF_EVEN)
+								.intValue(),
 						(a, b) -> b,
 						() -> new EnumMap<>(HotelVisitPurpose.class)));
 	}
