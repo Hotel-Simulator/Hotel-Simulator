@@ -79,6 +79,7 @@ public class Star extends Container<Button> {
 		} else {
 			changeStateToDimmed();
 		}
+
 	}
 
 	public static float getSize() {

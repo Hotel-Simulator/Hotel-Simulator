@@ -13,6 +13,7 @@ import pl.agh.edu.enums.RoomSize;
 import pl.agh.edu.json.data_extractor.JSONDataExtractor;
 import pl.agh.edu.json.data_extractor.JSONFilePath;
 import pl.agh.edu.json.data_extractor.JSONValueUtil;
+import pl.agh.edu.utils.Pair;
 
 public class JSONClientDataLoader {
 	private static final String JSON_FILE_PATH = JSONFilePath.CLIENT_CONFIG.get();
@@ -20,7 +21,7 @@ public class JSONClientDataLoader {
 	public static EnumMap<HotelVisitPurpose, EnumMap<RoomRank, Integer>> desiredRankProbabilities;
 	public static EnumMap<HotelVisitPurpose, Map<Integer, Integer>> numberOfNightsProbabilities;
 	public static EnumMap<HotelVisitPurpose, Map<Integer, Integer>> clientGroupSizeProbabilities;
-	public static EnumMap<RoomRank, EnumMap<RoomSize, BigDecimal>> averagePricesPerNight;
+	public static Map<Pair<RoomRank, RoomSize>, BigDecimal> averagePricesPerNight;
 	public static Duration basicMaxWaitingTime;
 	public static int waitingTimeVariation;
 
@@ -55,13 +56,14 @@ public class JSONClientDataLoader {
 						entry2 -> JSONValueUtil.getInt((Long) entry2.getValue())),
 				HotelVisitPurpose.class);
 
-		averagePricesPerNight = JSONValueUtil.getEnumMap(
-				JSONDataExtractor.extract(JSON_FILE_PATH, "average_prices_per_nights", JSONObject.class),
-				entry -> JSONValueUtil.getEnumMap(
-						(JSONObject) entry.getValue(),
-						entry2 -> JSONValueUtil.getBigDecimal((Long) entry2.getValue()),
-						RoomSize.class),
-				RoomRank.class);
+		averagePricesPerNight = JSONValueUtil.convertMap(
+				JSONValueUtil.getEnumMap(
+						JSONDataExtractor.extract(JSON_FILE_PATH, "average_prices_per_nights", JSONObject.class),
+						entry -> JSONValueUtil.getEnumMap(
+								(JSONObject) entry.getValue(),
+								entry2 -> JSONValueUtil.getBigDecimal((Long) entry2.getValue()),
+								RoomSize.class),
+						RoomRank.class));
 
 		basicMaxWaitingTime = JSONValueUtil.getDuration(
 				JSONDataExtractor.extract(JSON_FILE_PATH, "basic_max_waiting_time_in_minutes", Long.class));
