@@ -15,6 +15,7 @@ public class GraphicConfig {
 
 	public static void changeResolution(Resolution newResolution) {
 		resolution = newResolution;
+		ResolutionManager.notifyListeners();
 		Viewport viewport = new FitViewport(newResolution.WIDTH, newResolution.HEIGHT);
 		stage.setViewport(viewport);
 		viewport.apply(true);
@@ -29,7 +30,6 @@ public class GraphicConfig {
 		viewport.update(newResolution.WIDTH, newResolution.HEIGHT, true);
 		viewport.getCamera().update();
 		stage.getViewport().update(newResolution.WIDTH, newResolution.HEIGHT, true);
-		ResolutionManager.notifyListeners();
 	}
 
 	public static void setFullscreenMode(Boolean value) {

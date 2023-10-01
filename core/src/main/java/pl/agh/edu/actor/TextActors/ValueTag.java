@@ -31,8 +31,6 @@ public class ValueTag extends WrapperTable {
 		this.size(ValueTagStyle.getWidth(), ValueTagStyle.getHeight());
 		this.setLanguageChangeHandler(tagLabel::setText);
 		this.setResolutionChangeHandler(this::changeResolutionHandler);
-
-		this.debugAll();
 	}
 
 	public void setValueColor(Color color) {
