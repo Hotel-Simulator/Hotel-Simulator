@@ -2,7 +2,6 @@ package json;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -18,7 +17,6 @@ import pl.agh.edu.enums.RoomRank;
 import pl.agh.edu.enums.RoomSize;
 import pl.agh.edu.enums.TypeOfContract;
 import pl.agh.edu.json.data.*;
-import pl.agh.edu.json.data_extractor.JSONFilePath;
 import pl.agh.edu.json.data_loader.*;
 import pl.agh.edu.model.Room;
 import pl.agh.edu.model.advertisement.ConstantAdvertisementType;
@@ -28,15 +26,6 @@ import pl.agh.edu.model.employee.Shift;
 import pl.agh.edu.utils.Pair;
 
 public class JSONDataLoaderTest {
-
-	static {
-		try {
-			changeJSONPath();
-		} catch (ReflectiveOperationException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
 	@Test
 	@SuppressWarnings("unused")
 	public void jSONRoomDataLoaderTest() {
@@ -127,13 +116,4 @@ public class JSONDataLoaderTest {
 			int waitingTimeVariation = JSONClientDataLoader.waitingTimeVariation;
 		});
 	}
-
-	private static void changeJSONPath()
-			throws ReflectiveOperationException {
-
-		Field field = JSONFilePath.class.getDeclaredField("PATH");
-		field.setAccessible(true);
-		field.set(null, "../assets/jsons/%s.json");
-	}
-
 }

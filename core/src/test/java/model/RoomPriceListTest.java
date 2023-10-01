@@ -2,27 +2,19 @@ package model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.EnumMap;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import pl.agh.edu.enums.RoomRank;
 import pl.agh.edu.enums.RoomSize;
-import pl.agh.edu.json.data_extractor.JSONFilePath;
 import pl.agh.edu.model.RoomPriceList;
 
 public class RoomPriceListTest {
 	private static EnumMap<RoomRank, EnumMap<RoomSize, BigDecimal>> testPrices;
 	private static RoomPriceList roomPriceList;
-
-	@BeforeAll
-	static void setUpClass() throws ReflectiveOperationException {
-		changeJSONPath();
-	}
 
 	@BeforeEach
 	void setUp() {
@@ -99,13 +91,5 @@ public class RoomPriceListTest {
 
 		// Then
 		assertEquals(roomPriceList.getPrices(), newPrices);
-	}
-
-	private static void changeJSONPath()
-			throws ReflectiveOperationException {
-
-		Field field = JSONFilePath.class.getDeclaredField("PATH");
-		field.setAccessible(true);
-		field.set(null, "../assets/jsons/%s.json");
 	}
 }

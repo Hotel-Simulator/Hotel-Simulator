@@ -13,7 +13,7 @@ public class JSONDataExtractorTest {
 	@Test
 	public void extractStringCorrectValueTest() {
 		// given
-		String path = "./src/test/resources/test.json";
+		String path = "./core/src/test/resources/test.json";
 		String key = "string";
 		Class<String> type = String.class;
 		// when
@@ -25,7 +25,7 @@ public class JSONDataExtractorTest {
 	@Test
 	public void extractDoubleCorrectValueTest() {
 		// given
-		String path = "./src/test/resources/test.json";
+		String path = "./core/src/test/resources/test.json";
 		String key = "double";
 		Class<Double> type = Double.class;
 		// when
@@ -37,7 +37,7 @@ public class JSONDataExtractorTest {
 	@Test
 	public void extractLongCorrectValueTest() {
 		// given
-		String path = "./src/test/resources/test.json";
+		String path = "./core/src/test/resources/test.json";
 		String key = "long";
 		Class<Long> type = Long.class;
 		// when
@@ -49,7 +49,7 @@ public class JSONDataExtractorTest {
 	@Test
 	public void extractJSONObjectCorrectValueTest() {
 		// given
-		String path = "./src/test/resources/test.json";
+		String path = "./core/src/test/resources/test.json";
 		String key = "json_object";
 		Class<JSONObject> type = JSONObject.class;
 		// when
@@ -62,7 +62,7 @@ public class JSONDataExtractorTest {
 	@Test
 	public void extractJSONArrayCorrectValueTest() {
 		// given
-		String path = "./src/test/resources/test.json";
+		String path = "./core/src/test/resources/test.json";
 		String key = "json_array";
 		Class<JSONArray> type = JSONArray.class;
 		// when

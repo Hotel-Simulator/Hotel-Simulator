@@ -21,7 +21,7 @@ public class JSONValueUtilTest {
 	@Test
 	public void getListCorrectValuesTest() {
 		// given
-		String path = "./src/test/resources/test.json";
+		String path = "./core/src/test/resources/test.json";
 		String key = "list";
 		Class<JSONArray> type = JSONArray.class;
 		List<Long> expected = List.of(2L, 3L, 4L);
@@ -79,7 +79,8 @@ public class JSONValueUtilTest {
 	@Test
 	public void getMapCorrectValuesTest() {
 		// given
-		String path = "./src/test/resources/test.json";
+		String path = "./core/src/test/resources/test.json";
+		System.out.println(System.getProperty("user.dir"));
 		String key = "map";
 		Class<JSONObject> type = JSONObject.class;
 		Map<Long, Long> expected = Map.of(1L, 1L, 2L, 2L, 3L, 3L);
@@ -95,7 +96,7 @@ public class JSONValueUtilTest {
 	@Test
 	public void getEnumMapCorrectValuesTest() {
 		// given
-		String path = "./src/test/resources/test.json";
+		String path = "./core/src/test/resources/test.json";
 		String key = "enum_map";
 		Class<JSONObject> type = JSONObject.class;
 		EnumMap<HotelVisitPurpose, Long> expected = new EnumMap<>(HotelVisitPurpose.class);

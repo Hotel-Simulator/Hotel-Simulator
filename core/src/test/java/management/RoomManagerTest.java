@@ -4,18 +4,15 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.*;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
 import pl.agh.edu.enums.RoomRank;
 import pl.agh.edu.enums.RoomSize;
-import pl.agh.edu.json.data_extractor.JSONFilePath;
 import pl.agh.edu.management.bank.BankAccountHandler;
 import pl.agh.edu.management.room.RoomManager;
 import pl.agh.edu.model.Room;
@@ -29,11 +26,6 @@ public class RoomManagerTest {
 	private ClientGroup clientGroup;
 	@Mock
 	BankAccountHandler bankAccountHandler;
-
-	@BeforeAll
-	public static void setUpClass() throws ReflectiveOperationException {
-		changeJSONPath();
-	}
 
 	@BeforeEach
 	public void setUp() {
@@ -299,13 +291,5 @@ public class RoomManagerTest {
 
 		// Then
 		assertFalse(foundRoom.isPresent());
-	}
-
-	private static void changeJSONPath()
-			throws ReflectiveOperationException {
-
-		Field field = JSONFilePath.class.getDeclaredField("PATH");
-		field.setAccessible(true);
-		field.set(null, "../assets/jsons/%s.json");
 	}
 }
