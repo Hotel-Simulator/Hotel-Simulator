@@ -19,7 +19,7 @@ public class GraphicConfig {
 		Viewport viewport = new FitViewport(newResolution.WIDTH, newResolution.HEIGHT);
 		stage.setViewport(viewport);
 
-		viewport.update(newResolution.WIDTH, newResolution.HEIGHT);
+		viewport.update(newResolution.WIDTH, newResolution.HEIGHT, true);
 		setFullscreenMode(isFullscreen());
 	}
 
@@ -28,9 +28,7 @@ public class GraphicConfig {
 		if (isFullscreen()) {
 			Gdx.graphics.setWindowedMode(resolution.WIDTH, resolution.HEIGHT);
 			Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
-		}
-		else{
-//			Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+		} else {
 			Gdx.graphics.setWindowedMode(resolution.WIDTH, resolution.HEIGHT);
 		}
 	}
