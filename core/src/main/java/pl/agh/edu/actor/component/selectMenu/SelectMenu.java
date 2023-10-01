@@ -41,13 +41,17 @@ public class SelectMenu extends WrapperTable implements LanguageChangeListener {
 		this.setLanguageChangeHandler(descriptionLabel::setText);
 	}
 
-	public void setItem(String languagePath) {
+	public void setItem(String name) {
+		System.out.println(name);
 		for (SelectMenuItem selectMenuItem : items) {
-			if (selectMenuItem.name.equals(languagePath)) {
+			System.out.println(selectMenuItem.name);
+			if (selectMenuItem.name.equals(name)) {
 				this.selectOption.setSelected(selectMenuItem);
+				System.out.println("Selected" + selectMenuItem.name);
 				return;
 			}
 		}
+		System.out.println("No such item");
 	}
 
 	private void setMaxListCount() {

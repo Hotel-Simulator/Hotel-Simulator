@@ -119,7 +119,7 @@ public class OptionFrame extends Stack {
 	}
 
 	private void setStartingValue() {
-		selectResolutionMenu.setItem(GraphicConfig.getResolution().toString());
+		selectResolutionMenu.setItem(GraphicConfig.getResolution().name());
 		selectFullScreenMenu.setItem("selectMenu.boolean." + (GraphicConfig.isFullscreen() ? "yes" : "no"));
 		selectLanguageMenu.setItem(LanguageConfig.getLanguage().languagePath);
 	}
