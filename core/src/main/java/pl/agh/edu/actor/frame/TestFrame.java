@@ -2,21 +2,17 @@ package pl.agh.edu.actor.frame;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
-import pl.agh.edu.actor.component.rating.Rating;
+import pl.agh.edu.actor.TextActors.ValueTag;
 
 public class TestFrame extends BaseFrame {
 	public TestFrame(String name) {
 		super();
 		Table root = new Table();
 
-		Rating rating = new Rating(1, (Integer i) -> {
-			System.out.println("Rating: " + i);
-		});
+		ValueTag valueTag = new ValueTag("valueTag.credit.interest", "3%");
 
-		Rating rating2 = new Rating(1);
-		root.add(rating);
-		root.row();
-		root.add(rating2);
+		root.add(valueTag);
+
 		this.add(root);
 	}
 }

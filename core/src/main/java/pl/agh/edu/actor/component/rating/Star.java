@@ -76,6 +76,7 @@ public class Star extends Table {
 		} else {
 			changeStateToDimmed();
 		}
+
 	}
 
 	public static float getSize() {
