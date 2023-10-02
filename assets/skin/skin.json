@@ -382,11 +382,11 @@ pl.agh.edu.actor.component.button.NavbarButton$NavbarButtonStyle: {
 		iconDisabled: navbar-account-disabled
 		font: subtitle2
 	}
-	add: {
-		text: navbar.button.add
-		iconUp: navbar-add-up
-		iconOver: navbar-add-over
-		iconDisabled: navbar-add-disabled
+	ad: {
+		text: navbar.button.ad
+		iconUp: navbar-ad-up
+		iconOver: navbar-ad-over
+		iconDisabled: navbar-ad-disabled
 		font: subtitle2
 	}
 	back: {
