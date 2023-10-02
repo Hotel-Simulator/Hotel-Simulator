@@ -32,8 +32,7 @@ public class GameDifficultyManagerTest {
 		assertTrue(2 >= gameDifficultyManager.getDifficultyMultiplier());
 	}
 
-	private static void changeJSONPath()
-			throws ReflectiveOperationException {
+	private static void changeJSONPath() throws ReflectiveOperationException {
 		Field field = JSONFilePath.class.getDeclaredField("PATH");
 		field.setAccessible(true);
 		field.set(null, "../assets/jsons/%s.json");

@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import pl.agh.edu.management.game.GameDifficultyManager;
 import pl.agh.edu.model.time.Time;
 
 public class BankAccount {
