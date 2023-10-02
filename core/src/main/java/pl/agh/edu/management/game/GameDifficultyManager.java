@@ -8,7 +8,7 @@ import pl.agh.edu.json.data_loader.JSONGameDataLoader;
 public class GameDifficultyManager {
 	private static GameDifficultyManager instance;
 	private double difficultyMultiplier;
-	private long initialBalance;
+	private BigDecimal initialBalance;
 
 	private GameDifficultyManager() {
 		// Set user input here (set difficultyLevel)
@@ -27,7 +27,7 @@ public class GameDifficultyManager {
 	}
 
 	public BigDecimal getInitialBalance() {
-		return BigDecimal.valueOf(initialBalance);
+		return initialBalance;
 	}
 
 	public void setDifficulty(DifficultyLevel difficulty) {

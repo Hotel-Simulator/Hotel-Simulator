@@ -15,8 +15,8 @@ public class BankAccount {
 	private BigDecimal accountFee;
 	private final Time time = Time.getInstance();
 
-	public BankAccount(BigDecimal creditInterestRate, BigDecimal accountFee) {
-		this.balance = GameDifficultyManager.getInstance().getInitialBalance();
+	public BankAccount(BigDecimal initialBalance, BigDecimal creditInterestRate, BigDecimal accountFee) {
+		this.balance = initialBalance;
 		this.creditInterestRate = creditInterestRate;
 		this.accountFee = accountFee;
 	}

@@ -1,5 +1,6 @@
 package pl.agh.edu.json.data_loader;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.EnumMap;
 
@@ -21,7 +22,7 @@ public class JSONGameDataLoader {
 
 	public static double roomFaultProbability;
 	public static EnumMap<DifficultyLevel, Double> difficultyMultiplier;
-	public static EnumMap<DifficultyLevel, Long> initialBalance;
+	public static EnumMap<DifficultyLevel, BigDecimal> initialBalance;
 
 	private JSONGameDataLoader() {}
 
@@ -44,7 +45,7 @@ public class JSONGameDataLoader {
 				DifficultyLevel.class);
 		initialBalance = JSONValueUtil.getEnumMap(
 				JSONDataExtractor.extract(JSON_FILE_PATH, "initial_balance", JSONObject.class),
-				entry -> (Long) entry.getValue(),
+				entry -> BigDecimal.valueOf((long) entry.getValue()),
 				DifficultyLevel.class);
 	}
 }
