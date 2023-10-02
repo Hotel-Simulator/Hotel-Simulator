@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
+import java.util.function.BinaryOperator;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -15,8 +16,6 @@ import pl.agh.edu.time_command.TimeCommand;
 import pl.agh.edu.time_command.TimeCommandExecutor;
 
 public class AdvertisementHandler {
-	private static AdvertisementHandler instance;
-
 	private final List<AdvertisementCampaign> advertisementCampaigns = new ArrayList<>();
 	private final Time time = Time.getInstance();
 	private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
@@ -45,21 +44,26 @@ public class AdvertisementHandler {
 		return advertisementCampaigns.stream()
 				.filter(this::isCurrentlyEmitted)
 				.map(advertisementCampaigns -> advertisementCampaigns.advertisementData().effectiveness())
-				.reduce(
-						Stream.of(HotelVisitPurpose.values())
-								.collect(Collectors.toMap(
-										e -> e,
-										e -> BigDecimal.ZERO,
-										(a, b) -> b,
-										() -> new EnumMap<>(HotelVisitPurpose.class))),
-						(resultMap, enumMap) -> {
-							enumMap.keySet().forEach(key -> {
-								BigDecimal value = enumMap.get(key);
-								resultMap.merge(key, value, BigDecimal::add);
-							});
-							return resultMap;
-						});
+				.reduce(getIdentity(), getAccumulator());
+	}
 
+	private EnumMap<HotelVisitPurpose, BigDecimal> getIdentity() {
+		return Stream.of(HotelVisitPurpose.values())
+				.collect(Collectors.toMap(
+						e -> e,
+						e -> BigDecimal.ZERO,
+						(a, b) -> b,
+						() -> new EnumMap<>(HotelVisitPurpose.class)));
+	}
+
+	private BinaryOperator<EnumMap<HotelVisitPurpose, BigDecimal>> getAccumulator() {
+		return (resultMap, enumMap) -> {
+			enumMap.keySet().forEach(key -> {
+				BigDecimal value = enumMap.get(key);
+				resultMap.merge(key, value, BigDecimal::add);
+			});
+			return resultMap;
+		};
 	}
 
 	private boolean isCurrentlyEmitted(AdvertisementCampaign campaign) {
