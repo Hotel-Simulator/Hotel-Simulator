@@ -1,4 +1,4 @@
-package pl.agh.edu.actor.slider;
+package pl.agh.edu.actor.component.slider;
 
 import java.math.BigDecimal;
 import java.math.MathContext;

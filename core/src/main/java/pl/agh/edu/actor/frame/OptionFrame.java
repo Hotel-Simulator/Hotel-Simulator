@@ -12,8 +12,8 @@ import com.badlogic.gdx.utils.Scaling;
 
 import pl.agh.edu.actor.HotelSkin;
 import pl.agh.edu.actor.component.selectMenu.*;
-import pl.agh.edu.actor.slider.PercentSliderComponent;
-import pl.agh.edu.actor.slider.SliderComponent;
+import pl.agh.edu.actor.component.slider.PercentSliderComponent;
+import pl.agh.edu.actor.component.slider.SliderComponent;
 import pl.agh.edu.config.AudioConfig;
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.config.LanguageConfig;
@@ -32,7 +32,6 @@ public class OptionFrame extends Stack {
 		NinePatchDrawable background = new NinePatchDrawable(skin.getPatch("frame-glass-background"));
 		add(new Image(background, Scaling.stretch, Align.center));
 
-		this.add(table);
 		table.add(selectResolutionMenu).grow();
 		table.row();
 		table.add(selectFullScreenMenu).grow();
@@ -42,6 +41,8 @@ public class OptionFrame extends Stack {
 		table.add(soundVolumeSlider).grow();
 		table.row();
 		table.add(selectLanguageMenu).grow();
+
+		this.add(table);
 
 		setStartingValue();
 	}
@@ -84,7 +85,7 @@ public class OptionFrame extends Stack {
 
 		Function<? super SelectMenuItem, Void> function = selectedOption -> {
 			if (selectedOption instanceof SelectMenuLanguage languageItem) {
-				LanguageConfig.setLanguage(languageItem.value.locale);
+				LanguageConfig.setLanguage(languageItem.value);
 			}
 			return null;
 		};
@@ -118,8 +119,9 @@ public class OptionFrame extends Stack {
 	}
 
 	private void setStartingValue() {
-		selectResolutionMenu.setItem(GraphicConfig.getResolution().toString());
-		selectFullScreenMenu.setItem(GraphicConfig.isFullscreen() ? "Yes" : "No");
+		selectResolutionMenu.setItem(GraphicConfig.getResolution().name());
+		selectFullScreenMenu.setItem("selectMenu.boolean." + (GraphicConfig.isFullscreen() ? "yes" : "no"));
+		selectLanguageMenu.setItem(LanguageConfig.getLanguage().languagePath);
 	}
 
 	private float getFrameWidth() {

@@ -13,7 +13,7 @@ import pl.agh.edu.actor.component.panel.navbar.TimePanel;
 public class NavbarTop extends Table {
 
 	private static final float navbarHorizontalPadding = 190f;
-	private static final float navbarTopPadding = 15f;
+	private static final float navbarTopPadding = 10f;
 
 	public NavbarTop(String styleName) {
 		Skin skin = HotelSkin.getInstance();
@@ -45,9 +45,7 @@ public class NavbarTop extends Table {
 	public static class NavbarTopStyle {
 		public Drawable topBackground;
 
-		public NavbarTopStyle() {
-
-		}
+		public NavbarTopStyle() {}
 
 		public NavbarTopStyle(NavbarTopStyle style) {
 			topBackground = style.topBackground;

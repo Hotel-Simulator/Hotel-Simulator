@@ -1,4 +1,4 @@
-package pl.agh.edu.actor.slider;
+package pl.agh.edu.actor.component.slider;
 
 import java.util.function.Function;
 
