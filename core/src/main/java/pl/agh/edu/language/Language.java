@@ -6,7 +6,7 @@ public enum Language {
 	Polish("language.pl", new Locale("pl", "PL")),
 	English("language.en", Locale.ENGLISH);
 
-	private final String languagePath;
+	public final String languagePath;
 	public final Locale locale;
 
 	Language(String path, Locale locale) {

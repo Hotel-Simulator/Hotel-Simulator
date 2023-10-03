@@ -33,7 +33,5 @@ public class HotelScenariosManager {
 		return seasonalMultiplier.get(time.getMonthDay());
 	}
 
-	public static void main(String[] args) {
-		System.out.println(HotelPopularityFunction.getSeasonalMultipliers(HotelType.HOTEL).get(MonthDay.of(3, 1)));
-	}
+	public static void main(String[] args) {}
 }

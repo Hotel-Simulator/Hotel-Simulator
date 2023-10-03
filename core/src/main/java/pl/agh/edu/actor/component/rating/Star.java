@@ -4,22 +4,25 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Null;
 
 import pl.agh.edu.actor.HotelSkin;
 import pl.agh.edu.audio.SoundAudio;
 import pl.agh.edu.config.GraphicConfig;
 
-public class Star extends Table {
+public class Star extends Container<Button> {
 	private final Skin skin = HotelSkin.getInstance();
 
 	private final Button button = new Button(skin, "star-normal");
 	public final int index;
 
 	public Star(int index, Rating rating) {
-		this.add(button).width(StarStyle.getSize()).height(StarStyle.getSize()).center();
+		this.setActor(button);
+		this.size(StarStyle.getSize(), StarStyle.getSize());
+		this.center();
+
 		this.index = index;
 
 		button.addListener(new InputListener() {
@@ -76,6 +79,7 @@ public class Star extends Table {
 		} else {
 			changeStateToDimmed();
 		}
+
 	}
 
 	public static float getSize() {

@@ -20,7 +20,7 @@ public class LanguageManager {
 	}
 
 	public static void updateLanguage() {
-		loadBundle(LanguageConfig.getLanguage());
+		loadBundle(LanguageConfig.getLanguage().locale);
 		notifyListeners();
 	}
 
