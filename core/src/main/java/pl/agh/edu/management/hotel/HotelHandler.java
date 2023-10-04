@@ -25,7 +25,7 @@ public class HotelHandler {
 
 	public final PossibleEmployeeHandler possibleEmployeeHandler = new PossibleEmployeeHandler(this);
 	public final EmployeeHandler employeeHandler = new EmployeeHandler();
-	public final BankAccount bankAccount = new BankAccount(new BigDecimal("0.05"), BigDecimal.valueOf(2), JSONBankDataLoader.initialBalance);
+	public final BankAccount bankAccount = new BankAccount(JSONBankDataLoader.initialBalance, BigDecimal.valueOf(2), new BigDecimal("0.05"));
 	public final BankAccountHandler bankAccountHandler = new BankAccountHandler(bankAccount);
 	public final EmployeeSalaryHandler employeeSalaryHandler = new EmployeeSalaryHandler(employeeHandler, bankAccountHandler);
 	public final RoomManager roomManager = new RoomManager(JSONHotelDataLoader.initialRooms, bankAccountHandler);
