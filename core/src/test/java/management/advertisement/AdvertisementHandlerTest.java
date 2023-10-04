@@ -2,13 +2,11 @@ package management.advertisement;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.EnumMap;
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -16,7 +14,6 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import pl.agh.edu.enums.HotelVisitPurpose;
-import pl.agh.edu.json.data_extractor.JSONFilePath;
 import pl.agh.edu.management.advertisement.AdvertisementHandler;
 import pl.agh.edu.model.advertisement.AdvertisementType;
 import pl.agh.edu.model.time.Time;
@@ -25,11 +22,6 @@ public class AdvertisementHandlerTest {
 
 	private AdvertisementHandler advertisementHandler;
 	private final Time time = Time.getInstance();
-
-	@BeforeAll
-	static void setUpClass() throws ReflectiveOperationException {
-		changeJSONPath();
-	}
 
 	@BeforeEach
 	void setUp() {
@@ -139,13 +131,5 @@ public class AdvertisementHandlerTest {
 		// Then
 		assertEquals(1, currentCampaigns.size());
 		assertEquals(AdvertisementType.RADIO_ADVERTISEMENT, currentCampaigns.get(0).advertisementData().type());
-	}
-
-	private static void changeJSONPath()
-			throws ReflectiveOperationException {
-
-		Field field = JSONFilePath.class.getDeclaredField("PATH");
-		field.setAccessible(true);
-		field.set(null, "../assets/jsons/%s.json");
 	}
 }

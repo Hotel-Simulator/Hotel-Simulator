@@ -3,29 +3,21 @@ package model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import pl.agh.edu.enums.RoomRank;
 import pl.agh.edu.enums.RoomSize;
-import pl.agh.edu.json.data_extractor.JSONFilePath;
 import pl.agh.edu.model.RoomPricePerNight;
 import pl.agh.edu.utils.Pair;
 
 public class RoomPricePerNightTest {
 	private static Map<Pair<RoomRank, RoomSize>, BigDecimal> testPrices;
 	private static RoomPricePerNight roomPricePerNight;
-
-	@BeforeAll
-	static void setUpClass() throws ReflectiveOperationException {
-		changeJSONPath();
-	}
 
 	@BeforeEach
 	void setUp() {
@@ -94,13 +86,5 @@ public class RoomPricePerNightTest {
 
 		// Then
 		assertEquals(roomPricePerNight.getPrices(), newPrices);
-	}
-
-	private static void changeJSONPath()
-			throws ReflectiveOperationException {
-
-		Field field = JSONFilePath.class.getDeclaredField("PATH");
-		field.setAccessible(true);
-		field.set(null, "../assets/jsons/%s.json");
 	}
 }
