@@ -80,7 +80,6 @@ public class JSONValueUtilTest {
 	public void getMapCorrectValuesTest() {
 		// given
 		String path = "./core/src/test/resources/test.json";
-		System.out.println(System.getProperty("user.dir"));
 		String key = "map";
 		Class<JSONObject> type = JSONObject.class;
 		Map<Long, Long> expected = Map.of(1L, 1L, 2L, 2L, 3L, 3L);
