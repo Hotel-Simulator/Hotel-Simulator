@@ -29,7 +29,7 @@ public class BankAccountTest {
 	}
 
 	@BeforeEach
-	public void setUp() throws ReflectiveOperationException {
+	public void setUp() {
 		bankAccount = new BankAccount(initialBalance, new BigDecimal("0.05"), accountFee);
 	}
 

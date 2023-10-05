@@ -12,7 +12,7 @@ import pl.agh.edu.json.data_extractor.JSONFilePath;
 import pl.agh.edu.json.data_extractor.JSONValueUtil;
 
 public class JSONGameDataLoader {
-	private static final String JSON_FILE_PATH = JSONFilePath.GAME_CONFIG.get();
+	private static final String JSON_FILE_PATH = JSONFilePath.GAME_INIT_DATA.get();
 
 	public static LocalDate startDate;
 	public static LocalDate endDate;
