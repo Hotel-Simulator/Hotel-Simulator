@@ -21,8 +21,7 @@ import pl.agh.edu.json.data.*;
 import pl.agh.edu.json.data_extractor.JSONFilePath;
 import pl.agh.edu.json.data_loader.*;
 import pl.agh.edu.model.Room;
-import pl.agh.edu.model.advertisement.ConstantAdvertisementType;
-import pl.agh.edu.model.advertisement.SingleAdvertisementType;
+import pl.agh.edu.model.advertisement.AdvertisementType;
 import pl.agh.edu.model.employee.Profession;
 import pl.agh.edu.model.employee.Shift;
 import pl.agh.edu.utils.Pair;
@@ -44,7 +43,6 @@ public class JSONDataLoaderTest {
 			Duration roomRankChangeDuration = JSONRoomDataLoader.roomRankChangeDuration;
 			Duration roomBuildingDuration = JSONRoomDataLoader.roomBuildingDuration;
 			Map<Pair<RoomRank, RoomSize>, BigDecimal> roomBuildingCosts = JSONRoomDataLoader.roomBuildingCosts;
-			System.out.println(roomBuildingCosts);
 		});
 	}
 
@@ -109,9 +107,8 @@ public class JSONDataLoaderTest {
 	@SuppressWarnings("unused")
 	public void jSONAdvertisementDataLoaderTest() {
 		assertDoesNotThrow(() -> {
-			double multiplier = JSONAdvertisementDataLoader.multiplier;
-			EnumMap<SingleAdvertisementType, SingleAdvertisementData> singleAdvertisementData = JSONAdvertisementDataLoader.singleAdvertisementData;
-			EnumMap<ConstantAdvertisementType, ConstantAdvertisementData> constantAdvertisementData = JSONAdvertisementDataLoader.constantAdvertisementData;
+			BigDecimal multiplier = JSONAdvertisementDataLoader.multiplier;
+			EnumMap<AdvertisementType, AdvertisementData> advertisementData = JSONAdvertisementDataLoader.advertisementData;
 		});
 	}
 
@@ -122,7 +119,7 @@ public class JSONDataLoaderTest {
 			EnumMap<HotelVisitPurpose, EnumMap<RoomRank, Integer>> desiredRankProbabilities = JSONClientDataLoader.desiredRankProbabilities;
 			EnumMap<HotelVisitPurpose, Map<Integer, Integer>> numberOfNightsProbabilities = JSONClientDataLoader.numberOfNightsProbabilities;
 			EnumMap<HotelVisitPurpose, Map<Integer, Integer>> clientGroupSizeProbabilities = JSONClientDataLoader.clientGroupSizeProbabilities;
-			EnumMap<RoomRank, EnumMap<RoomSize, BigDecimal>> averagePricesPerNight = JSONClientDataLoader.averagePricesPerNight;
+			Map<Pair<RoomRank, RoomSize>, BigDecimal> averagePricesPerNight = JSONClientDataLoader.averagePricesPerNight;
 			Duration basicMaxWaitingTime = JSONClientDataLoader.basicMaxWaitingTime;
 			int waitingTimeVariation = JSONClientDataLoader.waitingTimeVariation;
 		});

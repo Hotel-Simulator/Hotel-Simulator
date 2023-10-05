@@ -12,7 +12,7 @@ import pl.agh.edu.json.data_loader.JSONClientDataLoader;
 import pl.agh.edu.json.data_loader.JSONRoomDataLoader;
 import pl.agh.edu.management.bank.BankAccountHandler;
 import pl.agh.edu.model.Room;
-import pl.agh.edu.model.RoomPriceList;
+import pl.agh.edu.model.RoomPricePerNight;
 import pl.agh.edu.model.client.ClientGroup;
 import pl.agh.edu.model.time.Time;
 import pl.agh.edu.time_command.TimeCommand;
@@ -26,7 +26,7 @@ public class RoomManager {
 	private final Time time = Time.getInstance();
 	private final Map<Room, LocalDateTime> roomRankChangeTimes = new HashMap<>();
 	private final Map<Room, LocalDateTime> roomBuildingTimes = new HashMap<>();
-	private final RoomPriceList roomPriceList = new RoomPriceList(JSONClientDataLoader.averagePricesPerNight);
+	private final RoomPricePerNight roomPricePerNight = new RoomPricePerNight(JSONClientDataLoader.averagePricesPerNight);
 	private final BankAccountHandler bankAccountHandler;
 
 	public RoomManager(List<Room> initialRooms, BankAccountHandler bankAccountHandler) {
@@ -59,8 +59,8 @@ public class RoomManager {
 				.filter(room -> !room.roomState.isOccupied())
 				.filter(room -> !room.roomState.isUnderRankChange())
 				.filter(room -> !room.roomState.isBeingBuild())
-				.filter(room -> roomPriceList.getPrice(room).compareTo(group.getDesiredPricePerNight()) < 1)
-				.sorted(Comparator.comparing(roomPriceList::getPrice))
+				.filter(room -> roomPricePerNight.getPrice(room).compareTo(group.getDesiredPricePerNight()) < 1)
+				.sorted(Comparator.comparing(roomPricePerNight::getPrice))
 				.min(Comparator.comparing(room -> room.roomState.isDirty()));
 	}
 
@@ -94,8 +94,8 @@ public class RoomManager {
 	}
 
 	private BigDecimal getChangeCost(RoomRank currentRank, RoomRank desiredRank, RoomSize size) {
-		return JSONRoomDataLoader.roomBuildingCosts.get(new Pair<>(desiredRank, size))
-				.subtract(JSONRoomDataLoader.roomBuildingCosts.get(new Pair<>(currentRank, size)))
+		return JSONRoomDataLoader.roomBuildingCosts.get(Pair.of(desiredRank, size))
+				.subtract(JSONRoomDataLoader.roomBuildingCosts.get(Pair.of(currentRank, size)))
 				.divide(BigDecimal.valueOf(2), 0, RoundingMode.HALF_EVEN);
 	}
 
@@ -123,7 +123,7 @@ public class RoomManager {
 		Room buildRoom = new Room(roomRank, roomSize);
 		buildRoom.roomState.setBeingBuild(true);
 		rooms.add(buildRoom);
-		bankAccountHandler.registerExpense(JSONRoomDataLoader.roomBuildingCosts.get(new Pair<>(roomRank, roomSize)));
+		bankAccountHandler.registerExpense(JSONRoomDataLoader.roomBuildingCosts.get(Pair.of(roomRank, roomSize)));
 
 		LocalDateTime buildTime = time.getTime().plusHours(
 				(long) (JSONRoomDataLoader.roomBuildingDuration.toHours() * roomTimeMultiplier(buildRoom)));
@@ -136,7 +136,7 @@ public class RoomManager {
 				}, buildTime));
 	}
 
-	public RoomPriceList getRoomPriceList() {
-		return roomPriceList;
+	public RoomPricePerNight getRoomPriceList() {
+		return roomPricePerNight;
 	}
 }

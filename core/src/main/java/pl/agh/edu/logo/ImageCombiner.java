@@ -24,8 +24,6 @@ public class ImageCombiner {
 		g2d.dispose();
 
 		saveImage(combinedImage, "assets/img/combined.png");
-
-		System.out.println("Images combined successfully.");
 	}
 
 	private static BufferedImage loadImage(String filePath) {

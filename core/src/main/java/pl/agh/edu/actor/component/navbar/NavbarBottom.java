@@ -55,7 +55,7 @@ public class NavbarBottom extends Table {
 				bottomNavBar.add(new NavbarButton("hotel", () -> changeBottomNavbarState(BottomNavbarState.HOTEL)));
 				bottomNavBar.add(new NavbarButton("employee", () -> changeBottomNavbarState(BottomNavbarState.EMPLOYEE)));
 				bottomNavBar.add(new NavbarButton("tax", () -> changeBottomNavbarState(BottomNavbarState.TAXES)));
-				bottomNavBar.add(new NavbarButton("add", () -> changeBottomNavbarState(BottomNavbarState.ADS)));
+				bottomNavBar.add(new NavbarButton("ad", () -> changeBottomNavbarState(BottomNavbarState.ADS)));
 			}
 			case HOTEL -> {
 				bottomNavBar.add(new NavbarButton("board", () -> mainScreen.changeFrame(new TestFrame("board"))));
@@ -81,7 +81,7 @@ public class NavbarBottom extends Table {
 				bottomNavBar.add(new NavbarButton("back", () -> changeBottomNavbarState(BottomNavbarState.MAIN)));
 			}
 			case ADS -> {
-				bottomNavBar.add(new NavbarButton("add", () -> mainScreen.changeFrame(new TestFrame("add"))));
+				bottomNavBar.add(new NavbarButton("ad", () -> mainScreen.changeFrame(new TestFrame("ad"))));
 				bottomNavBar.add(new NavbarButton("history", () -> mainScreen.changeFrame(new TestFrame("history"))));
 				bottomNavBar.add(new NavbarButton("back", () -> changeBottomNavbarState(BottomNavbarState.MAIN)));
 			}

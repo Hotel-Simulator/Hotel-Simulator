@@ -3,27 +3,26 @@ package pl.agh.edu.actor.component.panel.navbar;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 
 import pl.agh.edu.actor.HotelSkin;
+import pl.agh.edu.actor.utils.WrapperTable;
 import pl.agh.edu.audio.SoundAudio;
 import pl.agh.edu.model.time.Time;
 
-public class AccelerationPanel extends Table {
-	private final Label accelerationLabel;
-	private final Button playButton;
+public class AccelerationPanel extends WrapperTable {
+
+	private final Skin skin = HotelSkin.getInstance();
+	private final Label accelerationLabel = new Label(time.getStringAcceleration(), skin, "h4");
+	private final Button playButton = new Button(skin, "navbar-play");;
+	private final Button increaseButton = new Button(skin, "navbar-plus");;
+	private final Button decreaseButton = new Button(skin, "navbar-minus");
 	private static final Time time = Time.getInstance();
 
 	public AccelerationPanel() {
 
-		Skin skin = HotelSkin.getInstance();
-		Label.LabelStyle labelStyle = skin.get("h4_label", Label.LabelStyle.class);
-		accelerationLabel = new Label(time.getStringAcceleration(), labelStyle);
-		Button increaseButton = new Button(skin, "navbar-plus");
-		Button decreaseButton = new Button(skin, "navbar-minus");
-		playButton = new Button(skin, "navbar-play");
-
-		this.setBackground(skin.getDrawable("pane-background-lime"));
-		this.pad(0, 0, 0, 0);
+		accelerationLabel.setAlignment(Align.center, Align.center);
+		this.setBackground("navbar-acceleration-background");
 
 		increaseButton.addListener(new ClickListener() {
 			@Override
@@ -55,13 +54,13 @@ public class AccelerationPanel extends Table {
 				}
 			}
 		});
-		Table insideTable = new Table();
-		insideTable.add(decreaseButton);
-		insideTable.add(accelerationLabel);
-		insideTable.add(increaseButton);
-		insideTable.add(playButton);
 
-		add(insideTable).size(220, 60).right();
+		innerTable.add(decreaseButton);
+		innerTable.add(accelerationLabel).grow();
+		innerTable.add(increaseButton);
+		innerTable.add(playButton);
+
+		this.size(220, 80);
 	}
 
 	private void playTime() {

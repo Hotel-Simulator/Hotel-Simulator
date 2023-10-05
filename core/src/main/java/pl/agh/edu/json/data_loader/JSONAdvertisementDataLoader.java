@@ -1,26 +1,25 @@
 package pl.agh.edu.json.data_loader;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.json.simple.JSONObject;
 
 import pl.agh.edu.enums.HotelVisitPurpose;
-import pl.agh.edu.json.data.ConstantAdvertisementData;
-import pl.agh.edu.json.data.SingleAdvertisementData;
+import pl.agh.edu.json.data.AdvertisementData;
 import pl.agh.edu.json.data_extractor.JSONDataExtractor;
 import pl.agh.edu.json.data_extractor.JSONFilePath;
 import pl.agh.edu.json.data_extractor.JSONValueUtil;
-import pl.agh.edu.model.advertisement.ConstantAdvertisementType;
-import pl.agh.edu.model.advertisement.SingleAdvertisementType;
+import pl.agh.edu.model.advertisement.AdvertisementType;
 
 public class JSONAdvertisementDataLoader {
 	private static final String JSON_FILE_PATH = JSONFilePath.ADVERTISEMENT_CONFIG.get();
 
-	public static double multiplier;
-	public static EnumMap<SingleAdvertisementType, SingleAdvertisementData> singleAdvertisementData;
-	public static EnumMap<ConstantAdvertisementType, ConstantAdvertisementData> constantAdvertisementData;
+	public static BigDecimal multiplier;
+	public static EnumMap<AdvertisementType, AdvertisementData> advertisementData;
 
 	private JSONAdvertisementDataLoader() {}
 
@@ -29,40 +28,22 @@ public class JSONAdvertisementDataLoader {
 	}
 
 	public static void load() {
-		multiplier = JSONDataExtractor.extract(JSON_FILE_PATH, "multiplier", Double.class);
-		singleAdvertisementData = JSONValueUtil.getEnumMap(
-				JSONDataExtractor.extract(JSON_FILE_PATH, "single_advertisement_data", JSONObject.class),
-				entry -> {
-					JSONObject data = (JSONObject) entry.getValue();
-					JSONObject effectivenessData = (JSONObject) data.get("effectiveness");
-					return new SingleAdvertisementData(
-							JSONValueUtil.getBigDecimal((Long) data.get("cost_of_purchase")),
-							JSONValueUtil.getInt((Long) data.get("preparation_days")),
-							(String) data.get("image_path"),
-							Stream.of(HotelVisitPurpose.values()).collect(Collectors.toMap(
-									h -> h,
-									h -> ((Long) effectivenessData.get(h.toString())) * multiplier,
-									(a, b) -> b,
-									() -> new EnumMap<>(HotelVisitPurpose.class))));
-				},
-				SingleAdvertisementType.class);
+		multiplier = JSONValueUtil.getBigDecimal(JSONDataExtractor.extract(JSON_FILE_PATH, "multiplier", Double.class)).setScale(4, RoundingMode.HALF_EVEN);
 
-		constantAdvertisementData = JSONValueUtil.getEnumMap(
-				JSONDataExtractor.extract(JSON_FILE_PATH, "constant_advertisement_data", JSONObject.class),
+		advertisementData = JSONValueUtil.getEnumMap(
+				JSONDataExtractor.extract(JSON_FILE_PATH, "advertisements", JSONObject.class),
 				entry -> {
 					JSONObject data = (JSONObject) entry.getValue();
 					JSONObject effectivenessData = (JSONObject) data.get("effectiveness");
-					return new ConstantAdvertisementData(
-							JSONValueUtil.getBigDecimal((Long) data.get("cost_of_purchase")),
-							JSONValueUtil.getBigDecimal((Long) data.get("cost_of_maintenance")),
-							JSONValueUtil.getInt((Long) data.get("preparation_days")),
-							(String) data.get("image_path"),
-							Stream.of(HotelVisitPurpose.values()).collect(Collectors.toMap(
+					return new AdvertisementData(
+							AdvertisementType.valueOf((String) entry.getKey()),
+							JSONValueUtil.getBigDecimal((Long) data.get("cost_per_day")),
+							Arrays.stream(HotelVisitPurpose.values()).collect(Collectors.toMap(
 									h -> h,
-									h -> ((Long) effectivenessData.get(h.toString())) * multiplier,
+									h -> multiplier.multiply(JSONValueUtil.getBigDecimal((Long) effectivenessData.get(h.toString()))).setScale(4, RoundingMode.HALF_EVEN),
 									(a, b) -> b,
 									() -> new EnumMap<>(HotelVisitPurpose.class))));
 				},
-				ConstantAdvertisementType.class);
+				AdvertisementType.class);
 	}
 }

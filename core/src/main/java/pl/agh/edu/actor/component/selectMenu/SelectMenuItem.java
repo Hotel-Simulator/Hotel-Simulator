@@ -6,8 +6,10 @@ import pl.agh.edu.config.GraphicConfig;
 
 public abstract class SelectMenuItem {
 	protected final Supplier<String> getStringFunction;
+	public final String name;
 
-	public SelectMenuItem(Supplier<String> getStringFunction) {
+	public SelectMenuItem(String name, Supplier<String> getStringFunction) {
+		this.name = name;
 		this.getStringFunction = getStringFunction;
 	}
 
