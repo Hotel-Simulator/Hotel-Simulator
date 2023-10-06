@@ -1,6 +1,6 @@
-package pl.agh.edu.generator.event_generator;
+package pl.agh.edu.model.event;
 
-public record PopUpEvent(
+public record EventPopup(
         String title,
         String description,
         String imagePath

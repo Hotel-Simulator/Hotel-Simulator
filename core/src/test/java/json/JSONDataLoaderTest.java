@@ -25,6 +25,7 @@ import pl.agh.edu.model.advertisement.ConstantAdvertisementType;
 import pl.agh.edu.model.advertisement.SingleAdvertisementType;
 import pl.agh.edu.model.employee.Profession;
 import pl.agh.edu.model.employee.Shift;
+import pl.agh.edu.model.event.ClientNumberModifier;
 import pl.agh.edu.utils.Pair;
 
 public class JSONDataLoaderTest {
@@ -74,8 +75,10 @@ public class JSONDataLoaderTest {
 	@SuppressWarnings("unused")
 	public void jSONEventDataLoaderTest() {
 		assertDoesNotThrow(() -> {
-			List<ClientNumberModificationCyclicTemporaryEventData> clientNumberModificationCyclicTemporaryEventData = JSONEventDataLoader.clientNumberModificationCyclicTemporaryEventData;
-			List<ClientNumberModificationRandomTemporaryEventData> clientNumberModificationRandomTemporaryEventData = JSONEventDataLoader.clientNumberModificationRandomTemporaryEventData;
+			List<CyclicEventData> cyclicEventData = JSONEventDataLoader.cyclicEventData;
+			List<ClientNumberModificationRandomEventData> clientNumberModificationRandomEventData = JSONEventDataLoader.clientNumberModificationRandomEventData;
+			System.out.println(clientNumberModificationRandomEventData.stream().map(ClientNumberModificationRandomEventData::modifier).map(ClientNumberModifier::getValue)
+					.toList());
 		});
 	}
 

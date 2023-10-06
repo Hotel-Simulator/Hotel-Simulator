@@ -1,16 +1,14 @@
 package pl.agh.edu.json.data;
 
-import java.util.EnumMap;
+import pl.agh.edu.model.event.ClientNumberModifier;
 
-import pl.agh.edu.enums.HotelVisitPurpose;
-
-public record ClientNumberModificationRandomTemporaryEventData(
+public record ClientNumberModificationRandomEventData(
         String name,
         String calendarDescription,
         String popupDescription,
         int minDurationDays,
         int maxDurationDays,
-        EnumMap<HotelVisitPurpose,Double> modifiers,
+        ClientNumberModifier modifier,
         double occurrenceProbability,
         String imagePath
 ) {

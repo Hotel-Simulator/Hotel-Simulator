@@ -5,8 +5,8 @@ import java.time.LocalDateTime;
 import pl.agh.edu.enums.Frequency;
 import pl.agh.edu.generator.client_generator.Arrival;
 import pl.agh.edu.generator.client_generator.ClientGenerator;
-import pl.agh.edu.generator.event_generator.EventGenerator;
 import pl.agh.edu.json.data_loader.JSONBankDataLoader;
+import pl.agh.edu.management.event.EventHandler;
 import pl.agh.edu.management.hotel.HotelHandler;
 import pl.agh.edu.model.Hotel;
 import pl.agh.edu.model.advertisement.AdvertisementHandler;
@@ -21,7 +21,7 @@ public class Engine {
 	private final Hotel hotel = new Hotel();
 	private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
 	private final AdvertisementHandler advertisementHandler = AdvertisementHandler.getInstance();
-	private final EventGenerator eventGenerator = EventGenerator.getInstance();
+	private final EventHandler eventHandler = new EventHandler();
 	private final HotelHandler hotelHandler = new HotelHandler();
 
 	public Engine() {
@@ -62,7 +62,7 @@ public class Engine {
 	}
 
 	private void initializeEveryYearUpdates(LocalDateTime currentTime) {
-		timeCommandExecutor.addCommand(new RepeatingTimeCommand(Frequency.EVERY_YEAR, eventGenerator::yearlyUpdate, currentTime));
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(Frequency.EVERY_YEAR, eventHandler::yearlyUpdate, currentTime));
 	}
 
 	private void generateClientArrivals() {

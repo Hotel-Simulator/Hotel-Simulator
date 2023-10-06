@@ -1,5 +1,7 @@
 package pl.agh.edu.json.data_loader;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
@@ -13,17 +15,18 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import pl.agh.edu.enums.HotelVisitPurpose;
-import pl.agh.edu.json.data.ClientNumberModificationCyclicTemporaryEventData;
-import pl.agh.edu.json.data.ClientNumberModificationRandomTemporaryEventData;
+import pl.agh.edu.json.data.ClientNumberModificationRandomEventData;
+import pl.agh.edu.json.data.CyclicEventData;
 import pl.agh.edu.json.data_extractor.JSONDataExtractor;
 import pl.agh.edu.json.data_extractor.JSONFilePath;
 import pl.agh.edu.json.data_extractor.JSONValueUtil;
+import pl.agh.edu.model.event.ClientNumberModifier;
 
 public class JSONEventDataLoader {
 	private static final String JSON_FILE_PATH = JSONFilePath.EVENT_CONFIG.get();
 
-	public static List<ClientNumberModificationCyclicTemporaryEventData> clientNumberModificationCyclicTemporaryEventData;
-	public static List<ClientNumberModificationRandomTemporaryEventData> clientNumberModificationRandomTemporaryEventData;
+	public static List<CyclicEventData> cyclicEventData;
+	public static List<ClientNumberModificationRandomEventData> clientNumberModificationRandomEventData;
 
 	private JSONEventDataLoader() {}
 
@@ -36,41 +39,38 @@ public class JSONEventDataLoader {
 				.appendPattern("--MM-dd")
 				.parseDefaulting(ChronoField.YEAR, 0)
 				.toFormatter();
-		clientNumberModificationCyclicTemporaryEventData = JSONValueUtil.getList(
+		cyclicEventData = JSONValueUtil.getList(
 				JSONDataExtractor.extract(JSON_FILE_PATH, "cyclic_temporary_events", JSONArray.class),
 				e -> {
 					JSONObject JSONEvent = (JSONObject) e;
-					JSONObject JSONModifiers = (JSONObject) JSONEvent.get("modifiers");
-					return new ClientNumberModificationCyclicTemporaryEventData(
+					return new CyclicEventData(
 							(String) JSONEvent.get("name"),
 							(String) JSONEvent.get("calendar_description"),
-							LocalDate.parse((String) (JSONEvent.get("start_date")), formatter),
-							LocalDate.parse((String) (JSONEvent.get("end_date")), formatter),
-							Stream.of(HotelVisitPurpose.values())
-									.collect(Collectors.toMap(
-											f -> f,
-											f -> (double) JSONModifiers.get(f.toString()),
-											(a, b) -> b,
-											() -> new EnumMap<>(HotelVisitPurpose.class))));
+							(String) JSONEvent.get("popup_description"),
+							(String) JSONEvent.get("image_path"),
+							LocalDate.parse((String) (JSONEvent.get("start_date")), formatter));
 				});
 
-		clientNumberModificationRandomTemporaryEventData = JSONValueUtil.getList(
+		clientNumberModificationRandomEventData = JSONValueUtil.getList(
 				JSONDataExtractor.extract(JSON_FILE_PATH, "random_temporary_events", JSONArray.class),
 				e -> {
 					JSONObject JSONEvent = (JSONObject) e;
-					JSONObject JSONModifiers = (JSONObject) JSONEvent.get("modifiers");
-					return new ClientNumberModificationRandomTemporaryEventData(
+					JSONObject JSONModifiers = (JSONObject) JSONEvent.get("modifier");
+					return new ClientNumberModificationRandomEventData(
 							(String) JSONEvent.get("name"),
 							(String) JSONEvent.get("calendar_description"),
 							(String) JSONEvent.get("popup_description"),
 							JSONValueUtil.getInt((Long) JSONEvent.get("min_duration_days")),
 							JSONValueUtil.getInt((Long) JSONEvent.get("max_duration_days")),
-							Stream.of(HotelVisitPurpose.values())
-									.collect(Collectors.toMap(
-											f -> f,
-											f -> (double) JSONModifiers.get(f.toString()),
-											(a, b) -> b,
-											() -> new EnumMap<>(HotelVisitPurpose.class))),
+							new ClientNumberModifier(
+									Stream.of(HotelVisitPurpose.values())
+											.collect(Collectors.toMap(
+													f -> f,
+													f -> BigDecimal.valueOf((Double) JSONModifiers.get(f.toString()))
+															.setScale(4, RoundingMode.HALF_EVEN)
+															.stripTrailingZeros(),
+													(a, b) -> b,
+													() -> new EnumMap<>(HotelVisitPurpose.class)))),
 							(double) JSONEvent.get("occurrence_probability"),
 							(String) JSONEvent.get("image_path")
 
