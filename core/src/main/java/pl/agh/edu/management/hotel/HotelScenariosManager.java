@@ -32,6 +32,4 @@ public class HotelScenariosManager {
 	public double getCurrentDayMultiplier() {
 		return seasonalMultiplier.get(time.getMonthDay());
 	}
-
-	public static void main(String[] args) {}
 }

@@ -8,7 +8,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import pl.agh.edu.enums.DifficultyLevel;
 import pl.agh.edu.json.data_extractor.JSONFilePath;
 import pl.agh.edu.management.game.GameDifficultyManager;
 
@@ -23,7 +22,7 @@ public class GameDifficultyManagerTest {
 
 	@BeforeEach
 	public void setUp() {
-		gameDifficultyManager = new GameDifficultyManager(DifficultyLevel.MEDIUM);
+		gameDifficultyManager = GameDifficultyManager.getInstance();
 	}
 
 	@Test
@@ -33,8 +32,7 @@ public class GameDifficultyManagerTest {
 		assertTrue(2 >= gameDifficultyManager.getDifficultyMultiplier());
 	}
 
-	private static void changeJSONPath()
-			throws ReflectiveOperationException {
+	private static void changeJSONPath() throws ReflectiveOperationException {
 		Field field = JSONFilePath.class.getDeclaredField("PATH");
 		field.setAccessible(true);
 		field.set(null, "../assets/jsons/%s.json");
