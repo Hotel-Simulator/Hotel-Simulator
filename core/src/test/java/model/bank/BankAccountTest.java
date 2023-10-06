@@ -2,14 +2,12 @@ package model.bank;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import pl.agh.edu.json.data_extractor.JSONFilePath;
 import pl.agh.edu.management.game.GameDifficultyManager;
 import pl.agh.edu.model.bank.BankAccount;
 import pl.agh.edu.model.bank.Credit;
@@ -18,15 +16,7 @@ import pl.agh.edu.model.bank.TransactionType;
 public class BankAccountTest {
 	private final BigDecimal accountFee = BigDecimal.valueOf(10);
 	private BankAccount bankAccount;
-	private final BigDecimal initialBalance = GameDifficultyManager.getInstance().getInitialBalance();;
-
-	static {
-		try {
-			changeJSONPath();
-		} catch (ReflectiveOperationException e) {
-			throw new RuntimeException(e);
-		}
-	}
+	private final BigDecimal initialBalance = GameDifficultyManager.getInstance().getInitialBalance();
 
 	@BeforeEach
 	public void setUp() {
@@ -117,13 +107,5 @@ public class BankAccountTest {
 		// Then
 		assertEquals(2, expenses.size());
 		assertTrue(expenses.stream().allMatch(transaction -> transaction.type() == TransactionType.EXPENSE));
-	}
-
-	private static void changeJSONPath()
-			throws ReflectiveOperationException {
-
-		Field field = JSONFilePath.class.getDeclaredField("PATH");
-		field.setAccessible(true);
-		field.set(null, "../assets/jsons/%s.json");
 	}
 }
