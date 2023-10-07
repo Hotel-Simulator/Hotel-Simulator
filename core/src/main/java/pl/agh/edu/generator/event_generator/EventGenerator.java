@@ -76,11 +76,4 @@ public class EventGenerator {
 									appearanceDate.plusMonths(monthsBetweenEventAppearanceAndStart));
 						}).toList();
 	}
-
-	public static void main(String[] args) {
-		EventGenerator eventGenerator = EventGenerator.getInstance();
-
-		System.out.println(eventGenerator.generateClientNumberModificationRandomEventsForThisYear());
-		System.out.println(eventGenerator.generateCyclicEventsForThisYear());
-	}
 }
