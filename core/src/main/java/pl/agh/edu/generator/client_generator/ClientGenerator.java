@@ -30,7 +30,7 @@ public class ClientGenerator {
 	private static ClientGenerator clientGeneratorInstance;
 
 	private static final Map<String, Long> attractivenessConstants = JSONHotelDataLoader.attractivenessConstants;
-	private final AdvertisementHandler advertisementHandler = new AdvertisementHandler();
+	private final AdvertisementHandler advertisementHandler;
 	private final ClientNumberModificationTemporaryEventHandler clientNumberModificationTemporaryEventHandler = ClientNumberModificationTemporaryEventHandler.getInstance();
 	private final Time time = Time.getInstance();
 	// Set user input here (set hotelType)

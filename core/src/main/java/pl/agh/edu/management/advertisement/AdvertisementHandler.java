@@ -3,6 +3,7 @@ package pl.agh.edu.management.advertisement;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.function.BinaryOperator;
 import java.util.stream.Collectors;
@@ -10,6 +11,7 @@ import java.util.stream.Stream;
 
 import pl.agh.edu.enums.HotelVisitPurpose;
 import pl.agh.edu.json.data_loader.JSONAdvertisementDataLoader;
+import pl.agh.edu.management.bank.BankAccountHandler;
 import pl.agh.edu.model.advertisement.*;
 import pl.agh.edu.model.time.Time;
 import pl.agh.edu.time_command.TimeCommand;
@@ -19,6 +21,11 @@ public class AdvertisementHandler {
 	private final List<AdvertisementCampaign> advertisementCampaigns = new ArrayList<>();
 	private final Time time = Time.getInstance();
 	private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
+	private final BankAccountHandler bankAccountHandler;
+
+	public AdvertisementHandler(BankAccountHandler bankAccountHandler) {
+		this.bankAccountHandler = bankAccountHandler;
+	}
 
 	public boolean canBuyAdvertisementCampaign(AdvertisementType type, LocalDate startDate, LocalDate endDate) {
 		return advertisementCampaigns.stream()
@@ -32,12 +39,26 @@ public class AdvertisementHandler {
 
 	public void buyAdvertisementCampaign(AdvertisementType type, LocalDate startDate, LocalDate endDate) {
 		AdvertisementCampaign advertisementCampaign = new AdvertisementCampaign(JSONAdvertisementDataLoader.advertisementData.get(type), startDate, endDate);
-
+		bankAccountHandler.registerExpense(getCampaignFullCost(type, ChronoUnit.DAYS.between(startDate, endDate)));
 		timeCommandExecutor.addCommand(new TimeCommand(
 				() -> advertisementCampaigns.remove(advertisementCampaign),
 				endDate.atTime(LocalTime.MIDNIGHT).minusMinutes(1)));
 
 		advertisementCampaigns.add(advertisementCampaign);
+	}
+
+	public static BigDecimal getCampaignFullCost(AdvertisementType type, long noDays) {
+		BigDecimal discount;
+		if (noDays < 14) {
+			discount = BigDecimal.ZERO;
+		} else if (noDays < 28) {
+			discount = new BigDecimal("0.1");
+		} else {
+			discount = new BigDecimal("0.2");
+		}
+		return JSONAdvertisementDataLoader.advertisementData.get(type).costPerDay()
+				.multiply(BigDecimal.valueOf(noDays))
+				.multiply(BigDecimal.ONE.subtract(discount));
 	}
 
 	public EnumMap<HotelVisitPurpose, BigDecimal> getCumulatedModifier() {
