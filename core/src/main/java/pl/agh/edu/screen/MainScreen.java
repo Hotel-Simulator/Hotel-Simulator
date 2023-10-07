@@ -1,10 +1,8 @@
 package pl.agh.edu.screen;
 
 import com.badlogic.gdx.*;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
@@ -28,13 +26,13 @@ public class MainScreen implements Screen {
 	private final Skin skin = HotelSkin.getInstance();
 
 	private final Stack stack = new Stack();
+
+	private final Container<Image> blurContainer = new Container();
+	private final Container<OptionFrame> optionFrameContainer = new Container();
 	private final Table table = new Table();
 	private boolean isOptionsOpen = false;
 	private final OptionFrame optionFrame = new OptionFrame();
-	private final BlurShader blurShader;
-	private final FrameBuffer fbo;
-	private final SpriteBatch spriteBatch;
-	private final Texture guiTexture;
+	private final BlurShader blurShader = new BlurShader((SpriteBatch) stage.getBatch());
 
 	public MainScreen(GdxGame game) {
 		Image background = new Image(skin.getDrawable("night-city"));
@@ -59,11 +57,8 @@ public class MainScreen implements Screen {
 		table.add();
 
 		stack.add(table);
-
-		blurShader = new BlurShader(1024);
-		fbo = new FrameBuffer(Pixmap.Format.RGBA8888, 1024, 1080, false);
-		spriteBatch = new SpriteBatch();
-		guiTexture = new Texture("night-city.png");
+		stack.add(blurContainer);
+		stack.add(optionFrameContainer);
 	}
 
 	public void changeFrame(BaseFrame frame) {
@@ -80,21 +75,14 @@ public class MainScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
+		if(isOptionsOpen || blurShader.isOpen()){
+			Texture blurredBackground = blurShader.renderWithBlur(stage);
+			stage.getBatch().begin();
+			stage.getBatch().draw(blurredBackground, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 0, 0, 1, 1);
+			stage.getBatch().end();
+		}
 		stage.act();
 		stage.draw();
-		fbo.begin();
-		// Render your scene here
-		fbo.end();
-
-		blurShader.renderBlur(fbo, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 5.0f);
-
-		spriteBatch.begin();
-		// Draw the blurred scene
-		spriteBatch.draw(blurShader.getBlurredTexture(), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		// Draw GUI elements
-		spriteBatch.draw(guiTexture, Gdx.graphics.getWidth() / 2f - guiTexture.getWidth() / 2f,
-				Gdx.graphics.getHeight() / 2f - guiTexture.getHeight() / 2f);
-		spriteBatch.end();
 	}
 
 	@Override
@@ -119,21 +107,21 @@ public class MainScreen implements Screen {
 
 	@Override
 	public void dispose() {
-		blurShader.dispose();
-		backgroundTexture.dispose();
 	}
 
 	private void openOptions() {
 		if (isOptionsOpen)
 			return;
+		blurShader.startBlur();
 		isOptionsOpen = true;
-		stack.add(optionFrame);
+		optionFrameContainer.setActor(optionFrame);
 	}
 
 	private void closeOptions() {
 		if (!isOptionsOpen)
 			return;
+		blurShader.stopBlur();
 		isOptionsOpen = false;
-		stack.removeActor(optionFrame);
+		optionFrameContainer.clear();
 	}
 }

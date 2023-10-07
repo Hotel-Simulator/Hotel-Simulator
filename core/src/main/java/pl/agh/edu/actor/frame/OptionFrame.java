@@ -2,13 +2,8 @@ package pl.agh.edu.actor.frame;
 
 import java.util.function.Function;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Stack;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
-import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Scaling;
 
 import pl.agh.edu.actor.HotelSkin;
 import pl.agh.edu.actor.component.selectMenu.*;
@@ -18,7 +13,7 @@ import pl.agh.edu.config.AudioConfig;
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.config.LanguageConfig;
 
-public class OptionFrame extends Stack {
+public class OptionFrame extends Window {
 	private final Table table = new Table();
 	private final SelectMenu selectResolutionMenu = createSelectMenuForResolution();
 	private final SelectMenu selectFullScreenMenu = createSelectMenuForFullScreenMode();
@@ -27,10 +22,12 @@ public class OptionFrame extends Stack {
 	private final SelectMenu selectLanguageMenu = createSelectMenuForLanguage();
 
 	public OptionFrame() {
-		super();
+		super("Options", HotelSkin.getInstance());
+		this.setModal(true);
+		this.setMovable(true);
 		Skin skin = HotelSkin.getInstance();
 		NinePatchDrawable background = new NinePatchDrawable(skin.getPatch("frame-glass-background"));
-		add(new Image(background, Scaling.stretch, Align.center));
+		this.setBackground(background);
 
 		table.add(selectResolutionMenu).grow();
 		table.row();
@@ -45,6 +42,7 @@ public class OptionFrame extends Stack {
 		this.add(table);
 
 		setStartingValue();
+		this.debugAll();
 	}
 
 	private SelectMenu createSelectMenuForResolution() {
