@@ -41,4 +41,9 @@ public abstract class WrapperContainer<T extends Actor> extends Container<T> imp
 		if (resolutionChangeHandler != null)
 			resolutionChangeHandler.run();
 	}
+
+	public void initChangeHandlers() {
+		onLanguageChange();
+		onResolutionChange();
+	}
 }
