@@ -10,14 +10,11 @@ import pl.agh.edu.json.data.ClientNumberModificationRandomEventData;
 import pl.agh.edu.json.data_loader.JSONEventDataLoader;
 import pl.agh.edu.model.event.ClientNumberModificationEvent;
 import pl.agh.edu.model.event.Event;
-import pl.agh.edu.model.time.Time;
 import pl.agh.edu.utils.RandomUtils;
 
 public class EventGenerator {
 	private static EventGenerator instance;
 	private final Map<String, LocalDate> lastOccurrenceRandomEvents = new HashMap<>();
-	private final Time time = Time.getInstance();
-
 	private final int monthsBetweenEventAppearanceAndStart = 1;
 
 	private EventGenerator() {}
@@ -28,11 +25,11 @@ public class EventGenerator {
 		return instance;
 	}
 
-	public List<ClientNumberModificationEvent> generateClientNumberModificationRandomEventsForThisYear() {
+	public List<ClientNumberModificationEvent> generateClientNumberModificationRandomEventsForYear(Year year) {
 		return JSONEventDataLoader.clientNumberModificationRandomEventData.stream()
 				.filter(eventData -> RandomUtils.randomBooleanWithProbability(eventData.occurrenceProbability()))
 				.map(eventData -> {
-					LocalDate appearanceDate = getAppearanceDate(eventData);
+					LocalDate appearanceDate = getAppearanceDate(eventData, year);
 					lastOccurrenceRandomEvents.put(eventData.name(), appearanceDate);
 					int durationDays = RandomUtils.randomInt(eventData.minDurationDays(), eventData.maxDurationDays() + 1);
 					LocalDate startDate = appearanceDate.plusMonths(monthsBetweenEventAppearanceAndStart);
@@ -48,24 +45,24 @@ public class EventGenerator {
 				}).toList();
 	}
 
-	private LocalDate getAppearanceDate(ClientNumberModificationRandomEventData event) {
+	private LocalDate getAppearanceDate(ClientNumberModificationRandomEventData event, Year year) {
 		int begin = 1;
-		int daysInYear = Year.isLeap(time.getTime().getYear()) ? 366 : 365;
+		int daysInYear = year.isLeap() ? 366 : 365;
 		if (lastOccurrenceRandomEvents.containsKey(event.name())
-				&& lastOccurrenceRandomEvents.get(event.name()).getYear() == time.getTime().getYear() - 1) {
+				&& lastOccurrenceRandomEvents.get(event.name()).getYear() == year.getValue() - 1) {
 			LocalDate lastYarDate = lastOccurrenceRandomEvents.get(event.name());
 			if (lastYarDate.getDayOfYear() > daysInYear / 2) {
 				begin = daysInYear / 2;
 			}
 		}
-		return LocalDate.ofYearDay(time.getTime().getYear(), RandomUtils.randomInt(begin, daysInYear + 1));
+		return LocalDate.ofYearDay(year.getValue(), RandomUtils.randomInt(begin, daysInYear + 1));
 	}
 
-	public List<Event> generateCyclicEventsForThisYear() {
+	public List<Event> generateCyclicEventsForYear(Year year) {
 		return JSONEventDataLoader.cyclicEventData.stream()
 				.map(
 						eventData -> {
-							LocalDate appearanceDate = LocalDate.of(time.getTime().getYear(), eventData.startDateWithoutYear().getMonth().minus(
+							LocalDate appearanceDate = LocalDate.of(year.getValue(), eventData.startDateWithoutYear().getMonth().minus(
 									monthsBetweenEventAppearanceAndStart), eventData.startDateWithoutYear().getDayOfMonth());
 							return new Event(
 									eventData.name(),
