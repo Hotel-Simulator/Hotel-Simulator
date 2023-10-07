@@ -40,12 +40,11 @@ public class BankAccountHandler {
 	public void registerCredit(BigDecimal value, long creditLengthInMonths) {
 		var credit = new Credit(value, creditLengthInMonths, account.getCreditInterestRate(), time.getTime().toLocalDate());
 
-		var valueWithInterest = value.multiply(BigDecimal.ONE.add(credit.interestRate()));
-		var monthlyPayment = valueWithInterest.divide(BigDecimal.valueOf(creditLengthInMonths), 2, RoundingMode.HALF_UP);
+
 
 		currentCredits.put(
 				credit,
-				createTimeCommandForCreditMonthlyPayment(account, monthlyPayment, credit));
+				createTimeCommandForCreditMonthlyPayment(account, credit.getMonthlyPayment(), credit));
 		account.registerCredit(credit);
 		registerIncome(value);
 	}
@@ -60,7 +59,7 @@ public class BankAccountHandler {
 		return new NRepeatingTimeCommand(Frequency.EVERY_MONTH,
 				() -> bankAccount.registerExpense(monthlyPayments),
 				time.getTime().plusMonths(1).truncatedTo(ChronoUnit.DAYS),
-				credit.lengthInMonths(),
+				credit.getLengthInMonths(),
 				() -> currentCredits.remove(credit));
 	}
 
@@ -77,10 +76,10 @@ public class BankAccountHandler {
 	}
 
 	public BigDecimal getPaidValue(Credit credit) {
-		var valueWithInterest = credit.value().multiply(BigDecimal.ONE.add(credit.interestRate()));
-		var monthlyPayment = valueWithInterest.divide(BigDecimal.valueOf(credit.lengthInMonths()), 2, RoundingMode.HALF_UP);
+		var valueWithInterest = credit.getValueWithInterest();
+		var monthlyPayment = valueWithInterest.divide(BigDecimal.valueOf(credit.getLengthInMonths()), 2, RoundingMode.HALF_UP);
 
-		return isPaid(credit) ? BigDecimal.ZERO : monthlyPayment.multiply(BigDecimal.valueOf(credit.lengthInMonths() - currentCredits.get(credit).getCounter()));
+		return isPaid(credit) ? BigDecimal.ZERO : monthlyPayment.multiply(BigDecimal.valueOf(credit.getLengthInMonths() - currentCredits.get(credit).getCounter()));
 	}
 
 	public LocalDate getNextPaymentDate(Credit credit) {
