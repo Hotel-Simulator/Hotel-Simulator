@@ -675,7 +675,11 @@
 },
 "TextButtonStyle": {
 	"default": {
-		"font": "button2"
+		"font": "white-subtitle1",
+		"up": "textbutton-up",
+		"down": "textbutton-down",
+		"over": "textbutton-over",
+		"disabled": "textbutton-disabled"
 	}
 },
 "TextFieldStyle": {
