@@ -7,7 +7,6 @@ import pl.agh.edu.generator.client_generator.Arrival;
 import pl.agh.edu.generator.client_generator.ClientGenerator;
 import pl.agh.edu.json.data_loader.JSONBankDataLoader;
 import pl.agh.edu.management.event.EventHandler;
-import pl.agh.edu.management.event.EventHandler;
 import pl.agh.edu.management.hotel.HotelHandler;
 import pl.agh.edu.model.Hotel;
 import pl.agh.edu.model.time.Time;
