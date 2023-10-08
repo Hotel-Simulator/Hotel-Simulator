@@ -22,7 +22,7 @@ public class Employee {
 	private boolean isOccupied;
 	private final Duration basicServiceExecutionTime;
 	private EmployeeStatus employeeStatus = EmployeeStatus.HIRED_NOT_WORKING;
-	private BigDecimal satisfaction;
+	private BigDecimal wageSatisfaction;
 
 	public Employee(PossibleEmployee possibleEmployee, JobOffer jobOffer) {
 		this.firstName = possibleEmployee.firstName;
@@ -36,20 +36,26 @@ public class Employee {
 		this.shift = jobOffer.shift();
 
 		this.basicServiceExecutionTime = JSONEmployeeDataLoader.basicServiceExecutionTimes.get(possibleEmployee.profession);
-		this.satisfaction = BigDecimal.ONE.min(wage.divide(preferences.desiredWage, 4, RoundingMode.CEILING));
+		this.wageSatisfaction = wage.divide(preferences.desiredWage, 4, RoundingMode.CEILING);
 	}
 
 	public BigDecimal getSatisfaction() {
-		return satisfaction.setScale(2, RoundingMode.HALF_EVEN).stripTrailingZeros();
+		BigDecimal desiredShiftModifier = shift == preferences.desiredShift
+				? BigDecimal.ZERO
+				: new BigDecimal("0.25");
+		return BigDecimal.ONE.min(getWageSatisfaction().subtract(desiredShiftModifier));
 	}
 
-	public void setSatisfaction(BigDecimal satisfaction) {
-		this.satisfaction = satisfaction;
+	public BigDecimal getWageSatisfaction() {
+		return wageSatisfaction.setScale(2, RoundingMode.HALF_EVEN).stripTrailingZeros();
+	}
+
+	public void setWageSatisfaction(BigDecimal wageSatisfaction) {
+		this.wageSatisfaction = wageSatisfaction;
 	}
 
 	public void giveBonus(BigDecimal bonus) {
-		var moneyEarnedInLast30Days = satisfaction.multiply(preferences.desiredWage);
-		satisfaction = BigDecimal.ONE.min(moneyEarnedInLast30Days.add(bonus).divide(preferences.desiredWage, 4, RoundingMode.HALF_EVEN));
+
 	}
 
 	public boolean isAtWork(LocalTime time) {

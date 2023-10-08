@@ -21,20 +21,12 @@ public class PossibleEmployee {
 
 	public JobOfferResponse offerJob(JobOffer jobOffer) {
 
-		if (preferences.desiredShift == jobOffer.shift()
-				&& jobOffer.typeOfContract() == preferences.desiredTypeOfContract) {
-
-			if (jobOffer.offeredWage().doubleValue() >= preferences.acceptableWage.doubleValue()) {
-				return JobOfferResponse.POSITIVE;
-			}
-		} else if (preferences.desiredShift == jobOffer.shift()
-				|| jobOffer.typeOfContract() == preferences.desiredTypeOfContract) {
-
-			if (jobOffer.offeredWage().doubleValue() * 2 >= preferences.acceptableWage.doubleValue() + preferences.desiredWage.doubleValue()) {
+		if (preferences.desiredShift == jobOffer.shift()) {
+			if (jobOffer.offeredWage().compareTo(preferences.acceptableWage) >= 0) {
 				return JobOfferResponse.POSITIVE;
 			}
 		} else {
-			if (jobOffer.offeredWage().doubleValue() >= preferences.desiredWage.doubleValue()) {
+			if (jobOffer.offeredWage().compareTo(preferences.desiredWage) >= 0) {
 				return JobOfferResponse.POSITIVE;
 			}
 		}
