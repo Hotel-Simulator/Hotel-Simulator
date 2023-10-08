@@ -86,6 +86,8 @@ project(":core") {
     }
 
     test {
+        workingDir = new File("..")
+
         useJUnitPlatform()
         reports {
             junitXml.enabled = true

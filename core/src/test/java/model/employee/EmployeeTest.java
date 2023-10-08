@@ -2,7 +2,6 @@ package model.employee;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalTime;
@@ -13,18 +12,9 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import pl.agh.edu.enums.TypeOfContract;
-import pl.agh.edu.json.data_extractor.JSONFilePath;
 import pl.agh.edu.model.employee.*;
 
 public class EmployeeTest {
-
-	static {
-		try {
-			changeJSONPath();
-		} catch (ReflectiveOperationException e) {
-			throw new RuntimeException(e);
-		}
-	}
 
 	private static Stream<Arguments> provideLocalTime() {
 		return Stream.of(
@@ -170,13 +160,5 @@ public class EmployeeTest {
 
 		// Then
 		assertEquals(expected, result);
-	}
-
-	private static void changeJSONPath()
-			throws ReflectiveOperationException {
-
-		Field field = JSONFilePath.class.getDeclaredField("PATH");
-		field.setAccessible(true);
-		field.set(null, "../assets/jsons/%s.json");
 	}
 }

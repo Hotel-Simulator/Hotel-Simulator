@@ -18,11 +18,13 @@ public class GdxGame extends ApplicationAdapter {
 	@Override
 	public void create() {
 		LanguageManager.updateLanguage();
+
 		currentScreen = new MainScreen(this);
 		setScreen(currentScreen);
+
+		LanguageConfig.setLanguage(LanguageConfig.getLanguage());
 		GraphicConfig.setFullscreenMode(GraphicConfig.isFullscreen());
 		GraphicConfig.changeResolution(GraphicConfig.getResolution());
-		LanguageConfig.setLanguage(LanguageConfig.getLanguage());
 	}
 
 	@Override

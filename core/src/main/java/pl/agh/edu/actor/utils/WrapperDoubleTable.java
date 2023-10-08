@@ -26,6 +26,7 @@ public abstract class WrapperDoubleTable extends WrapperContainer<Table> {
 		this.setActor(innerTable);
 		innerTable.add(leftTable).grow().uniform();
 		innerTable.add(rightTable).grow().uniform();
+		innerTable.pad(0);
 	}
 
 	public void setBackground(String backgroundPatch) {

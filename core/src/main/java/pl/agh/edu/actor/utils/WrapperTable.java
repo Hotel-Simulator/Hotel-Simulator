@@ -22,6 +22,7 @@ public abstract class WrapperTable extends WrapperContainer<Table> {
 	public void init() {
 		this.setActor(innerTable);
 		innerTable.setFillParent(true);
+		innerTable.pad(0);
 	}
 
 	public void setBackground(String backgroundPatch) {

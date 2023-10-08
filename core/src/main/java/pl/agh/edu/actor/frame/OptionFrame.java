@@ -2,8 +2,13 @@ package pl.agh.edu.actor.frame;
 
 import java.util.function.Function;
 
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Stack;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Scaling;
 
 import pl.agh.edu.actor.HotelSkin;
 import pl.agh.edu.actor.component.selectMenu.*;
@@ -13,7 +18,7 @@ import pl.agh.edu.config.AudioConfig;
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.config.LanguageConfig;
 
-public class OptionFrame extends Window {
+public class OptionFrame extends Stack {
 	private final Table table = new Table();
 	private final SelectMenu selectResolutionMenu = createSelectMenuForResolution();
 	private final SelectMenu selectFullScreenMenu = createSelectMenuForFullScreenMode();
@@ -22,12 +27,10 @@ public class OptionFrame extends Window {
 	private final SelectMenu selectLanguageMenu = createSelectMenuForLanguage();
 
 	public OptionFrame() {
-		super("Options", HotelSkin.getInstance());
-		this.setModal(true);
-		this.setMovable(true);
+		super();
 		Skin skin = HotelSkin.getInstance();
 		NinePatchDrawable background = new NinePatchDrawable(skin.getPatch("frame-glass-background"));
-		this.setBackground(background);
+		add(new Image(background, Scaling.stretch, Align.center));
 
 		table.add(selectResolutionMenu).grow();
 		table.row();
@@ -42,7 +45,6 @@ public class OptionFrame extends Window {
 		this.add(table);
 
 		setStartingValue();
-		this.debugAll();
 	}
 
 	private SelectMenu createSelectMenuForResolution() {
@@ -117,7 +119,7 @@ public class OptionFrame extends Window {
 	}
 
 	private void setStartingValue() {
-		selectResolutionMenu.setItem(GraphicConfig.getResolution().toString());
+		selectResolutionMenu.setItem(GraphicConfig.getResolution().name());
 		selectFullScreenMenu.setItem("selectMenu.boolean." + (GraphicConfig.isFullscreen() ? "yes" : "no"));
 		selectLanguageMenu.setItem(LanguageConfig.getLanguage().languagePath);
 	}

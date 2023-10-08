@@ -41,9 +41,9 @@ public class SelectMenu extends WrapperTable implements LanguageChangeListener {
 		this.setLanguageChangeHandler(descriptionLabel::setText);
 	}
 
-	public void setItem(String languagePath) {
+	public void setItem(String name) {
 		for (SelectMenuItem selectMenuItem : items) {
-			if (selectMenuItem.name.equals(languagePath)) {
+			if (selectMenuItem.name.equals(name)) {
 				this.selectOption.setSelected(selectMenuItem);
 				return;
 			}
