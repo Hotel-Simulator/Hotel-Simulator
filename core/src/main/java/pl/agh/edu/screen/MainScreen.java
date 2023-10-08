@@ -1,7 +1,6 @@
 package pl.agh.edu.screen;
 
 import com.badlogic.gdx.*;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -21,18 +20,16 @@ import pl.agh.edu.config.GraphicConfig;
 
 public class MainScreen implements Screen {
 	private final Stage stage = GraphicConfig.stage;
+	private final Stage middleStage = GraphicConfig.middleStage;
+	private final Stage topStage = GraphicConfig.topStage;
 	private final Cell<?> currentFrame;
-
 	private final Skin skin = HotelSkin.getInstance();
-
 	private final Stack stack = new Stack();
-
-	private final Container<Image> blurContainer = new Container();
 	private final Container<OptionFrame> optionFrameContainer = new Container();
 	private final Table table = new Table();
 	private boolean isOptionsOpen = false;
 	private final OptionFrame optionFrame = new OptionFrame();
-	private final BlurShader blurShader = new BlurShader((SpriteBatch) stage.getBatch());
+	private final BlurShader blurShader = new BlurShader(stage,(SpriteBatch) stage.getBatch());
 
 	public MainScreen(GdxGame game) {
 		Image background = new Image(skin.getDrawable("night-city"));
@@ -40,8 +37,6 @@ public class MainScreen implements Screen {
 		background.setAlign(Align.center);
 		stack.setFillParent(true);
 		stack.add(background);
-		stage.addActor(stack);
-
 		table.setFillParent(true);
 		this.stage.addActor(table);
 		table.add().uniform();
@@ -57,8 +52,9 @@ public class MainScreen implements Screen {
 		table.add();
 
 		stack.add(table);
-		stack.add(blurContainer);
-		stack.add(optionFrameContainer);
+		stage.addActor(stack);
+		middleStage.addActor(blurShader);
+		topStage.addActor(optionFrameContainer);
 	}
 
 	public void changeFrame(BaseFrame frame) {
@@ -69,25 +65,30 @@ public class MainScreen implements Screen {
 	public void show() {
 		InputMultiplexer multiplexer = new InputMultiplexer();
 		multiplexer.addProcessor(stage);
+		multiplexer.addProcessor(middleStage);
+		multiplexer.addProcessor(topStage);
 		Gdx.input.setInputProcessor(multiplexer);
 		changeFrame(new TestFrame("test"));
 	}
 
 	@Override
 	public void render(float delta) {
-		if(isOptionsOpen || blurShader.isOpen()){
-			Texture blurredBackground = blurShader.renderWithBlur(stage);
-			stage.getBatch().begin();
-			stage.getBatch().draw(blurredBackground, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 0, 0, 1, 1);
-			stage.getBatch().end();
+		switch (blurShader.getStateOfTransition()) {
+			case OPENING, CLOSING -> blurShader.render();
+            case CLOSED -> blurShader.dispose();
 		}
 		stage.act();
 		stage.draw();
+		middleStage.act();
+		middleStage.draw();
+		topStage.act();
+		topStage.draw();
 	}
 
 	@Override
 	public void resize(int width, int height) {
 		stage.getViewport().update(width, height, true);
+		blurShader.render();
 	}
 
 	@Override
@@ -122,6 +123,6 @@ public class MainScreen implements Screen {
 			return;
 		blurShader.stopBlur();
 		isOptionsOpen = false;
-		optionFrameContainer.clear();
+		optionFrameContainer.removeActor(optionFrame);
 	}
 }

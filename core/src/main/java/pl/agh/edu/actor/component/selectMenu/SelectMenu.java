@@ -18,7 +18,7 @@ import pl.agh.edu.audio.SoundAudio;
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.language.LanguageChangeListener;
 
-public class SelectMenu extends WrapperTable implements LanguageChangeListener {
+public class SelectMenu extends WrapperTable{
 
 	private final Skin skin = HotelSkin.getInstance();
 	private final SelectMenuLabel descriptionLabel = new SelectMenuLabel();

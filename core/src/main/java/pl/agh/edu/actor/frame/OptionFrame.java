@@ -2,35 +2,29 @@ package pl.agh.edu.actor.frame;
 
 import java.util.function.Function;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Stack;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
-import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Scaling;
 
 import pl.agh.edu.actor.HotelSkin;
 import pl.agh.edu.actor.component.selectMenu.*;
 import pl.agh.edu.actor.component.slider.PercentSliderComponent;
 import pl.agh.edu.actor.component.slider.SliderComponent;
+import pl.agh.edu.actor.utils.WrapperContainer;
 import pl.agh.edu.config.AudioConfig;
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.config.LanguageConfig;
 
-public class OptionFrame extends Stack {
+public class OptionFrame extends WrapperContainer<Table> {
 	private final Table table = new Table();
 	private final SelectMenu selectResolutionMenu = createSelectMenuForResolution();
 	private final SelectMenu selectFullScreenMenu = createSelectMenuForFullScreenMode();
 	private final SliderComponent musicVolumeSlider = createSliderComponentForMusicVolume();
 	private final SliderComponent soundVolumeSlider = createSliderComponentForSoundVolume();
 	private final SelectMenu selectLanguageMenu = createSelectMenuForLanguage();
-
 	public OptionFrame() {
-		super();
 		Skin skin = HotelSkin.getInstance();
 		NinePatchDrawable background = new NinePatchDrawable(skin.getPatch("frame-glass-background"));
-		add(new Image(background, Scaling.stretch, Align.center));
+		this.setBackground(background);
 
 		table.add(selectResolutionMenu).grow();
 		table.row();
@@ -42,9 +36,16 @@ public class OptionFrame extends Stack {
 		table.row();
 		table.add(selectLanguageMenu).grow();
 
-		this.add(table);
+		this.setActor(table);
 
 		setStartingValue();
+		this.debugAll();
+		this.setResolutionChangeHandler(this::resize);
+	}
+
+	private void resize() {
+		size(OptionFrameStyle.getFrameWidth(), OptionFrameStyle.getFrameHeight());
+		layout();
 	}
 
 	private SelectMenu createSelectMenuForResolution() {
@@ -119,29 +120,28 @@ public class OptionFrame extends Stack {
 	}
 
 	private void setStartingValue() {
-		selectResolutionMenu.setItem(GraphicConfig.getResolution().name());
+		selectResolutionMenu.setItem(GraphicConfig.getResolution().toString());
 		selectFullScreenMenu.setItem("selectMenu.boolean." + (GraphicConfig.isFullscreen() ? "yes" : "no"));
 		selectLanguageMenu.setItem(LanguageConfig.getLanguage().languagePath);
-	}
-
-	private float getFrameWidth() {
-		return (float) GraphicConfig.getResolution().WIDTH / 2;
-	}
-
-	private float getFrameHeight() {
-		return (float) GraphicConfig.getResolution().HEIGHT / 2;
 	}
 
 	@Override
 	public void layout() {
 		super.layout();
 		this.setBounds(
-				getFrameWidth() / 2,
-				getFrameHeight() / 2,
-				getFrameWidth(),
-				getFrameHeight());
-		this.selectResolutionMenu.layout();
+				GraphicConfig.getResolution().WIDTH / 2 - OptionFrameStyle.getFrameWidth() / 2,
+				GraphicConfig.getResolution().HEIGHT / 2 - OptionFrameStyle.getFrameHeight() / 2,
+				OptionFrameStyle.getFrameWidth(),
+				OptionFrameStyle.getFrameHeight());
 		this.table.layout();
 	}
+	private static class OptionFrameStyle{
+		private static float getFrameWidth() {
+			return (float) GraphicConfig.getResolution().WIDTH * 3 / 5;
+		}
 
+		private static float getFrameHeight() {
+			return (float) GraphicConfig.getResolution().HEIGHT * 3 / 5;
+		}
+	}
 }

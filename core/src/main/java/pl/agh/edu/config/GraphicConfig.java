@@ -13,11 +13,17 @@ public class GraphicConfig {
 	private static boolean fullscreenMode = false;
 	public static final Stage stage = new Stage();
 
+	public static final Stage middleStage = new Stage();
+
+	public static final Stage topStage = new Stage();
+
 	public static void changeResolution(Resolution newResolution) {
 		resolution = newResolution;
 		ResolutionManager.notifyListeners();
 		Viewport viewport = new FitViewport(newResolution.WIDTH, newResolution.HEIGHT);
 		stage.setViewport(viewport);
+		middleStage.setViewport(viewport);
+		topStage.setViewport(viewport);
 
 		viewport.update(newResolution.WIDTH, newResolution.HEIGHT, true);
 		setFullscreenMode(isFullscreen());
