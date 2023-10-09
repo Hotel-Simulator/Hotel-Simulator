@@ -16,27 +16,32 @@ public class Employee {
 	public final BigDecimal skills;
 	public final EmploymentPreferences preferences;
 	public final Profession profession;
-	public final BigDecimal wage;
-	public final TypeOfContract typeOfContract;
-	public final Shift shift;
+	public BigDecimal wage;
+	public TypeOfContract typeOfContract;
+	public Shift shift;
 	private boolean isOccupied;
 	private final Duration basicServiceExecutionTime;
 	private EmployeeStatus employeeStatus = EmployeeStatus.HIRED_NOT_WORKING;
 	private BigDecimal satisfaction;
 
-	public Employee(PossibleEmployee possibleEmployee, JobOffer jobOffer) {
+	public Employee(PossibleEmployee possibleEmployee, ContractOffer contractOffer) {
 		this.firstName = possibleEmployee.firstName;
 		this.lastName = possibleEmployee.lastName;
 		this.age = possibleEmployee.age;
 		this.skills = possibleEmployee.skills;
 		this.profession = possibleEmployee.profession;
 		this.preferences = possibleEmployee.preferences;
-		this.wage = jobOffer.offeredWage();
-		this.typeOfContract = jobOffer.typeOfContract();
-		this.shift = jobOffer.shift();
+
+		setContract(contractOffer);
 
 		this.basicServiceExecutionTime = JSONEmployeeDataLoader.basicServiceExecutionTimes.get(possibleEmployee.profession);
 		this.satisfaction = BigDecimal.ONE.min(wage.divide(preferences.desiredWage, 4, RoundingMode.CEILING));
+	}
+
+	public void setContract(ContractOffer contractOffer) {
+		this.wage = contractOffer.offeredWage();
+		this.typeOfContract = contractOffer.typeOfContract();
+		this.shift = contractOffer.shift();
 	}
 
 	public BigDecimal getSatisfaction() {
@@ -50,6 +55,23 @@ public class Employee {
 	public void giveBonus(BigDecimal bonus) {
 		var moneyEarnedInLast30Days = satisfaction.multiply(preferences.desiredWage);
 		satisfaction = BigDecimal.ONE.min(moneyEarnedInLast30Days.add(bonus).divide(preferences.desiredWage, 4, RoundingMode.HALF_EVEN));
+	}
+
+	public ContractOfferResponse offerNewContract(ContractOffer contractOffer) {
+
+		if(contractOffer.shift() == shift) {
+			if(contractOffer.offeredWage().compareTo(wage) > 0){
+				return ContractOfferResponse.POSITIVE;
+			}
+		} else {
+			if(contractOffer.shift() == preferences.desiredShift && contractOffer.offeredWage().compareTo(preferences.acceptableWage) >= 0) {
+				return ContractOfferResponse.POSITIVE;
+			}
+			if(contractOffer.shift() != preferences.desiredShift && contractOffer.offeredWage().compareTo(preferences.desiredWage) >= 0) {
+				return ContractOfferResponse.POSITIVE;
+			}
+		}
+		return ContractOfferResponse.NEGATIVE;
 	}
 
 	public boolean isAtWork(LocalTime time) {

@@ -42,8 +42,8 @@ public class EmployeeTest {
 				.profession(Profession.CLEANER)
 				.build();
 
-		JobOffer jobOffer = new JobOffer(Shift.MORNING, BigDecimal.valueOf(5000), TypeOfContract.AGREEMENT);
-		Employee employee = new Employee(possibleEmployee, jobOffer);
+		ContractOffer contractOffer = new ContractOffer(Shift.MORNING, BigDecimal.valueOf(5000), TypeOfContract.AGREEMENT);
+		Employee employee = new Employee(possibleEmployee, contractOffer);
 
 		// When
 		boolean result = employee.isAtWork(time);
@@ -79,8 +79,8 @@ public class EmployeeTest {
 				.profession(Profession.CLEANER)
 				.build();
 
-		JobOffer jobOffer = new JobOffer(Shift.MORNING, actualWage, TypeOfContract.AGREEMENT);
-		Employee employee = new Employee(possibleEmployee, jobOffer);
+		ContractOffer contractOffer = new ContractOffer(Shift.MORNING, actualWage, TypeOfContract.AGREEMENT);
+		Employee employee = new Employee(possibleEmployee, contractOffer);
 
 		// When
 		BigDecimal satisfaction = employee.getSatisfaction();
@@ -116,8 +116,8 @@ public class EmployeeTest {
 				.profession(Profession.CLEANER)
 				.build();
 
-		JobOffer jobOffer = new JobOffer(Shift.MORNING, actualWage, TypeOfContract.AGREEMENT);
-		Employee employee = new Employee(possibleEmployee, jobOffer);
+		ContractOffer contractOffer = new ContractOffer(Shift.MORNING, actualWage, TypeOfContract.AGREEMENT);
+		Employee employee = new Employee(possibleEmployee, contractOffer);
 
 		// When
 		employee.giveBonus(BigDecimal.valueOf(1000));
@@ -152,8 +152,8 @@ public class EmployeeTest {
 				.profession(Profession.CLEANER)
 				.build();
 
-		JobOffer jobOffer = new JobOffer(Shift.MORNING, BigDecimal.valueOf(4000 * satisfaction), TypeOfContract.AGREEMENT);
-		Employee employee = new Employee(possibleEmployee, jobOffer);
+		ContractOffer contractOffer = new ContractOffer(Shift.MORNING, BigDecimal.valueOf(4000 * satisfaction), TypeOfContract.AGREEMENT);
+		Employee employee = new Employee(possibleEmployee, contractOffer);
 
 		// When
 		Duration result = employee.getServiceExecutionTime();
