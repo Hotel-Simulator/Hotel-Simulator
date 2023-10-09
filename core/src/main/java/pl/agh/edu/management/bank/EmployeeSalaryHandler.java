@@ -38,20 +38,21 @@ public class EmployeeSalaryHandler {
 		addBonusEffect(employee, bonus);
 		bankAccountHandler.registerExpense(bonus);
 		timeCommandExecutor.addCommand(
-				new TimeCommand(() -> removeBonusEffect(employee, bonus),
-						time.getTime().plusMonths(1)));
+				new TimeCommand(() -> removeBonusEffect(employee, bonus), time.getTime().plusMonths(1)));
 	}
 
 	private void addBonusEffect(Employee employee, BigDecimal bonus) {
-		var moneyEarnedInLast30Days = employee.getWageSatisfaction().multiply(employee.preferences.desiredWage);
-		employee.setWageSatisfaction(BigDecimal.ONE.min(moneyEarnedInLast30Days.add(bonus)
-				.divide(employee.preferences.desiredWage, 4, RoundingMode.HALF_EVEN)));
+		employee.setWageSatisfaction(getMoneyEarnedInLast30Days(employee).add(bonus)
+				.divide(employee.preferences.desiredWage, 4, RoundingMode.HALF_EVEN));
 	}
 
 	private void removeBonusEffect(Employee employee, BigDecimal bonus) {
-		var moneyEarnedInLast30Days = employee.getWageSatisfaction().multiply(employee.preferences.desiredWage);
-		employee.setWageSatisfaction(BigDecimal.ONE.min(moneyEarnedInLast30Days.subtract(bonus)
-				.divide(employee.preferences.desiredWage, 4, RoundingMode.HALF_EVEN)));
+		employee.setWageSatisfaction(getMoneyEarnedInLast30Days(employee).subtract(bonus)
+				.divide(employee.preferences.desiredWage, 4, RoundingMode.HALF_EVEN));
+	}
+
+	private BigDecimal getMoneyEarnedInLast30Days(Employee employee) {
+		return employee.getWageSatisfaction().multiply(employee.preferences.desiredWage);
 	}
 
 }

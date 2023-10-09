@@ -54,10 +54,6 @@ public class Employee {
 		this.wageSatisfaction = wageSatisfaction;
 	}
 
-	public void giveBonus(BigDecimal bonus) {
-
-	}
-
 	public boolean isAtWork(LocalTime time) {
 		return time.isBefore(shift.getEndTime()) && !time.isBefore(shift.getStartTime());
 	}
