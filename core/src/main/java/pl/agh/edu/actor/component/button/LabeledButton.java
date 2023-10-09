@@ -27,7 +27,6 @@ public class LabeledButton extends WrapperContainer<TextButton> {
 		this.setLanguageChangeHandler(this::updateLabel);
 		this.setResolutionChangeHandler(this::setSizes);
 		this.initChangeHandlers();
-		this.debugAll();
 
 		this.addListener(new ClickListener() {
 			@Override

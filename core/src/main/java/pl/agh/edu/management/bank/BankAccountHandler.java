@@ -1,7 +1,6 @@
 package pl.agh.edu.management.bank;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
@@ -74,10 +73,7 @@ public class BankAccountHandler {
 	}
 
 	public BigDecimal getPaidValue(Credit credit) {
-		var valueWithInterest = credit.getValueWithInterest();
-		var monthlyPayment = valueWithInterest.divide(BigDecimal.valueOf(credit.getLengthInMonths()), 2, RoundingMode.HALF_UP);
-
-		return isPaid(credit) ? BigDecimal.ZERO : credit.monthlyPayment().multiply(BigDecimal.valueOf(credit.getLengthInMonths() - currentCredits.get(credit).getCounter()));
+		return isPaid(credit) ? BigDecimal.ZERO : credit.getMonthlyPayment().multiply(BigDecimal.valueOf(credit.getLengthInMonths() - currentCredits.get(credit).getCounter()));
 	}
 
 	public LocalDate getNextPaymentDate(Credit credit) {
