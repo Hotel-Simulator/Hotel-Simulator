@@ -675,11 +675,41 @@
 },
 "TextButtonStyle": {
 	"default": {
-		"font": "white-subtitle1",
-		"up": "textbutton-up",
-		"down": "textbutton-down",
-		"over": "textbutton-over",
-		"disabled": "textbutton-disabled"
+		"font": "button2",
+		"up": "text-buttom-small-up",
+		"down": "text-buttom-small-down",
+		"over": "text-buttom-small-over",
+		"disabled": "text-buttom-small-disabled"
+	},
+	"small": {
+		"font": "white-button3",
+		"downFontColor": "secondary-900",
+		"overFontColor": "secondary-100",
+		"disabledFontColor": "gray-500",
+		"up": "text-buttom-small-up",
+		"down": "text-buttom-small-down",
+		"over": "text-buttom-small-over",
+		"disabled": "text-buttom-small-disabled"
+	},
+	"medium": {
+		"font": "white-button2",
+		"downFontColor": "secondary-900",
+		"overFontColor": "secondary-100",
+		"disabledFontColor": "gray-500",
+		"up": "text-buttom-medium-up",
+		"down": "text-buttom-medium-down",
+		"over": "text-buttom-medium-over",
+		"disabled": "text-buttom-medium-disabled"
+	},
+	"large": {
+		"font": "white-button1",
+		"downFontColor": "secondary-900",
+		"overFontColor": "secondary-100",
+		"disabledFontColor": "gray-500",
+		"up": "text-buttom-large-up",
+		"down": "text-buttom-large-down",
+		"over": "text-buttom-large-over",
+		"disabled": "text-buttom-large-disabled"
 	}
 },
 "TextFieldStyle": {

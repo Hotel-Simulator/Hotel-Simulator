@@ -15,18 +15,13 @@ import java.util.List;
 public abstract class BaseTable extends WrapperTable {
     private final int noColumns;
     private final float separatorWidth;
-//    private final float cellWidth;
     private final float cellPadding = 10f;
     protected final float rowSpacing = 20f;
     public BaseTable(List<String> columnNames) {
-        // root is for setting width of table. There is no other way to set it other than growX() while adding to frame outside of class
         super();
 
         this.noColumns = columnNames.size();
         this.separatorWidth = 2f;
-
-        float framePadding = 40f;
-//        cellWidth = Math.round((rootWidth - 2* framePadding - 2*noColumns*cellPadding - (noColumns-1)*separatorWidth)/noColumns)  ; // evenly distribute cells
 
         align(Align.bottomLeft);
 
@@ -34,7 +29,6 @@ public abstract class BaseTable extends WrapperTable {
         header.setBackground("table-header-background");
         header.align(Align.bottomLeft);
         innerTable.add(header).space(rowSpacing).growX();
-
     }
 
     public final BaseRow createRow(Actor... actors){
@@ -49,13 +43,10 @@ public abstract class BaseTable extends WrapperTable {
         });
 
         baseRow.setBackground("table-row-background");
-        baseRow.setDebug(true);
         innerTable.row();
         return baseRow;
     }
 
-
-    //don't remove it
     public static class BaseRow extends WrapperTable {
         BaseRow() {
             super();
