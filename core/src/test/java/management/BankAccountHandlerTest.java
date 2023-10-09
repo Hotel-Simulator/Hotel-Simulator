@@ -3,19 +3,16 @@ package management;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import pl.agh.edu.json.data_extractor.JSONFilePath;
 import pl.agh.edu.json.data_loader.JSONBankDataLoader;
 import pl.agh.edu.management.bank.BankAccountHandler;
 import pl.agh.edu.model.bank.BankAccount;
@@ -30,11 +27,6 @@ public class BankAccountHandlerTest {
 	@BeforeEach
 	public void setUp() {
 		bankAccountHandler = new BankAccountHandler(account);
-	}
-
-	@BeforeAll
-	public static void setUpClass() throws ReflectiveOperationException {
-		changeJSONPath();
 	}
 
 	private static Stream<Arguments> hasOperationAbilityTestArgs() {
@@ -154,13 +146,5 @@ public class BankAccountHandlerTest {
 
 		// Then
 		assertEquals(new BigDecimal("0.00"), bankAccountHandler.getPaidValue(credit));
-	}
-
-	private static void changeJSONPath()
-			throws ReflectiveOperationException {
-
-		Field field = JSONFilePath.class.getDeclaredField("PATH");
-		field.setAccessible(true);
-		field.set(null, "../assets/jsons/%s.json");
 	}
 }

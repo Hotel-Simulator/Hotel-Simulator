@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import pl.agh.edu.management.game.GameDifficultyManager;
 import pl.agh.edu.model.bank.BankAccount;
 import pl.agh.edu.model.bank.Credit;
 import pl.agh.edu.model.bank.TransactionType;
@@ -15,7 +16,7 @@ import pl.agh.edu.model.bank.TransactionType;
 public class BankAccountTest {
 	private final BigDecimal accountFee = BigDecimal.valueOf(10);
 	private BankAccount bankAccount;
-	private final BigDecimal initialBalance = BigDecimal.valueOf(100);
+	private final BigDecimal initialBalance = GameDifficultyManager.getInstance().getInitialBalance();
 
 	@BeforeEach
 	public void setUp() {

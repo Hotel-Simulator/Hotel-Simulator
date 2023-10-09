@@ -3,7 +3,7 @@ sourceSets.main.java.srcDirs = [ "src/" ]
 sourceSets.main.resources.srcDirs = ["../assets"]
 
 project.ext.mainClassName = "pl.agh.edu.DesktopLauncher"
-project.ext.assetsDir = new File("../assets")
+project.ext.workingDir = new File("..")
 
 import org.gradle.internal.os.OperatingSystem
 
@@ -12,7 +12,7 @@ tasks.register('run', JavaExec) {
     mainClass = project.mainClassName
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
-    workingDir = project.assetsDir
+    workingDir = project.workingDir
     ignoreExitValue = true as JavaExecSpec
 
     if (OperatingSystem.current() == OperatingSystem.MAC_OS) {
@@ -26,7 +26,7 @@ tasks.register('debug', JavaExec) {
     mainClass = project.mainClassName
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
-    workingDir = project.assetsDir
+    workingDir = project.workingDir
     ignoreExitValue = true as JavaExecSpec
     debug = true
 }
