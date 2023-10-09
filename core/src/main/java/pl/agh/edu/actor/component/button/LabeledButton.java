@@ -2,17 +2,20 @@ package pl.agh.edu.actor.component.button;
 
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import pl.agh.edu.actor.HotelSkin;
 import pl.agh.edu.actor.utils.Size;
 import pl.agh.edu.actor.utils.WrapperContainer;
 import pl.agh.edu.config.GraphicConfig;
+
+import java.util.function.Consumer;
 
 public class LabeledButton extends WrapperContainer<TextButton> {
 	private final Size type;
 
 	private final TextButton button;
 
-	public LabeledButton(Size type, String languagePath) {
+	public LabeledButton(Size type, String languagePath, Consumer<Void> callBack) {
 		super(languagePath);
 		this.type = type;
 		this.button = new TextButton("", HotelSkin.getInstance().get(type.toString(), TextButton.TextButtonStyle.class));
@@ -25,6 +28,17 @@ public class LabeledButton extends WrapperContainer<TextButton> {
 		this.setResolutionChangeHandler(this::setSizes);
 		this.initChangeHandlers();
 		this.debugAll();
+
+		this.addListener(new ClickListener() {
+			@Override
+			public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
+				callBack.accept(null);
+			}
+		});
+	}
+
+	public LabeledButton(Size type, String languagePath) {
+		this(type, languagePath, (Void v) -> {});
 	}
 
 	private void setSizes() {
