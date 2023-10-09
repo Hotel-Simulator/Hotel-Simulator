@@ -1,56 +1,56 @@
 package pl.agh.edu.actor.component.table;
 
+import java.util.List;
+import java.util.stream.IntStream;
+
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
+
 import pl.agh.edu.actor.HotelSkin;
 import pl.agh.edu.actor.component.rating.Star;
-import pl.agh.edu.actor.frame.BaseFrame;
 import pl.agh.edu.actor.utils.WrapperTable;
 
-import java.util.stream.IntStream;
-import java.util.List;
-
-
 public abstract class BaseTable extends WrapperTable {
-    private final int noColumns;
-    private final float separatorWidth;
-    private final float cellPadding = 10f;
-    protected final float rowSpacing = 20f;
-    public BaseTable(List<String> columnNames) {
-        super();
+	private final int noColumns;
+	private final float separatorWidth;
+	private final float cellPadding = 10f;
+	protected final float rowSpacing = 20f;
 
-        this.noColumns = columnNames.size();
-        this.separatorWidth = 2f;
+	public BaseTable(List<String> columnNames) {
+		super();
 
-        align(Align.bottomLeft);
+		this.noColumns = columnNames.size();
+		this.separatorWidth = 2f;
 
-        BaseRow header = createRow(columnNames.stream().map(s -> new Label(s,HotelSkin.getInstance(),"body1")).toArray(Actor[]::new));
-        header.setBackground("table-header-background");
-        header.align(Align.bottomLeft);
-        innerTable.add(header).space(rowSpacing).growX();
-    }
+		align(Align.bottomLeft);
 
-    public final BaseRow createRow(Actor... actors){
-        BaseRow baseRow = new BaseRow();
-        IntStream.range(0,noColumns).forEach(i ->{
-            Actor actor = actors[i];
-            Container<Actor> container = new Container<>(actor);
-            container.pad(1f);
-            baseRow.innerTable.add(container).growX().uniform().height(Star.getSize()+20f).center().padLeft(cellPadding).padRight(cellPadding);
-            if (i != noColumns - 1)
-                baseRow.innerTable.add(new Image(HotelSkin.getInstance().getPatch("table-separator-line"))).width(separatorWidth).growY().center();
-        });
+		BaseRow header = createRow(columnNames.stream().map(s -> new Label(s, HotelSkin.getInstance(), "body1")).toArray(Actor[]::new));
+		header.setBackground("table-header-background");
+		header.align(Align.bottomLeft);
+		innerTable.add(header).space(rowSpacing).growX();
+	}
 
-        baseRow.setBackground("table-row-background");
-        innerTable.row();
-        return baseRow;
-    }
+	public final BaseRow createRow(Actor... actors) {
+		BaseRow baseRow = new BaseRow();
+		IntStream.range(0, noColumns).forEach(i -> {
+			Actor actor = actors[i];
+			Container<Actor> container = new Container<>(actor);
+			container.pad(1f);
+			baseRow.innerTable.add(container).growX().uniform().height(Star.getSize() + 20f).center().padLeft(cellPadding).padRight(cellPadding);
+			if (i != noColumns - 1)
+				baseRow.innerTable.add(new Image(HotelSkin.getInstance().getPatch("table-separator-line"))).width(separatorWidth).growY().center();
+		});
 
-    public static class BaseRow extends WrapperTable {
-        BaseRow() {
-            super();
-        }
-    }
+		baseRow.setBackground("table-row-background");
+		innerTable.row();
+		return baseRow;
+	}
+
+	public static class BaseRow extends WrapperTable {
+		BaseRow() {
+			super();
+		}
+	}
 
 }

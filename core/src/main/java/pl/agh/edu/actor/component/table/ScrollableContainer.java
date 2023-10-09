@@ -1,14 +1,14 @@
 package pl.agh.edu.actor.component.table;
 
-
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
+
 import pl.agh.edu.actor.HotelSkin;
 
 public class ScrollableContainer extends ScrollPane {
-    public ScrollableContainer(Actor actor) {
-        super(actor, HotelSkin.getInstance(), "default");
-        this.getStyle().background = null;
-        this.setFadeScrollBars(false);
-    }
+	public ScrollableContainer(Actor actor) {
+		super(actor, HotelSkin.getInstance(), "default");
+		this.getStyle().background = null;
+		this.setFadeScrollBars(false);
+	}
 }

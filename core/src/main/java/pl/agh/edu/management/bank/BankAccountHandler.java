@@ -40,8 +40,6 @@ public class BankAccountHandler {
 	public void registerCredit(BigDecimal value, long creditLengthInMonths) {
 		var credit = new Credit(value, creditLengthInMonths, account.getCreditInterestRate(), time.getTime().toLocalDate());
 
-
-
 		currentCredits.put(
 				credit,
 				createTimeCommandForCreditMonthlyPayment(account, credit.getMonthlyPayment(), credit));

@@ -1,14 +1,14 @@
 package pl.agh.edu.actor.component.button;
 
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import java.util.function.Consumer;
 
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+
 import pl.agh.edu.actor.HotelSkin;
 import pl.agh.edu.actor.utils.Size;
 import pl.agh.edu.actor.utils.WrapperContainer;
 import pl.agh.edu.config.GraphicConfig;
-
-import java.util.function.Consumer;
 
 public class LabeledButton extends WrapperContainer<TextButton> {
 	private final Size type;
