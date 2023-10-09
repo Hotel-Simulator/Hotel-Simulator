@@ -77,7 +77,7 @@ public class BankAccountHandler {
 		var valueWithInterest = credit.getValueWithInterest();
 		var monthlyPayment = valueWithInterest.divide(BigDecimal.valueOf(credit.getLengthInMonths()), 2, RoundingMode.HALF_UP);
 
-		return isPaid(credit) ? BigDecimal.ZERO : monthlyPayment.multiply(BigDecimal.valueOf(credit.getLengthInMonths() - currentCredits.get(credit).getCounter()));
+		return isPaid(credit) ? BigDecimal.ZERO : credit.monthlyPayment().multiply(BigDecimal.valueOf(credit.getLengthInMonths() - currentCredits.get(credit).getCounter()));
 	}
 
 	public LocalDate getNextPaymentDate(Credit credit) {
