@@ -1,7 +1,6 @@
 package pl.agh.edu.management.bank;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.temporal.ChronoUnit;
 
 import pl.agh.edu.json.data_loader.JSONEmployeeDataLoader;
@@ -35,24 +34,10 @@ public class EmployeeSalaryHandler {
 	}
 
 	public void giveBonus(Employee employee, BigDecimal bonus) {
-		addBonusEffect(employee, bonus);
+		employee.addBonus(bonus);
 		bankAccountHandler.registerExpense(bonus);
 		timeCommandExecutor.addCommand(
-				new TimeCommand(() -> removeBonusEffect(employee, bonus), time.getTime().plusMonths(1)));
-	}
-
-	private void addBonusEffect(Employee employee, BigDecimal bonus) {
-		employee.setWageSatisfaction(getMoneyEarnedInLast30Days(employee).add(bonus)
-				.divide(employee.preferences.desiredWage, 4, RoundingMode.HALF_EVEN));
-	}
-
-	private void removeBonusEffect(Employee employee, BigDecimal bonus) {
-		employee.setWageSatisfaction(getMoneyEarnedInLast30Days(employee).subtract(bonus)
-				.divide(employee.preferences.desiredWage, 4, RoundingMode.HALF_EVEN));
-	}
-
-	private BigDecimal getMoneyEarnedInLast30Days(Employee employee) {
-		return employee.getWageSatisfaction().multiply(employee.preferences.desiredWage);
+				new TimeCommand(() -> employee.removeBonus(bonus), time.getTime().plusMonths(1)));
 	}
 
 }

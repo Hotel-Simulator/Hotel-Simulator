@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Duration;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import pl.agh.edu.enums.TypeOfContract;
 import pl.agh.edu.json.data_loader.JSONEmployeeDataLoader;
@@ -22,7 +24,7 @@ public class Employee {
 	private boolean isOccupied;
 	private final Duration basicServiceExecutionTime;
 	private EmployeeStatus employeeStatus = EmployeeStatus.HIRED_NOT_WORKING;
-	private BigDecimal wageSatisfaction;
+	private final List<BigDecimal> bonuses = new ArrayList<>();
 
 	public Employee(PossibleEmployee possibleEmployee, JobOffer jobOffer) {
 		this.firstName = possibleEmployee.firstName;
@@ -36,7 +38,6 @@ public class Employee {
 		this.shift = jobOffer.shift();
 
 		this.basicServiceExecutionTime = JSONEmployeeDataLoader.basicServiceExecutionTimes.get(possibleEmployee.profession);
-		this.wageSatisfaction = wage.divide(preferences.desiredWage, 4, RoundingMode.CEILING);
 	}
 
 	public BigDecimal getSatisfaction() {
@@ -46,12 +47,18 @@ public class Employee {
 		return BigDecimal.ONE.min(getWageSatisfaction().subtract(desiredShiftModifier));
 	}
 
-	public BigDecimal getWageSatisfaction() {
-		return wageSatisfaction.setScale(2, RoundingMode.HALF_EVEN).stripTrailingZeros();
+	private BigDecimal getWageSatisfaction() {
+		return wage.add(bonuses.stream().reduce(BigDecimal.ZERO, BigDecimal::add))
+				.divide(preferences.desiredWage, 4, RoundingMode.CEILING)
+				.setScale(2, RoundingMode.HALF_EVEN).stripTrailingZeros();
 	}
 
-	public void setWageSatisfaction(BigDecimal wageSatisfaction) {
-		this.wageSatisfaction = wageSatisfaction;
+	public void addBonus(BigDecimal bonus) {
+		bonuses.add(bonus);
+	}
+
+	public void removeBonus(BigDecimal bonus) {
+		bonuses.remove(bonus);
 	}
 
 	public boolean isAtWork(LocalTime time) {
