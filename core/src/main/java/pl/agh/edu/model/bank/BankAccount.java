@@ -36,7 +36,7 @@ public class BankAccount {
 
 	public void registerCredit(Credit credit) {
 		credits.add(credit);
-		registerIncome(credit.getValue());
+		registerIncome(credit.value());
 	}
 
 	public List<Credit> getCredits() {
