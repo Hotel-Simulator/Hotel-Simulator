@@ -3,10 +3,13 @@ package model.employee;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.stream.Stream;
 
+import org.apache.commons.math3.dfp.DfpField;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -160,5 +163,76 @@ public class EmployeeTest {
 
 		// Then
 		assertEquals(expected, result);
+	}
+
+
+	@Test
+	void setContract_ShouldUpdateContractInformation() {
+		// Given
+		PossibleEmployee possibleEmployee = new PossibleEmployee.Builder()
+				.firstName("")
+				.lastName("")
+				.age(18)
+				.skills(new BigDecimal("0.5"))
+				.preferences(new EmploymentPreferences.Builder()
+						.desiredShift(Shift.MORNING)
+						.acceptableWage(BigDecimal.valueOf(0))
+						.desiredWage(BigDecimal.valueOf(4000))
+						.desiredTypeOfContract(TypeOfContract.AGREEMENT)
+						.build())
+				.profession(Profession.CLEANER)
+				.build();
+
+		ContractOffer contractOffer = new ContractOffer(Shift.MORNING, BigDecimal.valueOf(3000), TypeOfContract.AGREEMENT);
+		Employee employee = new Employee(possibleEmployee, contractOffer);
+
+		BigDecimal newWage = BigDecimal.valueOf(5500);
+		TypeOfContract newContractType = TypeOfContract.PART_TIME;
+		Shift newShift = Shift.NIGHT;
+
+		ContractOffer newContractOffer = new ContractOffer(newShift, newWage, newContractType);
+
+		// When
+		employee.setContract(newContractOffer);
+
+		// Then
+		assertEquals(newWage, employee.wage);
+		assertEquals(newContractType, employee.typeOfContract);
+		assertEquals(newShift, employee.shift);
+	}
+
+	@Test
+	void getSatisfaction_ShouldCalculateSatisfaction() {
+
+		// Given
+		PossibleEmployee possibleEmployee = new PossibleEmployee.Builder()
+				.firstName("")
+				.lastName("")
+				.age(18)
+				.skills(new BigDecimal("0.5"))
+				.preferences(new EmploymentPreferences.Builder()
+						.desiredShift(Shift.MORNING)
+						.acceptableWage(BigDecimal.valueOf(0))
+						.desiredWage(BigDecimal.valueOf(4000))
+						.desiredTypeOfContract(TypeOfContract.AGREEMENT)
+						.build())
+				.profession(Profession.CLEANER)
+				.build();
+
+		ContractOffer contractOffer = new ContractOffer(Shift.MORNING, BigDecimal.valueOf(3000), TypeOfContract.AGREEMENT);
+		Employee employee = new Employee(possibleEmployee, contractOffer);
+
+		BigDecimal newWage = BigDecimal.valueOf(4000);
+		TypeOfContract newContractType = TypeOfContract.AGREEMENT;
+		Shift newShift = Shift.MORNING;
+		ContractOffer newContractOffer = new ContractOffer(newShift, newWage, newContractType);
+
+		// When
+		employee.setContract(newContractOffer);
+
+		// Then
+		BigDecimal expectedSatisfaction = BigDecimal.ONE.min(newWage.divide(employee.preferences.desiredWage, 4, RoundingMode.HALF_EVEN));
+		assertEquals(expectedSatisfaction.setScale(2, RoundingMode.HALF_EVEN).stripTrailingZeros(), employee.getSatisfaction());
+		// todo ten test będzie działał jak domerguję HS-209
 	}
 }
