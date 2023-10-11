@@ -12,10 +12,7 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
-import pl.agh.edu.enums.HotelVisitPurpose;
-import pl.agh.edu.enums.RoomRank;
-import pl.agh.edu.enums.RoomSize;
-import pl.agh.edu.enums.TypeOfContract;
+import pl.agh.edu.enums.*;
 import pl.agh.edu.json.data.*;
 import pl.agh.edu.json.data_loader.*;
 import pl.agh.edu.model.Room;
@@ -40,7 +37,6 @@ public class JSONDataLoaderTest {
 	public void jSONHotelDataLoaderTest() {
 		assertDoesNotThrow(() -> {
 			Map<String, Integer> initialData = JSONHotelDataLoader.initialData;
-			Map<String, Long> attractivenessConstants = JSONHotelDataLoader.attractivenessConstants;
 			Map<String, LocalTime> checkInAndOutTime = JSONHotelDataLoader.checkInAndOutTime;
 			List<Room> initialRooms = JSONHotelDataLoader.initialRooms;
 		});
@@ -111,6 +107,16 @@ public class JSONDataLoaderTest {
 			Map<Pair<RoomRank, RoomSize>, BigDecimal> averagePricesPerNight = JSONClientDataLoader.averagePricesPerNight;
 			Duration basicMaxWaitingTime = JSONClientDataLoader.basicMaxWaitingTime;
 			int waitingTimeVariation = JSONClientDataLoader.waitingTimeVariation;
+		});
+	}
+
+	@Test
+	@SuppressWarnings("unused")
+	public void jSONHotelScenariosDataLoaderTest() {
+		assertDoesNotThrow(() -> {
+			EnumMap<HotelType, EnumMap<HotelVisitPurpose, Double>> hotelTypeVisitProbabilities = JSONHotelScenariosDataLoader.hotelTypeVisitProbabilities;
+			Map<HotelType, Map<Integer, Double>> vacationPopularity = JSONHotelScenariosDataLoader.vacationPopularity;
+			EnumMap<HotelType, AttractivenessConstantsData> attractivenessConstants = JSONHotelScenariosDataLoader.attractivenessConstants;
 		});
 	}
 }
