@@ -6,9 +6,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 
 import pl.agh.edu.actor.HotelSkin;
+import pl.agh.edu.actor.component.button.LabeledButton;
 import pl.agh.edu.actor.component.selectMenu.*;
 import pl.agh.edu.actor.component.slider.PercentSliderComponent;
 import pl.agh.edu.actor.component.slider.SliderComponent;
+import pl.agh.edu.actor.utils.Size;
 import pl.agh.edu.actor.utils.WrapperContainer;
 import pl.agh.edu.config.AudioConfig;
 import pl.agh.edu.config.GraphicConfig;
@@ -21,25 +23,32 @@ public class OptionFrame extends WrapperContainer<Table> {
 	private final SliderComponent musicVolumeSlider = createSliderComponentForMusicVolume();
 	private final SliderComponent soundVolumeSlider = createSliderComponentForSoundVolume();
 	private final SelectMenu selectLanguageMenu = createSelectMenuForLanguage();
+
+	private final LabeledButton backButton = new LabeledButton(Size.LARGE,"optionsFrame.label.back");
+	private final LabeledButton saveButton = new LabeledButton(Size.LARGE,"optionsFrame.label.save");
 	public OptionFrame() {
 		Skin skin = HotelSkin.getInstance();
 		NinePatchDrawable background = new NinePatchDrawable(skin.getPatch("frame-glass-background"));
 		this.setBackground(background);
 
-		table.add(selectResolutionMenu).grow();
+		table.add(selectResolutionMenu).grow().colspan(2);
 		table.row();
-		table.add(selectFullScreenMenu).grow();
+		table.add(selectFullScreenMenu).grow().colspan(2);
 		table.row();
-		table.add(musicVolumeSlider).grow();
+		table.add(musicVolumeSlider).grow().colspan(2);
 		table.row();
-		table.add(soundVolumeSlider).grow();
+		table.add(soundVolumeSlider).grow().colspan(2);
 		table.row();
-		table.add(selectLanguageMenu).grow();
+		table.add(selectLanguageMenu).grow().colspan(2);
+		table.row().padTop(OptionFrameStyle.getPadding()/2);
+		table.add(backButton).grow().uniform();
+		table.add(saveButton).grow().uniform();
+
+		table.pad(OptionFrameStyle.getPadding());
 
 		this.setActor(table);
 
 		setStartingValue();
-		this.debugAll();
 		this.setResolutionChangeHandler(this::resize);
 	}
 
@@ -143,5 +152,7 @@ public class OptionFrame extends WrapperContainer<Table> {
 		private static float getFrameHeight() {
 			return (float) GraphicConfig.getResolution().HEIGHT * 3 / 5;
 		}
+
+		private static float getPadding() { return getFrameHeight() / 20;}
 	}
 }

@@ -25,14 +25,21 @@ public class GraphicConfig {
 		middleStage.setViewport(viewport);
 		topStage.setViewport(viewport);
 
-		viewport.update(newResolution.WIDTH, newResolution.HEIGHT, true);
+		viewport.update(Gdx.graphics.getDisplayMode().width, Gdx.graphics.getDisplayMode().height, true);
+		ResolutionManager.notifyListeners();
+		viewport.apply();
+		viewport.getCamera().update();
 		setFullscreenMode(isFullscreen());
+		viewport.update(Gdx.graphics.getDisplayMode().width, Gdx.graphics.getDisplayMode().height, true);
+		ResolutionManager.notifyListeners();
+		viewport.apply();
+		viewport.getCamera().update();
 	}
 
 	public static void setFullscreenMode(Boolean value) {
 		fullscreenMode = value;
 		if (isFullscreen()) {
-			Gdx.graphics.setWindowedMode(resolution.WIDTH, resolution.HEIGHT);
+			Gdx.graphics.setWindowedMode(Gdx.graphics.getDisplayMode().width, Gdx.graphics.getDisplayMode().height);
 			Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
 		} else {
 			Gdx.graphics.setWindowedMode(resolution.WIDTH, resolution.HEIGHT);

@@ -19,7 +19,6 @@ import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.language.LanguageChangeListener;
 
 public class SelectMenu extends WrapperTable{
-
 	private final Skin skin = HotelSkin.getInstance();
 	private final SelectMenuLabel descriptionLabel = new SelectMenuLabel();
 	private final Array<SelectMenuItem> items;
@@ -33,9 +32,8 @@ public class SelectMenu extends WrapperTable{
 		setListItems(items);
 		setFunction(function);
 
-		innerTable.add(descriptionLabel).pad(0f).grow().uniform();
-		innerTable.add(selectOption).pad(0f).grow().uniform();
-		innerTable.setFillParent(true);
+		innerTable.add(descriptionLabel).pad(0f).growX().uniform().minHeight(0f);
+		innerTable.add(selectOption).pad(0f).growX().uniform().minHeight(0f);
 
 		this.setResolutionChangeHandler(this::changeResolutionHandler);
 		this.setLanguageChangeHandler(descriptionLabel::setText);
@@ -79,8 +77,7 @@ public class SelectMenu extends WrapperTable{
 
 		@Override
 		public void validate() {
-			if (this.getParent() != null)
-				setHeight(this.getParent().getHeight());
+			setHeight(SelectMenuStyle.getHeight());
 			this.layout();
 		}
 
@@ -105,8 +102,7 @@ public class SelectMenu extends WrapperTable{
 
 		@Override
 		public void validate() {
-			if (this.getParent() != null)
-				setHeight(this.getParent().getHeight());
+			setHeight(SelectMenuStyle.getHeight());
 			this.layout();
 		}
 
@@ -131,6 +127,7 @@ public class SelectMenu extends WrapperTable{
 
 	private void changeResolutionHandler() {
 		this.size(SelectMenuStyle.getWidth(), SelectMenuStyle.getHeight());
+		this.validate();
 	}
 
 	private static class SelectMenuStyle {

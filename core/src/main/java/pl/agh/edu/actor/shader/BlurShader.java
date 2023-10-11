@@ -88,8 +88,8 @@ public class BlurShader extends WrapperContainer<Image> {
             spriteBatch.begin();
             blurShader.setUniformf("dir", .5f, 0);
             blurShader.setUniformf("radius", deltaBlur * MAX_BLUR);
-            blurShader.setUniformf("resolution", Gdx.graphics.getWidth());
-            spriteBatch.draw(i == 0 ? fboTex : blurTargetB.getColorBufferTexture(), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 0, 0, 1, 1);
+            blurShader.setUniformf("resolution", GraphicConfig.getResolution().WIDTH);
+            spriteBatch.draw(i == 0 ? fboTex : blurTargetB.getColorBufferTexture(), 0, 0, GraphicConfig.getResolution().WIDTH, GraphicConfig.getResolution().HEIGHT, 0, 0, 1, 1);
             spriteBatch.end();
             blurTargetA.end();
 
@@ -97,8 +97,8 @@ public class BlurShader extends WrapperContainer<Image> {
             spriteBatch.begin();
             blurShader.setUniformf("dir", 0, .5f);
             blurShader.setUniformf("radius", deltaBlur * MAX_BLUR);
-            blurShader.setUniformf("resolution", Gdx.graphics.getHeight());
-            spriteBatch.draw(blurTargetA.getColorBufferTexture(), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 0, 0, 1, 1);
+            blurShader.setUniformf("resolution", GraphicConfig.getResolution().HEIGHT);
+            spriteBatch.draw(blurTargetA.getColorBufferTexture(), 0, 0, GraphicConfig.getResolution().WIDTH, GraphicConfig.getResolution().HEIGHT, 0, 0, 1, 1);
             spriteBatch.end();
             blurTargetB.end();
         }
