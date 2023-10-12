@@ -15,10 +15,10 @@ import pl.agh.edu.enums.HotelVisitPurpose;
 import pl.agh.edu.generator.client_generator.ClientGenerator;
 import pl.agh.edu.json.data_loader.JSONHotelDataLoader;
 import pl.agh.edu.management.advertisement.AdvertisementHandler;
+import pl.agh.edu.management.event.ClientNumberModificationEventHandler;
 import pl.agh.edu.management.hotel.HotelScenariosManager;
 import pl.agh.edu.model.advertisement.report.AdvertisementReportData;
 import pl.agh.edu.model.advertisement.report.AdvertisementReportHandler;
-import pl.agh.edu.model.event.temporary.ClientNumberModificationTemporaryEventHandler;
 import pl.agh.edu.model.time.Time;
 import pl.agh.edu.utils.RandomUtils;
 
@@ -27,7 +27,7 @@ public class ClientGroupGenerationHandler {
 	private final Time time = Time.getInstance();
 
 	private final AdvertisementHandler advertisementHandler = new AdvertisementHandler();
-	private final ClientNumberModificationTemporaryEventHandler clientNumberModificationTemporaryEventHandler = ClientNumberModificationTemporaryEventHandler.getInstance();
+	private final ClientNumberModificationEventHandler clientNumberModificationEventHandler = ClientNumberModificationEventHandler.getInstance();
 	private final HotelScenariosManager hotelScenariosManager = new HotelScenariosManager(HotelType.HOTEL);
 
 	public List<Arrival> getArrivalsForDay(LocalTime checkInMinTime, LocalTime checkOutMaxTime) {
@@ -63,13 +63,14 @@ public class ClientGroupGenerationHandler {
 		double popularityModifier = hotelScenariosManager.getCurrentDayMultiplier();
 		int basicNumberOfClients = (int) Math.round(((JSONHotelDataLoader.attractivenessConstants.get("local_market") + JSONHotelDataLoader.attractivenessConstants.get(
 				"local_attractions"))) * popularityModifier);
+		EnumMap<HotelVisitPurpose, BigDecimal> eventModifier = clientNumberModificationEventHandler.getCumulatedModifier();
 		return Stream.of(HotelVisitPurpose.values()).collect(Collectors.toMap(
-				e -> e,
-				e -> (int) Math.round(
+				hotelVisitPurpose -> hotelVisitPurpose,
+				hotelVisitPurpose -> (int) Math.round(
 						basicNumberOfClients *
-								hotelScenariosManager.getHotelVisitPurposeProbabilities().get(e) *
+								hotelScenariosManager.getHotelVisitPurposeProbabilities().get(hotelVisitPurpose) *
 								Math.max(0, RandomUtils.randomGaussian(1, 1. / 3)) *
-								(clientNumberModificationTemporaryEventHandler.getClientNumberModifier().get(e) + 1)),
+								BigDecimal.ONE.add(eventModifier.get(hotelVisitPurpose)).doubleValue()),
 				(a, b) -> b,
 				() -> new EnumMap<>(HotelVisitPurpose.class)));
 	}

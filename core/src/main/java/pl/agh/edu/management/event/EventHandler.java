@@ -32,6 +32,7 @@ public class EventHandler {
 	private void addEventCommandsForYear(Year year) {
 		eventGenerator.generateClientNumberModificationRandomEventsForYear(year).forEach(
 				event -> {
+					System.out.println(event);
 					timeCommandExecutor.addCommand(createTimeCommandForEventAppearancePopup(event));
 					timeCommandExecutor.addCommand(createTimeCommandForCalendarEvent(event));
 					timeCommandExecutor.addCommand(createTimeCommandForEventStartPopup(event));

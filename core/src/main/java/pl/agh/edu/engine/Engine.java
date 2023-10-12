@@ -3,8 +3,8 @@ package pl.agh.edu.engine;
 import java.time.LocalDateTime;
 
 import pl.agh.edu.enums.Frequency;
-import pl.agh.edu.generator.client_generator.Arrival;
 import pl.agh.edu.json.data_loader.JSONBankDataLoader;
+import pl.agh.edu.management.client.Arrival;
 import pl.agh.edu.management.client.ClientGroupGenerationHandler;
 import pl.agh.edu.management.event.EventHandler;
 import pl.agh.edu.management.hotel.HotelHandler;
