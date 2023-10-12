@@ -141,7 +141,7 @@ public class AdvertisementHandlerTest {
 				Arguments.of(13, BigDecimal.ONE),
 				Arguments.of(14, new BigDecimal("0.9")),
 				Arguments.of(27, new BigDecimal("0.9")),
-				Arguments.of(29, new BigDecimal("0.8"))
+				Arguments.of(28, new BigDecimal("0.8"))
 
 		);
 	}

@@ -50,18 +50,17 @@ public class AdvertisementHandler {
 	public static BigDecimal getCampaignFullCost(AdvertisementType type, long noDays) {
 		return JSONAdvertisementDataLoader.advertisementData.get(type).costPerDay()
 				.multiply(BigDecimal.valueOf(noDays))
-				.multiply(BigDecimal.ONE.subtract(getDiscount(noDays)));
+				.multiply(getModifier(noDays));
 	}
 
-	private static BigDecimal getDiscount(long noDays) {
+	private static BigDecimal getModifier(long noDays) {
 		if (noDays >= 28) {
-			return new BigDecimal("0.2");
+			return new BigDecimal("0.8");
 		}
 		if (noDays >= 14) {
-			return new BigDecimal("0.1");
+			return new BigDecimal("0.9");
 		}
-		return BigDecimal.ZERO;
-
+		return BigDecimal.ONE;
 	}
 
 	public EnumMap<HotelVisitPurpose, BigDecimal> getCumulatedModifier() {
