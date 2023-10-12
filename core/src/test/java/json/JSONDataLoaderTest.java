@@ -12,9 +12,25 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
-import pl.agh.edu.enums.*;
-import pl.agh.edu.json.data.*;
-import pl.agh.edu.json.data_loader.*;
+import pl.agh.edu.enums.HotelType;
+import pl.agh.edu.enums.HotelVisitPurpose;
+import pl.agh.edu.enums.RoomRank;
+import pl.agh.edu.enums.RoomSize;
+import pl.agh.edu.enums.TypeOfContract;
+import pl.agh.edu.json.data.AdvertisementData;
+import pl.agh.edu.json.data.AttractivenessConstantsData;
+import pl.agh.edu.json.data.BankData;
+import pl.agh.edu.json.data.ClientNumberModificationCyclicTemporaryEventData;
+import pl.agh.edu.json.data.ClientNumberModificationRandomTemporaryEventData;
+import pl.agh.edu.json.data_loader.JSONAdvertisementDataLoader;
+import pl.agh.edu.json.data_loader.JSONBankDataLoader;
+import pl.agh.edu.json.data_loader.JSONClientDataLoader;
+import pl.agh.edu.json.data_loader.JSONEmployeeDataLoader;
+import pl.agh.edu.json.data_loader.JSONEventDataLoader;
+import pl.agh.edu.json.data_loader.JSONGameDataLoader;
+import pl.agh.edu.json.data_loader.JSONHotelDataLoader;
+import pl.agh.edu.json.data_loader.JSONHotelScenariosDataLoader;
+import pl.agh.edu.json.data_loader.JSONRoomDataLoader;
 import pl.agh.edu.model.Room;
 import pl.agh.edu.model.advertisement.AdvertisementType;
 import pl.agh.edu.model.employee.Profession;
