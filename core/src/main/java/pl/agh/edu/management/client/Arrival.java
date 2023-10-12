@@ -1,4 +1,4 @@
-package pl.agh.edu.generator.client_generator;
+package pl.agh.edu.management.client;
 
 import java.time.LocalTime;
 
