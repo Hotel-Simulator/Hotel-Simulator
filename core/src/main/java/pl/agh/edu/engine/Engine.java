@@ -4,8 +4,8 @@ import java.time.LocalDateTime;
 
 import pl.agh.edu.enums.Frequency;
 import pl.agh.edu.generator.client_generator.Arrival;
-import pl.agh.edu.generator.client_generator.ClientGenerator;
 import pl.agh.edu.json.data_loader.JSONBankDataLoader;
+import pl.agh.edu.management.client.ClientGroupGenerationHandler;
 import pl.agh.edu.management.event.EventHandler;
 import pl.agh.edu.management.hotel.HotelHandler;
 import pl.agh.edu.model.Hotel;
@@ -16,7 +16,7 @@ import pl.agh.edu.time_command.TimeCommandExecutor;
 
 public class Engine {
 	private final Time time = Time.getInstance();
-	private final ClientGenerator clientGenerator = ClientGenerator.getInstance();
+	private final ClientGroupGenerationHandler clientGroupGenerationHandler = new ClientGroupGenerationHandler();
 	private final Hotel hotel = new Hotel();
 	private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
 	private final EventHandler eventHandler = new EventHandler();
@@ -63,7 +63,7 @@ public class Engine {
 	}
 
 	private void generateClientArrivals() {
-		clientGenerator.generateArrivalsForDay(hotel.getCheckInTime(), hotel.getCheckOutTime())
+		clientGroupGenerationHandler.getArrivalsForDay(hotel.getCheckInTime(), hotel.getCheckOutTime())
 				.forEach(arrival -> timeCommandExecutor.addCommand(
 						createTimeCommandForClientArrival(arrival)));
 	}

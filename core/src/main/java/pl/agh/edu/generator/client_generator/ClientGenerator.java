@@ -1,24 +1,19 @@
 package pl.agh.edu.generator.client_generator;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
-import pl.agh.edu.enums.*;
+import pl.agh.edu.enums.HotelVisitPurpose;
+import pl.agh.edu.enums.RoomRank;
+import pl.agh.edu.enums.RoomSize;
+import pl.agh.edu.enums.Sex;
 import pl.agh.edu.json.data_loader.JSONClientDataLoader;
-import pl.agh.edu.json.data_loader.JSONHotelDataLoader;
-import pl.agh.edu.management.advertisement.AdvertisementHandler;
-import pl.agh.edu.management.event.ClientNumberModificationEventHandler;
 import pl.agh.edu.management.game.GameDifficultyManager;
-import pl.agh.edu.management.hotel.HotelScenariosManager;
-import pl.agh.edu.model.advertisement.report.AdvertisementReportData;
-import pl.agh.edu.model.advertisement.report.AdvertisementReportHandler;
 import pl.agh.edu.model.client.Client;
 import pl.agh.edu.model.client.ClientGroup;
 import pl.agh.edu.model.time.Time;
@@ -28,13 +23,8 @@ import pl.agh.edu.utils.RandomUtils;
 public class ClientGenerator {
 
 	private static ClientGenerator clientGeneratorInstance;
-
-	private static final Map<String, Long> attractivenessConstants = JSONHotelDataLoader.attractivenessConstants;
-	private final AdvertisementHandler advertisementHandler = new AdvertisementHandler();
-	private final ClientNumberModificationEventHandler clientNumberModificationEventHandler = ClientNumberModificationEventHandler.getInstance();
 	private final Time time = Time.getInstance();
 	// Set user input here (set hotelType)
-	private final HotelScenariosManager hotelScenariosManager = new HotelScenariosManager(HotelType.HOTEL);
 	private final GameDifficultyManager gameDifficultyManager = GameDifficultyManager.getInstance();
 
 	private ClientGenerator() {}
@@ -43,6 +33,22 @@ public class ClientGenerator {
 		if (clientGeneratorInstance == null)
 			clientGeneratorInstance = new ClientGenerator();
 		return clientGeneratorInstance;
+	}
+
+	public ClientGroup generateClientGroupForGivenHotelVisitPurpose(LocalTime checkoutMaxTime, HotelVisitPurpose hotelVisitPurpose) {
+		RoomRank desiredRoomRank = RandomUtils.randomKeyWithProbabilities(JSONClientDataLoader.desiredRankProbabilities.get(hotelVisitPurpose));
+		int numberOfNights = RandomUtils.randomKeyWithProbabilities(JSONClientDataLoader.numberOfNightsProbabilities.get(hotelVisitPurpose));
+		int clientGroupSize = RandomUtils.randomKeyWithProbabilities(JSONClientDataLoader.clientGroupSizeProbabilities.get(hotelVisitPurpose));
+		RoomSize roomSize = RoomSize.getSmallestAvailableRoomSize(clientGroupSize).orElseThrow();
+
+		return new ClientGroup.Builder()
+				.hotelVisitPurpose(hotelVisitPurpose)
+				.members(getMembers(hotelVisitPurpose, clientGroupSize))
+				.checkOutTime(getCheckOutTime(numberOfNights, checkoutMaxTime))
+				.desiredPricePerNight(getDesiredPricePerNight(desiredRoomRank, roomSize))
+				.desiredRoomRank(desiredRoomRank)
+				.maxWaitingTime(getMaxWaitingTime(JSONClientDataLoader.basicMaxWaitingTime, JSONClientDataLoader.waitingTimeVariation))
+				.build();
 	}
 
 	private LocalDateTime getCheckOutTime(int numberOfNight, LocalTime checkOutMaxTime) {
@@ -67,67 +73,7 @@ public class ClientGenerator {
 				.collect(Collectors.toList());
 	}
 
-	private ClientGroup generateClientGroupForGivenHotelVisitPurpose(LocalTime checkoutMaxTime, HotelVisitPurpose hotelVisitPurpose) {
-		RoomRank desiredRoomRank = RandomUtils.randomKeyWithProbabilities(JSONClientDataLoader.desiredRankProbabilities.get(hotelVisitPurpose));
-		int numberOfNights = RandomUtils.randomKeyWithProbabilities(JSONClientDataLoader.numberOfNightsProbabilities.get(hotelVisitPurpose));
-		int clientGroupSize = RandomUtils.randomKeyWithProbabilities(JSONClientDataLoader.clientGroupSizeProbabilities.get(hotelVisitPurpose));
-		RoomSize roomSize = RoomSize.getSmallestAvailableRoomSize(clientGroupSize).orElseThrow();
-
-		return new ClientGroup.Builder()
-				.hotelVisitPurpose(hotelVisitPurpose)
-				.members(getMembers(hotelVisitPurpose, clientGroupSize))
-				.checkOutTime(getCheckOutTime(numberOfNights, checkoutMaxTime))
-				.desiredPricePerNight(getDesiredPricePerNight(desiredRoomRank, roomSize))
-				.desiredRoomRank(desiredRoomRank)
-				.maxWaitingTime(getMaxWaitingTime(JSONClientDataLoader.basicMaxWaitingTime, JSONClientDataLoader.waitingTimeVariation))
-				.build();
-	}
-
 	private Duration getMaxWaitingTime(Duration basicMaxWaitingTime, int waitingTimeVariation) {
 		return basicMaxWaitingTime.plusMinutes(RandomUtils.randomInt(-waitingTimeVariation, waitingTimeVariation));
-	}
-
-	private EnumMap<HotelVisitPurpose, Integer> getNumberOfClientGroupsFromAdvertisement(EnumMap<HotelVisitPurpose, Integer> noClientsWithoutAdvertisements) {
-		return advertisementHandler.getCumulatedModifier().entrySet()
-				.stream()
-				.collect(Collectors.toMap(
-						Map.Entry::getKey,
-						e -> e.getValue().multiply(BigDecimal.valueOf(noClientsWithoutAdvertisements.get(e.getKey())))
-								.setScale(0, RoundingMode.HALF_EVEN)
-								.intValue(),
-						(a, b) -> b,
-						() -> new EnumMap<>(HotelVisitPurpose.class)));
-	}
-
-	private EnumMap<HotelVisitPurpose, Integer> getNumberOfClientGroups() {
-		double popularityModifier = hotelScenariosManager.getCurrentDayMultiplier();
-		int basicNumberOfClients = (int) Math.round(((attractivenessConstants.get("local_market") + attractivenessConstants.get("local_attractions"))) * popularityModifier);
-		EnumMap<HotelVisitPurpose, BigDecimal> eventModifier = clientNumberModificationEventHandler.getCumulatedModifier();
-		return Stream.of(HotelVisitPurpose.values()).collect(Collectors.toMap(
-				hotelVisitPurpose -> hotelVisitPurpose,
-				hotelVisitPurpose -> (int) Math.round(
-						basicNumberOfClients *
-								hotelScenariosManager.getHotelVisitPurposeProbabilities().get(hotelVisitPurpose) *
-								Math.max(0, RandomUtils.randomGaussian(1, 1. / 3)) *
-								BigDecimal.ONE.add(eventModifier.get(hotelVisitPurpose)).doubleValue()),
-				(a, b) -> b,
-				() -> new EnumMap<>(HotelVisitPurpose.class)));
-	}
-
-	public List<Arrival> generateArrivalsForDay(LocalTime checkInMinTime, LocalTime checkOutMaxTime) {
-		EnumMap<HotelVisitPurpose, Integer> numberOfClientGroups = getNumberOfClientGroups();
-		EnumMap<HotelVisitPurpose, Integer> numberOfClientGroupsFromAdvertisements = getNumberOfClientGroupsFromAdvertisement(numberOfClientGroups);
-		AdvertisementReportHandler.collectData(
-				new AdvertisementReportData(
-						time.getTime().toLocalDate(),
-						numberOfClientGroups,
-						numberOfClientGroupsFromAdvertisements));
-		return Stream.of(HotelVisitPurpose.values())
-				.flatMap(e -> IntStream.range(0, numberOfClientGroups.get(e) + numberOfClientGroupsFromAdvertisements.get(e))
-						.mapToObj(it -> new Arrival(
-								RandomUtils.randomLocalTime(checkInMinTime, LocalTime.MAX),
-								generateClientGroupForGivenHotelVisitPurpose(checkOutMaxTime, e))))
-				.sorted(Arrival::compareTo)
-				.collect(Collectors.toList());
 	}
 }
