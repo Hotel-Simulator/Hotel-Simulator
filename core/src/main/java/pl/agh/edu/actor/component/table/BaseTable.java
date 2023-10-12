@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.Align;
 
 import pl.agh.edu.actor.HotelSkin;
 import pl.agh.edu.actor.component.rating.Star;
+import pl.agh.edu.actor.utils.LanguageLabel;
 import pl.agh.edu.actor.utils.WrapperTable;
 
 public abstract class BaseTable extends WrapperTable {
@@ -25,7 +26,7 @@ public abstract class BaseTable extends WrapperTable {
 
 		align(Align.bottomLeft);
 
-		BaseRow header = createRow(columnNames.stream().map(s -> new Label(s, HotelSkin.getInstance(), "body1")).toArray(Actor[]::new));
+		BaseRow header = createRow(columnNames.stream().map(s -> new LanguageLabel(s, "body2")).toArray(Actor[]::new));
 		header.setBackground("table-header-background");
 		header.align(Align.bottomLeft);
 		innerTable.add(header).space(rowSpacing).growX();

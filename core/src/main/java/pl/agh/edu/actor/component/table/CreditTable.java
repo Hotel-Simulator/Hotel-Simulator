@@ -14,7 +14,7 @@ import pl.agh.edu.model.bank.Credit;
 public class CreditTable extends BaseTable {
 
 	public CreditTable(BankAccount bankAccount) {
-		super(List.of("Final payment date", "Monthly payment", "Pay All"));
+		super(List.of("creditTable.column.date", "creditTable.column.monthly", "creditTable.column.payall"));
 
 		for (Credit credit : bankAccount.getCredits()) {
 			LabeledButton payAllButton = new LabeledButton(Size.SMALL, "labeledButton.credit.payall", (Void v) -> {
