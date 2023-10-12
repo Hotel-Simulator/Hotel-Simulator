@@ -29,7 +29,7 @@ public class EmployeeSalaryHandler {
 
 		timeCommandExecutor.addCommand(new TimeCommand(() -> bankAccountHandler.registerExpense(salaryToPayForThisMonth),
 				time.getTime().plusMonths(1)
-						.truncatedTo(ChronoUnit.MONTHS)
+						.truncatedTo(ChronoUnit.DAYS)
 						.withDayOfMonth(JSONEmployeeDataLoader.payDayOfMonth)
 						.withHour(12)));
 	}

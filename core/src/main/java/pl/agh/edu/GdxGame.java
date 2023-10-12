@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.GL20;
 
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.config.LanguageConfig;
+import pl.agh.edu.engine.Engine;
 import pl.agh.edu.language.LanguageManager;
 import pl.agh.edu.model.time.Time;
 import pl.agh.edu.screen.MainScreen;
@@ -25,6 +26,7 @@ public class GdxGame extends ApplicationAdapter {
 		LanguageConfig.setLanguage(LanguageConfig.getLanguage());
 		GraphicConfig.setFullscreenMode(GraphicConfig.isFullscreen());
 		GraphicConfig.changeResolution(GraphicConfig.getResolution());
+		Engine engine = new Engine();
 	}
 
 	@Override

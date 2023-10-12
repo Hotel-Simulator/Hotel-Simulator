@@ -3,24 +3,27 @@ package pl.agh.edu.model.event;
 import java.time.LocalDate;
 
 public class Event {
-	public final String name;
+	public final String title;
+	public final String eventAppearancePopupDescription;
+	public final String eventStartPopupDescription;
 	public final String calendarDescription;
-	public final String popupDescription;
+	public final String imagePath;
 	public final LocalDate appearanceDate;
 	public final LocalDate startDate;
-	public final String imagePath;
 
-	public Event(String name,
+	public Event(String title,
+			String eventAppearancePopupDescription,
+			String eventStartPopupDescription,
 			String calendarDescription,
-			String popupDescription,
 			String imagePath,
 			LocalDate appearanceDate,
 			LocalDate startDate) {
-		this.name = name;
+		this.title = title;
+		this.eventAppearancePopupDescription = eventAppearancePopupDescription;
+		this.eventStartPopupDescription = eventStartPopupDescription;
 		this.calendarDescription = calendarDescription;
-		this.popupDescription = popupDescription;
+		this.imagePath = imagePath;
 		this.appearanceDate = appearanceDate;
 		this.startDate = startDate;
-		this.imagePath = imagePath;
 	}
 }

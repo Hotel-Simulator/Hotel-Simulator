@@ -49,14 +49,14 @@ public class EventHandler {
 
 	private TimeCommand createTimeCommandForEventAppearancePopup(Event event) {
 		return new TimeCommand(
-				() -> new EventPopup(event.name, event.popupDescription, event.imagePath),
+				() -> new EventPopup(event.title, event.eventAppearancePopupDescription, event.imagePath),
 				event.appearanceDate.atTime(LocalTime.NOON));
 	}
 
 	private TimeCommand createTimeCommandForCalendarEvent(Event event) {
 		CalendarEvent calendarEvent = new CalendarEvent(
 				event.startDate,
-				event.name,
+				event.title,
 				event.calendarDescription);
 		return new TimeCommand(
 				() -> calendar.addEvent(calendarEvent),
@@ -65,7 +65,7 @@ public class EventHandler {
 
 	private TimeCommand createTimeCommandForEventStartPopup(Event event) {
 		return new TimeCommand(
-				() -> new EventPopup(event.name, event.popupDescription, event.imagePath),
+				() -> new EventPopup(event.title, event.eventStartPopupDescription, event.imagePath),
 				event.startDate.atTime(LocalTime.MIDNIGHT));
 	}
 

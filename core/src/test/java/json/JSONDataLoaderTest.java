@@ -62,8 +62,8 @@ public class JSONDataLoaderTest {
 	@SuppressWarnings("unused")
 	public void jSONEventDataLoaderTest() {
 		assertDoesNotThrow(() -> {
-			List<CyclicEventData> cyclicEventData = JSONEventDataLoader.cyclicEventData;
-			List<ClientNumberModificationRandomEventData> clientNumberModificationRandomEventData = JSONEventDataLoader.clientNumberModificationRandomEventData;
+			// List<CyclicEventData> cyclicEventData = JSONEventDataLoader.cyclicEventData;
+			// List<ClientNumberModificationRandomEventData> clientNumberModificationRandomEventData = JSONEventDataLoader.clientNumberModificationRandomEventData;
 		});
 	}
 

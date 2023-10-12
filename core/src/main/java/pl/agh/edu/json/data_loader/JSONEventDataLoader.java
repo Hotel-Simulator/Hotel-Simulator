@@ -20,6 +20,7 @@ import pl.agh.edu.json.data.CyclicEventData;
 import pl.agh.edu.json.data_extractor.JSONDataExtractor;
 import pl.agh.edu.json.data_extractor.JSONFilePath;
 import pl.agh.edu.json.data_extractor.JSONValueUtil;
+import pl.agh.edu.language.LanguageManager;
 import pl.agh.edu.model.event.ClientNumberModifier;
 
 public class JSONEventDataLoader {
@@ -44,9 +45,10 @@ public class JSONEventDataLoader {
 				e -> {
 					JSONObject JSONEvent = (JSONObject) e;
 					return new CyclicEventData(
-							(String) JSONEvent.get("name"),
-							(String) JSONEvent.get("calendar_description"),
-							(String) JSONEvent.get("popup_description"),
+							LanguageManager.get((String) JSONEvent.get("title")),
+							LanguageManager.get((String) JSONEvent.get("event_appearance_popup_description")),
+							LanguageManager.get((String) JSONEvent.get("event_start_popup_description")),
+							LanguageManager.get((String) JSONEvent.get("calendar_description")),
 							(String) JSONEvent.get("image_path"),
 							LocalDate.parse((String) (JSONEvent.get("start_date")), formatter));
 				});
@@ -57,9 +59,10 @@ public class JSONEventDataLoader {
 					JSONObject JSONEvent = (JSONObject) e;
 					JSONObject JSONModifiers = (JSONObject) JSONEvent.get("modifier");
 					return new ClientNumberModificationRandomEventData(
-							(String) JSONEvent.get("name"),
-							(String) JSONEvent.get("calendar_description"),
-							(String) JSONEvent.get("popup_description"),
+							LanguageManager.get((String) JSONEvent.get("title")),
+							LanguageManager.get((String) JSONEvent.get("event_appearance_popup_description")),
+							LanguageManager.get((String) JSONEvent.get("event_start_popup_description")),
+							LanguageManager.get((String) JSONEvent.get("calendar_description")),
 							JSONValueUtil.getInt((Long) JSONEvent.get("min_duration_days")),
 							JSONValueUtil.getInt((Long) JSONEvent.get("max_duration_days")),
 							new ClientNumberModifier(
@@ -76,6 +79,5 @@ public class JSONEventDataLoader {
 
 				);
 				});
-
 	}
 }

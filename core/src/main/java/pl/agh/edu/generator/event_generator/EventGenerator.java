@@ -2,6 +2,7 @@ package pl.agh.edu.generator.event_generator;
 
 import java.time.LocalDate;
 import java.time.Year;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ public class EventGenerator {
 	private static EventGenerator instance;
 	private final Map<String, LocalDate> lastOccurrenceRandomEvents = new HashMap<>();
 	private final int monthsBetweenEventAppearanceAndStart = 1;
+	private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM");
 
 	private EventGenerator() {}
 
@@ -30,13 +32,14 @@ public class EventGenerator {
 				.filter(eventData -> RandomUtils.randomBooleanWithProbability(eventData.occurrenceProbability()))
 				.map(eventData -> {
 					LocalDate appearanceDate = getAppearanceDate(eventData, year);
-					lastOccurrenceRandomEvents.put(eventData.name(), appearanceDate);
+					lastOccurrenceRandomEvents.put(eventData.title(), appearanceDate);
 					int durationDays = RandomUtils.randomInt(eventData.minDurationDays(), eventData.maxDurationDays() + 1);
 					LocalDate startDate = appearanceDate.plusMonths(monthsBetweenEventAppearanceAndStart);
 					return new ClientNumberModificationEvent(
-							eventData.name(),
-							eventData.calendarDescription().replaceFirst("#", startDate.toString()).replaceFirst("#", String.valueOf(durationDays)),
-							eventData.popupDescription().replaceFirst("#", String.valueOf(durationDays)),
+							eventData.title(),
+							replaceDateAndNoDays(eventData.eventAppearancePopupDescription(), startDate, durationDays),
+							replaceDateAndNoDays(eventData.eventStartPopupDescription(), startDate, durationDays),
+							replaceNoDays(eventData.calendarDescription(), durationDays),
 							eventData.imagePath(),
 							appearanceDate,
 							startDate,
@@ -45,12 +48,20 @@ public class EventGenerator {
 				}).toList();
 	}
 
+	private static String replaceDateAndNoDays(String string, LocalDate date, int noDays) {
+		return string.replace("[date]", date.format(formatter)).replace("[noDays]", String.valueOf(noDays));
+	}
+
+	private static String replaceNoDays(String string, int noDays) {
+		return string.replace("[noDays]", String.valueOf(noDays));
+	}
+
 	private LocalDate getAppearanceDate(ClientNumberModificationRandomEventData event, Year year) {
 		int begin = 1;
 		int daysInYear = year.isLeap() ? 366 : 365;
-		if (lastOccurrenceRandomEvents.containsKey(event.name())
-				&& lastOccurrenceRandomEvents.get(event.name()).getYear() == year.getValue() - 1) {
-			LocalDate lastYarDate = lastOccurrenceRandomEvents.get(event.name());
+		if (lastOccurrenceRandomEvents.containsKey(event.title())
+				&& lastOccurrenceRandomEvents.get(event.title()).getYear() == year.getValue() - 1) {
+			LocalDate lastYarDate = lastOccurrenceRandomEvents.get(event.title());
 			if (lastYarDate.getDayOfYear() > daysInYear / 2) {
 				begin = daysInYear / 2;
 			}
@@ -65,9 +76,10 @@ public class EventGenerator {
 							LocalDate appearanceDate = LocalDate.of(year.getValue(), eventData.startDateWithoutYear().getMonth().minus(
 									monthsBetweenEventAppearanceAndStart), eventData.startDateWithoutYear().getDayOfMonth());
 							return new Event(
-									eventData.name(),
+									eventData.title(),
+									eventData.eventAppearancePopupDescription(),
+									eventData.eventStartPopupDescription(),
 									eventData.calendarDescription(),
-									eventData.popupDescription(),
 									eventData.imagePath(),
 									appearanceDate,
 									appearanceDate.plusMonths(monthsBetweenEventAppearanceAndStart));
