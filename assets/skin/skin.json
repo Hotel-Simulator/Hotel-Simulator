@@ -675,11 +675,7 @@
 },
 "TextButtonStyle": {
 	"default": {
-		"font": "button2",
-		"up": "text-buttom-small-up",
-		"down": "text-buttom-small-down",
-		"over": "text-buttom-small-over",
-		"disabled": "text-buttom-small-disabled"
+		"font": "button2"
 	},
 	"small": {
 		"font": "white-button3",
