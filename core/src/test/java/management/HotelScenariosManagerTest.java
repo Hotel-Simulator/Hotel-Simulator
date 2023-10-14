@@ -19,7 +19,7 @@ public class HotelScenariosManagerTest {
 	@Test
 	public void testGetHotelVisitPurposeProbabilities() {
 		// Then
-		assertNotNull(hotelScenariosManager.getHotelVisitPurposeProbabilities());
+		assertNotNull(hotelScenariosManager.hotelVisitPurposeProbabilities);
 	}
 
 	@Test
@@ -34,12 +34,8 @@ public class HotelScenariosManagerTest {
 	@Test
 	public void testHotelSetUp() {
 		// Then
-		assertNotNull(hotelScenariosManager.getHotelVisitPurposeProbabilities());
+		assertNotNull(hotelScenariosManager.hotelVisitPurposeProbabilities);
+		assertNotNull(hotelScenariosManager.attractivenessConstants);
 	}
 
-	@Test
-	public void testHotelScenariosManagerInitialization() {
-		// Then
-		assertNotNull(hotelScenariosManager.getHotelVisitPurposeProbabilities());
-	}
 }

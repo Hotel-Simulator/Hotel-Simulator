@@ -64,7 +64,7 @@ public class ClientGroupGenerationHandler {
 				e -> e,
 				e -> (int) Math.round(
 						getBasicNumberOfClientGroups() *
-								hotelScenariosManager.getHotelVisitPurposeProbabilities().get(e) *
+								hotelScenariosManager.hotelVisitPurposeProbabilities.get(e) *
 								Math.max(0, RandomUtils.randomGaussian(1, 1. / 3)) *
 								(clientNumberModificationTemporaryEventHandler.getClientNumberModifier().get(e) + 1)),
 				(a, b) -> b,
@@ -73,7 +73,7 @@ public class ClientGroupGenerationHandler {
 
 	private double getBasicNumberOfClientGroups() {
 		double popularityModifier = hotelScenariosManager.getCurrentDayMultiplier();
-		AttractivenessConstantsData attractivenessConstants = hotelScenariosManager.getAttractivenessConstants();
+		AttractivenessConstantsData attractivenessConstants = hotelScenariosManager.attractivenessConstants;
 		return (attractivenessConstants.localMarket() + attractivenessConstants.localAttractions()) * popularityModifier;
 	}
 }
