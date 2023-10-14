@@ -16,11 +16,11 @@ import pl.agh.edu.time_command.TimeCommandExecutor;
 
 public class Engine {
 	private final Time time = Time.getInstance();
-	private final ClientGroupGenerationHandler clientGroupGenerationHandler = new ClientGroupGenerationHandler();
 	private final Hotel hotel = new Hotel();
 	private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
 	private final EventGenerator eventGenerator = EventGenerator.getInstance();
 	private final HotelHandler hotelHandler = new HotelHandler();
+	private final ClientGroupGenerationHandler clientGroupGenerationHandler = new ClientGroupGenerationHandler(hotelHandler.bankAccountHandler);
 
 	public Engine() {
 

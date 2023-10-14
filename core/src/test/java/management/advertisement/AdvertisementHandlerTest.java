@@ -1,6 +1,7 @@
 package management.advertisement;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -14,7 +15,9 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import pl.agh.edu.enums.HotelVisitPurpose;
+import pl.agh.edu.json.data_loader.JSONAdvertisementDataLoader;
 import pl.agh.edu.management.advertisement.AdvertisementHandler;
+import pl.agh.edu.management.bank.BankAccountHandler;
 import pl.agh.edu.model.advertisement.AdvertisementType;
 import pl.agh.edu.model.time.Time;
 
@@ -25,7 +28,7 @@ public class AdvertisementHandlerTest {
 
 	@BeforeEach
 	void setUp() {
-		advertisementHandler = new AdvertisementHandler();
+		advertisementHandler = new AdvertisementHandler(mock(BankAccountHandler.class));
 	}
 
 	@ParameterizedTest
@@ -132,4 +135,30 @@ public class AdvertisementHandlerTest {
 		assertEquals(1, currentCampaigns.size());
 		assertEquals(AdvertisementType.RADIO_ADVERTISEMENT, currentCampaigns.get(0).advertisementData().type());
 	}
+
+	static Stream<Arguments> getCampaignFullCostArgs() {
+		return Stream.of(
+				Arguments.of(13, BigDecimal.ONE),
+				Arguments.of(14, new BigDecimal("0.9")),
+				Arguments.of(27, new BigDecimal("0.9")),
+				Arguments.of(28, new BigDecimal("0.8"))
+
+		);
+	}
+
+	@ParameterizedTest
+	@MethodSource("getCampaignFullCostArgs")
+	void getCampaignFullCost_ShouldCalculateCostWithout(long noDays, BigDecimal multiplier) {
+		// Given
+		AdvertisementType type = AdvertisementType.WEB_PAGE;
+		BigDecimal expectedCost = JSONAdvertisementDataLoader.advertisementData.get(type).costPerDay()
+				.multiply(BigDecimal.valueOf(noDays))
+				.multiply(multiplier);
+		// When
+		BigDecimal actualCost = AdvertisementHandler.getCampaignFullCost(AdvertisementType.WEB_PAGE, noDays);
+
+		// Then
+		assertEquals(expectedCost, actualCost);
+	}
+
 }
