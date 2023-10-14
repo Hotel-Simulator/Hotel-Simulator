@@ -25,10 +25,8 @@ public class PossibleEmployee {
 			if (jobOffer.offeredWage().compareTo(preferences.acceptableWage) >= 0) {
 				return JobOfferResponse.POSITIVE;
 			}
-		} else {
-			if (jobOffer.offeredWage().compareTo(preferences.desiredWage) >= 0) {
-				return JobOfferResponse.POSITIVE;
-			}
+		} else if (jobOffer.offeredWage().compareTo(preferences.desiredWage) >= 0) {
+			return JobOfferResponse.POSITIVE;
 		}
 		return JobOfferResponse.NEGATIVE;
 	}
