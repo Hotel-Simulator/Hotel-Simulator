@@ -3,11 +3,13 @@ package pl.agh.edu.engine;
 import java.time.LocalDateTime;
 
 import pl.agh.edu.enums.Frequency;
+import pl.agh.edu.enums.HotelType;
 import pl.agh.edu.json.data_loader.JSONBankDataLoader;
 import pl.agh.edu.management.client.Arrival;
 import pl.agh.edu.management.client.ClientGroupGenerationHandler;
 import pl.agh.edu.management.event.EventHandler;
 import pl.agh.edu.management.hotel.HotelHandler;
+import pl.agh.edu.management.hotel.HotelScenariosManager;
 import pl.agh.edu.model.Hotel;
 import pl.agh.edu.model.time.Time;
 import pl.agh.edu.time_command.RepeatingTimeCommand;
@@ -16,10 +18,11 @@ import pl.agh.edu.time_command.TimeCommandExecutor;
 
 public class Engine {
 	private final Time time = Time.getInstance();
-	private final ClientGroupGenerationHandler clientGroupGenerationHandler = new ClientGroupGenerationHandler();
+	private final HotelScenariosManager hotelScenariosManager = new HotelScenariosManager(HotelType.HOTEL);
+	private final ClientGroupGenerationHandler clientGroupGenerationHandler = new ClientGroupGenerationHandler(hotelScenariosManager);
 	private final Hotel hotel = new Hotel();
 	private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
-	private final EventHandler eventHandler = new EventHandler();
+	private final EventHandler eventHandler = new EventHandler(hotelScenariosManager);
 	private final HotelHandler hotelHandler = new HotelHandler();
 
 	public Engine() {

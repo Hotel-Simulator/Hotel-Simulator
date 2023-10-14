@@ -1,8 +1,10 @@
 package pl.agh.edu.model.event;
 
+import pl.agh.edu.utils.LanguageString;
+
 public record EventPopup(
-        String title,
-        String description,
+        LanguageString title,
+        LanguageString description,
         String imagePath
 ) {
 }

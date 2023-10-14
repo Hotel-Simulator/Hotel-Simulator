@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import pl.agh.edu.enums.HotelType;
 import pl.agh.edu.enums.HotelVisitPurpose;
 import pl.agh.edu.generator.client_generator.ClientGenerator;
 import pl.agh.edu.json.data_loader.JSONHotelDataLoader;
@@ -28,7 +27,11 @@ public class ClientGroupGenerationHandler {
 
 	private final AdvertisementHandler advertisementHandler = new AdvertisementHandler();
 	private final ClientNumberModificationEventHandler clientNumberModificationEventHandler = ClientNumberModificationEventHandler.getInstance();
-	private final HotelScenariosManager hotelScenariosManager = new HotelScenariosManager(HotelType.HOTEL);
+	private final HotelScenariosManager hotelScenariosManager;
+
+	public ClientGroupGenerationHandler(HotelScenariosManager hotelScenariosManager) {
+		this.hotelScenariosManager = hotelScenariosManager;
+	}
 
 	public List<Arrival> getArrivalsForDay(LocalTime checkInMinTime, LocalTime checkOutMaxTime) {
 		EnumMap<HotelVisitPurpose, Integer> numberOfClientGroups = getNumberOfClientGroups();

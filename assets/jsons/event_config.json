@@ -31,7 +31,11 @@
         "BUSINESS_TRIP": 0.2,
         "REHABILITATION": 0.0
       },
-      "occurrence_probability": 0.2,
+      "occurrence_probability": {
+        "HOTEL": 0.4,
+        "RESORT": 0.1,
+        "SANATORIUM": 0.0
+      },
       "image_path": ""
     },
 
@@ -47,7 +51,11 @@
         "BUSINESS_TRIP": 0.0,
         "REHABILITATION": 0.1
       },
-      "occurrence_probability": 0.3,
+      "occurrence_probability": {
+        "HOTEL": 0.3,
+        "RESORT": 0.2,
+        "SANATORIUM": 0.1
+      },
       "image_path": ""
     },
     {
@@ -62,7 +70,11 @@
         "BUSINESS_TRIP": 0.0,
         "REHABILITATION": 0.1
       },
-      "occurrence_probability": 0.4,
+      "occurrence_probability": {
+        "HOTEL": 0.1,
+        "RESORT": 0.2,
+        "SANATORIUM": 0.3
+      },
       "image_path": ""
     },
     {
@@ -77,7 +89,11 @@
         "BUSINESS_TRIP": 0.3,
         "REHABILITATION": 0.0
       },
-      "occurrence_probability": 0.4,
+      "occurrence_probability": {
+        "HOTEL": 0.4,
+        "RESORT": 0.1,
+        "SANATORIUM": 0.0
+      },
       "image_path": ""
     },
     {
@@ -92,7 +108,11 @@
         "BUSINESS_TRIP": 0.1,
         "REHABILITATION": 0.0
       },
-      "occurrence_probability": 0.05,
+      "occurrence_probability": {
+        "HOTEL": 0.1,
+        "RESORT": 0.1,
+        "SANATORIUM": 0.1
+      },
       "image_path": ""
     }
   ]

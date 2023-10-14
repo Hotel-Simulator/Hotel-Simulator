@@ -2,14 +2,16 @@ package pl.agh.edu.model.event;
 
 import java.time.LocalDate;
 
+import pl.agh.edu.utils.LanguageString;
+
 public class ClientNumberModificationEvent extends Event {
 	public final int durationInDays;
 	public final ClientNumberModifier modifier;
 
-	public ClientNumberModificationEvent(String title,
-			String eventAppearancePopupDescription,
-			String eventStartPopupDescription,
-			String calendarDescription,
+	public ClientNumberModificationEvent(LanguageString title,
+			LanguageString eventAppearancePopupDescription,
+			LanguageString eventStartPopupDescription,
+			LanguageString calendarDescription,
 			String imagePath,
 			LocalDate appearanceDate,
 			LocalDate startDate,

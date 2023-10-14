@@ -14,13 +14,13 @@ import java.util.stream.Stream;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import pl.agh.edu.enums.HotelType;
 import pl.agh.edu.enums.HotelVisitPurpose;
 import pl.agh.edu.json.data.ClientNumberModificationRandomEventData;
 import pl.agh.edu.json.data.CyclicEventData;
 import pl.agh.edu.json.data_extractor.JSONDataExtractor;
 import pl.agh.edu.json.data_extractor.JSONFilePath;
 import pl.agh.edu.json.data_extractor.JSONValueUtil;
-import pl.agh.edu.language.LanguageManager;
 import pl.agh.edu.model.event.ClientNumberModifier;
 
 public class JSONEventDataLoader {
@@ -45,10 +45,10 @@ public class JSONEventDataLoader {
 				e -> {
 					JSONObject JSONEvent = (JSONObject) e;
 					return new CyclicEventData(
-							LanguageManager.get((String) JSONEvent.get("title")),
-							LanguageManager.get((String) JSONEvent.get("event_appearance_popup_description")),
-							LanguageManager.get((String) JSONEvent.get("event_start_popup_description")),
-							LanguageManager.get((String) JSONEvent.get("calendar_description")),
+							(String) JSONEvent.get("titleProperty"),
+							(String) JSONEvent.get("event_appearance_popup_description"),
+							(String) JSONEvent.get("event_start_popup_description"),
+							(String) JSONEvent.get("calendar_description"),
 							(String) JSONEvent.get("image_path"),
 							LocalDate.parse((String) (JSONEvent.get("start_date")), formatter));
 				});
@@ -58,11 +58,12 @@ public class JSONEventDataLoader {
 				e -> {
 					JSONObject JSONEvent = (JSONObject) e;
 					JSONObject JSONModifiers = (JSONObject) JSONEvent.get("modifier");
+					JSONObject JSONOccurrenceProbability = (JSONObject) JSONEvent.get("occurrence_probability");
 					return new ClientNumberModificationRandomEventData(
-							LanguageManager.get((String) JSONEvent.get("title")),
-							LanguageManager.get((String) JSONEvent.get("event_appearance_popup_description")),
-							LanguageManager.get((String) JSONEvent.get("event_start_popup_description")),
-							LanguageManager.get((String) JSONEvent.get("calendar_description")),
+							(String) JSONEvent.get("titleProperty"),
+							(String) JSONEvent.get("event_appearance_popup_description"),
+							(String) JSONEvent.get("event_start_popup_description"),
+							(String) JSONEvent.get("calendar_description"),
 							JSONValueUtil.getInt((Long) JSONEvent.get("min_duration_days")),
 							JSONValueUtil.getInt((Long) JSONEvent.get("max_duration_days")),
 							new ClientNumberModifier(
@@ -74,7 +75,14 @@ public class JSONEventDataLoader {
 															.stripTrailingZeros(),
 													(a, b) -> b,
 													() -> new EnumMap<>(HotelVisitPurpose.class)))),
-							(double) JSONEvent.get("occurrence_probability"),
+							Stream.of(HotelType.values())
+									.collect(Collectors.toMap(
+											f -> f,
+											f -> BigDecimal.valueOf((Double) JSONOccurrenceProbability.get(f.toString()))
+													.setScale(4, RoundingMode.HALF_EVEN)
+													.stripTrailingZeros(),
+											(a, b) -> b,
+											() -> new EnumMap<>(HotelType.class))),
 							(String) JSONEvent.get("image_path")
 
 				);

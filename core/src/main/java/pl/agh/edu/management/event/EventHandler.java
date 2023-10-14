@@ -5,6 +5,7 @@ import java.time.Year;
 
 import pl.agh.edu.generator.event_generator.EventGenerator;
 import pl.agh.edu.json.data_loader.JSONGameDataLoader;
+import pl.agh.edu.management.hotel.HotelScenariosManager;
 import pl.agh.edu.model.calendar.Calendar;
 import pl.agh.edu.model.calendar.CalendarEvent;
 import pl.agh.edu.model.event.ClientNumberModificationEvent;
@@ -16,11 +17,15 @@ import pl.agh.edu.time_command.TimeCommandExecutor;
 
 public class EventHandler {
 
-	EventGenerator eventGenerator = EventGenerator.getInstance();
-	ClientNumberModificationEventHandler clientNumberModificationEventHandler;
-	Calendar calendar = Calendar.getInstance();
-	TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
-	Time time = Time.getInstance();
+	private final EventGenerator eventGenerator;
+	private final ClientNumberModificationEventHandler clientNumberModificationEventHandler = ClientNumberModificationEventHandler.getInstance();
+	private final Calendar calendar = Calendar.getInstance();
+	private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
+	private final Time time = Time.getInstance();
+
+	public EventHandler(HotelScenariosManager hotelScenariosManager) {
+		this.eventGenerator = new EventGenerator(hotelScenariosManager);
+	}
 
 	public void yearlyUpdate() {
 		if (time.getTime().getYear() == JSONGameDataLoader.startDate.getYear()) {
@@ -32,7 +37,6 @@ public class EventHandler {
 	private void addEventCommandsForYear(Year year) {
 		eventGenerator.generateClientNumberModificationRandomEventsForYear(year).forEach(
 				event -> {
-					System.out.println(event);
 					timeCommandExecutor.addCommand(createTimeCommandForEventAppearancePopup(event));
 					timeCommandExecutor.addCommand(createTimeCommandForCalendarEvent(event));
 					timeCommandExecutor.addCommand(createTimeCommandForEventStartPopup(event));
