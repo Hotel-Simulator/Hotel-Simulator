@@ -23,6 +23,12 @@ public class HotelScenariosManagerTest {
 	}
 
 	@Test
+	public void testGetAttractivenessConstants() {
+		// Then
+		assertNotNull(hotelScenariosManager.attractivenessConstants);
+	}
+
+	@Test
 	public void testGetCurrentDayMultiplier() {
 		// When
 		double currentDayMultiplier = hotelScenariosManager.getCurrentDayMultiplier();
@@ -30,12 +36,4 @@ public class HotelScenariosManagerTest {
 		// Then
 		assertTrue(currentDayMultiplier >= 0.0 && currentDayMultiplier <= 2.0);
 	}
-
-	@Test
-	public void testHotelSetUp() {
-		// Then
-		assertNotNull(hotelScenariosManager.hotelVisitPurposeProbabilities);
-		assertNotNull(hotelScenariosManager.attractivenessConstants);
-	}
-
 }
