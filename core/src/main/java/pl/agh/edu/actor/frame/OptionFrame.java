@@ -11,19 +11,17 @@ import pl.agh.edu.actor.component.selectMenu.*;
 import pl.agh.edu.actor.component.slider.PercentSliderComponent;
 import pl.agh.edu.actor.component.slider.SliderComponent;
 import pl.agh.edu.actor.utils.Size;
-import pl.agh.edu.actor.utils.WrapperContainer;
+import pl.agh.edu.actor.utils.WrapperTable;
 import pl.agh.edu.config.AudioConfig;
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.config.LanguageConfig;
 
-public class OptionFrame extends WrapperContainer<Table> {
-	private final Table table = new Table();
+public class OptionFrame extends WrapperTable {
 	private final SelectMenu selectResolutionMenu = createSelectMenuForResolution();
 	private final SelectMenu selectFullScreenMenu = createSelectMenuForFullScreenMode();
 	private final SliderComponent musicVolumeSlider = createSliderComponentForMusicVolume();
 	private final SliderComponent soundVolumeSlider = createSliderComponentForSoundVolume();
 	private final SelectMenu selectLanguageMenu = createSelectMenuForLanguage();
-
 	private final LabeledButton backButton = new LabeledButton(Size.LARGE,"optionsFrame.label.back");
 	private final LabeledButton saveButton = new LabeledButton(Size.LARGE,"optionsFrame.label.save");
 	public OptionFrame() {
@@ -31,27 +29,24 @@ public class OptionFrame extends WrapperContainer<Table> {
 		NinePatchDrawable background = new NinePatchDrawable(skin.getPatch("frame-glass-background"));
 		this.setBackground(background);
 
-		table.add(selectResolutionMenu).grow().colspan(2);
-		table.row();
-		table.add(selectFullScreenMenu).grow().colspan(2);
-		table.row();
-		table.add(musicVolumeSlider).grow().colspan(2);
-		table.row();
-		table.add(soundVolumeSlider).grow().colspan(2);
-		table.row();
-		table.add(selectLanguageMenu).grow().colspan(2);
-		table.row().padTop(OptionFrameStyle.getPadding()/2);
-		table.add(backButton).grow().uniform();
-		table.add(saveButton).grow().uniform();
+		innerTable.add(selectResolutionMenu).grow().row();
+		innerTable.add(selectFullScreenMenu).grow().row();
+		innerTable.add(musicVolumeSlider).grow().row();
+		innerTable.add(soundVolumeSlider).grow().row();
+		innerTable.add(selectLanguageMenu).grow();
+		innerTable.row().padTop(OptionFrameStyle.getPadding()/2);
 
-		table.pad(OptionFrameStyle.getPadding());
+		Table ButtonTable = new Table();
+		ButtonTable.add(backButton).grow().uniform();
+		ButtonTable.add(saveButton).grow().uniform();
 
-		this.setActor(table);
+		innerTable.add(ButtonTable).grow();
+
+		innerTable.pad(OptionFrameStyle.getPadding());
 
 		setStartingValue();
 		this.setResolutionChangeHandler(this::resize);
 	}
-
 	private void resize() {
 		size(OptionFrameStyle.getFrameWidth(), OptionFrameStyle.getFrameHeight());
 		layout();
@@ -138,21 +133,35 @@ public class OptionFrame extends WrapperContainer<Table> {
 	public void layout() {
 		super.layout();
 		this.setBounds(
-				GraphicConfig.getResolution().WIDTH / 2 - OptionFrameStyle.getFrameWidth() / 2,
-				GraphicConfig.getResolution().HEIGHT / 2 - OptionFrameStyle.getFrameHeight() / 2,
+				(float) GraphicConfig.getResolution().WIDTH / 2 - OptionFrameStyle.getFrameWidth() / 2,
+				(float) GraphicConfig.getResolution().HEIGHT / 2 - OptionFrameStyle.getFrameHeight() / 2,
 				OptionFrameStyle.getFrameWidth(),
 				OptionFrameStyle.getFrameHeight());
-		this.table.layout();
+		this.innerTable.layout();
 	}
 	private static class OptionFrameStyle{
-		private static float getFrameWidth() {
-			return (float) GraphicConfig.getResolution().WIDTH * 3 / 5;
+		public static float getFrameHeight() {
+			return switch (GraphicConfig.getResolution().SIZE) {
+				case SMALL -> 400f + 2 * getPadding();
+				case MEDIUM -> 500f + 2 * getPadding();
+				case LARGE -> 600f + 2 * getPadding();
+			};
 		}
 
-		private static float getFrameHeight() {
-			return (float) GraphicConfig.getResolution().HEIGHT * 3 / 5;
+		public static float getFrameWidth() {
+			return switch (GraphicConfig.getResolution().SIZE) {
+				case SMALL -> 650f + 2*getPadding();
+				case MEDIUM -> 750f + 2*getPadding();
+				case LARGE -> 900f + 2*getPadding();
+			};
 		}
 
-		private static float getPadding() { return getFrameHeight() / 20;}
+		public static float getPadding() {
+			return switch (GraphicConfig.getResolution().SIZE) {
+				case SMALL -> 30f;
+				case MEDIUM -> 40f;
+				case LARGE -> 50f;
+			};
+		}
 	}
 }

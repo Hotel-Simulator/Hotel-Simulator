@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
-import com.badlogic.gdx.graphics.glutils.GLFrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -17,41 +16,31 @@ import pl.agh.edu.actor.utils.WrapperContainer;
 import pl.agh.edu.config.GraphicConfig;
 
 public class BlurShader extends WrapperContainer<Image> {
-    private final float blurScale = 1.00f;
     private float deltaBlur = 0f;
-    private int pingPongCount = 4;
-    private final float MAX_BLUR = 4;
     private float deltaFactor = 0.25f;
     private StateOfTransition stateOfTransition = StateOfTransition.CLOSED;
     private FrameBuffer fbo;
     private FrameBuffer blurTargetA;
     private FrameBuffer blurTargetB;
-    private final Stage stage;
-    private final SpriteBatch spriteBatch;
-    private final ShaderProgram defaultShader;
     private final ShaderProgram blurShader = new ShaderProgram(Gdx.files.internal("shaders/blur.vert"), Gdx.files.internal("shaders/blur.frag"));
+    private final Stage stage;
+    private final ReversedImage reversedImage;
 
-    public BlurShader(Stage stage, SpriteBatch spriteBatch) {
+    public BlurShader(Stage stage) {
         this.stage = stage;
-        this.spriteBatch = spriteBatch;
-        this.defaultShader = spriteBatch.getShader();
         buildFBO();
-        this.fill();
+        reversedImage = new ReversedImage(fbo.getColorBufferTexture());
+        this.setActor(reversedImage);
         this.setResolutionChangeHandler(this::resize);
     }
 
-    private void buildFBO() {
-        if (fbo != null) fbo.dispose();
-        if (blurTargetA != null) blurTargetA.dispose();
-        if (blurTargetB != null) blurTargetB.dispose();
+    public void buildFBO(){
+        int width = GraphicConfig.getResolution().WIDTH;
+        int height = GraphicConfig.getResolution().HEIGHT;
 
-        fbo = new GLFrameBuffer.FrameBufferBuilder(GraphicConfig.getResolution().WIDTH, GraphicConfig.getResolution().HEIGHT)
-                .addBasicColorTextureAttachment(Pixmap.Format.RGBA8888)
-                .addDepthRenderBuffer(GL30.GL_DEPTH_COMPONENT24)
-                .build();
-
-        blurTargetA = new FrameBuffer(Pixmap.Format.RGBA8888, (int) (GraphicConfig.getResolution().WIDTH * blurScale), (int) (GraphicConfig.getResolution().HEIGHT * blurScale), false);
-        blurTargetB = new FrameBuffer(Pixmap.Format.RGBA8888, (int) (GraphicConfig.getResolution().WIDTH * blurScale), (int) (GraphicConfig.getResolution().HEIGHT * blurScale), false);
+        fbo = new FrameBuffer(Pixmap.Format.RGBA8888, width, height, true);
+        blurTargetA = new FrameBuffer(Pixmap.Format.RGBA8888, width, height, true);
+        blurTargetB = new FrameBuffer(Pixmap.Format.RGBA8888, width, height, true);
     }
 
     public void resize() {
@@ -59,7 +48,11 @@ public class BlurShader extends WrapperContainer<Image> {
         render();
     }
     public void render(){
-        this.setActor(getBluredImage());
+        fbo.begin();
+        stage.draw();
+        stage.act();
+        fbo.end();
+        reversedImage.updateDrawable(blurTexture());
     }
     public StateOfTransition getStateOfTransition() {
         return stateOfTransition;
@@ -73,7 +66,7 @@ public class BlurShader extends WrapperContainer<Image> {
         stateOfTransition = StateOfTransition.CLOSING;
         deltaFactor = -0.90f;
     }
-    private Texture blurTexture(Texture fboTex) {
+    private Texture blurTexture() {
         if ((deltaBlur < 1f && deltaFactor > 0f) || (deltaBlur > 0f && deltaFactor < 0f)) {
             deltaBlur += Gdx.graphics.getDeltaTime() * deltaFactor;
             if(deltaBlur <= 0f) stateOfTransition = StateOfTransition.CLOSED;
@@ -81,29 +74,40 @@ public class BlurShader extends WrapperContainer<Image> {
             deltaBlur = Math.max(Math.min(deltaBlur, 1f), 0f);
         }
 
+//        int width = GraphicConfig.isFullscreen() ? Gdx.graphics.getWidth() : GraphicConfig.getResolution().WIDTH;
+//        int height = GraphicConfig.isFullscreen() ? Gdx.graphics.getHeight() : GraphicConfig.getResolution().HEIGHT;
+//        int x = !GraphicConfig.isFullscreen() ? 0 : (Gdx.graphics.getWidth() - GraphicConfig.getResolution().WIDTH) / 2;
+//        int y = !GraphicConfig.isFullscreen() ? 0 : (Gdx.graphics.getHeight() - GraphicConfig.getResolution().HEIGHT) / 2;
+
+        int width = GraphicConfig.getResolution().WIDTH;
+        int height = GraphicConfig.getResolution().HEIGHT;
+        int x = 0;
+        int y = 0;
+
+
+        SpriteBatch spriteBatch = (SpriteBatch) stage.getBatch();
+        float MAX_BLUR = 4;
+        float RADIUS = 0.5f;
+
         spriteBatch.setShader(blurShader);
+        spriteBatch.begin();
+        blurTargetA.begin();
+        blurShader.setUniformf("dir", RADIUS, 0);
+        blurShader.setUniformf("radius", deltaBlur * MAX_BLUR);
+        blurShader.setUniformf("resolution", width);
+        spriteBatch.draw(fbo.getColorBufferTexture(), x, y, width, height, 0, 0, 1, 1);
+        spriteBatch.end();
+        blurTargetA.end();
 
-        for (int i = 0; i < pingPongCount; i++) {
-            blurTargetA.begin();
-            spriteBatch.begin();
-            blurShader.setUniformf("dir", .5f, 0);
-            blurShader.setUniformf("radius", deltaBlur * MAX_BLUR);
-            blurShader.setUniformf("resolution", GraphicConfig.getResolution().WIDTH);
-            spriteBatch.draw(i == 0 ? fboTex : blurTargetB.getColorBufferTexture(), 0, 0, GraphicConfig.getResolution().WIDTH, GraphicConfig.getResolution().HEIGHT, 0, 0, 1, 1);
-            spriteBatch.end();
-            blurTargetA.end();
+        spriteBatch.begin();
+        blurTargetB.begin();
+        blurShader.setUniformf("dir", 0, RADIUS);
+        blurShader.setUniformf("radius", deltaBlur * MAX_BLUR);
+        spriteBatch.draw(blurTargetA.getColorBufferTexture(), x, y, width, height, 0, 0, 1, 1);
+        spriteBatch.end();
+        blurTargetB.end();
 
-            blurTargetB.begin();
-            spriteBatch.begin();
-            blurShader.setUniformf("dir", 0, .5f);
-            blurShader.setUniformf("radius", deltaBlur * MAX_BLUR);
-            blurShader.setUniformf("resolution", GraphicConfig.getResolution().HEIGHT);
-            spriteBatch.draw(blurTargetA.getColorBufferTexture(), 0, 0, GraphicConfig.getResolution().WIDTH, GraphicConfig.getResolution().HEIGHT, 0, 0, 1, 1);
-            spriteBatch.end();
-            blurTargetB.end();
-        }
-
-        spriteBatch.setShader(defaultShader);
+        spriteBatch.setShader(null);
 
         return blurTargetB.getColorBufferTexture();
     }
@@ -113,14 +117,6 @@ public class BlurShader extends WrapperContainer<Image> {
         blurTargetB.dispose();
         this.setActor(null);
     }
-    private Image getBluredImage() {
-        fbo.begin();
-        stage.draw();
-        stage.act();
-        fbo.end();
-        return new ReversedImage(blurTexture(fbo.getColorBufferTexture()));
-    }
-
     private static class ReversedImage extends Image {
 
         private Drawable drawable;
@@ -129,6 +125,10 @@ public class BlurShader extends WrapperContainer<Image> {
             this.drawable = new TextureRegionDrawable(new TextureRegion(texture));
             this.setScaleX(-1.0f);
             this.setRotation(180);
+        }
+
+        public void updateDrawable(Texture texture) {
+            this.drawable = new TextureRegionDrawable(new TextureRegion(texture));
         }
         @Override
         public void draw (Batch batch, float parentAlpha) {
@@ -143,6 +143,3 @@ public class BlurShader extends WrapperContainer<Image> {
         }
     }
 }
-
-
-

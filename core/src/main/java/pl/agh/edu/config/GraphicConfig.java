@@ -1,7 +1,7 @@
 package pl.agh.edu.config;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -11,35 +11,24 @@ import pl.agh.edu.enums.Resolution;
 public class GraphicConfig {
 	private static Resolution resolution = Resolution._1920x1080;
 	private static boolean fullscreenMode = false;
-	public static final Stage stage = new Stage();
+	private static final OrthographicCamera camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+	private static final Viewport viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),camera);
 
-	public static final Stage middleStage = new Stage();
-
-	public static final Stage topStage = new Stage();
 
 	public static void changeResolution(Resolution newResolution) {
 		resolution = newResolution;
-		ResolutionManager.notifyListeners();
-		Viewport viewport = new FitViewport(newResolution.WIDTH, newResolution.HEIGHT);
-		stage.setViewport(viewport);
-		middleStage.setViewport(viewport);
-		topStage.setViewport(viewport);
 
-		viewport.update(Gdx.graphics.getDisplayMode().width, Gdx.graphics.getDisplayMode().height, true);
 		ResolutionManager.notifyListeners();
-		viewport.apply();
-		viewport.getCamera().update();
+		viewport.setWorldSize(resolution.WIDTH, resolution.HEIGHT);
+		viewport.update(newResolution.WIDTH, newResolution.HEIGHT, true);
 		setFullscreenMode(isFullscreen());
-		viewport.update(Gdx.graphics.getDisplayMode().width, Gdx.graphics.getDisplayMode().height, true);
 		ResolutionManager.notifyListeners();
-		viewport.apply();
-		viewport.getCamera().update();
 	}
 
 	public static void setFullscreenMode(Boolean value) {
 		fullscreenMode = value;
 		if (isFullscreen()) {
-			Gdx.graphics.setWindowedMode(Gdx.graphics.getDisplayMode().width, Gdx.graphics.getDisplayMode().height);
+			Gdx.graphics.setWindowedMode(10, resolution.HEIGHT);
 			Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
 		} else {
 			Gdx.graphics.setWindowedMode(resolution.WIDTH, resolution.HEIGHT);
@@ -53,4 +42,9 @@ public class GraphicConfig {
 	public static Resolution getResolution() {
 		return resolution;
 	}
+
+	public static Viewport getViewport() {
+		return viewport;
+	}
+
 }

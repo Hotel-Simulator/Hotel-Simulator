@@ -3,5 +3,6 @@ public enum StateOfTransition {
     OPEN,
     OPENING,
     CLOSING,
+    TO_CLOSE,
     CLOSED,
 }
