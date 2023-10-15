@@ -97,7 +97,7 @@ public class BlurShader extends WrapperContainer<Image> {
         blurShader.setUniformf("resolution", width);
         spriteBatch.draw(fbo.getColorBufferTexture(), x, y, width, height, 0, 0, 1, 1);
         spriteBatch.end();
-        blurTargetA.end();
+        blurTargetB.end( 0,0,this.getTargetWidth(),this.getTargetHeight());
 
         spriteBatch.begin();
         blurTargetB.begin();
@@ -105,11 +105,29 @@ public class BlurShader extends WrapperContainer<Image> {
         blurShader.setUniformf("radius", deltaBlur * MAX_BLUR);
         spriteBatch.draw(blurTargetA.getColorBufferTexture(), x, y, width, height, 0, 0, 1, 1);
         spriteBatch.end();
-        blurTargetB.end();
+        blurTargetB.end( 0,0,this.getTargetWidth(),this.getTargetHeight());
 
         spriteBatch.setShader(null);
 
         return blurTargetB.getColorBufferTexture();
+    }
+
+    private int getTargetX(){
+        return (int) GraphicConfig.getViewport().getCamera().position.x - GraphicConfig.getResolution().WIDTH/2;
+    }
+
+    private int getTargetY(){
+        return (int) GraphicConfig.getViewport().getCamera().position.y - GraphicConfig.getResolution().HEIGHT/2;
+    }
+
+    private int getTargetWidth(){
+        if(GraphicConfig.isFullscreen()) return Gdx.graphics.getDisplayMode().width;
+        return (int) GraphicConfig.getViewport().getWorldWidth();
+    }
+
+    private int getTargetHeight(){
+        if(GraphicConfig.isFullscreen()) return Gdx.graphics.getDisplayMode().height;
+        return (int) GraphicConfig.getViewport().getWorldHeight();
     }
     public void dispose() {
         fbo.dispose();
