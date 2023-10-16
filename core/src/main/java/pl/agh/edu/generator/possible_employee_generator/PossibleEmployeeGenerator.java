@@ -6,6 +6,7 @@ import java.math.RoundingMode;
 
 import com.github.javafaker.Faker;
 
+import pl.agh.edu.enums.TypeOfContract;
 import pl.agh.edu.json.data_loader.JSONEmployeeDataLoader;
 import pl.agh.edu.model.employee.EmploymentPreferences;
 import pl.agh.edu.model.employee.PossibleEmployee;
@@ -28,7 +29,7 @@ public class PossibleEmployeeGenerator {
 						.desiredShift(RandomUtils.randomKeyWithProbabilities(JSONEmployeeDataLoader.shiftProbabilities))
 						.acceptableWage(generateAcceptableWage(skills))
 						.desiredWage(generateDesiredWage(skills))
-						.desiredTypeOfContract(RandomUtils.randomKeyWithProbabilities(JSONEmployeeDataLoader.typeOfContractProbabilities))
+						.desiredTypeOfContract(TypeOfContract.PERMANENT)
 						.build())
 				.profession(profession)
 				.build();
