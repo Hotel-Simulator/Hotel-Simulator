@@ -14,8 +14,8 @@ import pl.agh.edu.enums.HotelVisitPurpose;
 import pl.agh.edu.generator.client_generator.ClientGenerator;
 import pl.agh.edu.json.data_loader.JSONHotelDataLoader;
 import pl.agh.edu.management.advertisement.AdvertisementHandler;
-import pl.agh.edu.management.event.ClientNumberModificationEventHandler;
 import pl.agh.edu.management.hotel.HotelScenariosManager;
+import pl.agh.edu.management.bank.BankAccountHandler;
 import pl.agh.edu.model.advertisement.report.AdvertisementReportData;
 import pl.agh.edu.model.advertisement.report.AdvertisementReportHandler;
 import pl.agh.edu.model.time.Time;
@@ -25,11 +25,13 @@ public class ClientGroupGenerationHandler {
 	private final ClientGenerator clientGenerator = ClientGenerator.getInstance();
 	private final Time time = Time.getInstance();
 
-	private final AdvertisementHandler advertisementHandler = new AdvertisementHandler();
-	private final ClientNumberModificationEventHandler clientNumberModificationEventHandler = ClientNumberModificationEventHandler.getInstance();
+	private final ClientNumberModificationTemporaryEventHandler clientNumberModificationTemporaryEventHandler = ClientNumberModificationTemporaryEventHandler.getInstance();
+	private final AdvertisementHandler advertisementHandler;
 	private final HotelScenariosManager hotelScenariosManager;
 
-	public ClientGroupGenerationHandler(HotelScenariosManager hotelScenariosManager) {
+	public ClientGroupGenerationHandler(HotelScenariosManager hotelScenariosManager,
+										BankAccountHandler bankAccountHandler) {
+		this.advertisementHandler = new AdvertisementHandler(bankAccountHandler);
 		this.hotelScenariosManager = hotelScenariosManager;
 	}
 

@@ -10,6 +10,7 @@ import pl.agh.edu.management.client.ClientGroupGenerationHandler;
 import pl.agh.edu.management.event.EventHandler;
 import pl.agh.edu.management.hotel.HotelHandler;
 import pl.agh.edu.management.hotel.HotelScenariosManager;
+import pl.agh.edu.management.hotel.HotelScenariosManager;
 import pl.agh.edu.model.Hotel;
 import pl.agh.edu.model.time.Time;
 import pl.agh.edu.time_command.RepeatingTimeCommand;
@@ -18,12 +19,12 @@ import pl.agh.edu.time_command.TimeCommandExecutor;
 
 public class Engine {
 	private final Time time = Time.getInstance();
-	private final HotelScenariosManager hotelScenariosManager = new HotelScenariosManager(HotelType.HOTEL);
-	private final ClientGroupGenerationHandler clientGroupGenerationHandler = new ClientGroupGenerationHandler(hotelScenariosManager);
 	private final Hotel hotel = new Hotel();
 	private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
 	private final EventHandler eventHandler = new EventHandler(hotelScenariosManager);
 	private final HotelHandler hotelHandler = new HotelHandler();
+	private final HotelScenariosManager hotelScenariosManager = new HotelScenariosManager(HotelType.HOTEL);
+	private final ClientGroupGenerationHandler clientGroupGenerationHandler = new ClientGroupGenerationHandler(hotelHandler.bankAccountHandler, hotelScenariosManager);
 
 	public Engine() {
 
