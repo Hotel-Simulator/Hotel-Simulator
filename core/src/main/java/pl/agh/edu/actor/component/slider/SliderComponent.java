@@ -44,7 +44,6 @@ public abstract class SliderComponent extends WrapperDoubleTable implements Lang
 		leftTable.add(valueLabel).right().grow().uniform().padRight(SliderStyle.getInnerPadding());
 		rightTable.add(slider).center().grow().padLeft(SliderStyle.getInnerPadding()).padRight(SliderStyle.getInnerPadding());
 
-
 		this.changeResolutionHandler();
 	}
 
@@ -76,6 +75,7 @@ public abstract class SliderComponent extends WrapperDoubleTable implements Lang
 	private void changeResolutionHandler() {
 		this.size(SliderStyle.getWidth(), SliderStyle.getHeight());
 	}
+
 	private static class SliderStyle {
 		public static float getHeight() {
 			return switch (GraphicConfig.getResolution().SIZE) {

@@ -26,11 +26,12 @@ public class MainScreen implements Screen, ResolutionChangeListener {
 	private final Container<OptionFrame> optionFrameContainer = new Container<>();
 	private final Table table = new Table();
 	private boolean isOptionsOpen = false;
-	private final OptionFrame optionFrame = new OptionFrame();
+	private final OptionFrame optionFrame = new OptionFrame(this::closeOptions);
 	private final Stage mainStage = new Stage(GraphicConfig.getViewport());
 	private final Stage middleStage = new Stage(GraphicConfig.getViewport());
 	private final Stage topStage = new Stage(GraphicConfig.getViewport());
 	private final BlurShader blurShader = new BlurShader(mainStage);
+	private final InputMultiplexer inputMultiplexer = new InputMultiplexer(mainStage);
 
 	public MainScreen(GdxGame game) {
 		setupUI();
@@ -47,7 +48,7 @@ public class MainScreen implements Screen, ResolutionChangeListener {
 		table.setFillParent(true);
 		table.add().uniform();
 		table.add(new NavbarTop("default")).growX();
-		table.add(new OptionButton(this::openOptions, this::closeOptions)).uniform();
+		table.add(new OptionButton(this::optionButtonHandler)).uniform();
 		table.row();
 		table.add();
 		currentFrame = table.add();
@@ -63,31 +64,70 @@ public class MainScreen implements Screen, ResolutionChangeListener {
 		middleStage.addActor(blurShader);
 		topStage.addActor(optionFrameContainer);
 
-		mainStage.setDebugAll(true);
 		ResolutionManager.addListener(this);
-	}
-
-	private void updateInputProcessors() {
-		InputMultiplexer multiplexer = new InputMultiplexer();
-		multiplexer.addProcessor(mainStage);
-		multiplexer.addProcessor(topStage);
-		Gdx.input.setInputProcessor(multiplexer);
-	}
-
-	@Override
-	public void show() {
-		updateInputProcessors();
-		changeFrame(new TestFrame("test"));
+		Gdx.input.setInputProcessor(inputMultiplexer);
 	}
 
 	public void changeFrame(BaseFrame frame) {
 		currentFrame.setActor(frame).grow();
 	}
 
+	private void updateBlurShaderState() {
+		switch (blurShader.getStateOfTransition()) {
+			case OPENING, CLOSING -> {
+				actAndDrawAdditionalStages();
+				blurShader.render();
+			}
+			case OPEN -> actAndDrawAdditionalStages();
+		}
+	}
+
+	private void actAndDrawAdditionalStages() {
+		middleStage.act();
+		middleStage.draw();
+		topStage.act();
+		topStage.draw();
+	}
+
+	private void actAndDrawStages() {
+		mainStage.act();
+		mainStage.draw();
+	}
+
+	private void optionButtonHandler() {
+		if (isOptionsOpen)
+			closeOptions();
+		else
+			openOptions();
+	}
+
+	private void openOptions() {
+		inputMultiplexer.setProcessors(topStage);
+		if (isOptionsOpen)
+			return;
+		blurShader.startBlur();
+		isOptionsOpen = true;
+		optionFrameContainer.setActor(optionFrame);
+	}
+
+	private void closeOptions() {
+		inputMultiplexer.setProcessors(mainStage);
+		if (!isOptionsOpen)
+			return;
+		blurShader.stopBlur();
+		isOptionsOpen = false;
+		optionFrameContainer.removeActor(optionFrame);
+	}
+
+	@Override
+	public void show() {
+		changeFrame(new TestFrame("test"));
+	}
+
 	@Override
 	public void render(float delta) {
-		updateBlurShaderState();
 		actAndDrawStages();
+		updateBlurShaderState();
 	}
 
 	@Override
@@ -98,60 +138,23 @@ public class MainScreen implements Screen, ResolutionChangeListener {
 		blurShader.resize();
 	}
 
-	private void updateBlurShaderState() {
-		switch (blurShader.getStateOfTransition()) {
-			case OPENING, CLOSING, OPEN -> blurShader.render();
-			case TO_CLOSE -> blurShader.dispose();
-		}
-	}
-
-	private void actAndDrawStages() {
-		if(isOptionsOpen){
-			middleStage.act();
-			middleStage.draw();
-			topStage.act();
-			topStage.draw();
-		}
-		else{
-			mainStage.act();
-			mainStage.draw();
-		}
-	}
-	private void openOptions() {
-		if (isOptionsOpen)
-			return;
-		blurShader.startBlur();
-		isOptionsOpen = true;
-		optionFrameContainer.setActor(optionFrame);
-	}
-
-	private void closeOptions() {
-		if (!isOptionsOpen)
-			return;
-		blurShader.stopBlur();
-		isOptionsOpen = false;
-		optionFrameContainer.setActor(null);
-	}
+	@Override
+	public void pause() {}
 
 	@Override
-	public void pause() {
-	}
+	public void resume() {}
 
 	@Override
-	public void resume() {
-	}
+	public void hide() {}
 
 	@Override
-	public void hide() {
-	}
-
-	@Override
-	public void dispose() {
-	}
+	public void dispose() {}
 
 	@Override
 	public void onResolutionChange() {
-		this.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
+		if (GraphicConfig.isFullscreen())
+			this.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		else
+			this.resize(GraphicConfig.getResolution().WIDTH, GraphicConfig.getResolution().HEIGHT);
 	}
 }

@@ -2,7 +2,10 @@ package pl.agh.edu.actor.frame;
 
 import java.util.function.Function;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 
 import pl.agh.edu.actor.HotelSkin;
@@ -12,6 +15,7 @@ import pl.agh.edu.actor.component.slider.PercentSliderComponent;
 import pl.agh.edu.actor.component.slider.SliderComponent;
 import pl.agh.edu.actor.utils.Size;
 import pl.agh.edu.actor.utils.WrapperTable;
+import pl.agh.edu.audio.SoundAudio;
 import pl.agh.edu.config.AudioConfig;
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.config.LanguageConfig;
@@ -22,9 +26,10 @@ public class OptionFrame extends WrapperTable {
 	private final SliderComponent musicVolumeSlider = createSliderComponentForMusicVolume();
 	private final SliderComponent soundVolumeSlider = createSliderComponentForSoundVolume();
 	private final SelectMenu selectLanguageMenu = createSelectMenuForLanguage();
-	private final LabeledButton backButton = new LabeledButton(Size.LARGE,"optionsFrame.label.back");
-	private final LabeledButton saveButton = new LabeledButton(Size.LARGE,"optionsFrame.label.save");
-	public OptionFrame() {
+	private final LabeledButton backButton = new LabeledButton(Size.LARGE, "optionsFrame.label.back");
+	private final LabeledButton saveButton = new LabeledButton(Size.LARGE, "optionsFrame.label.save");
+
+	public OptionFrame(Runnable closeHandler) {
 		Skin skin = HotelSkin.getInstance();
 		NinePatchDrawable background = new NinePatchDrawable(skin.getPatch("frame-glass-background"));
 		this.setBackground(background);
@@ -34,19 +39,35 @@ public class OptionFrame extends WrapperTable {
 		innerTable.add(musicVolumeSlider).grow().row();
 		innerTable.add(soundVolumeSlider).grow().row();
 		innerTable.add(selectLanguageMenu).grow();
-		innerTable.row().padTop(OptionFrameStyle.getPadding()/2);
+		innerTable.row().padTop(OptionFrameStyle.getPadding() / 2);
 
 		Table ButtonTable = new Table();
 		ButtonTable.add(backButton).grow().uniform();
 		ButtonTable.add(saveButton).grow().uniform();
 
-		innerTable.add(ButtonTable).grow();
+		backButton.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				SoundAudio.BUTTON_1.play();
+				closeHandler.run();
+			}
+		});
 
+		saveButton.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				SoundAudio.BUTTON_1.play();
+				Gdx.app.exit();
+			}
+		});
+
+		innerTable.add(ButtonTable).grow();
 		innerTable.pad(OptionFrameStyle.getPadding());
 
 		setStartingValue();
 		this.setResolutionChangeHandler(this::resize);
 	}
+
 	private void resize() {
 		size(OptionFrameStyle.getFrameWidth(), OptionFrameStyle.getFrameHeight());
 		layout();
@@ -139,7 +160,8 @@ public class OptionFrame extends WrapperTable {
 				OptionFrameStyle.getFrameHeight());
 		this.innerTable.layout();
 	}
-	private static class OptionFrameStyle{
+
+	private static class OptionFrameStyle {
 		public static float getFrameHeight() {
 			return switch (GraphicConfig.getResolution().SIZE) {
 				case SMALL -> 400f + 2 * getPadding();
@@ -150,9 +172,9 @@ public class OptionFrame extends WrapperTable {
 
 		public static float getFrameWidth() {
 			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> 650f + 2*getPadding();
-				case MEDIUM -> 750f + 2*getPadding();
-				case LARGE -> 900f + 2*getPadding();
+				case SMALL -> 650f + 2 * getPadding();
+				case MEDIUM -> 750f + 2 * getPadding();
+				case LARGE -> 900f + 2 * getPadding();
 			};
 		}
 

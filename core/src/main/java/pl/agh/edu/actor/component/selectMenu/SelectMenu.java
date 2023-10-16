@@ -16,9 +16,8 @@ import pl.agh.edu.actor.utils.CustomLabel;
 import pl.agh.edu.actor.utils.WrapperTable;
 import pl.agh.edu.audio.SoundAudio;
 import pl.agh.edu.config.GraphicConfig;
-import pl.agh.edu.language.LanguageChangeListener;
 
-public class SelectMenu extends WrapperTable{
+public class SelectMenu extends WrapperTable {
 	private final Skin skin = HotelSkin.getInstance();
 	private final SelectMenuLabel descriptionLabel = new SelectMenuLabel();
 	private final Array<SelectMenuItem> items;
@@ -69,7 +68,7 @@ public class SelectMenu extends WrapperTable{
 		});
 	}
 
-	private class SelectMenuLabel extends CustomLabel {
+	private static class SelectMenuLabel extends CustomLabel {
 		public SelectMenuLabel() {
 			super("subtitle1", "label-select-box-background");
 			this.setAlignment(Align.center, Align.center);
@@ -86,7 +85,6 @@ public class SelectMenu extends WrapperTable{
 	private class DropDownSelect extends SelectBox<SelectMenuItem> {
 		public DropDownSelect() {
 			super(skin.get("selectMenu", SelectBox.SelectBoxStyle.class));
-			SelectBoxStyle selectBoxStyle = this.getStyle();
 			setUpSelectionPane();
 			this.getList().setAlignment(Align.center);
 		}

@@ -10,7 +10,7 @@ public class SelectMenuResolutionItem extends SelectMenuItem {
 	public final Resolution resolution;
 
 	public SelectMenuResolutionItem(String text, Resolution resolution) {
-		super(resolution.name(), () -> text);
+		super(resolution.toString(), () -> text);
 		this.resolution = resolution;
 	}
 
