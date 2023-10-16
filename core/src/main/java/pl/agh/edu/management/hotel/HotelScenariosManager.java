@@ -14,6 +14,7 @@ public class HotelScenariosManager {
 	private EnumMap<HotelVisitPurpose, Double> hotelVisitPurposeProbabilities;
 	private Map<MonthDay, Double> seasonalMultiplier;
 	private final Time time = Time.getInstance();
+	private HotelType type;
 
 	public HotelScenariosManager(HotelType hotelType) {
 		this.hotelSetUp(hotelType);
@@ -24,9 +25,13 @@ public class HotelScenariosManager {
 	}
 
 	private void hotelSetUp(HotelType hotelType) {
-
+		this.type = hotelType;
 		hotelVisitPurposeProbabilities = JSONHotelScenariosDataLoader.hotelTypeVisitProbabilities.get(hotelType);
 		seasonalMultiplier = HotelPopularityFunction.getSeasonalMultipliers(hotelType);
+	}
+
+	public HotelType getHotelType() {
+		return type;
 	}
 
 	public double getCurrentDayMultiplier() {

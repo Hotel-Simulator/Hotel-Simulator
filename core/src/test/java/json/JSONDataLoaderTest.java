@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import pl.agh.edu.enums.HotelVisitPurpose;
 import pl.agh.edu.enums.RoomRank;
 import pl.agh.edu.enums.RoomSize;
-import pl.agh.edu.enums.TypeOfContract;
 import pl.agh.edu.json.data.*;
 import pl.agh.edu.json.data_loader.*;
 import pl.agh.edu.model.Room;
@@ -62,8 +61,8 @@ public class JSONDataLoaderTest {
 	@SuppressWarnings("unused")
 	public void jSONEventDataLoaderTest() {
 		assertDoesNotThrow(() -> {
-			List<ClientNumberModificationCyclicTemporaryEventData> clientNumberModificationCyclicTemporaryEventData = JSONEventDataLoader.clientNumberModificationCyclicTemporaryEventData;
-			List<ClientNumberModificationRandomTemporaryEventData> clientNumberModificationRandomTemporaryEventData = JSONEventDataLoader.clientNumberModificationRandomTemporaryEventData;
+			List<CyclicEventData> cyclicEventData = JSONEventDataLoader.cyclicEventData;
+			List<ClientNumberModificationRandomEventData> clientNumberModificationRandomEventData = JSONEventDataLoader.clientNumberModificationRandomEventData;
 		});
 	}
 
@@ -76,7 +75,6 @@ public class JSONDataLoaderTest {
 			EnumMap<Shift, Integer> shiftProbabilities = JSONEmployeeDataLoader.shiftProbabilities;
 			EnumMap<Profession, Duration> basicServiceExecutionTimes = JSONEmployeeDataLoader.basicServiceExecutionTimes;
 			EnumMap<Profession, Integer> professionProbabilities = JSONEmployeeDataLoader.professionProbabilities;
-			EnumMap<TypeOfContract, Integer> typeOfContractProbabilities = JSONEmployeeDataLoader.typeOfContractProbabilities;
 			int payDay = JSONEmployeeDataLoader.payDayOfMonth;
 		});
 	}
