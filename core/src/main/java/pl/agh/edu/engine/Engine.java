@@ -3,11 +3,13 @@ package pl.agh.edu.engine;
 import java.time.LocalDateTime;
 
 import pl.agh.edu.enums.Frequency;
-import pl.agh.edu.generator.event_generator.EventGenerator;
+import pl.agh.edu.enums.HotelType;
 import pl.agh.edu.json.data_loader.JSONBankDataLoader;
 import pl.agh.edu.management.client.Arrival;
 import pl.agh.edu.management.client.ClientGroupGenerationHandler;
+import pl.agh.edu.management.event.EventHandler;
 import pl.agh.edu.management.hotel.HotelHandler;
+import pl.agh.edu.management.hotel.HotelScenariosManager;
 import pl.agh.edu.model.Hotel;
 import pl.agh.edu.model.time.Time;
 import pl.agh.edu.time_command.RepeatingTimeCommand;
@@ -18,9 +20,10 @@ public class Engine {
 	private final Time time = Time.getInstance();
 	private final Hotel hotel = new Hotel();
 	private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
-	private final EventGenerator eventGenerator = EventGenerator.getInstance();
+	private final HotelScenariosManager hotelScenariosManager = new HotelScenariosManager(HotelType.HOTEL);
+	private final EventHandler eventHandler = new EventHandler(hotelScenariosManager);
 	private final HotelHandler hotelHandler = new HotelHandler();
-	private final ClientGroupGenerationHandler clientGroupGenerationHandler = new ClientGroupGenerationHandler(hotelHandler.bankAccountHandler);
+	private final ClientGroupGenerationHandler clientGroupGenerationHandler = new ClientGroupGenerationHandler(hotelScenariosManager, hotelHandler.bankAccountHandler);
 
 	public Engine() {
 
@@ -59,7 +62,7 @@ public class Engine {
 	}
 
 	private void initializeEveryYearUpdates(LocalDateTime currentTime) {
-		timeCommandExecutor.addCommand(new RepeatingTimeCommand(Frequency.EVERY_YEAR, eventGenerator::yearlyUpdate, currentTime));
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(Frequency.EVERY_YEAR, eventHandler::yearlyUpdate, currentTime));
 	}
 
 	private void generateClientArrivals() {
