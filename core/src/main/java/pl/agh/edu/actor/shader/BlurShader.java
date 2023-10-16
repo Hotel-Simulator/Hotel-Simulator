@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -48,10 +49,11 @@ public class BlurShader extends WrapperContainer<Image> {
         render();
     }
     public void render(){
+//        this.buildFBO();
         fbo.begin();
         stage.draw();
         stage.act();
-        fbo.end();
+        fbo.end(getTargetX(),getTargetY(),getTargetWidth(),getTargetHeight());
         reversedImage.updateDrawable(blurTexture());
     }
     public StateOfTransition getStateOfTransition() {
@@ -74,11 +76,6 @@ public class BlurShader extends WrapperContainer<Image> {
             deltaBlur = Math.max(Math.min(deltaBlur, 1f), 0f);
         }
 
-//        int width = GraphicConfig.isFullscreen() ? Gdx.graphics.getWidth() : GraphicConfig.getResolution().WIDTH;
-//        int height = GraphicConfig.isFullscreen() ? Gdx.graphics.getHeight() : GraphicConfig.getResolution().HEIGHT;
-//        int x = !GraphicConfig.isFullscreen() ? 0 : (Gdx.graphics.getWidth() - GraphicConfig.getResolution().WIDTH) / 2;
-//        int y = !GraphicConfig.isFullscreen() ? 0 : (Gdx.graphics.getHeight() - GraphicConfig.getResolution().HEIGHT) / 2;
-
         int width = GraphicConfig.getResolution().WIDTH;
         int height = GraphicConfig.getResolution().HEIGHT;
         int x = 0;
@@ -97,7 +94,7 @@ public class BlurShader extends WrapperContainer<Image> {
         blurShader.setUniformf("resolution", width);
         spriteBatch.draw(fbo.getColorBufferTexture(), x, y, width, height, 0, 0, 1, 1);
         spriteBatch.end();
-        blurTargetB.end( 0,0,this.getTargetWidth(),this.getTargetHeight());
+        blurTargetA.end(getTargetX(),getTargetY(),getTargetWidth(),getTargetHeight());
 
         spriteBatch.begin();
         blurTargetB.begin();
@@ -105,29 +102,41 @@ public class BlurShader extends WrapperContainer<Image> {
         blurShader.setUniformf("radius", deltaBlur * MAX_BLUR);
         spriteBatch.draw(blurTargetA.getColorBufferTexture(), x, y, width, height, 0, 0, 1, 1);
         spriteBatch.end();
-        blurTargetB.end( 0,0,this.getTargetWidth(),this.getTargetHeight());
+        blurTargetB.end(getTargetX(),getTargetY(),getTargetWidth(),getTargetHeight());
 
         spriteBatch.setShader(null);
 
         return blurTargetB.getColorBufferTexture();
     }
-
-    private int getTargetX(){
-        return (int) GraphicConfig.getViewport().getCamera().position.x - GraphicConfig.getResolution().WIDTH/2;
+    private Vector2 getScalingVector() {
+        return GraphicConfig.getViewport().getScaling().apply(
+                GraphicConfig.getResolution().WIDTH,
+                GraphicConfig.getResolution().HEIGHT,
+                Gdx.graphics.getDisplayMode().width,
+                Gdx.graphics.getDisplayMode().height
+        );
+    }
+    private int getTargetX() {
+        if(!GraphicConfig.isFullscreen()) return 0;
+        int screenWidth = Gdx.graphics.getDisplayMode().width;
+        int viewportWidth = (int) getScalingVector().x;
+        return (screenWidth - viewportWidth) / 2;
+    }
+    private int getTargetY() {
+        if(!GraphicConfig.isFullscreen()) return 0;
+        int screenHeight = Gdx.graphics.getDisplayMode().height;
+        int viewportHeight = (int) getScalingVector().y;
+        return (screenHeight - viewportHeight) / 2;
     }
 
-    private int getTargetY(){
-        return (int) GraphicConfig.getViewport().getCamera().position.y - GraphicConfig.getResolution().HEIGHT/2;
+    private int getTargetWidth() {
+        if(!GraphicConfig.isFullscreen()) return GraphicConfig.getResolution().WIDTH;
+        return (int) getScalingVector().x;
     }
 
-    private int getTargetWidth(){
-        if(GraphicConfig.isFullscreen()) return Gdx.graphics.getDisplayMode().width;
-        return (int) GraphicConfig.getViewport().getWorldWidth();
-    }
-
-    private int getTargetHeight(){
-        if(GraphicConfig.isFullscreen()) return Gdx.graphics.getDisplayMode().height;
-        return (int) GraphicConfig.getViewport().getWorldHeight();
+    private int getTargetHeight() {
+        if(!GraphicConfig.isFullscreen()) return GraphicConfig.getResolution().HEIGHT;
+        return (int) getScalingVector().y;
     }
     public void dispose() {
         fbo.dispose();

@@ -12,7 +12,7 @@ public class GraphicConfig {
 	private static Resolution resolution = Resolution._1920x1080;
 	private static boolean fullscreenMode = false;
 	private static final OrthographicCamera camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-	private static final Viewport viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),camera);
+	private static final FitViewport viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),camera);
 
 
 	public static void changeResolution(Resolution newResolution) {
@@ -43,7 +43,7 @@ public class GraphicConfig {
 		return resolution;
 	}
 
-	public static Viewport getViewport() {
+	public static FitViewport getViewport() {
 		return viewport;
 	}
 
