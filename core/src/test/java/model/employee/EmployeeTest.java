@@ -8,6 +8,7 @@ import java.time.Duration;
 import java.time.LocalTime;
 import java.util.stream.Stream;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -65,7 +66,7 @@ public class EmployeeTest {
 
 	@ParameterizedTest
 	@MethodSource("provideWagesForSatisfactionWithBonusTest")
-	public void satisfactionWithBonusTest(BigDecimal actualWage, BigDecimal desiredWage, BigDecimal expected) {
+	public void satisfactionWithBonusTest(BigDecimal actualWage, BigDecimal desiredWage, Shift desiredShift, BigDecimal expected) {
 		// Given
 		PossibleEmployee possibleEmployee = new PossibleEmployee.Builder()
 				.firstName("")
@@ -73,7 +74,7 @@ public class EmployeeTest {
 				.age(18)
 				.skills(new BigDecimal("0.45"))
 				.preferences(new EmploymentPreferences.Builder()
-						.desiredShift(Shift.MORNING)
+						.desiredShift(desiredShift)
 						.acceptableWage(BigDecimal.valueOf(4000))
 						.desiredWage(desiredWage)
 						.desiredTypeOfContract(TypeOfContract.PERMANENT)
@@ -104,7 +105,7 @@ public class EmployeeTest {
 
 	@ParameterizedTest
 	@MethodSource("provideWagesForSatisfactionWithoutBonusTest")
-	public void satisfactionWithoutBonusTest(BigDecimal actualWage, BigDecimal desiredWage, Shift offeredShift, BigDecimal expected) {
+	public void satisfactionWithoutBonusTest(BigDecimal actualWage, BigDecimal desiredWage, Shift desiredShift, BigDecimal expected) {
 		// Given
 		PossibleEmployee possibleEmployee = new PossibleEmployee.Builder()
 				.firstName("")
@@ -112,7 +113,7 @@ public class EmployeeTest {
 				.age(18)
 				.skills(new BigDecimal("0.45"))
 				.preferences(new EmploymentPreferences.Builder()
-						.desiredShift(Shift.MORNING)
+						.desiredShift(desiredShift)
 						.acceptableWage(BigDecimal.valueOf(4000))
 						.desiredWage(desiredWage)
 						.desiredTypeOfContract(TypeOfContract.PERMANENT)
@@ -164,7 +165,6 @@ public class EmployeeTest {
 		// Then
 		assertEquals(expected, result);
 	}
-
 
 	@Test
 	void setContract_ShouldUpdateContractInformation() {

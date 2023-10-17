@@ -17,10 +17,6 @@ public class PossibleEmployeeTest {
 		return Stream.of(
 				Arguments.of(new ContractOffer(Shift.MORNING, BigDecimal.valueOf(4999), TypeOfContract.PERMANENT), ContractOfferResponse.NEGATIVE),
 				Arguments.of(new ContractOffer(Shift.MORNING, BigDecimal.valueOf(5000), TypeOfContract.PERMANENT), ContractOfferResponse.POSITIVE),
-				Arguments.of(new ContractOffer(Shift.MORNING, BigDecimal.valueOf(5499), TypeOfContract.PERMANENT), ContractOfferResponse.NEGATIVE),
-				Arguments.of(new ContractOffer(Shift.MORNING, BigDecimal.valueOf(5500), TypeOfContract.PERMANENT), ContractOfferResponse.POSITIVE),
-				Arguments.of(new ContractOffer(Shift.EVENING, BigDecimal.valueOf(5499), TypeOfContract.PERMANENT), ContractOfferResponse.NEGATIVE),
-				Arguments.of(new ContractOffer(Shift.EVENING, BigDecimal.valueOf(5500), TypeOfContract.PERMANENT), ContractOfferResponse.POSITIVE),
 				Arguments.of(new ContractOffer(Shift.EVENING, BigDecimal.valueOf(5999), TypeOfContract.PERMANENT), ContractOfferResponse.NEGATIVE),
 				Arguments.of(new ContractOffer(Shift.EVENING, BigDecimal.valueOf(6000), TypeOfContract.PERMANENT), ContractOfferResponse.POSITIVE));
 	}

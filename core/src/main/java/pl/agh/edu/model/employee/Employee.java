@@ -68,15 +68,15 @@ public class Employee {
 
 	public ContractOfferResponse offerNewContract(ContractOffer contractOffer) {
 
-		if(contractOffer.shift() == shift) {
-			if(contractOffer.offeredWage().compareTo(wage) > 0){
+		if (contractOffer.shift() == shift) {
+			if (contractOffer.offeredWage().compareTo(wage) > 0) {
 				return ContractOfferResponse.POSITIVE;
 			}
 		} else {
-			if(contractOffer.shift() == preferences.desiredShift && contractOffer.offeredWage().compareTo(preferences.acceptableWage) >= 0) {
+			if (contractOffer.shift() == preferences.desiredShift && contractOffer.offeredWage().compareTo(preferences.acceptableWage) >= 0) {
 				return ContractOfferResponse.POSITIVE;
 			}
-			if(contractOffer.shift() != preferences.desiredShift && contractOffer.offeredWage().compareTo(preferences.desiredWage) >= 0) {
+			if (contractOffer.shift() != preferences.desiredShift && contractOffer.offeredWage().compareTo(preferences.desiredWage) >= 0) {
 				return ContractOfferResponse.POSITIVE;
 			}
 		}
