@@ -7,6 +7,7 @@ import org.json.simple.JSONObject;
 
 import pl.agh.edu.enums.HotelType;
 import pl.agh.edu.enums.HotelVisitPurpose;
+import pl.agh.edu.json.data.AttractivenessConstantsData;
 import pl.agh.edu.json.data_extractor.JSONDataExtractor;
 import pl.agh.edu.json.data_extractor.JSONFilePath;
 import pl.agh.edu.json.data_extractor.JSONValueUtil;
@@ -16,6 +17,7 @@ public class JSONHotelScenariosDataLoader {
 
 	public static Map<HotelType, Map<Integer, Double>> vacationPopularity;
 	public static EnumMap<HotelType, EnumMap<HotelVisitPurpose, Double>> hotelTypeVisitProbabilities;
+	public static EnumMap<HotelType, AttractivenessConstantsData> attractivenessConstants;
 
 	private JSONHotelScenariosDataLoader() {}
 
@@ -38,6 +40,16 @@ public class JSONHotelScenariosDataLoader {
 						(JSONObject) entry.getValue(),
 						entry2 -> Integer.parseInt((String) entry2.getKey()),
 						entry2 -> (Double) entry2.getValue()),
+				HotelType.class);
+
+		attractivenessConstants = JSONValueUtil.getEnumMap(
+				JSONDataExtractor.extract(JSON_FILE_PATH, "attractiveness_constants", JSONObject.class),
+				entry -> {
+					JSONObject value = (JSONObject) entry.getValue();
+					return new AttractivenessConstantsData(
+							(Long) value.get("local_market"),
+							(Long) value.get("local_attractions"));
+				},
 				HotelType.class);
 
 	}
