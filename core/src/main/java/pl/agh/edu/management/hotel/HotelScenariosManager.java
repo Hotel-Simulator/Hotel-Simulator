@@ -14,18 +14,17 @@ import pl.agh.edu.model.time.Time;
 public class HotelScenariosManager {
 	public final EnumMap<HotelVisitPurpose, Double> hotelVisitPurposeProbabilities;
 	public final AttractivenessConstantsData attractivenessConstants;
+	public final HotelType type;
 	private final Map<MonthDay, Double> seasonalMultiplier;
 
 	private final Time time = Time.getInstance();
 
 	public HotelScenariosManager(HotelType hotelType) {
 		hotelVisitPurposeProbabilities = JSONHotelScenariosDataLoader.hotelTypeVisitProbabilities.get(hotelType);
-		seasonalMultiplier = HotelPopularityFunction.getSeasonalMultipliers(hotelType);
 		attractivenessConstants = JSONHotelScenariosDataLoader.attractivenessConstants.get(hotelType);
-	}
+		this.type = hotelType;
+		seasonalMultiplier = HotelPopularityFunction.getSeasonalMultipliers(hotelType);
 
-	public EnumMap<HotelVisitPurpose, Double> getHotelVisitPurposeProbabilities() {
-		return hotelVisitPurposeProbabilities;
 	}
 
 	public double getCurrentDayMultiplier() {

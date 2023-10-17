@@ -20,8 +20,8 @@ import pl.agh.edu.enums.TypeOfContract;
 import pl.agh.edu.json.data.AdvertisementData;
 import pl.agh.edu.json.data.AttractivenessConstantsData;
 import pl.agh.edu.json.data.BankData;
-import pl.agh.edu.json.data.ClientNumberModificationCyclicTemporaryEventData;
-import pl.agh.edu.json.data.ClientNumberModificationRandomTemporaryEventData;
+import pl.agh.edu.json.data.CyclicEventData;
+import pl.agh.edu.json.data.ClientNumberModificationRandomEventData;
 import pl.agh.edu.json.data_loader.JSONAdvertisementDataLoader;
 import pl.agh.edu.json.data_loader.JSONBankDataLoader;
 import pl.agh.edu.json.data_loader.JSONClientDataLoader;
@@ -74,8 +74,8 @@ public class JSONDataLoaderTest {
 	@SuppressWarnings("unused")
 	public void jSONEventDataLoaderTest() {
 		assertDoesNotThrow(() -> {
-			List<ClientNumberModificationCyclicTemporaryEventData> clientNumberModificationCyclicTemporaryEventData = JSONEventDataLoader.clientNumberModificationCyclicTemporaryEventData;
-			List<ClientNumberModificationRandomTemporaryEventData> clientNumberModificationRandomTemporaryEventData = JSONEventDataLoader.clientNumberModificationRandomTemporaryEventData;
+			List<CyclicEventData> cyclicEventData = JSONEventDataLoader.cyclicEventData;
+			List<ClientNumberModificationRandomEventData> clientNumberModificationRandomEventData = JSONEventDataLoader.clientNumberModificationRandomEventData;
 		});
 	}
 
@@ -88,7 +88,6 @@ public class JSONDataLoaderTest {
 			EnumMap<Shift, Integer> shiftProbabilities = JSONEmployeeDataLoader.shiftProbabilities;
 			EnumMap<Profession, Duration> basicServiceExecutionTimes = JSONEmployeeDataLoader.basicServiceExecutionTimes;
 			EnumMap<Profession, Integer> professionProbabilities = JSONEmployeeDataLoader.professionProbabilities;
-			EnumMap<TypeOfContract, Integer> typeOfContractProbabilities = JSONEmployeeDataLoader.typeOfContractProbabilities;
 			int payDay = JSONEmployeeDataLoader.payDayOfMonth;
 		});
 	}
