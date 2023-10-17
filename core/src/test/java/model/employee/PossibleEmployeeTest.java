@@ -15,14 +15,14 @@ import pl.agh.edu.model.employee.*;
 public class PossibleEmployeeTest {
 	public static Stream<Arguments> providePossibleEmployees() {
 		return Stream.of(
-				Arguments.of(new ContractOffer(Shift.MORNING, BigDecimal.valueOf(4999), TypeOfContract.AGREEMENT), ContractOfferResponse.NEGATIVE),
-				Arguments.of(new ContractOffer(Shift.MORNING, BigDecimal.valueOf(5000), TypeOfContract.AGREEMENT), ContractOfferResponse.POSITIVE),
-				Arguments.of(new ContractOffer(Shift.MORNING, BigDecimal.valueOf(5499), TypeOfContract.PART_TIME), ContractOfferResponse.NEGATIVE),
-				Arguments.of(new ContractOffer(Shift.MORNING, BigDecimal.valueOf(5500), TypeOfContract.PART_TIME), ContractOfferResponse.POSITIVE),
-				Arguments.of(new ContractOffer(Shift.EVENING, BigDecimal.valueOf(5499), TypeOfContract.AGREEMENT), ContractOfferResponse.NEGATIVE),
-				Arguments.of(new ContractOffer(Shift.EVENING, BigDecimal.valueOf(5500), TypeOfContract.AGREEMENT), ContractOfferResponse.POSITIVE),
-				Arguments.of(new ContractOffer(Shift.EVENING, BigDecimal.valueOf(5999), TypeOfContract.PART_TIME), ContractOfferResponse.NEGATIVE),
-				Arguments.of(new ContractOffer(Shift.EVENING, BigDecimal.valueOf(6000), TypeOfContract.PART_TIME), ContractOfferResponse.POSITIVE));
+				Arguments.of(new ContractOffer(Shift.MORNING, BigDecimal.valueOf(4999), TypeOfContract.PERMANENT), ContractOfferResponse.NEGATIVE),
+				Arguments.of(new ContractOffer(Shift.MORNING, BigDecimal.valueOf(5000), TypeOfContract.PERMANENT), ContractOfferResponse.POSITIVE),
+				Arguments.of(new ContractOffer(Shift.MORNING, BigDecimal.valueOf(5499), TypeOfContract.PERMANENT), ContractOfferResponse.NEGATIVE),
+				Arguments.of(new ContractOffer(Shift.MORNING, BigDecimal.valueOf(5500), TypeOfContract.PERMANENT), ContractOfferResponse.POSITIVE),
+				Arguments.of(new ContractOffer(Shift.EVENING, BigDecimal.valueOf(5499), TypeOfContract.PERMANENT), ContractOfferResponse.NEGATIVE),
+				Arguments.of(new ContractOffer(Shift.EVENING, BigDecimal.valueOf(5500), TypeOfContract.PERMANENT), ContractOfferResponse.POSITIVE),
+				Arguments.of(new ContractOffer(Shift.EVENING, BigDecimal.valueOf(5999), TypeOfContract.PERMANENT), ContractOfferResponse.NEGATIVE),
+				Arguments.of(new ContractOffer(Shift.EVENING, BigDecimal.valueOf(6000), TypeOfContract.PERMANENT), ContractOfferResponse.POSITIVE));
 	}
 
 	@ParameterizedTest
@@ -38,7 +38,7 @@ public class PossibleEmployeeTest {
 						.desiredShift(Shift.MORNING)
 						.acceptableWage(BigDecimal.valueOf(5000))
 						.desiredWage(BigDecimal.valueOf(6000))
-						.desiredTypeOfContract(TypeOfContract.AGREEMENT)
+						.desiredTypeOfContract(TypeOfContract.PERMANENT)
 						.build())
 				.profession(Profession.CLEANER)
 				.build();

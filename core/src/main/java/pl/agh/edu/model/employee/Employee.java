@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Duration;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import pl.agh.edu.enums.TypeOfContract;
 import pl.agh.edu.json.data_loader.JSONEmployeeDataLoader;
@@ -22,7 +24,7 @@ public class Employee {
 	private boolean isOccupied;
 	private final Duration basicServiceExecutionTime;
 	private EmployeeStatus employeeStatus = EmployeeStatus.HIRED_NOT_WORKING;
-	private BigDecimal satisfaction;
+	private final List<BigDecimal> bonuses = new ArrayList<>();
 
 	public Employee(PossibleEmployee possibleEmployee, ContractOffer contractOffer) {
 		this.firstName = possibleEmployee.firstName;
@@ -35,7 +37,6 @@ public class Employee {
 		setContract(contractOffer);
 
 		this.basicServiceExecutionTime = JSONEmployeeDataLoader.basicServiceExecutionTimes.get(possibleEmployee.profession);
-		this.satisfaction = BigDecimal.ONE.min(wage.divide(preferences.desiredWage, 4, RoundingMode.CEILING));
 	}
 
 	public void setContract(ContractOffer contractOffer) {
@@ -45,16 +46,24 @@ public class Employee {
 	}
 
 	public BigDecimal getSatisfaction() {
-		return satisfaction.setScale(2, RoundingMode.HALF_EVEN).stripTrailingZeros();
+		BigDecimal desiredShiftModifier = shift == preferences.desiredShift
+				? BigDecimal.ZERO
+				: new BigDecimal("0.25");
+		return BigDecimal.ONE.min(getWageSatisfaction().subtract(desiredShiftModifier));
 	}
 
-	public void setSatisfaction(BigDecimal satisfaction) {
-		this.satisfaction = satisfaction;
+	private BigDecimal getWageSatisfaction() {
+		return wage.add(bonuses.stream().reduce(BigDecimal.ZERO, BigDecimal::add))
+				.divide(preferences.desiredWage, 4, RoundingMode.CEILING)
+				.setScale(2, RoundingMode.HALF_EVEN).stripTrailingZeros();
 	}
 
-	public void giveBonus(BigDecimal bonus) {
-		var moneyEarnedInLast30Days = satisfaction.multiply(preferences.desiredWage);
-		satisfaction = BigDecimal.ONE.min(moneyEarnedInLast30Days.add(bonus).divide(preferences.desiredWage, 4, RoundingMode.HALF_EVEN));
+	public void addBonus(BigDecimal bonus) {
+		bonuses.add(bonus);
+	}
+
+	public void removeBonus(BigDecimal bonus) {
+		bonuses.remove(bonus);
 	}
 
 	public ContractOfferResponse offerNewContract(ContractOffer contractOffer) {

@@ -8,8 +8,6 @@ import java.time.Duration;
 import java.time.LocalTime;
 import java.util.stream.Stream;
 
-import org.apache.commons.math3.dfp.DfpField;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -40,12 +38,12 @@ public class EmployeeTest {
 						.desiredShift(Shift.MORNING)
 						.acceptableWage(BigDecimal.valueOf(5000))
 						.desiredWage(BigDecimal.valueOf(6000))
-						.desiredTypeOfContract(TypeOfContract.AGREEMENT)
+						.desiredTypeOfContract(TypeOfContract.PERMANENT)
 						.build())
 				.profession(Profession.CLEANER)
 				.build();
 
-		ContractOffer contractOffer = new ContractOffer(Shift.MORNING, BigDecimal.valueOf(5000), TypeOfContract.AGREEMENT);
+		ContractOffer contractOffer = new ContractOffer(Shift.MORNING, BigDecimal.valueOf(5000), TypeOfContract.PERMANENT);
 		Employee employee = new Employee(possibleEmployee, contractOffer);
 
 		// When
@@ -55,50 +53,14 @@ public class EmployeeTest {
 		assertEquals(expected, result);
 	}
 
-	private static Stream<Arguments> provideWagesForSatisfactionWithoutBonusTest() {
-		return Stream.of(
-				Arguments.of(BigDecimal.valueOf(6000), BigDecimal.valueOf(8000), new BigDecimal("0.75")),
-				Arguments.of(BigDecimal.valueOf(8000), BigDecimal.valueOf(8000), BigDecimal.ONE),
-				Arguments.of(BigDecimal.valueOf(9000), BigDecimal.valueOf(8000), BigDecimal.ONE)
-
-		);
-	}
-
-	@ParameterizedTest
-	@MethodSource("provideWagesForSatisfactionWithoutBonusTest")
-	public void satisfactionWithoutBonusTest(BigDecimal actualWage, BigDecimal desiredWage, BigDecimal expected) {
-		// Given
-		PossibleEmployee possibleEmployee = new PossibleEmployee.Builder()
-				.firstName("")
-				.lastName("")
-				.age(18)
-				.skills(new BigDecimal("0.45"))
-				.preferences(new EmploymentPreferences.Builder()
-						.desiredShift(Shift.MORNING)
-						.acceptableWage(BigDecimal.valueOf(4000))
-						.desiredWage(desiredWage)
-						.desiredTypeOfContract(TypeOfContract.AGREEMENT)
-						.build())
-				.profession(Profession.CLEANER)
-				.build();
-
-		ContractOffer contractOffer = new ContractOffer(Shift.MORNING, actualWage, TypeOfContract.AGREEMENT);
-		Employee employee = new Employee(possibleEmployee, contractOffer);
-
-		// When
-		BigDecimal satisfaction = employee.getSatisfaction();
-
-		// Then
-		assertEquals(expected, satisfaction);
-	}
-
 	private static Stream<Arguments> provideWagesForSatisfactionWithBonusTest() {
 		return Stream.of(
-				Arguments.of(BigDecimal.valueOf(5000), BigDecimal.valueOf(8000), new BigDecimal("0.75")),
-				Arguments.of(BigDecimal.valueOf(7000), BigDecimal.valueOf(8000), BigDecimal.ONE),
-				Arguments.of(BigDecimal.valueOf(8000), BigDecimal.valueOf(8000), BigDecimal.ONE)
-
-		);
+				Arguments.of(BigDecimal.valueOf(5000), BigDecimal.valueOf(8000), Shift.MORNING, new BigDecimal("0.75")),
+				Arguments.of(BigDecimal.valueOf(7000), BigDecimal.valueOf(8000), Shift.MORNING, BigDecimal.ONE),
+				Arguments.of(BigDecimal.valueOf(8000), BigDecimal.valueOf(8000), Shift.MORNING, BigDecimal.ONE),
+				Arguments.of(BigDecimal.valueOf(5000), BigDecimal.valueOf(8000), Shift.EVENING, new BigDecimal("0.50")),
+				Arguments.of(BigDecimal.valueOf(7000), BigDecimal.valueOf(8000), Shift.EVENING, new BigDecimal("0.75")),
+				Arguments.of(BigDecimal.valueOf(9000), BigDecimal.valueOf(8000), Shift.EVENING, BigDecimal.ONE));
 	}
 
 	@ParameterizedTest
@@ -114,23 +76,61 @@ public class EmployeeTest {
 						.desiredShift(Shift.MORNING)
 						.acceptableWage(BigDecimal.valueOf(4000))
 						.desiredWage(desiredWage)
-						.desiredTypeOfContract(TypeOfContract.AGREEMENT)
+						.desiredTypeOfContract(TypeOfContract.PERMANENT)
 						.build())
 				.profession(Profession.CLEANER)
 				.build();
 
-		ContractOffer contractOffer = new ContractOffer(Shift.MORNING, actualWage, TypeOfContract.AGREEMENT);
+		ContractOffer contractOffer = new ContractOffer(Shift.MORNING, actualWage, TypeOfContract.PERMANENT);
 		Employee employee = new Employee(possibleEmployee, contractOffer);
 
 		// When
-		employee.giveBonus(BigDecimal.valueOf(1000));
+		employee.addBonus(BigDecimal.valueOf(1000));
 		BigDecimal satisfaction = employee.getSatisfaction();
 
 		// Then
 		assertEquals(expected, satisfaction);
 	}
 
-	private static Stream<Arguments> provideSatisfactionAndSkillsForSatisfactionWithBonusTest() {
+	private static Stream<Arguments> provideWagesForSatisfactionWithoutBonusTest() {
+		return Stream.of(
+				Arguments.of(BigDecimal.valueOf(6000), BigDecimal.valueOf(8000), Shift.MORNING, new BigDecimal("0.75")),
+				Arguments.of(BigDecimal.valueOf(8000), BigDecimal.valueOf(8000), Shift.MORNING, BigDecimal.ONE),
+				Arguments.of(BigDecimal.valueOf(9000), BigDecimal.valueOf(8000), Shift.MORNING, BigDecimal.ONE),
+				Arguments.of(BigDecimal.valueOf(6000), BigDecimal.valueOf(8000), Shift.EVENING, new BigDecimal("0.50")),
+				Arguments.of(BigDecimal.valueOf(8000), BigDecimal.valueOf(8000), Shift.EVENING, new BigDecimal("0.75")),
+				Arguments.of(BigDecimal.valueOf(10000), BigDecimal.valueOf(8000), Shift.EVENING, BigDecimal.ONE));
+	}
+
+	@ParameterizedTest
+	@MethodSource("provideWagesForSatisfactionWithoutBonusTest")
+	public void satisfactionWithoutBonusTest(BigDecimal actualWage, BigDecimal desiredWage, Shift offeredShift, BigDecimal expected) {
+		// Given
+		PossibleEmployee possibleEmployee = new PossibleEmployee.Builder()
+				.firstName("")
+				.lastName("")
+				.age(18)
+				.skills(new BigDecimal("0.45"))
+				.preferences(new EmploymentPreferences.Builder()
+						.desiredShift(Shift.MORNING)
+						.acceptableWage(BigDecimal.valueOf(4000))
+						.desiredWage(desiredWage)
+						.desiredTypeOfContract(TypeOfContract.PERMANENT)
+						.build())
+				.profession(Profession.CLEANER)
+				.build();
+
+		ContractOffer contractOffer = new ContractOffer(Shift.MORNING, actualWage, TypeOfContract.PERMANENT);
+		Employee employee = new Employee(possibleEmployee, contractOffer);
+
+		// When
+		BigDecimal satisfaction = employee.getSatisfaction();
+
+		// Then
+		assertEquals(expected, satisfaction);
+	}
+
+	private static Stream<Arguments> provideServiceExecutionTimeTestArgs() {
 		return Stream.of(
 				Arguments.of(1., BigDecimal.ZERO, Duration.ofMinutes(30)),
 				Arguments.of(0.4, BigDecimal.ONE, Duration.ofMinutes(24)),
@@ -138,7 +138,7 @@ public class EmployeeTest {
 	}
 
 	@ParameterizedTest
-	@MethodSource("provideSatisfactionAndSkillsForSatisfactionWithBonusTest")
+	@MethodSource("provideServiceExecutionTimeTestArgs")
 	public void serviceExecutionTimeTest(double satisfaction, BigDecimal skills, Duration expected) {
 		// Given
 		PossibleEmployee possibleEmployee = new PossibleEmployee.Builder()
@@ -150,12 +150,12 @@ public class EmployeeTest {
 						.desiredShift(Shift.MORNING)
 						.acceptableWage(BigDecimal.valueOf(0))
 						.desiredWage(BigDecimal.valueOf(4000))
-						.desiredTypeOfContract(TypeOfContract.AGREEMENT)
+						.desiredTypeOfContract(TypeOfContract.PERMANENT)
 						.build())
 				.profession(Profession.CLEANER)
 				.build();
 
-		ContractOffer contractOffer = new ContractOffer(Shift.MORNING, BigDecimal.valueOf(4000 * satisfaction), TypeOfContract.AGREEMENT);
+		ContractOffer contractOffer = new ContractOffer(Shift.MORNING, BigDecimal.valueOf(4000 * satisfaction), TypeOfContract.PERMANENT);
 		Employee employee = new Employee(possibleEmployee, contractOffer);
 
 		// When
@@ -178,16 +178,16 @@ public class EmployeeTest {
 						.desiredShift(Shift.MORNING)
 						.acceptableWage(BigDecimal.valueOf(0))
 						.desiredWage(BigDecimal.valueOf(4000))
-						.desiredTypeOfContract(TypeOfContract.AGREEMENT)
+						.desiredTypeOfContract(TypeOfContract.PERMANENT)
 						.build())
 				.profession(Profession.CLEANER)
 				.build();
 
-		ContractOffer contractOffer = new ContractOffer(Shift.MORNING, BigDecimal.valueOf(3000), TypeOfContract.AGREEMENT);
+		ContractOffer contractOffer = new ContractOffer(Shift.MORNING, BigDecimal.valueOf(3000), TypeOfContract.PERMANENT);
 		Employee employee = new Employee(possibleEmployee, contractOffer);
 
 		BigDecimal newWage = BigDecimal.valueOf(5500);
-		TypeOfContract newContractType = TypeOfContract.PART_TIME;
+		TypeOfContract newContractType = TypeOfContract.PERMANENT;
 		Shift newShift = Shift.NIGHT;
 
 		ContractOffer newContractOffer = new ContractOffer(newShift, newWage, newContractType);
@@ -214,16 +214,16 @@ public class EmployeeTest {
 						.desiredShift(Shift.MORNING)
 						.acceptableWage(BigDecimal.valueOf(0))
 						.desiredWage(BigDecimal.valueOf(4000))
-						.desiredTypeOfContract(TypeOfContract.AGREEMENT)
+						.desiredTypeOfContract(TypeOfContract.PERMANENT)
 						.build())
 				.profession(Profession.CLEANER)
 				.build();
 
-		ContractOffer contractOffer = new ContractOffer(Shift.MORNING, BigDecimal.valueOf(3000), TypeOfContract.AGREEMENT);
+		ContractOffer contractOffer = new ContractOffer(Shift.MORNING, BigDecimal.valueOf(3000), TypeOfContract.PERMANENT);
 		Employee employee = new Employee(possibleEmployee, contractOffer);
 
 		BigDecimal newWage = BigDecimal.valueOf(4000);
-		TypeOfContract newContractType = TypeOfContract.AGREEMENT;
+		TypeOfContract newContractType = TypeOfContract.PERMANENT;
 		Shift newShift = Shift.MORNING;
 		ContractOffer newContractOffer = new ContractOffer(newShift, newWage, newContractType);
 
@@ -233,6 +233,5 @@ public class EmployeeTest {
 		// Then
 		BigDecimal expectedSatisfaction = BigDecimal.ONE.min(newWage.divide(employee.preferences.desiredWage, 4, RoundingMode.HALF_EVEN));
 		assertEquals(expectedSatisfaction.setScale(2, RoundingMode.HALF_EVEN).stripTrailingZeros(), employee.getSatisfaction());
-		// todo ten test będzie działał jak domerguję HS-209
 	}
 }
