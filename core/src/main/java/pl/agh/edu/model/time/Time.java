@@ -53,7 +53,7 @@ public class Time {
 						int daysInMonth = switch (months) {
 							case 2 ->
 								(years % 4 == 0 && (years % 100 != 0 || years % 400 == 0)) ? 29 : 28;
-							case 4,6,9,11 ->
+							case 4, 6, 9, 11 ->
 								30;
 							default -> 31;
 						};
@@ -139,6 +139,8 @@ public class Time {
 		return MonthDay.of(months, days);
 	}
 
-	public YearMonth getYearMonth() { return YearMonth.of(years, months);}
+	public YearMonth getYearMonth() {
+		return YearMonth.of(years, months);
+	}
 
 }

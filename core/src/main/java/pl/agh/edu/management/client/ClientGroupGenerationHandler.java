@@ -1,12 +1,9 @@
 package pl.agh.edu.management.client;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalTime;
 import java.util.EnumMap;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -57,7 +54,7 @@ public class ClientGroupGenerationHandler {
 								hotelScenariosManager.hotelVisitPurposeProbabilities.get(hotelVisitPurpose) *
 								Math.max(0, RandomUtils.randomGaussian(1, 1. / 3)) *
 								BigDecimal.ONE.add(eventModifier.get(hotelVisitPurpose)).doubleValue() *
-						BigDecimal.ONE.add(advertisementHandler.getCumulatedModifier().get(hotelVisitPurpose)).doubleValue()),
+								BigDecimal.ONE.add(advertisementHandler.getCumulatedModifier().get(hotelVisitPurpose)).doubleValue()),
 				(a, b) -> b,
 				() -> new EnumMap<>(HotelVisitPurpose.class)));
 	}
