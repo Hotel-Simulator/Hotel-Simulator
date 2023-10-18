@@ -128,7 +128,7 @@ public class JSONDataLoaderTest {
 	@SuppressWarnings("unused")
 	public void jSONHotelScenariosDataLoaderTest() {
 		assertDoesNotThrow(() -> {
-			EnumMap<HotelType, EnumMap<HotelVisitPurpose, Double>> hotelTypeVisitProbabilities = JSONHotelScenariosDataLoader.hotelTypeVisitProbabilities;
+			EnumMap<HotelType, EnumMap<HotelVisitPurpose, BigDecimal>> hotelTypeVisitProbabilities = JSONHotelScenariosDataLoader.hotelTypeVisitProbabilities;
 			Map<HotelType, Map<Integer, Double>> vacationPopularity = JSONHotelScenariosDataLoader.vacationPopularity;
 			EnumMap<HotelType, AttractivenessConstantsData> attractivenessConstants = JSONHotelScenariosDataLoader.attractivenessConstants;
 		});

@@ -1,5 +1,6 @@
 package pl.agh.edu.json.data_loader;
 
+import java.math.BigDecimal;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -16,7 +17,7 @@ public class JSONHotelScenariosDataLoader {
 	private static final String JSON_FILE_PATH = JSONFilePath.HOTEL_SCENARIOS_CONFIG.get();
 
 	public static Map<HotelType, Map<Integer, Double>> vacationPopularity;
-	public static EnumMap<HotelType, EnumMap<HotelVisitPurpose, Double>> hotelTypeVisitProbabilities;
+	public static EnumMap<HotelType, EnumMap<HotelVisitPurpose, BigDecimal>> hotelTypeVisitProbabilities;
 	public static EnumMap<HotelType, AttractivenessConstantsData> attractivenessConstants;
 
 	private JSONHotelScenariosDataLoader() {}
@@ -31,7 +32,7 @@ public class JSONHotelScenariosDataLoader {
 				JSONDataExtractor.extract(JSON_FILE_PATH, "visit_probabilities", JSONObject.class),
 				entry -> JSONValueUtil.getEnumMap(
 						(JSONObject) entry.getValue(),
-						entry2 -> (Double) entry2.getValue(),
+						entry2 -> JSONValueUtil.getBigDecimal((Double) entry2.getValue()),
 						HotelVisitPurpose.class), HotelType.class);
 
 		vacationPopularity = JSONValueUtil.getEnumMap(

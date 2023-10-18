@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import pl.agh.edu.enums.HotelType;
 import pl.agh.edu.management.hotel.HotelScenariosManager;
 
+import java.math.BigDecimal;
+
 public class HotelScenariosManagerTest {
 	private static HotelScenariosManager hotelScenariosManager;
 
@@ -31,9 +33,9 @@ public class HotelScenariosManagerTest {
 	@Test
 	public void testGetCurrentDayMultiplier() {
 		// When
-		double currentDayMultiplier = hotelScenariosManager.getCurrentDayMultiplier();
+		BigDecimal currentDayMultiplier = hotelScenariosManager.getCurrentDayMultiplier();
 
 		// Then
-		assertTrue(currentDayMultiplier >= 0.0 && currentDayMultiplier <= 2.0);
+		assertTrue(currentDayMultiplier.compareTo(BigDecimal.ZERO) >= 0 && currentDayMultiplier.compareTo(BigDecimal.valueOf(2)) <= 0);
 	}
 }
