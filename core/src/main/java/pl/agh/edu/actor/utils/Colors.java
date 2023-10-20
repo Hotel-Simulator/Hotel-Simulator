@@ -46,5 +46,5 @@ public class Colors {
 
     public static final Color TRANSPARENT = skin.getColor("transparent");
 
-
+    public static final Color SHADOW = skin.getColor("shadow");
 }
