@@ -14,6 +14,7 @@ import pl.agh.edu.model.time.Time;
 public class InfinityBackground extends Stack implements ResolutionChangeListener {
 	private final Image firstBackground;
 	private final Image secondBackground;
+	private final Time time = Time.getInstance();
 
 	public InfinityBackground(String fileName) {
 		this.setFillParent(true);
@@ -31,7 +32,7 @@ public class InfinityBackground extends Stack implements ResolutionChangeListene
 						Actions.forever(
 								Actions.sequence(
 										Actions.run(() -> {
-											float movingDistance = 10.2f;
+											float movingDistance = 0.5f * time.getAcceleration();
 											if (image.getX() + GraphicConfig.getResolution().WIDTH <= 0) {
 												image.moveBy(-movingDistance + 2 * GraphicConfig.getResolution().WIDTH, 0f);
 											}
