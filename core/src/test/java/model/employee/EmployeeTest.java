@@ -234,4 +234,37 @@ public class EmployeeTest {
 		BigDecimal expectedSatisfaction = BigDecimal.ONE.min(newWage.divide(employee.preferences.desiredWage, 4, RoundingMode.HALF_EVEN));
 		assertEquals(expectedSatisfaction.setScale(2, RoundingMode.HALF_EVEN).stripTrailingZeros(), employee.getSatisfaction());
 	}
+
+	public static Stream<Arguments> provideOfferNewContractArgs() {
+		return Stream.of(
+				Arguments.of(Shift.MORNING, new ContractOffer(Shift.MORNING, BigDecimal.valueOf(3000), TypeOfContract.PERMANENT), ContractOfferResponse.NEGATIVE),
+				Arguments.of(Shift.MORNING, new ContractOffer(Shift.MORNING, BigDecimal.valueOf(3001), TypeOfContract.PERMANENT), ContractOfferResponse.POSITIVE),
+				Arguments.of(Shift.EVENING, new ContractOffer(Shift.EVENING, BigDecimal.valueOf(3999), TypeOfContract.PERMANENT), ContractOfferResponse.NEGATIVE),
+				Arguments.of(Shift.EVENING, new ContractOffer(Shift.EVENING, BigDecimal.valueOf(4000), TypeOfContract.PERMANENT), ContractOfferResponse.POSITIVE),
+				Arguments.of(Shift.MORNING, new ContractOffer(Shift.EVENING, BigDecimal.valueOf(3999), TypeOfContract.PERMANENT), ContractOfferResponse.NEGATIVE),
+				Arguments.of(Shift.MORNING, new ContractOffer(Shift.EVENING, BigDecimal.valueOf(4000), TypeOfContract.PERMANENT), ContractOfferResponse.POSITIVE));
+	}
+
+	@ParameterizedTest
+	@MethodSource("provideOfferNewContractArgs")
+	void offerNewContractTest(Shift desiredShift, ContractOffer newContract, ContractOfferResponse result) {
+
+		// Given
+		PossibleEmployee possibleEmployee = new PossibleEmployee.Builder()
+				.firstName("")
+				.lastName("")
+				.age(18)
+				.skills(new BigDecimal("0.5"))
+				.preferences(new EmploymentPreferences.Builder()
+						.desiredShift(desiredShift)
+						.acceptableWage(BigDecimal.valueOf(3000))
+						.desiredWage(BigDecimal.valueOf(4000))
+						.desiredTypeOfContract(TypeOfContract.PERMANENT)
+						.build())
+				.profession(Profession.CLEANER)
+				.build();
+
+		ContractOffer contractOffer = new ContractOffer(Shift.MORNING, BigDecimal.valueOf(3000), TypeOfContract.PERMANENT);
+		Employee employee = new Employee(possibleEmployee, contractOffer);
+	}
 }

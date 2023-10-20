@@ -68,19 +68,14 @@ public class Employee {
 
 	public ContractOfferResponse offerNewContract(ContractOffer contractOffer) {
 
-		if (contractOffer.shift() == shift) {
-			if (contractOffer.offeredWage().compareTo(wage) > 0) {
-				return ContractOfferResponse.POSITIVE;
-			}
-		} else {
-			if (contractOffer.shift() == preferences.desiredShift && contractOffer.offeredWage().compareTo(preferences.acceptableWage) >= 0) {
-				return ContractOfferResponse.POSITIVE;
-			}
-			if (contractOffer.shift() != preferences.desiredShift && contractOffer.offeredWage().compareTo(preferences.desiredWage) >= 0) {
-				return ContractOfferResponse.POSITIVE;
-			}
-		}
-		return ContractOfferResponse.NEGATIVE;
+		Shift offerShift = contractOffer.shift();
+		BigDecimal offeredWage = contractOffer.offeredWage();
+
+		boolean isPositive = (offerShift == shift && offeredWage.compareTo(wage) > 0) ||
+				(offerShift != shift && offerShift == preferences.desiredShift && offeredWage.compareTo(preferences.acceptableWage) >= 0) ||
+				(offerShift != shift && offerShift != preferences.desiredShift && offeredWage.compareTo(preferences.desiredWage) >= 0);
+
+		return isPositive ? ContractOfferResponse.POSITIVE : ContractOfferResponse.NEGATIVE;
 	}
 
 	public boolean isAtWork(LocalTime time) {

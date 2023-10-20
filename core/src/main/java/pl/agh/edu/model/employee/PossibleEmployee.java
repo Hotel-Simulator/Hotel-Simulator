@@ -21,14 +21,13 @@ public class PossibleEmployee {
 
 	public ContractOfferResponse offerJob(ContractOffer contractOffer) {
 
-		if (preferences.desiredShift == contractOffer.shift()) {
-			if (contractOffer.offeredWage().compareTo(preferences.acceptableWage) >= 0) {
-				return ContractOfferResponse.POSITIVE;
-			}
-		} else if (contractOffer.offeredWage().compareTo(preferences.desiredWage) >= 0) {
-			return ContractOfferResponse.POSITIVE;
-		}
-		return ContractOfferResponse.NEGATIVE;
+		Shift offerShift = contractOffer.shift();
+		BigDecimal offeredWage = contractOffer.offeredWage();
+
+		boolean isPositive = (preferences.desiredShift == offerShift && offeredWage.compareTo(preferences.acceptableWage) >= 0) ||
+				(preferences.desiredShift != offerShift && offeredWage.compareTo(preferences.desiredWage) >= 0);
+
+		return isPositive ? ContractOfferResponse.POSITIVE : ContractOfferResponse.NEGATIVE;
 	}
 
 	public static class Builder {
