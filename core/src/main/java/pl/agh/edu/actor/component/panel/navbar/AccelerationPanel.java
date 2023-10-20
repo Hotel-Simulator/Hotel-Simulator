@@ -1,7 +1,9 @@
 package pl.agh.edu.actor.component.panel.navbar;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 
@@ -14,8 +16,8 @@ public class AccelerationPanel extends WrapperTable {
 
 	private final Skin skin = HotelSkin.getInstance();
 	private final Label accelerationLabel = new Label(time.getStringAcceleration(), skin, "h4");
-	private final Button playButton = new Button(skin, "navbar-play");;
-	private final Button increaseButton = new Button(skin, "navbar-plus");;
+	private final Button playButton = new Button(skin, "navbar-play");
+	private final Button increaseButton = new Button(skin, "navbar-plus");
 	private final Button decreaseButton = new Button(skin, "navbar-minus");
 	private static final Time time = Time.getInstance();
 
@@ -61,6 +63,8 @@ public class AccelerationPanel extends WrapperTable {
 		innerTable.add(playButton);
 
 		this.size(220, 80);
+
+		time.addTimeStopChangeHandler(() -> this.playButton.setChecked(false));
 	}
 
 	private void playTime() {

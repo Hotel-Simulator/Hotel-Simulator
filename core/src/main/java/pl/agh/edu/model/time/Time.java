@@ -2,6 +2,8 @@ package pl.agh.edu.model.time;
 
 import java.time.LocalDateTime;
 import java.time.MonthDay;
+import java.util.ArrayList;
+import java.util.List;
 
 import pl.agh.edu.enums.PartOfDay;
 import pl.agh.edu.time_command.TimeCommandExecutor;
@@ -19,6 +21,9 @@ public class Time {
 	private boolean isRunning = false;
 	private float remaining = interval;
 	private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
+
+	private final List<Runnable> timeStopChangeHandlers = new ArrayList<>();
+	private final List<Runnable> timeStartChangeHandlers = new ArrayList<>();
 
 	private Time() {}
 
@@ -85,10 +90,12 @@ public class Time {
 
 	public void start() {
 		isRunning = true;
+		timeStartChangeHandlers.forEach(Runnable::run);
 	}
 
 	public void stop() {
 		isRunning = false;
+		timeStopChangeHandlers.forEach(Runnable::run);
 	}
 
 	public void toggle() {
@@ -138,4 +145,11 @@ public class Time {
 		return MonthDay.of(months, days);
 	}
 
+	public void addTimeStopChangeHandler(Runnable handler) {
+		timeStopChangeHandlers.add(handler);
+	}
+
+	public void addTimeStartChangeHandler(Runnable handler) {
+		timeStartChangeHandlers.add(handler);
+	}
 }
