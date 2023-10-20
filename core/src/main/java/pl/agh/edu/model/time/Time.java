@@ -88,6 +88,10 @@ public class Time {
 		acceleration = Math.max(acceleration / 2, minAcceleration);
 	}
 
+	public int getAcceleration() {
+		return acceleration;
+	}
+
 	public void start() {
 		isRunning = true;
 		timeStartChangeHandlers.forEach(Runnable::run);
