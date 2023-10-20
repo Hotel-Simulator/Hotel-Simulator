@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 
 import pl.agh.edu.enums.HotelVisitPurpose;
 import pl.agh.edu.generator.client_generator.ClientGenerator;
-import pl.agh.edu.json.data_loader.JSONHotelDataLoader;
+import pl.agh.edu.json.data.AttractivenessConstantsData;
 import pl.agh.edu.management.advertisement.AdvertisementHandler;
 import pl.agh.edu.management.bank.BankAccountHandler;
 import pl.agh.edu.management.event.ClientNumberModificationEventHandler;
@@ -66,19 +66,21 @@ public class ClientGroupGenerationHandler {
 	}
 
 	private EnumMap<HotelVisitPurpose, Integer> getNumberOfClientGroups() {
-		double popularityModifier = hotelScenariosManager.getCurrentDayMultiplier();
-		int basicNumberOfClients = (int) Math.round(((JSONHotelDataLoader.attractivenessConstants.get("local_market") + JSONHotelDataLoader.attractivenessConstants.get(
-				"local_attractions"))) * popularityModifier);
 		EnumMap<HotelVisitPurpose, BigDecimal> eventModifier = clientNumberModificationEventHandler.getCumulatedModifier();
 		return Stream.of(HotelVisitPurpose.values()).collect(Collectors.toMap(
 				hotelVisitPurpose -> hotelVisitPurpose,
 				hotelVisitPurpose -> (int) Math.round(
-						basicNumberOfClients *
-								hotelScenariosManager.getHotelVisitPurposeProbabilities().get(hotelVisitPurpose) *
+						getBasicNumberOfClientGroups() *
+								hotelScenariosManager.hotelVisitPurposeProbabilities.get(hotelVisitPurpose) *
 								Math.max(0, RandomUtils.randomGaussian(1, 1. / 3)) *
 								BigDecimal.ONE.add(eventModifier.get(hotelVisitPurpose)).doubleValue()),
 				(a, b) -> b,
 				() -> new EnumMap<>(HotelVisitPurpose.class)));
 	}
 
+	private double getBasicNumberOfClientGroups() {
+		double popularityModifier = hotelScenariosManager.getCurrentDayMultiplier();
+		AttractivenessConstantsData attractivenessConstants = hotelScenariosManager.attractivenessConstants;
+		return (attractivenessConstants.localMarket() + attractivenessConstants.localAttractions()) * popularityModifier;
+	}
 }

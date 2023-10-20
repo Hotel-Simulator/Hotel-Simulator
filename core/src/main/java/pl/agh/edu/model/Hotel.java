@@ -11,8 +11,6 @@ public class Hotel {
 	private Long hotelId;
 	private LocalTime checkInTime = JSONHotelDataLoader.checkInAndOutTime.get("check_in");
 	private LocalTime checkOutTime = JSONHotelDataLoader.checkInAndOutTime.get("check_out");
-	private final int attractiveness = (int) (JSONHotelDataLoader.attractivenessConstants.get("local_market") +
-			JSONHotelDataLoader.attractivenessConstants.get("local_attractions"));
 
 	private RandomLogoCreator logo;
 
@@ -32,10 +30,6 @@ public class Hotel {
 
 	public void setCheckOutTime(LocalTime checkOutTime) {
 		this.checkOutTime = checkOutTime;
-	}
-
-	public Integer getAttractiveness() {
-		return attractiveness;
 	}
 
 }
