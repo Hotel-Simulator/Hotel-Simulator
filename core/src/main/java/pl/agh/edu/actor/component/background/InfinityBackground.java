@@ -5,9 +5,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.utils.Scaling;
 
-import pl.agh.edu.actor.HotelSkin;
-import pl.agh.edu.actor.utils.ResolutionChangeListener;
-import pl.agh.edu.actor.utils.ResolutionManager;
+import pl.agh.edu.actor.GameSkin;
+import pl.agh.edu.actor.utils.resolution.ResolutionChangeListener;
+import pl.agh.edu.actor.utils.resolution.ResolutionManager;
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.model.time.Time;
 
@@ -40,7 +40,7 @@ public class InfinityBackground extends Stack implements ResolutionChangeListene
 	}
 
 	private Image createImage(String fileName) {
-		Image image = new Image(HotelSkin.getInstance().getDrawable(fileName));
+		Image image = new Image(GameSkin.getInstance().getDrawable(fileName));
 		image.setFillParent(true);
 		image.setScaling(Scaling.stretch);
 		this.add(image);

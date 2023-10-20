@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import pl.agh.edu.GdxGame;
-import pl.agh.edu.actor.HotelSkin;
+import pl.agh.edu.actor.GameSkin;
 import pl.agh.edu.actor.component.background.InfinityBackground;
 import pl.agh.edu.actor.component.button.OptionButton;
 import pl.agh.edu.actor.component.navbar.NavbarBottom;
@@ -20,14 +20,14 @@ import pl.agh.edu.actor.frame.BaseFrame;
 import pl.agh.edu.actor.frame.OptionFrame;
 import pl.agh.edu.actor.frame.TestFrame;
 import pl.agh.edu.actor.shader.BlurShader;
-import pl.agh.edu.actor.utils.ResolutionChangeListener;
-import pl.agh.edu.actor.utils.ResolutionManager;
+import pl.agh.edu.actor.utils.resolution.ResolutionChangeListener;
+import pl.agh.edu.actor.utils.resolution.ResolutionManager;
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.model.time.Time;
 
 public class MainScreen implements Screen, ResolutionChangeListener {
 	private Cell<?> currentFrame;
-	private final Skin skin = HotelSkin.getInstance();
+	private final Skin skin = GameSkin.getInstance();
 	private final Stack stack = new Stack();
 	private final Container<OptionFrame> optionFrameContainer = new Container<>();
 	private final Table table = new Table();

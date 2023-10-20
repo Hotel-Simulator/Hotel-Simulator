@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 
-import pl.agh.edu.actor.HotelSkin;
+import pl.agh.edu.actor.GameSkin;
 import pl.agh.edu.audio.SoundAudio;
 import pl.agh.edu.language.LanguageChangeListener;
 import pl.agh.edu.language.LanguageManager;
@@ -22,7 +22,7 @@ public class NavbarButton extends Table implements LanguageChangeListener {
 	private boolean disabled = false;
 
 	public NavbarButton(String styleName, Runnable touchUpCallback) {
-		Skin skin = HotelSkin.getInstance();
+		Skin skin = GameSkin.getInstance();
 		navbarButtonStyle = skin.get(styleName, NavbarButtonStyle.class);
 
 		iconImage = new Image(new TextureRegionDrawable(new TextureRegion(navbarButtonStyle.iconUp)));

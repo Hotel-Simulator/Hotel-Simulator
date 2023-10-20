@@ -14,7 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TransformDrawable;
 
-import pl.agh.edu.actor.utils.WrapperContainer;
+import pl.agh.edu.actor.utils.wrapper.WrapperContainer;
 import pl.agh.edu.config.GraphicConfig;
 
 public class BlurShader extends WrapperContainer<Image> {

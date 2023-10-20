@@ -7,15 +7,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 
-import pl.agh.edu.actor.HotelSkin;
-import pl.agh.edu.actor.utils.WrapperTable;
+import pl.agh.edu.actor.GameSkin;
+import pl.agh.edu.actor.utils.FontType;
+import pl.agh.edu.actor.utils.wrapper.WrapperTable;
 import pl.agh.edu.audio.SoundAudio;
 import pl.agh.edu.model.time.Time;
 
 public class AccelerationPanel extends WrapperTable {
 
-	private final Skin skin = HotelSkin.getInstance();
-	private final Label accelerationLabel = new Label(time.getStringAcceleration(), skin, "h4");
+	private final Skin skin = GameSkin.getInstance();
+	private final Label accelerationLabel = new Label(time.getStringAcceleration(), skin, FontType.H4.getName());
 	private final Button playButton = new Button(skin, "navbar-play");
 	private final Button increaseButton = new Button(skin, "navbar-plus");
 	private final Button decreaseButton = new Button(skin, "navbar-minus");

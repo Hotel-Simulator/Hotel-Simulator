@@ -1,4 +1,4 @@
-package pl.agh.edu.actor.utils;
+package pl.agh.edu.actor.utils.wrapper;
 
 import java.util.function.Consumer;
 
@@ -7,6 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 
+import pl.agh.edu.actor.utils.resolution.ResolutionChangeListener;
+import pl.agh.edu.actor.utils.resolution.ResolutionManager;
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.language.LanguageChangeListener;
 import pl.agh.edu.language.LanguageManager;

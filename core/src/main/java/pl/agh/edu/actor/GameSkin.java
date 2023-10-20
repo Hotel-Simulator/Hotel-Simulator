@@ -3,16 +3,16 @@ package pl.agh.edu.actor;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
-public class HotelSkin extends Skin {
-	private static HotelSkin instance;
+public class GameSkin extends Skin {
+	private static GameSkin instance;
 
-	private HotelSkin() {
+	private GameSkin() {
 		super(Gdx.files.internal("skin/skin.json"));
 	}
 
-	public static HotelSkin getInstance() {
+	public static GameSkin getInstance() {
 		if (instance == null) {
-			instance = new HotelSkin();
+			instance = new GameSkin();
 		}
 		return instance;
 	}

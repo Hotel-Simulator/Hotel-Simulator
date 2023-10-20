@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
-import pl.agh.edu.actor.utils.ResolutionManager;
+import pl.agh.edu.actor.utils.resolution.ResolutionManager;
 import pl.agh.edu.enums.Resolution;
 
 public class GraphicConfig {
