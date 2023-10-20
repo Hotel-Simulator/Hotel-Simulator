@@ -13,4 +13,11 @@ public abstract class CustomLabel extends Label {
 		labelStyle.background = new NinePatchDrawable(HotelSkin.getInstance().getPatch(backgroundPatch));
 		this.setStyle(labelStyle);
 	}
+
+	public CustomLabel(String font) {
+		super("", HotelSkin.getInstance());
+		LabelStyle labelStyle = new LabelStyle();
+		labelStyle.font = HotelSkin.getInstance().getFont(font);
+		this.setStyle(labelStyle);
+	}
 }

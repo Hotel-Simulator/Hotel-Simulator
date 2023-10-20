@@ -64,7 +64,7 @@ public class CreditTable extends BaseTable {
 				Actor actor = actors[i];
 				Container<Actor> container = new Container<>(actor);
 				container.pad(1f);
-				this.innerTable.add(container).growX().uniform().height(getRowHeight()).center().padLeft(getCellPadding()).padRight(getCellPadding());
+				this.innerTable.add(container).growX().uniform().center().padLeft(getCellPadding()).padRight(getCellPadding());
 				if (i != noColumns - 1)
 					this.innerTable.add(new Image(HotelSkin.getInstance().getPatch("table-separator-line"))).width(getSeparatorWidth()).growY().center();
 			});
@@ -72,23 +72,7 @@ public class CreditTable extends BaseTable {
 	}
 
 
-	public static class CreditTableStyle {
-		public static float getCellPadding() {
-			return switch (pl.agh.edu.config.GraphicConfig.getResolution().SIZE) {
-				case SMALL -> 15f;
-				case MEDIUM -> 20f;
-				case LARGE -> 30f;
-			};
-		}
-
-		public static float getRowSpacing() {
-			return switch (pl.agh.edu.config.GraphicConfig.getResolution().SIZE) {
-				case SMALL -> 10f;
-				case MEDIUM -> 15f;
-				case LARGE -> 20f;
-			};
-		}
-
+	public static class CreditTableStyle extends BaseTableStyle{
 		public static float getRowHeight() {
 			return switch (pl.agh.edu.config.GraphicConfig.getResolution().SIZE) {
 				case SMALL -> 30f;
