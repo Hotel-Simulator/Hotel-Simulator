@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -13,7 +14,9 @@ import com.badlogic.gdx.utils.Align;
 
 import pl.agh.edu.actor.HotelSkin;
 import pl.agh.edu.actor.component.button.LabeledButton;
+import pl.agh.edu.actor.utils.Fonts;
 import pl.agh.edu.actor.utils.LanguageLabel;
+import pl.agh.edu.actor.utils.LinkLabel;
 import pl.agh.edu.actor.utils.Size;
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.model.bank.BankAccount;
@@ -44,14 +47,14 @@ public class CreditTable extends BaseTable {
 
 		public CreditBaseRow(String... columnNames) {
 			super();
-			insertActorsToRow(Arrays.stream(columnNames).map(s -> new LanguageLabel(s, getFont())).toArray(Actor[]::new));
+			insertActorsToRow(Arrays.stream(columnNames).map(s -> new LanguageLabel(s, getTableFont())).toArray(Actor[]::new));
 			this.setBackground("table-header-background");
 		}
 		public CreditBaseRow(Credit credit) {
 			super();
 			Label date = new Label(credit.getTakeOutDate().toString(),skin, getFont());
 			Label monthly = new Label(credit.getMonthlyPayment().toString(), skin, getFont());
-			LabeledButton payAllButton = new LabeledButton(Size.SMALL, "labeledButton.credit.payall", () -> {
+			LinkLabel payAllButton = new LinkLabel( "labeledButton.credit.payall", Fonts.WHITE_BODY1, ()  -> {
 				// TODO: 15.10.2023 payAll(credit); 
 			});
 			insertActorsToRow(date, monthly, payAllButton);
@@ -81,11 +84,11 @@ public class CreditTable extends BaseTable {
 			};
 		}
 
-		public static String getFont() {
+		public static BitmapFont getTableFont() {
 			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> "body2";
-				case MEDIUM -> "body1";
-				case LARGE -> "h4";
+				case SMALL -> Fonts.BODY2;
+				case MEDIUM -> Fonts.BODY1;
+				case LARGE -> Fonts.H4;
 			};
 		}
 

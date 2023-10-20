@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.Align;
 
 import pl.agh.edu.actor.HotelSkin;
 import pl.agh.edu.actor.utils.CustomLabel;
+import pl.agh.edu.actor.utils.Fonts;
 import pl.agh.edu.enums.Frequency;
 import pl.agh.edu.model.time.Time;
 import pl.agh.edu.time_command.RepeatingTimeCommand;
@@ -29,7 +30,7 @@ public class TimePanel extends Table {
 
 	private class TimeLabel extends CustomLabel {
 		public TimeLabel() {
-			super("h4", "label-time-background");
+			super(Fonts.H4, "label-time-background");
 			this.setAlignment(Align.center, Align.center);
 		}
 	}

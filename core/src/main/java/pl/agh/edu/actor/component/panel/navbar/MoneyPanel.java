@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Align;
 
 import pl.agh.edu.actor.HotelSkin;
 import pl.agh.edu.actor.utils.CustomLabel;
+import pl.agh.edu.actor.utils.Fonts;
 import pl.agh.edu.actor.utils.WrapperTable;
 
 public class MoneyPanel extends WrapperTable {
@@ -19,7 +20,7 @@ public class MoneyPanel extends WrapperTable {
 
 	private class MoneyLabel extends CustomLabel {
 		public MoneyLabel() {
-			super("h4", "label-money-background");
+			super(Fonts.H4, "label-money-background");
 			this.setText("100$");
 			this.setAlignment(Align.center, Align.center);
 		}
