@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Cell;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
@@ -26,7 +26,7 @@ import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.model.time.Time;
 
 public class MainScreen implements Screen, ResolutionChangeListener {
-	private Cell<?> currentFrame;
+	private final Stack currentFrameStack = new Stack();
 	private final Skin skin = GameSkin.getInstance();
 	private final Stack stack = new Stack();
 	private final Container<OptionFrame> optionFrameContainer = new Container<>();
@@ -38,7 +38,6 @@ public class MainScreen implements Screen, ResolutionChangeListener {
 	private final Stage topStage = new Stage(GraphicConfig.getViewport());
 	private final BlurShader blurShader = new BlurShader(mainStage);
 	private final InputMultiplexer inputMultiplexer = new InputMultiplexer(mainStage);
-
 	private final InfinityBackground infinityBackground = new InfinityBackground("night-city");
 
 	public MainScreen(GdxGame game) {
@@ -55,7 +54,7 @@ public class MainScreen implements Screen, ResolutionChangeListener {
 		table.add(new OptionButton(this::optionButtonHandler)).uniform();
 		table.row();
 		table.add();
-		currentFrame = table.add();
+		table.add(currentFrameStack).grow();
 		table.add();
 		table.row();
 		table.add();
@@ -68,12 +67,27 @@ public class MainScreen implements Screen, ResolutionChangeListener {
 		middleStage.addActor(blurShader);
 		topStage.addActor(optionFrameContainer);
 
+		currentFrameStack.addActor(new TestFrame("Test"));
+
 		ResolutionManager.addListener(this);
 		Gdx.input.setInputProcessor(inputMultiplexer);
 	}
 
-	public void changeFrame(BaseFrame frame) {
-		currentFrame.setActor(frame).grow();
+	public void changeFrame(BaseFrame newFrame) {
+		BaseFrame oldFrame = (BaseFrame) currentFrameStack.getChild(0);
+		if(oldFrame !=null)
+			oldFrame.runHorizontalTrainOutAnimation();
+		oldFrame.addAction(
+				Actions.sequence(
+						Actions.delay(0.5f),
+						Actions.removeActor()
+				));
+		currentFrameStack.addActor(newFrame);
+		newFrame.addAction(
+				Actions.sequence(
+						Actions.run(newFrame::runHorizontalTrainInAnimation)
+				)
+		);
 	}
 
 	private void updateBlurShaderState() {
@@ -127,7 +141,6 @@ public class MainScreen implements Screen, ResolutionChangeListener {
 
 	@Override
 	public void show() {
-		changeFrame(new TestFrame("test"));
 	}
 
 	@Override

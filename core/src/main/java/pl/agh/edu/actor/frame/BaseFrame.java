@@ -1,21 +1,31 @@
 package pl.agh.edu.actor.frame;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Stack;
-import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Scaling;
 
 import pl.agh.edu.actor.GameSkin;
+import pl.agh.edu.actor.utils.FontType;
+import pl.agh.edu.actor.utils.wrapper.WrapperTable;
 import pl.agh.edu.config.GraphicConfig;
 
-public abstract class BaseFrame extends Stack {
-	public BaseFrame() {
+public abstract class BaseFrame extends WrapperTable {
+
+	private final Label titleLabel = new Label("",GameSkin.getInstance(), FontType.H2.getWhiteVariantName());
+	public final Table mainTable = new Table();
+
+	private final Table innerTable = super.innerTable;
+	public BaseFrame(String title) {
 		super();
-		Skin skin = GameSkin.getInstance();
-		NinePatchDrawable background = new NinePatchDrawable(skin.getPatch("frame-glass-background"));
-		add(new Image(background, Scaling.stretch, Align.center));
+		innerTable.setFillParent(true);
+		innerTable.add(titleLabel).growX().pad(20f).top().row();
+		titleLabel.setText(title);
+		titleLabel.setAlignment(Align.center);
+		innerTable.add(mainTable).grow().pad(20f).row();
+		this.setBackground("frame-glass-background");
+		this.debugAll();
+		this.setResolutionChangeHandler(this::resize);
+		this.resize();
 	}
 
 	private float getFrameWidth() {
@@ -26,13 +36,7 @@ public abstract class BaseFrame extends Stack {
 		return (float) GraphicConfig.getResolution().HEIGHT / 9 * 6;
 	}
 
-	@Override
-	public void layout() {
-		super.layout();
-		this.setBounds(
-				(GraphicConfig.getResolution().WIDTH - getFrameWidth()) / 2,
-				(GraphicConfig.getResolution().HEIGHT - getFrameHeight()) / 2,
-				getFrameWidth(),
-				getFrameHeight());
+	private void resize() {
+		size(getFrameWidth(), getFrameHeight());
 	}
 }
