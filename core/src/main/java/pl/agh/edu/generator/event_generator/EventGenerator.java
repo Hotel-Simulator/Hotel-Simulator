@@ -29,7 +29,7 @@ public class EventGenerator {
 
 	public List<ClientNumberModificationEvent> generateClientNumberModificationRandomEventsForYear(Year year) {
 		return JSONEventDataLoader.clientNumberModificationRandomEventData.stream()
-				.filter(eventData -> RandomUtils.randomBooleanWithProbability(eventData.occurrenceProbability().get(hotelScenariosManager.getHotelType()).doubleValue()))
+				.filter(eventData -> RandomUtils.randomBooleanWithProbability(eventData.occurrenceProbability().get(hotelScenariosManager.hotelType).doubleValue()))
 				.map(eventData -> {
 					LocalDate appearanceDate = getAppearanceDate(eventData, year);
 					lastOccurrenceRandomEvents.put(eventData.titleProperty(), appearanceDate);
