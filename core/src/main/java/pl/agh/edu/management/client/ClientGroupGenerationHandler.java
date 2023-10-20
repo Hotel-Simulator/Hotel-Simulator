@@ -13,7 +13,7 @@ import pl.agh.edu.generator.client_generator.ClientGenerator;
 import pl.agh.edu.json.data.AttractivenessConstantsData;
 import pl.agh.edu.management.advertisement.AdvertisementHandler;
 import pl.agh.edu.management.bank.BankAccountHandler;
-import pl.agh.edu.management.client.report.ClientGroupReportHandler;
+import pl.agh.edu.management.client.report.collector.ClientGroupReportDataCollector;
 import pl.agh.edu.management.event.ClientNumberModificationEventHandler;
 import pl.agh.edu.management.hotel.HotelScenariosManager;
 import pl.agh.edu.model.time.Time;
@@ -35,7 +35,7 @@ public class ClientGroupGenerationHandler {
 
 	public List<Arrival> getArrivalsForDay(LocalTime checkInMinTime, LocalTime checkOutMaxTime) {
 		EnumMap<HotelVisitPurpose, Integer> numberOfClientGroups = getNumberOfClientGroups();
-		ClientGroupReportHandler.collectData(numberOfClientGroups);
+		ClientGroupReportDataCollector.collectData(numberOfClientGroups);
 		return Stream.of(HotelVisitPurpose.values())
 				.flatMap(e -> IntStream.range(0, numberOfClientGroups.get(e))
 						.mapToObj(it -> new Arrival(

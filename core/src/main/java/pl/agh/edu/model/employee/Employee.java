@@ -62,7 +62,7 @@ public class Employee {
 	}
 
 	public boolean isAtWork(LocalTime time) {
-		return time.isBefore(shift.getEndTime()) && !time.isBefore(shift.getStartTime());
+		return shift.lasts(time);
 	}
 
 	public Duration getServiceExecutionTime() {

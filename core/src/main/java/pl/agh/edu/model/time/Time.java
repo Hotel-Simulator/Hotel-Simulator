@@ -9,7 +9,7 @@ import pl.agh.edu.time_command.TimeCommandExecutor;
 
 public class Time {
 	private static Time instance;
-	public static final int timeUnitInMinutes = 10;
+	public static final int timeUnitInMinutes = 1;
 	public static final float interval = 5;
 	private int minutes = 0;
 	private int hours = 0;
