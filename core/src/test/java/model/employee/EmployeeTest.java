@@ -239,15 +239,15 @@ public class EmployeeTest {
 		return Stream.of(
 				Arguments.of(Shift.MORNING, new ContractOffer(Shift.MORNING, BigDecimal.valueOf(3000), TypeOfContract.PERMANENT), ContractOfferResponse.NEGATIVE),
 				Arguments.of(Shift.MORNING, new ContractOffer(Shift.MORNING, BigDecimal.valueOf(3001), TypeOfContract.PERMANENT), ContractOfferResponse.POSITIVE),
-				Arguments.of(Shift.EVENING, new ContractOffer(Shift.EVENING, BigDecimal.valueOf(3999), TypeOfContract.PERMANENT), ContractOfferResponse.NEGATIVE),
-				Arguments.of(Shift.EVENING, new ContractOffer(Shift.EVENING, BigDecimal.valueOf(4000), TypeOfContract.PERMANENT), ContractOfferResponse.POSITIVE),
+				Arguments.of(Shift.EVENING, new ContractOffer(Shift.EVENING, BigDecimal.valueOf(2999), TypeOfContract.PERMANENT), ContractOfferResponse.NEGATIVE),
+				Arguments.of(Shift.EVENING, new ContractOffer(Shift.EVENING, BigDecimal.valueOf(3000), TypeOfContract.PERMANENT), ContractOfferResponse.POSITIVE),
 				Arguments.of(Shift.MORNING, new ContractOffer(Shift.EVENING, BigDecimal.valueOf(3999), TypeOfContract.PERMANENT), ContractOfferResponse.NEGATIVE),
 				Arguments.of(Shift.MORNING, new ContractOffer(Shift.EVENING, BigDecimal.valueOf(4000), TypeOfContract.PERMANENT), ContractOfferResponse.POSITIVE));
 	}
 
 	@ParameterizedTest
 	@MethodSource("provideOfferNewContractArgs")
-	void offerNewContractTest(Shift desiredShift, ContractOffer newContract, ContractOfferResponse result) {
+	void offerNewContractTest(Shift desiredShift, ContractOffer newContract, ContractOfferResponse expected) {
 
 		// Given
 		PossibleEmployee possibleEmployee = new PossibleEmployee.Builder()
@@ -266,5 +266,11 @@ public class EmployeeTest {
 
 		ContractOffer contractOffer = new ContractOffer(Shift.MORNING, BigDecimal.valueOf(3000), TypeOfContract.PERMANENT);
 		Employee employee = new Employee(possibleEmployee, contractOffer);
+
+		// When
+		ContractOfferResponse result = employee.offerNewContract(newContract);
+
+		// Then
+		assertEquals(expected, result);
 	}
 }
