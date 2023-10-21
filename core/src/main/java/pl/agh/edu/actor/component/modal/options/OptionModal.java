@@ -1,16 +1,21 @@
-package pl.agh.edu.actor.frame;
+package pl.agh.edu.actor.component.modal.options;
 
 import java.util.function.Function;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 
 import pl.agh.edu.actor.GameSkin;
 import pl.agh.edu.actor.component.button.LabeledButton;
-import pl.agh.edu.actor.component.selectMenu.*;
+import pl.agh.edu.actor.component.selectMenu.SelectMenu;
+import pl.agh.edu.actor.component.selectMenu.SelectMenuBoolean;
+import pl.agh.edu.actor.component.selectMenu.SelectMenuItem;
+import pl.agh.edu.actor.component.selectMenu.SelectMenuLanguage;
+import pl.agh.edu.actor.component.selectMenu.SelectMenuResolutionItem;
 import pl.agh.edu.actor.component.slider.PercentSliderComponent;
 import pl.agh.edu.actor.component.slider.SliderComponent;
 import pl.agh.edu.actor.utils.resolution.Size;
@@ -20,7 +25,7 @@ import pl.agh.edu.config.AudioConfig;
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.config.LanguageConfig;
 
-public class OptionFrame extends WrapperTable {
+public class OptionModal extends WrapperTable {
 	private final SelectMenu selectResolutionMenu = createSelectMenuForResolution();
 	private final SelectMenu selectFullScreenMenu = createSelectMenuForFullScreenMode();
 	private final SliderComponent musicVolumeSlider = createSliderComponentForMusicVolume();
@@ -29,7 +34,7 @@ public class OptionFrame extends WrapperTable {
 	private final LabeledButton backButton = new LabeledButton(Size.LARGE, "optionsFrame.label.back");
 	private final LabeledButton saveButton = new LabeledButton(Size.LARGE, "optionsFrame.label.save");
 
-	public OptionFrame(Runnable closeHandler) {
+	public OptionModal(Runnable closeHandler) {
 		Skin skin = GameSkin.getInstance();
 		NinePatchDrawable background = new NinePatchDrawable(skin.getPatch("frame-glass-background"));
 		this.setBackground(background);

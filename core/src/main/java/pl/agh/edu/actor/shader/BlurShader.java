@@ -47,21 +47,16 @@ public class BlurShader extends WrapperContainer<Image> {
 
 	public void resize() {
 		buildFBO();
-		render();
+		updateState();
 	}
 
-	public void render() {
+	private void updateState() {
 		fbo.begin();
 		stage.draw();
 		stage.act();
 		fbo.end(getTargetX(), getTargetY(), getTargetWidth(), getTargetHeight());
 		reversedImage.updateDrawable(blurTexture());
 	}
-
-	public StateOfTransition getStateOfTransition() {
-		return stateOfTransition;
-	}
-
 	public void startBlur() {
 		stateOfTransition = StateOfTransition.OPENING;
 		this.buildFBO();
@@ -149,6 +144,21 @@ public class BlurShader extends WrapperContainer<Image> {
 		if (!GraphicConfig.isFullscreen())
 			return GraphicConfig.getResolution().HEIGHT;
 		return (int) getScalingVector().y;
+	}
+
+	public void render() {
+		switch (stateOfTransition) {
+			case OPENING, CLOSING -> {
+				actAndDrawAdditionalStages();
+				this.updateState();
+			}
+			case OPEN -> actAndDrawAdditionalStages();
+		}
+	}
+
+	private void actAndDrawAdditionalStages() {
+		stage.act();
+		stage.draw();
 	}
 
 	private static class ReversedImage extends Image {
