@@ -24,8 +24,8 @@ public abstract class WrapperDoubleTable extends WrapperContainer<Table> {
 	private void init() {
 		innerTable.setFillParent(true);
 		this.setActor(innerTable);
-		innerTable.add(leftTable).grow().uniform();
-		innerTable.add(rightTable).grow().uniform();
+		innerTable.add(leftTable).grow().uniform().minHeight(0f).pad(0f);
+		innerTable.add(rightTable).grow().uniform().minHeight(0f).pad(0f);
 		innerTable.pad(0);
 	}
 

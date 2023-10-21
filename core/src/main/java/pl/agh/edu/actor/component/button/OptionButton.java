@@ -8,19 +8,13 @@ import pl.agh.edu.actor.HotelSkin;
 import pl.agh.edu.audio.SoundAudio;
 
 public class OptionButton extends Button {
-	private Boolean isOpen = false;
-
-	public OptionButton(Runnable clickedCallbackToOpen, Runnable clickedCallbackToClose) {
+	public OptionButton(Runnable clickedHandler) {
 		super(HotelSkin.getInstance(), "options");
 		addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				SoundAudio.BUTTON_1.play();
-				if (!isOpen)
-					clickedCallbackToOpen.run();
-				else
-					clickedCallbackToClose.run();
-				isOpen = !isOpen;
+				clickedHandler.run();
 			}
 		});
 	}

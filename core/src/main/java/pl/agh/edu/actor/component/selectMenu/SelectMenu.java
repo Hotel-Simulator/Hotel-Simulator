@@ -16,10 +16,8 @@ import pl.agh.edu.actor.utils.CustomLabel;
 import pl.agh.edu.actor.utils.WrapperTable;
 import pl.agh.edu.audio.SoundAudio;
 import pl.agh.edu.config.GraphicConfig;
-import pl.agh.edu.language.LanguageChangeListener;
 
-public class SelectMenu extends WrapperTable implements LanguageChangeListener {
-
+public class SelectMenu extends WrapperTable {
 	private final Skin skin = HotelSkin.getInstance();
 	private final SelectMenuLabel descriptionLabel = new SelectMenuLabel();
 	private final Array<SelectMenuItem> items;
@@ -33,9 +31,8 @@ public class SelectMenu extends WrapperTable implements LanguageChangeListener {
 		setListItems(items);
 		setFunction(function);
 
-		innerTable.add(descriptionLabel).pad(0f).grow().uniform();
-		innerTable.add(selectOption).pad(0f).grow().uniform();
-		innerTable.setFillParent(true);
+		innerTable.add(descriptionLabel).pad(0f).growX().uniform().minHeight(0f);
+		innerTable.add(selectOption).pad(0f).growX().uniform().minHeight(0f);
 
 		this.setResolutionChangeHandler(this::changeResolutionHandler);
 		this.setLanguageChangeHandler(descriptionLabel::setText);
@@ -71,7 +68,7 @@ public class SelectMenu extends WrapperTable implements LanguageChangeListener {
 		});
 	}
 
-	private class SelectMenuLabel extends CustomLabel {
+	private static class SelectMenuLabel extends CustomLabel {
 		public SelectMenuLabel() {
 			super("subtitle1", "label-select-box-background");
 			this.setAlignment(Align.center, Align.center);
@@ -79,8 +76,7 @@ public class SelectMenu extends WrapperTable implements LanguageChangeListener {
 
 		@Override
 		public void validate() {
-			if (this.getParent() != null)
-				setHeight(this.getParent().getHeight());
+			setHeight(SelectMenuStyle.getHeight());
 			this.layout();
 		}
 
@@ -89,7 +85,6 @@ public class SelectMenu extends WrapperTable implements LanguageChangeListener {
 	private class DropDownSelect extends SelectBox<SelectMenuItem> {
 		public DropDownSelect() {
 			super(skin.get("selectMenu", SelectBox.SelectBoxStyle.class));
-			SelectBoxStyle selectBoxStyle = this.getStyle();
 			setUpSelectionPane();
 			this.getList().setAlignment(Align.center);
 		}
@@ -105,8 +100,7 @@ public class SelectMenu extends WrapperTable implements LanguageChangeListener {
 
 		@Override
 		public void validate() {
-			if (this.getParent() != null)
-				setHeight(this.getParent().getHeight());
+			setHeight(SelectMenuStyle.getHeight());
 			this.layout();
 		}
 
@@ -131,6 +125,7 @@ public class SelectMenu extends WrapperTable implements LanguageChangeListener {
 
 	private void changeResolutionHandler() {
 		this.size(SelectMenuStyle.getWidth(), SelectMenuStyle.getHeight());
+		this.validate();
 	}
 
 	private static class SelectMenuStyle {

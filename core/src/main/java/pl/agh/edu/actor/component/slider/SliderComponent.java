@@ -17,7 +17,7 @@ public abstract class SliderComponent extends WrapperDoubleTable implements Lang
 	private final Slider slider;
 	protected String suffix;
 	private final Label nameLabel = new Label("", skin, "subtitle2");
-	protected Label valueLabel = new Label("", skin, "subtitle2");
+	protected final Label valueLabel = new Label("100 %", skin, "subtitle2");
 
 	public SliderComponent(String languagePath, String suffix, float minValue, float maxValue, float step) {
 		super(languagePath);
@@ -43,6 +43,8 @@ public abstract class SliderComponent extends WrapperDoubleTable implements Lang
 		leftTable.add(nameLabel).left().grow().uniform().padLeft(SliderStyle.getInnerPadding());
 		leftTable.add(valueLabel).right().grow().uniform().padRight(SliderStyle.getInnerPadding());
 		rightTable.add(slider).center().grow().padLeft(SliderStyle.getInnerPadding()).padRight(SliderStyle.getInnerPadding());
+
+		this.changeResolutionHandler();
 	}
 
 	protected float getMaxValue() {
