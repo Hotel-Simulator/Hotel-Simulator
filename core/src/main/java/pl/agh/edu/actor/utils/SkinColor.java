@@ -4,47 +4,40 @@ import com.badlogic.gdx.graphics.Color;
 
 import pl.agh.edu.actor.GameSkin;
 
-class SkinColor {
-	public final Color color;
-	public final String colorName;
+public enum SkinColor {
+	PRIMARY("primary"),
+	SECONDARY("secondary"),
+	ALERT("alert"),
+	SUCCESS("success"),
+	GRAY("gray"),
+	WARNING("warning");
 
-	SkinColor(ColorCategory colorCategory, ColorLevel colorLevel) {
-		if (colorCategory == ColorCategory.TRANSPARENT || colorCategory == ColorCategory.SHADOW)
-			colorName = colorCategory.value;
-		else
-			colorName = colorCategory.value + colorLevel.value;
-		color = GameSkin.getInstance().getColor(colorName);
+	final String name;
+
+	SkinColor(String name) {
+		this.name = name;
 	}
 
-	enum ColorCategory {
-		PRIMARY("primary"),
-		SECONDARY("secondary"),
-		ALERT("alert"),
-		SUCCESS("success"),
-		GRAY("gray"),
-		WARNING("warning"),
-		TRANSPARENT("transparent"),
-		SHADOW("shadow");
-
-		String value;
-
-		ColorCategory(String s) {
-			value = s;
-		}
+	public Color getColor(ColorLevel level) {
+		return GameSkin.getInstance().getColor(this.getName(level));
 	}
 
-	enum ColorLevel {
-		_000("-000"),
-		_100("-100"),
-		_300("-300"),
-		_500("-500"),
-		_700("-700"),
-		_900("-900");
+	public String getName(ColorLevel level) {
+		return name + "-" + level.value;
+	}
+
+	public enum ColorLevel {
+		_000("000"),
+		_100("100"),
+		_300("300"),
+		_500("500"),
+		_700("700"),
+		_900("900");
 
 		public final String value;
 
-		ColorLevel(String s) {
-			value = s;
+		ColorLevel(String value) {
+			this.value = value;
 		}
 	}
 }
