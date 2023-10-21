@@ -68,6 +68,7 @@ public class NavbarButton extends Table implements LanguageChangeListener {
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 				if (!disabled) {
 					if (touchUpCallback != null) {
+						setDisabled(true);
 						SoundAudio.KNOCK_1.play();
 						touchUpCallback.run();
 					}
