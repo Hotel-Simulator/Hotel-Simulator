@@ -134,6 +134,22 @@ public class BankAccountHandlerTest {
 	}
 
 	@Test
+	public void getLatPaymentDateTest() {
+		// Given
+		BigDecimal creditValue = BigDecimal.valueOf(1000);
+		when(account.getCreditInterestRate()).thenReturn(BigDecimal.ZERO);
+
+		// When
+		bankAccountHandler.registerCredit(creditValue, creditLengthInMonths);
+		Credit credit = (Credit) bankAccountHandler.getCurrentCredits().keySet().toArray()[0];
+		LocalDate lastPaymentDate = bankAccountHandler.getLastPaymentDate(credit);
+
+		// Then
+		LocalDate expectedNextPaymentDate = Time.getInstance().getTime().toLocalDate().plusMonths(12);
+		assertEquals(expectedNextPaymentDate, lastPaymentDate);
+	}
+
+	@Test
 	public void getPaidValue_ShouldReturnCorrectValueAfterPayments() {
 		// Given
 		when(account.getCreditInterestRate()).thenReturn(BigDecimal.ZERO);
@@ -143,8 +159,21 @@ public class BankAccountHandlerTest {
 		bankAccountHandler.registerCredit(creditValue,creditLengthInMonths);
 		Credit credit = (Credit) bankAccountHandler.getCurrentCredits().keySet().toArray()[0];
 
-
 		// Then
 		assertEquals(new BigDecimal("0.00"), bankAccountHandler.getPaidValue(credit));
+	}
+
+	@Test
+	public void getValueLeftToPayTest() {
+		// Given
+		when(account.getCreditInterestRate()).thenReturn(new BigDecimal("0.1"));
+		BigDecimal creditValue = BigDecimal.valueOf(1000);
+
+		// When
+		bankAccountHandler.registerCredit(creditValue,creditLengthInMonths);
+		Credit credit = (Credit) bankAccountHandler.getCurrentCredits().keySet().toArray()[0];
+
+		// Then
+		assertEquals(credit.getValueWithInterest().stripTrailingZeros(), bankAccountHandler.getValueLeftToPay(credit).stripTrailingZeros());
 	}
 }

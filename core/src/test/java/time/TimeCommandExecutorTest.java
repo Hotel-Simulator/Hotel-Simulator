@@ -16,8 +16,8 @@ import pl.agh.edu.time_command.TimeCommandExecutor;
 
 public class TimeCommandExecutorTest {
 
-	private static final LocalDateTime DUE_DATE_TIME = LocalDateTime.of(2023, 8, 13, 12, 0);
-	private static final LocalDateTime DUE_DATE_TIME_LATER = LocalDateTime.of(2023, 8, 13, 12, 30);
+	private static final LocalDateTime DUE_DATE_TIME = LocalDateTime.of(2020, 1, 13, 12, 0);
+	private static final LocalDateTime DUE_DATE_TIME_LATER = LocalDateTime.of(2020, 1, 13, 12, 30);
 	private TimeCommandExecutor executor;
 
 	@BeforeEach
