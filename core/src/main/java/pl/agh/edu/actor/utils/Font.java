@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import pl.agh.edu.actor.HotelSkin;
 
-public class Fonts {
+public class Font {
     private final static Skin skin = HotelSkin.getInstance();
     public static final BitmapFont BODY1 = skin.getFont("body1");
     public static final BitmapFont BODY2 = skin.getFont("body2");

@@ -1,7 +1,6 @@
 package pl.agh.edu.actor.component.table;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.stream.IntStream;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -13,13 +12,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Align;
 
 import pl.agh.edu.actor.HotelSkin;
-import pl.agh.edu.actor.component.button.LabeledButton;
-import pl.agh.edu.actor.utils.Fonts;
+import pl.agh.edu.actor.utils.Font;
 import pl.agh.edu.actor.utils.LanguageLabel;
 import pl.agh.edu.actor.utils.LinkLabel;
-import pl.agh.edu.actor.utils.Size;
 import pl.agh.edu.config.GraphicConfig;
-import pl.agh.edu.model.bank.BankAccount;
+import pl.agh.edu.management.bank.BankAccountHandler;
 import pl.agh.edu.model.bank.Credit;
 
 import static pl.agh.edu.actor.component.table.CreditTable.CreditTableStyle.*;
@@ -27,13 +24,15 @@ import static pl.agh.edu.actor.component.table.CreditTable.CreditTableStyle.*;
 
 public class CreditTable extends BaseTable {
 	private final int noColumns = 3;
-	public CreditTable(BankAccount bankAccount) {
+	private final BankAccountHandler bankAccountHandler;
+	public CreditTable(BankAccountHandler bankAccountHandler) {
 		super();
+		this.bankAccountHandler = bankAccountHandler;
 		CreditBaseRow creditHeaderRow = new CreditBaseRow("creditTable.column.date", "creditTable.column.monthly", "creditTable.column.payall");
 		creditHeaderRow.align(Align.bottomLeft);
 		innerTable.add(creditHeaderRow).space(getRowSpacing()).growX().align(Align.bottomLeft);
 		innerTable.row();
-		for (Credit credit : bankAccount.getCredits()) {
+		for (Credit credit : bankAccountHandler.getCurrentCredits().keySet()) {
 			BaseRow row = new CreditBaseRow(credit);
 			row.align(Align.bottomLeft);
 			innerTable.add(row).space(getRowSpacing()).growX().align(Align.bottomLeft);
@@ -52,9 +51,9 @@ public class CreditTable extends BaseTable {
 		}
 		public CreditBaseRow(Credit credit) {
 			super();
-			Label date = new Label(credit.getTakeOutDate().toString(),skin, getFont());
-			Label monthly = new Label(credit.getMonthlyPayment().toString(), skin, getFont());
-			LinkLabel payAllButton = new LinkLabel( "labeledButton.credit.payall", Fonts.WHITE_BODY1, ()  -> {
+			Label date = new Label(bankAccountHandler.getFinalPaymentDate(credit).toString(),skin, getFont());
+			Label monthly = new Label(bankAccountHandler.getMonthlyPayment(credit).toString(), skin, getFont());
+			LinkLabel payAllButton = new LinkLabel( "labeledButton.credit.payall", Font.WHITE_BODY1, ()  -> {
 				// TODO: 15.10.2023 payAll(credit); 
 			});
 			insertActorsToRow(date, monthly, payAllButton);
@@ -77,7 +76,7 @@ public class CreditTable extends BaseTable {
 
 	public static class CreditTableStyle extends BaseTableStyle{
 		public static float getRowHeight() {
-			return switch (pl.agh.edu.config.GraphicConfig.getResolution().SIZE) {
+			return switch (GraphicConfig.getResolution().SIZE) {
 				case SMALL -> 30f;
 				case MEDIUM -> 40f;
 				case LARGE -> 50f;
@@ -86,9 +85,9 @@ public class CreditTable extends BaseTable {
 
 		public static BitmapFont getTableFont() {
 			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> Fonts.BODY2;
-				case MEDIUM -> Fonts.BODY1;
-				case LARGE -> Fonts.H4;
+				case SMALL -> Font.BODY2;
+				case MEDIUM -> Font.BODY1;
+				case LARGE -> Font.H4;
 			};
 		}
 

@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 
 import pl.agh.edu.actor.HotelSkin;
 
-public abstract class CustomLabel extends Label {
+public class CustomLabel extends Label {
 	public CustomLabel(BitmapFont font, String backgroundPatch) {
 		super("", HotelSkin.getInstance());
 		LabelStyle labelStyle = new LabelStyle();

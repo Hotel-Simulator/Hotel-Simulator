@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.Array;
 
 import pl.agh.edu.actor.HotelSkin;
 import pl.agh.edu.actor.utils.CustomLabel;
-import pl.agh.edu.actor.utils.Fonts;
+import pl.agh.edu.actor.utils.Font;
 import pl.agh.edu.actor.utils.WrapperTable;
 import pl.agh.edu.audio.SoundAudio;
 import pl.agh.edu.config.GraphicConfig;
@@ -74,7 +74,7 @@ public class SelectMenu extends WrapperTable implements LanguageChangeListener {
 
 	private class SelectMenuLabel extends CustomLabel {
 		public SelectMenuLabel() {
-			super(Fonts.SUBTITLE1, "label-select-box-background");
+			super(Font.SUBTITLE1, "label-select-box-background");
 			this.setAlignment(Align.center, Align.center);
 		}
 

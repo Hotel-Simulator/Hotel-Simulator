@@ -23,11 +23,10 @@ public class LanguageLabel extends CustomLabel implements LanguageChangeListener
 	}
 
 	public void setUnderscore() {
-		setDebug(true);
 		LabelStyle labelStyle = new LabelStyle(getStyle());
 		NinePatchDrawable underscore =  new NinePatchDrawable(HotelSkin.getInstance().getPatch("underscore"));
 
-		underscore = underscore.tint(HotelSkin.getInstance().getColor("secondary-500"));
+		underscore = underscore.tint(SkinColor.SECONDARY.getColor(500));
 
 		labelStyle.background = underscore;
 		setStyle(labelStyle);

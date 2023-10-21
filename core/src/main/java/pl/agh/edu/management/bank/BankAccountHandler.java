@@ -1,6 +1,7 @@
 package pl.agh.edu.management.bank;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
@@ -39,9 +40,12 @@ public class BankAccountHandler {
 	public void registerCredit(BigDecimal value, long creditLengthInMonths) {
 		var credit = new Credit(value, creditLengthInMonths, account.getCreditInterestRate(), time.getTime().toLocalDate());
 
+
+		var monthlyPayment = getMonthlyPayment(credit);
+
 		currentCredits.put(
 				credit,
-				createTimeCommandForCreditMonthlyPayment(account, credit.getMonthlyPayment(), credit));
+				createTimeCommandForCreditMonthlyPayment(account, monthlyPayment, credit));
 		account.registerCredit(credit);
 		registerIncome(value);
 	}
@@ -56,7 +60,7 @@ public class BankAccountHandler {
 		return new NRepeatingTimeCommand(Frequency.EVERY_MONTH,
 				() -> bankAccount.registerExpense(monthlyPayments),
 				time.getTime().plusMonths(1).truncatedTo(ChronoUnit.DAYS),
-				credit.getLengthInMonths(),
+				credit.lengthInMonths(),
 				() -> currentCredits.remove(credit));
 	}
 
@@ -73,7 +77,9 @@ public class BankAccountHandler {
 	}
 
 	public BigDecimal getPaidValue(Credit credit) {
-		return isPaid(credit) ? BigDecimal.ZERO : credit.getMonthlyPayment().multiply(BigDecimal.valueOf(credit.getLengthInMonths() - currentCredits.get(credit).getCounter()));
+		var monthlyPayment = getMonthlyPayment(credit);
+
+		return isPaid(credit) ? BigDecimal.ZERO : monthlyPayment.multiply(BigDecimal.valueOf(credit.lengthInMonths() - currentCredits.get(credit).getCounter()));
 	}
 
 	public LocalDate getNextPaymentDate(Credit credit) {
@@ -82,5 +88,14 @@ public class BankAccountHandler {
 
 	public Map<Credit, NRepeatingTimeCommand> getCurrentCredits() {
 		return currentCredits;
+	}
+
+	public LocalDate getFinalPaymentDate(Credit credit) {
+		return credit.takeOutDate().plusMonths(credit.lengthInMonths());
+	}
+
+	public BigDecimal getMonthlyPayment(Credit credit) {
+		var valueWithInterest = credit.value().multiply(BigDecimal.ONE.add(credit.interestRate()));
+		return valueWithInterest.divide(BigDecimal.valueOf(credit.lengthInMonths()), 2, RoundingMode.HALF_UP);
 	}
 }
