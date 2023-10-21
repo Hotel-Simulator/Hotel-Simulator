@@ -11,10 +11,11 @@ import pl.agh.edu.config.GraphicConfig;
 
 public abstract class BaseFrame extends WrapperTable {
 
-	private final Label titleLabel = new Label("",GameSkin.getInstance(), FontType.H2.getWhiteVariantName());
+	private final Label titleLabel = new Label("", GameSkin.getInstance(), FontType.H2.getWhiteVariantName());
 	public final Table mainTable = new Table();
 
 	private final Table innerTable = super.innerTable;
+
 	public BaseFrame(String title) {
 		super();
 		innerTable.setFillParent(true);
