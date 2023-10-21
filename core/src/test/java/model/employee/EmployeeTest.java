@@ -3,10 +3,12 @@ package model.employee;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.stream.Stream;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -42,8 +44,8 @@ public class EmployeeTest {
 				.profession(Profession.CLEANER)
 				.build();
 
-		JobOffer jobOffer = new JobOffer(Shift.MORNING, BigDecimal.valueOf(5000), TypeOfContract.PERMANENT);
-		Employee employee = new Employee(possibleEmployee, jobOffer);
+		ContractOffer contractOffer = new ContractOffer(Shift.MORNING, BigDecimal.valueOf(5000), TypeOfContract.PERMANENT);
+		Employee employee = new Employee(possibleEmployee, contractOffer);
 
 		// When
 		boolean result = employee.isAtWork(time);
@@ -64,7 +66,7 @@ public class EmployeeTest {
 
 	@ParameterizedTest
 	@MethodSource("provideWagesForSatisfactionWithBonusTest")
-	public void satisfactionWithBonusTest(BigDecimal actualWage, BigDecimal desiredWage, Shift offeredShift, BigDecimal expected) {
+	public void satisfactionWithBonusTest(BigDecimal actualWage, BigDecimal desiredWage, Shift desiredShift, BigDecimal expected) {
 		// Given
 		PossibleEmployee possibleEmployee = new PossibleEmployee.Builder()
 				.firstName("")
@@ -72,7 +74,7 @@ public class EmployeeTest {
 				.age(18)
 				.skills(new BigDecimal("0.45"))
 				.preferences(new EmploymentPreferences.Builder()
-						.desiredShift(Shift.MORNING)
+						.desiredShift(desiredShift)
 						.acceptableWage(BigDecimal.valueOf(4000))
 						.desiredWage(desiredWage)
 						.desiredTypeOfContract(TypeOfContract.PERMANENT)
@@ -80,8 +82,8 @@ public class EmployeeTest {
 				.profession(Profession.CLEANER)
 				.build();
 
-		JobOffer jobOffer = new JobOffer(offeredShift, actualWage, TypeOfContract.PERMANENT);
-		Employee employee = new Employee(possibleEmployee, jobOffer);
+		ContractOffer contractOffer = new ContractOffer(Shift.MORNING, actualWage, TypeOfContract.PERMANENT);
+		Employee employee = new Employee(possibleEmployee, contractOffer);
 
 		// When
 		employee.addBonus(BigDecimal.valueOf(1000));
@@ -103,7 +105,7 @@ public class EmployeeTest {
 
 	@ParameterizedTest
 	@MethodSource("provideWagesForSatisfactionWithoutBonusTest")
-	public void satisfactionWithoutBonusTest(BigDecimal actualWage, BigDecimal desiredWage, Shift offeredShift, BigDecimal expected) {
+	public void satisfactionWithoutBonusTest(BigDecimal actualWage, BigDecimal desiredWage, Shift desiredShift, BigDecimal expected) {
 		// Given
 		PossibleEmployee possibleEmployee = new PossibleEmployee.Builder()
 				.firstName("")
@@ -111,7 +113,7 @@ public class EmployeeTest {
 				.age(18)
 				.skills(new BigDecimal("0.45"))
 				.preferences(new EmploymentPreferences.Builder()
-						.desiredShift(Shift.MORNING)
+						.desiredShift(desiredShift)
 						.acceptableWage(BigDecimal.valueOf(4000))
 						.desiredWage(desiredWage)
 						.desiredTypeOfContract(TypeOfContract.PERMANENT)
@@ -119,8 +121,8 @@ public class EmployeeTest {
 				.profession(Profession.CLEANER)
 				.build();
 
-		JobOffer jobOffer = new JobOffer(offeredShift, actualWage, TypeOfContract.PERMANENT);
-		Employee employee = new Employee(possibleEmployee, jobOffer);
+		ContractOffer contractOffer = new ContractOffer(Shift.MORNING, actualWage, TypeOfContract.PERMANENT);
+		Employee employee = new Employee(possibleEmployee, contractOffer);
 
 		// When
 		BigDecimal satisfaction = employee.getSatisfaction();
@@ -154,11 +156,119 @@ public class EmployeeTest {
 				.profession(Profession.CLEANER)
 				.build();
 
-		JobOffer jobOffer = new JobOffer(Shift.MORNING, BigDecimal.valueOf(4000 * satisfaction), TypeOfContract.PERMANENT);
-		Employee employee = new Employee(possibleEmployee, jobOffer);
+		ContractOffer contractOffer = new ContractOffer(Shift.MORNING, BigDecimal.valueOf(4000 * satisfaction), TypeOfContract.PERMANENT);
+		Employee employee = new Employee(possibleEmployee, contractOffer);
 
 		// When
 		Duration result = employee.getServiceExecutionTime();
+
+		// Then
+		assertEquals(expected, result);
+	}
+
+	@Test
+	void setContract_ShouldUpdateContractInformation() {
+		// Given
+		PossibleEmployee possibleEmployee = new PossibleEmployee.Builder()
+				.firstName("")
+				.lastName("")
+				.age(18)
+				.skills(new BigDecimal("0.5"))
+				.preferences(new EmploymentPreferences.Builder()
+						.desiredShift(Shift.MORNING)
+						.acceptableWage(BigDecimal.valueOf(0))
+						.desiredWage(BigDecimal.valueOf(4000))
+						.desiredTypeOfContract(TypeOfContract.PERMANENT)
+						.build())
+				.profession(Profession.CLEANER)
+				.build();
+
+		ContractOffer contractOffer = new ContractOffer(Shift.MORNING, BigDecimal.valueOf(3000), TypeOfContract.PERMANENT);
+		Employee employee = new Employee(possibleEmployee, contractOffer);
+
+		BigDecimal newWage = BigDecimal.valueOf(5500);
+		TypeOfContract newContractType = TypeOfContract.PERMANENT;
+		Shift newShift = Shift.NIGHT;
+
+		ContractOffer newContractOffer = new ContractOffer(newShift, newWage, newContractType);
+
+		// When
+		employee.setContract(newContractOffer);
+
+		// Then
+		assertEquals(newWage, employee.wage);
+		assertEquals(newContractType, employee.typeOfContract);
+		assertEquals(newShift, employee.shift);
+	}
+
+	@Test
+	void getSatisfaction_ShouldCalculateSatisfaction() {
+
+		// Given
+		PossibleEmployee possibleEmployee = new PossibleEmployee.Builder()
+				.firstName("")
+				.lastName("")
+				.age(18)
+				.skills(new BigDecimal("0.5"))
+				.preferences(new EmploymentPreferences.Builder()
+						.desiredShift(Shift.MORNING)
+						.acceptableWage(BigDecimal.valueOf(0))
+						.desiredWage(BigDecimal.valueOf(4000))
+						.desiredTypeOfContract(TypeOfContract.PERMANENT)
+						.build())
+				.profession(Profession.CLEANER)
+				.build();
+
+		ContractOffer contractOffer = new ContractOffer(Shift.MORNING, BigDecimal.valueOf(3000), TypeOfContract.PERMANENT);
+		Employee employee = new Employee(possibleEmployee, contractOffer);
+
+		BigDecimal newWage = BigDecimal.valueOf(4000);
+		TypeOfContract newContractType = TypeOfContract.PERMANENT;
+		Shift newShift = Shift.MORNING;
+		ContractOffer newContractOffer = new ContractOffer(newShift, newWage, newContractType);
+
+		// When
+		employee.setContract(newContractOffer);
+
+		// Then
+		BigDecimal expectedSatisfaction = BigDecimal.ONE.min(newWage.divide(employee.preferences.desiredWage, 4, RoundingMode.HALF_EVEN));
+		assertEquals(expectedSatisfaction.setScale(2, RoundingMode.HALF_EVEN).stripTrailingZeros(), employee.getSatisfaction());
+	}
+
+	public static Stream<Arguments> provideOfferNewContractArgs() {
+		return Stream.of(
+				Arguments.of(Shift.MORNING, new ContractOffer(Shift.MORNING, BigDecimal.valueOf(3000), TypeOfContract.PERMANENT), ContractOfferResponse.NEGATIVE),
+				Arguments.of(Shift.MORNING, new ContractOffer(Shift.MORNING, BigDecimal.valueOf(3001), TypeOfContract.PERMANENT), ContractOfferResponse.POSITIVE),
+				Arguments.of(Shift.EVENING, new ContractOffer(Shift.EVENING, BigDecimal.valueOf(2999), TypeOfContract.PERMANENT), ContractOfferResponse.NEGATIVE),
+				Arguments.of(Shift.EVENING, new ContractOffer(Shift.EVENING, BigDecimal.valueOf(3000), TypeOfContract.PERMANENT), ContractOfferResponse.POSITIVE),
+				Arguments.of(Shift.MORNING, new ContractOffer(Shift.EVENING, BigDecimal.valueOf(3999), TypeOfContract.PERMANENT), ContractOfferResponse.NEGATIVE),
+				Arguments.of(Shift.MORNING, new ContractOffer(Shift.EVENING, BigDecimal.valueOf(4000), TypeOfContract.PERMANENT), ContractOfferResponse.POSITIVE));
+	}
+
+	@ParameterizedTest
+	@MethodSource("provideOfferNewContractArgs")
+	void offerNewContractTest(Shift desiredShift, ContractOffer newContract, ContractOfferResponse expected) {
+
+		// Given
+		PossibleEmployee possibleEmployee = new PossibleEmployee.Builder()
+				.firstName("")
+				.lastName("")
+				.age(18)
+				.skills(new BigDecimal("0.5"))
+				.preferences(new EmploymentPreferences.Builder()
+						.desiredShift(desiredShift)
+						.acceptableWage(BigDecimal.valueOf(3000))
+						.desiredWage(BigDecimal.valueOf(4000))
+						.desiredTypeOfContract(TypeOfContract.PERMANENT)
+						.build())
+				.profession(Profession.CLEANER)
+				.build();
+
+		ContractOffer contractOffer = new ContractOffer(Shift.MORNING, BigDecimal.valueOf(3000), TypeOfContract.PERMANENT);
+		Employee employee = new Employee(possibleEmployee, contractOffer);
+
+		// When
+		ContractOfferResponse result = employee.offerNewContract(newContract);
 
 		// Then
 		assertEquals(expected, result);
