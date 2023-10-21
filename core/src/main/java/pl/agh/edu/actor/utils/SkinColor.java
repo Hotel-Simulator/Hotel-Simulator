@@ -5,13 +5,15 @@ import com.badlogic.gdx.graphics.Color;
 import pl.agh.edu.actor.GameSkin;
 
 class SkinColor {
-	private Color color;
+	public final Color color;
+	public final String colorName;
 
 	SkinColor(ColorCategory colorCategory, ColorLevel colorLevel) {
 		if (colorCategory == ColorCategory.TRANSPARENT || colorCategory == ColorCategory.SHADOW)
-			color = GameSkin.getInstance().getColor(colorCategory.value);
+			colorName = colorCategory.value;
 		else
-			color = GameSkin.getInstance().getColor(colorCategory.value + colorLevel.value);
+			colorName = colorCategory.value + colorLevel.value;
+		color = GameSkin.getInstance().getColor(colorName);
 	}
 
 	enum ColorCategory {
