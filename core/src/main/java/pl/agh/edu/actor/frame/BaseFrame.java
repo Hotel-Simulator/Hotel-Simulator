@@ -7,13 +7,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 
-import pl.agh.edu.actor.HotelSkin;
+import pl.agh.edu.actor.GameSkin;
 import pl.agh.edu.config.GraphicConfig;
 
 public abstract class BaseFrame extends Stack {
 	public BaseFrame() {
 		super();
-		Skin skin = HotelSkin.getInstance();
+		Skin skin = GameSkin.getInstance();
 		NinePatchDrawable background = new NinePatchDrawable(skin.getPatch("frame-glass-background"));
 		add(new Image(background, Scaling.stretch, Align.center));
 	}

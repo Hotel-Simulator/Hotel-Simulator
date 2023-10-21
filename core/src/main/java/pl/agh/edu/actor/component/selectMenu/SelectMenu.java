@@ -11,14 +11,15 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 
-import pl.agh.edu.actor.HotelSkin;
+import pl.agh.edu.actor.GameSkin;
 import pl.agh.edu.actor.utils.CustomLabel;
-import pl.agh.edu.actor.utils.WrapperTable;
+import pl.agh.edu.actor.utils.FontType;
+import pl.agh.edu.actor.utils.wrapper.WrapperTable;
 import pl.agh.edu.audio.SoundAudio;
 import pl.agh.edu.config.GraphicConfig;
 
 public class SelectMenu extends WrapperTable {
-	private final Skin skin = HotelSkin.getInstance();
+	private final Skin skin = GameSkin.getInstance();
 	private final SelectMenuLabel descriptionLabel = new SelectMenuLabel();
 	private final Array<SelectMenuItem> items;
 	private final SelectBox<SelectMenuItem> selectOption = new DropDownSelect();
@@ -70,7 +71,7 @@ public class SelectMenu extends WrapperTable {
 
 	private static class SelectMenuLabel extends CustomLabel {
 		public SelectMenuLabel() {
-			super("subtitle1", "label-select-box-background");
+			super(FontType.SUBTITLE1.getName(), "label-select-box-background");
 			this.setAlignment(Align.center, Align.center);
 		}
 

@@ -3,7 +3,7 @@ package pl.agh.edu.actor.frame;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import pl.agh.edu.actor.component.button.LabeledButton;
-import pl.agh.edu.actor.utils.Size;
+import pl.agh.edu.actor.utils.resolution.Size;
 
 public class TestFrame extends BaseFrame {
 	public TestFrame(String name) {

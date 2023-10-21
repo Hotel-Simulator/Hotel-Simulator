@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 
-import pl.agh.edu.actor.HotelSkin;
+import pl.agh.edu.actor.GameSkin;
 import pl.agh.edu.actor.component.button.NavbarButton;
 import pl.agh.edu.actor.frame.TestFrame;
 import pl.agh.edu.enums.BottomNavbarState;
@@ -19,7 +19,7 @@ public class NavbarBottom extends Table {
 	public NavbarBottom(String styleName, MainScreen screen) {
 		mainScreen = screen;
 
-		Skin skin = HotelSkin.getInstance();
+		Skin skin = GameSkin.getInstance();
 		NavbarBottomStyle navbarBottomStyle = skin.get(styleName, NavbarBottomStyle.class);
 
 		bottomNavBar.bottom();

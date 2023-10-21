@@ -8,12 +8,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Null;
 
-import pl.agh.edu.actor.HotelSkin;
+import pl.agh.edu.actor.GameSkin;
 import pl.agh.edu.audio.SoundAudio;
 import pl.agh.edu.config.GraphicConfig;
 
 public class Star extends Container<Button> {
-	private final Skin skin = HotelSkin.getInstance();
+	private final Skin skin = GameSkin.getInstance();
 
 	private final Button button = new Button(skin, "star-normal");
 	public final int index;

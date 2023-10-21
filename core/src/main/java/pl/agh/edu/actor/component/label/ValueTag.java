@@ -1,18 +1,20 @@
-package pl.agh.edu.actor.TextActors;
+package pl.agh.edu.actor.component.label;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Align;
 
-import pl.agh.edu.actor.HotelSkin;
-import pl.agh.edu.actor.utils.WrapperTable;
+import pl.agh.edu.actor.GameSkin;
+import pl.agh.edu.actor.utils.FontType;
+import pl.agh.edu.actor.utils.wrapper.WrapperTable;
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.language.LanguageManager;
 
 public class ValueTag extends WrapperTable {
-	private final Skin skin = HotelSkin.getInstance();
-	private Label tagLabel = new Label("", skin, "subtitle1");
-	private Label valueLabel = new Label("", skin, "white-subtitle1");
+	private final Skin skin = GameSkin.getInstance();
+	private final Label tagLabel = new Label("", skin, FontType.SUBTITLE1.getName());
+	private final Label valueLabel = new Label("", skin, FontType.SUBTITLE1.getWhiteVariantName());
 
 	public ValueTag(String languagePath, String value) {
 		super(languagePath);

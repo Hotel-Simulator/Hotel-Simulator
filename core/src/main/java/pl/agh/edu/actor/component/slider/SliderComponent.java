@@ -5,19 +5,20 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 
-import pl.agh.edu.actor.HotelSkin;
-import pl.agh.edu.actor.utils.WrapperDoubleTable;
+import pl.agh.edu.actor.GameSkin;
+import pl.agh.edu.actor.utils.FontType;
+import pl.agh.edu.actor.utils.wrapper.WrapperDoubleTable;
 import pl.agh.edu.audio.SoundAudio;
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.language.LanguageChangeListener;
 
 public abstract class SliderComponent extends WrapperDoubleTable implements LanguageChangeListener {
 
-	protected Skin skin = HotelSkin.getInstance();
+	protected Skin skin = GameSkin.getInstance();
 	private final Slider slider;
 	protected String suffix;
-	private final Label nameLabel = new Label("", skin, "subtitle2");
-	protected final Label valueLabel = new Label("100 %", skin, "subtitle2");
+	private final Label nameLabel = new Label("", skin, FontType.SUBTITLE2.getName());
+	protected final Label valueLabel = new Label("100 %", skin, FontType.SUBTITLE2.getName());
 
 	public SliderComponent(String languagePath, String suffix, float minValue, float maxValue, float step) {
 		super(languagePath);

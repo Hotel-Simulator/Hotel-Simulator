@@ -8,13 +8,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 
-import pl.agh.edu.actor.HotelSkin;
+import pl.agh.edu.actor.GameSkin;
 import pl.agh.edu.actor.component.button.LabeledButton;
 import pl.agh.edu.actor.component.selectMenu.*;
 import pl.agh.edu.actor.component.slider.PercentSliderComponent;
 import pl.agh.edu.actor.component.slider.SliderComponent;
-import pl.agh.edu.actor.utils.Size;
-import pl.agh.edu.actor.utils.WrapperTable;
+import pl.agh.edu.actor.utils.resolution.Size;
+import pl.agh.edu.actor.utils.wrapper.WrapperTable;
 import pl.agh.edu.audio.SoundAudio;
 import pl.agh.edu.config.AudioConfig;
 import pl.agh.edu.config.GraphicConfig;
@@ -30,7 +30,7 @@ public class OptionFrame extends WrapperTable {
 	private final LabeledButton saveButton = new LabeledButton(Size.LARGE, "optionsFrame.label.save");
 
 	public OptionFrame(Runnable closeHandler) {
-		Skin skin = HotelSkin.getInstance();
+		Skin skin = GameSkin.getInstance();
 		NinePatchDrawable background = new NinePatchDrawable(skin.getPatch("frame-glass-background"));
 		this.setBackground(background);
 
