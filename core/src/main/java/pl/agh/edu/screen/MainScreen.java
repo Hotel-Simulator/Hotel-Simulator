@@ -1,18 +1,13 @@
 package pl.agh.edu.screen;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Cell;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Stack;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Scaling;
 
 import pl.agh.edu.GdxGame;
 import pl.agh.edu.actor.HotelSkin;
-import pl.agh.edu.actor.component.background.InfinityBackground;
 import pl.agh.edu.actor.component.button.OptionButton;
 import pl.agh.edu.actor.component.navbar.NavbarBottom;
 import pl.agh.edu.actor.component.navbar.NavbarTop;
@@ -23,7 +18,6 @@ import pl.agh.edu.actor.shader.BlurShader;
 import pl.agh.edu.actor.utils.ResolutionChangeListener;
 import pl.agh.edu.actor.utils.ResolutionManager;
 import pl.agh.edu.config.GraphicConfig;
-import pl.agh.edu.model.time.Time;
 
 public class MainScreen implements Screen, ResolutionChangeListener {
 	private Cell<?> currentFrame;
@@ -39,15 +33,17 @@ public class MainScreen implements Screen, ResolutionChangeListener {
 	private final BlurShader blurShader = new BlurShader(mainStage);
 	private final InputMultiplexer inputMultiplexer = new InputMultiplexer(mainStage);
 
-	private final InfinityBackground infinityBackground = new InfinityBackground("night-city");
-
 	public MainScreen(GdxGame game) {
 		setupUI();
 	}
 
 	private void setupUI() {
+		Image background = new Image(skin.getDrawable("night-city"));
+		background.setScaling(Scaling.stretch);
+		background.setAlign(Align.center);
+
 		stack.setFillParent(true);
-		stack.addActor(infinityBackground);
+		stack.add(background);
 
 		table.setFillParent(true);
 		table.add().uniform();
@@ -106,23 +102,21 @@ public class MainScreen implements Screen, ResolutionChangeListener {
 	}
 
 	private void openOptions() {
+		inputMultiplexer.setProcessors(topStage);
 		if (isOptionsOpen)
 			return;
-		Time.getInstance().stop();
-		inputMultiplexer.setProcessors(topStage);
+		blurShader.startBlur();
 		isOptionsOpen = true;
 		optionFrameContainer.setActor(optionFrame);
-		blurShader.startBlur();
-		optionFrame.runVerticalFadeInAnimation();
 	}
 
 	private void closeOptions() {
+		inputMultiplexer.setProcessors(mainStage);
 		if (!isOptionsOpen)
 			return;
-		inputMultiplexer.setProcessors(mainStage);
-		isOptionsOpen = false;
 		blurShader.stopBlur();
-		optionFrame.runVerticalFadeOutAnimation();
+		isOptionsOpen = false;
+		optionFrameContainer.removeActor(optionFrame);
 	}
 
 	@Override
