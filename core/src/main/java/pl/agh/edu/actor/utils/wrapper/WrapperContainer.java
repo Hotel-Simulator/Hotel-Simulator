@@ -70,8 +70,10 @@ public abstract class WrapperContainer<T extends Actor> extends Container<T> imp
 		this.clearActions();
 		this.addAction(
 				Actions.sequence(
-						Actions.moveBy(distanceX, distanceY),
-						Actions.alpha(0f),
+						Actions.parallel(
+								Actions.alpha(0f),
+								Actions.moveBy(distanceX, distanceY)
+						),
 						Actions.parallel(
 								Actions.moveBy(-distanceX, -distanceY, duration, interpolation),
 								Actions.alpha(1f, duration))));
@@ -86,8 +88,10 @@ public abstract class WrapperContainer<T extends Actor> extends Container<T> imp
 						Actions.parallel(
 								Actions.alpha(0f, duration),
 								Actions.moveBy(-distanceX, -distanceY, duration, interpolation)),
-						Actions.removeActor(this),
-						Actions.moveBy(distanceX, distanceY)));
+						Actions.moveBy(distanceX, distanceY),
+						Actions.removeActor(this)
+				)
+		);
 		this.resetAnimationPosition();
 	}
 
