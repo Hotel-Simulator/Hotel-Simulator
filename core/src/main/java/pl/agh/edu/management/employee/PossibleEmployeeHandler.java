@@ -34,9 +34,9 @@ public class PossibleEmployeeHandler {
 				.forEach(i -> possibleEmployees.add(PossibleEmployeeGenerator.generatePossibleEmployee()));
 	}
 
-	public void offerJob(PossibleEmployee possibleEmployee, JobOffer jobOffer) {
-		if (possibleEmployee.offerJob(jobOffer) == JobOfferResponse.POSITIVE) {
-			hotelHandler.employeeHandler.hireEmployee(new Employee(possibleEmployee, jobOffer));
+	public void offerJob(PossibleEmployee possibleEmployee, ContractOffer contractOffer) {
+		if (possibleEmployee.offerJob(contractOffer) == ContractOfferResponse.POSITIVE) {
+			hotelHandler.employeeHandler.hireEmployee(new Employee(possibleEmployee, contractOffer));
 			possibleEmployees.remove(possibleEmployee);
 		}
 	}

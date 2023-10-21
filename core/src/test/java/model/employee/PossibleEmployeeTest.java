@@ -15,15 +15,15 @@ import pl.agh.edu.model.employee.*;
 public class PossibleEmployeeTest {
 	public static Stream<Arguments> providePossibleEmployees() {
 		return Stream.of(
-				Arguments.of(new JobOffer(Shift.MORNING, BigDecimal.valueOf(4999), TypeOfContract.PERMANENT), JobOfferResponse.NEGATIVE),
-				Arguments.of(new JobOffer(Shift.MORNING, BigDecimal.valueOf(5000), TypeOfContract.PERMANENT), JobOfferResponse.POSITIVE),
-				Arguments.of(new JobOffer(Shift.EVENING, BigDecimal.valueOf(5999), TypeOfContract.PERMANENT), JobOfferResponse.NEGATIVE),
-				Arguments.of(new JobOffer(Shift.EVENING, BigDecimal.valueOf(6000), TypeOfContract.PERMANENT), JobOfferResponse.POSITIVE));
+				Arguments.of(new ContractOffer(Shift.MORNING, BigDecimal.valueOf(4999), TypeOfContract.PERMANENT), ContractOfferResponse.NEGATIVE),
+				Arguments.of(new ContractOffer(Shift.MORNING, BigDecimal.valueOf(5000), TypeOfContract.PERMANENT), ContractOfferResponse.POSITIVE),
+				Arguments.of(new ContractOffer(Shift.EVENING, BigDecimal.valueOf(5999), TypeOfContract.PERMANENT), ContractOfferResponse.NEGATIVE),
+				Arguments.of(new ContractOffer(Shift.EVENING, BigDecimal.valueOf(6000), TypeOfContract.PERMANENT), ContractOfferResponse.POSITIVE));
 	}
 
 	@ParameterizedTest
 	@MethodSource("providePossibleEmployees")
-	public void jobOfferTest(JobOffer jobOffer, JobOfferResponse expected) {
+	public void jobOfferTest(ContractOffer contractOffer, ContractOfferResponse expected) {
 		// Given
 		PossibleEmployee possibleEmployee = new PossibleEmployee.Builder()
 				.firstName("")
@@ -39,7 +39,7 @@ public class PossibleEmployeeTest {
 				.profession(Profession.CLEANER)
 				.build();
 		// When
-		JobOfferResponse response = possibleEmployee.offerJob(jobOffer);
+		ContractOfferResponse response = possibleEmployee.offerJob(contractOffer);
 		// Then
 		assertEquals(expected, response);
 	}
