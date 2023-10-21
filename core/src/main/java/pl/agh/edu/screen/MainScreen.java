@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
@@ -75,19 +74,10 @@ public class MainScreen implements Screen, ResolutionChangeListener {
 
 	public void changeFrame(BaseFrame newFrame) {
 		BaseFrame oldFrame = (BaseFrame) currentFrameStack.getChild(0);
-		if(oldFrame !=null)
-			oldFrame.runHorizontalTrainOutAnimation();
-		oldFrame.addAction(
-				Actions.sequence(
-						Actions.delay(0.5f),
-						Actions.removeActor()
-				));
 		currentFrameStack.addActor(newFrame);
-		newFrame.addAction(
-				Actions.sequence(
-						Actions.run(newFrame::runHorizontalTrainInAnimation)
-				)
-		);
+		if (oldFrame != null)
+			oldFrame.runHorizontalTrainOutAnimation();
+		newFrame.runHorizontalTrainInAnimation();
 	}
 
 	private void updateBlurShaderState() {
@@ -140,8 +130,7 @@ public class MainScreen implements Screen, ResolutionChangeListener {
 	}
 
 	@Override
-	public void show() {
-	}
+	public void show() {}
 
 	@Override
 	public void render(float delta) {

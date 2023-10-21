@@ -86,6 +86,7 @@ public abstract class WrapperContainer<T extends Actor> extends Container<T> imp
 						Actions.parallel(
 								Actions.alpha(0f, duration),
 								Actions.moveBy(-distanceX, -distanceY, duration, interpolation)),
+						Actions.removeActor(this),
 						Actions.moveBy(distanceX, distanceY)));
 		this.resetAnimationPosition();
 	}
@@ -103,7 +104,7 @@ public abstract class WrapperContainer<T extends Actor> extends Container<T> imp
 	}
 
 	public void runVerticalFadeOutAnimation() {
-		this.runFadeOutAnimation(0f, 50f, 0.2f, Interpolation.fade);
+		this.runFadeOutAnimation(0f, 50f, 0.5f, Interpolation.fade);
 	}
 
 	public void runVerticalTrainInAnimation() {
@@ -111,7 +112,7 @@ public abstract class WrapperContainer<T extends Actor> extends Container<T> imp
 	}
 
 	public void runVerticalTrainOutAnimation() {
-		this.runFadeOutAnimation(0f, GraphicConfig.getResolution().HEIGHT, 0.2f, Interpolation.fade);
+		this.runFadeOutAnimation(0f, GraphicConfig.getResolution().HEIGHT, 0.5f, Interpolation.fade);
 	}
 
 	public void runHorizontalTrainInAnimation() {
@@ -119,6 +120,6 @@ public abstract class WrapperContainer<T extends Actor> extends Container<T> imp
 	}
 
 	public void runHorizontalTrainOutAnimation() {
-		this.runFadeOutAnimation(GraphicConfig.getResolution().WIDTH, 0f, 0.5f, Interpolation.smooth);
+		this.runFadeOutAnimation(GraphicConfig.getResolution().WIDTH, 0f, 1f, Interpolation.smooth);
 	}
 }
