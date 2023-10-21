@@ -5,19 +5,19 @@ import pl.agh.edu.enums.HotelType;
 import pl.agh.edu.screen.ScenariosScreen;
 
 public class ScenariosAdapter {
-    private HotelType hotelType;
-    private DifficultyLevel difficultyLevel;
+	private HotelType hotelType;
+	private DifficultyLevel difficultyLevel;
 
-    public void extractDataFromScenariosScreen(ScenariosScreen screen){
-        hotelType = screen.selected.hotelType;
-        difficultyLevel = screen.currentlySelected.getDifficulty();
-    }
+	public void extractDataFromScenariosScreen(ScenariosScreen screen) {
+		hotelType = screen.selected.hotelType;
+		difficultyLevel = screen.currentlySelected.getDifficulty();
+	}
 
-    public HotelType getHotelType() {
-        return hotelType;
-    }
+	public HotelType getHotelType() {
+		return hotelType;
+	}
 
-    public DifficultyLevel getDifficultyLevel() {
-        return difficultyLevel;
-    }
+	public DifficultyLevel getDifficultyLevel() {
+		return difficultyLevel;
+	}
 }

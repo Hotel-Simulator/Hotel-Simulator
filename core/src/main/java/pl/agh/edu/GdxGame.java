@@ -7,7 +7,6 @@ import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.config.LanguageConfig;
 import pl.agh.edu.language.LanguageManager;
 import pl.agh.edu.model.time.Time;
-import pl.agh.edu.screen.MainScreen;
 import pl.agh.edu.screen.ScenariosScreen;
 import pl.agh.edu.utils.ScenariosAdapter;
 
@@ -79,7 +78,7 @@ public class GdxGame extends ApplicationAdapter {
 		setScreen(currentScreen);
 	}
 
-	public void setScenariosAdapterData(){
+	public void setScenariosAdapterData() {
 		scenariosAdapter.extractDataFromScenariosScreen((ScenariosScreen) currentScreen);
 	}
 
