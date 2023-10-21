@@ -29,7 +29,7 @@ public class BlurShader extends WrapperContainer<Image> {
 	private final Stage outputStage;
 	private final ReversedImage reversedImage;
 
-	public BlurShader(Stage inputStage,Stage outputStage) {
+	public BlurShader(Stage inputStage, Stage outputStage) {
 		this.inputStage = inputStage;
 		this.outputStage = outputStage;
 		buildFBO();
@@ -59,6 +59,7 @@ public class BlurShader extends WrapperContainer<Image> {
 		fbo.end(getTargetX(), getTargetY(), getTargetWidth(), getTargetHeight());
 		reversedImage.updateDrawable(blurTexture());
 	}
+
 	public void startBlur() {
 		stateOfTransition = StateOfTransition.OPENING;
 		this.buildFBO();
