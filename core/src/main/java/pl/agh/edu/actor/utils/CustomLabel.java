@@ -7,9 +7,8 @@ import pl.agh.edu.actor.GameSkin;
 
 public class CustomLabel extends Label {
 	public CustomLabel(String font, String backgroundPatch) {
-		super("", GameSkin.getInstance());
+		this(font);
 		LabelStyle labelStyle = new LabelStyle();
-		labelStyle.font = GameSkin.getInstance().getFont(font);
 		labelStyle.background = new NinePatchDrawable(GameSkin.getInstance().getPatch(backgroundPatch));
 		this.setStyle(labelStyle);
 	}
