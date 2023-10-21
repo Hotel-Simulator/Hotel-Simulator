@@ -1,5 +1,7 @@
 package pl.agh.edu.actor.component.button;
 
+import static pl.agh.edu.actor.utils.FontType.SUBTITLE2;
+
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -17,8 +19,6 @@ import pl.agh.edu.enums.BottomNavbarState;
 import pl.agh.edu.language.LanguageChangeListener;
 import pl.agh.edu.language.LanguageManager;
 
-import static pl.agh.edu.actor.utils.FontType.SUBTITLE2;
-
 public class NavbarButton extends Table implements LanguageChangeListener {
 	private final Image iconImage;
 	private final Label label;
@@ -29,7 +29,7 @@ public class NavbarButton extends Table implements LanguageChangeListener {
 
 	private Runnable touchUpAction;
 
-	public NavbarButton(NavbarButtonType type,BottomNavbarState state) {
+	public NavbarButton(NavbarButtonType type, BottomNavbarState state) {
 		Skin skin = GameSkin.getInstance();
 		this.type = type;
 		this.state = state;
@@ -86,7 +86,7 @@ public class NavbarButton extends Table implements LanguageChangeListener {
 		});
 	}
 
-	public boolean compare(NavbarButtonType type, BottomNavbarState state){
+	public boolean compare(NavbarButtonType type, BottomNavbarState state) {
 		return this.type == type && this.state == state;
 	}
 

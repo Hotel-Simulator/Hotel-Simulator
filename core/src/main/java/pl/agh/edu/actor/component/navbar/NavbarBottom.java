@@ -1,18 +1,5 @@
 package pl.agh.edu.actor.component.navbar;
 
-import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Scaling;
-
-import pl.agh.edu.actor.GameSkin;
-import pl.agh.edu.actor.component.button.NavbarButton;
-import pl.agh.edu.actor.frame.TestFrame;
-import pl.agh.edu.enums.BottomNavbarState;
-import pl.agh.edu.screen.MainScreen;
-
-import java.util.concurrent.atomic.AtomicReference;
-
 import static pl.agh.edu.actor.component.navbar.NavbarButtonType.ACCOUNT;
 import static pl.agh.edu.actor.component.navbar.NavbarButtonType.AD;
 import static pl.agh.edu.actor.component.navbar.NavbarButtonType.BACK;
@@ -36,12 +23,23 @@ import static pl.agh.edu.enums.BottomNavbarState.HOTEL_MENU;
 import static pl.agh.edu.enums.BottomNavbarState.MAIN_MENU;
 import static pl.agh.edu.enums.BottomNavbarState.TAX_MENU;
 
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Scaling;
+
+import pl.agh.edu.actor.GameSkin;
+import pl.agh.edu.actor.component.button.NavbarButton;
+import pl.agh.edu.enums.BottomNavbarState;
+import pl.agh.edu.screen.MainScreen;
+
 public class NavbarBottom extends Table {
 	private final Table bottomNavBar = new Table();
 	private final MainScreen mainScreen;
 	private NavbarButtonType currentNavbarButtonType = BOARD;
 	private BottomNavbarState currentBottomNavbarState = HOTEL_MENU;
 	private NavbarButton currentNavbarButton = createNavbarButtonWithChangeFrame(currentNavbarButtonType, BANK_MENU);
+
 	public NavbarBottom(String styleName, MainScreen screen) {
 		mainScreen = screen;
 
@@ -74,30 +72,29 @@ public class NavbarBottom extends Table {
 		}
 	}
 
-	private NavbarButton createNavbarButtonWithChangeFrame(NavbarButtonType type, BottomNavbarState state){
+	private NavbarButton createNavbarButtonWithChangeFrame(NavbarButtonType type, BottomNavbarState state) {
 		NavbarButton navbarButton = new NavbarButton(
 				type,
-				state
-		);
+				state);
 		navbarButton.setTouchUpAction(() -> {
 			mainScreen.changeFrame(type.getFrame());
 			currentBottomNavbarState = state;
 			currentNavbarButtonType = type;
 			currentNavbarButton.setDisabled(false);
-			currentNavbarButton=navbarButton;
+			currentNavbarButton = navbarButton;
 		});
-		if(navbarButton.compare(currentNavbarButtonType, currentBottomNavbarState)) {
+		if (navbarButton.compare(currentNavbarButtonType, currentBottomNavbarState)) {
 			currentNavbarButton.setDisabled(false);
 			navbarButton.setDisabled(true);
 			currentNavbarButton = navbarButton;
 		}
 		return navbarButton;
 	}
-	private NavbarButton createNavbarButtonWithChangeState(NavbarButtonType type, BottomNavbarState newState){
-        NavbarButton navbarButton = new NavbarButton(
+
+	private NavbarButton createNavbarButtonWithChangeState(NavbarButtonType type, BottomNavbarState newState) {
+		NavbarButton navbarButton = new NavbarButton(
 				type,
-				MAIN_MENU
-		);
+				MAIN_MENU);
 		navbarButton.setTouchUpAction(() -> changeBottomNavbarState(newState));
 		return navbarButton;
 	}
