@@ -23,7 +23,7 @@ import pl.agh.edu.enums.HotelType;
 import java.util.ArrayList;
 
 public class ScenariosScreen implements Screen {
-    private final Stage stage = GraphicConfig.stage;
+    private final Stage stage = new Stage(GraphicConfig.getViewport());
     private final Skin skin = GameSkin.getInstance();
     private final Stack stack = new Stack();
 
