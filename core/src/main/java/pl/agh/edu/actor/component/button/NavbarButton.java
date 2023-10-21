@@ -11,24 +11,33 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 
 import pl.agh.edu.actor.GameSkin;
+import pl.agh.edu.actor.component.navbar.NavbarButtonType;
 import pl.agh.edu.audio.SoundAudio;
+import pl.agh.edu.enums.BottomNavbarState;
 import pl.agh.edu.language.LanguageChangeListener;
 import pl.agh.edu.language.LanguageManager;
+
+import static pl.agh.edu.actor.utils.FontType.SUBTITLE2;
 
 public class NavbarButton extends Table implements LanguageChangeListener {
 	private final Image iconImage;
 	private final Label label;
+	private final NavbarButtonType type;
+	private final BottomNavbarState state;
 	private final NavbarButtonStyle navbarButtonStyle;
 	private boolean disabled = false;
 
-	public NavbarButton(String styleName, Runnable touchUpCallback) {
-		Skin skin = GameSkin.getInstance();
-		navbarButtonStyle = skin.get(styleName, NavbarButtonStyle.class);
+	private Runnable touchUpAction;
 
+	public NavbarButton(NavbarButtonType type,BottomNavbarState state) {
+		Skin skin = GameSkin.getInstance();
+		this.type = type;
+		this.state = state;
+		navbarButtonStyle = skin.get(type.getStyleName(), NavbarButtonStyle.class);
 		iconImage = new Image(new TextureRegionDrawable(new TextureRegion(navbarButtonStyle.iconUp)));
 
-		Label.LabelStyle labelStyle = new Label.LabelStyle(navbarButtonStyle.font, null);
-		label = new Label("", labelStyle);
+		label = new Label("", GameSkin.getInstance(), SUBTITLE2.getName());
+
 		label.setAlignment(Align.top);
 
 		float topSpace = 10f;
@@ -67,14 +76,18 @@ public class NavbarButton extends Table implements LanguageChangeListener {
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 				if (!disabled) {
-					if (touchUpCallback != null) {
+					if (touchUpAction != null) {
 						setDisabled(true);
 						SoundAudio.KNOCK_1.play();
-						touchUpCallback.run();
+						touchUpAction.run();
 					}
 				}
 			}
 		});
+	}
+
+	public boolean compare(NavbarButtonType type, BottomNavbarState state){
+		return this.type == type && this.state == state;
 	}
 
 	public void setText(String text) {
@@ -88,6 +101,10 @@ public class NavbarButton extends Table implements LanguageChangeListener {
 		} else {
 			iconImage.setDrawable(new TextureRegionDrawable(new TextureRegion(navbarButtonStyle.iconUp)));
 		}
+	}
+
+	public void setTouchUpAction(Runnable touchUpAction) {
+		this.touchUpAction = touchUpAction;
 	}
 
 	@Override

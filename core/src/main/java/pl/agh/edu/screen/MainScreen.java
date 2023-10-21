@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
+import com.badlogic.gdx.utils.SnapshotArray;
 import pl.agh.edu.GdxGame;
 import pl.agh.edu.actor.GameSkin;
 import pl.agh.edu.actor.component.background.InfinityBackground;
@@ -24,6 +25,9 @@ import pl.agh.edu.actor.utils.resolution.ResolutionChangeListener;
 import pl.agh.edu.actor.utils.resolution.ResolutionManager;
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.model.time.Time;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainScreen implements Screen, ResolutionChangeListener {
 	private final Stack currentFrameStack = new Stack();
@@ -74,10 +78,11 @@ public class MainScreen implements Screen, ResolutionChangeListener {
 	}
 
 	public void changeFrame(BaseFrame newFrame) {
-		BaseFrame oldFrame = (BaseFrame) currentFrameStack.getChild(0);
-		if (oldFrame != null)
-			oldFrame.runHorizontalTrainOutAnimation();
-		newFrame.addAction(Actions.run(currentFrameStack::clearChildren));
+		currentFrameStack.getChildren().forEach(actor -> {
+			if (actor instanceof BaseFrame) {
+				((BaseFrame) actor).runHorizontalTrainOutAnimation();
+			}
+		});
 		currentFrameStack.addActor(newFrame);
 		newFrame.runHorizontalTrainInAnimation();
 	}
