@@ -23,13 +23,17 @@ import static pl.agh.edu.enums.BottomNavbarState.HOTEL_MENU;
 import static pl.agh.edu.enums.BottomNavbarState.MAIN_MENU;
 import static pl.agh.edu.enums.BottomNavbarState.TAX_MENU;
 
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Stack;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 
 import pl.agh.edu.actor.GameSkin;
 import pl.agh.edu.actor.component.button.NavbarButton;
+import pl.agh.edu.audio.SoundAudio;
 import pl.agh.edu.enums.BottomNavbarState;
 import pl.agh.edu.screen.MainScreen;
 
@@ -77,11 +81,15 @@ public class NavbarBottom extends Table {
 				type,
 				state);
 		navbarButton.setTouchUpAction(() -> {
-			mainScreen.changeFrame(type.getFrame());
-			currentBottomNavbarState = state;
-			currentNavbarButtonType = type;
-			currentNavbarButton.setDisabled(false);
-			currentNavbarButton = navbarButton;
+			if (mainScreen.frameStack.isActionPossible()) {
+				mainScreen.frameStack.changeFrame(type.getFrame());
+				currentBottomNavbarState = state;
+				currentNavbarButtonType = type;
+				currentNavbarButton.setDisabled(false);
+				currentNavbarButton = navbarButton;
+				navbarButton.setDisabled(true);
+				SoundAudio.KNOCK_1.play();
+			}
 		});
 		if (navbarButton.compare(currentNavbarButtonType, currentBottomNavbarState)) {
 			currentNavbarButton.setDisabled(false);

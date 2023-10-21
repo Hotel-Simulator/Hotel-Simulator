@@ -116,10 +116,10 @@ public abstract class WrapperContainer<T extends Actor> extends Container<T> imp
 	}
 
 	public void runHorizontalTrainInAnimation() {
-		this.runFadeInAnimation(GraphicConfig.getResolution().WIDTH, 0f, 1f, Interpolation.smooth);
+		this.runFadeInAnimation(GraphicConfig.getResolution().WIDTH, 0f, 0.7f, Interpolation.smooth);
 	}
 
 	public void runHorizontalTrainOutAnimation() {
-		this.runFadeOutAnimation(GraphicConfig.getResolution().WIDTH, 0f, 1f, Interpolation.smooth);
+		this.runFadeOutAnimation(GraphicConfig.getResolution().WIDTH, 0f, 0.7f, Interpolation.smooth);
 	}
 }

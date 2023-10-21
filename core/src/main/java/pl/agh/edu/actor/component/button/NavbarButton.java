@@ -14,7 +14,6 @@ import com.badlogic.gdx.utils.Align;
 
 import pl.agh.edu.actor.GameSkin;
 import pl.agh.edu.actor.component.navbar.NavbarButtonType;
-import pl.agh.edu.audio.SoundAudio;
 import pl.agh.edu.enums.BottomNavbarState;
 import pl.agh.edu.language.LanguageChangeListener;
 import pl.agh.edu.language.LanguageManager;
@@ -77,8 +76,6 @@ public class NavbarButton extends Table implements LanguageChangeListener {
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 				if (!disabled) {
 					if (touchUpAction != null) {
-						setDisabled(true);
-						SoundAudio.KNOCK_1.play();
 						touchUpAction.run();
 					}
 				}

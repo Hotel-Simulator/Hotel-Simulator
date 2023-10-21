@@ -4,22 +4,22 @@ import pl.agh.edu.actor.frame.BaseFrame;
 import pl.agh.edu.actor.frame.TestFrame;
 
 public enum NavbarButtonType {
-	BANK("bank", new TestFrame("bank")),
-	HOTEL("hotel", new TestFrame("hotel")),
-	EMPLOYEE("employee", new TestFrame("employee")),
-	TAX("tax", new TestFrame("tax")),
-	AD("ad", new TestFrame("ad")),
-	BOARD("board", new TestFrame("board")),
-	ROOMS("rooms", new TestFrame("rooms")),
-	PLACES("places", new TestFrame("places")),
-	BACK("back", new TestFrame("back")),
-	OFFER("offer", new TestFrame("offer")),
-	ACCOUNT("account", new TestFrame("account")),
-	DEPOSIT("deposit", new TestFrame("deposit")),
-	CREDIT("credit", new TestFrame("credit")),
-	HIRE("hire", new TestFrame("hire")),
-	MANAGE("manage", new TestFrame("manage")),
-	HISTORY("history", new TestFrame("history"));
+	BANK("bank", new TestFrame("frame.title.bank")),
+	HOTEL("hotel", new TestFrame("frame.title.hotel")),
+	EMPLOYEE("employee", new TestFrame("frame.title.employee")),
+	TAX("tax", new TestFrame("frame.title.tax")),
+	AD("ad", new TestFrame("frame.title.ad")),
+	BOARD("board", new TestFrame("frame.title.board")),
+	ROOMS("rooms", new TestFrame("frame.title.rooms")),
+	PLACES("places", new TestFrame("frame.title.places")),
+	BACK("back", new TestFrame("frame.title.back")),
+	OFFER("offer", new TestFrame("frame.title.offer")),
+	ACCOUNT("account", new TestFrame("frame.title.account")),
+	DEPOSIT("deposit", new TestFrame("frame.title.deposit")),
+	CREDIT("credit", new TestFrame("frame.title.credit")),
+	HIRE("hire", new TestFrame("frame.title.hire")),
+	MANAGE("manage", new TestFrame("frame.title.manage")),
+	HISTORY("history", new TestFrame("frame.title.history"));
 
 	private final String styleName;
 	private final BaseFrame frame;

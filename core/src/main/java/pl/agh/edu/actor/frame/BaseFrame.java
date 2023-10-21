@@ -14,29 +14,33 @@ public abstract class BaseFrame extends WrapperTable {
 	private final Label titleLabel = new Label("", GameSkin.getInstance(), FontType.H2.getWhiteVariantName());
 	public final Table mainTable = new Table();
 
-	private final Table innerTable = super.innerTable;
-
-	public BaseFrame(String title) {
-		super();
-		innerTable.setFillParent(true);
-		innerTable.add(titleLabel).growX().pad(20f).top().row();
-		titleLabel.setText(title);
+	public BaseFrame(String languagePath) {
+		super(languagePath);
+		this.align(Align.center);
+		innerTable.add(titleLabel).growX().pad(BaseFrameStyle.getPadding()).top().row();
 		titleLabel.setAlignment(Align.center);
-		innerTable.add(mainTable).grow().pad(20f).row();
+		innerTable.add(mainTable).grow().pad(BaseFrameStyle.getPadding());
 		this.setBackground("frame-glass-background");
-		this.setResolutionChangeHandler(this::resize);
-		this.resize();
+
+		this.setLanguageChangeHandler(this::setTitle);
+		this.clearActions();
+		this.resetAnimationPosition();
 	}
 
-	private float getFrameWidth() {
-		return (float) GraphicConfig.getResolution().WIDTH / 9 * 6;
+	private void setTitle(String text) {
+		titleLabel.setText(text);
 	}
 
-	private float getFrameHeight() {
-		return (float) GraphicConfig.getResolution().HEIGHT / 9 * 6;
-	}
+	@Override
+	public void validate() {}
 
-	private void resize() {
-		size(getFrameWidth(), getFrameHeight());
+	private static class BaseFrameStyle {
+		public static float getPadding() {
+			return switch (GraphicConfig.getResolution().SIZE) {
+				case SMALL -> 5f;
+				case MEDIUM -> 10f;
+				case LARGE -> 20f;
+			};
+		}
 	}
 }

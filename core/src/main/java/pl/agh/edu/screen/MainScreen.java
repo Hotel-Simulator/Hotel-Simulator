@@ -15,9 +15,8 @@ import pl.agh.edu.actor.component.background.InfinityBackground;
 import pl.agh.edu.actor.component.button.OptionButton;
 import pl.agh.edu.actor.component.navbar.NavbarBottom;
 import pl.agh.edu.actor.component.navbar.NavbarTop;
-import pl.agh.edu.actor.frame.BaseFrame;
+import pl.agh.edu.actor.frame.FrameStack;
 import pl.agh.edu.actor.frame.OptionFrame;
-import pl.agh.edu.actor.frame.TestFrame;
 import pl.agh.edu.actor.shader.BlurShader;
 import pl.agh.edu.actor.utils.resolution.ResolutionChangeListener;
 import pl.agh.edu.actor.utils.resolution.ResolutionManager;
@@ -25,7 +24,7 @@ import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.model.time.Time;
 
 public class MainScreen implements Screen, ResolutionChangeListener {
-	private final Stack currentFrameStack = new Stack();
+	public final FrameStack frameStack = new FrameStack();
 	private final Skin skin = GameSkin.getInstance();
 	private final Stack stack = new Stack();
 	private final Container<OptionFrame> optionFrameContainer = new Container<>();
@@ -53,33 +52,20 @@ public class MainScreen implements Screen, ResolutionChangeListener {
 		table.add(new OptionButton(this::optionButtonHandler)).uniform();
 		table.row();
 		table.add();
-		table.add(currentFrameStack).grow();
+		table.add(frameStack).grow().center();
 		table.add();
 		table.row();
 		table.add();
 		table.add(new NavbarBottom("default", this)).growX();
 		table.add();
-
 		stack.add(table);
 
 		mainStage.addActor(stack);
 		middleStage.addActor(blurShader);
 		topStage.addActor(optionFrameContainer);
 
-		currentFrameStack.addActor(new TestFrame("Test"));
-
 		ResolutionManager.addListener(this);
 		Gdx.input.setInputProcessor(inputMultiplexer);
-	}
-
-	public void changeFrame(BaseFrame newFrame) {
-		currentFrameStack.getChildren().forEach(actor -> {
-			if (actor instanceof BaseFrame) {
-				((BaseFrame) actor).runHorizontalTrainOutAnimation();
-			}
-		});
-		currentFrameStack.addActor(newFrame);
-		newFrame.runHorizontalTrainInAnimation();
 	}
 
 	private void updateBlurShaderState() {
