@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
@@ -74,9 +75,10 @@ public class MainScreen implements Screen, ResolutionChangeListener {
 
 	public void changeFrame(BaseFrame newFrame) {
 		BaseFrame oldFrame = (BaseFrame) currentFrameStack.getChild(0);
-		currentFrameStack.addActor(newFrame);
 		if (oldFrame != null)
 			oldFrame.runHorizontalTrainOutAnimation();
+		newFrame.addAction(Actions.run(currentFrameStack::clearChildren));
+		currentFrameStack.addActor(newFrame);
 		newFrame.runHorizontalTrainInAnimation();
 	}
 
