@@ -16,6 +16,7 @@ public class FrameStack extends WrapperContainer<Stack> {
 		this.setActor(stack);
 		this.stack.add(NavbarButtonType.BOARD.getFrame());
 		this.resize();
+		this.setResolutionChangeHandler(this::resize);
 	}
 
 	public boolean isActionPossible() {
@@ -31,7 +32,6 @@ public class FrameStack extends WrapperContainer<Stack> {
 		});
 		stack.addActor(newFrame);
 		newFrame.runHorizontalTrainInAnimation();
-		this.setResolutionChangeHandler(this::resize);
 	}
 
 	public void resize() {
