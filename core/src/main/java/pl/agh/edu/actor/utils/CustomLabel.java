@@ -7,18 +7,18 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import pl.agh.edu.actor.GameSkin;
 
 public class CustomLabel extends Label {
-	public CustomLabel(BitmapFont font, String backgroundPatch) {
+	public CustomLabel(String font, String backgroundPatch) {
 		super("", GameSkin.getInstance());
 		LabelStyle labelStyle = new LabelStyle();
-		labelStyle.font = font;
+		labelStyle.font = GameSkin.getInstance().getFont(font);
 		labelStyle.background = new NinePatchDrawable(GameSkin.getInstance().getPatch(backgroundPatch));
 		this.setStyle(labelStyle);
 	}
 
-	public CustomLabel(BitmapFont font) {
+	public CustomLabel(String font) {
 		super("", GameSkin.getInstance());
 		LabelStyle labelStyle = new LabelStyle();
-		labelStyle.font = font;
+		labelStyle.font = GameSkin.getInstance().getFont(font);
 		this.setStyle(labelStyle);
 	}
 }
