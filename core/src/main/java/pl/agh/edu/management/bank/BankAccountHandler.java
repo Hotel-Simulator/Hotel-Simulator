@@ -42,8 +42,8 @@ public class BankAccountHandler {
 		var credit = new Credit(value, creditLengthInMonths, account.getCreditInterestRate(), time.getTime().toLocalDate());
 		NRepeatingTimeCommand timeCommandForCreditMonthlyPayment = createTimeCommandForCreditMonthlyPayment(credit.getMonthlyPayment(), credit);
 
-        account.registerCredit(credit);
-        registerIncome(credit.getValue());
+		account.registerCredit(credit);
+		registerIncome(credit.getValue());
 		currentCredits.put(credit, timeCommandForCreditMonthlyPayment);
 		timeCommandExecutor.addCommand(timeCommandForCreditMonthlyPayment);
 	}
