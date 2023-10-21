@@ -24,7 +24,6 @@ public abstract class BaseFrame extends WrapperTable {
 		titleLabel.setAlignment(Align.center);
 		innerTable.add(mainTable).grow().pad(20f).row();
 		this.setBackground("frame-glass-background");
-		this.debugAll();
 		this.setResolutionChangeHandler(this::resize);
 		this.resize();
 	}
