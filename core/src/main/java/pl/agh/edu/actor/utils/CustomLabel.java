@@ -1,13 +1,15 @@
 package pl.agh.edu.actor.utils;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 
 import pl.agh.edu.actor.GameSkin;
 
 public class CustomLabel extends Label {
-	private boolean isUnderscore = false;
+	private Color underscoreColor = SkinSpecialColor.TRANSPARENT.getColor();
 
 	public CustomLabel(String font, String backgroundPatch) {
 		this(font);
@@ -21,20 +23,20 @@ public class CustomLabel extends Label {
 		this.setStyle(labelStyle);
 	}
 
-	public void setUnderscore(boolean isUnderscore) {
-		this.isUnderscore = isUnderscore;
-
+	public void setUnderscoreColor(Color color) {
+		this.underscoreColor = color;
 	}
 
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		super.draw(batch, parentAlpha);
-		if (isUnderscore) {
-			LabelStyle labelStyle = new LabelStyle(getStyle());
-			NinePatchDrawable underscore = new NinePatchDrawable(GameSkin.getInstance().getPatch("underscore"));
-			// underscore = underscore.tint(SkinColor(SECONDARY, _500));
-			underscore.draw(batch, getX(), getY() - 2, getWidth(), 2);
-		}
+
+		NinePatchDrawable underscoreDrawable = new NinePatchDrawable(GameSkin.getInstance().getPatch("underscore"));
+		underscoreDrawable = underscoreDrawable.tint(underscoreColor);
+
+		NinePatch underscorePatch = underscoreDrawable.getPatch();
+		underscorePatch.scale(1F, (float) Math.sqrt(getHeight() / 1000) + 0.05f);
+		underscorePatch.draw(batch, getX(), getY(), getWidth(), 5);
 
 	}
 }
