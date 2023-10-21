@@ -10,7 +10,7 @@ import pl.agh.edu.language.LanguageManager;
 public class LanguageLabel extends CustomLabel implements LanguageChangeListener {
 	private final String languagePath;
 
-	public LanguageLabel(String languagePath, BitmapFont font) {
+	public LanguageLabel(String languagePath, String font) {
 		super(font);
 		this.languagePath = languagePath;
 		LanguageManager.addListener(this);
