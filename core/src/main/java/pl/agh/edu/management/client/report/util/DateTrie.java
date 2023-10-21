@@ -1,9 +1,8 @@
-package pl.agh.edu.management.client.report.util;//package pl.agh.edu.management.client.report.util;
+package pl.agh.edu.management.client.report.util;
 
 import java.time.LocalDate;
 import java.time.Year;
 import java.time.YearMonth;
-import java.util.Arrays;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
@@ -13,9 +12,8 @@ public class DateTrie {
 
 	public void insert(LocalDate date, int customers) {
 		TrieNode node = root;
-		String[] parts = date.toString().split("-");
-		for (int i = 0; i < parts.length; i++) {
-			String part = concatenateElements(parts, i);
+		String[] parts = findPrefixes(date.toString());
+		for (String part : parts) {
 			TrieNode childNode = node.children.get(part);
 			if (childNode == null) {
 				childNode = new TrieNode();
@@ -26,9 +24,17 @@ public class DateTrie {
 		}
 	}
 
-	private static String concatenateElements(String[] elements, int i) {
-		return Arrays.stream(elements, 0, i + 1)
-				.collect(Collectors.joining("-"));
+	public static String[] findPrefixes(String input) {
+		String[] words = input.split("-");
+		String[] prefixes = new String[words.length];
+		for (int i = 0; i < words.length; i++) {
+			if (i == 0) {
+				prefixes[i] = words[i];
+			} else {
+				prefixes[i] = prefixes[i - 1] + "-" + words[i];
+			}
+		}
+		return prefixes;
 	}
 
 	public SortedMap<LocalDate, Integer> getDailyData() {
