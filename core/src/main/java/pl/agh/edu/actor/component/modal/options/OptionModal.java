@@ -4,12 +4,9 @@ import java.util.function.Function;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 
-import pl.agh.edu.actor.GameSkin;
 import pl.agh.edu.actor.component.button.LabeledButton;
 import pl.agh.edu.actor.component.selectMenu.SelectMenu;
 import pl.agh.edu.actor.component.selectMenu.SelectMenuBoolean;
@@ -28,26 +25,24 @@ import pl.agh.edu.config.LanguageConfig;
 public class OptionModal extends WrapperTable {
 	private final SelectMenu selectResolutionMenu = createSelectMenuForResolution();
 	private final SelectMenu selectFullScreenMenu = createSelectMenuForFullScreenMode();
-	private final SliderComponent musicVolumeSlider = createSliderComponentForMusicVolume();
-	private final SliderComponent soundVolumeSlider = createSliderComponentForSoundVolume();
 	private final SelectMenu selectLanguageMenu = createSelectMenuForLanguage();
-	private final LabeledButton backButton = new LabeledButton(Size.LARGE, "optionsFrame.label.back");
-	private final LabeledButton saveButton = new LabeledButton(Size.LARGE, "optionsFrame.label.save");
 
 	public OptionModal(Runnable closeHandler) {
-		Skin skin = GameSkin.getInstance();
-		NinePatchDrawable background = new NinePatchDrawable(skin.getPatch("frame-glass-background"));
-		this.setBackground(background);
+		this.setBackground("frame-glass-background");
 
 		innerTable.add(selectResolutionMenu).grow().row();
 		innerTable.add(selectFullScreenMenu).grow().row();
+		SliderComponent musicVolumeSlider = createSliderComponentForMusicVolume();
 		innerTable.add(musicVolumeSlider).grow().row();
+		SliderComponent soundVolumeSlider = createSliderComponentForSoundVolume();
 		innerTable.add(soundVolumeSlider).grow().row();
 		innerTable.add(selectLanguageMenu).grow();
 		innerTable.row().padTop(OptionFrameStyle.getPadding() / 2);
 
 		Table ButtonTable = new Table();
+		LabeledButton backButton = new LabeledButton(Size.LARGE, "optionsFrame.label.back");
 		ButtonTable.add(backButton).grow().uniform();
+		LabeledButton saveButton = new LabeledButton(Size.LARGE, "optionsFrame.label.save");
 		ButtonTable.add(saveButton).grow().uniform();
 
 		backButton.addListener(new ClickListener() {

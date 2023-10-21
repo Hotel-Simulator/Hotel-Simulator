@@ -25,11 +25,13 @@ public class BlurShader extends WrapperContainer<Image> {
 	private FrameBuffer blurTargetA;
 	private FrameBuffer blurTargetB;
 	private final ShaderProgram blurShader = new ShaderProgram(Gdx.files.internal("shaders/blur.vert"), Gdx.files.internal("shaders/blur.frag"));
-	private final Stage stage;
+	private final Stage inputStage;
+	private final Stage outputStage;
 	private final ReversedImage reversedImage;
 
-	public BlurShader(Stage stage) {
-		this.stage = stage;
+	public BlurShader(Stage inputStage,Stage outputStage) {
+		this.inputStage = inputStage;
+		this.outputStage = outputStage;
 		buildFBO();
 		reversedImage = new ReversedImage(fbo.getColorBufferTexture());
 		this.setActor(reversedImage);
@@ -52,8 +54,8 @@ public class BlurShader extends WrapperContainer<Image> {
 
 	private void updateState() {
 		fbo.begin();
-		stage.draw();
-		stage.act();
+		inputStage.draw();
+		inputStage.act();
 		fbo.end(getTargetX(), getTargetY(), getTargetWidth(), getTargetHeight());
 		reversedImage.updateDrawable(blurTexture());
 	}
@@ -83,7 +85,7 @@ public class BlurShader extends WrapperContainer<Image> {
 		int x = 0;
 		int y = 0;
 
-		SpriteBatch spriteBatch = (SpriteBatch) stage.getBatch();
+		SpriteBatch spriteBatch = (SpriteBatch) inputStage.getBatch();
 		float MAX_BLUR = 4;
 		float RADIUS = 0.5f;
 		float ITERATIONS = 5;
@@ -157,8 +159,8 @@ public class BlurShader extends WrapperContainer<Image> {
 	}
 
 	private void actAndDrawAdditionalStages() {
-		stage.act();
-		stage.draw();
+		outputStage.act();
+		outputStage.draw();
 	}
 
 	private static class ReversedImage extends Image {

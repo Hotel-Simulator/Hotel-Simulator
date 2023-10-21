@@ -23,7 +23,7 @@ public class MainScreen implements Screen, ResolutionChangeListener {
 	private final Stage middleStage = new Stage(GraphicConfig.getViewport());
 	private final Stage topStage = new Stage(GraphicConfig.getViewport());
 	public final FrameStack frameStack = new FrameStack();
-	private final BlurShader blurShader = new BlurShader(mainStage);
+	private final BlurShader blurShader = new BlurShader(mainStage,middleStage);
 	private final InputMultiplexer inputMultiplexer = new InputMultiplexer(mainStage);
 	private final InfinityBackground infinityBackground = new InfinityBackground("night-city");
 	public final OptionsWrapper optionsWrapper = new OptionsWrapper(inputMultiplexer, blurShader, mainStage, topStage);
@@ -59,17 +59,13 @@ public class MainScreen implements Screen, ResolutionChangeListener {
 		ResolutionManager.addListener(this);
 		Gdx.input.setInputProcessor(inputMultiplexer);
 	}
-
-	private void actAndDrawStages() {
-		mainStage.act();
-		mainStage.draw();
-	}
 	@Override
 	public void show() {}
 
 	@Override
 	public void render(float delta) {
-		actAndDrawStages();
+		mainStage.act();
+		mainStage.draw();
 		blurShader.render();
 		optionsWrapper.render();
 	}

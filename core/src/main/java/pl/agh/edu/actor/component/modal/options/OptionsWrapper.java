@@ -24,6 +24,8 @@ public class OptionsWrapper extends WrapperContainer<OptionModal> {
         this.blurShader = blurShader;
         this.mainStage = mainStage;
         this.optionsStage = optionsStage;
+        this.setFillParent(true);
+        this.debugAll();
     }
 
     private void openOptions() {
