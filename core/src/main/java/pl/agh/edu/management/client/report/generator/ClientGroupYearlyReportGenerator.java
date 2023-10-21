@@ -2,9 +2,7 @@ package pl.agh.edu.management.client.report.generator;
 
 import java.time.Year;
 import java.util.List;
-import java.util.Map;
 import java.util.SortedMap;
-import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import pl.agh.edu.management.client.report.ClientGroupNumberType;
@@ -15,11 +13,7 @@ public class ClientGroupYearlyReportGenerator extends ClientGroupReportGenerator
 	@Override
 	public List<ClientGroupReportData<Year>> getReport(ClientGroupNumberType clientGroupNumberType, Year start, Year end) {
 
-		SortedMap<Year, Integer> map = ClientGroupReportDataCollector.getAppropriateMap(clientGroupNumberType).entrySet().stream()
-				.collect(Collectors.groupingBy(
-						entry -> Year.from(entry.getKey()),
-						TreeMap::new,
-						Collectors.summingInt(Map.Entry::getValue)));
+		SortedMap<Year, Integer> map = ClientGroupReportDataCollector.getAppropriateMap(clientGroupNumberType).getYearlyData();
 
 		// only full-year data
 		map.remove(Year.from(time.getTime()));

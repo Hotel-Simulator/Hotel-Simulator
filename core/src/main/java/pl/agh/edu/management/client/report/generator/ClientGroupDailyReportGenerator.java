@@ -14,7 +14,7 @@ public class ClientGroupDailyReportGenerator extends ClientGroupReportGenerator<
 	@Override
 	public List<ClientGroupReportData<LocalDate>> getReport(ClientGroupNumberType clientGroupNumberType, LocalDate start, LocalDate end) {
 
-		SortedMap<LocalDate, Integer> map = ClientGroupReportDataCollector.getAppropriateMap(clientGroupNumberType);
+		SortedMap<LocalDate, Integer> map = ClientGroupReportDataCollector.getAppropriateMap(clientGroupNumberType).getDailyData();
 		SortedMap<LocalDate, Integer> subMap = map.subMap(start, end);
 
 		return subMap.entrySet().stream()
