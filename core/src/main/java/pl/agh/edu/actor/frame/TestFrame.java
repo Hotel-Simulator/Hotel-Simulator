@@ -1,8 +1,8 @@
 package pl.agh.edu.actor.frame;
 
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
+import pl.agh.edu.actor.GameSkin;
 import pl.agh.edu.actor.component.table.CreditTable;
-import pl.agh.edu.actor.utils.FontType;
-import pl.agh.edu.actor.utils.LinkLabel;
 import pl.agh.edu.management.bank.BankAccountHandler;
 import pl.agh.edu.model.bank.BankAccount;
 
@@ -14,7 +14,19 @@ public class TestFrame extends BaseFrame {
 
 		BankAccount bankAccount = new BankAccount(BigDecimal.ONE, BigDecimal.TEN,BigDecimal.TEN);
 		BankAccountHandler bankAccountHandler = new BankAccountHandler(bankAccount);
+		bankAccountHandler.registerCredit(BigDecimal.valueOf(100000), 10);
+		bankAccountHandler.registerCredit(BigDecimal.valueOf(100000), 10);
+		bankAccountHandler.registerCredit(BigDecimal.valueOf(100000), 10);
+		bankAccountHandler.registerCredit(BigDecimal.valueOf(100000), 10);
+		bankAccountHandler.registerCredit(BigDecimal.valueOf(100000), 10);
+		bankAccountHandler.registerCredit(BigDecimal.valueOf(100000), 10);
+		bankAccountHandler.registerCredit(BigDecimal.valueOf(100000), 10);
+		bankAccountHandler.registerCredit(BigDecimal.valueOf(100000), 10);
+		bankAccountHandler.registerCredit(BigDecimal.valueOf(100000), 10);
 		CreditTable creditTable = new CreditTable(bankAccountHandler);
-		mainTable.add(creditTable);
+		ScrollPane scrollPane = new ScrollPane(creditTable, GameSkin.getInstance(), "transparent"	);
+		scrollPane.setScrollbarsVisible(true);
+		scrollPane.setActor(creditTable);
+		mainTable.add(scrollPane);
 	}
 }

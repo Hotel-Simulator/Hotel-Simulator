@@ -50,11 +50,12 @@ public class CreditTable extends BaseTable {
 		}
 		public CreditBaseRow(Credit credit) {
 			super();
-			Label date = new Label(bankAccountHandler.getFinalPaymentDate(credit).toString(),skin, getFont().getName());
-			Label monthly = new Label(bankAccountHandler.getMonthlyPayment(credit).toString(), skin, getFont().getName());
-			LinkLabel payAllButton = new LinkLabel( "labeledButton.credit.payall", FontType.BUTTON_1.getWhiteVariantName(), ()  -> {
-				bankAccountHandler.(credit);
-				this.remove();
+
+			Label date = new Label(bankAccountHandler.getLastPaymentDate(credit).toString(),skin, getFont().getName());
+			Label monthly = new Label(credit.monthlyPayment.toString(), skin, getFont().getName());
+			LinkLabel payAllButton = new LinkLabel( "lilnkLabel.payall", FontType.BUTTON_1.getWhiteVariantName(), ()  -> {
+				bankAccountHandler.payEntireCredit(credit);
+				deleteRow(this);
 			});
 			insertActorsToRow(date, monthly, payAllButton);
 			this.setBackground("table-row-background");
@@ -71,6 +72,11 @@ public class CreditTable extends BaseTable {
 					this.innerTable.add(new Image(GameSkin.getInstance().getPatch("table-separator-line"))).width(getSeparatorWidth()).growY().center();
 			});
 		}
+	}
+
+	private void deleteRow(CreditBaseRow row){
+		innerTable.getCell(row).clearActor();
+		row.remove();
 	}
 
 
