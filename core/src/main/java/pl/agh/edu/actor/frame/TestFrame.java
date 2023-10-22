@@ -1,7 +1,7 @@
 package pl.agh.edu.actor.frame;
 
-import pl.agh.edu.actor.utils.CustomLabel;
 import pl.agh.edu.actor.utils.SkinColor;
+import pl.agh.edu.actor.utils.label.CustomLabel;
 
 public class TestFrame extends BaseFrame {
 	public TestFrame(String languagePath) {

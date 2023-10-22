@@ -78,7 +78,7 @@ public class Engine {
 					new TimeCommand(() -> hotelHandler.receptionScheduler.removeEntity(arrival.clientGroup()),
 							LocalDateTime.of(
 									time.getTime().toLocalDate(),
-									arrival.time().plus(arrival.clientGroup().getMaxWaitingTime()))));
+									arrival.time()).plus(arrival.clientGroup().getMaxWaitingTime())));
 		}, LocalDateTime.of(time.getTime().toLocalDate(), arrival.time()));
 	}
 

@@ -3,6 +3,7 @@ package pl.agh.edu.management.employee.work_scheduler;
 import java.util.*;
 
 import pl.agh.edu.json.data_loader.JSONGameDataLoader;
+import pl.agh.edu.management.client.report.collector.ClientGroupReportDataCollector;
 import pl.agh.edu.management.hotel.HotelHandler;
 import pl.agh.edu.model.Room;
 import pl.agh.edu.model.client.ClientGroup;
@@ -43,6 +44,7 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 				() -> {
 					Optional<Room> optionalRoom = hotelHandler.roomManager.findRoomForClientGroup(clientGroup);
 					if (optionalRoom.isPresent()) {
+						ClientGroupReportDataCollector.increaseClientGroupWithRoomCounter();
 						Room room = optionalRoom.get();
 						room.checkIn(clientGroup);
 						hotelHandler.bankAccountHandler.registerIncome(hotelHandler.roomManager.getRoomPriceList().getPrice(room));
@@ -52,6 +54,7 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 						timeCommandExecutor.addCommand(createTimeCommandForCheckingOutClients(room, clientGroup));
 					}
 					receptionist.setOccupied(false);
+					executeServiceIfPossible(receptionist);
 				}, time.getTime().plus(receptionist.getServiceExecutionTime()));
 	}
 
