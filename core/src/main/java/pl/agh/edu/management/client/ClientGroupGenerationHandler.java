@@ -39,7 +39,7 @@ public class ClientGroupGenerationHandler {
 		return Stream.of(HotelVisitPurpose.values())
 				.flatMap(e -> IntStream.range(0, numberOfClientGroups.get(e))
 						.mapToObj(it -> new Arrival(
-								RandomUtils.randomLocalTime(checkInMinTime, LocalTime.MAX),
+								RandomUtils.randomLocalTime(checkInMinTime, LocalTime.MIDNIGHT.minusMinutes(time.getTimeUnitInMinutes())),
 								clientGenerator.generateClientGroupForGivenHotelVisitPurpose(checkOutMaxTime, e))))
 				.sorted(Arrival::compareTo)
 				.collect(Collectors.toList());
