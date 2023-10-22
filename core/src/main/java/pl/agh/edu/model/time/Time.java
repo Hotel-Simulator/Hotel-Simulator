@@ -2,6 +2,7 @@ package pl.agh.edu.model.time;
 
 import java.time.LocalDateTime;
 import java.time.MonthDay;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -144,6 +145,10 @@ public class Time {
 
 	public MonthDay getMonthDay() {
 		return MonthDay.of(months, days);
+	}
+
+	public YearMonth getYearMonth() {
+		return YearMonth.of(years, months);
 	}
 
 	public void addTimeStopChangeHandler(Runnable handler) {
