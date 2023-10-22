@@ -18,26 +18,31 @@ public class Employee {
 	public final BigDecimal skills;
 	public final EmploymentPreferences preferences;
 	public final Profession profession;
-	public final BigDecimal wage;
-	public final TypeOfContract typeOfContract;
-	public final Shift shift;
+	public BigDecimal wage;
+	public TypeOfContract typeOfContract;
+	public Shift shift;
 	private boolean isOccupied;
 	private final Duration basicServiceExecutionTime;
 	private EmployeeStatus employeeStatus = EmployeeStatus.HIRED_NOT_WORKING;
 	private final List<BigDecimal> bonuses = new ArrayList<>();
 
-	public Employee(PossibleEmployee possibleEmployee, JobOffer jobOffer) {
+	public Employee(PossibleEmployee possibleEmployee, ContractOffer contractOffer) {
 		this.firstName = possibleEmployee.firstName;
 		this.lastName = possibleEmployee.lastName;
 		this.age = possibleEmployee.age;
 		this.skills = possibleEmployee.skills;
 		this.profession = possibleEmployee.profession;
 		this.preferences = possibleEmployee.preferences;
-		this.wage = jobOffer.offeredWage();
-		this.typeOfContract = jobOffer.typeOfContract();
-		this.shift = jobOffer.shift();
+
+		setContract(contractOffer);
 
 		this.basicServiceExecutionTime = JSONEmployeeDataLoader.basicServiceExecutionTimes.get(possibleEmployee.profession);
+	}
+
+	public void setContract(ContractOffer contractOffer) {
+		this.wage = contractOffer.offeredWage();
+		this.typeOfContract = contractOffer.typeOfContract();
+		this.shift = contractOffer.shift();
 	}
 
 	public BigDecimal getSatisfaction() {
@@ -59,6 +64,18 @@ public class Employee {
 
 	public void removeBonus(BigDecimal bonus) {
 		bonuses.remove(bonus);
+	}
+
+	public ContractOfferResponse offerNewContract(ContractOffer contractOffer) {
+
+		Shift offerShift = contractOffer.shift();
+		BigDecimal offeredWage = contractOffer.offeredWage();
+
+		boolean isPositive = (offerShift == shift && offeredWage.compareTo(wage) > 0) ||
+				(offerShift != shift && offerShift == preferences.desiredShift && offeredWage.compareTo(preferences.acceptableWage) >= 0) ||
+				(offerShift != shift && offerShift != preferences.desiredShift && offeredWage.compareTo(preferences.desiredWage) >= 0);
+
+		return isPositive ? ContractOfferResponse.POSITIVE : ContractOfferResponse.NEGATIVE;
 	}
 
 	public boolean isAtWork(LocalTime time) {

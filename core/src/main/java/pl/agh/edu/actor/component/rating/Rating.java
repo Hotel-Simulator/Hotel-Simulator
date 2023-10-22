@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
-import pl.agh.edu.actor.utils.WrapperTable;
+import pl.agh.edu.actor.utils.wrapper.WrapperTable;
 import pl.agh.edu.config.GraphicConfig;
 
 public class Rating extends WrapperTable {

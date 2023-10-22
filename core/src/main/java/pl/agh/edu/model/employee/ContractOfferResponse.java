@@ -1,6 +1,6 @@
 package pl.agh.edu.model.employee;
 
-public enum JobOfferResponse {
+public enum ContractOfferResponse {
 	POSITIVE,
 	NEGATIVE
 }

@@ -5,8 +5,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 
-import pl.agh.edu.actor.HotelSkin;
+import pl.agh.edu.actor.GameSkin;
 import pl.agh.edu.actor.utils.CustomLabel;
+import pl.agh.edu.actor.utils.FontType;
 import pl.agh.edu.enums.Frequency;
 import pl.agh.edu.model.time.Time;
 import pl.agh.edu.time_command.RepeatingTimeCommand;
@@ -15,7 +16,7 @@ import pl.agh.edu.time_command.TimeCommandExecutor;
 public class TimePanel extends Table {
 	private final Label timeLabel;
 	private static final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
-	private final Skin skin = HotelSkin.getInstance();
+	private final Skin skin = GameSkin.getInstance();
 
 	private static final Time time = Time.getInstance();
 
@@ -29,7 +30,7 @@ public class TimePanel extends Table {
 
 	private class TimeLabel extends CustomLabel {
 		public TimeLabel() {
-			super("h4", "label-time-background");
+			super(FontType.H4.getName(), "label-time-background");
 			this.setAlignment(Align.center, Align.center);
 		}
 	}

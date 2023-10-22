@@ -1,9 +1,9 @@
 package pl.agh.edu.enums;
 
-import static pl.agh.edu.actor.utils.Size.*;
+import static pl.agh.edu.actor.utils.resolution.Size.*;
 
 import pl.agh.edu.actor.component.selectMenu.SelectMenuResolutionItem;
-import pl.agh.edu.actor.utils.Size;
+import pl.agh.edu.actor.utils.resolution.Size;
 
 public enum Resolution {
 	_1366x768(1366, 768, SMALL),

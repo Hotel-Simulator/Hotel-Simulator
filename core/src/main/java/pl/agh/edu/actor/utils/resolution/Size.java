@@ -1,4 +1,4 @@
-package pl.agh.edu.actor.utils;
+package pl.agh.edu.actor.utils.resolution;
 
 public enum Size {
 	SMALL("small"),
