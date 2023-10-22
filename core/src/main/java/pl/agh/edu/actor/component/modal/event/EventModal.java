@@ -1,12 +1,17 @@
 package pl.agh.edu.actor.component.modal.event;
 
+import static pl.agh.edu.actor.utils.FontType.BODY_1;
+import static pl.agh.edu.actor.utils.FontType.BODY_2;
+import static pl.agh.edu.actor.utils.FontType.H3;
+import static pl.agh.edu.actor.utils.FontType.H4;
+
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-
 import com.badlogic.gdx.utils.Align;
+
 import pl.agh.edu.actor.GameSkin;
 import pl.agh.edu.actor.component.button.LabeledButton;
 import pl.agh.edu.actor.utils.label.ReplaceLanguageLabel;
@@ -16,15 +21,11 @@ import pl.agh.edu.audio.SoundAudio;
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.model.event.EventData;
 
-import static pl.agh.edu.actor.utils.FontType.BODY_1;
-import static pl.agh.edu.actor.utils.FontType.BODY_2;
-import static pl.agh.edu.actor.utils.FontType.H3;
-import static pl.agh.edu.actor.utils.FontType.H4;
-
 public class EventModal extends WrapperTable {
 	private final Container<Image> imageContainer = new Container<>();
 	private final ReplaceLanguageLabel titleLabel;
 	private final ReplaceLanguageLabel descriptionLabel;
+
 	public EventModal(EventData eventData, Runnable closeHandler) {
 		this.setBackground("modal-glass-background");
 
@@ -33,9 +34,8 @@ public class EventModal extends WrapperTable {
 		titleLabel = new ReplaceLanguageLabel(
 				eventData.title().property,
 				H4.getName(),
-				eventData.title().stringsWithReplacements
-		);
-		titleLabel.setAlignment(Align.center,Align.center);
+				eventData.title().stringsWithReplacements);
+		titleLabel.setAlignment(Align.center, Align.center);
 
 		Table mainTable = new Table();
 
@@ -46,10 +46,9 @@ public class EventModal extends WrapperTable {
 		descriptionLabel = new ReplaceLanguageLabel(
 				eventData.description().property,
 				BODY_2.getName(),
-				eventData.description().stringsWithReplacements
-		);
+				eventData.description().stringsWithReplacements);
 		descriptionLabel.setWrap(true);
-		descriptionLabel.setAlignment(Align.center,Align.center);
+		descriptionLabel.setAlignment(Align.center, Align.center);
 
 		mainTable.add(imageContainer).pad(EventModalStyle.getPadding());
 		mainTable.add(descriptionLabel).grow();
@@ -71,7 +70,6 @@ public class EventModal extends WrapperTable {
 		this.onLanguageChange();
 	}
 
-
 	public void resize() {
 		this.descriptionLabel.setFont(EventModalStyle.getDescriptionFont());
 		this.titleLabel.setFont(EventModalStyle.getTitleFont());
@@ -79,22 +77,22 @@ public class EventModal extends WrapperTable {
 		this.resetAnimationPosition();
 		this.validate();
 	}
+
 	@Override
 	public void validate() {
 		super.validate();
-		if(this.getParent()!=null){
+		if (this.getParent() != null) {
 			innerTable.setBounds(
 					this.getParent().getX(),
 					this.getParent().getY(),
 					this.getWidth(),
-					this.getHeight()
-			);
+					this.getHeight());
 			this.setResetAnimationPosition(
-					this.getParent().getX()+(GraphicConfig.getResolution().WIDTH-this.getWidth())/2,
-					this.getParent().getY()+(GraphicConfig.getResolution().HEIGHT-this.getHeight())/2
-			);
+					this.getParent().getX() + (GraphicConfig.getResolution().WIDTH - this.getWidth()) / 2,
+					this.getParent().getY() + (GraphicConfig.getResolution().HEIGHT - this.getHeight()) / 2);
 		}
 	}
+
 	private static class EventModalStyle {
 		public static float getIconSize() {
 			return switch (GraphicConfig.getResolution().SIZE) {
@@ -103,6 +101,7 @@ public class EventModal extends WrapperTable {
 				case LARGE -> 400f;
 			};
 		}
+
 		public static float getPadding() {
 			return switch (GraphicConfig.getResolution().SIZE) {
 				case SMALL -> 30f;
@@ -111,17 +110,17 @@ public class EventModal extends WrapperTable {
 			};
 		}
 
-		public static String getDescriptionFont(){
+		public static String getDescriptionFont() {
 			return switch (GraphicConfig.getResolution().SIZE) {
 				case SMALL, MEDIUM -> BODY_2.getName();
-                case LARGE -> BODY_1.getName();
+				case LARGE -> BODY_1.getName();
 			};
 		}
 
-		public static String getTitleFont(){
+		public static String getTitleFont() {
 			return switch (GraphicConfig.getResolution().SIZE) {
 				case SMALL -> H4.getName();
-				case MEDIUM,LARGE -> H3.getName();
+				case MEDIUM, LARGE -> H3.getName();
 			};
 		}
 	}

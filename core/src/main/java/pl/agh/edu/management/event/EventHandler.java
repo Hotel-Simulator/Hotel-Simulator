@@ -87,6 +87,7 @@ public class EventHandler {
 				() -> clientNumberModificationEventHandler.remove(event.modifier),
 				event.appearanceDate.atTime(LocalTime.MIDNIGHT).minusMinutes(1));
 	}
+
 	public void setEventHandlerFunction(Consumer<EventData> eventHandlerFunction) {
 		this.eventHandlerFunction = eventHandlerFunction;
 	}

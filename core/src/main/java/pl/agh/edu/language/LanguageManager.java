@@ -29,13 +29,14 @@ public class LanguageManager {
 		return bundle.get(key);
 	}
 
-	public static String get(String key,List<Pair<String, String>> replaceList){
+	public static String get(String key, List<Pair<String, String>> replaceList) {
 		String result = LanguageManager.get(key);
 		for (Pair<String, String> stringsWithReplacement : replaceList) {
 			result = result.replace(stringsWithReplacement.first(), stringsWithReplacement.second());
 		}
 		return result;
 	}
+
 	private static void notifyListeners() {
 		listeners.forEach(LanguageChangeListener::onLanguageChange);
 	}

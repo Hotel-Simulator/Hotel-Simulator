@@ -151,7 +151,7 @@ public class BlurShader extends WrapperContainer<Image> {
 
 	public void render() {
 		switch (stateOfTransition) {
-			case OPENING, CLOSING, OPEN  -> {
+			case OPENING, CLOSING, OPEN -> {
 				actAndDrawAdditionalStages();
 				this.updateState();
 			}
