@@ -8,13 +8,11 @@ public class TestFrame extends BaseFrame {
 		super(languagePath);
 
 		LinkLabel label = new LinkLabel("test.test", FontType.BUTTON_1.getWhiteVariantName(), () -> System.out.println("test"));
-		root.add(label);
-		root.row().row();
+		innerTable.add(label);
+		innerTable.row();
 		LinkLabel label2 = new LinkLabel("test.test", FontType.H1.getWhiteVariantName(), () -> System.out.println("test"));
 		label2.setDisabled(true);
-		root.add(label2);
-
-		this.add(root);
+		innerTable.add(label2);
 
 	}
 }
