@@ -72,12 +72,14 @@ public class OptionModal extends WrapperTable {
 		innerTable.pad(OptionFrameStyle.getPadding());
 
 		setStartingValue();
+		this.resize();
 		this.setResolutionChangeHandler(this::resize);
+		this.onLanguageChange();
 	}
 
 	private void resize() {
-		size(OptionFrameStyle.getFrameWidth(), OptionFrameStyle.getFrameHeight());
-		layout();
+		this.resetAnimationPosition();
+		this.validate();
 	}
 
 	private SelectMenu createSelectMenuForResolution() {
@@ -158,33 +160,23 @@ public class OptionModal extends WrapperTable {
 	}
 
 	@Override
-	public void layout() {
-		super.layout();
-		this.setBounds(
-				(float) GraphicConfig.getResolution().WIDTH / 2 - OptionFrameStyle.getFrameWidth() / 2,
-				(float) GraphicConfig.getResolution().HEIGHT / 2 - OptionFrameStyle.getFrameHeight() / 2,
-				OptionFrameStyle.getFrameWidth(),
-				OptionFrameStyle.getFrameHeight());
-		this.innerTable.layout();
+	public void validate() {
+		super.validate();
+		if(this.getParent()!=null){
+			innerTable.setBounds(
+					this.getParent().getX(),
+					this.getParent().getY(),
+					this.getWidth(),
+					this.getHeight()
+			);
+			this.setResetAnimationPosition(
+					this.getParent().getX()+(GraphicConfig.getResolution().WIDTH-this.getWidth())/2,
+					this.getParent().getY()+(GraphicConfig.getResolution().HEIGHT-this.getHeight())/2
+			);
+		}
 	}
 
 	private static class OptionFrameStyle {
-		public static float getFrameHeight() {
-			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> 450f + 2 * getPadding();
-				case MEDIUM -> 600f + 2 * getPadding();
-				case LARGE -> 700f + 2 * getPadding();
-			};
-		}
-
-		public static float getFrameWidth() {
-			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> 700f + 2 * getPadding();
-				case MEDIUM -> 800f + 2 * getPadding();
-				case LARGE -> 1000f + 2 * getPadding();
-			};
-		}
-
 		public static float getPadding() {
 			return switch (GraphicConfig.getResolution().SIZE) {
 				case SMALL -> 30f;
@@ -194,7 +186,7 @@ public class OptionModal extends WrapperTable {
 		}
 
 		public static float getInnerPadding() {
-			return 10f;
+			return 0f;
 		}
 	}
 }
