@@ -40,10 +40,10 @@ public class BankAccountHandler {
 
 	public void registerCredit(BigDecimal value, long creditLengthInMonths) {
 		var credit = new Credit(value, creditLengthInMonths, account.getCreditInterestRate(), time.getTime().toLocalDate());
-		NRepeatingTimeCommand timeCommandForCreditMonthlyPayment = createTimeCommandForCreditMonthlyPayment(credit.getMonthlyPayment(), credit);
+		NRepeatingTimeCommand timeCommandForCreditMonthlyPayment = createTimeCommandForCreditMonthlyPayment(credit.monthlyPayment, credit);
 
 		account.registerCredit(credit);
-		registerIncome(credit.getValue());
+		registerIncome(credit.value);
 		currentCredits.put(credit, timeCommandForCreditMonthlyPayment);
 		timeCommandExecutor.addCommand(timeCommandForCreditMonthlyPayment);
 	}
@@ -57,7 +57,7 @@ public class BankAccountHandler {
 				Frequency.EVERY_MONTH,
 				() -> registerExpense(monthlyPayments),
 				time.getTime().plusMonths(1).truncatedTo(ChronoUnit.DAYS),
-				credit.getLengthInMonths(),
+				credit.lengthInMonths,
 				() -> currentCredits.remove(credit));
 	}
 
@@ -74,11 +74,11 @@ public class BankAccountHandler {
 	}
 
 	public BigDecimal getPaidValue(Credit credit) {
-		return isPaid(credit) ? BigDecimal.ZERO : credit.getMonthlyPayment().multiply(BigDecimal.valueOf(credit.getLengthInMonths() - currentCredits.get(credit).getCounter()));
+		return isPaid(credit) ? BigDecimal.ZERO : credit.monthlyPayment.multiply(BigDecimal.valueOf(credit.lengthInMonths - currentCredits.get(credit).getCounter()));
 	}
 
 	public BigDecimal getValueLeftToPay(Credit credit) {
-		return credit.getValueWithInterest().subtract(getPaidValue(credit));
+		return credit.valueWithInterest.subtract(getPaidValue(credit));
 	}
 
 	public LocalDate getNextPaymentDate(Credit credit) {
@@ -86,7 +86,7 @@ public class BankAccountHandler {
 	}
 
 	public LocalDate getLastPaymentDate(Credit credit) {
-		return getNextPaymentDate(credit).plusMonths(getMonthsLeft(credit) - 1);
+		return credit.takeOutDate.plusMonths(credit.lengthInMonths);
 	}
 
 	public void payEntireCredit(Credit credit) {

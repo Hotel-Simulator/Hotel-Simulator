@@ -174,6 +174,6 @@ public class BankAccountHandlerTest {
 		Credit credit = (Credit) bankAccountHandler.getCurrentCredits().keySet().toArray()[0];
 
 		// Then
-		assertEquals(credit.getValueWithInterest().stripTrailingZeros(), bankAccountHandler.getValueLeftToPay(credit).stripTrailingZeros());
+		assertEquals(credit.valueWithInterest.stripTrailingZeros(), bankAccountHandler.getValueLeftToPay(credit).stripTrailingZeros());
 	}
 }
