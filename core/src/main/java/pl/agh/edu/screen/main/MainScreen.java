@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import pl.agh.edu.GdxGame;
 import pl.agh.edu.actor.component.background.InfinityBackground;
 import pl.agh.edu.actor.component.button.OptionButton;
-import pl.agh.edu.actor.component.modal.event.EventWrapper;
 import pl.agh.edu.actor.component.modal.options.OptionsWrapper;
 import pl.agh.edu.actor.component.navbar.NavbarBottom;
 import pl.agh.edu.actor.component.navbar.NavbarTop;
@@ -73,7 +72,7 @@ public class MainScreen implements Screen, ResolutionChangeListener {
 		mainStage.act();
 		mainStage.draw();
 		blurShader.render();
-		if(optionsWrapper.isOptionsOpen()) {
+		if(optionsWrapper.isModalOpen()) {
 			topStage.act();
 			topStage.draw();
 		}

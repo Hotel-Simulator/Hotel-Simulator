@@ -7,7 +7,7 @@ import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.config.LanguageConfig;
 import pl.agh.edu.language.LanguageManager;
 import pl.agh.edu.model.time.Time;
-import pl.agh.edu.screen.MainScreen;
+import pl.agh.edu.screen.main.MainScreen;
 
 public class GdxGame extends ApplicationAdapter {
 
@@ -19,7 +19,7 @@ public class GdxGame extends ApplicationAdapter {
 	public void create() {
 		LanguageManager.updateLanguage();
 
-		currentScreen = new MainScreen();
+		currentScreen = new MainScreen(this);
 		setScreen(currentScreen);
 
 		LanguageConfig.setLanguage(LanguageConfig.getLanguage());
