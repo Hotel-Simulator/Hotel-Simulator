@@ -14,18 +14,22 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Null;
 
+import pl.agh.edu.audio.SoundAudio;
+
 public class LinkLabel extends LanguageLabel {
 	private boolean isDisabled = false;
+	private SkinColor baseColor = SECONDARY;
 
 	public LinkLabel(String languagePath, String font, Runnable linkAction) {
 		super(languagePath, font);
-		setColor(SECONDARY.getColor(_300));
+		setLinkColor(baseColor.getColor(_300));
 		addListener(
 				new InputListener() {
 					@Override
 					public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 						if (!isDisabled) {
-							setColor(SECONDARY.getColor(_900));
+							setLinkColor(baseColor.getColor(_900));
+							SoundAudio.CLICK_2.play();
 							return true;
 						}
 						return false;
@@ -34,15 +38,15 @@ public class LinkLabel extends LanguageLabel {
 					@Override
 					public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 						if (!isDisabled) {
-							setColor(SECONDARY.getColor(_500));
-							event.cancel();
+							setLinkColor(baseColor.getColor(_500));
+							SoundAudio.BUTTON_2.play();
 						}
 					}
 
 					@Override
 					public void enter(InputEvent event, float x, float y, int pointer, @Null Actor fromActor) {
 						if (!isDisabled && pointer == -1) {
-							setColor(SECONDARY.getColor(_500));
+							setLinkColor(baseColor.getColor(_500));
 
 						}
 					}
@@ -50,7 +54,7 @@ public class LinkLabel extends LanguageLabel {
 					@Override
 					public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
 						if (!isDisabled && pointer == -1) {
-							setColor(SECONDARY.getColor(_300));
+							setLinkColor(baseColor.getColor(_300));
 						}
 					}
 				});
@@ -64,14 +68,13 @@ public class LinkLabel extends LanguageLabel {
 		});
 	}
 
-	@Override
-	public void setColor(Color color) {
+	private void setLinkColor(Color color) {
 		super.setColor(color);
-		setUnderscoreColor(color);
+		super.setUnderscoreColor(color);
 	}
 
 	public void setDisabled(boolean isDisabled) {
 		this.isDisabled = isDisabled;
-		setColor(isDisabled ? GRAY.getColor(_700) : SECONDARY.getColor(_300));
+		setLinkColor(isDisabled ? GRAY.getColor(_700) : baseColor.getColor(_300));
 	}
 }
