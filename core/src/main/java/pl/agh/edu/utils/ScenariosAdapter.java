@@ -9,8 +9,8 @@ public class ScenariosAdapter {
 	private DifficultyLevel difficultyLevel;
 
 	public void extractDataFromScenariosScreen(ScenariosScreen screen) {
-		hotelType = screen.selected.hotelType;
-		difficultyLevel = screen.currentlySelected.getDifficulty();
+		hotelType = screen.selectedScenarioButton.hotelType;
+		difficultyLevel = screen.selectedDifficultyButton.getDifficulty();
 	}
 
 	public HotelType getHotelType() {

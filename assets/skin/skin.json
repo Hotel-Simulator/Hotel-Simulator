@@ -534,6 +534,11 @@
 		"checkboxOnDisabled": "checkbox-on-disabled",
 		"checkboxOffDisabled": "checkbox-off-disabled",
 		"font": "body1"
+	},
+	"scenarios-checkbox": {
+		"checkboxOn": "button_selected",
+		"checkboxOff": "button",
+		"font": "white-h3"
 	}
 },
 "ImageTextButtonStyle": {
@@ -706,6 +711,42 @@
 		"down": "text-buttom-large-down",
 		"over": "text-buttom-large-over",
 		"disabled": "text-buttom-large-disabled"
+	},
+	"difficulty-button-subtitle1": {
+		"font": "white-subtitle1",
+		"fontColor": "alert-500",
+		"up": "button",
+		"checked": "button_selected"
+	},
+	"difficulty-button-h4": {
+		"font": "white-h4",
+		"fontColor": "alert-500",
+		"up": "button",
+		"checked": "button_selected"
+	},
+	"difficulty-button-h3": {
+		"font": "white-h3",
+		"fontColor": "alert-500",
+		"up": "button",
+		"checked": "button_selected"
+	},
+	"scenarios-play-h4": {
+		"font": "white-h4",
+		"fontColor": "alert-500",
+		"up": "button",
+		"down": "button_selected"
+	},
+	"scenarios-play-h2": {
+		"font": "white-h2",
+		"fontColor": "alert-500",
+		"up": "button",
+		"down": "button_selected"
+	},
+	"scenarios-play-h1": {
+		"font": "white-h1",
+		"fontColor": "alert-500",
+		"up": "button",
+		"down": "button_selected"
 	}
 },
 "TextFieldStyle": {

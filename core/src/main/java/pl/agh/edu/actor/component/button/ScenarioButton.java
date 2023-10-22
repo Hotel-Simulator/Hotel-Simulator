@@ -1,6 +1,8 @@
 package pl.agh.edu.actor.component.button;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 
@@ -12,11 +14,14 @@ public class ScenarioButton extends Table {
 	private final Skin skin = GameSkin.getInstance();
 	public final HotelType hotelType;
 	private boolean isSelected = false;
-	public int width = GraphicConfig.getResolution().WIDTH;
-	public int height = GraphicConfig.getResolution().HEIGHT;
+	public int width;
+	public int height;
+	public final NinePatchDrawable unselected = new NinePatchDrawable(skin.getPatch("button"));
+	public final NinePatchDrawable selected = new NinePatchDrawable(skin.getPatch("button_selected"));
 
 	public ScenarioButton(String title, String image, String description, String season, HotelType hotelType, String titleFont, String textFont) {
 		super();
+		setSize();
 		this.hotelType = hotelType;
 		pad(30, 20, 30, 20);
 
@@ -55,6 +60,7 @@ public class ScenarioButton extends Table {
 		seasonLabel.setAlignment(getAlign());
 		add(seasonLabel).width(3 * width / 24).padTop(height / 40).center();
 
+		setTouchable(Touchable.enabled);
 	}
 
 	public boolean getSelected() {
@@ -63,12 +69,24 @@ public class ScenarioButton extends Table {
 
 	public void setSelected() {
 		isSelected = true;
-		setBackground(new NinePatchDrawable(skin.getPatch("button_selected")));
+		setBackground(selected);
 	}
 
 	public void setUnselected() {
 		isSelected = false;
-		setBackground(new NinePatchDrawable(skin.getPatch("button")));
+		setBackground(unselected);
+	}
+
+	public void setSize() {
+		if (GraphicConfig.isFullscreen()) {
+			this.width = Gdx.graphics.getWidth();
+			this.height = Gdx.graphics.getHeight();
+		}
+
+		else {
+			this.width = GraphicConfig.getResolution().WIDTH;
+			this.height = GraphicConfig.getResolution().HEIGHT;
+		}
 	}
 
 }

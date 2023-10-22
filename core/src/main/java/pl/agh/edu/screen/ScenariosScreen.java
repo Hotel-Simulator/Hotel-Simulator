@@ -8,7 +8,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
@@ -18,43 +17,41 @@ import com.badlogic.gdx.utils.Scaling;
 import pl.agh.edu.GdxGame;
 import pl.agh.edu.actor.GameSkin;
 import pl.agh.edu.actor.component.button.DifficultyButton;
+import pl.agh.edu.actor.component.button.MyInputAdapter;
 import pl.agh.edu.actor.component.button.ScenarioButton;
+import pl.agh.edu.actor.utils.ScenariosSettings;
+import pl.agh.edu.actor.utils.resolution.ResolutionChangeListener;
+import pl.agh.edu.actor.utils.resolution.ResolutionManager;
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.enums.DifficultyLevel;
 import pl.agh.edu.enums.HotelType;
 
-public class ScenariosScreen implements Screen {
+public class ScenariosScreen implements Screen, ResolutionChangeListener {
 	private final Stage stage = new Stage(GraphicConfig.getViewport());
 	private final Skin skin = GameSkin.getInstance();
 	private final Stack stack = new Stack();
 
 	private final Table mainTable = new Table();
-	private final Table difficultyTable = new Table();
-	private final Table scenariosTable = new Table();
+	private Table difficultyTable;
+	private Table scenariosTable;
 	private final GdxGame game;
 
-	NinePatchDrawable buttonBackground = new NinePatchDrawable(skin.getPatch("button"));
-	NinePatchDrawable onSelect = new NinePatchDrawable(skin.getPatch("button_selected"));
+	public final NinePatchDrawable buttonBackground = new NinePatchDrawable(skin.getPatch("button"));
+	public final NinePatchDrawable onSelect = new NinePatchDrawable(skin.getPatch("button_selected"));
 	private Label.LabelStyle titleLabel;
 
 	// for difficulty
 	public ArrayList<DifficultyButton> myButtons = new ArrayList<>();
 	public int width = GraphicConfig.getResolution().WIDTH;
 	public int height = GraphicConfig.getResolution().HEIGHT;
-	public DifficultyButton currentlySelected = null;
-	public int diffWidth = width / 7;
-	public int diffHeight = height / 7;
-	public String difficultyButtonFont;
-	public String titleFont;
-	public String backFont;
-	public String scenarioTitleFont;
-	public float largePaddingMultiplier = 1;
+	public DifficultyButton selectedDifficultyButton = null;
+	public ScenariosSettings scenariosSettings = new ScenariosSettings();
 
 	// for scenarios
 	public ArrayList<ScenarioButton> scenarios = new ArrayList<>();
-	public ScenarioButton selected = null;
+	public ScenarioButton selectedScenarioButton = null;
 	public Label errorLabel;
-	public boolean errorDisplayed = false;
+	public final MyInputAdapter input = new MyInputAdapter();
 
 	public ScenariosScreen(GdxGame game) {
 		this.game = game;
@@ -64,23 +61,29 @@ public class ScenariosScreen implements Screen {
 		stack.setFillParent(true);
 		stack.add(background);
 		stage.addActor(stack);
-		setParams();
 
-		createDifficultyFrame();
-		createScenariosFrame();
+		createFrames();
 
 		setFillParent(mainTable);
 
 		stage.addActor(mainTable);
-		mainTable.add();
 		mainTable.add(scenariosTable).growX();
 
-		// mainTable.debug();
+		ResolutionManager.addListener(this);
+	}
+
+	public void createFrames() {
+		scenariosSettings.setParams();
+		difficultyTable = new Table();
+		scenariosTable = new Table();
+		createDifficultyFrame();
+		createScenariosFrame();
 	}
 
 	public void createDifficultyFrame() {
 		difficultyTable.left();
 		setFillParent(difficultyTable);
+		titleLabel = createTitleLabel();
 
 		Label label1 = new Label("Choose difficulty", titleLabel);
 
@@ -89,14 +92,14 @@ public class ScenariosScreen implements Screen {
 		titleTable.add(label1);
 		titleTable.pad(label1.getHeight() / 4, label1.getWidth() / 12, label1.getHeight() / 4, label1.getWidth() / 12);
 
-		difficultyTable.add(titleTable).left().padLeft((int) (width / 12)).padTop((int) (largePaddingMultiplier * height / 12)).expandX();
+		difficultyTable.add(titleTable).left().padLeft((int) (width / 12)).padTop((int) (scenariosSettings.getLargePaddingMultiplier() * height / 12)).expandX();
 
 		createDifficultyButtons(buttonBackground, onSelect);
-		addListeners(buttonBackground, onSelect);
+		addDifficultyButtonsListeners();
 		difficultyTable.row();
 		difficultyTable.row();
 
-		Button back = new TextButton("Back", createButtonStyle(buttonBackground, onSelect, skin, backFont));
+		Button back = new TextButton("Back", scenariosSettings.getPlayBackButtonStyle());
 		back.pad(back.getHeight() / 4, back.getWidth() / 6, back.getHeight() / 4, back.getWidth() / 6);
 		back.addListener(new ClickListener() {
 			@Override
@@ -109,16 +112,18 @@ public class ScenariosScreen implements Screen {
 		Table playBack = new Table();
 		playBack.add(back).padRight(3 * width / 5);
 
-		Button play = new TextButton("Play", createButtonStyle(buttonBackground, onSelect, skin, backFont));
+		Button play = new TextButton("Play", scenariosSettings.getPlayBackButtonStyle());
 		play.pad(play.getHeight() / 4, play.getWidth() / 6, play.getHeight() / 4, play.getWidth() / 6);
 		play.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				if (selected != null && currentlySelected != null) {
+
+				if (selectedScenarioButton != null && selectedDifficultyButton != null) {
 					game.setScenariosAdapterData();
 					game.changeScreen(new MainScreen(game));
-				} else if (!errorDisplayed) {
-					errorLabel = createErrorLabel();
+				} else {
+					System.out.println(selectedScenarioButton);
+					System.out.println(selectedDifficultyButton);
 					difficultyTable.add(errorLabel);
 				}
 
@@ -126,14 +131,13 @@ public class ScenariosScreen implements Screen {
 		});
 
 		playBack.add(play);
-		difficultyTable.add(playBack).padTop((float) (largePaddingMultiplier * height / 30));
-		difficultyTable.row().padTop((float) (largePaddingMultiplier * 10));
+		difficultyTable.add(playBack).padTop((float) (scenariosSettings.getLargePaddingMultiplier() * height / 30));
+		difficultyTable.row().padTop((float) (scenariosSettings.getLargePaddingMultiplier() * 10));
 
 	}
 
 	private Label.LabelStyle createTitleLabel() {
-		Label.LabelStyle titleLabel = new Label.LabelStyle();
-		titleLabel.font = skin.getFont(titleFont);
+		Label.LabelStyle titleLabel = GameSkin.getInstance().get(scenariosSettings.getTitleFont(), Label.LabelStyle.class);
 		titleLabel.fontColor = Color.YELLOW;
 		return titleLabel;
 	}
@@ -144,45 +148,36 @@ public class ScenariosScreen implements Screen {
 
 		for (int i = 0; i < 4; i++) {
 			difficultyTable.row();
-			DifficultyButton myButton = new DifficultyButton(names[i], createButtonStyle(buttonBackground, onSelect, skin, difficultyButtonFont), names2[i]);
+			DifficultyButton myButton = new DifficultyButton(names[i], new TextButton.TextButtonStyle(scenariosSettings.getDifficultyButtonStyle()), names2[i]);
 			this.myButtons.add(myButton);
-			myButton.pad((diffHeight - myButton.getHeight()) / 2, (diffWidth - myButton.getWidth()) / 2, (diffHeight - myButton.getHeight()) / 2, (diffWidth - myButton.getWidth())
-					/ 2);
-			difficultyTable.add(myButton).left().padTop((int) (largePaddingMultiplier * height / 24)).padLeft((int) (width / 6 + i * width / 24));
+			myButton.pad((scenariosSettings.getDiffHeight() - myButton.getHeight()) / 2, (scenariosSettings.getDiffWidth() - myButton.getWidth()) / 2, (scenariosSettings
+					.getDiffHeight() - myButton.getHeight()) / 2, (scenariosSettings.getDiffWidth() - myButton.getWidth())
+							/ 2);
+			difficultyTable.add(myButton).left().padTop((int) (scenariosSettings.getLargePaddingMultiplier() * height / 24)).padLeft((int) (width / 6 + i * width / 24));
 		}
 	}
 
 	public Label createErrorLabel() {
-		Label.LabelStyle style = new Label.LabelStyle();
-		style.font = skin.getFont("white-h4");
+		Label.LabelStyle style = GameSkin.getInstance().get("white-h4", Label.LabelStyle.class);
 		style.fontColor = Color.RED;
 
 		return new Label("Select scenario and difficulty", style);
 	}
 
-	public TextButton.TextButtonStyle createButtonStyle(NinePatchDrawable titleBackground, NinePatchDrawable onSelect, Skin skin, String font) {
-		TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
-		buttonStyle.up = titleBackground;
-		buttonStyle.down = onSelect;
-		buttonStyle.font = skin.getFont(font);
-		buttonStyle.fontColor = Color.YELLOW;
-		return buttonStyle;
-	}
-
-	public void addListeners(NinePatchDrawable titleBackground, NinePatchDrawable onSelect) {
+	public void addDifficultyButtonsListeners() {
 		for (DifficultyButton button : myButtons) {
 			button.addListener(
 					new ClickListener() {
 						@Override
 						public void clicked(InputEvent event, float x, float y) {
-							if (currentlySelected != null) {
-								currentlySelected.getStyle().up = titleBackground;
-								currentlySelected.unselect();
+
+							if (selectedDifficultyButton != null) {
+								selectedDifficultyButton.setChecked(false);
 							}
-							currentlySelected = button;
-							currentlySelected.select();
-							button.getStyle().up = onSelect;
-							if (selected != null && currentlySelected != null) {
+							selectedDifficultyButton = button;
+							selectedDifficultyButton.setChecked(true);
+
+							if (selectedScenarioButton != null && selectedDifficultyButton != null) {
 								difficultyTable.removeActor(errorLabel);
 								difficultyTable.row().clearActor();
 							}
@@ -191,38 +186,10 @@ public class ScenariosScreen implements Screen {
 		}
 	}
 
-	public void setParams() {
-		switch (GraphicConfig.getResolution().SIZE) {
-			case SMALL -> {
-				titleFont = "white-h3";
-				difficultyButtonFont = "white-subtitle1";
-				backFont = "white-h4";
-				scenarioTitleFont = "white-h4";
-			}
-			case MEDIUM -> {
-				titleFont = "white-h2";
-				difficultyButtonFont = "white-h4";
-				backFont = "white-h2";
-				scenarioTitleFont = "white-h3";
-			}
-			case LARGE -> {
-				titleFont = "white-h1";
-				difficultyButtonFont = "white-h3";
-				backFont = "white-h1";
-				scenarioTitleFont = "white-h2";
-				diffHeight = height / 12;
-				diffWidth = width / 8;
-				largePaddingMultiplier = height / 1000f * 0.85f;
-				System.out.println(largePaddingMultiplier);
-				System.out.println(3);
-			}
-		}
-		titleLabel = createTitleLabel();
-	}
-
 	public void createScenariosFrame() {
 		scenariosTable.top();
 		setFillParent(scenariosTable);
+		errorLabel = createErrorLabel();
 
 		Label label1 = new Label("Choose scenario", titleLabel);
 
@@ -231,18 +198,21 @@ public class ScenariosScreen implements Screen {
 		titleTable.add(label1);
 		titleTable.pad(label1.getHeight() / 4, label1.getWidth() / 12, label1.getHeight() / 4, label1.getWidth() / 12);
 
-		scenariosTable.add(titleTable).center().padTop((int) (largePaddingMultiplier * height / 10)).padBottom((int) (height / 26)).expandX();
+		scenariosTable.add(titleTable).center().padTop((int) (scenariosSettings.getLargePaddingMultiplier() * height / 10)).padBottom((int) (height / 26)).expandX();
 
 		scenariosTable.row();
 
 		Table buttons = new Table();
-		buttons.add(addScenariosButton("Seaside Resort", "water", "Most of the clients are people who are on vacation", "Summer", HotelType.RESORT, scenarioTitleFont,
-				difficultyButtonFont));
-		buttons.add(addScenariosButton("Sanatorium Ciechocinek", "hospital", "Clients are mostly patients but not only", "Autumn", HotelType.SANATORIUM, scenarioTitleFont,
-				difficultyButtonFont)).padLeft((int) (width / 12));
-		buttons.add(addScenariosButton("City center Hotel", "hotel", "Hotel guests are mostly businessman", "Spring", HotelType.HOTEL, scenarioTitleFont, difficultyButtonFont))
+		buttons.add(addScenariosButton("Seaside Resort", "water", "Most of the clients are people who are on vacation", "Summer", HotelType.RESORT, scenariosSettings
+				.getScenarioTitleFont(),
+				scenariosSettings.getDifficultyButtonStyle().font.toString()));
+		buttons.add(addScenariosButton("Sanatorium Ciechocinek", "hospital", "Clients are mostly patients but not only", "Autumn", HotelType.SANATORIUM, scenariosSettings
+				.getScenarioTitleFont(),
+				scenariosSettings.getDifficultyButtonStyle().font.toString())).padLeft((int) (width / 12));
+		buttons.add(addScenariosButton("City center Hotel", "hotel", "Hotel guests are mostly businessman", "Spring", HotelType.HOTEL, scenariosSettings.getScenarioTitleFont(),
+				scenariosSettings.getDifficultyButtonStyle().font.toString()))
 				.padLeft((int) (width / 12));
-		scenariosTable.add(buttons).padTop((int) (largePaddingMultiplier * height / 24));
+		scenariosTable.add(buttons).padTop((int) (scenariosSettings.getLargePaddingMultiplier() * height / 24));
 
 		scenariosTable.row();
 
@@ -257,7 +227,7 @@ public class ScenariosScreen implements Screen {
 		next.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				if (selected != null && currentlySelected != null) {
+				if (selectedScenarioButton != null && selectedDifficultyButton != null) {
 					difficultyTable.removeActor(errorLabel);
 				}
 				mainTable.clearChildren();
@@ -265,9 +235,7 @@ public class ScenariosScreen implements Screen {
 			}
 		});
 
-		scenariosTable.add(next).right().padRight((int) (width / 12)).padTop((int) (largePaddingMultiplier * height / 16));
-
-		// scenariosTable.debug();
+		scenariosTable.add(next).right().padRight((int) (width / 12)).padTop((int) (scenariosSettings.getLargePaddingMultiplier() * height / 16));
 	}
 
 	private void setFillParent(Table table) {
@@ -277,21 +245,15 @@ public class ScenariosScreen implements Screen {
 	public ScenarioButton addScenariosButton(String title, String image, String description, String season, HotelType hotelType, String scenarioTitleFont,
 			String scenarioTextFont) {
 		ScenarioButton scenario = new ScenarioButton(title, image, description, season, hotelType, scenarioTitleFont, scenarioTextFont);
-		scenario.setTouchable(Touchable.enabled);
 		scenario.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				super.clicked(event, x, y);
-				if (scenario.getSelected()) {
-					scenario.setUnselected();
-					selected = null;
-				} else {
-					scenario.setSelected();
-					if (selected != null) {
-						selected.setUnselected();
-					}
-					selected = scenario;
+				if (selectedScenarioButton != null && selectedScenarioButton != scenario) {
+					selectedScenarioButton.setUnselected();
 				}
+				selectedScenarioButton = scenario;
+				scenario.setSelected();
 			}
 		});
 		scenarios.add(scenario);
@@ -335,5 +297,18 @@ public class ScenariosScreen implements Screen {
 	@Override
 	public void dispose() {
 
+	}
+
+	@Override
+	public void onResolutionChange() {
+		if (GraphicConfig.isFullscreen()) {
+			this.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+			this.width = Gdx.graphics.getWidth();
+			this.height = Gdx.graphics.getHeight();
+		} else {
+			this.resize(GraphicConfig.getResolution().WIDTH, GraphicConfig.getResolution().HEIGHT);
+			this.width = GraphicConfig.getResolution().WIDTH;
+			this.height = GraphicConfig.getResolution().HEIGHT;
+		}
 	}
 }
