@@ -48,12 +48,14 @@ public class OptionsWrapper extends BaseModalWrapper {
 			deactivatedStage();
 		optionModal.runVerticalFadeOutAnimation();
 	}
+
 	public void resize() {
 		this.size(OptionWrapperStyle.getWidth(), OptionWrapperStyle.getHeight());
 		optionModal.validate();
 		optionModal.layout();
 		this.resetAnimationPosition();
 	}
+
 	private static class OptionWrapperStyle {
 		public static float getHeight() {
 			return switch (GraphicConfig.getResolution().SIZE) {

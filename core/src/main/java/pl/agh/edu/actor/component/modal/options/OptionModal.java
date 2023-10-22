@@ -162,17 +162,15 @@ public class OptionModal extends WrapperTable {
 	@Override
 	public void validate() {
 		super.validate();
-		if(this.getParent()!=null){
+		if (this.getParent() != null) {
 			innerTable.setBounds(
 					this.getParent().getX(),
 					this.getParent().getY(),
 					this.getWidth(),
-					this.getHeight()
-			);
+					this.getHeight());
 			this.setResetAnimationPosition(
-					this.getParent().getX()+(GraphicConfig.getResolution().WIDTH-this.getWidth())/2,
-					this.getParent().getY()+(GraphicConfig.getResolution().HEIGHT-this.getHeight())/2
-			);
+					this.getParent().getX() + (GraphicConfig.getResolution().WIDTH - this.getWidth()) / 2,
+					this.getParent().getY() + (GraphicConfig.getResolution().HEIGHT - this.getHeight()) / 2);
 		}
 	}
 
