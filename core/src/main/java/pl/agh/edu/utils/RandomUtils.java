@@ -103,15 +103,13 @@ public class RandomUtils {
 		}
 		int a = 0;
 		int randInt = ThreadLocalRandom.current().nextInt(MAX_PROBABILITY);
-		T result = constantsProbabilities.keySet().stream().toList().get(0);
 		for (Map.Entry<T, Integer> entry : constantsProbabilities.entrySet()) {
 			a += entry.getValue();
 			if (a > randInt) {
-				result = entry.getKey();
+				return entry.getKey();
 			}
 		}
-
-		return result;
+		return constantsProbabilities.keySet().stream().toList().get(0);
 	}
 
 }

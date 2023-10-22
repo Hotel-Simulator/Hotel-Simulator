@@ -10,7 +10,7 @@ import pl.agh.edu.time_command.TimeCommand;
 
 public class RepairScheduler extends WorkScheduler<Room> {
 	public RepairScheduler(HotelHandler hotelHandler) {
-		super(hotelHandler, new LinkedList<>(), Profession.CLEANER);
+		super(hotelHandler, new LinkedList<>(), Profession.TECHNICIAN);
 	}
 
 	@Override

@@ -1,25 +1,25 @@
 package pl.agh.edu.model.employee;
 
+import java.time.Duration;
 import java.time.LocalTime;
 
 public enum Shift {
-	MORNING,
-	EVENING,
-	NIGHT;
+	MORNING(LocalTime.of(8, 0)),
+	EVENING(LocalTime.of(16, 0)),
+	NIGHT(LocalTime.of(0, 0));
 
-	public LocalTime getStartTime() {
-		return switch (this) {
-			case MORNING -> LocalTime.of(8, 0);
-			case EVENING -> LocalTime.of(16, 0);
-			case NIGHT -> LocalTime.of(0, 0);
-		};
+	private final LocalTime startTime;
+	private final Duration duration = Duration.ofHours(8);
+
+	Shift(LocalTime startTime) {
+		this.startTime = startTime;
 	}
 
-	public LocalTime getEndTime() {
+	public boolean lasts(LocalTime time) {
 		return switch (this) {
-			case MORNING -> LocalTime.of(16, 0);
-			case EVENING -> LocalTime.of(0, 0);
-			case NIGHT -> LocalTime.of(8, 0);
+			case MORNING -> !time.isBefore(startTime) && time.isBefore(startTime.plus(duration));
+			case EVENING -> !time.isBefore(startTime);
+			case NIGHT -> time.isBefore(startTime.plus(duration));
 		};
 	}
 
