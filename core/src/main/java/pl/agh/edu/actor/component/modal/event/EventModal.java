@@ -48,7 +48,7 @@ public class EventModal extends WrapperTable {
 				BODY_2.getName(),
 				eventModalData.description().stringsWithReplacements);
 		descriptionLabel.setWrap(true);
-		descriptionLabel.setAlignment(Align.center, Align.center);
+		descriptionLabel.setAlignment(Align.center, Align.left);
 
 		mainTable.add(imageContainer).pad(EventModalStyle.getPadding());
 		mainTable.add(descriptionLabel).grow();

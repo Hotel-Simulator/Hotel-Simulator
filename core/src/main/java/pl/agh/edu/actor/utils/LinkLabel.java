@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Null;
 
+import pl.agh.edu.actor.utils.label.LanguageLabel;
 import pl.agh.edu.audio.SoundAudio;
 
 public class LinkLabel extends LanguageLabel {
