@@ -2,10 +2,8 @@ package pl.agh.edu.actor.frame;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
-import pl.agh.edu.actor.utils.CustomLabel;
 import pl.agh.edu.actor.utils.FontType;
 import pl.agh.edu.actor.utils.LinkLabel;
-import pl.agh.edu.actor.utils.SkinColor;
 
 public class TestFrame extends BaseFrame {
 	public TestFrame(String name) {
@@ -16,9 +14,7 @@ public class TestFrame extends BaseFrame {
 		root.add(label);
 		root.row().row();
 		LinkLabel label2 = new LinkLabel("test.test", FontType.H1.getWhiteVariantName(), () -> System.out.println("test"));
-
-		label2.setUnderscoreColor(SkinColor.SECONDARY.getColor(SkinColor.ColorLevel._500));
-		label2.setText("test");
+		label2.setDisabled(true);
 		root.add(label2);
 
 		this.add(root);
