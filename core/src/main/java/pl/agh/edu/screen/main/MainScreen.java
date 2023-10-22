@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import pl.agh.edu.GdxGame;
 import pl.agh.edu.actor.component.background.InfinityBackground;
 import pl.agh.edu.actor.component.button.OptionButton;
+import pl.agh.edu.actor.component.modal.event.EventWrapper;
 import pl.agh.edu.actor.component.modal.options.OptionsWrapper;
 import pl.agh.edu.actor.component.navbar.NavbarBottom;
 import pl.agh.edu.actor.component.navbar.NavbarTop;
@@ -28,9 +29,11 @@ public class MainScreen implements Screen, ResolutionChangeListener {
 	private final MainScreenInputAdapter inputMultiplexer = new MainScreenInputAdapter(mainStage);
 	public final OptionsWrapper optionsWrapper = new OptionsWrapper(inputMultiplexer, blurShader, mainStage, topStage);
 	private final InfinityBackground infinityBackground = new InfinityBackground("night-city");
+	private final EventWrapper eventWrapper = new EventWrapper(inputMultiplexer, blurShader, mainStage, topStage);
 
 	public MainScreen(GdxGame game) {
 		this.game = game;
+		game.engine.eventHandler.setEventHandlerFunction(eventWrapper::showEvent);
 		inputMultiplexer.setOpenOptionsAction(optionsWrapper.getOptionHandler());
 		setupUI();
 	}
@@ -58,6 +61,7 @@ public class MainScreen implements Screen, ResolutionChangeListener {
 
 		mainStage.addActor(stack);
 		middleStage.addActor(blurShader);
+		topStage.addActor(eventWrapper);
 		topStage.addActor(optionsWrapper);
 
 		ResolutionManager.addListener(this);
@@ -72,7 +76,7 @@ public class MainScreen implements Screen, ResolutionChangeListener {
 		mainStage.act();
 		mainStage.draw();
 		blurShader.render();
-		if (optionsWrapper.isModalOpen()) {
+		if(eventWrapper.isEventOpen() || optionsWrapper.isModalOpen()) {
 			topStage.act();
 			topStage.draw();
 		}
