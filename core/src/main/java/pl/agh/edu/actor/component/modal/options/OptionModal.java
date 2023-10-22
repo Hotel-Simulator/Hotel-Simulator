@@ -18,7 +18,7 @@ import pl.agh.edu.actor.component.selectMenu.SelectMenuLanguage;
 import pl.agh.edu.actor.component.selectMenu.SelectMenuResolutionItem;
 import pl.agh.edu.actor.component.slider.PercentSliderComponent;
 import pl.agh.edu.actor.component.slider.SliderComponent;
-import pl.agh.edu.actor.utils.LanguageLabel;
+import pl.agh.edu.actor.utils.label.LanguageLabel;
 import pl.agh.edu.actor.utils.resolution.Size;
 import pl.agh.edu.actor.utils.wrapper.WrapperTable;
 import pl.agh.edu.audio.SoundAudio;
