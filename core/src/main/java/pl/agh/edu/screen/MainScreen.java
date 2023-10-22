@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
@@ -16,9 +15,8 @@ import pl.agh.edu.actor.component.background.InfinityBackground;
 import pl.agh.edu.actor.component.button.OptionButton;
 import pl.agh.edu.actor.component.navbar.NavbarBottom;
 import pl.agh.edu.actor.component.navbar.NavbarTop;
-import pl.agh.edu.actor.frame.BaseFrame;
+import pl.agh.edu.actor.frame.FrameStack;
 import pl.agh.edu.actor.frame.OptionFrame;
-import pl.agh.edu.actor.frame.TestFrame;
 import pl.agh.edu.actor.shader.BlurShader;
 import pl.agh.edu.actor.utils.resolution.ResolutionChangeListener;
 import pl.agh.edu.actor.utils.resolution.ResolutionManager;
@@ -26,7 +24,7 @@ import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.model.time.Time;
 
 public class MainScreen implements Screen, ResolutionChangeListener {
-	private Cell<?> currentFrame;
+	public final FrameStack frameStack = new FrameStack();
 	private final Skin skin = GameSkin.getInstance();
 	private final Stack stack = new Stack();
 	private final Container<OptionFrame> optionFrameContainer = new Container<>();
@@ -38,7 +36,6 @@ public class MainScreen implements Screen, ResolutionChangeListener {
 	private final Stage topStage = new Stage(GraphicConfig.getViewport());
 	private final BlurShader blurShader = new BlurShader(mainStage);
 	private final InputMultiplexer inputMultiplexer = new InputMultiplexer(mainStage);
-
 	private final InfinityBackground infinityBackground = new InfinityBackground("night-city");
 
 	public MainScreen(GdxGame game) {
@@ -55,13 +52,12 @@ public class MainScreen implements Screen, ResolutionChangeListener {
 		table.add(new OptionButton(this::optionButtonHandler)).uniform();
 		table.row();
 		table.add();
-		currentFrame = table.add();
+		table.add(frameStack).grow().center();
 		table.add();
 		table.row();
 		table.add();
 		table.add(new NavbarBottom("default", this)).growX();
 		table.add();
-
 		stack.add(table);
 
 		mainStage.addActor(stack);
@@ -70,10 +66,6 @@ public class MainScreen implements Screen, ResolutionChangeListener {
 
 		ResolutionManager.addListener(this);
 		Gdx.input.setInputProcessor(inputMultiplexer);
-	}
-
-	public void changeFrame(BaseFrame frame) {
-		currentFrame.setActor(frame).grow();
 	}
 
 	private void updateBlurShaderState() {
@@ -126,9 +118,7 @@ public class MainScreen implements Screen, ResolutionChangeListener {
 	}
 
 	@Override
-	public void show() {
-		changeFrame(new TestFrame("test"));
-	}
+	public void show() {}
 
 	@Override
 	public void render(float delta) {

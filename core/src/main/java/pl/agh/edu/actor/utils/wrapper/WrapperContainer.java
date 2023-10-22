@@ -70,8 +70,9 @@ public abstract class WrapperContainer<T extends Actor> extends Container<T> imp
 		this.clearActions();
 		this.addAction(
 				Actions.sequence(
-						Actions.moveBy(distanceX, distanceY),
-						Actions.alpha(0f),
+						Actions.parallel(
+								Actions.alpha(0f),
+								Actions.moveBy(distanceX, distanceY)),
 						Actions.parallel(
 								Actions.moveBy(-distanceX, -distanceY, duration, interpolation),
 								Actions.alpha(1f, duration))));
@@ -86,7 +87,8 @@ public abstract class WrapperContainer<T extends Actor> extends Container<T> imp
 						Actions.parallel(
 								Actions.alpha(0f, duration),
 								Actions.moveBy(-distanceX, -distanceY, duration, interpolation)),
-						Actions.moveBy(distanceX, distanceY)));
+						Actions.moveBy(distanceX, distanceY),
+						Actions.removeActor(this)));
 		this.resetAnimationPosition();
 	}
 
@@ -103,7 +105,7 @@ public abstract class WrapperContainer<T extends Actor> extends Container<T> imp
 	}
 
 	public void runVerticalFadeOutAnimation() {
-		this.runFadeOutAnimation(0f, 50f, 0.2f, Interpolation.fade);
+		this.runFadeOutAnimation(0f, 50f, 0.5f, Interpolation.fade);
 	}
 
 	public void runVerticalTrainInAnimation() {
@@ -111,14 +113,14 @@ public abstract class WrapperContainer<T extends Actor> extends Container<T> imp
 	}
 
 	public void runVerticalTrainOutAnimation() {
-		this.runFadeOutAnimation(0f, GraphicConfig.getResolution().HEIGHT, 0.2f, Interpolation.fade);
+		this.runFadeOutAnimation(0f, GraphicConfig.getResolution().HEIGHT, 0.5f, Interpolation.fade);
 	}
 
 	public void runHorizontalTrainInAnimation() {
-		this.runFadeInAnimation(GraphicConfig.getResolution().WIDTH, 0f, 1f, Interpolation.smooth);
+		this.runFadeInAnimation(GraphicConfig.getResolution().WIDTH, 0f, 0.7f, Interpolation.smooth);
 	}
 
 	public void runHorizontalTrainOutAnimation() {
-		this.runFadeOutAnimation(GraphicConfig.getResolution().WIDTH, 0f, 0.5f, Interpolation.smooth);
+		this.runFadeOutAnimation(GraphicConfig.getResolution().WIDTH, 0f, 0.7f, Interpolation.smooth);
 	}
 }

@@ -1,20 +1,48 @@
 package pl.agh.edu.actor.component.navbar;
 
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import static pl.agh.edu.actor.component.navbar.NavbarButtonType.ACCOUNT;
+import static pl.agh.edu.actor.component.navbar.NavbarButtonType.AD;
+import static pl.agh.edu.actor.component.navbar.NavbarButtonType.BACK;
+import static pl.agh.edu.actor.component.navbar.NavbarButtonType.BANK;
+import static pl.agh.edu.actor.component.navbar.NavbarButtonType.BOARD;
+import static pl.agh.edu.actor.component.navbar.NavbarButtonType.CREDIT;
+import static pl.agh.edu.actor.component.navbar.NavbarButtonType.DEPOSIT;
+import static pl.agh.edu.actor.component.navbar.NavbarButtonType.EMPLOYEE;
+import static pl.agh.edu.actor.component.navbar.NavbarButtonType.HIRE;
+import static pl.agh.edu.actor.component.navbar.NavbarButtonType.HISTORY;
+import static pl.agh.edu.actor.component.navbar.NavbarButtonType.HOTEL;
+import static pl.agh.edu.actor.component.navbar.NavbarButtonType.MANAGE;
+import static pl.agh.edu.actor.component.navbar.NavbarButtonType.OFFER;
+import static pl.agh.edu.actor.component.navbar.NavbarButtonType.PLACES;
+import static pl.agh.edu.actor.component.navbar.NavbarButtonType.ROOMS;
+import static pl.agh.edu.actor.component.navbar.NavbarButtonType.TAX;
+import static pl.agh.edu.enums.BottomNavbarState.AD_MENU;
+import static pl.agh.edu.enums.BottomNavbarState.BANK_MENU;
+import static pl.agh.edu.enums.BottomNavbarState.EMPLOYEE_MENU;
+import static pl.agh.edu.enums.BottomNavbarState.HOTEL_MENU;
+import static pl.agh.edu.enums.BottomNavbarState.MAIN_MENU;
+import static pl.agh.edu.enums.BottomNavbarState.TAX_MENU;
+
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Stack;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 
 import pl.agh.edu.actor.GameSkin;
 import pl.agh.edu.actor.component.button.NavbarButton;
-import pl.agh.edu.actor.frame.TestFrame;
+import pl.agh.edu.audio.SoundAudio;
 import pl.agh.edu.enums.BottomNavbarState;
 import pl.agh.edu.screen.MainScreen;
 
 public class NavbarBottom extends Table {
 	private final Table bottomNavBar = new Table();
-
 	private final MainScreen mainScreen;
+	private NavbarButtonType currentNavbarButtonType = BOARD;
+	private BottomNavbarState currentBottomNavbarState = HOTEL_MENU;
+	private NavbarButton currentNavbarButton = createNavbarButtonWithChangeFrame(currentNavbarButtonType, BANK_MENU);
 
 	public NavbarBottom(String styleName, MainScreen screen) {
 		mainScreen = screen;
@@ -32,7 +60,8 @@ public class NavbarBottom extends Table {
 		bottomStack.add(bottomNavBar);
 
 		add(bottomStack).growY().bottom();
-		this.changeBottomNavbarState(BottomNavbarState.MAIN);
+
+		changeBottomNavbarState(currentBottomNavbarState);
 	}
 
 	public static class NavbarBottomStyle {
@@ -47,43 +76,74 @@ public class NavbarBottom extends Table {
 		}
 	}
 
+	private NavbarButton createNavbarButtonWithChangeFrame(NavbarButtonType type, BottomNavbarState state) {
+		NavbarButton navbarButton = new NavbarButton(
+				type,
+				state);
+		navbarButton.setTouchUpAction(() -> {
+			if (mainScreen.frameStack.isActionPossible()) {
+				mainScreen.frameStack.changeFrame(type.getFrame());
+				currentBottomNavbarState = state;
+				currentNavbarButtonType = type;
+				currentNavbarButton.setDisabled(false);
+				currentNavbarButton = navbarButton;
+				navbarButton.setDisabled(true);
+				SoundAudio.KNOCK_1.play();
+			}
+		});
+		if (navbarButton.compare(currentNavbarButtonType, currentBottomNavbarState)) {
+			currentNavbarButton.setDisabled(false);
+			navbarButton.setDisabled(true);
+			currentNavbarButton = navbarButton;
+		}
+		return navbarButton;
+	}
+
+	private NavbarButton createNavbarButtonWithChangeState(NavbarButtonType type, BottomNavbarState newState) {
+		NavbarButton navbarButton = new NavbarButton(
+				type,
+				MAIN_MENU);
+		navbarButton.setTouchUpAction(() -> changeBottomNavbarState(newState));
+		return navbarButton;
+	}
+
 	public void changeBottomNavbarState(BottomNavbarState state) {
 		bottomNavBar.clear();
 		switch (state) {
-			case MAIN -> {
-				bottomNavBar.add(new NavbarButton("bank", () -> changeBottomNavbarState(BottomNavbarState.BANK)));
-				bottomNavBar.add(new NavbarButton("hotel", () -> changeBottomNavbarState(BottomNavbarState.HOTEL)));
-				bottomNavBar.add(new NavbarButton("employee", () -> changeBottomNavbarState(BottomNavbarState.EMPLOYEE)));
-				bottomNavBar.add(new NavbarButton("tax", () -> changeBottomNavbarState(BottomNavbarState.TAXES)));
-				bottomNavBar.add(new NavbarButton("ad", () -> changeBottomNavbarState(BottomNavbarState.ADS)));
+			case MAIN_MENU -> {
+				bottomNavBar.add(createNavbarButtonWithChangeState(BANK, BANK_MENU));
+				bottomNavBar.add(createNavbarButtonWithChangeState(HOTEL, HOTEL_MENU));
+				bottomNavBar.add(createNavbarButtonWithChangeState(EMPLOYEE, EMPLOYEE_MENU));
+				bottomNavBar.add(createNavbarButtonWithChangeState(TAX, TAX_MENU));
+				bottomNavBar.add(createNavbarButtonWithChangeState(AD, AD_MENU));
 			}
-			case HOTEL -> {
-				bottomNavBar.add(new NavbarButton("board", () -> mainScreen.changeFrame(new TestFrame("board"))));
-				bottomNavBar.add(new NavbarButton("rooms", () -> mainScreen.changeFrame(new TestFrame("rooms"))));
-				bottomNavBar.add(new NavbarButton("places", () -> mainScreen.changeFrame(new TestFrame("places"))));
-				bottomNavBar.add(new NavbarButton("back", () -> changeBottomNavbarState(BottomNavbarState.MAIN)));
+			case HOTEL_MENU -> {
+				bottomNavBar.add(createNavbarButtonWithChangeFrame(BOARD, HOTEL_MENU));
+				bottomNavBar.add(createNavbarButtonWithChangeFrame(ROOMS, HOTEL_MENU));
+				bottomNavBar.add(createNavbarButtonWithChangeFrame(PLACES, HOTEL_MENU));
+				bottomNavBar.add(createNavbarButtonWithChangeState(BACK, MAIN_MENU));
 			}
-			case BANK -> {
-				bottomNavBar.add(new NavbarButton("offer", () -> mainScreen.changeFrame(new TestFrame("offer"))));
-				bottomNavBar.add(new NavbarButton("account", () -> mainScreen.changeFrame(new TestFrame("account"))));
-				bottomNavBar.add(new NavbarButton("deposit", () -> mainScreen.changeFrame(new TestFrame("deposit"))));
-				bottomNavBar.add(new NavbarButton("credit", () -> mainScreen.changeFrame(new TestFrame("credit"))));
-				bottomNavBar.add(new NavbarButton("back", () -> changeBottomNavbarState(BottomNavbarState.MAIN)));
+			case BANK_MENU -> {
+				bottomNavBar.add(createNavbarButtonWithChangeFrame(OFFER, BANK_MENU));
+				bottomNavBar.add(createNavbarButtonWithChangeFrame(ACCOUNT, BANK_MENU));
+				bottomNavBar.add(createNavbarButtonWithChangeFrame(DEPOSIT, BANK_MENU));
+				bottomNavBar.add(createNavbarButtonWithChangeFrame(CREDIT, BANK_MENU));
+				bottomNavBar.add(createNavbarButtonWithChangeState(BACK, MAIN_MENU));
 			}
-			case EMPLOYEE -> {
-				bottomNavBar.add(new NavbarButton("hire", () -> mainScreen.changeFrame(new TestFrame("hire"))));
-				bottomNavBar.add(new NavbarButton("manage", () -> mainScreen.changeFrame(new TestFrame("manage"))));
-				bottomNavBar.add(new NavbarButton("back", () -> changeBottomNavbarState(BottomNavbarState.MAIN)));
+			case EMPLOYEE_MENU -> {
+				bottomNavBar.add(createNavbarButtonWithChangeFrame(HIRE, EMPLOYEE_MENU));
+				bottomNavBar.add(createNavbarButtonWithChangeFrame(MANAGE, EMPLOYEE_MENU));
+				bottomNavBar.add(createNavbarButtonWithChangeState(BACK, MAIN_MENU));
 			}
-			case TAXES -> {
-				bottomNavBar.add(new NavbarButton("offer", () -> mainScreen.changeFrame(new TestFrame("offer"))));
-				bottomNavBar.add(new NavbarButton("history", () -> mainScreen.changeFrame(new TestFrame("history"))));
-				bottomNavBar.add(new NavbarButton("back", () -> changeBottomNavbarState(BottomNavbarState.MAIN)));
+			case TAX_MENU -> {
+				bottomNavBar.add(createNavbarButtonWithChangeFrame(OFFER, TAX_MENU));
+				bottomNavBar.add(createNavbarButtonWithChangeFrame(HISTORY, TAX_MENU));
+				bottomNavBar.add(createNavbarButtonWithChangeState(BACK, MAIN_MENU));
 			}
-			case ADS -> {
-				bottomNavBar.add(new NavbarButton("ad", () -> mainScreen.changeFrame(new TestFrame("ad"))));
-				bottomNavBar.add(new NavbarButton("history", () -> mainScreen.changeFrame(new TestFrame("history"))));
-				bottomNavBar.add(new NavbarButton("back", () -> changeBottomNavbarState(BottomNavbarState.MAIN)));
+			case AD_MENU -> {
+				bottomNavBar.add(createNavbarButtonWithChangeFrame(AD, AD_MENU));
+				bottomNavBar.add(createNavbarButtonWithChangeFrame(HISTORY, AD_MENU));
+				bottomNavBar.add(createNavbarButtonWithChangeState(BACK, MAIN_MENU));
 			}
 		}
 	}
