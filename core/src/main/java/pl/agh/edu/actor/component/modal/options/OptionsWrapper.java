@@ -6,18 +6,18 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import pl.agh.edu.actor.component.modal.BaseModalWrapper;
 import pl.agh.edu.actor.shader.BlurShader;
 
-public class OptionsWrapper extends BaseModalWrapper{
+public class OptionsWrapper extends BaseModalWrapper {
 	private final OptionModal optionModal = new OptionModal(this::closeModal);
 
 	public OptionsWrapper(
 			InputMultiplexer inputMultiplexer,
 			BlurShader blurShader,
 			Stage mainStage,
-			Stage optionsStage
-	) {
+			Stage optionsStage) {
 		super(inputMultiplexer, blurShader, mainStage, optionsStage);
 		this.setFillParent(true);
 	}
+
 	public Runnable getOptionHandler() {
 		return () -> {
 			if (isModalOpen())
@@ -29,16 +29,20 @@ public class OptionsWrapper extends BaseModalWrapper{
 
 	@Override
 	public void openModal() {
-		if (isModalOpen()) return;
-		if(!isStageActive())activatedStage();
+		if (isModalOpen())
+			return;
+		if (!isStageActive())
+			activatedStage();
 		this.setActor(optionModal);
 		optionModal.runVerticalFadeInAnimation();
 	}
 
 	@Override
 	public void closeModal() {
-		if (!isModalOpen()) return;
-		if(isStageReadyToClose()) deactivatedStage();
+		if (!isModalOpen())
+			return;
+		if (isStageReadyToClose())
+			deactivatedStage();
 		optionModal.runVerticalFadeOutAnimation();
 	}
 }

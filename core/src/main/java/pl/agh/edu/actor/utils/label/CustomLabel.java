@@ -41,7 +41,7 @@ public class CustomLabel extends Label {
 
 	}
 
-	public void setFont(String font){
+	public void setFont(String font) {
 		LabelStyle labelStyle = new LabelStyle(this.getStyle());
 		labelStyle.font = GameSkin.getInstance().getFont(font);
 		this.setStyle(labelStyle);

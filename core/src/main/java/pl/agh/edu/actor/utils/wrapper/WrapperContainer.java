@@ -58,6 +58,7 @@ public abstract class WrapperContainer<T extends Actor> extends Container<T> imp
 	public void setResetAnimationPosition(float x, float y) {
 		returnHandler = () -> this.setPosition(x, y);
 	}
+
 	public void setResetAnimationPosition() {
 		this.setResetAnimationPosition(this.getX(), this.getY());
 	}
@@ -73,8 +74,7 @@ public abstract class WrapperContainer<T extends Actor> extends Container<T> imp
 				Actions.sequence(
 						Actions.parallel(
 								Actions.alpha(0f),
-								Actions.moveBy(distanceX, distanceY)
-						),
+								Actions.moveBy(distanceX, distanceY)),
 						Actions.parallel(
 								Actions.moveBy(-distanceX, -distanceY, duration, interpolation),
 								Actions.alpha(1f, duration))));

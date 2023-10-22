@@ -45,7 +45,7 @@ public class Time {
 				minutes += timeUnitInMinutes;
 				this.reset();
 				if (minutes >= 60) {
-					hours+=12;
+					hours += 12;
 					minutes = minutes % 60;
 					if (hours >= 24) {
 						days++;
@@ -53,9 +53,9 @@ public class Time {
 
 						int daysInMonth = switch (months) {
 							case 2 ->
-									(years % 4 == 0 && (years % 100 != 0 || years % 400 == 0)) ? 29 : 28;
+								(years % 4 == 0 && (years % 100 != 0 || years % 400 == 0)) ? 29 : 28;
 							case 4, 6, 9, 11 ->
-									30;
+								30;
 							default -> 31;
 						};
 

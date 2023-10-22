@@ -72,7 +72,7 @@ public class MainScreen implements Screen, ResolutionChangeListener {
 		mainStage.act();
 		mainStage.draw();
 		blurShader.render();
-		if(optionsWrapper.isModalOpen()) {
+		if (optionsWrapper.isModalOpen()) {
 			topStage.act();
 			topStage.draw();
 		}

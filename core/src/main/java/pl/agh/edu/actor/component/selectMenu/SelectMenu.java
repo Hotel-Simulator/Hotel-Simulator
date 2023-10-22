@@ -12,8 +12,8 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 
 import pl.agh.edu.actor.GameSkin;
-import pl.agh.edu.actor.utils.label.CustomLabel;
 import pl.agh.edu.actor.utils.FontType;
+import pl.agh.edu.actor.utils.label.CustomLabel;
 import pl.agh.edu.actor.utils.wrapper.WrapperTable;
 import pl.agh.edu.audio.SoundAudio;
 import pl.agh.edu.config.GraphicConfig;
