@@ -3,8 +3,8 @@ package pl.agh.edu.actor.component.table;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-import pl.agh.edu.actor.utils.Font;
-import pl.agh.edu.actor.utils.WrapperTable;
+import pl.agh.edu.actor.utils.FontType;
+import pl.agh.edu.actor.utils.wrapper.WrapperTable;
 import pl.agh.edu.config.GraphicConfig;
 
 public abstract class BaseTable extends WrapperTable {
@@ -46,11 +46,11 @@ public abstract class BaseTable extends WrapperTable {
 			};
 		}
 
-		public static BitmapFont getFont() {
+		public static FontType getFont() {
 			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> Font.BODY1;
-				case MEDIUM -> Font.BODY2;
-				case LARGE -> Font.H4;
+				case SMALL -> FontType.BODY_1;
+				case MEDIUM -> FontType.BODY_2;
+				case LARGE -> FontType.H4;
 			};
 		}
 

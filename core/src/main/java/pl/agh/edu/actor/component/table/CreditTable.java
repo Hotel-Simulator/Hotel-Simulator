@@ -3,7 +3,6 @@ package pl.agh.edu.actor.component.table;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -11,8 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Align;
 
-import pl.agh.edu.actor.HotelSkin;
-import pl.agh.edu.actor.utils.Font;
+import pl.agh.edu.actor.GameSkin;
+import pl.agh.edu.actor.utils.FontType;
 import pl.agh.edu.actor.utils.LanguageLabel;
 import pl.agh.edu.actor.utils.LinkLabel;
 import pl.agh.edu.config.GraphicConfig;
@@ -42,19 +41,20 @@ public class CreditTable extends BaseTable {
 	}
 
 	public class CreditBaseRow extends BaseRow {
-		private static final Skin skin = HotelSkin.getInstance();
+		private final Skin skin = GameSkin.getInstance();
 
 		public CreditBaseRow(String... columnNames) {
 			super();
-			insertActorsToRow(Arrays.stream(columnNames).map(s -> new LanguageLabel(s, getTableFont())).toArray(Actor[]::new));
+			insertActorsToRow(Arrays.stream(columnNames).map(s -> new LanguageLabel(s, getTableFont().getName())).toArray(Actor[]::new));
 			this.setBackground("table-header-background");
 		}
 		public CreditBaseRow(Credit credit) {
 			super();
-			Label date = new Label(bankAccountHandler.getFinalPaymentDate(credit).toString(),skin, getFont());
-			Label monthly = new Label(bankAccountHandler.getMonthlyPayment(credit).toString(), skin, getFont());
-			LinkLabel payAllButton = new LinkLabel( "labeledButton.credit.payall", Font.WHITE_BODY1, ()  -> {
-				// TODO: 15.10.2023 payAll(credit); 
+			Label date = new Label(bankAccountHandler.getFinalPaymentDate(credit).toString(),skin, getFont().getName());
+			Label monthly = new Label(bankAccountHandler.getMonthlyPayment(credit).toString(), skin, getFont().getName());
+			LinkLabel payAllButton = new LinkLabel( "labeledButton.credit.payall", FontType.BUTTON_1.getWhiteVariantName(), ()  -> {
+				bankAccountHandler.(credit);
+				this.remove();
 			});
 			insertActorsToRow(date, monthly, payAllButton);
 			this.setBackground("table-row-background");
@@ -68,7 +68,7 @@ public class CreditTable extends BaseTable {
 				container.pad(1f);
 				this.innerTable.add(container).growX().uniform().center().padLeft(getCellPadding()).padRight(getCellPadding());
 				if (i != noColumns - 1)
-					this.innerTable.add(new Image(HotelSkin.getInstance().getPatch("table-separator-line"))).width(getSeparatorWidth()).growY().center();
+					this.innerTable.add(new Image(GameSkin.getInstance().getPatch("table-separator-line"))).width(getSeparatorWidth()).growY().center();
 			});
 		}
 	}
@@ -83,11 +83,11 @@ public class CreditTable extends BaseTable {
 			};
 		}
 
-		public static BitmapFont getTableFont() {
+		public static FontType getTableFont() {
 			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> Font.BODY2;
-				case MEDIUM -> Font.BODY1;
-				case LARGE -> Font.H4;
+				case SMALL -> FontType.BODY_2;
+				case MEDIUM -> FontType.BODY_1;
+				case LARGE -> FontType.H4;
 			};
 		}
 
