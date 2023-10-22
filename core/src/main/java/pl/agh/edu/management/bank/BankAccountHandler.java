@@ -1,7 +1,6 @@
 package pl.agh.edu.management.bank;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
@@ -13,6 +12,7 @@ import pl.agh.edu.model.bank.BankAccount;
 import pl.agh.edu.model.bank.Credit;
 import pl.agh.edu.model.time.Time;
 import pl.agh.edu.time_command.NRepeatingTimeCommand;
+import pl.agh.edu.time_command.TimeCommandExecutor;
 
 public class BankAccountHandler {
 	private final BankAccount account;
@@ -20,6 +20,7 @@ public class BankAccountHandler {
 	private final Map<Credit, NRepeatingTimeCommand> currentCredits = new HashMap<>();
 
 	private final Time time = Time.getInstance();
+	TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
 
 	public BankAccountHandler(BankAccount account) {
 		this.account = account;
@@ -39,28 +40,24 @@ public class BankAccountHandler {
 
 	public void registerCredit(BigDecimal value, long creditLengthInMonths) {
 		var credit = new Credit(value, creditLengthInMonths, account.getCreditInterestRate(), time.getTime().toLocalDate());
+		NRepeatingTimeCommand timeCommandForCreditMonthlyPayment = createTimeCommandForCreditMonthlyPayment(credit.monthlyPayment, credit);
 
-
-		var monthlyPayment = getMonthlyPayment(credit);
-
-		currentCredits.put(
-				credit,
-				createTimeCommandForCreditMonthlyPayment(account, monthlyPayment, credit));
 		account.registerCredit(credit);
-		registerIncome(value);
+		registerIncome(credit.value);
+		currentCredits.put(credit, timeCommandForCreditMonthlyPayment);
+		timeCommandExecutor.addCommand(timeCommandForCreditMonthlyPayment);
 	}
 
 	private BigDecimal getAutomaticCreditValue(BigDecimal moneyNeeded) {
 		return JSONBankDataLoader.minCreditValue.max(moneyNeeded);
 	}
 
-	private NRepeatingTimeCommand createTimeCommandForCreditMonthlyPayment(BankAccount bankAccount,
-			BigDecimal monthlyPayments,
-			Credit credit) {
-		return new NRepeatingTimeCommand(Frequency.EVERY_MONTH,
-				() -> bankAccount.registerExpense(monthlyPayments),
+	private NRepeatingTimeCommand createTimeCommandForCreditMonthlyPayment(BigDecimal monthlyPayments, Credit credit) {
+		return new NRepeatingTimeCommand(
+				Frequency.EVERY_MONTH,
+				() -> registerExpense(monthlyPayments),
 				time.getTime().plusMonths(1).truncatedTo(ChronoUnit.DAYS),
-				credit.lengthInMonths(),
+				credit.lengthInMonths,
 				() -> currentCredits.remove(credit));
 	}
 
@@ -77,25 +74,28 @@ public class BankAccountHandler {
 	}
 
 	public BigDecimal getPaidValue(Credit credit) {
-		var monthlyPayment = getMonthlyPayment(credit);
+		return isPaid(credit) ? BigDecimal.ZERO : credit.monthlyPayment.multiply(BigDecimal.valueOf(credit.lengthInMonths - currentCredits.get(credit).getCounter()));
+	}
 
-		return isPaid(credit) ? BigDecimal.ZERO : monthlyPayment.multiply(BigDecimal.valueOf(credit.lengthInMonths() - currentCredits.get(credit).getCounter()));
+	public BigDecimal getValueLeftToPay(Credit credit) {
+		return credit.valueWithInterest.subtract(getPaidValue(credit));
 	}
 
 	public LocalDate getNextPaymentDate(Credit credit) {
 		return currentCredits.get(credit).getDueDateTime().toLocalDate();
 	}
 
+	public LocalDate getLastPaymentDate(Credit credit) {
+		return credit.takeOutDate.plusMonths(credit.lengthInMonths);
+	}
+
+	public void payEntireCredit(Credit credit) {
+		currentCredits.get(credit).stop();
+		currentCredits.remove(credit);
+		registerExpense(getValueLeftToPay(credit));
+	}
+
 	public Map<Credit, NRepeatingTimeCommand> getCurrentCredits() {
 		return currentCredits;
-	}
-
-	public LocalDate getFinalPaymentDate(Credit credit) {
-		return credit.takeOutDate().plusMonths(credit.lengthInMonths());
-	}
-
-	public BigDecimal getMonthlyPayment(Credit credit) {
-		var valueWithInterest = credit.value().multiply(BigDecimal.ONE.add(credit.interestRate()));
-		return valueWithInterest.divide(BigDecimal.valueOf(credit.lengthInMonths()), 2, RoundingMode.HALF_UP);
 	}
 }
