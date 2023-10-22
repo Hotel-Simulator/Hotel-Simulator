@@ -12,7 +12,7 @@ import pl.agh.edu.time_command.TimeCommandExecutor;
 public class Time {
 	private static Time instance;
 	public static final int timeUnitInMinutes = 60;
-	public static final float interval = 5;
+	public static final float interval = 1;
 	private int minutes = 0;
 	private int hours = 0;
 	private int days = 1;
