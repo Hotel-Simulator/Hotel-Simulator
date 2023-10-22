@@ -1,38 +1,46 @@
 package pl.agh.edu.actor.frame;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Stack;
-import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Scaling;
 
 import pl.agh.edu.actor.GameSkin;
+import pl.agh.edu.actor.utils.FontType;
+import pl.agh.edu.actor.utils.wrapper.WrapperTable;
 import pl.agh.edu.config.GraphicConfig;
 
-public abstract class BaseFrame extends Stack {
-	public BaseFrame() {
-		super();
-		Skin skin = GameSkin.getInstance();
-		NinePatchDrawable background = new NinePatchDrawable(skin.getPatch("frame-glass-background"));
-		add(new Image(background, Scaling.stretch, Align.center));
+public abstract class BaseFrame extends WrapperTable {
+
+	private final Label titleLabel = new Label("", GameSkin.getInstance(), FontType.H2.getWhiteVariantName());
+	public final Table mainTable = new Table();
+
+	public BaseFrame(String languagePath) {
+		super(languagePath);
+		this.align(Align.center);
+		innerTable.add(titleLabel).growX().pad(BaseFrameStyle.getPadding()).top().row();
+		titleLabel.setAlignment(Align.center);
+		innerTable.add(mainTable).grow().pad(BaseFrameStyle.getPadding());
+		this.setBackground("frame-glass-background");
+
+		this.setLanguageChangeHandler(this::setTitle);
+		this.clearActions();
+		this.resetAnimationPosition();
 	}
 
-	private float getFrameWidth() {
-		return (float) GraphicConfig.getResolution().WIDTH / 9 * 6;
-	}
-
-	private float getFrameHeight() {
-		return (float) GraphicConfig.getResolution().HEIGHT / 9 * 6;
+	private void setTitle(String text) {
+		titleLabel.setText(text);
 	}
 
 	@Override
-	public void layout() {
-		super.layout();
-		this.setBounds(
-				(GraphicConfig.getResolution().WIDTH - getFrameWidth()) / 2,
-				(GraphicConfig.getResolution().HEIGHT - getFrameHeight()) / 2,
-				getFrameWidth(),
-				getFrameHeight());
+	public void validate() {}
+
+	private static class BaseFrameStyle {
+		public static float getPadding() {
+			return switch (GraphicConfig.getResolution().SIZE) {
+				case SMALL -> 5f;
+				case MEDIUM -> 10f;
+				case LARGE -> 20f;
+			};
+		}
 	}
 }

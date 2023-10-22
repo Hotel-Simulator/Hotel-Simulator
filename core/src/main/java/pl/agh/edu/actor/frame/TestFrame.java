@@ -1,14 +1,15 @@
 package pl.agh.edu.actor.frame;
 
+
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import pl.agh.edu.actor.utils.FontType;
 import pl.agh.edu.actor.utils.LinkLabel;
 
+
 public class TestFrame extends BaseFrame {
-	public TestFrame(String name) {
-		super();
-		Table root = new Table();
+	public TestFrame(String languagePath) {
+		super(languagePath);
 
 		LinkLabel label = new LinkLabel("test.test", FontType.BUTTON_1.getWhiteVariantName(), () -> System.out.println("test"));
 		root.add(label);
@@ -18,5 +19,6 @@ public class TestFrame extends BaseFrame {
 		root.add(label2);
 
 		this.add(root);
+
 	}
 }
