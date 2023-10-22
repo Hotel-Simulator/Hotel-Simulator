@@ -68,6 +68,11 @@ public class LinkLabel extends LanguageLabel {
 		});
 	}
 
+	public void setBaseColor(SkinColor baseColor) {
+		this.baseColor = baseColor;
+		setLinkColor(baseColor.getColor(_300));
+	}
+
 	private void setLinkColor(Color color) {
 		super.setColor(color);
 		super.setUnderscoreColor(color);
