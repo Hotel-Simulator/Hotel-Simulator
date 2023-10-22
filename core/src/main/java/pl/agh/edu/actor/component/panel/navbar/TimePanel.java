@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 
 import pl.agh.edu.actor.GameSkin;
-import pl.agh.edu.actor.utils.CustomLabel;
+import pl.agh.edu.actor.utils.label.CustomLabel;
 import pl.agh.edu.actor.utils.FontType;
 import pl.agh.edu.enums.Frequency;
 import pl.agh.edu.model.time.Time;

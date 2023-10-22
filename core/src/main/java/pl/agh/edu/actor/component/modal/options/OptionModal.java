@@ -28,7 +28,7 @@ public class OptionModal extends WrapperTable {
 	private final SelectMenu selectLanguageMenu = createSelectMenuForLanguage();
 
 	public OptionModal(Runnable closeHandler) {
-		this.setBackground("frame-glass-background");
+		this.setBackground("modal-glass-background");
 
 		innerTable.add(selectResolutionMenu).grow().row();
 		innerTable.add(selectFullScreenMenu).grow().row();

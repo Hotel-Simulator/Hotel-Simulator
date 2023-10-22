@@ -1,4 +1,4 @@
-package pl.agh.edu.actor.utils;
+package pl.agh.edu.actor.utils.label;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 
 import pl.agh.edu.actor.GameSkin;
+import pl.agh.edu.actor.utils.SkinSpecialColor;
 
 public class CustomLabel extends Label {
 	private Color underscoreColor = SkinSpecialColor.TRANSPARENT.getColor();
@@ -38,5 +39,11 @@ public class CustomLabel extends Label {
 		underscorePatch.scale(1F, (float) Math.sqrt(getHeight() / 1000) + 0.05f);
 		underscorePatch.draw(batch, getX(), getY(), getWidth(), 5);
 
+	}
+
+	public void setFont(String font){
+		LabelStyle labelStyle = new LabelStyle(this.getStyle());
+		labelStyle.font = GameSkin.getInstance().getFont(font);
+		this.setStyle(labelStyle);
 	}
 }

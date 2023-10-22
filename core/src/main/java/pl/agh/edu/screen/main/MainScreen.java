@@ -1,14 +1,15 @@
-package pl.agh.edu.screen;
+package pl.agh.edu.screen.main;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
+import pl.agh.edu.GdxGame;
 import pl.agh.edu.actor.component.background.InfinityBackground;
 import pl.agh.edu.actor.component.button.OptionButton;
+import pl.agh.edu.actor.component.modal.event.EventWrapper;
 import pl.agh.edu.actor.component.modal.options.OptionsWrapper;
 import pl.agh.edu.actor.component.navbar.NavbarBottom;
 import pl.agh.edu.actor.component.navbar.NavbarTop;
@@ -19,16 +20,19 @@ import pl.agh.edu.actor.utils.resolution.ResolutionManager;
 import pl.agh.edu.config.GraphicConfig;
 
 public class MainScreen implements Screen, ResolutionChangeListener {
+	private final GdxGame game;
 	private final Stage mainStage = new Stage(GraphicConfig.getViewport());
 	private final Stage middleStage = new Stage(GraphicConfig.getViewport());
 	private final Stage topStage = new Stage(GraphicConfig.getViewport());
 	public final FrameStack frameStack = new FrameStack();
 	private final BlurShader blurShader = new BlurShader(mainStage, middleStage);
-	private final InputMultiplexer inputMultiplexer = new InputMultiplexer(mainStage);
-	private final InfinityBackground infinityBackground = new InfinityBackground("night-city");
+	private final MainScreenInputAdapter inputMultiplexer = new MainScreenInputAdapter(mainStage);
 	public final OptionsWrapper optionsWrapper = new OptionsWrapper(inputMultiplexer, blurShader, mainStage, topStage);
+	private final InfinityBackground infinityBackground = new InfinityBackground("night-city");
 
-	public MainScreen() {
+	public MainScreen(GdxGame game) {
+		this.game = game;
+		inputMultiplexer.setOpenOptionsAction(optionsWrapper.getOptionHandler());
 		setupUI();
 	}
 
@@ -69,7 +73,10 @@ public class MainScreen implements Screen, ResolutionChangeListener {
 		mainStage.act();
 		mainStage.draw();
 		blurShader.render();
-		optionsWrapper.render();
+		if(optionsWrapper.isOptionsOpen()) {
+			topStage.act();
+			topStage.draw();
+		}
 	}
 
 	@Override

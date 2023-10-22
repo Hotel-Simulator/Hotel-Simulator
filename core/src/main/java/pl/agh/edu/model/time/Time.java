@@ -10,7 +10,7 @@ import pl.agh.edu.time_command.TimeCommandExecutor;
 
 public class Time {
 	private static Time instance;
-	public static final int timeUnitInMinutes = 10;
+	public static final int timeUnitInMinutes = 60;
 	public static final float interval = 5;
 	private int minutes = 0;
 	private int hours = 0;
@@ -40,33 +40,30 @@ public class Time {
 
 	public void update(float delta) {
 		if (isRunning) {
-			remaining -= delta * acceleration;
-
+			remaining -= delta * acceleration * 1000f;
 			if (remaining < 0.0F) {
 				minutes += timeUnitInMinutes;
 				this.reset();
-
 				if (minutes >= 60) {
-					hours++;
+					hours+=12;
 					minutes = minutes % 60;
-
 					if (hours >= 24) {
 						days++;
 						hours = hours % 24;
 
 						int daysInMonth = switch (months) {
-							case 1 ->
-								(years % 4 == 0 && (years % 100 != 0 || years % 400 == 0)) ? 29 : 28;
-							case 3, 5, 8, 10 ->
-								30;
+							case 2 ->
+									(years % 4 == 0 && (years % 100 != 0 || years % 400 == 0)) ? 29 : 28;
+							case 4, 6, 9, 11 ->
+									30;
 							default -> 31;
 						};
 
-						if (days >= daysInMonth) {
+						if (days > daysInMonth) {
 							months++;
 							days = days % daysInMonth;
 
-							if (months >= 12) {
+							if (months > 12) {
 								years++;
 								months = months % 12;
 							}
