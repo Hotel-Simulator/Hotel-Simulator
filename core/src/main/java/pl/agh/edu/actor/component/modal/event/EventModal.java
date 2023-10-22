@@ -19,34 +19,34 @@ import pl.agh.edu.actor.utils.resolution.Size;
 import pl.agh.edu.actor.utils.wrapper.WrapperTable;
 import pl.agh.edu.audio.SoundAudio;
 import pl.agh.edu.config.GraphicConfig;
-import pl.agh.edu.model.event.EventData;
+import pl.agh.edu.model.event.EventModalData;
 
 public class EventModal extends WrapperTable {
 	private final Container<Image> imageContainer = new Container<>();
 	private final ReplaceLanguageLabel titleLabel;
 	private final ReplaceLanguageLabel descriptionLabel;
 
-	public EventModal(EventData eventData, Runnable closeHandler) {
+	public EventModal(EventModalData eventModalData, Runnable closeHandler) {
 		this.setBackground("modal-glass-background");
 
 		innerTable.pad(EventModalStyle.getPadding());
 
 		titleLabel = new ReplaceLanguageLabel(
-				eventData.title().property,
+				eventModalData.title().property,
 				H4.getName(),
-				eventData.title().stringsWithReplacements);
+				eventModalData.title().stringsWithReplacements);
 		titleLabel.setAlignment(Align.center, Align.center);
 
 		Table mainTable = new Table();
 
-		Image image = new Image(GameSkin.getInstance().getDrawable(eventData.imagePath()));
+		Image image = new Image(GameSkin.getInstance().getDrawable(eventModalData.imagePath()));
 		image.setFillParent(true);
 		imageContainer.setActor(image);
 
 		descriptionLabel = new ReplaceLanguageLabel(
-				eventData.description().property,
+				eventModalData.description().property,
 				BODY_2.getName(),
-				eventData.description().stringsWithReplacements);
+				eventModalData.description().stringsWithReplacements);
 		descriptionLabel.setWrap(true);
 		descriptionLabel.setAlignment(Align.center, Align.center);
 

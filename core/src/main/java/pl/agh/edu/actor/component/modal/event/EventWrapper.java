@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import pl.agh.edu.actor.shader.BlurShader;
 import pl.agh.edu.actor.utils.wrapper.WrapperContainer;
 import pl.agh.edu.config.GraphicConfig;
-import pl.agh.edu.model.event.EventData;
+import pl.agh.edu.model.event.EventModalData;
 import pl.agh.edu.model.time.Time;
 
 public class EventWrapper extends WrapperContainer<EventModal> {
@@ -55,7 +55,7 @@ public class EventWrapper extends WrapperContainer<EventModal> {
 		return countContainersWithActors() <= 1;
 	}
 
-	public void showEvent(EventData eventData) {
+	public void showEvent(EventModalData eventModalData) {
 		if (isEventOpen())
 			return;
 		if (!isStageActive()) {
@@ -63,7 +63,7 @@ public class EventWrapper extends WrapperContainer<EventModal> {
 			inputMultiplexer.setProcessors(eventStage);
 			blurShader.startBlur();
 		}
-		EventModal optionModal = new EventModal(eventData, this::closeOptions);
+		EventModal optionModal = new EventModal(eventModalData, this::closeOptions);
 		this.setActor(optionModal);
 		optionModal.runVerticalFadeInAnimation();
 	}

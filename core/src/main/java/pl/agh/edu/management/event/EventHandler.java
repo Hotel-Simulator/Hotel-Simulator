@@ -11,7 +11,7 @@ import pl.agh.edu.model.calendar.Calendar;
 import pl.agh.edu.model.calendar.CalendarEvent;
 import pl.agh.edu.model.event.ClientNumberModificationEvent;
 import pl.agh.edu.model.event.Event;
-import pl.agh.edu.model.event.EventData;
+import pl.agh.edu.model.event.EventModalData;
 import pl.agh.edu.model.time.Time;
 import pl.agh.edu.time_command.TimeCommand;
 import pl.agh.edu.time_command.TimeCommandExecutor;
@@ -23,7 +23,7 @@ public class EventHandler {
 	private final Calendar calendar = Calendar.getInstance();
 	private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
 	private final Time time = Time.getInstance();
-	private Consumer<EventData> eventHandlerFunction;
+	private Consumer<EventModalData> eventHandlerFunction;
 
 	public EventHandler(HotelScenariosManager hotelScenariosManager) {
 		this.eventGenerator = new EventGenerator(hotelScenariosManager);
@@ -56,7 +56,7 @@ public class EventHandler {
 
 	private TimeCommand createTimeCommandForEventAppearancePopup(Event event) {
 		return new TimeCommand(
-				() -> eventHandlerFunction.accept(new EventData(event.title, event.eventAppearancePopupDescription, event.imagePath)),
+				() -> eventHandlerFunction.accept(new EventModalData(event.title, event.eventAppearancePopupDescription, event.imagePath)),
 				event.appearanceDate.atTime(LocalTime.NOON));
 	}
 
@@ -72,7 +72,7 @@ public class EventHandler {
 
 	private TimeCommand createTimeCommandForEventStartPopup(Event event) {
 		return new TimeCommand(
-				() -> eventHandlerFunction.accept(new EventData(event.title, event.eventStartPopupDescription, event.imagePath)),
+				() -> eventHandlerFunction.accept(new EventModalData(event.title, event.eventStartPopupDescription, event.imagePath)),
 				event.startDate.atTime(LocalTime.MIDNIGHT));
 	}
 
@@ -88,7 +88,7 @@ public class EventHandler {
 				event.appearanceDate.atTime(LocalTime.MIDNIGHT).minusMinutes(1));
 	}
 
-	public void setEventHandlerFunction(Consumer<EventData> eventHandlerFunction) {
+	public void setEventHandlerFunction(Consumer<EventModalData> eventHandlerFunction) {
 		this.eventHandlerFunction = eventHandlerFunction;
 	}
 }
