@@ -1,0 +1,28 @@
+package pl.agh.edu.actor.utils.label;
+
+import pl.agh.edu.language.LanguageChangeListener;
+import pl.agh.edu.language.LanguageManager;
+import pl.agh.edu.utils.Pair;
+
+import java.util.List;
+
+public class ReplaceLanguageLabel extends CustomLabel implements LanguageChangeListener {
+    public final List<Pair<String, String>> replacmentList;
+    protected final String languagePath;
+
+    public ReplaceLanguageLabel(String languagePath, String font, List<Pair<String, String>> replace) {
+        super(font);
+        this.replacmentList = replace;
+        this.languagePath = languagePath;
+        LanguageManager.addListener(this);
+        onLanguageChange();
+    }
+
+    @Override
+    public void onLanguageChange() {
+        if(replacmentList==null || replacmentList.isEmpty())
+            this.setText(LanguageManager.get(languagePath));
+        else
+            this.setText(LanguageManager.get(languagePath,replacmentList));
+    }
+}
