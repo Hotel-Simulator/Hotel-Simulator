@@ -2,68 +2,90 @@ package pl.agh.edu.generator.event_generator;
 
 import java.time.LocalDate;
 import java.time.Year;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
-import pl.agh.edu.json.data.ClientNumberModificationCyclicTemporaryEventData;
-import pl.agh.edu.json.data.ClientNumberModificationRandomTemporaryEventData;
+import pl.agh.edu.json.data.ClientNumberModificationRandomEventData;
 import pl.agh.edu.json.data_loader.JSONEventDataLoader;
-import pl.agh.edu.model.calendar.Calendar;
-import pl.agh.edu.model.time.Time;
+import pl.agh.edu.management.hotel.HotelScenariosManager;
+import pl.agh.edu.model.event.ClientNumberModificationEvent;
+import pl.agh.edu.model.event.Event;
+import pl.agh.edu.utils.LanguageString;
+import pl.agh.edu.utils.Pair;
 import pl.agh.edu.utils.RandomUtils;
 
 public class EventGenerator {
-	private static EventGenerator instance;
-	private final EventLauncher eventLauncher = EventLauncher.getInstance();
-	private static final List<ClientNumberModificationCyclicTemporaryEventData> clientNumberModificationCyclicTemporaryEventData = JSONEventDataLoader.clientNumberModificationCyclicTemporaryEventData;
-	private static final List<ClientNumberModificationRandomTemporaryEventData> clientNumberModificationRandomTemporaryEventData = JSONEventDataLoader.clientNumberModificationRandomTemporaryEventData;
-	private final Map<ClientNumberModificationRandomTemporaryEventData, Integer> lastYearDate = new HashMap<>();
-	private final Time time = Time.getInstance();
+	private final Map<String, LocalDate> lastOccurrenceRandomEvents = new HashMap<>();
+	private final int monthsBetweenEventAppearanceAndStart = 1;
+	private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM");
 
-	private EventGenerator() {
-		initializeClientNumberModificationCyclicTemporaryEvents();
+	private final HotelScenariosManager hotelScenariosManager;
+
+	public EventGenerator(HotelScenariosManager hotelScenariosManager) {
+		this.hotelScenariosManager = hotelScenariosManager;
 	}
 
-	private void initializeClientNumberModificationRandomTemporaryEventsForThisYear() {
-		int daysInYear = Year.isLeap(time.getTime().getYear()) ? 366 : 365;
-		clientNumberModificationRandomTemporaryEventData.stream().filter(
-				eventData -> {
-					boolean willOccur = RandomUtils.randomBooleanWithProbability(eventData.occurrenceProbability());
-					if (!willOccur)
-						lastYearDate.remove(eventData);
-					return willOccur;
-				}).map(eventData -> {
-					LocalDate launchDate = LocalDate.ofYearDay(time.getTime().getYear(), RandomUtils.randomInt((lastYearDate.get(eventData) == null || lastYearDate.get(
-							eventData) < daysInYear / 2) ? 1 : daysInYear / 2, (daysInYear) + 1));
-					lastYearDate.put(eventData, launchDate.getDayOfYear());
-					return new ClientNumberModificationRandomTemporaryEvent(
-							eventData.name(),
-							eventData.calendarDescription(),
-							eventData.popupDescription(),
-							RandomUtils.randomInt(eventData.minDurationDays(), eventData.maxDurationDays() + 1),
-							launchDate,
-							eventData.modifiers(),
-							eventData.imagePath());
-
-				}).forEach(eventLauncher::add);
+	public List<ClientNumberModificationEvent> generateClientNumberModificationRandomEventsForYear(Year year) {
+		return JSONEventDataLoader.clientNumberModificationRandomEventData.stream()
+				.filter(eventData -> RandomUtils.randomBooleanWithProbability(eventData.occurrenceProbability().get(hotelScenariosManager.hotelType).doubleValue()))
+				.map(eventData -> {
+					LocalDate appearanceDate = getAppearanceDate(eventData, year);
+					lastOccurrenceRandomEvents.put(eventData.titleProperty(), appearanceDate);
+					int durationDays = RandomUtils.randomInt(eventData.minDurationDays(), eventData.maxDurationDays() + 1);
+					LocalDate startDate = appearanceDate.plusMonths(monthsBetweenEventAppearanceAndStart);
+					return new ClientNumberModificationEvent(
+							new LanguageString(eventData.titleProperty()),
+							getLanguageStringWithDateAndNoDays(eventData.eventAppearancePopupDescriptionProperty(), startDate, durationDays),
+							getLanguageStringWithDateAndNoDays(eventData.eventStartPopupDescriptionProperty(), startDate, durationDays),
+							getLanguageStringWithNoDays(eventData.calendarDescriptionProperty(), durationDays),
+							eventData.imagePath(),
+							appearanceDate,
+							startDate,
+							durationDays,
+							eventData.modifier());
+				}).toList();
 	}
 
-	public static EventGenerator getInstance() {
-		if (instance == null)
-			instance = new EventGenerator();
-		return instance;
+	private static LanguageString getLanguageStringWithDateAndNoDays(String string, LocalDate date, int noDays) {
+		return new LanguageString(string, List.of(
+				Pair.of("{{date}}", date.format(formatter)),
+				Pair.of("{{noDays}}", String.valueOf(noDays))));
 	}
 
-	private void initializeClientNumberModificationCyclicTemporaryEvents() {
-		Calendar calendar = Calendar.getInstance();
-		Stream.iterate(calendar.getGameStartDate().getYear(), year -> year <= calendar.getGameEndDate().getYear(), year -> year + 1)
-				.forEach(year -> clientNumberModificationCyclicTemporaryEventData.forEach(
-						event -> eventLauncher.launchCyclicEventsForYear(year, event)));
+	private static LanguageString getLanguageStringWithNoDays(String string, int noDays) {
+		return new LanguageString(string, List.of(
+				Pair.of("{{noDays}}", String.valueOf(noDays))));
 	}
 
-	public void yearlyUpdate() {
-		initializeClientNumberModificationRandomTemporaryEventsForThisYear();
+	private LocalDate getAppearanceDate(ClientNumberModificationRandomEventData event, Year year) {
+		int begin = 1;
+		int daysInYear = year.isLeap() ? 366 : 365;
+		if (lastOccurrenceRandomEvents.containsKey(event.titleProperty())
+				&& lastOccurrenceRandomEvents.get(event.titleProperty()).getYear() == year.getValue() - 1) {
+			LocalDate lastYarDate = lastOccurrenceRandomEvents.get(event.titleProperty());
+			if (lastYarDate.getDayOfYear() > daysInYear / 2) {
+				begin = daysInYear / 2;
+			}
+		}
+		return LocalDate.ofYearDay(year.getValue(), RandomUtils.randomInt(begin, daysInYear + 1));
+	}
+
+	public List<Event> generateCyclicEventsForYear(Year year) {
+		return JSONEventDataLoader.cyclicEventData.stream()
+				.map(
+						eventData -> {
+							LocalDate appearanceDate = LocalDate.of(year.getValue(), eventData.startDateWithoutYear().getMonth().minus(
+									monthsBetweenEventAppearanceAndStart), eventData.startDateWithoutYear().getDayOfMonth());
+							return new Event(
+									new LanguageString(eventData.titleProperty()),
+									new LanguageString(eventData.eventAppearancePopupDescriptionProperty()),
+									new LanguageString(eventData.eventStartPopupDescriptionProperty()),
+									new LanguageString(eventData.calendarDescriptionProperty()),
+									eventData.imagePath(),
+									appearanceDate,
+									appearanceDate.plusMonths(monthsBetweenEventAppearanceAndStart));
+						}).toList();
 	}
 }

@@ -1,40 +1,18 @@
 package pl.agh.edu.actor.frame;
 
-import java.math.BigDecimal;
-
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.NinePatch;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Align;
-import pl.agh.edu.actor.HotelSkin;
-import pl.agh.edu.actor.component.table.CreditTable;
-import pl.agh.edu.actor.component.table.ScrollableContainer;
-import pl.agh.edu.actor.utils.LanguageLabel;
-import pl.agh.edu.management.bank.BankAccountHandler;
-import pl.agh.edu.model.bank.BankAccount;
-import pl.agh.edu.model.bank.Credit;
-import pl.agh.edu.model.time.Time;
+import pl.agh.edu.actor.utils.FontType;
+import pl.agh.edu.actor.utils.LinkLabel;
 
 public class TestFrame extends BaseFrame {
-	public TestFrame(String name) {
-		super();
-		Table root = new Table();
-		BankAccount bankAccount = new BankAccount(BigDecimal.ONE, BigDecimal.ONE, BigDecimal.ONE);
-		System.out.println(bankAccount.getCredits());
-		BankAccountHandler bankAccountHandler = new BankAccountHandler(bankAccount);
-		bankAccountHandler.registerCredit(BigDecimal.ONE, 10);
-		CreditTable creditTable = new CreditTable(bankAccountHandler);
-		creditTable.align(Align.bottomLeft);
-		root.add(new ScrollableContainer(creditTable)).growX().pad(10);
-		this.add(root);
+	public TestFrame(String languagePath) {
+		super(languagePath);
+
+		LinkLabel label = new LinkLabel("test.test", FontType.BUTTON_1.getWhiteVariantName(), () -> System.out.println("test"));
+		innerTable.add(label);
+		innerTable.row();
+		LinkLabel label2 = new LinkLabel("test.test", FontType.H1.getWhiteVariantName(), () -> System.out.println("test"));
+		label2.setDisabled(true);
+		innerTable.add(label2);
+
 	}
 }

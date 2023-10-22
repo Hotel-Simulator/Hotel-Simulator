@@ -24,6 +24,16 @@ public class EmployeeHandler {
 		this.employees = getInitialEmployees();
 	}
 
+	public boolean canNegotiateContractWith(Employee employee) {
+		return employee.getStatus() == EmployeeStatus.HIRED_WORKING;
+	}
+
+	public void offerNewContract(Employee employee, ContractOffer contractOffer) {
+		if (employee.offerNewContract(contractOffer) == ContractOfferResponse.POSITIVE) {
+			employee.setContract(contractOffer);
+		}
+	}
+
 	public void hireEmployee(Employee employee) {
 		this.employees.add(employee);
 		timeCommandExecutor.addCommand(
@@ -75,11 +85,11 @@ public class EmployeeHandler {
 								.desiredShift(Shift.MORNING)
 								.acceptableWage(BigDecimal.valueOf(4000))
 								.desiredWage(BigDecimal.valueOf(6000))
-								.desiredTypeOfContract(TypeOfContract.AGREEMENT)
+								.desiredTypeOfContract(TypeOfContract.PERMANENT)
 								.build())
 						.profession(Profession.CLEANER)
 						.build(),
-						new JobOffer(Shift.MORNING, BigDecimal.valueOf(4500), TypeOfContract.AGREEMENT)),
+						new ContractOffer(Shift.MORNING, BigDecimal.valueOf(4500), TypeOfContract.PERMANENT)),
 				new Employee(new PossibleEmployee.Builder()
 						.firstName("Maria")
 						.lastName("Nowak")
@@ -89,11 +99,11 @@ public class EmployeeHandler {
 								.desiredShift(Shift.MORNING)
 								.acceptableWage(BigDecimal.valueOf(4500))
 								.desiredWage(BigDecimal.valueOf(7000))
-								.desiredTypeOfContract(TypeOfContract.AGREEMENT)
+								.desiredTypeOfContract(TypeOfContract.PERMANENT)
 								.build())
 						.profession(Profession.CLEANER)
 						.build(),
-						new JobOffer(Shift.MORNING, BigDecimal.valueOf(5500), TypeOfContract.AGREEMENT)),
+						new ContractOffer(Shift.MORNING, BigDecimal.valueOf(5500), TypeOfContract.PERMANENT)),
 				new Employee(new PossibleEmployee.Builder()
 						.firstName("Zofia")
 						.lastName("Wrona")
@@ -103,11 +113,11 @@ public class EmployeeHandler {
 								.desiredShift(Shift.MORNING)
 								.acceptableWage(BigDecimal.valueOf(4500))
 								.desiredWage(BigDecimal.valueOf(7000))
-								.desiredTypeOfContract(TypeOfContract.AGREEMENT)
+								.desiredTypeOfContract(TypeOfContract.PERMANENT)
 								.build())
 						.profession(Profession.RECEPTIONIST)
 						.build(),
-						new JobOffer(Shift.EVENING, BigDecimal.valueOf(5500), TypeOfContract.AGREEMENT)),
+						new ContractOffer(Shift.EVENING, BigDecimal.valueOf(5500), TypeOfContract.PERMANENT)),
 				new Employee(new PossibleEmployee.Builder()
 						.firstName("Marcin")
 						.lastName("Szpak")
@@ -117,11 +127,11 @@ public class EmployeeHandler {
 								.desiredShift(Shift.MORNING)
 								.acceptableWage(BigDecimal.valueOf(4000))
 								.desiredWage(BigDecimal.valueOf(6000))
-								.desiredTypeOfContract(TypeOfContract.AGREEMENT)
+								.desiredTypeOfContract(TypeOfContract.PERMANENT)
 								.build())
 						.profession(Profession.RECEPTIONIST)
 						.build(),
-						new JobOffer(Shift.MORNING, BigDecimal.valueOf(4500), TypeOfContract.AGREEMENT))).toList();
+						new ContractOffer(Shift.MORNING, BigDecimal.valueOf(4500), TypeOfContract.PERMANENT))).toList();
 		initialEmployees.forEach(employee -> employee.setStatus(EmployeeStatus.HIRED_WORKING));
 
 		return initialEmployees;

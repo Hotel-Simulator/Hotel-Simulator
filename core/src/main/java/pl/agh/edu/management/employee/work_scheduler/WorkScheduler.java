@@ -14,7 +14,7 @@ import pl.agh.edu.time_command.TimeCommandExecutor;
 
 public abstract class WorkScheduler<T> {
 
-	private Shift currentShift = Shift.NIGHT;
+	private Shift currentShift = Shift.EVENING;
 	private final Profession employeesProfession;
 	protected final Time time = Time.getInstance();
 	protected final HotelHandler hotelHandler;

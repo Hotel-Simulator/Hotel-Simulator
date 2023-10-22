@@ -15,19 +15,15 @@ import pl.agh.edu.model.employee.*;
 public class PossibleEmployeeTest {
 	public static Stream<Arguments> providePossibleEmployees() {
 		return Stream.of(
-				Arguments.of(new JobOffer(Shift.MORNING, BigDecimal.valueOf(4999), TypeOfContract.AGREEMENT), JobOfferResponse.NEGATIVE),
-				Arguments.of(new JobOffer(Shift.MORNING, BigDecimal.valueOf(5000), TypeOfContract.AGREEMENT), JobOfferResponse.POSITIVE),
-				Arguments.of(new JobOffer(Shift.MORNING, BigDecimal.valueOf(5499), TypeOfContract.PART_TIME), JobOfferResponse.NEGATIVE),
-				Arguments.of(new JobOffer(Shift.MORNING, BigDecimal.valueOf(5500), TypeOfContract.PART_TIME), JobOfferResponse.POSITIVE),
-				Arguments.of(new JobOffer(Shift.EVENING, BigDecimal.valueOf(5499), TypeOfContract.AGREEMENT), JobOfferResponse.NEGATIVE),
-				Arguments.of(new JobOffer(Shift.EVENING, BigDecimal.valueOf(5500), TypeOfContract.AGREEMENT), JobOfferResponse.POSITIVE),
-				Arguments.of(new JobOffer(Shift.EVENING, BigDecimal.valueOf(5999), TypeOfContract.PART_TIME), JobOfferResponse.NEGATIVE),
-				Arguments.of(new JobOffer(Shift.EVENING, BigDecimal.valueOf(6000), TypeOfContract.PART_TIME), JobOfferResponse.POSITIVE));
+				Arguments.of(new ContractOffer(Shift.MORNING, BigDecimal.valueOf(4999), TypeOfContract.PERMANENT), ContractOfferResponse.NEGATIVE),
+				Arguments.of(new ContractOffer(Shift.MORNING, BigDecimal.valueOf(5000), TypeOfContract.PERMANENT), ContractOfferResponse.POSITIVE),
+				Arguments.of(new ContractOffer(Shift.EVENING, BigDecimal.valueOf(5999), TypeOfContract.PERMANENT), ContractOfferResponse.NEGATIVE),
+				Arguments.of(new ContractOffer(Shift.EVENING, BigDecimal.valueOf(6000), TypeOfContract.PERMANENT), ContractOfferResponse.POSITIVE));
 	}
 
 	@ParameterizedTest
 	@MethodSource("providePossibleEmployees")
-	public void jobOfferTest(JobOffer jobOffer, JobOfferResponse expected) {
+	public void jobOfferTest(ContractOffer contractOffer, ContractOfferResponse expected) {
 		// Given
 		PossibleEmployee possibleEmployee = new PossibleEmployee.Builder()
 				.firstName("")
@@ -38,12 +34,12 @@ public class PossibleEmployeeTest {
 						.desiredShift(Shift.MORNING)
 						.acceptableWage(BigDecimal.valueOf(5000))
 						.desiredWage(BigDecimal.valueOf(6000))
-						.desiredTypeOfContract(TypeOfContract.AGREEMENT)
+						.desiredTypeOfContract(TypeOfContract.PERMANENT)
 						.build())
 				.profession(Profession.CLEANER)
 				.build();
 		// When
-		JobOfferResponse response = possibleEmployee.offerJob(jobOffer);
+		ContractOfferResponse response = possibleEmployee.offerJob(contractOffer);
 		// Then
 		assertEquals(expected, response);
 	}

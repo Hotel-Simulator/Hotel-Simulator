@@ -2,13 +2,16 @@ package pl.agh.edu.model.time;
 
 import java.time.LocalDateTime;
 import java.time.MonthDay;
+import java.time.YearMonth;
+import java.util.ArrayList;
+import java.util.List;
 
 import pl.agh.edu.enums.PartOfDay;
 import pl.agh.edu.time_command.TimeCommandExecutor;
 
 public class Time {
 	private static Time instance;
-	public static final int timeUnitInMinutes = 10;
+	public static final int timeUnitInMinutes = 1;
 	public static final float interval = 5;
 	private int minutes = 0;
 	private int hours = 0;
@@ -19,6 +22,9 @@ public class Time {
 	private boolean isRunning = false;
 	private float remaining = interval;
 	private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
+
+	private final List<Runnable> timeStopChangeHandlers = new ArrayList<>();
+	private final List<Runnable> timeStartChangeHandlers = new ArrayList<>();
 
 	private Time() {}
 
@@ -50,18 +56,18 @@ public class Time {
 						hours = hours % 24;
 
 						int daysInMonth = switch (months) {
-							case 1 ->
+							case 2 ->
 								(years % 4 == 0 && (years % 100 != 0 || years % 400 == 0)) ? 29 : 28;
-							case 3, 5, 8, 10 ->
+							case 4, 6, 9, 11 ->
 								30;
 							default -> 31;
 						};
 
-						if (days >= daysInMonth) {
+						if (days > daysInMonth) {
 							months++;
 							days = days % daysInMonth;
 
-							if (months >= 12) {
+							if (months > 12) {
 								years++;
 								months = months % 12;
 							}
@@ -83,12 +89,18 @@ public class Time {
 		acceleration = Math.max(acceleration / 2, minAcceleration);
 	}
 
+	public int getAcceleration() {
+		return acceleration;
+	}
+
 	public void start() {
 		isRunning = true;
+		timeStartChangeHandlers.forEach(Runnable::run);
 	}
 
 	public void stop() {
 		isRunning = false;
+		timeStopChangeHandlers.forEach(Runnable::run);
 	}
 
 	public void toggle() {
@@ -138,4 +150,15 @@ public class Time {
 		return MonthDay.of(months, days);
 	}
 
+	public YearMonth getYearMonth() {
+		return YearMonth.of(years, months);
+	}
+
+	public void addTimeStopChangeHandler(Runnable handler) {
+		timeStopChangeHandlers.add(handler);
+	}
+
+	public void addTimeStartChangeHandler(Runnable handler) {
+		timeStartChangeHandlers.add(handler);
+	}
 }

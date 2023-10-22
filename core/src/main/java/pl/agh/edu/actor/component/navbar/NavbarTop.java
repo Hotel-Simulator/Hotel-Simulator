@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 
-import pl.agh.edu.actor.HotelSkin;
+import pl.agh.edu.actor.GameSkin;
 import pl.agh.edu.actor.component.panel.navbar.AccelerationPanel;
 import pl.agh.edu.actor.component.panel.navbar.MoneyPanel;
 import pl.agh.edu.actor.component.panel.navbar.TimePanel;
@@ -16,7 +16,7 @@ public class NavbarTop extends Table {
 	private static final float navbarTopPadding = 10f;
 
 	public NavbarTop(String styleName) {
-		Skin skin = HotelSkin.getInstance();
+		Skin skin = GameSkin.getInstance();
 		NavbarTopStyle navbarTopStyle = skin.get(styleName, NavbarTopStyle.class);
 
 		Table topNavBar = new Table();

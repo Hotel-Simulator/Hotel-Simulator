@@ -19,26 +19,15 @@ public class PossibleEmployee {
 		this.profession = builder.profession;
 	}
 
-	public JobOfferResponse offerJob(JobOffer jobOffer) {
+	public ContractOfferResponse offerJob(ContractOffer contractOffer) {
 
-		if (preferences.desiredShift == jobOffer.shift()
-				&& jobOffer.typeOfContract() == preferences.desiredTypeOfContract) {
+		Shift offerShift = contractOffer.shift();
+		BigDecimal offeredWage = contractOffer.offeredWage();
 
-			if (jobOffer.offeredWage().doubleValue() >= preferences.acceptableWage.doubleValue()) {
-				return JobOfferResponse.POSITIVE;
-			}
-		} else if (preferences.desiredShift == jobOffer.shift()
-				|| jobOffer.typeOfContract() == preferences.desiredTypeOfContract) {
+		boolean isPositive = (preferences.desiredShift == offerShift && offeredWage.compareTo(preferences.acceptableWage) >= 0) ||
+				(preferences.desiredShift != offerShift && offeredWage.compareTo(preferences.desiredWage) >= 0);
 
-			if (jobOffer.offeredWage().doubleValue() * 2 >= preferences.acceptableWage.doubleValue() + preferences.desiredWage.doubleValue()) {
-				return JobOfferResponse.POSITIVE;
-			}
-		} else {
-			if (jobOffer.offeredWage().doubleValue() >= preferences.desiredWage.doubleValue()) {
-				return JobOfferResponse.POSITIVE;
-			}
-		}
-		return JobOfferResponse.NEGATIVE;
+		return isPositive ? ContractOfferResponse.POSITIVE : ContractOfferResponse.NEGATIVE;
 	}
 
 	public static class Builder {

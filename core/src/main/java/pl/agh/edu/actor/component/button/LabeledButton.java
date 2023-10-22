@@ -1,11 +1,10 @@
 package pl.agh.edu.actor.component.button;
 
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-import pl.agh.edu.actor.HotelSkin;
-import pl.agh.edu.actor.utils.Size;
-import pl.agh.edu.actor.utils.WrapperContainer;
+import pl.agh.edu.actor.GameSkin;
+import pl.agh.edu.actor.utils.resolution.Size;
+import pl.agh.edu.actor.utils.wrapper.WrapperContainer;
 import pl.agh.edu.config.GraphicConfig;
 
 public class LabeledButton extends WrapperContainer<TextButton> {
@@ -13,10 +12,10 @@ public class LabeledButton extends WrapperContainer<TextButton> {
 
 	private final TextButton button;
 
-	public LabeledButton(Size type, String languagePath, Runnable callBack) {
+	public LabeledButton(Size type, String languagePath) {
 		super(languagePath);
 		this.type = type;
-		this.button = new TextButton("", HotelSkin.getInstance().get(type.toString(), TextButton.TextButtonStyle.class));
+		this.button = new TextButton("", GameSkin.getInstance().get(type.toString(), TextButton.TextButtonStyle.class));
 		this.button.setFillParent(true);
 		this.button.getLabel().setWrap(true);
 
@@ -25,17 +24,6 @@ public class LabeledButton extends WrapperContainer<TextButton> {
 		this.setLanguageChangeHandler(this::updateLabel);
 		this.setResolutionChangeHandler(this::setSizes);
 		this.initChangeHandlers();
-
-		this.addListener(new ClickListener() {
-			@Override
-			public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
-				callBack.run();
-			}
-		});
-	}
-
-	public LabeledButton(Size type, String languagePath) {
-		this(type, languagePath, () -> {});
 	}
 
 	private void setSizes() {
