@@ -25,7 +25,7 @@ public class NRepeatingTimeCommand extends RepeatingTimeCommand {
 	@Override
 	public void execute() {
 		super.execute();
-		if (--counter == 0) {
+		if (--counter == 0 && !toStop) {
 			stop();
 			toExecuteAfterLastRepetition.run();
 		}
