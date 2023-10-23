@@ -3,10 +3,16 @@ package pl.agh.edu.actor.component.button;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.enums.Resolution;
 
 public class MyInputAdapter extends InputMultiplexer {
+
+	public MyInputAdapter(Stage stage){
+		super(stage);
+	}
+
 	@Override
 	public boolean keyDown(int keycode) {
 		return true;
