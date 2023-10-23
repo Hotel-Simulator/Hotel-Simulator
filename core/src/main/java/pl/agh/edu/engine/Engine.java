@@ -5,12 +5,13 @@ import java.time.LocalDateTime;
 import pl.agh.edu.enums.Frequency;
 import pl.agh.edu.enums.HotelType;
 import pl.agh.edu.json.data_loader.JSONBankDataLoader;
+import pl.agh.edu.json.data_loader.JSONOpinionDataLoader;
 import pl.agh.edu.management.client.Arrival;
 import pl.agh.edu.management.client.ClientGroupGenerationHandler;
 import pl.agh.edu.management.event.EventHandler;
 import pl.agh.edu.management.hotel.HotelHandler;
 import pl.agh.edu.management.hotel.HotelScenariosManager;
-import pl.agh.edu.model.Hotel;
+import pl.agh.edu.management.opinion.OpinionHandler;
 import pl.agh.edu.model.time.Time;
 import pl.agh.edu.time_command.RepeatingTimeCommand;
 import pl.agh.edu.time_command.TimeCommand;
@@ -18,7 +19,6 @@ import pl.agh.edu.time_command.TimeCommandExecutor;
 
 public class Engine {
 	private final Time time = Time.getInstance();
-	private final Hotel hotel = new Hotel();
 	private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
 	private final HotelScenariosManager hotelScenariosManager = new HotelScenariosManager(HotelType.HOTEL);
 	private final EventHandler eventHandler = new EventHandler(hotelScenariosManager);
@@ -48,11 +48,10 @@ public class Engine {
 		timeCommandExecutor.addCommand(new RepeatingTimeCommand(Frequency.EVERY_DAY, hotelHandler.possibleEmployeeHandler::dailyUpdate, currentTime));
 		timeCommandExecutor.addCommand(new RepeatingTimeCommand(Frequency.EVERY_DAY, this::dailyUpdate, currentTime));
 		timeCommandExecutor.addCommand(new RepeatingTimeCommand(Frequency.EVERY_DAY, hotelHandler.cleaningScheduler::dailyAtCheckOutTimeUpdate, LocalDateTime.of(currentTime
-				.toLocalDate(),
-				hotel.getCheckOutTime())));
+				.toLocalDate(), hotelHandler.hotel.getCheckOutTime())));
 		timeCommandExecutor.addCommand(new RepeatingTimeCommand(Frequency.EVERY_DAY, hotelHandler.cleaningScheduler::dailyAtCheckInTimeUpdate, LocalDateTime.of(currentTime
 				.toLocalDate(),
-				hotel.getCheckOutTime())));
+				hotelHandler.hotel.getCheckOutTime())));
 	}
 
 	private void initializeEveryMonthUpdates(LocalDateTime currentTime) {
@@ -66,16 +65,20 @@ public class Engine {
 	}
 
 	private void generateClientArrivals() {
-		clientGroupGenerationHandler.getArrivalsForDay(hotel.getCheckInTime(), hotel.getCheckOutTime())
+		clientGroupGenerationHandler.getArrivalsForDay(hotelHandler.hotel.getCheckInTime())
 				.forEach(arrival -> timeCommandExecutor.addCommand(
 						createTimeCommandForClientArrival(arrival)));
 	}
 
 	private TimeCommand createTimeCommandForClientArrival(Arrival arrival) {
 		return new TimeCommand(() -> {
+			arrival.clientGroup().opinion.queueWaiting.setStartDate(time.getTime());
 			hotelHandler.receptionScheduler.addEntity(arrival.clientGroup());
 			timeCommandExecutor.addCommand(
-					new TimeCommand(() -> hotelHandler.receptionScheduler.removeEntity(arrival.clientGroup()),
+					new TimeCommand(() -> {
+						hotelHandler.receptionScheduler.removeEntity(arrival.clientGroup());
+						OpinionHandler.addOpinionWithProbability(arrival.clientGroup().opinion, JSONOpinionDataLoader.opinionProbabilityForClientWhoSteppedOutOfQueue);
+					},
 							LocalDateTime.of(
 									time.getTime().toLocalDate(),
 									arrival.time()).plus(arrival.clientGroup().getMaxWaitingTime())));

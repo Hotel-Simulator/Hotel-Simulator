@@ -24,6 +24,8 @@ public class QueueWaitingOpinionBucket extends OpinionBucket {
 
 	@Override
 	public double getValue() {
+		if (endDate == null)
+			return 0.;
 		double waitingRatio = (double) ChronoUnit.MINUTES.between(startDate, endDate) / maxWaitingTime.toMinutes();
 		return waitingRatio < 0.5 ? 1. : 2 * (1 - waitingRatio);
 	}

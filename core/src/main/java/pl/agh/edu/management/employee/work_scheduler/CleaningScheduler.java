@@ -4,6 +4,7 @@ import java.util.*;
 
 import pl.agh.edu.management.hotel.HotelHandler;
 import pl.agh.edu.model.Room;
+import pl.agh.edu.model.client.ClientGroup;
 import pl.agh.edu.model.employee.Employee;
 import pl.agh.edu.model.employee.Profession;
 import pl.agh.edu.time_command.TimeCommand;
@@ -32,11 +33,15 @@ public class CleaningScheduler extends WorkScheduler<Room> {
 	@Override
 	protected void executeService(Employee cleaner, Room room) {
 		cleaner.setOccupied(true);
-
 		timeCommandExecutor.addCommand(
 				new TimeCommand(() -> {
 					cleaner.setOccupied(false);
 					room.roomState.setDirty(false);
+					ClientGroup residents = room.getResidents();
+					if (residents != null) {
+						residents.opinion.roomCleaning.setRoomCleaned();
+						residents.opinion.employeesSatisfaction.addSatisfaction(cleaner.getSatisfaction());
+					}
 					executeServiceIfPossible(cleaner);
 				}, time.getTime().plusMinutes(cleaner.getServiceExecutionTime().toMinutes())));
 	}

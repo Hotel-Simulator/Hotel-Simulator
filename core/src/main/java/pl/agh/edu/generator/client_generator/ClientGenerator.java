@@ -2,8 +2,6 @@ package pl.agh.edu.generator.client_generator;
 
 import java.math.BigDecimal;
 import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -35,7 +33,7 @@ public class ClientGenerator {
 		return clientGeneratorInstance;
 	}
 
-	public ClientGroup generateClientGroupForGivenHotelVisitPurpose(LocalTime checkoutMaxTime, HotelVisitPurpose hotelVisitPurpose) {
+	public ClientGroup generateClientGroupForGivenHotelVisitPurpose(HotelVisitPurpose hotelVisitPurpose) {
 		RoomRank desiredRoomRank = RandomUtils.randomKeyWithProbabilities(JSONClientDataLoader.desiredRankProbabilities.get(hotelVisitPurpose));
 		int numberOfNights = RandomUtils.randomKeyWithProbabilities(JSONClientDataLoader.numberOfNightsProbabilities.get(hotelVisitPurpose));
 		int clientGroupSize = RandomUtils.randomKeyWithProbabilities(JSONClientDataLoader.clientGroupSizeProbabilities.get(hotelVisitPurpose));
@@ -44,16 +42,11 @@ public class ClientGenerator {
 		return new ClientGroup.Builder()
 				.hotelVisitPurpose(hotelVisitPurpose)
 				.members(getMembers(hotelVisitPurpose, clientGroupSize))
-				.checkOutTime(getCheckOutTime(numberOfNights, checkoutMaxTime))
 				.desiredPricePerNight(getDesiredPricePerNight(desiredRoomRank, roomSize))
 				.desiredRoomRank(desiredRoomRank)
 				.maxWaitingTime(getMaxWaitingTime(JSONClientDataLoader.basicMaxWaitingTime, JSONClientDataLoader.waitingTimeVariation))
+				.numberOfNights(numberOfNights)
 				.build();
-	}
-
-	private LocalDateTime getCheckOutTime(int numberOfNight, LocalTime checkOutMaxTime) {
-
-		return LocalDateTime.of(time.getTime().toLocalDate().plusDays(numberOfNight), RandomUtils.randomLocalTime(LocalTime.of(6, 0), checkOutMaxTime));
 	}
 
 	private BigDecimal getDesiredPricePerNight(RoomRank desiredRoomRank, RoomSize roomSize) {

@@ -12,9 +12,11 @@ import pl.agh.edu.management.employee.work_scheduler.ReceptionScheduler;
 import pl.agh.edu.management.employee.work_scheduler.RepairScheduler;
 import pl.agh.edu.management.game.GameDifficultyManager;
 import pl.agh.edu.management.room.RoomManager;
+import pl.agh.edu.model.Hotel;
 import pl.agh.edu.model.bank.BankAccount;
 
 public class HotelHandler {
+	public final Hotel hotel = new Hotel();
 	public final CleaningScheduler cleaningScheduler = new CleaningScheduler(this);
 	public final ReceptionScheduler receptionScheduler = new ReceptionScheduler(this);
 	public final RepairScheduler repairScheduler = new RepairScheduler(this);
