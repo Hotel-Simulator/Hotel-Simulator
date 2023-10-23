@@ -55,10 +55,12 @@ public abstract class WrapperContainer<T extends Actor> extends Container<T> imp
 		onResolutionChange();
 	}
 
-	public void setResetAnimationPosition() {
-		float x = this.getX();
-		float y = this.getY();
+	public void setResetAnimationPosition(float x, float y) {
 		returnHandler = () -> this.setPosition(x, y);
+	}
+
+	public void setResetAnimationPosition() {
+		this.setResetAnimationPosition(this.getX(), this.getY());
 	}
 
 	public void resetAnimationPosition() {

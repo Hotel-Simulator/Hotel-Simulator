@@ -1,18 +1,24 @@
-package pl.agh.edu.actor.frame;
+package pl.agh.edu.actor.component.modal.options;
+
+import static pl.agh.edu.actor.utils.FontType.H2;
 
 import java.util.function.Function;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
+import com.badlogic.gdx.utils.Align;
 
-import pl.agh.edu.actor.GameSkin;
 import pl.agh.edu.actor.component.button.LabeledButton;
-import pl.agh.edu.actor.component.selectMenu.*;
+import pl.agh.edu.actor.component.selectMenu.SelectMenu;
+import pl.agh.edu.actor.component.selectMenu.SelectMenuBoolean;
+import pl.agh.edu.actor.component.selectMenu.SelectMenuItem;
+import pl.agh.edu.actor.component.selectMenu.SelectMenuLanguage;
+import pl.agh.edu.actor.component.selectMenu.SelectMenuResolutionItem;
 import pl.agh.edu.actor.component.slider.PercentSliderComponent;
 import pl.agh.edu.actor.component.slider.SliderComponent;
+import pl.agh.edu.actor.utils.label.LanguageLabel;
 import pl.agh.edu.actor.utils.resolution.Size;
 import pl.agh.edu.actor.utils.wrapper.WrapperTable;
 import pl.agh.edu.audio.SoundAudio;
@@ -20,30 +26,31 @@ import pl.agh.edu.config.AudioConfig;
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.config.LanguageConfig;
 
-public class OptionFrame extends WrapperTable {
+public class OptionModal extends WrapperTable {
 	private final SelectMenu selectResolutionMenu = createSelectMenuForResolution();
 	private final SelectMenu selectFullScreenMenu = createSelectMenuForFullScreenMode();
-	private final SliderComponent musicVolumeSlider = createSliderComponentForMusicVolume();
-	private final SliderComponent soundVolumeSlider = createSliderComponentForSoundVolume();
 	private final SelectMenu selectLanguageMenu = createSelectMenuForLanguage();
-	private final LabeledButton backButton = new LabeledButton(Size.LARGE, "optionsFrame.label.back");
-	private final LabeledButton saveButton = new LabeledButton(Size.LARGE, "optionsFrame.label.save");
 
-	public OptionFrame(Runnable closeHandler) {
-		Skin skin = GameSkin.getInstance();
-		NinePatchDrawable background = new NinePatchDrawable(skin.getPatch("frame-glass-background"));
-		this.setBackground(background);
+	public OptionModal(Runnable closeHandler) {
+		this.setBackground("modal-glass-background");
 
-		innerTable.add(selectResolutionMenu).grow().row();
-		innerTable.add(selectFullScreenMenu).grow().row();
-		innerTable.add(musicVolumeSlider).grow().row();
-		innerTable.add(soundVolumeSlider).grow().row();
-		innerTable.add(selectLanguageMenu).grow();
-		innerTable.row().padTop(OptionFrameStyle.getPadding() / 2);
+		LanguageLabel titleLabel = new LanguageLabel("optionsFrame.label.title", H2.getName());
+		titleLabel.setAlignment(Align.center, Align.center);
+		innerTable.add(titleLabel).growX().center().row();
+
+		innerTable.add(selectResolutionMenu).grow().pad(OptionFrameStyle.getInnerPadding()).row();
+		innerTable.add(selectFullScreenMenu).grow().pad(OptionFrameStyle.getInnerPadding()).row();
+		SliderComponent musicVolumeSlider = createSliderComponentForMusicVolume();
+		innerTable.add(musicVolumeSlider).grow().pad(OptionFrameStyle.getInnerPadding()).row();
+		SliderComponent soundVolumeSlider = createSliderComponentForSoundVolume();
+		innerTable.add(soundVolumeSlider).grow().pad(OptionFrameStyle.getInnerPadding()).row();
+		innerTable.add(selectLanguageMenu).grow().pad(OptionFrameStyle.getInnerPadding()).row();
 
 		Table ButtonTable = new Table();
-		ButtonTable.add(backButton).grow().uniform();
-		ButtonTable.add(saveButton).grow().uniform();
+		LabeledButton backButton = new LabeledButton(Size.LARGE, "optionsFrame.label.back");
+		ButtonTable.add(backButton).pad(OptionFrameStyle.getInnerPadding()).grow().uniform();
+		LabeledButton saveButton = new LabeledButton(Size.LARGE, "optionsFrame.label.save");
+		ButtonTable.add(saveButton).pad(OptionFrameStyle.getInnerPadding()).grow().uniform();
 
 		backButton.addListener(new ClickListener() {
 			@Override
@@ -61,16 +68,18 @@ public class OptionFrame extends WrapperTable {
 			}
 		});
 
-		innerTable.add(ButtonTable).grow();
+		innerTable.add(ButtonTable).growX();
 		innerTable.pad(OptionFrameStyle.getPadding());
 
 		setStartingValue();
+		this.resize();
 		this.setResolutionChangeHandler(this::resize);
+		this.onLanguageChange();
 	}
 
 	private void resize() {
-		size(OptionFrameStyle.getFrameWidth(), OptionFrameStyle.getFrameHeight());
-		layout();
+		this.resetAnimationPosition();
+		this.validate();
 	}
 
 	private SelectMenu createSelectMenuForResolution() {
@@ -151,39 +160,31 @@ public class OptionFrame extends WrapperTable {
 	}
 
 	@Override
-	public void layout() {
-		super.layout();
-		this.setBounds(
-				(float) GraphicConfig.getResolution().WIDTH / 2 - OptionFrameStyle.getFrameWidth() / 2,
-				(float) GraphicConfig.getResolution().HEIGHT / 2 - OptionFrameStyle.getFrameHeight() / 2,
-				OptionFrameStyle.getFrameWidth(),
-				OptionFrameStyle.getFrameHeight());
-		this.innerTable.layout();
+	public void validate() {
+		super.validate();
+		if (this.getParent() != null) {
+			innerTable.setBounds(
+					this.getParent().getX(),
+					this.getParent().getY(),
+					this.getWidth(),
+					this.getHeight());
+			this.setResetAnimationPosition(
+					this.getParent().getX() + (GraphicConfig.getResolution().WIDTH - this.getWidth()) / 2,
+					this.getParent().getY() + (GraphicConfig.getResolution().HEIGHT - this.getHeight()) / 2);
+		}
 	}
 
 	private static class OptionFrameStyle {
-		public static float getFrameHeight() {
-			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> 400f + 2 * getPadding();
-				case MEDIUM -> 500f + 2 * getPadding();
-				case LARGE -> 600f + 2 * getPadding();
-			};
-		}
-
-		public static float getFrameWidth() {
-			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> 650f + 2 * getPadding();
-				case MEDIUM -> 750f + 2 * getPadding();
-				case LARGE -> 900f + 2 * getPadding();
-			};
-		}
-
 		public static float getPadding() {
 			return switch (GraphicConfig.getResolution().SIZE) {
 				case SMALL -> 30f;
 				case MEDIUM -> 40f;
 				case LARGE -> 50f;
 			};
+		}
+
+		public static float getInnerPadding() {
+			return 0f;
 		}
 	}
 }

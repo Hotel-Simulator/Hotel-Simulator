@@ -11,8 +11,8 @@ import pl.agh.edu.time_command.TimeCommandExecutor;
 
 public class Time {
 	private static Time instance;
-	public static final int timeUnitInMinutes = 1;
-	public static final float interval = 5;
+	public static final int timeUnitInMinutes = 60;
+	public static final float interval = 1;
 	private int minutes = 0;
 	private int hours = 0;
 	private int days = 1;
@@ -41,16 +41,13 @@ public class Time {
 
 	public void update(float delta) {
 		if (isRunning) {
-			remaining -= delta * acceleration;
-
+			remaining -= delta * acceleration * 1000f;
 			if (remaining < 0.0F) {
 				minutes += timeUnitInMinutes;
 				this.reset();
-
 				if (minutes >= 60) {
-					hours++;
+					hours += 12;
 					minutes = minutes % 60;
-
 					if (hours >= 24) {
 						days++;
 						hours = hours % 24;

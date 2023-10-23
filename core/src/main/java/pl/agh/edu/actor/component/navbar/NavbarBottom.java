@@ -35,7 +35,7 @@ import pl.agh.edu.actor.GameSkin;
 import pl.agh.edu.actor.component.button.NavbarButton;
 import pl.agh.edu.audio.SoundAudio;
 import pl.agh.edu.enums.BottomNavbarState;
-import pl.agh.edu.screen.MainScreen;
+import pl.agh.edu.screen.main.MainScreen;
 
 public class NavbarBottom extends Table {
 	private final Table bottomNavBar = new Table();

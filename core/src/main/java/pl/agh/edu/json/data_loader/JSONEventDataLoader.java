@@ -45,7 +45,7 @@ public class JSONEventDataLoader {
 				e -> {
 					JSONObject JSONEvent = (JSONObject) e;
 					return new CyclicEventData(
-							(String) JSONEvent.get("titleProperty"),
+							(String) JSONEvent.get("title"),
 							(String) JSONEvent.get("event_appearance_popup_description"),
 							(String) JSONEvent.get("event_start_popup_description"),
 							(String) JSONEvent.get("calendar_description"),
@@ -60,7 +60,7 @@ public class JSONEventDataLoader {
 					JSONObject JSONModifiers = (JSONObject) JSONEvent.get("modifier");
 					JSONObject JSONOccurrenceProbability = (JSONObject) JSONEvent.get("occurrence_probability");
 					return new ClientNumberModificationRandomEventData(
-							(String) JSONEvent.get("titleProperty"),
+							(String) JSONEvent.get("title"),
 							(String) JSONEvent.get("event_appearance_popup_description"),
 							(String) JSONEvent.get("event_start_popup_description"),
 							(String) JSONEvent.get("calendar_description"),

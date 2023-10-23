@@ -18,10 +18,10 @@ import pl.agh.edu.time_command.TimeCommand;
 import pl.agh.edu.time_command.TimeCommandExecutor;
 
 public class Engine {
-	private final Time time = Time.getInstance();
+	public final Time time = Time.getInstance();
 	private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
 	private final HotelScenariosManager hotelScenariosManager = new HotelScenariosManager(HotelType.HOTEL);
-	private final EventHandler eventHandler = new EventHandler(hotelScenariosManager);
+	public final EventHandler eventHandler = new EventHandler(hotelScenariosManager);
 	private final HotelHandler hotelHandler = new HotelHandler();
 	private final ClientGroupGenerationHandler clientGroupGenerationHandler = new ClientGroupGenerationHandler(hotelScenariosManager, hotelHandler.bankAccountHandler);
 
