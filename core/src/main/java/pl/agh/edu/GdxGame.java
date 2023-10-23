@@ -1,21 +1,19 @@
 package pl.agh.edu;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
 
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.config.LanguageConfig;
+import pl.agh.edu.engine.Engine;
 import pl.agh.edu.language.LanguageManager;
-import pl.agh.edu.model.time.Time;
 import pl.agh.edu.screen.main.MainScreen;
 
 public class GdxGame extends ApplicationAdapter {
 
 	private Screen currentScreen;
 	private Screen previousScreen;
-	private final Time time = Time.getInstance();
+	public final Engine engine = new Engine();
 
 	@Override
 	public void create() {
@@ -38,7 +36,7 @@ public class GdxGame extends ApplicationAdapter {
 			currentScreen.render(Gdx.graphics.getDeltaTime());
 		}
 
-		time.update(Gdx.graphics.getDeltaTime());
+		engine.time.update(Gdx.graphics.getDeltaTime());
 	}
 
 	@Override

@@ -1,6 +1,5 @@
-package pl.agh.edu.actor.utils;
+package pl.agh.edu.actor.utils.label;
 
-import pl.agh.edu.actor.utils.label.CustomLabel;
 import pl.agh.edu.language.LanguageChangeListener;
 import pl.agh.edu.language.LanguageManager;
 

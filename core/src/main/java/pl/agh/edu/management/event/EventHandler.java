@@ -2,6 +2,7 @@ package pl.agh.edu.management.event;
 
 import java.time.LocalTime;
 import java.time.Year;
+import java.util.function.Consumer;
 
 import pl.agh.edu.generator.event_generator.EventGenerator;
 import pl.agh.edu.json.data_loader.JSONGameDataLoader;
@@ -10,7 +11,7 @@ import pl.agh.edu.model.calendar.Calendar;
 import pl.agh.edu.model.calendar.CalendarEvent;
 import pl.agh.edu.model.event.ClientNumberModificationEvent;
 import pl.agh.edu.model.event.Event;
-import pl.agh.edu.model.event.EventPopup;
+import pl.agh.edu.model.event.EventModalData;
 import pl.agh.edu.model.time.Time;
 import pl.agh.edu.time_command.TimeCommand;
 import pl.agh.edu.time_command.TimeCommandExecutor;
@@ -22,6 +23,7 @@ public class EventHandler {
 	private final Calendar calendar = Calendar.getInstance();
 	private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
 	private final Time time = Time.getInstance();
+	private Consumer<EventModalData> eventHandlerFunction;
 
 	public EventHandler(HotelScenariosManager hotelScenariosManager) {
 		this.eventGenerator = new EventGenerator(hotelScenariosManager);
@@ -54,7 +56,7 @@ public class EventHandler {
 
 	private TimeCommand createTimeCommandForEventAppearancePopup(Event event) {
 		return new TimeCommand(
-				() -> new EventPopup(event.title, event.eventAppearancePopupDescription, event.imagePath),
+				() -> eventHandlerFunction.accept(new EventModalData(event.title, event.eventAppearancePopupDescription, event.imagePath)),
 				event.appearanceDate.atTime(LocalTime.NOON));
 	}
 
@@ -70,7 +72,7 @@ public class EventHandler {
 
 	private TimeCommand createTimeCommandForEventStartPopup(Event event) {
 		return new TimeCommand(
-				() -> new EventPopup(event.title, event.eventStartPopupDescription, event.imagePath),
+				() -> eventHandlerFunction.accept(new EventModalData(event.title, event.eventStartPopupDescription, event.imagePath)),
 				event.startDate.atTime(LocalTime.MIDNIGHT));
 	}
 
@@ -84,5 +86,9 @@ public class EventHandler {
 		return new TimeCommand(
 				() -> clientNumberModificationEventHandler.remove(event.modifier),
 				event.appearanceDate.atTime(LocalTime.MIDNIGHT).minusMinutes(1));
+	}
+
+	public void setEventHandlerFunction(Consumer<EventModalData> eventHandlerFunction) {
+		this.eventHandlerFunction = eventHandlerFunction;
 	}
 }
