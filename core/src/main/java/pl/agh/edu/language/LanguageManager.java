@@ -28,6 +28,10 @@ public class LanguageManager {
 		return bundle.get(key);
 	}
 
+	public static String bound(String key, Object... varArgs) {
+		return bundle.format(key, varArgs);
+	}
+
 	private static void notifyListeners() {
 		listeners.forEach(LanguageChangeListener::onLanguageChange);
 	}
