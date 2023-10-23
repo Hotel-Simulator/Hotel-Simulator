@@ -21,7 +21,7 @@ public class LanguageLabel extends CustomLabel implements LanguageChangeListener
 
 	@Override
 	public void onLanguageChange() {
-		if(varArgs != null) {
+		if (varArgs != null) {
 			this.setText(LanguageManager.bound(languagePath, varArgs));
 		} else {
 			this.setText(LanguageManager.get(languagePath));

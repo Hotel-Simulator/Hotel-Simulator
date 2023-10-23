@@ -1,5 +1,7 @@
 package pl.agh.edu.actor.component.table;
 
+import static pl.agh.edu.actor.component.table.CreditTable.CreditTableStyle.*;
+
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
@@ -18,12 +20,10 @@ import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.management.bank.BankAccountHandler;
 import pl.agh.edu.model.bank.Credit;
 
-import static pl.agh.edu.actor.component.table.CreditTable.CreditTableStyle.*;
-
-
 public class CreditTable extends BaseTable {
 	private final int noColumns = 3;
 	private final BankAccountHandler bankAccountHandler;
+
 	public CreditTable(BankAccountHandler bankAccountHandler) {
 		super();
 		this.bankAccountHandler = bankAccountHandler;
@@ -48,12 +48,13 @@ public class CreditTable extends BaseTable {
 			insertActorsToRow(Arrays.stream(columnNames).map(s -> new LanguageLabel(s, getTableFont().getName())).toArray(Actor[]::new));
 			this.setBackground("table-header-background");
 		}
+
 		public CreditBaseRow(Credit credit) {
 			super();
 
-			Label date = new Label(bankAccountHandler.getLastPaymentDate(credit).toString(),skin, getFont().getName());
+			Label date = new Label(bankAccountHandler.getLastPaymentDate(credit).toString(), skin, getFont().getName());
 			Label monthly = new Label(credit.monthlyPayment.toString(), skin, getFont().getName());
-			LinkLabel payAllButton = new LinkLabel( "lilnkLabel.payall", FontType.BUTTON_1.getWhiteVariantName(), ()  -> {
+			LinkLabel payAllButton = new LinkLabel("lilnkLabel.payall", FontType.BUTTON_1.getWhiteVariantName(), () -> {
 				bankAccountHandler.payEntireCredit(credit);
 				deleteRow(this);
 			});
@@ -62,8 +63,7 @@ public class CreditTable extends BaseTable {
 			this.setBackground("table-row-background");
 		}
 
-
-		public void insertActorsToRow(Actor... actors){
+		public void insertActorsToRow(Actor... actors) {
 			IntStream.range(0, noColumns).forEach(i -> {
 				Actor actor = actors[i];
 				Container<Actor> container = new Container<>(actor);
@@ -75,13 +75,12 @@ public class CreditTable extends BaseTable {
 		}
 	}
 
-	private void deleteRow(CreditBaseRow row){
+	private void deleteRow(CreditBaseRow row) {
 		innerTable.getCell(row).clearActor();
 		row.remove();
 	}
 
-
-	public static class CreditTableStyle extends BaseTableStyle{
+	public static class CreditTableStyle extends BaseTableStyle {
 		public static float getRowHeight() {
 			return switch (GraphicConfig.getResolution().SIZE) {
 				case SMALL -> 30f;

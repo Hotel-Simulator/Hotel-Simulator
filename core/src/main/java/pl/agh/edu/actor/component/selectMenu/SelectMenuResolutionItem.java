@@ -19,9 +19,9 @@ public class SelectMenuResolutionItem extends SelectMenuItem {
 		Graphics.DisplayMode displayMode = Gdx.graphics.getDisplayMode();
 
 		for (Resolution resolution : Resolution.values()) {
-			 if (resolution.HEIGHT <= displayMode.height && resolution.WIDTH <= displayMode.width) {
-			itemArray.add(resolution.toSelectMenuResolutionItem());
-			 }
+			if (resolution.HEIGHT <= displayMode.height && resolution.WIDTH <= displayMode.width) {
+				itemArray.add(resolution.toSelectMenuResolutionItem());
+			}
 		}
 
 		return itemArray;

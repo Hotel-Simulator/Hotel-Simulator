@@ -1,6 +1,5 @@
 package pl.agh.edu.actor.component.table;
 
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import pl.agh.edu.actor.utils.FontType;
@@ -64,5 +63,3 @@ public abstract class BaseTable extends WrapperTable {
 	}
 
 }
-
-
