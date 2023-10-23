@@ -13,7 +13,7 @@ public enum JSONFilePath {
 	HOTEL_SCENARIOS_CONFIG,
 	OPINION_CONFIG;
 
-	private final static String PATH = "assets/jsons/%s.json";
+	private static final String PATH = "assets/jsons/%s.json";
 
 	public String get() {
 		return PATH.formatted(this.toString().toLowerCase());
