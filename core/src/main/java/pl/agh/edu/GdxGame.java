@@ -8,14 +8,12 @@ import pl.agh.edu.config.LanguageConfig;
 import pl.agh.edu.language.LanguageManager;
 import pl.agh.edu.model.time.Time;
 import pl.agh.edu.screen.ScenariosScreen;
-import pl.agh.edu.utils.ScenariosAdapter;
 
 public class GdxGame extends ApplicationAdapter {
 
 	private Screen currentScreen;
 	private Screen previousScreen;
 	private final Time time = Time.getInstance();
-	private final ScenariosAdapter scenariosAdapter = new ScenariosAdapter();
 
 	@Override
 	public void create() {
@@ -77,9 +75,4 @@ public class GdxGame extends ApplicationAdapter {
 		previousScreen = temp;
 		setScreen(currentScreen);
 	}
-
-	public void setScenariosAdapterData() {
-		scenariosAdapter.extractDataFromScenariosScreen((ScenariosScreen) currentScreen);
-	}
-
 }

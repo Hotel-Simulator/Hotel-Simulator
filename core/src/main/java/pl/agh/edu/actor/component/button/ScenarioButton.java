@@ -4,33 +4,26 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 
 import pl.agh.edu.actor.GameSkin;
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.enums.HotelType;
 
-public class ScenarioButton extends Table {
-	private final Skin skin = GameSkin.getInstance();
+public class ScenarioButton extends Button {
+	public final Skin skin = GameSkin.getInstance();
 	public final HotelType hotelType;
-	private boolean isSelected = false;
-	public int width;
-	public int height;
-	public final NinePatchDrawable unselected = new NinePatchDrawable(skin.getPatch("button"));
-	public final NinePatchDrawable selected = new NinePatchDrawable(skin.getPatch("button_selected"));
+	private int width;
+	private int height;
 
 	public ScenarioButton(String title, String image, String description, String season, HotelType hotelType, String titleFont, String textFont) {
-		super();
+		super(GameSkin.getInstance().get("scenario-button", Button.ButtonStyle.class));
 		setSize();
 		this.hotelType = hotelType;
 		pad(30, 20, 30, 20);
-
-		NinePatchDrawable buttonBackground = new NinePatchDrawable(skin.getPatch("button"));
-		this.setBackground(buttonBackground);
 
 		Label.LabelStyle titleLabel = new Label.LabelStyle();
 		titleLabel.font = skin.getFont(titleFont);
@@ -65,20 +58,6 @@ public class ScenarioButton extends Table {
 		add(seasonLabel).width(3 * width / 24).padTop(height / 40).center();
 
 		setTouchable(Touchable.enabled);
-	}
-
-	public boolean getSelected() {
-		return this.isSelected;
-	}
-
-	public void setSelected() {
-		isSelected = true;
-		setBackground(selected);
-	}
-
-	public void setUnselected() {
-		isSelected = false;
-		setBackground(unselected);
 	}
 
 	public void setSize() {

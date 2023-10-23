@@ -15,7 +15,7 @@ public class ScenariosSettings {
 	private String scenarioTitleFont;
 	private int diffWidth;
 	private int diffHeight;
-	private float largePaddingMultiplier = 1;
+	private float largePaddingMultiplier;
 
 	public ScenariosSettings() {
 		setParams();
@@ -23,6 +23,7 @@ public class ScenariosSettings {
 
 	public void setParams() {
 		setSize();
+		defaultValuesSet();
 		switch (GraphicConfig.getResolution().SIZE) {
 			case SMALL -> {
 				titleFont = "white-h3";
@@ -48,18 +49,21 @@ public class ScenariosSettings {
 		}
 	}
 
+	private void defaultValuesSet() {
+		diffWidth = width / 7;
+		diffHeight = height / 7;
+		largePaddingMultiplier = 1;
+	}
+
 	public void setSize() {
 		if (GraphicConfig.isFullscreen()) {
 			this.width = Gdx.graphics.getWidth();
 			this.height = Gdx.graphics.getHeight();
 		}
-
 		else {
 			this.width = GraphicConfig.getResolution().WIDTH;
 			this.height = GraphicConfig.getResolution().HEIGHT;
 		}
-		diffWidth = width / 7;
-		diffHeight = height / 7;
 	}
 
 	public int getWidth() {

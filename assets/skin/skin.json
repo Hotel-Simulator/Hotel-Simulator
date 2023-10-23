@@ -523,6 +523,11 @@
 	},
 	"star-dimmed": {
 		"up": "rating-star-dimmed"
+	},
+	"scenario-button": {
+		"up": "button",
+		"down": "button_selected",
+		"checked": "button_selected"
 	}
 },
 "CheckBoxStyle": {

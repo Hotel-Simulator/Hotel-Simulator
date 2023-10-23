@@ -29,10 +29,10 @@ import pl.agh.edu.enums.DifficultyLevel;
 import pl.agh.edu.enums.HotelType;
 
 public class ScenariosScreen implements Screen, ResolutionChangeListener {
-	private final Stage stage = new Stage(GraphicConfig.getViewport());
-	private final Skin skin = GameSkin.getInstance();
+	private Stage stage = new Stage(GraphicConfig.getViewport());
+	public final Skin skin = GameSkin.getInstance();
 
-	private final Table mainTable = new Table();
+	private Table mainTable = new Table();
 	private Table difficultyTable;
 	private Table scenariosTable;
 	private final GdxGame game;
@@ -42,38 +42,40 @@ public class ScenariosScreen implements Screen, ResolutionChangeListener {
 	private Label.LabelStyle titleLabelStyle;
 
 	// for difficulty
-	public ArrayList<DifficultyButton> difficultyButtons = new ArrayList<>();
-	public int width = GraphicConfig.getResolution().WIDTH;
-	public int height = GraphicConfig.getResolution().HEIGHT;
+	private ArrayList<DifficultyButton> difficultyButtons = new ArrayList<>();
+	private int width = GraphicConfig.getResolution().WIDTH;
+	private int height = GraphicConfig.getResolution().HEIGHT;
 	public DifficultyButton selectedDifficultyButton = null;
-	public ScenariosSettings scenariosSettings = new ScenariosSettings();
+	public final ScenariosSettings scenariosSettings = new ScenariosSettings();
 
 	// for scenarios
-	public ArrayList<ScenarioButton> scenarioButtons = new ArrayList<>();
+	private ArrayList<ScenarioButton> scenarioButtons = new ArrayList<>();
 	public ScenarioButton selectedScenarioButton = null;
-	public Label errorLabel;
+	private Label errorLabel;
 
 	public ScenariosScreen(GdxGame game) {
 		this.game = game;
 
 		createFrames();
 
-		mainTable.setFillParent(true);
-		mainTable.background(skin.getDrawable("hotel-room"));
-
-		stage.addActor(mainTable);
-		mainTable.add(scenariosTable).growX();
-
 		ResolutionManager.addListener(this);
 		Gdx.input.setInputProcessor(new MyInputAdapter(stage));
 	}
 
 	public void createFrames() {
+		stage.getViewport().update(width, height, true);
+
 		scenariosSettings.setParams();
+		mainTable = new Table();
+		mainTable.setFillParent(true);
+		mainTable.background(skin.getDrawable("hotel-room"));
 		difficultyTable = new Table();
 		scenariosTable = new Table();
 		createDifficultyFrame();
 		createScenariosFrame();
+
+		stage.addActor(mainTable);
+		mainTable.add(scenariosTable).growX();
 	}
 
 	public void createDifficultyFrame() {
@@ -115,11 +117,8 @@ public class ScenariosScreen implements Screen, ResolutionChangeListener {
 			public void clicked(InputEvent event, float x, float y) {
 
 				if (selectedScenarioButton != null && selectedDifficultyButton != null) {
-					game.setScenariosAdapterData();
 					game.changeScreen(new MainScreen(game));
 				} else {
-					System.out.println(selectedScenarioButton);
-					System.out.println(selectedDifficultyButton);
 					difficultyTable.add(errorLabel);
 				}
 
@@ -242,10 +241,10 @@ public class ScenariosScreen implements Screen, ResolutionChangeListener {
 			public void clicked(InputEvent event, float x, float y) {
 				super.clicked(event, x, y);
 				if (selectedScenarioButton != null && selectedScenarioButton != scenario) {
-					selectedScenarioButton.setUnselected();
+					selectedScenarioButton.setChecked(false);
 				}
 				selectedScenarioButton = scenario;
-				scenario.setSelected();
+				selectedScenarioButton.setChecked(true);
 			}
 		});
 		scenarioButtons.add(scenario);
