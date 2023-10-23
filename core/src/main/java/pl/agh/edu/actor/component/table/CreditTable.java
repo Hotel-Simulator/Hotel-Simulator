@@ -57,6 +57,7 @@ public class CreditTable extends BaseTable {
 				bankAccountHandler.payEntireCredit(credit);
 				deleteRow(this);
 			});
+			payAllButton.setVarArgs(bankAccountHandler.getValueLeftToPay(credit).stripTrailingZeros());
 			insertActorsToRow(date, monthly, payAllButton);
 			this.setBackground("table-row-background");
 		}
