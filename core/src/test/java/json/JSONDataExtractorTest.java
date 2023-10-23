@@ -6,7 +6,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.junit.jupiter.api.Test;
 
-import pl.agh.edu.json.data_extractor.JSONDataExtractor;
+import pl.agh.edu.data.extractor.JSONDataExtractor;
 
 public class JSONDataExtractorTest {
 

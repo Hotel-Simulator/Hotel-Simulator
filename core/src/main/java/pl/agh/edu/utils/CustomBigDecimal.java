@@ -9,9 +9,9 @@ import java.util.Comparator;
 import ch.obermuhlner.math.big.BigDecimalMath;
 
 public class CustomBigDecimal {
+	private static final MathContext MC = MathContext.DECIMAL128;
 	private final BigDecimal value;
 	private final Prefix prefix;
-	private static final MathContext MC = MathContext.DECIMAL128;
 
 	public CustomBigDecimal(String value) {
 		this(new BigDecimal(value));
@@ -20,6 +20,14 @@ public class CustomBigDecimal {
 	public CustomBigDecimal(BigDecimal value) {
 		this.prefix = Prefix.getAdequatePrefixByValue(value);
 		this.value = roundValue(value, prefix);
+	}
+
+	public static BigDecimal getMaxValue(BigDecimal value) {
+		return value.min(Prefix.EXCESS.value.subtract(BigDecimal.ONE));
+	}
+
+	public static BigDecimal getMinValue(BigDecimal value) {
+		return value.max(BigDecimal.ZERO);
 	}
 
 	@Override
@@ -58,14 +66,6 @@ public class CustomBigDecimal {
 
 	public BigDecimal getValue() {
 		return value.multiply(prefix.value);
-	}
-
-	public static BigDecimal getMaxValue(BigDecimal value) {
-		return value.min(Prefix.EXCESS.value.subtract(BigDecimal.ONE));
-	}
-
-	public static BigDecimal getMinValue(BigDecimal value) {
-		return value.max(BigDecimal.ZERO);
 	}
 
 	public enum Prefix {

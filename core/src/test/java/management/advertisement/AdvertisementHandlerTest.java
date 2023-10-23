@@ -1,7 +1,16 @@
 package management.advertisement;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static java.math.BigDecimal.ZERO;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
+import static pl.agh.edu.engine.advertisement.AdvertisementType.NEWSPAPER_ADVERTISEMENT;
+import static pl.agh.edu.engine.advertisement.AdvertisementType.RADIO_ADVERTISEMENT;
+import static pl.agh.edu.engine.advertisement.AdvertisementType.TV_ADVERTISEMENT;
+import static pl.agh.edu.engine.advertisement.AdvertisementType.WEB_PAGE;
+import static pl.agh.edu.engine.hotel.HotelVisitPurpose.BUSINESS_TRIP;
+import static pl.agh.edu.engine.hotel.HotelVisitPurpose.REHABILITATION;
+import static pl.agh.edu.engine.hotel.HotelVisitPurpose.VACATION;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -14,12 +23,12 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import pl.agh.edu.enums.HotelVisitPurpose;
-import pl.agh.edu.json.data_loader.JSONAdvertisementDataLoader;
-import pl.agh.edu.management.advertisement.AdvertisementHandler;
-import pl.agh.edu.management.bank.BankAccountHandler;
-import pl.agh.edu.model.advertisement.AdvertisementType;
-import pl.agh.edu.model.time.Time;
+import pl.agh.edu.data.loader.JSONAdvertisementDataLoader;
+import pl.agh.edu.engine.advertisement.AdvertisementHandler;
+import pl.agh.edu.engine.advertisement.AdvertisementType;
+import pl.agh.edu.engine.bank.BankAccountHandler;
+import pl.agh.edu.engine.hotel.HotelVisitPurpose;
+import pl.agh.edu.engine.time.Time;
 
 public class AdvertisementHandlerTest {
 
@@ -35,7 +44,7 @@ public class AdvertisementHandlerTest {
 	@MethodSource("canBuyAdvertisementCampaignArgs")
 	void canBuyAdvertisementCampaign(LocalDate startDate, LocalDate endDate, boolean expected) {
 		// Given
-		AdvertisementType type = AdvertisementType.TV_ADVERTISEMENT;
+		AdvertisementType type = TV_ADVERTISEMENT;
 
 		// When
 		advertisementHandler.buyAdvertisementCampaign(type, LocalDate.now(), LocalDate.now().plusDays(7));
@@ -62,9 +71,9 @@ public class AdvertisementHandlerTest {
 
 		// Then
 		for (BigDecimal value : modifierMap.values()) {
-			assertEquals(BigDecimal.ZERO, value);
+			assertEquals(ZERO, value);
 		}
-		assertTrue(modifierMap.values().stream().allMatch(value -> value.compareTo(BigDecimal.ZERO) == 0));
+		assertTrue(modifierMap.values().stream().allMatch(value -> value.compareTo(ZERO) == 0));
 	}
 
 	@Test
@@ -72,17 +81,17 @@ public class AdvertisementHandlerTest {
 		// Given
 		LocalDate currentDate = time.getTime().toLocalDate();
 		// When
-		advertisementHandler.buyAdvertisementCampaign(AdvertisementType.RADIO_ADVERTISEMENT, currentDate, currentDate.plusDays(7));
-		advertisementHandler.buyAdvertisementCampaign(AdvertisementType.TV_ADVERTISEMENT, currentDate, currentDate.plusDays(7));
+		advertisementHandler.buyAdvertisementCampaign(RADIO_ADVERTISEMENT, currentDate, currentDate.plusDays(7));
+		advertisementHandler.buyAdvertisementCampaign(TV_ADVERTISEMENT, currentDate, currentDate.plusDays(7));
 		// should not be used in calculating cumulated modifier because of not being emitted
-		advertisementHandler.buyAdvertisementCampaign(AdvertisementType.NEWSPAPER_ADVERTISEMENT, currentDate.plusDays(1), currentDate.plusDays(7));
+		advertisementHandler.buyAdvertisementCampaign(NEWSPAPER_ADVERTISEMENT, currentDate.plusDays(1), currentDate.plusDays(7));
 
 		EnumMap<HotelVisitPurpose, BigDecimal> modifierMap = advertisementHandler.getCumulatedModifier();
 
 		// Then
-		assertEquals(new BigDecimal("0.1425"), modifierMap.get(HotelVisitPurpose.VACATION));
-		assertEquals(new BigDecimal("0.0825"), modifierMap.get(HotelVisitPurpose.BUSINESS_TRIP));
-		assertEquals(new BigDecimal("0.2100"), modifierMap.get(HotelVisitPurpose.REHABILITATION));
+		assertEquals(new BigDecimal("0.1425"), modifierMap.get(VACATION));
+		assertEquals(new BigDecimal("0.0825"), modifierMap.get(BUSINESS_TRIP));
+		assertEquals(new BigDecimal("0.2100"), modifierMap.get(REHABILITATION));
 	}
 
 	@Test
@@ -91,15 +100,15 @@ public class AdvertisementHandlerTest {
 		// When
 		LocalDate currentDate = time.getTime().toLocalDate();
 		// current
-		advertisementHandler.buyAdvertisementCampaign(AdvertisementType.RADIO_ADVERTISEMENT, currentDate, currentDate.plusDays(7));
+		advertisementHandler.buyAdvertisementCampaign(RADIO_ADVERTISEMENT, currentDate, currentDate.plusDays(7));
 		// future
-		advertisementHandler.buyAdvertisementCampaign(AdvertisementType.TV_ADVERTISEMENT, currentDate.plusDays(2), currentDate.plusDays(7));
+		advertisementHandler.buyAdvertisementCampaign(TV_ADVERTISEMENT, currentDate.plusDays(2), currentDate.plusDays(7));
 
 		var currentCampaigns = advertisementHandler.getFilteredAdvertisementCampaigns(true, false, null);
 
 		// Then
 		assertEquals(1, currentCampaigns.size());
-		assertEquals(AdvertisementType.RADIO_ADVERTISEMENT, currentCampaigns.get(0).advertisementData().type());
+		assertEquals(RADIO_ADVERTISEMENT, currentCampaigns.get(0).advertisementData().type());
 	}
 
 	@Test
@@ -108,15 +117,15 @@ public class AdvertisementHandlerTest {
 		// When
 		LocalDate currentDate = time.getTime().toLocalDate();
 		// current
-		advertisementHandler.buyAdvertisementCampaign(AdvertisementType.RADIO_ADVERTISEMENT, currentDate, currentDate.plusDays(7));
+		advertisementHandler.buyAdvertisementCampaign(RADIO_ADVERTISEMENT, currentDate, currentDate.plusDays(7));
 		// future
-		advertisementHandler.buyAdvertisementCampaign(AdvertisementType.TV_ADVERTISEMENT, currentDate.plusDays(2), currentDate.plusDays(7));
+		advertisementHandler.buyAdvertisementCampaign(TV_ADVERTISEMENT, currentDate.plusDays(2), currentDate.plusDays(7));
 
 		var currentCampaigns = advertisementHandler.getFilteredAdvertisementCampaigns(false, true, null);
 
 		// Then
 		assertEquals(1, currentCampaigns.size());
-		assertEquals(AdvertisementType.TV_ADVERTISEMENT, currentCampaigns.get(0).advertisementData().type());
+		assertEquals(TV_ADVERTISEMENT, currentCampaigns.get(0).advertisementData().type());
 	}
 
 	@Test
@@ -125,15 +134,15 @@ public class AdvertisementHandlerTest {
 		// When
 		LocalDate currentDate = time.getTime().toLocalDate();
 		// current
-		advertisementHandler.buyAdvertisementCampaign(AdvertisementType.RADIO_ADVERTISEMENT, currentDate, currentDate.plusDays(7));
+		advertisementHandler.buyAdvertisementCampaign(RADIO_ADVERTISEMENT, currentDate, currentDate.plusDays(7));
 		// future
-		advertisementHandler.buyAdvertisementCampaign(AdvertisementType.TV_ADVERTISEMENT, currentDate.plusDays(2), currentDate.plusDays(7));
+		advertisementHandler.buyAdvertisementCampaign(TV_ADVERTISEMENT, currentDate.plusDays(2), currentDate.plusDays(7));
 
-		var currentCampaigns = advertisementHandler.getFilteredAdvertisementCampaigns(true, true, AdvertisementType.RADIO_ADVERTISEMENT);
+		var currentCampaigns = advertisementHandler.getFilteredAdvertisementCampaigns(true, true, RADIO_ADVERTISEMENT);
 
 		// Then
 		assertEquals(1, currentCampaigns.size());
-		assertEquals(AdvertisementType.RADIO_ADVERTISEMENT, currentCampaigns.get(0).advertisementData().type());
+		assertEquals(RADIO_ADVERTISEMENT, currentCampaigns.get(0).advertisementData().type());
 	}
 
 	static Stream<Arguments> getCampaignFullCostArgs() {
@@ -150,12 +159,11 @@ public class AdvertisementHandlerTest {
 	@MethodSource("getCampaignFullCostArgs")
 	void getCampaignFullCost_ShouldCalculateCostWithout(long noDays, BigDecimal multiplier) {
 		// Given
-		AdvertisementType type = AdvertisementType.WEB_PAGE;
-		BigDecimal expectedCost = JSONAdvertisementDataLoader.advertisementData.get(type).costPerDay()
+		BigDecimal expectedCost = JSONAdvertisementDataLoader.advertisementData.get(WEB_PAGE).costPerDay()
 				.multiply(BigDecimal.valueOf(noDays))
 				.multiply(multiplier);
 		// When
-		BigDecimal actualCost = AdvertisementHandler.getCampaignFullCost(AdvertisementType.WEB_PAGE, noDays);
+		BigDecimal actualCost = AdvertisementHandler.getCampaignFullCost(WEB_PAGE, noDays);
 
 		// Then
 		assertEquals(expectedCost, actualCost);
