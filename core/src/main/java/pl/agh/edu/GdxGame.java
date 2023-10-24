@@ -1,19 +1,21 @@
 package pl.agh.edu;
 
-import com.badlogic.gdx.*;
+import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.config.LanguageConfig;
 import pl.agh.edu.engine.Engine;
-import pl.agh.edu.language.LanguageManager;
-import pl.agh.edu.screen.main.MainScreen;
+import pl.agh.edu.ui.language.LanguageManager;
+import pl.agh.edu.ui.screen.main.MainScreen;
 
 public class GdxGame extends ApplicationAdapter {
 
+	public final Engine engine = new Engine();
 	private Screen currentScreen;
 	private Screen previousScreen;
-	public final Engine engine = new Engine();
 
 	@Override
 	public void create() {

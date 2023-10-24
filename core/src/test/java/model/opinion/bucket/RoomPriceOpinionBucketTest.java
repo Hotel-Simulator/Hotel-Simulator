@@ -1,6 +1,6 @@
 package model.opinion.bucket;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.math.BigDecimal;
 import java.util.stream.Stream;
@@ -10,7 +10,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import pl.agh.edu.model.opinion.bucket.RoomPriceOpinionBucket;
+import pl.agh.edu.engine.opinion.bucket.RoomPriceOpinionBucket;
 
 public class RoomPriceOpinionBucketTest {
 	private RoomPriceOpinionBucket opinionBucket;

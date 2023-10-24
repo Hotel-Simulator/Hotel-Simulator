@@ -1,7 +1,10 @@
 package time;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import java.time.LocalDateTime;
 import java.util.PriorityQueue;
@@ -11,8 +14,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InOrder;
 import org.mockito.MockitoAnnotations;
 
-import pl.agh.edu.time_command.TimeCommand;
-import pl.agh.edu.time_command.TimeCommandExecutor;
+import pl.agh.edu.engine.time.TimeCommandExecutor;
+import pl.agh.edu.engine.time.command.TimeCommand;
 
 public class TimeCommandExecutorTest {
 
