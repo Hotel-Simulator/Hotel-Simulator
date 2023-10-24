@@ -11,6 +11,7 @@ import pl.agh.edu.management.client.ClientGroupGenerationHandler;
 import pl.agh.edu.management.event.EventHandler;
 import pl.agh.edu.management.hotel.HotelHandler;
 import pl.agh.edu.management.hotel.HotelScenariosManager;
+import pl.agh.edu.management.opinion.OpinionBuilder;
 import pl.agh.edu.management.opinion.OpinionHandler;
 import pl.agh.edu.model.time.Time;
 import pl.agh.edu.time_command.RepeatingTimeCommand;
@@ -72,7 +73,7 @@ public class Engine {
 
 	private TimeCommand createTimeCommandForClientArrival(Arrival arrival) {
 		return new TimeCommand(() -> {
-			arrival.clientGroup().opinion.queueWaiting.setStartDate(time.getTime());
+			OpinionBuilder.saveStartWaitingAtQueueData(arrival.clientGroup());
 			hotelHandler.receptionScheduler.addEntity(arrival.clientGroup());
 			timeCommandExecutor.addCommand(
 					new TimeCommand(() -> {

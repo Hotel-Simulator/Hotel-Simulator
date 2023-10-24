@@ -3,8 +3,8 @@ package pl.agh.edu.management.employee.work_scheduler;
 import java.util.LinkedList;
 
 import pl.agh.edu.management.hotel.HotelHandler;
+import pl.agh.edu.management.opinion.OpinionBuilder;
 import pl.agh.edu.model.Room;
-import pl.agh.edu.model.client.ClientGroup;
 import pl.agh.edu.model.employee.Employee;
 import pl.agh.edu.model.employee.Profession;
 import pl.agh.edu.time_command.TimeCommand;
@@ -22,11 +22,7 @@ public class RepairScheduler extends WorkScheduler<Room> {
 				new TimeCommand(() -> {
 					technician.setOccupied(false);
 					room.roomState.setFaulty(false);
-					ClientGroup residents = room.getResidents();
-					if (residents != null) {
-						residents.opinion.roomBreaking.roomRepaired();
-						residents.opinion.employeesSatisfaction.addSatisfaction(technician.getSatisfaction());
-					}
+					OpinionBuilder.saveRoomRepairingData(technician, room);
 					executeServiceIfPossible(technician);
 				}, time.getTime().plus(technician.getServiceExecutionTime())));
 	}
