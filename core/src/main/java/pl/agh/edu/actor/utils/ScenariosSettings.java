@@ -1,5 +1,7 @@
 package pl.agh.edu.actor.utils;
 
+import java.util.Optional;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -8,8 +10,6 @@ import pl.agh.edu.actor.GameSkin;
 import pl.agh.edu.actor.component.button.DifficultyButton;
 import pl.agh.edu.actor.component.button.ScenarioButton;
 import pl.agh.edu.config.GraphicConfig;
-
-import java.util.Optional;
 
 public class ScenariosSettings {
 	private GameSkin skin = GameSkin.getInstance();
@@ -67,14 +67,13 @@ public class ScenariosSettings {
 		if (GraphicConfig.isFullscreen()) {
 			this.width = Gdx.graphics.getWidth();
 			this.height = Gdx.graphics.getHeight();
-		}
-		else {
+		} else {
 			this.width = GraphicConfig.getResolution().WIDTH;
 			this.height = GraphicConfig.getResolution().HEIGHT;
 		}
 	}
 
-	public void setTypeAndDifficulty(Optional<ScenarioButton> hotelType, Optional<DifficultyButton> difficultyLevel){
+	public void setTypeAndDifficulty(Optional<ScenarioButton> hotelType, Optional<DifficultyButton> difficultyLevel) {
 		this.hotelType = hotelType;
 		this.difficultyLevel = difficultyLevel;
 	}

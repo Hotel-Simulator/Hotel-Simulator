@@ -3,7 +3,6 @@ package pl.agh.edu.actor.component.button;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -26,7 +25,7 @@ public class ScenarioButton extends Button {
 		this.hotelType = hotelType;
 		ScenarioButtonStyle.createPad(this);
 
-		if(scenariosSettings.getScenarioButton().isPresent() && scenariosSettings.getScenarioButton().get().hotelType == hotelType){
+		if (scenariosSettings.getScenarioButton().isPresent() && scenariosSettings.getScenarioButton().get().hotelType == hotelType) {
 			setChecked(true);
 		}
 
@@ -70,11 +69,11 @@ public class ScenarioButton extends Button {
 		public static final int padTopBottom = 30;
 		public static final int padLeftRight = 20;
 
-		public static void createPad(ScenarioButton button){
+		public static void createPad(ScenarioButton button) {
 			button.pad(padTopBottom, padLeftRight, padTopBottom, padLeftRight);
 		}
 
-		public static Label createTitleLabel(ScenariosSettings scenariosSettings, String title, int height){
+		public static Label createTitleLabel(ScenariosSettings scenariosSettings, String title, int height) {
 			Label.LabelStyle titleLabel = new Label.LabelStyle();
 			titleLabel.font = scenariosSettings.getScenarioTitleFont();
 			titleLabel.font.getData().setLineHeight((int) (height / 30));
@@ -84,7 +83,7 @@ public class ScenarioButton extends Button {
 			return labelTitle;
 		}
 
-		public static Label createDescriptionLabel(ScenariosSettings scenariosSettings, String description, int height){
+		public static Label createDescriptionLabel(ScenariosSettings scenariosSettings, String description, int height) {
 			Label.LabelStyle descriptionLabel = new Label.LabelStyle();
 			descriptionLabel.font = scenariosSettings.getDifficultyButtonStyle().font;
 			descriptionLabel.font.getData().setLineHeight((int) (height / 40));

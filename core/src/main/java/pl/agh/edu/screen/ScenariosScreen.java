@@ -8,7 +8,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -30,7 +29,6 @@ import pl.agh.edu.enums.DifficultyLevel;
 import pl.agh.edu.enums.HotelType;
 import pl.agh.edu.language.LanguageChangeListener;
 import pl.agh.edu.language.LanguageManager;
-import pl.agh.edu.utils.LanguageString;
 
 public class ScenariosScreen implements Screen, ResolutionChangeListener, LanguageChangeListener {
 	private Stage stage = new Stage(GraphicConfig.getViewport());
@@ -82,10 +80,9 @@ public class ScenariosScreen implements Screen, ResolutionChangeListener, Langua
 		createScenariosFrame();
 
 		stage.addActor(mainTable);
-		if(isLastScreenScenarios){
+		if (isLastScreenScenarios) {
 			mainTable.add(scenariosTable).growX();
-		}
-		else{
+		} else {
 			mainTable.add(difficultyTable).growX();
 		}
 	}
@@ -211,8 +208,10 @@ public class ScenariosScreen implements Screen, ResolutionChangeListener, Langua
 
 		Table buttons = new Table();
 		buttons.add(addScenariosButton(texts.scenarioResortTitle, "water", texts.scenarioResortDescription, texts.scenarioResortPopularity, HotelType.RESORT));
-		buttons.add(addScenariosButton(texts.scenarioSanatoriumTitle, "hospital", texts.scenarioSanatoriumDescription, texts.scenarioSanatoriumPopularity, HotelType.SANATORIUM)).padLeft((int) (width / 12));
-		buttons.add(addScenariosButton(texts.scenarioHotelTitle, "hotel", texts.scenarioHotelDescription, texts.scenarioHotelPopularity, HotelType.HOTEL)).padLeft((int) (width / 12));
+		buttons.add(addScenariosButton(texts.scenarioSanatoriumTitle, "hospital", texts.scenarioSanatoriumDescription, texts.scenarioSanatoriumPopularity, HotelType.SANATORIUM))
+				.padLeft((int) (width / 12));
+		buttons.add(addScenariosButton(texts.scenarioHotelTitle, "hotel", texts.scenarioHotelDescription, texts.scenarioHotelPopularity, HotelType.HOTEL)).padLeft((int) (width
+				/ 12));
 		scenariosTable.add(buttons).padTop((int) (scenariosSettings.getLargePaddingMultiplier() * height / 24));
 
 		scenariosTable.row();
@@ -260,9 +259,9 @@ public class ScenariosScreen implements Screen, ResolutionChangeListener, Langua
 
 	@Override
 	public void show() {
-//		InputMultiplexer multiplexer = new InputMultiplexer();
-//		multiplexer.addProcessor(stage);
-//		Gdx.input.setInputProcessor(multiplexer);
+		// InputMultiplexer multiplexer = new InputMultiplexer();
+		// multiplexer.addProcessor(stage);
+		// Gdx.input.setInputProcessor(multiplexer);
 	}
 
 	@Override

@@ -12,7 +12,7 @@ public class DifficultyButton extends TextButton {
 		super(text, style);
 		this.difficulty = difficulty;
 
-		if(scenariosSettings.getDifficultyButton().isPresent() && scenariosSettings.getDifficultyButton().get().difficulty == difficulty){
+		if (scenariosSettings.getDifficultyButton().isPresent() && scenariosSettings.getDifficultyButton().get().difficulty == difficulty) {
 			setChecked(true);
 		}
 	}
