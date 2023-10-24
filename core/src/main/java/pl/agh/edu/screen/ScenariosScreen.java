@@ -28,8 +28,11 @@ import pl.agh.edu.actor.utils.resolution.ResolutionManager;
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.enums.DifficultyLevel;
 import pl.agh.edu.enums.HotelType;
+import pl.agh.edu.language.LanguageChangeListener;
+import pl.agh.edu.language.LanguageManager;
+import pl.agh.edu.utils.LanguageString;
 
-public class ScenariosScreen implements Screen, ResolutionChangeListener {
+public class ScenariosScreen implements Screen, ResolutionChangeListener, LanguageChangeListener {
 	private Stage stage = new Stage(GraphicConfig.getViewport());
 	public final Skin skin = GameSkin.getInstance();
 
@@ -37,6 +40,7 @@ public class ScenariosScreen implements Screen, ResolutionChangeListener {
 	private Table difficultyTable;
 	private Table scenariosTable;
 	private final GdxGame game;
+	private final ScenarioScreenTexts texts = new ScenarioScreenTexts();
 
 	public final NinePatchDrawable upButton = new NinePatchDrawable(skin.getPatch("button"));
 	public final NinePatchDrawable downButton = new NinePatchDrawable(skin.getPatch("button_selected"));
@@ -58,6 +62,7 @@ public class ScenariosScreen implements Screen, ResolutionChangeListener {
 	public ScenariosScreen(GdxGame game) {
 		this.game = game;
 
+		onLanguageChange();
 		createFrames();
 
 		ResolutionManager.addListener(this);
@@ -90,7 +95,7 @@ public class ScenariosScreen implements Screen, ResolutionChangeListener {
 		difficultyTable.setFillParent(true);
 		titleLabelStyle = createTitleLabel();
 
-		Label label1 = new Label("Choose difficulty", titleLabelStyle);
+		Label label1 = new Label(texts.difficultyTitle, titleLabelStyle);
 
 		Table titleTable = new Table();
 		titleTable.setBackground(upButton);
@@ -104,7 +109,7 @@ public class ScenariosScreen implements Screen, ResolutionChangeListener {
 		difficultyTable.row();
 		difficultyTable.row();
 
-		Button back = new TextButton("Back", scenariosSettings.getPlayBackButtonStyle());
+		Button back = new TextButton(texts.difficultyBackButton, scenariosSettings.getPlayBackButtonStyle());
 		back.pad(back.getHeight() / 4, back.getWidth() / 6, back.getHeight() / 4, back.getWidth() / 6);
 		back.addListener(new ClickListener() {
 			@Override
@@ -118,7 +123,7 @@ public class ScenariosScreen implements Screen, ResolutionChangeListener {
 		Table playBack = new Table();
 		playBack.add(back).padRight(3 * width / 5);
 
-		Button play = new TextButton("Play", scenariosSettings.getPlayBackButtonStyle());
+		Button play = new TextButton(texts.difficultyPlayButton, scenariosSettings.getPlayBackButtonStyle());
 		play.pad(play.getHeight() / 4, play.getWidth() / 6, play.getHeight() / 4, play.getWidth() / 6);
 		play.addListener(new ClickListener() {
 			@Override
@@ -146,7 +151,7 @@ public class ScenariosScreen implements Screen, ResolutionChangeListener {
 	}
 
 	public void createDifficultyButtons() {
-		String[] names = {"EASY", "MEDIUM", "HARD", "BRUTAL"};
+		String[] names = {texts.difficultyEasy, texts.difficultyMedium, texts.difficultyHard, texts.difficultyBrutal};
 		DifficultyLevel[] names2 = DifficultyLevel.values();
 
 		for (int i = 0; i < 4; i++) {
@@ -164,7 +169,7 @@ public class ScenariosScreen implements Screen, ResolutionChangeListener {
 		Label.LabelStyle style = GameSkin.getInstance().get("white-h4", Label.LabelStyle.class);
 		style.fontColor = Color.RED;
 
-		return new Label("Select scenario and difficulty", style);
+		return new Label(texts.difficultyErrorLabel, style);
 	}
 
 	public void addDifficultyButtonsListeners() {
@@ -193,7 +198,7 @@ public class ScenariosScreen implements Screen, ResolutionChangeListener {
 		scenariosTable.setFillParent(true);
 		errorLabel = createErrorLabel();
 
-		Label label1 = new Label("Choose scenario", titleLabelStyle);
+		Label label1 = new Label(texts.scenarioTitle, titleLabelStyle);
 
 		Table titleTable = new Table();
 		titleTable.setBackground(upButton);
@@ -205,9 +210,9 @@ public class ScenariosScreen implements Screen, ResolutionChangeListener {
 		scenariosTable.row();
 
 		Table buttons = new Table();
-		buttons.add(addScenariosButton("Seaside Resort", "water", "Most of the clients are people who are on vacation", "Summer", HotelType.RESORT));
-		buttons.add(addScenariosButton("Sanatorium Ciechocinek", "hospital", "Clients are mostly patients but not only", "Autumn", HotelType.SANATORIUM)).padLeft((int) (width / 12));
-		buttons.add(addScenariosButton("City center Hotel", "hotel", "Hotel guests are mostly businessman", "Spring", HotelType.HOTEL)).padLeft((int) (width / 12));
+		buttons.add(addScenariosButton(texts.scenarioResortTitle, "water", texts.scenarioResortDescription, texts.scenarioResortPopularity, HotelType.RESORT));
+		buttons.add(addScenariosButton(texts.scenarioSanatoriumTitle, "hospital", texts.scenarioSanatoriumDescription, texts.scenarioSanatoriumPopularity, HotelType.SANATORIUM)).padLeft((int) (width / 12));
+		buttons.add(addScenariosButton(texts.scenarioHotelTitle, "hotel", texts.scenarioHotelDescription, texts.scenarioHotelPopularity, HotelType.HOTEL)).padLeft((int) (width / 12));
 		scenariosTable.add(buttons).padTop((int) (scenariosSettings.getLargePaddingMultiplier() * height / 24));
 
 		scenariosTable.row();
@@ -218,7 +223,7 @@ public class ScenariosScreen implements Screen, ResolutionChangeListener {
 		playStyle.font = skin.getFont("white-h1"); // Set the custom font
 		playStyle.fontColor = Color.YELLOW; // Set the font color
 
-		Button next = new TextButton("Next", playStyle);
+		Button next = new TextButton(texts.scenarioNextButton, playStyle);
 		next.pad(15);
 		next.addListener(new ClickListener() {
 			@Override
@@ -304,5 +309,50 @@ public class ScenariosScreen implements Screen, ResolutionChangeListener {
 		}
 		scenariosSettings.setTypeAndDifficulty(selectedScenarioButton, selectedDifficultyButton);
 		createFrames();
+	}
+
+	@Override
+	public void onLanguageChange() {
+		texts.difficultyTitle = LanguageManager.get("difficulty.title");
+		texts.difficultyBackButton = LanguageManager.get("difficulty.back.button");
+		texts.difficultyPlayButton = LanguageManager.get("difficulty.play.button");
+		texts.difficultyEasy = LanguageManager.get("difficulty.easy");
+		texts.difficultyMedium = LanguageManager.get("difficulty.medium");
+		texts.difficultyHard = LanguageManager.get("difficulty.hard");
+		texts.difficultyBrutal = LanguageManager.get("difficulty.brutal");
+		texts.difficultyErrorLabel = LanguageManager.get("difficulty.error.label");
+		texts.scenarioTitle = LanguageManager.get("scenario.title");
+		texts.scenarioResortTitle = LanguageManager.get("scenario.resort.title");
+		texts.scenarioResortDescription = LanguageManager.get("scenario.resort.description");
+		texts.scenarioResortPopularity = LanguageManager.get("scenario.resort.popularity");
+		texts.scenarioHotelTitle = LanguageManager.get("scenario.hotel.title");
+		texts.scenarioHotelDescription = LanguageManager.get("scenario.hotel.description");
+		texts.scenarioHotelPopularity = LanguageManager.get("scenario.hotel.popularity");
+		texts.scenarioSanatoriumTitle = LanguageManager.get("scenario.sanatorium.title");
+		texts.scenarioSanatoriumDescription = LanguageManager.get("scenario.sanatorium.description");
+		texts.scenarioSanatoriumPopularity = LanguageManager.get("scenario.sanatorium.popularity");
+		texts.scenarioNextButton = LanguageManager.get("scenario.next.button");
+	}
+
+	private static class ScenarioScreenTexts {
+		public String difficultyTitle;
+		public String difficultyBackButton;
+		public String difficultyPlayButton;
+		public String difficultyEasy;
+		public String difficultyMedium;
+		public String difficultyHard;
+		public String difficultyBrutal;
+		public String difficultyErrorLabel;
+		public String scenarioTitle;
+		public String scenarioResortTitle;
+		public String scenarioResortDescription;
+		public String scenarioResortPopularity;
+		public String scenarioSanatoriumTitle;
+		public String scenarioSanatoriumDescription;
+		public String scenarioSanatoriumPopularity;
+		public String scenarioHotelTitle;
+		public String scenarioHotelDescription;
+		public String scenarioHotelPopularity;
+		public String scenarioNextButton;
 	}
 }

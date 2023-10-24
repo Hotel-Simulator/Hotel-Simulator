@@ -47,7 +47,7 @@ public class ScenarioButton extends Button {
 
 		row();
 
-		Label seasonLabel = ScenarioButtonStyle.createDescriptionLabel(scenariosSettings, "Popular in " + season, height);
+		Label seasonLabel = ScenarioButtonStyle.createDescriptionLabel(scenariosSettings, season, height);
 		seasonLabel.setAlignment(getAlign());
 		add(seasonLabel).width(3 * width / 24).padTop(height / 40).center();
 
