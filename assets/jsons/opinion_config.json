@@ -1,5 +1,5 @@
 {
-  "opinion_probability_for_clients_who_got_room": 0.99,
+  "opinion_probability_for_clients_who_got_room": 0.3,
   "opinion_probability_for_clients_who_did_no_get_room": 0.01,
-  "opinion_probability_for_clients_who_stepped_out_of_queue": 0.001
+  "opinion_probability_for_clients_who_stepped_out_of_queue": 0.01
 }
