@@ -1,6 +1,7 @@
 package pl.agh.edu.screen;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -45,12 +46,12 @@ public class ScenariosScreen implements Screen, ResolutionChangeListener {
 	private ArrayList<DifficultyButton> difficultyButtons = new ArrayList<>();
 	private int width = GraphicConfig.getResolution().WIDTH;
 	private int height = GraphicConfig.getResolution().HEIGHT;
-	public DifficultyButton selectedDifficultyButton = null;
+	public Optional<DifficultyButton> selectedDifficultyButton = Optional.empty();
 	public final ScenariosSettings scenariosSettings = new ScenariosSettings();
 
 	// for scenarios
 	private ArrayList<ScenarioButton> scenarioButtons = new ArrayList<>();
-	public ScenarioButton selectedScenarioButton = null;
+	public Optional<ScenarioButton> selectedScenarioButton = Optional.empty();
 	private Label errorLabel;
 
 	public ScenariosScreen(GdxGame game) {
@@ -92,7 +93,7 @@ public class ScenariosScreen implements Screen, ResolutionChangeListener {
 
 		difficultyTable.add(titleTable).left().padLeft((int) (width / 12)).padTop((int) (scenariosSettings.getLargePaddingMultiplier() * height / 12)).expandX();
 
-		createDifficultyButtons(upButton, downButton);
+		createDifficultyButtons();
 		addDifficultyButtonsListeners();
 		difficultyTable.row();
 		difficultyTable.row();
@@ -116,7 +117,7 @@ public class ScenariosScreen implements Screen, ResolutionChangeListener {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 
-				if (selectedScenarioButton != null && selectedDifficultyButton != null) {
+				if (selectedScenarioButton.isPresent() && selectedDifficultyButton.isPresent()) {
 					game.changeScreen(new MainScreen(game));
 				} else {
 					difficultyTable.add(errorLabel);
@@ -132,12 +133,12 @@ public class ScenariosScreen implements Screen, ResolutionChangeListener {
 	}
 
 	private Label.LabelStyle createTitleLabel() {
-		Label.LabelStyle titleLabel = GameSkin.getInstance().get(scenariosSettings.getTitleFont(), Label.LabelStyle.class);
+		Label.LabelStyle titleLabel = GameSkin.getInstance().get(scenariosSettings.getTitleFont().toString(), Label.LabelStyle.class);
 		titleLabel.fontColor = Color.YELLOW;
 		return titleLabel;
 	}
 
-	public void createDifficultyButtons(NinePatchDrawable buttonBackground, NinePatchDrawable onSelect) {
+	public void createDifficultyButtons() {
 		String[] names = {"EASY", "MEDIUM", "HARD", "BRUTAL"};
 		DifficultyLevel[] names2 = DifficultyLevel.values();
 
@@ -166,13 +167,12 @@ public class ScenariosScreen implements Screen, ResolutionChangeListener {
 						@Override
 						public void clicked(InputEvent event, float x, float y) {
 
-							if (selectedDifficultyButton != null) {
-								selectedDifficultyButton.setChecked(false);
-							}
-							selectedDifficultyButton = button;
-							selectedDifficultyButton.setChecked(true);
+							selectedDifficultyButton.ifPresent(difficultyButton -> difficultyButton.setChecked(false));
 
-							if (selectedScenarioButton != null && selectedDifficultyButton != null) {
+							selectedDifficultyButton = Optional.of(button);
+							selectedDifficultyButton.get().setChecked(true);
+
+							if (selectedScenarioButton.isPresent() && selectedDifficultyButton.isPresent()) {
 								difficultyTable.removeActor(errorLabel);
 								difficultyTable.row().clearActor();
 							}
@@ -198,15 +198,9 @@ public class ScenariosScreen implements Screen, ResolutionChangeListener {
 		scenariosTable.row();
 
 		Table buttons = new Table();
-		buttons.add(addScenariosButton("Seaside Resort", "water", "Most of the clients are people who are on vacation", "Summer", HotelType.RESORT, scenariosSettings
-				.getScenarioTitleFont(),
-				scenariosSettings.getDifficultyButtonStyle().font.toString()));
-		buttons.add(addScenariosButton("Sanatorium Ciechocinek", "hospital", "Clients are mostly patients but not only", "Autumn", HotelType.SANATORIUM, scenariosSettings
-				.getScenarioTitleFont(),
-				scenariosSettings.getDifficultyButtonStyle().font.toString())).padLeft((int) (width / 12));
-		buttons.add(addScenariosButton("City center Hotel", "hotel", "Hotel guests are mostly businessman", "Spring", HotelType.HOTEL, scenariosSettings.getScenarioTitleFont(),
-				scenariosSettings.getDifficultyButtonStyle().font.toString()))
-				.padLeft((int) (width / 12));
+		buttons.add(addScenariosButton("Seaside Resort", "water", "Most of the clients are people who are on vacation", "Summer", HotelType.RESORT));
+		buttons.add(addScenariosButton("Sanatorium Ciechocinek", "hospital", "Clients are mostly patients but not only", "Autumn", HotelType.SANATORIUM)).padLeft((int) (width / 12));
+		buttons.add(addScenariosButton("City center Hotel", "hotel", "Hotel guests are mostly businessman", "Spring", HotelType.HOTEL)).padLeft((int) (width / 12));
 		scenariosTable.add(buttons).padTop((int) (scenariosSettings.getLargePaddingMultiplier() * height / 24));
 
 		scenariosTable.row();
@@ -222,7 +216,7 @@ public class ScenariosScreen implements Screen, ResolutionChangeListener {
 		next.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				if (selectedScenarioButton != null && selectedDifficultyButton != null) {
+				if (selectedScenarioButton.isPresent() && selectedDifficultyButton.isPresent()) {
 					difficultyTable.removeActor(errorLabel);
 				}
 				mainTable.clearChildren();
@@ -233,18 +227,17 @@ public class ScenariosScreen implements Screen, ResolutionChangeListener {
 		scenariosTable.add(next).right().padRight((int) (width / 12)).padTop((int) (scenariosSettings.getLargePaddingMultiplier() * height / 16));
 	}
 
-	public ScenarioButton addScenariosButton(String title, String image, String description, String season, HotelType hotelType, String scenarioTitleFont,
-			String scenarioTextFont) {
-		ScenarioButton scenario = new ScenarioButton(title, image, description, season, hotelType, scenarioTitleFont, scenarioTextFont);
+	public ScenarioButton addScenariosButton(String title, String image, String description, String season, HotelType hotelType) {
+		ScenarioButton scenario = new ScenarioButton(title, image, description, season, hotelType, scenariosSettings);
 		scenario.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				super.clicked(event, x, y);
-				if (selectedScenarioButton != null && selectedScenarioButton != scenario) {
-					selectedScenarioButton.setChecked(false);
+				if (selectedScenarioButton.isPresent() && selectedScenarioButton.get() != scenario) {
+					selectedScenarioButton.get().setChecked(false);
 				}
-				selectedScenarioButton = scenario;
-				selectedScenarioButton.setChecked(true);
+				selectedScenarioButton = Optional.of(scenario);
+				selectedScenarioButton.get().setChecked(true);
 			}
 		});
 		scenarioButtons.add(scenario);

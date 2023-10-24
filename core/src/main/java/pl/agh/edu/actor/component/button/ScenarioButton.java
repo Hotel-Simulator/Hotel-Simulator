@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import pl.agh.edu.actor.GameSkin;
+import pl.agh.edu.actor.utils.ScenariosSettings;
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.enums.HotelType;
 
@@ -19,18 +20,13 @@ public class ScenarioButton extends Button {
 	private int width;
 	private int height;
 
-	public ScenarioButton(String title, String image, String description, String season, HotelType hotelType, String titleFont, String textFont) {
+	public ScenarioButton(String title, String image, String description, String season, HotelType hotelType, ScenariosSettings scenariosSettings) {
 		super(GameSkin.getInstance().get("scenario-button", Button.ButtonStyle.class));
 		setSize();
 		this.hotelType = hotelType;
-		pad(30, 20, 30, 20);
+		ScenarioButtonStyle.createPad(this);
 
-		Label.LabelStyle titleLabel = new Label.LabelStyle();
-		titleLabel.font = skin.getFont(titleFont);
-		titleLabel.font.getData().setLineHeight((int) (height / 30));
-		titleLabel.fontColor = Color.YELLOW;
-		Label labelTitle = new Label(title, titleLabel);
-		labelTitle.setWrap(true);
+		Label labelTitle = ScenarioButtonStyle.createTitleLabel(scenariosSettings, title, height);
 		labelTitle.setAlignment(getAlign());
 		add(labelTitle).width(5 * width / 24).height(height / 12);
 
@@ -41,19 +37,13 @@ public class ScenarioButton extends Button {
 
 		row();
 
-		Label.LabelStyle descriptionLabel = new Label.LabelStyle();
-		descriptionLabel.font = skin.getFont(textFont);
-		descriptionLabel.font.getData().setLineHeight((int) (height / 40));
-		descriptionLabel.fontColor = Color.YELLOW;
-		Label descriptionText = new Label(description, descriptionLabel);
-		descriptionText.setWrap(true);
-		descriptionText.setAlignment(getAlign());
-		add(descriptionText).width(5 * width / 24).height(height / 12).padTop(height / 40);
+		Label descriptionLabel = ScenarioButtonStyle.createDescriptionLabel(scenariosSettings, description, height);
+		descriptionLabel.setAlignment(getAlign());
+		add(descriptionLabel).width(5 * width / 24).height(height / 12).padTop(height / 40);
 
 		row();
 
-		Label seasonLabel = new Label("Popular in " + season, descriptionLabel);
-		seasonLabel.setWrap(true);
+		Label seasonLabel = ScenarioButtonStyle.createDescriptionLabel(scenariosSettings, "Popular in " + season, height);
 		seasonLabel.setAlignment(getAlign());
 		add(seasonLabel).width(3 * width / 24).padTop(height / 40).center();
 
@@ -69,6 +59,35 @@ public class ScenarioButton extends Button {
 		else {
 			this.width = GraphicConfig.getResolution().WIDTH;
 			this.height = GraphicConfig.getResolution().HEIGHT;
+		}
+	}
+
+	public static class ScenarioButtonStyle {
+		public static final int padTopBottom = 30;
+		public static final int padLeftRight = 20;
+
+		public static void createPad(ScenarioButton button){
+			button.pad(padTopBottom, padLeftRight, padTopBottom, padLeftRight);
+		}
+
+		public static Label createTitleLabel(ScenariosSettings scenariosSettings, String title, int height){
+			Label.LabelStyle titleLabel = new Label.LabelStyle();
+			titleLabel.font = scenariosSettings.getScenarioTitleFont();
+			titleLabel.font.getData().setLineHeight((int) (height / 30));
+			titleLabel.fontColor = Color.YELLOW;
+			Label labelTitle = new Label(title, titleLabel);
+			labelTitle.setWrap(true);
+			return labelTitle;
+		}
+
+		public static Label createDescriptionLabel(ScenariosSettings scenariosSettings, String description, int height){
+			Label.LabelStyle descriptionLabel = new Label.LabelStyle();
+			descriptionLabel.font = scenariosSettings.getDifficultyButtonStyle().font;
+			descriptionLabel.font.getData().setLineHeight((int) (height / 40));
+			descriptionLabel.fontColor = Color.YELLOW;
+			Label descriptionText = new Label(description, descriptionLabel);
+			descriptionText.setWrap(true);
+			return descriptionText;
 		}
 	}
 
