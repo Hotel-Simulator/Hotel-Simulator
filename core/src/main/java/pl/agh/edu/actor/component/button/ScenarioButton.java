@@ -26,6 +26,10 @@ public class ScenarioButton extends Button {
 		this.hotelType = hotelType;
 		ScenarioButtonStyle.createPad(this);
 
+		if(scenariosSettings.getScenarioButton().isPresent() && scenariosSettings.getScenarioButton().get().hotelType == hotelType){
+			setChecked(true);
+		}
+
 		Label labelTitle = ScenarioButtonStyle.createTitleLabel(scenariosSettings, title, height);
 		labelTitle.setAlignment(getAlign());
 		add(labelTitle).width(5 * width / 24).height(height / 12);

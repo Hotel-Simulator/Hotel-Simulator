@@ -41,6 +41,7 @@ public class ScenariosScreen implements Screen, ResolutionChangeListener {
 	public final NinePatchDrawable upButton = new NinePatchDrawable(skin.getPatch("button"));
 	public final NinePatchDrawable downButton = new NinePatchDrawable(skin.getPatch("button_selected"));
 	private Label.LabelStyle titleLabelStyle;
+	private boolean isLastScreenScenarios = true;
 
 	// for difficulty
 	private ArrayList<DifficultyButton> difficultyButtons = new ArrayList<>();
@@ -76,7 +77,12 @@ public class ScenariosScreen implements Screen, ResolutionChangeListener {
 		createScenariosFrame();
 
 		stage.addActor(mainTable);
-		mainTable.add(scenariosTable).growX();
+		if(isLastScreenScenarios){
+			mainTable.add(scenariosTable).growX();
+		}
+		else{
+			mainTable.add(difficultyTable).growX();
+		}
 	}
 
 	public void createDifficultyFrame() {
@@ -104,6 +110,7 @@ public class ScenariosScreen implements Screen, ResolutionChangeListener {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				mainTable.clearChildren();
+				isLastScreenScenarios = true;
 				mainTable.add(scenariosTable).growX();
 			}
 		});
@@ -144,7 +151,7 @@ public class ScenariosScreen implements Screen, ResolutionChangeListener {
 
 		for (int i = 0; i < 4; i++) {
 			difficultyTable.row();
-			DifficultyButton myButton = new DifficultyButton(names[i], new TextButton.TextButtonStyle(scenariosSettings.getDifficultyButtonStyle()), names2[i]);
+			DifficultyButton myButton = new DifficultyButton(names[i], new TextButton.TextButtonStyle(scenariosSettings.getDifficultyButtonStyle()), names2[i], scenariosSettings);
 			this.difficultyButtons.add(myButton);
 			myButton.pad((scenariosSettings.getDiffHeight() - myButton.getHeight()) / 2, (scenariosSettings.getDiffWidth() - myButton.getWidth()) / 2, (scenariosSettings
 					.getDiffHeight() - myButton.getHeight()) / 2, (scenariosSettings.getDiffWidth() - myButton.getWidth())
@@ -220,6 +227,7 @@ public class ScenariosScreen implements Screen, ResolutionChangeListener {
 					difficultyTable.removeActor(errorLabel);
 				}
 				mainTable.clearChildren();
+				isLastScreenScenarios = false;
 				mainTable.add(difficultyTable).growX();
 			}
 		});
@@ -294,6 +302,7 @@ public class ScenariosScreen implements Screen, ResolutionChangeListener {
 			this.width = GraphicConfig.getResolution().WIDTH;
 			this.height = GraphicConfig.getResolution().HEIGHT;
 		}
+		scenariosSettings.setTypeAndDifficulty(selectedScenarioButton, selectedDifficultyButton);
 		createFrames();
 	}
 }

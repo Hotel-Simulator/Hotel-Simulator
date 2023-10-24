@@ -5,9 +5,11 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import pl.agh.edu.actor.GameSkin;
+import pl.agh.edu.actor.component.button.DifficultyButton;
+import pl.agh.edu.actor.component.button.ScenarioButton;
 import pl.agh.edu.config.GraphicConfig;
 
-import java.awt.*;
+import java.util.Optional;
 
 public class ScenariosSettings {
 	private GameSkin skin = GameSkin.getInstance();
@@ -20,6 +22,8 @@ public class ScenariosSettings {
 	private int diffWidth;
 	private int diffHeight;
 	private float largePaddingMultiplier;
+	private Optional<ScenarioButton> hotelType = Optional.empty();
+	private Optional<DifficultyButton> difficultyLevel = Optional.empty();
 
 	public ScenariosSettings() {
 		setParams();
@@ -70,6 +74,11 @@ public class ScenariosSettings {
 		}
 	}
 
+	public void setTypeAndDifficulty(Optional<ScenarioButton> hotelType, Optional<DifficultyButton> difficultyLevel){
+		this.hotelType = hotelType;
+		this.difficultyLevel = difficultyLevel;
+	}
+
 	public int getWidth() {
 		return width;
 	}
@@ -104,5 +113,13 @@ public class ScenariosSettings {
 
 	public float getLargePaddingMultiplier() {
 		return largePaddingMultiplier;
+	}
+
+	public Optional<ScenarioButton> getScenarioButton() {
+		return hotelType;
+	}
+
+	public Optional<DifficultyButton> getDifficultyButton() {
+		return difficultyLevel;
 	}
 }
