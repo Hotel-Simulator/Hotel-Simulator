@@ -1,17 +1,20 @@
 package model.bank;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static java.math.BigDecimal.ZERO;
+import static java.time.LocalDate.MIN;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static pl.agh.edu.engine.bank.TransactionType.EXPENSE;
+import static pl.agh.edu.engine.bank.TransactionType.INCOME;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import pl.agh.edu.management.game.GameDifficultyManager;
-import pl.agh.edu.model.bank.BankAccount;
-import pl.agh.edu.model.bank.Credit;
-import pl.agh.edu.model.bank.TransactionType;
+import pl.agh.edu.engine.bank.BankAccount;
+import pl.agh.edu.engine.bank.Credit;
+import pl.agh.edu.engine.hotel.dificulty.GameDifficultyManager;
 
 public class BankAccountTest {
 	private final BigDecimal accountFee = BigDecimal.valueOf(10);
@@ -68,7 +71,7 @@ public class BankAccountTest {
 		// When
 		BigDecimal creditValue = BigDecimal.valueOf(50);
 		int creditLengthInMonths = 12;
-		Credit credit = new Credit(creditValue, creditLengthInMonths, BigDecimal.ZERO, LocalDate.MIN);
+		Credit credit = new Credit(creditValue, creditLengthInMonths, ZERO, MIN);
 		bankAccount.registerCredit(credit);
 
 		// Then
@@ -90,7 +93,7 @@ public class BankAccountTest {
 
 		// Then
 		assertEquals(2, incomes.size());
-		assertTrue(incomes.stream().allMatch(transaction -> transaction.type() == TransactionType.INCOME));
+		assertTrue(incomes.stream().allMatch(transaction -> transaction.type() == INCOME));
 	}
 
 	@Test
@@ -106,6 +109,6 @@ public class BankAccountTest {
 
 		// Then
 		assertEquals(2, expenses.size());
-		assertTrue(expenses.stream().allMatch(transaction -> transaction.type() == TransactionType.EXPENSE));
+		assertTrue(expenses.stream().allMatch(transaction -> transaction.type() == EXPENSE));
 	}
 }

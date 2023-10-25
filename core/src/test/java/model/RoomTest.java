@@ -1,15 +1,22 @@
 package model;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static pl.agh.edu.engine.room.RoomRank.ECONOMIC;
+import static pl.agh.edu.engine.room.RoomRank.STANDARD;
+import static pl.agh.edu.engine.room.RoomSize.DOUBLE;
+import static pl.agh.edu.engine.room.RoomSize.FAMILY;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import pl.agh.edu.enums.RoomRank;
-import pl.agh.edu.enums.RoomSize;
-import pl.agh.edu.model.Room;
-import pl.agh.edu.model.client.ClientGroup;
+import pl.agh.edu.engine.client.ClientGroup;
+import pl.agh.edu.engine.room.Room;
 
 public class RoomTest {
 
@@ -23,30 +30,30 @@ public class RoomTest {
 	@Test
 	public void changeRankTest_Success() {
 		// Given
-		Room room = new Room(RoomRank.ECONOMIC, RoomSize.DOUBLE);
+		Room room = new Room(ECONOMIC, DOUBLE);
 
 		// When
-		room.changeRank(RoomRank.STANDARD);
+		room.changeRank(STANDARD);
 
 		// Then
-		assertEquals(room.getRank(), RoomRank.STANDARD);
+		assertEquals(room.getRank(), STANDARD);
 	}
 
 	@Test
 	public void changeRankTest_Failure() {
 		// Given
-		Room room = new Room(RoomRank.ECONOMIC, RoomSize.DOUBLE);
+		Room room = new Room(ECONOMIC, DOUBLE);
 
 		// When
 
 		// Then
-		assertThrows(IllegalArgumentException.class, () -> room.changeRank(RoomRank.ECONOMIC));
+		assertThrows(IllegalArgumentException.class, () -> room.changeRank(ECONOMIC));
 	}
 
 	@Test
 	public void checkInResidentsTest_Success() {
 		// Given
-		Room room = new Room(RoomRank.STANDARD, RoomSize.FAMILY);
+		Room room = new Room(STANDARD, FAMILY);
 		when(group.getSize()).thenReturn(5);
 		// When
 		room.checkIn(group);
@@ -58,7 +65,7 @@ public class RoomTest {
 	@Test
 	public void checkOutResidentsTest_Success() {
 		// Given
-		Room room = new Room(RoomRank.STANDARD, RoomSize.FAMILY);
+		Room room = new Room(STANDARD, FAMILY);
 		when(group.getSize()).thenReturn(3);
 
 		// When

@@ -1,12 +1,15 @@
 package utils;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static java.time.temporal.ChronoUnit.HOURS;
+import static java.time.temporal.ChronoUnit.SECONDS;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -197,10 +200,9 @@ public class RandomUtilsTest {
 		// Given
 		LocalDateTime origin = LocalDateTime.of(2023, 1, 1, 0, 0);
 		long range = 60 * 100;
-		TemporalUnit unit = ChronoUnit.SECONDS;
 
 		// When
-		LocalDateTime randomDateTime = RandomUtils.randomDateTime(origin, range, unit);
+		LocalDateTime randomDateTime = RandomUtils.randomDateTime(origin, range, SECONDS);
 
 		// Then
 		assertNotNull(randomDateTime);
@@ -212,10 +214,9 @@ public class RandomUtilsTest {
 		// Given
 		LocalDateTime origin = LocalDateTime.of(2023, 1, 1, 0, 0);
 		long range = 0;
-		ChronoUnit unit = ChronoUnit.HOURS;
 
 		// Then
-		assertThrows(IllegalArgumentException.class, () -> RandomUtils.randomDateTime(origin, range, unit));
+		assertThrows(IllegalArgumentException.class, () -> RandomUtils.randomDateTime(origin, range, HOURS));
 	}
 
 	@Test

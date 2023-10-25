@@ -1,7 +1,11 @@
 package management;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -13,11 +17,11 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import pl.agh.edu.json.data_loader.JSONBankDataLoader;
-import pl.agh.edu.management.bank.BankAccountHandler;
-import pl.agh.edu.model.bank.BankAccount;
-import pl.agh.edu.model.bank.Credit;
-import pl.agh.edu.model.time.Time;
+import pl.agh.edu.data.loader.JSONBankDataLoader;
+import pl.agh.edu.engine.bank.BankAccount;
+import pl.agh.edu.engine.bank.BankAccountHandler;
+import pl.agh.edu.engine.bank.Credit;
+import pl.agh.edu.engine.time.Time;
 
 public class BankAccountHandlerTest {
 	private final BankAccount account = mock(BankAccount.class);
