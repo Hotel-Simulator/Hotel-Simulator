@@ -1,10 +1,10 @@
 package pl.agh.edu.engine.employee.scheduler;
 
-import java.util.LinkedList;
-import java.util.Optional;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.LinkedList;
+import java.util.Optional;
 
 import pl.agh.edu.data.loader.JSONGameDataLoader;
 import pl.agh.edu.data.loader.JSONOpinionDataLoader;

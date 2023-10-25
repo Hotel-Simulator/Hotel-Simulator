@@ -1,11 +1,11 @@
-package pl.agh.edu.management.opinion;
+package pl.agh.edu.engine.opinion;
 
 import java.math.BigDecimal;
 
-import pl.agh.edu.model.Room;
-import pl.agh.edu.model.client.ClientGroup;
-import pl.agh.edu.model.employee.Employee;
-import pl.agh.edu.model.time.Time;
+import pl.agh.edu.engine.client.ClientGroup;
+import pl.agh.edu.engine.employee.Employee;
+import pl.agh.edu.engine.room.Room;
+import pl.agh.edu.engine.time.Time;
 
 public class OpinionBuilder {
 	private static final Time time = Time.getInstance();

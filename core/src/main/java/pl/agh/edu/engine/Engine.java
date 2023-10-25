@@ -12,7 +12,6 @@ import pl.agh.edu.data.loader.JSONOpinionDataLoader;
 import pl.agh.edu.engine.client.Arrival;
 import pl.agh.edu.engine.client.ClientGroupGenerationHandler;
 import pl.agh.edu.engine.event.EventHandler;
-import pl.agh.edu.engine.hotel.Hotel;
 import pl.agh.edu.engine.hotel.HotelHandler;
 import pl.agh.edu.engine.hotel.HotelType;
 import pl.agh.edu.engine.hotel.scenario.HotelScenariosManager;
@@ -55,7 +54,7 @@ public class Engine {
 		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, this::dailyUpdate, currentTime));
 		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, hotelHandler.cleaningScheduler::dailyAtCheckOutTimeUpdate, LocalDateTime.of(currentTime
 				.toLocalDate(),
-				 hotelHandler.hotel.getCheckOutTime())));
+				hotelHandler.hotel.getCheckOutTime())));
 		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, hotelHandler.cleaningScheduler::dailyAtCheckInTimeUpdate, LocalDateTime.of(currentTime
 				.toLocalDate(),
 				hotelHandler.hotel.getCheckOutTime())));

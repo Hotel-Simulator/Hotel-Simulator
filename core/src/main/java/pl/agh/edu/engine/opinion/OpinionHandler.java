@@ -1,9 +1,8 @@
-package pl.agh.edu.management.opinion;
+package pl.agh.edu.engine.opinion;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import pl.agh.edu.model.opinion.Opinion;
 import pl.agh.edu.utils.RandomUtils;
 
 public class OpinionHandler {

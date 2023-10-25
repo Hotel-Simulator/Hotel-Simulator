@@ -1,9 +1,8 @@
 package pl.agh.edu.engine.opinion.bucket;
 
-import static java.time.temporal.ChronoUnit.MINUTES;
-
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 public class QueueWaitingOpinionBucket extends OpinionBucket {
 	private final Duration maxWaitingTime;
@@ -21,11 +20,6 @@ public class QueueWaitingOpinionBucket extends OpinionBucket {
 
 	public void setEndDate(LocalDateTime endDate) {
 		this.endDate = endDate;
-	}
-
-	public QueueWaitingOpinionBucket(int weight, Duration maxWaitingTime) {
-		super(weight);
-		this.maxWaitingTime = maxWaitingTime;
 	}
 
 	@Override

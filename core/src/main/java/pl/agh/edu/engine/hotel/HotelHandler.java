@@ -13,7 +13,6 @@ import pl.agh.edu.engine.employee.scheduler.ReceptionScheduler;
 import pl.agh.edu.engine.employee.scheduler.RepairScheduler;
 import pl.agh.edu.engine.hotel.dificulty.GameDifficultyManager;
 import pl.agh.edu.engine.room.RoomManager;
-import pl.agh.edu.engine.Hotel;
 
 public class HotelHandler {
 	public final Hotel hotel = new Hotel();

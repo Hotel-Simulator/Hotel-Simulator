@@ -1,7 +1,7 @@
-package pl.agh.edu.json.data_loader;
+package pl.agh.edu.data.loader;
 
-import pl.agh.edu.json.data_extractor.JSONDataExtractor;
-import pl.agh.edu.json.data_extractor.JSONFilePath;
+import pl.agh.edu.data.extractor.JSONDataExtractor;
+import pl.agh.edu.data.extractor.JSONFilePath;
 
 public class JSONOpinionDataLoader {
 

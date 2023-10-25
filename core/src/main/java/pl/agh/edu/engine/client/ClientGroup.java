@@ -5,8 +5,8 @@ import java.time.Duration;
 import java.util.List;
 
 import pl.agh.edu.engine.hotel.HotelVisitPurpose;
-import pl.agh.edu.engine.room.RoomRank;
 import pl.agh.edu.engine.opinion.Opinion;
+import pl.agh.edu.engine.room.RoomRank;
 
 public class ClientGroup {
 	private final List<Client> members;
