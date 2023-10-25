@@ -16,6 +16,7 @@ import pl.agh.edu.engine.event.ClientNumberModificationEventHandler;
 import pl.agh.edu.engine.generator.ClientGenerator;
 import pl.agh.edu.engine.hotel.HotelVisitPurpose;
 import pl.agh.edu.engine.hotel.scenario.HotelScenariosManager;
+import pl.agh.edu.engine.opinion.OpinionHandler;
 import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.utils.RandomUtils;
 
@@ -54,7 +55,8 @@ public class ClientGroupGenerationHandler {
 								hotelScenariosManager.hotelVisitPurposeProbabilities.get(hotelVisitPurpose) *
 								Math.max(0, RandomUtils.randomGaussian(1, 1. / 3)) *
 								BigDecimal.ONE.add(eventModifier.get(hotelVisitPurpose)).doubleValue() *
-								BigDecimal.ONE.add(advertisementHandler.getCumulatedModifier().get(hotelVisitPurpose)).doubleValue()),
+								BigDecimal.ONE.add(advertisementHandler.getCumulatedModifier().get(hotelVisitPurpose)).doubleValue() *
+								OpinionHandler.getOpinionModifier().doubleValue()),
 				(a, b) -> b,
 				() -> new EnumMap<>(HotelVisitPurpose.class)));
 	}
