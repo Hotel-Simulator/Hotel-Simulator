@@ -1,6 +1,6 @@
 package model.opinion.bucket;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -11,7 +11,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import pl.agh.edu.model.opinion.bucket.QueueWaitingOpinionBucket;
+import pl.agh.edu.engine.opinion.bucket.QueueWaitingOpinionBucket;
 
 public class QueueWaitingOpinionBucketTest {
 	private QueueWaitingOpinionBucket opinionBucket;

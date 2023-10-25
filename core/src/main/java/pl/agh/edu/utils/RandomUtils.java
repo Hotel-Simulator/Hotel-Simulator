@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
-import pl.agh.edu.model.time.Time;
+import pl.agh.edu.engine.time.Time;
 
 public class RandomUtils {
 	private static final int MAX_PROBABILITY = 100;

@@ -1,6 +1,8 @@
 package time;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -9,7 +11,7 @@ import java.time.MonthDay;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import pl.agh.edu.model.time.Time;
+import pl.agh.edu.engine.time.Time;
 
 public class TimeTest {
 
@@ -26,7 +28,7 @@ public class TimeTest {
 		time.start();
 
 		// When
-		time.update(time.getInterval() - 1.0F);
+		time.update(Time.interval - 1.0F);
 
 		// Then
 		assertEquals(1.0F, time.getRemaining());
@@ -104,7 +106,7 @@ public class TimeTest {
 
 	private Time createNewTimeInstance() {
 		try {
-			Class<?> clazz = Class.forName("pl.agh.edu.model.time.Time");
+			Class<?> clazz = Class.forName("pl.agh.edu.engine.time.Time");
 			Constructor<?> constructor = clazz.getDeclaredConstructor();
 			constructor.setAccessible(true);
 			return (Time) constructor.newInstance();

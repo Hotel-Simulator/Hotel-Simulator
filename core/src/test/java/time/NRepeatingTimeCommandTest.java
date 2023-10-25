@@ -1,7 +1,9 @@
 package time;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static pl.agh.edu.engine.time.Frequency.EVERY_DAY;
 
 import java.time.LocalDateTime;
 
@@ -10,13 +12,13 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import pl.agh.edu.enums.Frequency;
-import pl.agh.edu.time_command.NRepeatingTimeCommand;
+import pl.agh.edu.engine.time.Frequency;
+import pl.agh.edu.engine.time.command.NRepeatingTimeCommand;
 
 public class NRepeatingTimeCommandTest {
 
 	private static final LocalDateTime DUE_DATE_TIME = LocalDateTime.of(2023, 8, 13, 12, 0);
-	private static final Frequency FREQUENCY = Frequency.EVERY_DAY;
+	private static final Frequency FREQUENCY = EVERY_DAY;
 	@Mock
 	private static Runnable runnable;
 	@Mock

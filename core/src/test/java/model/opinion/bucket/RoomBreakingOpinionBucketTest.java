@@ -1,11 +1,11 @@
 package model.opinion.bucket;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import pl.agh.edu.model.opinion.bucket.RoomBreakingOpinionBucket;
+import pl.agh.edu.engine.opinion.bucket.RoomBreakingOpinionBucket;
 
 public class RoomBreakingOpinionBucketTest {
 	private RoomBreakingOpinionBucket opinionBucket;
