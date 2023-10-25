@@ -37,6 +37,7 @@ public class OpinionHandler {
 				.mapToDouble(opinion -> opinion.getStars().value)
 				.average();
 	}
+
 	private static Optional<BigDecimal> mapRating(OptionalDouble optionalRating) {
 		if (optionalRating.isPresent()) {
 			double rating = optionalRating.getAsDouble();
