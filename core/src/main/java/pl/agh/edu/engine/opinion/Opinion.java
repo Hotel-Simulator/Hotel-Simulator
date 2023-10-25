@@ -14,6 +14,8 @@ import pl.agh.edu.engine.opinion.bucket.RoomCleaningOpinionBucket;
 import pl.agh.edu.engine.opinion.bucket.RoomPriceOpinionBucket;
 
 public class Opinion {
+
+	private boolean clientGroupGotRoom = false;
 	public final RoomCleaningOpinionBucket roomCleaning;
 	public final RoomBreakingOpinionBucket roomBreaking;
 	public final RoomPriceOpinionBucket roomPrice;
@@ -23,13 +25,17 @@ public class Opinion {
 	private final List<OpinionBucket> opinionBuckets = new ArrayList<>();
 
 	public Opinion(ClientGroup clientGroup) {
-		roomCleaning = new RoomCleaningOpinionBucket(2);
+		roomCleaning = new RoomCleaningOpinionBucket(2, clientGroup.getNumberOfNights());
 		roomBreaking = new RoomBreakingOpinionBucket(1);
-		roomPrice = new RoomPriceOpinionBucket(1);
+		roomPrice = new RoomPriceOpinionBucket(1, clientGroup.getDesiredPricePerNight());
 		queueWaiting = new QueueWaitingOpinionBucket(1, clientGroup.getMaxWaitingTime());
 		employeesSatisfaction = new EmployeesSatisfactionOpinionBucket(1);
 
 		Collections.addAll(opinionBuckets, roomCleaning, roomBreaking, roomPrice, queueWaiting, employeesSatisfaction);
+	}
+
+	public void setClientGroupGotRoom() {
+		this.clientGroupGotRoom = true;
 	}
 
 	private double getValue() {
@@ -40,7 +46,7 @@ public class Opinion {
 	}
 
 	public OpinionStars getStars() {
-		return OpinionStars.get(getValue());
+		return clientGroupGotRoom ? OpinionStars.get(getValue()) : OpinionStars.ZERO;
 	}
 
 }

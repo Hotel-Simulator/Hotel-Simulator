@@ -7,6 +7,7 @@ import java.util.PriorityQueue;
 
 import pl.agh.edu.engine.employee.Employee;
 import pl.agh.edu.engine.hotel.HotelHandler;
+import pl.agh.edu.engine.opinion.OpinionBuilder;
 import pl.agh.edu.engine.room.Room;
 import pl.agh.edu.engine.time.command.TimeCommand;
 
@@ -36,11 +37,11 @@ public class CleaningScheduler extends WorkScheduler<Room> {
 	@Override
 	protected void executeService(Employee cleaner, Room room) {
 		cleaner.setOccupied(true);
-
 		timeCommandExecutor.addCommand(
 				new TimeCommand(() -> {
 					cleaner.setOccupied(false);
 					room.roomState.setDirty(false);
+					OpinionBuilder.saveRoomDailyCleaningData(cleaner, room);
 					executeServiceIfPossible(cleaner);
 				}, time.getTime().plusMinutes(cleaner.getServiceExecutionTime().toMinutes())));
 	}

@@ -27,7 +27,8 @@ public class QueueWaitingOpinionBucketTest {
 	public void testGetValueWithParameters(LocalDateTime startDate, LocalDateTime endDate, double expectedValue) {
 		// Given
 		opinionBucket.setStartDate(startDate);
-		opinionBucket.setEndDate(endDate);
+		if (endDate != null)
+			opinionBucket.setEndDate(endDate);
 
 		// When
 		double actualValue = opinionBucket.getValue();
@@ -51,7 +52,8 @@ public class QueueWaitingOpinionBucketTest {
 				Arguments.of(now, endDate2, 1.0),
 				Arguments.of(now, endDate3, 1.0),
 				Arguments.of(now, endDate4, 0.66),
-				Arguments.of(now, endDate5, 0.5)
+				Arguments.of(now, endDate5, 0.5),
+				Arguments.of(now, null, 0.)
 
 		);
 	}

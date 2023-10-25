@@ -12,13 +12,13 @@ public class RoomCleaningOpinionBucketTest {
 
 	@BeforeEach
 	public void setUp() {
-		opinionBucket = new RoomCleaningOpinionBucket(3);
+		opinionBucket = new RoomCleaningOpinionBucket(3, 5);
 	}
 
 	@Test
 	public void testGetValueWhenRoomIsNotCleaned() {
 		// Given
-		double expectedValue = 1.0;
+		double expectedValue = 0.;
 
 		// When
 		double actualValue = opinionBucket.getValue();
@@ -30,21 +30,13 @@ public class RoomCleaningOpinionBucketTest {
 	@Test
 	public void testGetValueWhenRoomIsCleaned() {
 		// Given
-		opinionBucket.setRoomCleaned(true);
+		opinionBucket.setRoomCleaned();
+		opinionBucket.setRoomCleaned();
+		opinionBucket.setRoomCleaned();
+		opinionBucket.setRoomCleaned();
+		opinionBucket.setRoomCleaned();
+
 		double expectedValue = 1.;
-
-		// When
-		double actualValue = opinionBucket.getValue();
-
-		// Then
-		assertEquals(expectedValue, actualValue, 0.01);
-	}
-
-	@Test
-	public void testGetValueWhenRoomIsDirty() {
-		// Given
-		opinionBucket.setRoomCleaned(false);
-		double expectedValue = 0.;
 
 		// When
 		double actualValue = opinionBucket.getValue();
@@ -56,10 +48,10 @@ public class RoomCleaningOpinionBucketTest {
 	@Test
 	public void testGetValueWithMixedRooms() {
 		// Given
-		opinionBucket.setRoomCleaned(true);
-		opinionBucket.setRoomCleaned(false);
-		opinionBucket.setRoomCleaned(true);
-		double expectedValue = 0.333;
+		opinionBucket.setRoomCleaned();
+		opinionBucket.setRoomCleaned();
+		opinionBucket.setRoomCleaned();
+		double expectedValue = 0.3;
 
 		// When
 		double actualValue = opinionBucket.getValue();

@@ -15,6 +15,7 @@ import pl.agh.edu.engine.hotel.dificulty.GameDifficultyManager;
 import pl.agh.edu.engine.room.RoomManager;
 
 public class HotelHandler {
+	public final Hotel hotel = new Hotel();
 	public final CleaningScheduler cleaningScheduler = new CleaningScheduler(this);
 	public final ReceptionScheduler receptionScheduler = new ReceptionScheduler(this);
 	public final RepairScheduler repairScheduler = new RepairScheduler(this);

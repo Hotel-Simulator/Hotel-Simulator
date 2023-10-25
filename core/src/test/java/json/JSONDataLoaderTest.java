@@ -20,6 +20,7 @@ import pl.agh.edu.data.loader.JSONEventDataLoader;
 import pl.agh.edu.data.loader.JSONGameDataLoader;
 import pl.agh.edu.data.loader.JSONHotelDataLoader;
 import pl.agh.edu.data.loader.JSONHotelScenariosDataLoader;
+import pl.agh.edu.data.loader.JSONOpinionDataLoader;
 import pl.agh.edu.data.loader.JSONRoomDataLoader;
 import pl.agh.edu.data.type.AdvertisementData;
 import pl.agh.edu.data.type.AttractivenessConstantsData;
@@ -131,6 +132,16 @@ public class JSONDataLoaderTest {
 			EnumMap<HotelType, EnumMap<HotelVisitPurpose, Double>> hotelTypeVisitProbabilities = JSONHotelScenariosDataLoader.hotelTypeVisitProbabilities;
 			Map<HotelType, Map<Integer, Double>> vacationPopularity = JSONHotelScenariosDataLoader.vacationPopularity;
 			EnumMap<HotelType, AttractivenessConstantsData> attractivenessConstants = JSONHotelScenariosDataLoader.attractivenessConstants;
+		});
+	}
+
+	@Test
+	@SuppressWarnings("unused")
+	public void jSONOpinionDataLoaderTest() {
+		assertDoesNotThrow(() -> {
+			double opinionProbabilityForClientWhoGotRoom = JSONOpinionDataLoader.opinionProbabilityForClientWhoGotRoom;
+			double opinionProbabilityForClientWhoDidNotGetRoom = JSONOpinionDataLoader.opinionProbabilityForClientWhoDidNotGetRoom;
+			double opinionProbabilityForClientWhoSteppedOutOfQueue = JSONOpinionDataLoader.opinionProbabilityForClientWhoSteppedOutOfQueue;
 		});
 	}
 }

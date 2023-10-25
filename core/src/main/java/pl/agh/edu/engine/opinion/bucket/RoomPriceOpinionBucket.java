@@ -3,15 +3,15 @@ package pl.agh.edu.engine.opinion.bucket;
 import java.math.BigDecimal;
 
 public class RoomPriceOpinionBucket extends OpinionBucket {
-	private BigDecimal maxPrice;
+	private final BigDecimal maxPrice;
 	private BigDecimal offeredPrice;
 
-	public RoomPriceOpinionBucket(int weight) {
+	public RoomPriceOpinionBucket(int weight, BigDecimal maxPrice) {
 		super(weight);
+		this.maxPrice = maxPrice;
 	}
 
-	public void setPrices(BigDecimal maxPrice, BigDecimal offeredPrice) {
-		this.maxPrice = maxPrice;
+	public void setPrices(BigDecimal offeredPrice) {
 		this.offeredPrice = offeredPrice;
 	}
 

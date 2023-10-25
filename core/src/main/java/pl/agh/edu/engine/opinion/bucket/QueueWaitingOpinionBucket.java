@@ -1,9 +1,8 @@
 package pl.agh.edu.engine.opinion.bucket;
 
-import static java.time.temporal.ChronoUnit.MINUTES;
-
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 public class QueueWaitingOpinionBucket extends OpinionBucket {
 	private final Duration maxWaitingTime;
@@ -25,7 +24,9 @@ public class QueueWaitingOpinionBucket extends OpinionBucket {
 
 	@Override
 	public double getValue() {
-		double waitingRatio = (double) MINUTES.between(startDate, endDate) / maxWaitingTime.toMinutes();
+		if (endDate == null)
+			return 0.;
+		double waitingRatio = (double) ChronoUnit.MINUTES.between(startDate, endDate) / maxWaitingTime.toMinutes();
 		return waitingRatio < 0.5 ? 1. : 2 * (1 - waitingRatio);
 	}
 }

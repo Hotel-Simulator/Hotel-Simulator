@@ -33,14 +33,14 @@ public class ClientGroupGenerationHandler {
 		this.hotelScenariosManager = hotelScenariosManager;
 	}
 
-	public List<Arrival> getArrivalsForDay(LocalTime checkInMinTime, LocalTime checkOutMaxTime) {
+	public List<Arrival> getArrivalsForDay(LocalTime checkInMinTime) {
 		EnumMap<HotelVisitPurpose, Integer> numberOfClientGroups = getNumberOfClientGroups();
 		ClientGroupReportDataCollector.collectData(numberOfClientGroups);
 		return Stream.of(HotelVisitPurpose.values())
 				.flatMap(e -> IntStream.range(0, numberOfClientGroups.get(e))
 						.mapToObj(it -> new Arrival(
-								RandomUtils.randomLocalTime(checkInMinTime, LocalTime.MIDNIGHT.minusMinutes(Time.timeUnitInMinutes)),
-								clientGenerator.generateClientGroupForGivenHotelVisitPurpose(checkOutMaxTime, e))))
+								RandomUtils.randomLocalTime(checkInMinTime, LocalTime.MIDNIGHT.minusHours(1)),
+								clientGenerator.generateClientGroupForGivenHotelVisitPurpose(e))))
 				.sorted(Arrival::compareTo)
 				.collect(Collectors.toList());
 	}
