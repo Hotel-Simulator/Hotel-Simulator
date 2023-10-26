@@ -12,12 +12,4 @@ public record OpinionData(
         OpinionStars stars,
         List<LanguageString> comments
 ) {
-    @Override
-    public String toString() {
-        return "OpinionData{" +
-                "date=" + date +
-                ", stars=" + stars +
-                ", comments=" + comments.stream().map(c -> LanguageManager.get(c.property)).toList() +
-                '}';
-    }
 }
