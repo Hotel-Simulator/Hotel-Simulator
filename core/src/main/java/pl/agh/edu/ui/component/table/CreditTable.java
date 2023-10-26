@@ -20,7 +20,6 @@ import pl.agh.edu.ui.utils.LinkLabel;
 public class CreditTable extends BaseTable {
 
 	private final BankAccountHandler bankAccountHandler;
-	public static int counter = 0;
 
 	public CreditTable(BankAccountHandler bankAccountHandler) {
 		super();

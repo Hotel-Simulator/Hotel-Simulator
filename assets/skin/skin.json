@@ -641,10 +641,6 @@
 		"background": "list-background",
 		"vScroll": "scroll-pane-vscroll",
 		"vScrollKnob": "scroll-pane-knob"
-	},
-	"transparent": {
-		"vScroll": "scroll-pane-vscroll",
-		"vScrollKnob": "scroll-pane-knob"
 	}
 },
 "SelectBoxStyle": {
@@ -686,30 +682,30 @@
 		"downFontColor": "secondary-900",
 		"overFontColor": "secondary-100",
 		"disabledFontColor": "gray-500",
-		"up": "text-buttom-small-up",
-		"down": "text-buttom-small-down",
-		"over": "text-buttom-small-over",
-		"disabled": "text-buttom-small-disabled"
+		"up": "text-button-small-up",
+		"down": "text-button-small-down",
+		"over": "text-button-small-over",
+		"disabled": "text-button-small-disabled"
 	},
 	"medium": {
 		"font": "white-button2",
 		"downFontColor": "secondary-900",
 		"overFontColor": "secondary-100",
 		"disabledFontColor": "gray-500",
-		"up": "text-buttom-medium-up",
-		"down": "text-buttom-medium-down",
-		"over": "text-buttom-medium-over",
-		"disabled": "text-buttom-medium-disabled"
+		"up": "text-button-medium-up",
+		"down": "text-button-medium-down",
+		"over": "text-button-medium-over",
+		"disabled": "text-button-medium-disabled"
 	},
 	"large": {
 		"font": "white-button1",
 		"downFontColor": "secondary-900",
 		"overFontColor": "secondary-100",
 		"disabledFontColor": "gray-500",
-		"up": "text-buttom-large-up",
-		"down": "text-buttom-large-down",
-		"over": "text-buttom-large-over",
-		"disabled": "text-buttom-large-disabled"
+		"up": "text-button-large-up",
+		"down": "text-button-large-down",
+		"over": "text-button-large-over",
+		"disabled": "text-button-large-disabled"
 	}
 },
 "TextFieldStyle": {
