@@ -34,6 +34,9 @@ public class ClientGroup {
 	public int getNumberOfNights() {
 		return numberOfNights;
 	}
+	public List<Client> getMembers() {
+		return members;
+	}
 
 	@Override
 	public String toString() {

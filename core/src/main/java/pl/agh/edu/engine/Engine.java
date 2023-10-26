@@ -84,7 +84,7 @@ public class Engine {
 					new TimeCommand(() -> {
 						if (hotelHandler.receptionScheduler.removeEntity(arrival.clientGroup())) {
 							OpinionBuilder.saveSteppingOutOfQueueData(arrival.clientGroup());
-							OpinionHandler.addOpinionWithProbability(arrival.clientGroup().opinion, JSONOpinionDataLoader.opinionProbabilityForClientWhoSteppedOutOfQueue);
+							OpinionHandler.addOpinionWithProbability(arrival.clientGroup(), JSONOpinionDataLoader.opinionProbabilityForClientWhoSteppedOutOfQueue);
 						}
 
 					},

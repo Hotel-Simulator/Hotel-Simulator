@@ -44,7 +44,7 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 
 	private TimeCommand createTimeCommandForCheckingOutClients(Room room, LocalDateTime checkOutTime) {
 		return new TimeCommand(() -> {
-			OpinionHandler.addOpinionWithProbability(room.getResidents().opinion, JSONOpinionDataLoader.opinionProbabilityForClientWhoGotRoom);
+			OpinionHandler.addOpinionWithProbability(room.getResidents(), JSONOpinionDataLoader.opinionProbabilityForClientWhoGotRoom);
 			room.checkOut();
 			hotelHandler.cleaningScheduler.addEntity(room);
 		}, checkOutTime);
@@ -67,7 +67,7 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 						}
 						timeCommandExecutor.addCommand(createTimeCommandForCheckingOutClients(room, checkOutTime));
 					} else {
-						OpinionHandler.addOpinionWithProbability(clientGroup.opinion, JSONOpinionDataLoader.opinionProbabilityForClientWhoDidNotGetRoom);
+						OpinionHandler.addOpinionWithProbability(clientGroup, JSONOpinionDataLoader.opinionProbabilityForClientWhoDidNotGetRoom);
 					}
 					receptionist.setOccupied(false);
 					executeServiceIfPossible(receptionist);

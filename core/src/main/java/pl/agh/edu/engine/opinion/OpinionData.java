@@ -7,6 +7,7 @@ import pl.agh.edu.ui.language.LanguageManager;
 import pl.agh.edu.utils.LanguageString;
 
 public record OpinionData(
+        String guest,
         LocalDate date,
         OpinionStars stars,
         List<LanguageString> comments
