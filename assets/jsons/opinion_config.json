@@ -1,5 +1,11 @@
 {
   "opinion_probability_for_clients_who_got_room": 0.3,
   "opinion_probability_for_clients_who_did_no_get_room": 0.01,
-  "opinion_probability_for_clients_who_stepped_out_of_queue": 0.01
+  "opinion_probability_for_clients_who_stepped_out_of_queue": 0.01,
+
+  "opinion_holding_duration_in_days" : 30,
+  "opinion_change_multiplier": 0.0333,
+
+  "opinion_desired_price_modifier": 0.2,
+  "opinion_max_waiting_time_modifier": 0.5
 }
