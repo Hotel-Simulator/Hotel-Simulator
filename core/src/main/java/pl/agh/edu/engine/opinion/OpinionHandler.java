@@ -2,9 +2,9 @@ package pl.agh.edu.engine.opinion;
 
 import static java.math.BigDecimal.ONE;
 import static java.math.BigDecimal.ZERO;
+import static java.math.RoundingMode.HALF_EVEN;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -39,14 +39,12 @@ public class OpinionHandler {
 	}
 
 	private static Optional<BigDecimal> mapRating(OptionalDouble optionalRating) {
-		if (optionalRating.isPresent()) {
-			double rating = optionalRating.getAsDouble();
-			return Optional.of(BigDecimal.valueOf(mappingFunction().apply(rating))
-					.setScale(4, RoundingMode.HALF_EVEN)
-					.max(new BigDecimal("0.01"))
-					.min(ONE));
-		}
-		return Optional.empty();
+		return optionalRating.stream()
+				.map(rating -> mappingFunction().apply(rating))
+				.mapToObj(BigDecimal::valueOf)
+				.map(rating -> rating.setScale(4, HALF_EVEN)
+						.max(new BigDecimal("0.01"))
+						.min(ONE)).findAny();
 	}
 
 	private static Function<Double, Double> mappingFunction() {
@@ -55,13 +53,9 @@ public class OpinionHandler {
 
 	private static BigDecimal getDailyChangeValue() {
 		Optional<BigDecimal> optionalTargetOpinionModifier = mapRating(getAvgRating());
-		if (optionalTargetOpinionModifier.isPresent()) {
-			BigDecimal targetOpinionModifier = optionalTargetOpinionModifier.get();
-			return targetOpinionModifier.subtract(opinionModifier)
-					.multiply(JSONOpinionDataLoader.opinionChangeMultiplier)
-					.setScale(4, RoundingMode.HALF_EVEN);
-		}
-		return ZERO;
+		return optionalTargetOpinionModifier.map(bigDecimal -> bigDecimal.subtract(opinionModifier)
+				.multiply(JSONOpinionDataLoader.opinionChangeMultiplier)
+				.setScale(4, HALF_EVEN)).orElse(ZERO);
 	}
 
 	public static void dailyUpdate() {
