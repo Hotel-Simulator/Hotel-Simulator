@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import com.github.javafaker.Faker;
+
 import pl.agh.edu.data.loader.JSONClientDataLoader;
 import pl.agh.edu.engine.client.Client;
 import pl.agh.edu.engine.client.ClientGroup;
