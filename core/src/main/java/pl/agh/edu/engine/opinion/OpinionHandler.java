@@ -19,8 +19,6 @@ import pl.agh.edu.engine.time.command.TimeCommand;
 import pl.agh.edu.utils.LanguageString;
 import pl.agh.edu.utils.RandomUtils;
 
-import pl.agh.edu.utils.RandomUtils;
-
 public class OpinionHandler {
 	private static BigDecimal opinionModifier = new BigDecimal("0.1");
 	private static final List<OpinionData> opinions = new ArrayList<>();
@@ -29,7 +27,10 @@ public class OpinionHandler {
 
 	public static void addOpinionWithProbability(ClientGroup clientGroup, double probability) {
 		if (RandomUtils.randomBooleanWithProbability(probability)) {
-			OpinionData opinionData = new OpinionData(RandomUtils.randomListElement(clientGroup.getMembers()).name(), time.getTime().toLocalDate(), clientGroup.opinion.getStars(),
+			OpinionData opinionData = new OpinionData(
+					RandomUtils.randomListElement(clientGroup.getMembers()).name(),
+					time.getTime().toLocalDate(),
+					clientGroup.opinion.getStars(),
 					clientGroup.opinion.getComment().stream().map(LanguageString::new).toList());
 			timeCommandExecutor.addCommand(new TimeCommand(
 					() -> opinions.remove(opinionData),
@@ -39,7 +40,7 @@ public class OpinionHandler {
 
 	private static OptionalDouble getAvgRating() {
 		return opinions.stream()
-				.mapToDouble(opinion -> opinion.getStars().value)
+				.mapToDouble(opinion -> opinion.stars().value)
 				.average();
 	}
 
