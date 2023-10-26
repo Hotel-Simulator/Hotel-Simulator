@@ -80,8 +80,8 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 				RandomUtils.randomLocalTime(LocalTime.of(6, 0), checkOutMaxTime));
 	}
 
-	public void removeEntity(ClientGroup clientGroup) {
-		entitiesToExecuteService.remove(clientGroup);
+	public boolean removeEntity(ClientGroup clientGroup) {
+		return entitiesToExecuteService.remove(clientGroup);
 	}
 
 }

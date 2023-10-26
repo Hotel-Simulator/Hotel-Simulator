@@ -44,8 +44,10 @@ public class OpinionBuilder {
 	public static void saveRoomGettingData(ClientGroup clientGroup, Room room, BigDecimal roomPrice) {
 		clientGroup.opinion.setClientGroupGotRoom();
 		clientGroup.opinion.roomPrice.setPrices(roomPrice);
-		if (!room.roomState.isDirty()) {
-			clientGroup.opinion.roomCleaning.setRoomCleaned();
-		}
+		clientGroup.opinion.roomCleaning.setGotCleanRoom(!room.roomState.isDirty());
+	}
+
+	public static void saveSteppingOutOfQueueData(ClientGroup clientGroup) {
+		clientGroup.opinion.setClientSteppedOutOfQueue();
 	}
 }

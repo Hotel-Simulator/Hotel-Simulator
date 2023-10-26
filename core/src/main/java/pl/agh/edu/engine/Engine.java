@@ -82,8 +82,11 @@ public class Engine {
 			hotelHandler.receptionScheduler.addEntity(arrival.clientGroup());
 			timeCommandExecutor.addCommand(
 					new TimeCommand(() -> {
-						hotelHandler.receptionScheduler.removeEntity(arrival.clientGroup());
-						OpinionHandler.addOpinionWithProbability(arrival.clientGroup().opinion, JSONOpinionDataLoader.opinionProbabilityForClientWhoSteppedOutOfQueue);
+						if (hotelHandler.receptionScheduler.removeEntity(arrival.clientGroup())) {
+							OpinionBuilder.saveSteppingOutOfQueueData(arrival.clientGroup());
+							OpinionHandler.addOpinionWithProbability(arrival.clientGroup().opinion, JSONOpinionDataLoader.opinionProbabilityForClientWhoSteppedOutOfQueue);
+						}
+
 					},
 							LocalDateTime.of(
 									time.getTime().toLocalDate(),

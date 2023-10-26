@@ -3,6 +3,7 @@ package pl.agh.edu.engine.opinion;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 import pl.agh.edu.engine.client.ClientGroup;
@@ -16,6 +17,7 @@ import pl.agh.edu.engine.opinion.bucket.RoomPriceOpinionBucket;
 public class Opinion {
 
 	private boolean clientGroupGotRoom = false;
+	private boolean clientSteppedOutOfQueue = false;
 	public final RoomCleaningOpinionBucket roomCleaning;
 	public final RoomBreakingOpinionBucket roomBreaking;
 	public final RoomPriceOpinionBucket roomPrice;
@@ -38,6 +40,10 @@ public class Opinion {
 		this.clientGroupGotRoom = true;
 	}
 
+	public void setClientSteppedOutOfQueue() {
+		this.clientSteppedOutOfQueue = true;
+	}
+
 	private double getValue() {
 		return opinionBuckets.stream()
 				.flatMapToDouble(opinionBucket -> IntStream.range(0, opinionBucket.weight).mapToDouble(i -> opinionBucket.getValue()))
@@ -47,6 +53,16 @@ public class Opinion {
 
 	public OpinionStars getStars() {
 		return clientGroupGotRoom ? OpinionStars.get(getValue()) : OpinionStars.ZERO;
+	}
+
+	public List<String> getComment() {
+		if (clientSteppedOutOfQueue) {
+			return List.of("opinionComment.steppedOutOfQueue");
+		}
+		if (!clientGroupGotRoom) {
+			return List.of("opinionComment.didNotGetRoom");
+		}
+		return opinionBuckets.stream().map(OpinionBucket::getComment).filter(Optional::isPresent).map(Optional::get).toList();
 	}
 
 }
