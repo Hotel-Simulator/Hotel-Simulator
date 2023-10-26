@@ -50,14 +50,13 @@ public class Engine {
 	}
 
 	private void initializeEveryDayUpdates(LocalDateTime currentTime) {
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, OpinionHandler::dailyUpdate, currentTime));
 		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, hotelHandler.possibleEmployeeHandler::dailyUpdate, currentTime));
 		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, this::dailyUpdate, currentTime));
-		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, hotelHandler.cleaningScheduler::dailyAtCheckOutTimeUpdate, LocalDateTime.of(currentTime
-				.toLocalDate(),
-				hotelHandler.hotel.getCheckOutTime())));
-		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, hotelHandler.cleaningScheduler::dailyAtCheckInTimeUpdate, LocalDateTime.of(currentTime
-				.toLocalDate(),
-				hotelHandler.hotel.getCheckOutTime())));
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, hotelHandler.cleaningScheduler::dailyAtCheckOutTimeUpdate,
+				LocalDateTime.of(currentTime.toLocalDate(), hotelHandler.hotel.getCheckOutTime())));
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, hotelHandler.cleaningScheduler::dailyAtCheckInTimeUpdate,
+				LocalDateTime.of(currentTime.toLocalDate(), hotelHandler.hotel.getCheckOutTime())));
 	}
 
 	private void initializeEveryMonthUpdates(LocalDateTime currentTime) {

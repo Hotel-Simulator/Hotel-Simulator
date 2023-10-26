@@ -142,6 +142,10 @@ public class JSONDataLoaderTest {
 			double opinionProbabilityForClientWhoGotRoom = JSONOpinionDataLoader.opinionProbabilityForClientWhoGotRoom;
 			double opinionProbabilityForClientWhoDidNotGetRoom = JSONOpinionDataLoader.opinionProbabilityForClientWhoDidNotGetRoom;
 			double opinionProbabilityForClientWhoSteppedOutOfQueue = JSONOpinionDataLoader.opinionProbabilityForClientWhoSteppedOutOfQueue;
+			Duration opinionHoldingDuration = JSONOpinionDataLoader.opinionHoldingDuration;
+			BigDecimal opinionChangeMultiplier = JSONOpinionDataLoader.opinionChangeMultiplier;
+			double desiredPriceModifier = JSONOpinionDataLoader.desiredPriceModifier;
+			double maxWaitingTimeModifier = JSONOpinionDataLoader.maxWaitingTimeModifier;
 		});
 	}
 }

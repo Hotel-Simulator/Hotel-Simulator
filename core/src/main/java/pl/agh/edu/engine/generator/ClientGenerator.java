@@ -9,11 +9,13 @@ import java.util.stream.IntStream;
 import com.github.javafaker.Faker;
 
 import pl.agh.edu.data.loader.JSONClientDataLoader;
+import pl.agh.edu.data.loader.JSONOpinionDataLoader;
 import pl.agh.edu.engine.client.Client;
 import pl.agh.edu.engine.client.ClientGroup;
 import pl.agh.edu.engine.client.Sex;
 import pl.agh.edu.engine.hotel.HotelVisitPurpose;
 import pl.agh.edu.engine.hotel.dificulty.GameDifficultyManager;
+import pl.agh.edu.engine.opinion.OpinionHandler;
 import pl.agh.edu.engine.room.RoomRank;
 import pl.agh.edu.engine.room.RoomSize;
 import pl.agh.edu.engine.time.Time;
@@ -53,10 +55,11 @@ public class ClientGenerator {
 	}
 
 	private BigDecimal getDesiredPricePerNight(RoomRank desiredRoomRank, RoomSize roomSize) {
-		double meanPrice = JSONClientDataLoader.averagePricesPerNight
-				.get(Pair.of(desiredRoomRank, roomSize)).doubleValue() / gameDifficultyManager.getDifficultyMultiplier();
+		double opinionModifier = (1. + JSONOpinionDataLoader.desiredPriceModifier * OpinionHandler.getOpinionModifier().doubleValue());
+		double meanPrice = JSONClientDataLoader.averagePricesPerNight.get(Pair.of(desiredRoomRank, roomSize)).doubleValue()
+				/ gameDifficultyManager.getDifficultyMultiplier()
+				* opinionModifier;
 		double variation = 0.2 * meanPrice;
-
 		return BigDecimal.valueOf(Math.round(RandomUtils.randomGaussian(meanPrice, variation)));
 	}
 
@@ -71,6 +74,9 @@ public class ClientGenerator {
 	}
 
 	private Duration getMaxWaitingTime(Duration basicMaxWaitingTime, int waitingTimeVariation) {
-		return basicMaxWaitingTime.plusMinutes(RandomUtils.randomInt(-waitingTimeVariation, waitingTimeVariation));
+		Duration maxWaitingTime = basicMaxWaitingTime.plusMinutes(RandomUtils.randomInt(-waitingTimeVariation, waitingTimeVariation));
+		Duration opinionBonus = Duration.ofMinutes((long) (maxWaitingTime.toMinutes()
+				* OpinionHandler.getOpinionModifier().doubleValue() * JSONOpinionDataLoader.maxWaitingTimeModifier));
+		return maxWaitingTime.plus(opinionBonus);
 	}
 }
