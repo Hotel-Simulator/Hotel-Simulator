@@ -3,7 +3,6 @@ package pl.agh.edu.engine.opinion;
 import java.time.LocalDate;
 import java.util.List;
 
-import pl.agh.edu.ui.language.LanguageManager;
 import pl.agh.edu.utils.LanguageString;
 
 public record OpinionData(
