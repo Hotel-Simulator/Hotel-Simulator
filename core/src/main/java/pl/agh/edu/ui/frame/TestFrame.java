@@ -1,11 +1,11 @@
 package pl.agh.edu.ui.frame;
 
+import static pl.agh.edu.ui.utils.FontType.BODY_1;
+import static pl.agh.edu.ui.utils.FontType.H1;
+
 import pl.agh.edu.ui.component.label.CustomLabel;
 import pl.agh.edu.ui.component.label.LanguageLabel;
 import pl.agh.edu.ui.utils.SkinColor;
-
-import static pl.agh.edu.ui.utils.FontType.BODY_1;
-import static pl.agh.edu.ui.utils.FontType.H1;
 
 public class TestFrame extends BaseFrame {
 	public TestFrame(String languagePath) {
@@ -26,7 +26,6 @@ public class TestFrame extends BaseFrame {
 		mainTable.add(languageLabel1).row();
 		languageLabel1.makeItLink(() -> System.out.println("test"));
 		languageLabel1.setDisabled(true);
-
 
 	}
 }
