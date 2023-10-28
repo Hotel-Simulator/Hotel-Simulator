@@ -20,6 +20,8 @@ import pl.agh.edu.ui.component.label.LanguageLabel;
 public class LinkLabel extends LanguageLabel {
 	private boolean isDisabled = false;
 	private SkinColor baseColor = SECONDARY;
+	private Runnable linkAction;
+	ClickListener clickListener;
 
 	public LinkLabel(String languagePath, String font, Runnable linkAction) {
 		super(languagePath, font);
@@ -59,14 +61,28 @@ public class LinkLabel extends LanguageLabel {
 						}
 					}
 				});
-		addListener(new ClickListener() {
+		clickListener = new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				if (!isDisabled) {
 					linkAction.run();
 				}
 			}
-		});
+		};
+			addListener(clickListener);
+	}
+
+	public void setLinkAction(Runnable linkAction){
+		removeListener(clickListener);
+		clickListener = new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				if (!isDisabled) {
+					linkAction.run();
+				}
+			}
+		};
+		addListener(clickListener);
 	}
 
 	public void setBaseColor(SkinColor baseColor) {
