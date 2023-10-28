@@ -4,12 +4,11 @@ buildscript {
         mavenCentral()
         gradlePluginPortal()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-        maven { url "https://jitpack.io" }
-        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url 'https://jitpack.io' }
         google()
     }
     dependencies {
-        classpath "com.diffplug.spotless:spotless-plugin-gradle:6.22.0"
+        classpath("com.diffplug.spotless:spotless-plugin-gradle:6.20.0")
     }
 }
 
