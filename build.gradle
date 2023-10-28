@@ -4,7 +4,6 @@ buildscript {
         mavenCentral()
         gradlePluginPortal()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-        maven { url 'https://jitpack.io' }
         google()
     }
     dependencies {
@@ -76,7 +75,7 @@ project(":core") {
         api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         implementation 'com.github.javafaker:javafaker:0.12'
         implementation 'com.googlecode.json-simple:json-simple:1.1.1'
-        implementation 'com.github.raeleus.stripe:stripe:1.4.5'
+        implementation 'com.github.raeleus:stripe:master-SNAPSHOT'
         implementation 'com.github.raeleus.TenPatch:tenpatch:5.2.3'
         implementation 'org.apache.commons:commons-math3:3.6.1'
         implementation 'ch.obermuhlner:big-math:2.3.2'
@@ -91,7 +90,7 @@ project(":core") {
 
         useJUnitPlatform()
         reports {
-            junitXml.required = true
+            junitXml.enabled = true
         }
     }
 }
