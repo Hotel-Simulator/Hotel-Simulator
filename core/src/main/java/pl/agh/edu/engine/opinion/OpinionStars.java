@@ -15,7 +15,7 @@ public enum OpinionStars {
 	FOUR_AND_HALF(4.5),
 	FIVE(5.);
 
-	private final double value;
+	public final double value;
 
 	OpinionStars(double value) {
 		this.value = value;
