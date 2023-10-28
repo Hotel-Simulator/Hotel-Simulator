@@ -1,6 +1,7 @@
 package pl.agh.edu.ui.component.table;
 
 import static pl.agh.edu.ui.component.table.BaseTable.BaseTableStyle.getCellPadding;
+import static pl.agh.edu.ui.component.table.BaseTable.BaseTableStyle.getRowHeight;
 import static pl.agh.edu.ui.component.table.BaseTable.BaseTableStyle.getRowSpacing;
 import static pl.agh.edu.ui.component.table.CreditTable.CreditTableStyle.getSeparatorWidth;
 import static pl.agh.edu.ui.component.table.CreditTable.CreditTableStyle.getTableFont;
@@ -32,11 +33,11 @@ public abstract class BaseTable extends WrapperTable {
 
 	public BaseTable() {
 		super();
-		innerTable.align(Align.topLeft);
+		innerTable.align(Align.left);
 
 		BaseRow headerRow = createHeader();
 		headerRow.align(Align.topLeft);
-		innerTable.add(headerRow).growX().spaceBottom(getRowSpacing());
+		innerTable.add(headerRow).growX().height(getRowHeight()).spaceBottom(getRowSpacing());
 
 		Drawable knobDrawable = GameSkin.getInstance().getDrawable("scroll-pane-knob");
 		Image knobImage = new Image(knobDrawable);
@@ -53,7 +54,6 @@ public abstract class BaseTable extends WrapperTable {
 		row.align(Align.topLeft);
 		targetTable.add(row).spaceBottom(getRowSpacing()).growX();
 		targetTable.row();
-
 	}
 
 	protected abstract BaseRow createHeader();
@@ -83,7 +83,7 @@ public abstract class BaseTable extends WrapperTable {
 			IntStream.range(0, noColumns).forEach(i -> {
 				Actor actor = actors.get(i);
 				Container<Actor> container = new Container<>(actor);
-				this.innerTable.add(container).growX().uniform().center().padLeft(getCellPadding()).padRight(getCellPadding());
+				this.innerTable.add(container).growX().height(getRowHeight()).uniform().center().padLeft(getCellPadding()).padRight(getCellPadding());
 				if (i != noColumns - 1)
 					this.innerTable.add(new Image(GameSkin.getInstance().getPatch("table-separator-line"))).width(getSeparatorWidth()).growY().center();
 			});
@@ -111,9 +111,9 @@ public abstract class BaseTable extends WrapperTable {
 
 		public static float getRowHeight() {
 			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> 30f;
-				case MEDIUM -> 40f;
-				case LARGE -> 50f;
+				case SMALL -> 50f;
+				case MEDIUM -> 60f;
+				case LARGE -> 70f;
 			};
 		}
 
