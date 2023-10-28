@@ -1,11 +1,5 @@
 package pl.agh.edu.ui.component.table;
 
-import static pl.agh.edu.ui.component.table.BaseTable.BaseTableStyle.getCellPadding;
-import static pl.agh.edu.ui.component.table.BaseTable.BaseTableStyle.getRowHeight;
-import static pl.agh.edu.ui.component.table.BaseTable.BaseTableStyle.getRowSpacing;
-import static pl.agh.edu.ui.component.table.CreditTable.CreditTableStyle.getSeparatorWidth;
-import static pl.agh.edu.ui.component.table.CreditTable.CreditTableStyle.getTableFont;
-
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -37,7 +31,7 @@ public abstract class BaseTable extends WrapperTable {
 
 		BaseRow headerRow = createHeader();
 		headerRow.align(Align.topLeft);
-		innerTable.add(headerRow).growX().height(getRowHeight()).spaceBottom(getRowSpacing());
+		innerTable.add(headerRow).growX().height(BaseTableStyle.getRowHeight()).spaceBottom(BaseTableStyle.getRowSpacing());
 
 		Drawable knobDrawable = GameSkin.getInstance().getDrawable("scroll-pane-knob");
 		Image knobImage = new Image(knobDrawable);
@@ -52,7 +46,7 @@ public abstract class BaseTable extends WrapperTable {
 
 	protected void addRow(BaseRow row, Table targetTable) {
 		row.align(Align.topLeft);
-		targetTable.add(row).spaceBottom(getRowSpacing()).growX();
+		targetTable.add(row).spaceBottom(BaseTableStyle.getRowSpacing()).growX();
 		targetTable.row();
 	}
 
@@ -71,7 +65,7 @@ public abstract class BaseTable extends WrapperTable {
 			super();
 
 			noColumns = columnNames.size();
-			insertActorsToRow(columnNames.stream().map(s -> new LanguageLabel(s, getTableFont().getName())).collect(Collectors.toList()));
+			insertActorsToRow(columnNames.stream().map(s -> new LanguageLabel(s, BaseTableStyle.getFont().getName())).collect(Collectors.toList()));
 			this.setBackground("table-header-background");
 		}
 
@@ -83,16 +77,17 @@ public abstract class BaseTable extends WrapperTable {
 			IntStream.range(0, noColumns).forEach(i -> {
 				Actor actor = actors.get(i);
 				Container<Actor> container = new Container<>(actor);
-				this.innerTable.add(container).growX().height(getRowHeight()).uniform().center().padLeft(getCellPadding()).padRight(getCellPadding());
+				this.innerTable.add(container).growX().height(BaseTableStyle.getRowHeight()).uniform().center().padLeft(BaseTableStyle.getCellPadding()).padRight(BaseTableStyle
+						.getCellPadding());
 				if (i != noColumns - 1)
-					this.innerTable.add(new Image(GameSkin.getInstance().getPatch("table-separator-line"))).width(getSeparatorWidth()).growY().center();
+					this.innerTable.add(new Image(GameSkin.getInstance().getPatch("table-separator-line"))).width(BaseTableStyle.getSeparatorWidth()).growY().center();
 			});
 			this.setBackground("table-row-background");
 		}
 
 	}
 
-	public abstract static class BaseTableStyle {
+	public static class BaseTableStyle {
 		public static float getCellPadding() {
 			return switch (GraphicConfig.getResolution().SIZE) {
 				case SMALL -> 15f;
