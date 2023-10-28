@@ -9,11 +9,7 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-20.04
-    permissions:
-      contents: write
-      packages: write
-      checks: write
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
@@ -24,7 +20,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Allow gradlew execution
+      - name: Allow gradlew ./gradlew
         run: chmod +x gradlew
 
       - name: Build and test
