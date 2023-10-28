@@ -16,6 +16,7 @@ public class CreditTable extends BaseTable {
 
 	public CreditTable(BankAccountHandler bankAccountHandler) {
 		super();
+		debugAll();
 		this.bankAccountHandler = bankAccountHandler;
 		for (Credit credit : bankAccountHandler.getCurrentCredits().keySet()) {
 			BaseRow row = new CreditBaseRow(credit);
