@@ -2,7 +2,6 @@ package pl.agh.edu.ui.component.table;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
@@ -12,28 +11,32 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.utils.Align;
 
+import static com.badlogic.gdx.utils.Align.left;
+import static com.badlogic.gdx.utils.Align.topLeft;
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.ui.GameSkin;
+import pl.agh.edu.ui.component.CustomScroll;
 import pl.agh.edu.ui.component.label.LanguageLabel;
 import pl.agh.edu.ui.utils.FontType;
 import pl.agh.edu.ui.utils.wrapper.WrapperTable;
 
 public abstract class BaseTable extends WrapperTable {
-	protected int noColumns;
 	protected Table contentRows = new Table();
-	protected ScrollPane scrollPane = new ScrollPane(contentRows, GameSkin.getInstance(), "transparent");
+	protected Skin skin = GameSkin.getInstance();
+	protected ScrollPane scrollPane = new CustomScroll(contentRows, skin, "transparent");
 
-	public BaseTable() {
+	public BaseTable(List<String> columnNames) {
 		super();
-		innerTable.align(Align.left);
+		innerTable.align(left);
 
-		BaseRow headerRow = createHeader();
-		headerRow.align(Align.topLeft);
-		innerTable.add(headerRow).growX().height(BaseTableStyle.getRowHeight()).spaceBottom(BaseTableStyle.getRowSpacing());
+		BaseRow headerRow = new HeaderRow(columnNames);
+		headerRow.align(topLeft);
+		innerTable.add(headerRow).growX()
+				.height(BaseTableStyle.getRowHeight())
+				.spaceBottom(BaseTableStyle.getRowSpacing());
 
-		Drawable knobDrawable = GameSkin.getInstance().getDrawable("scroll-pane-knob");
+		Drawable knobDrawable = skin.getDrawable("scroll-pane-knob");
 		Image knobImage = new Image(knobDrawable);
 		knobImage.setVisible(false);
 		innerTable.add(knobImage).row();
@@ -44,13 +47,10 @@ public abstract class BaseTable extends WrapperTable {
 		scrollPane.setForceScroll(false, true);
 	}
 
-	protected void addRow(BaseRow row, Table targetTable) {
-		row.align(Align.topLeft);
-		targetTable.add(row).spaceBottom(BaseTableStyle.getRowSpacing()).growX();
-		targetTable.row();
+	protected void addRow(BaseRow row) {
+		row.align(topLeft);
+		contentRows.add(row).spaceBottom(BaseTableStyle.getRowSpacing()).growX().row();
 	}
-
-	protected abstract BaseRow createHeader();
 
 	protected void deleteRow(BaseRow row) {
 		Cell<BaseRow> cell = contentRows.getCell(row);
@@ -58,31 +58,34 @@ public abstract class BaseTable extends WrapperTable {
 		contentRows.getCell(row).clearActor();
 	}
 
-	protected abstract class BaseRow extends WrapperTable {
-		protected final Skin skin = GameSkin.getInstance();
-
-		BaseRow(List<String> columnNames) {
+	private static class HeaderRow extends BaseRow {
+		public HeaderRow(List<String> columnNames) {
 			super();
-
-			noColumns = columnNames.size();
-			insertActorsToRow(columnNames.stream().map(s -> new LanguageLabel(s, BaseTableStyle.getFont().getName())).collect(Collectors.toList()));
-			this.setBackground("table-header-background");
+			insertActorsToRow(columnNames.stream().map(s -> new LanguageLabel(s, BaseTableStyle.getHeaderFont())).collect(Collectors.toList()));
 		}
+	}
 
+	protected abstract static class BaseRow extends WrapperTable {
+		protected final Skin skin = GameSkin.getInstance();
 		BaseRow() {
 			super();
+			this.setBackground("table-row-background");
 		}
 
 		public void insertActorsToRow(List<Actor> actors) {
-			IntStream.range(0, noColumns).forEach(i -> {
-				Actor actor = actors.get(i);
+			actors.forEach(actor -> {
 				Container<Actor> container = new Container<>(actor);
-				this.innerTable.add(container).growX().height(BaseTableStyle.getRowHeight()).uniform().center().padLeft(BaseTableStyle.getCellPadding()).padRight(BaseTableStyle
-						.getCellPadding());
-				if (i != noColumns - 1)
-					this.innerTable.add(new Image(GameSkin.getInstance().getPatch("table-separator-line"))).width(BaseTableStyle.getSeparatorWidth()).growY().center();
-			});
-			this.setBackground("table-row-background");
+				this.innerTable
+						.add(container).growX().uniform().center()
+						.height(BaseTableStyle.getRowHeight())
+						.padLeft(BaseTableStyle.getCellPadding())
+						.padRight(BaseTableStyle.getCellPadding());
+				if(actor != actors.get(actors.size() - 1))
+					this.innerTable
+							.add(new Image(skin.getPatch("table-separator-line")))
+							.width(BaseTableStyle.getSeparatorWidth()).growY().center();
+			}
+			);
 		}
 
 	}
@@ -112,11 +115,18 @@ public abstract class BaseTable extends WrapperTable {
 			};
 		}
 
-		public static FontType getFont() {
+		public static String getFont() {
 			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> FontType.BODY_1;
-				case MEDIUM -> FontType.BODY_2;
-				case LARGE -> FontType.H4;
+				case SMALL -> FontType.BODY_1.getName();
+				case MEDIUM -> FontType.BODY_2.getName();
+				case LARGE -> FontType.H4.getName();
+			};
+		}
+		public static String getHeaderFont() {
+			return switch (GraphicConfig.getResolution().SIZE) {
+				case SMALL -> FontType.BODY_2.getName();
+				case MEDIUM -> FontType.BODY_1.getName();
+				case LARGE -> FontType.H4.getName();
 			};
 		}
 
