@@ -14,7 +14,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 
 import pl.agh.edu.config.GraphicConfig;
@@ -30,14 +32,31 @@ public abstract class BaseTable extends WrapperTable {
 
 	public BaseTable() {
 		super();
+		innerTable.align(Align.topLeft);
 
+		BaseRow headerRow = createHeader();
+		headerRow.align(Align.topLeft);
+		innerTable.add(headerRow).growX().spaceBottom(getRowSpacing());
+
+		Drawable knobDrawable = GameSkin.getInstance().getDrawable("scroll-pane-knob");
+		Image knobImage = new Image(knobDrawable);
+		knobImage.setVisible(false);
+		innerTable.add(knobImage).row();
+
+		scrollPane.setFadeScrollBars(false);
+		scrollPane.setWidth(scrollPane.getWidth() + scrollPane.getScrollWidth());
+		innerTable.add(scrollPane).growX().colspan(2);
+		scrollPane.setForceScroll(false, true);
 	}
 
 	protected void addRow(BaseRow row, Table targetTable) {
 		row.align(Align.topLeft);
-		targetTable.add(row).spaceBottom(getRowSpacing()).growX().align(Align.topLeft);
+		targetTable.add(row).spaceBottom(getRowSpacing()).growX();
 		targetTable.row();
+
 	}
+
+	protected abstract BaseRow createHeader();
 
 	protected void deleteRow(BaseRow row) {
 		Cell<BaseRow> cell = contentRows.getCell(row);
@@ -46,9 +65,11 @@ public abstract class BaseTable extends WrapperTable {
 	}
 
 	protected abstract class BaseRow extends WrapperTable {
+		protected final Skin skin = GameSkin.getInstance();
 
 		BaseRow(List<String> columnNames) {
 			super();
+
 			noColumns = columnNames.size();
 			insertActorsToRow(columnNames.stream().map(s -> new LanguageLabel(s, getTableFont().getName())).collect(Collectors.toList()));
 			this.setBackground("table-header-background");

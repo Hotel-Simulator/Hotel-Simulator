@@ -6,7 +6,6 @@ import com.badlogic.gdx.utils.Align;
 
 import pl.agh.edu.engine.bank.BankAccount;
 import pl.agh.edu.engine.bank.BankAccountHandler;
-import pl.agh.edu.ui.component.label.ValueTag;
 import pl.agh.edu.ui.component.table.CreditTable;
 
 public class TestFrame extends BaseFrame {
@@ -28,7 +27,6 @@ public class TestFrame extends BaseFrame {
 
 		creditTable.align(Align.left);
 		mainTable.add(creditTable).grow().align(Align.topLeft);
-
 
 	}
 }

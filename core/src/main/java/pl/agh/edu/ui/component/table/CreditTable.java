@@ -1,19 +1,12 @@
 package pl.agh.edu.ui.component.table;
 
-import static pl.agh.edu.ui.component.table.CreditTable.CreditTableStyle.*;
-
 import java.util.List;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.utils.Align;
 
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.engine.bank.BankAccountHandler;
 import pl.agh.edu.engine.bank.Credit;
-import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.utils.FontType;
 import pl.agh.edu.ui.utils.LinkLabel;
 
@@ -24,25 +17,15 @@ public class CreditTable extends BaseTable {
 	public CreditTable(BankAccountHandler bankAccountHandler) {
 		super();
 		this.bankAccountHandler = bankAccountHandler;
-		CreditBaseRow creditHeaderRow = new CreditBaseRow();
-		creditHeaderRow.align(Align.topLeft);
-
-		innerTable.add(creditHeaderRow).height(getRowHeight() + BaseTableStyle.getRowSpacing()).spaceBottom(BaseTableStyle.getRowSpacing()).growX().align(Align.left);
-		innerTable.getCells().get(0).padRight(scrollPane.getScrollBarWidth());
-
 		for (Credit credit : bankAccountHandler.getCurrentCredits().keySet()) {
 			BaseRow row = new CreditBaseRow(credit);
 			addRow(row, contentRows);
 		}
-		Drawable knobDrawable = GameSkin.getInstance().getDrawable("scroll-pane-knob");
-		Image knobImage = new Image(knobDrawable);
-		knobImage.setVisible(false);
-		innerTable.add(knobImage).row();
+	}
 
-		scrollPane.setFadeScrollBars(false);
-		scrollPane.setWidth(scrollPane.getWidth() + scrollPane.getScrollWidth());
-		innerTable.add(scrollPane).growX().colspan(2);
-		scrollPane.setForceScroll(false, true);
+	@Override
+	protected BaseRow createHeader() {
+		return new CreditBaseRow();
 	}
 
 	public void layout() {
@@ -52,7 +35,6 @@ public class CreditTable extends BaseTable {
 	}
 
 	public class CreditBaseRow extends BaseRow {
-		private final Skin skin = GameSkin.getInstance();
 
 		public CreditBaseRow() {
 			super(List.of("creditTable.column.date", "creditTable.column.monthly", "creditTable.column.payall"));
@@ -68,9 +50,7 @@ public class CreditTable extends BaseTable {
 				deleteRow(this);
 			});
 			insertActorsToRow(List.of(date, monthly, payAllButton));
-
 		}
-
 	}
 
 	public static class CreditTableStyle extends BaseTableStyle {
