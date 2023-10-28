@@ -2,7 +2,9 @@ package pl.agh.edu.ui.component.label;
 
 import static pl.agh.edu.ui.utils.SkinColor.ColorLevel._300;
 import static pl.agh.edu.ui.utils.SkinColor.ColorLevel._500;
+import static pl.agh.edu.ui.utils.SkinColor.ColorLevel._700;
 import static pl.agh.edu.ui.utils.SkinColor.ColorLevel._900;
+import static pl.agh.edu.ui.utils.SkinColor.GRAY;
 import static pl.agh.edu.ui.utils.SkinColor.SECONDARY;
 import static pl.agh.edu.ui.utils.SkinSpecialColor.TRANSPARENT;
 
@@ -60,10 +62,25 @@ public class CustomLabel extends Label {
 		labelStyle.font = GameSkin.getInstance().getFont(font);
 		this.setStyle(labelStyle);
 	}
+	public void setBaseColor(SkinColor baseColor) {
+		this.baseColor = baseColor;
+		setLinkColor(baseColor.getColor(_300));
+	}
+
+	private void setLinkColor(Color color) {
+		setColor(color);
+		setUnderscoreColor(color);
+	}
+
+	public void setDisabled(boolean isDisabled) {
+		this.isDisabled = isDisabled;
+		setLinkColor(isDisabled ? GRAY.getColor(_700) : baseColor.getColor(_300));
+	}
 
 	public void makeItLink(Runnable linkAction){
 		setLinkColor(baseColor.getColor(_300));
-		isDisabled = false;
+		setDisabled(false);
+
 		addListener(
 						new InputListener() {
 							@Override
