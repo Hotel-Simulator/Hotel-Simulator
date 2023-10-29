@@ -1,20 +1,27 @@
 package json;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static java.math.BigDecimal.ONE;
+import static java.time.LocalTime.MIDNIGHT;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static pl.agh.edu.engine.hotel.HotelVisitPurpose.BUSINESS_TRIP;
+import static pl.agh.edu.engine.hotel.HotelVisitPurpose.REHABILITATION;
+import static pl.agh.edu.engine.hotel.HotelVisitPurpose.VACATION;
 
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.*;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.junit.jupiter.api.Test;
 
-import pl.agh.edu.enums.HotelVisitPurpose;
-import pl.agh.edu.json.data_extractor.JSONDataExtractor;
-import pl.agh.edu.json.data_extractor.JSONValueUtil;
+import pl.agh.edu.data.extractor.JSONDataExtractor;
+import pl.agh.edu.data.extractor.JSONValueUtil;
+import pl.agh.edu.engine.hotel.HotelVisitPurpose;
 
 public class JSONValueUtilTest {
 
@@ -37,7 +44,7 @@ public class JSONValueUtilTest {
 		// when
 		LocalTime result = JSONValueUtil.getLocalTime("00:00:00");
 		// then
-		assertEquals(LocalTime.MIDNIGHT, result);
+		assertEquals(MIDNIGHT, result);
 	}
 
 	@Test
@@ -73,7 +80,7 @@ public class JSONValueUtilTest {
 		// when
 		BigDecimal result = JSONValueUtil.getBigDecimal(1L);
 		// then
-		assertEquals(BigDecimal.ONE, result);
+		assertEquals(ONE, result);
 	}
 
 	@Test
@@ -99,9 +106,9 @@ public class JSONValueUtilTest {
 		String key = "enum_map";
 		Class<JSONObject> type = JSONObject.class;
 		EnumMap<HotelVisitPurpose, Long> expected = new EnumMap<>(HotelVisitPurpose.class);
-		expected.put(HotelVisitPurpose.VACATION, 1L);
-		expected.put(HotelVisitPurpose.BUSINESS_TRIP, 2L);
-		expected.put(HotelVisitPurpose.REHABILITATION, 3L);
+		expected.put(VACATION, 1L);
+		expected.put(BUSINESS_TRIP, 2L);
+		expected.put(REHABILITATION, 3L);
 
 		// when
 		EnumMap<HotelVisitPurpose, Long> result = JSONValueUtil.getEnumMap(

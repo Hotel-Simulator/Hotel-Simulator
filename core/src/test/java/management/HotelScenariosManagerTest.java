@@ -1,12 +1,13 @@
 package management;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static pl.agh.edu.engine.hotel.HotelType.HOTEL;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import pl.agh.edu.enums.HotelType;
-import pl.agh.edu.management.hotel.HotelScenariosManager;
+import pl.agh.edu.engine.hotel.scenario.HotelScenariosManager;
 
 import java.math.BigDecimal;
 
@@ -15,7 +16,7 @@ public class HotelScenariosManagerTest {
 
 	@BeforeEach
 	public void setUp() {
-		hotelScenariosManager = new HotelScenariosManager(HotelType.HOTEL);
+		hotelScenariosManager = new HotelScenariosManager(HOTEL);
 	}
 
 	@Test

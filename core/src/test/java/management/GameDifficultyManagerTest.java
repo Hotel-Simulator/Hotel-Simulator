@@ -1,11 +1,11 @@
 package management;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import pl.agh.edu.management.game.GameDifficultyManager;
+import pl.agh.edu.engine.hotel.dificulty.GameDifficultyManager;
 
 public class GameDifficultyManagerTest {
 
