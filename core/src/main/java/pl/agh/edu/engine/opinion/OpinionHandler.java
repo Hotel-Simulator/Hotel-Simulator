@@ -10,34 +10,42 @@ import java.util.List;
 import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import pl.agh.edu.data.loader.JSONOpinionDataLoader;
+import pl.agh.edu.engine.client.ClientGroup;
 import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.engine.time.TimeCommandExecutor;
 import pl.agh.edu.engine.time.command.TimeCommand;
+import pl.agh.edu.utils.LanguageString;
 import pl.agh.edu.utils.RandomUtils;
 
 public class OpinionHandler {
 	private static BigDecimal opinionModifier = new BigDecimal("0.1");
-	private static final List<Opinion> opinions = new ArrayList<>();
+	private static final List<OpinionData> opinions = new ArrayList<>();
 	private static final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
 	private static final Time time = Time.getInstance();
 
-	public static void addOpinionWithProbability(Opinion opinion, double probability) {
+	public static void addOpinionWithProbability(ClientGroup clientGroup, double probability) {
 		if (RandomUtils.randomBooleanWithProbability(probability)) {
-			opinions.add(opinion);
+			OpinionData opinionData = new OpinionData(
+					RandomUtils.randomListElement(clientGroup.getMembers()).name(),
+					time.getTime().toLocalDate(),
+					clientGroup.opinion.getStars(),
+					clientGroup.opinion.getComment().stream().map(LanguageString::new).collect(Collectors.toSet()));
 			timeCommandExecutor.addCommand(new TimeCommand(
-					() -> opinions.remove(opinion),
+					() -> opinions.remove(opinionData),
 					time.getTime().plus(JSONOpinionDataLoader.opinionHoldingDuration)));
 		}
 	}
 
 	private static OptionalDouble getAvgRating() {
 		return opinions.stream()
-				.mapToDouble(opinion -> opinion.getStars().value)
+				.mapToDouble(opinion -> opinion.stars().value)
 				.average();
 	}
 
+	@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 	private static Optional<BigDecimal> mapRating(OptionalDouble optionalRating) {
 		return optionalRating.stream()
 				.map(rating -> mappingFunction().apply(rating))

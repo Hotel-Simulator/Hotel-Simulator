@@ -37,12 +37,12 @@ public class Time {
 
 	public void update(float delta) {
 		if (isRunning) {
-			remaining -= delta * acceleration * 1000f;
+			remaining -= delta * acceleration;
 			if (remaining < 0.0F) {
 				minutes += timeUnitInMinutes;
 				this.reset();
 				if (minutes >= 60) {
-					hours += 12;
+					hours++;
 					minutes = minutes % 60;
 					if (hours >= 24) {
 						days++;
@@ -71,7 +71,7 @@ public class Time {
 	}
 
 	public void increaseAcceleration() {
-		int maxAcceleration = 8;
+		int maxAcceleration = 1024;
 		acceleration = Math.min(acceleration * 2, maxAcceleration);
 	}
 

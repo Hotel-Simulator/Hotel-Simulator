@@ -3,6 +3,7 @@ package pl.agh.edu.engine.opinion.bucket;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Optional;
 
 public class QueueWaitingOpinionBucket extends OpinionBucket {
 	private final Duration maxWaitingTime;
@@ -29,4 +30,13 @@ public class QueueWaitingOpinionBucket extends OpinionBucket {
 		double waitingRatio = (double) ChronoUnit.MINUTES.between(startDate, endDate) / maxWaitingTime.toMinutes();
 		return waitingRatio < 0.5 ? 1. : 2 * (1 - waitingRatio);
 	}
+
+	@Override
+	public Optional<String> getComment() {
+		if (getValue() < 1.) {
+			return Optional.of("opinionComment.queueWaiting.longWaiting");
+		}
+		return Optional.empty();
+	}
+
 }
