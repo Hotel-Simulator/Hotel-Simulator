@@ -62,6 +62,7 @@ public class BlurShader extends WrapperContainer<Image> {
 	}
 
 	public void startBlur() {
+		GraphicConfig.setBlurShaderEnabled(true);
 		stateOfTransition = StateOfTransition.OPENING;
 		this.buildFBO();
 		deltaFactor = 0.25f;
@@ -75,8 +76,10 @@ public class BlurShader extends WrapperContainer<Image> {
 	private Texture blurTexture() {
 		if ((deltaBlur < 1f && deltaFactor > 0f) || (deltaBlur > 0f && deltaFactor < 0f)) {
 			deltaBlur += Gdx.graphics.getDeltaTime() * deltaFactor;
-			if (deltaBlur <= 0f)
+			if (deltaBlur <= 0f) {
 				stateOfTransition = StateOfTransition.CLOSED;
+				GraphicConfig.setBlurShaderEnabled(false);
+			}
 			if (deltaBlur >= 1f)
 				stateOfTransition = StateOfTransition.OPEN;
 			deltaBlur = Math.max(Math.min(deltaBlur, 1f), 0f);
