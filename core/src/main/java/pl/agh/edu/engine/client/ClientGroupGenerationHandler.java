@@ -1,7 +1,9 @@
 package pl.agh.edu.engine.client;
 
+import static java.math.BigDecimal.ONE;
+import static java.math.RoundingMode.HALF_EVEN;
+
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalTime;
 import java.util.EnumMap;
 import java.util.List;
@@ -63,7 +65,7 @@ public class ClientGroupGenerationHandler {
 				.multiply(hotelVisitPurposeMultiplier(hotelVisitPurpose))
 				.multiply(eventMultiplier(hotelVisitPurpose))
 				.multiply(advertisementMultiplier(hotelVisitPurpose))
-				.setScale(0, RoundingMode.HALF_EVEN)
+				.setScale(0, HALF_EVEN)
 				.intValue();
 	}
 
@@ -82,10 +84,10 @@ public class ClientGroupGenerationHandler {
 	}
 
 	private BigDecimal eventMultiplier(HotelVisitPurpose hotelVisitPurpose) {
-		return BigDecimal.ONE.add(clientNumberModificationEventHandler.getCumulatedModifier().get(hotelVisitPurpose));
+		return ONE.add(clientNumberModificationEventHandler.getCumulatedModifier().get(hotelVisitPurpose));
 	}
 
 	private BigDecimal advertisementMultiplier(HotelVisitPurpose hotelVisitPurpose) {
-		return BigDecimal.ONE.add(advertisementHandler.getCumulatedModifier().get(hotelVisitPurpose));
+		return ONE.add(advertisementHandler.getCumulatedModifier().get(hotelVisitPurpose));
 	}
 }
