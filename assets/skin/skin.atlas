@@ -944,6 +944,14 @@ table-separator-line
   orig: 1, 30
   offset: 0, 0
   index: -1
+tabs-separator-line
+  rotate: false
+  xy: 2045, 2015
+  size: 1, 30
+  split: 0, 0, 0, 0
+  orig: 1, 30
+  offset: 0, 0
+  index: -1
 text-button-large-disabled
   rotate: false
   xy: 1532, 653
