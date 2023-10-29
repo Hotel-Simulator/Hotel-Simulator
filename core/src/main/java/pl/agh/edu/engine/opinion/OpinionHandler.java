@@ -33,6 +33,7 @@ public class OpinionHandler {
 					time.getTime().toLocalDate(),
 					clientGroup.opinion.getStars(),
 					clientGroup.opinion.getComment().stream().map(LanguageString::new).collect(Collectors.toSet()));
+			opinions.add(opinionData);
 			timeCommandExecutor.addCommand(new TimeCommand(
 					() -> opinions.remove(opinionData),
 					time.getTime().plus(JSONOpinionDataLoader.opinionHoldingDuration)));
@@ -60,6 +61,7 @@ public class OpinionHandler {
 	}
 
 	private static BigDecimal getDailyChangeValue() {
+		System.out.println("today avg: " + getAvgRating());
 		Optional<BigDecimal> optionalTargetOpinionModifier = mapRating(getAvgRating());
 		return optionalTargetOpinionModifier.map(bigDecimal -> bigDecimal.subtract(opinionModifier)
 				.multiply(JSONOpinionDataLoader.opinionChangeMultiplier)
@@ -67,7 +69,10 @@ public class OpinionHandler {
 	}
 
 	public static void dailyUpdate() {
-		opinionModifier = opinionModifier.add(getDailyChangeValue());
+		BigDecimal dailyChangeValue = getDailyChangeValue();
+		System.out.println("daily modifier: " + dailyChangeValue);
+		opinionModifier = opinionModifier.add(dailyChangeValue);
+		System.out.println("opinionModifier:" + opinionModifier);
 	}
 
 	public static BigDecimal getOpinionModifier() {

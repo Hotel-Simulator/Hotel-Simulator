@@ -52,7 +52,7 @@ public class Opinion {
 	}
 
 	public OpinionStars getStars() {
-		return clientGroupGotRoom ? OpinionStars.get(getValue()) : OpinionStars.ZERO;
+		return clientGroupGotRoom ? OpinionStars.get(getValue()) : OpinionStars.ONE;
 	}
 
 	public List<String> getComment() {
