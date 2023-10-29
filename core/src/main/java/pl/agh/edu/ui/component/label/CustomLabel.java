@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.Null;
@@ -24,19 +25,20 @@ import pl.agh.edu.ui.audio.SoundAudio;
 import pl.agh.edu.ui.utils.SkinColor;
 
 public class CustomLabel extends Label {
+	private final Skin skin = GameSkin.getInstance();
 	private Color underscoreColor = TRANSPARENT.getColor();
 	private boolean isDisabled = true;
 	private SkinColor baseColor = SECONDARY;
 
 	public CustomLabel(String font, String backgroundPatch) {
 		this(font);
-		getStyle().background = new NinePatchDrawable(GameSkin.getInstance().getPatch(backgroundPatch));
+		getStyle().background = new NinePatchDrawable(skin.getPatch(backgroundPatch));
 	}
 
 	public CustomLabel(String font) {
 		super("", GameSkin.getInstance());
 		LabelStyle labelStyle = new LabelStyle();
-		labelStyle.font = GameSkin.getInstance().getFont(font);
+		labelStyle.font = skin.getFont(font);
 		this.setStyle(labelStyle);
 	}
 
@@ -48,7 +50,7 @@ public class CustomLabel extends Label {
 	public void draw(Batch batch, float parentAlpha) {
 		super.draw(batch, parentAlpha);
 
-		NinePatch underscorePatch = new NinePatchDrawable(GameSkin.getInstance().getPatch("underscore"))
+		NinePatch underscorePatch = new NinePatchDrawable(skin.getPatch("underscore"))
 				.tint(underscoreColor)
 				.getPatch();
 
@@ -59,7 +61,7 @@ public class CustomLabel extends Label {
 
 	public void setFont(String font) {
 		LabelStyle labelStyle = new LabelStyle(this.getStyle());
-		labelStyle.font = GameSkin.getInstance().getFont(font);
+		labelStyle.font = skin.getFont(font);
 		this.setStyle(labelStyle);
 	}
 
