@@ -646,6 +646,10 @@
 		"background": "list-background",
 		"vScroll": "scroll-pane-vscroll",
 		"vScrollKnob": "scroll-pane-knob"
+	},
+	"transparent": {
+		"vScroll": "scroll-pane-vscroll",
+		"vScrollKnob": "scroll-pane-knob"
 	}
 },
 "SelectBoxStyle": {
