@@ -13,7 +13,7 @@ public class LanguageLabel extends CustomLabel implements LanguageChangeListener
 		onLanguageChange();
 	}
 
-	public void updateLanguagePath(String languagePath){
+	public void updateLanguagePath(String languagePath) {
 		this.languagePath = languagePath;
 		onLanguageChange();
 	}

@@ -13,8 +13,7 @@ public class TestFrame extends BaseFrame {
 		Container<Calendar> calendarContainer = new Container<>();
 		Calendar calendar = new Calendar(
 				Time.getInstance().getTime().toLocalDate(),
-				System.out::println
-		);
+				System.out::println);
 
 		calendarContainer.setActor(calendar);
 		mainTable.add(calendarContainer).align(Align.topLeft);
