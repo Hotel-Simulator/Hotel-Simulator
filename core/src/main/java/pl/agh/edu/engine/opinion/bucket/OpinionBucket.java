@@ -1,5 +1,7 @@
 package pl.agh.edu.engine.opinion.bucket;
 
+import java.util.Optional;
+
 public abstract class OpinionBucket {
 	public final int weight;
 
@@ -8,4 +10,6 @@ public abstract class OpinionBucket {
 	}
 
 	public abstract double getValue();
+
+	public abstract Optional<String> getComment();
 }

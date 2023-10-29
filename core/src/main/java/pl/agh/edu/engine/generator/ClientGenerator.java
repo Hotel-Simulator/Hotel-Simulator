@@ -3,8 +3,11 @@ package pl.agh.edu.engine.generator;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import com.github.javafaker.Faker;
 
 import pl.agh.edu.data.loader.JSONClientDataLoader;
 import pl.agh.edu.data.loader.JSONOpinionDataLoader;
@@ -24,6 +27,7 @@ public class ClientGenerator {
 
 	private static ClientGenerator clientGeneratorInstance;
 	private final Time time = Time.getInstance();
+	private static final Faker faker = new Faker(new Locale("en-GB"));
 	// Set user input here (set hotelType)
 	private final GameDifficultyManager gameDifficultyManager = GameDifficultyManager.getInstance();
 
@@ -63,6 +67,7 @@ public class ClientGenerator {
 	private List<Client> getMembers(HotelVisitPurpose hotelVisitPurpose, int clientNumber) {
 		return IntStream.range(0, clientNumber)
 				.mapToObj(it -> new Client(
+						faker.name().firstName(),
 						RandomUtils.randomInt(1, 99),
 						RandomUtils.randomEnumElement(Sex.class),
 						hotelVisitPurpose))
