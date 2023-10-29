@@ -1,129 +1,136 @@
 package pl.agh.edu.engine.advertisement;
 
-import pl.agh.edu.utils.DataManipulator;
-
 import java.time.LocalDate;
 
+import pl.agh.edu.utils.DataManipulator;
+
 public class AdvertisementDataManipulator extends DataManipulator<AdvertisementCampaign> {
-    private AdvertisementDataManipulator() {}
+	private AdvertisementDataManipulator() {}
 
-    private static class AdvertisementTypeFilter implements Filter<AdvertisementCampaign> {
-        @Override
-        public boolean filter(AdvertisementCampaign advertisementCampaign) {
-            return advertisementCampaign.advertisementData().type() == AdvertisementType.NEWSPAPER_ADVERTISEMENT;
-        }
-    }
-    private static class AdvertisementStartDateAfterFilter implements Filter<AdvertisementCampaign> {
-        private final LocalDate date;
-        public AdvertisementStartDateAfterFilter(LocalDate date) {
-            this.date = date;
-        }
-        @Override
-        public boolean filter(AdvertisementCampaign advertisementCampaign) {
-            return advertisementCampaign.startDate().isAfter(date);
-        }
-    }
+	private static class AdvertisementTypeFilter implements Filter<AdvertisementCampaign> {
+		@Override
+		public boolean filter(AdvertisementCampaign advertisementCampaign) {
+			return advertisementCampaign.advertisementData().type() == AdvertisementType.NEWSPAPER_ADVERTISEMENT;
+		}
+	}
 
-    private static class AdvertisementEndDateBeforeFilter implements Filter<AdvertisementCampaign> {
-        private final LocalDate date;
-        public AdvertisementEndDateBeforeFilter(LocalDate date) {
-            this.date = date;
-        }
-        @Override
-        public boolean filter(AdvertisementCampaign advertisementCampaign) {
-            return advertisementCampaign.endDate().isBefore(date);
-        }
-    }
-    private static class AdvertisementEndDateSorter implements Sorter<AdvertisementCampaign> {
-        @Override
-        public int compare(AdvertisementCampaign advertisementCampaign1, AdvertisementCampaign advertisementCampaign2) {
-            return advertisementCampaign1.endDate().compareTo(advertisementCampaign2.endDate());
-        }
-    }
+	private static class AdvertisementStartDateAfterFilter implements Filter<AdvertisementCampaign> {
+		private final LocalDate date;
 
-    private static class AdvertisementEndDateReverseSorter implements Sorter<AdvertisementCampaign> {
-        @Override
-        public int compare(AdvertisementCampaign advertisementCampaign1, AdvertisementCampaign advertisementCampaign2) {
-            return -advertisementCampaign1.endDate().compareTo(advertisementCampaign2.endDate());
-        }
-    }
+		public AdvertisementStartDateAfterFilter(LocalDate date) {
+			this.date = date;
+		}
 
-    private static class AdvertismetnStartDateSorter implements Sorter<AdvertisementCampaign> {
-        @Override
-        public int compare(AdvertisementCampaign advertisementCampaign1, AdvertisementCampaign advertisementCampaign2) {
-            return advertisementCampaign1.startDate().compareTo(advertisementCampaign2.startDate());
-        }
-    }
+		@Override
+		public boolean filter(AdvertisementCampaign advertisementCampaign) {
+			return advertisementCampaign.startDate().isAfter(date);
+		}
+	}
 
-    private static class AdvertismetnStartDateReverseSorter implements Sorter<AdvertisementCampaign> {
-        @Override
-        public int compare(AdvertisementCampaign advertisementCampaign1, AdvertisementCampaign advertisementCampaign2) {
-            return -advertisementCampaign1.startDate().compareTo(advertisementCampaign2.startDate());
-        }
-    }
+	private static class AdvertisementEndDateBeforeFilter implements Filter<AdvertisementCampaign> {
+		private final LocalDate date;
 
-    private static class AdvertisementTypeSorter implements Sorter<AdvertisementCampaign> {
-        @Override
-        public int compare(AdvertisementCampaign advertisementCampaign1, AdvertisementCampaign advertisementCampaign2) {
-            return advertisementCampaign1.advertisementData().type().compareTo(advertisementCampaign2.advertisementData().type());
-        }
-    }
+		public AdvertisementEndDateBeforeFilter(LocalDate date) {
+			this.date = date;
+		}
 
-    private static class AdvertisementTypeReverseSorter implements Sorter<AdvertisementCampaign> {
-        @Override
-        public int compare(AdvertisementCampaign advertisementCampaign1, AdvertisementCampaign advertisementCampaign2) {
-            return -advertisementCampaign1.advertisementData().type().compareTo(advertisementCampaign2.advertisementData().type());
-        }
-    }
+		@Override
+		public boolean filter(AdvertisementCampaign advertisementCampaign) {
+			return advertisementCampaign.endDate().isBefore(date);
+		}
+	}
 
+	private static class AdvertisementEndDateSorter implements Sorter<AdvertisementCampaign> {
+		@Override
+		public int compare(AdvertisementCampaign advertisementCampaign1, AdvertisementCampaign advertisementCampaign2) {
+			return advertisementCampaign1.endDate().compareTo(advertisementCampaign2.endDate());
+		}
+	}
 
-    public static class AdvertisementDataManipulatorBuilder {
-        private final AdvertisementDataManipulator manipulator;
+	private static class AdvertisementEndDateReverseSorter implements Sorter<AdvertisementCampaign> {
+		@Override
+		public int compare(AdvertisementCampaign advertisementCampaign1, AdvertisementCampaign advertisementCampaign2) {
+			return -advertisementCampaign1.endDate().compareTo(advertisementCampaign2.endDate());
+		}
+	}
 
-        public AdvertisementDataManipulatorBuilder() {
-            manipulator = new AdvertisementDataManipulator();
-        }
-        public AdvertisementDataManipulatorBuilder withStartDateAfterFilter(LocalDate date) {
-            manipulator.addFilter(new AdvertisementStartDateAfterFilter(date));
-            return this;
-        }
+	private static class AdvertismetnStartDateSorter implements Sorter<AdvertisementCampaign> {
+		@Override
+		public int compare(AdvertisementCampaign advertisementCampaign1, AdvertisementCampaign advertisementCampaign2) {
+			return advertisementCampaign1.startDate().compareTo(advertisementCampaign2.startDate());
+		}
+	}
 
-        public AdvertisementDataManipulatorBuilder withEndDateBeforeFilter(LocalDate date) {
-            manipulator.addFilter(new AdvertisementEndDateBeforeFilter(date));
-            return this;
-        }
-        public AdvertisementDataManipulatorBuilder sortByEndDate() {
-            manipulator.addSorter(new AdvertisementEndDateSorter());
-            return this;
-        }
+	private static class AdvertismetnStartDateReverseSorter implements Sorter<AdvertisementCampaign> {
+		@Override
+		public int compare(AdvertisementCampaign advertisementCampaign1, AdvertisementCampaign advertisementCampaign2) {
+			return -advertisementCampaign1.startDate().compareTo(advertisementCampaign2.startDate());
+		}
+	}
 
-        public AdvertisementDataManipulatorBuilder sortReverseByEndDate() {
-            manipulator.addSorter(new AdvertisementEndDateReverseSorter());
-            return this;
-        }
+	private static class AdvertisementTypeSorter implements Sorter<AdvertisementCampaign> {
+		@Override
+		public int compare(AdvertisementCampaign advertisementCampaign1, AdvertisementCampaign advertisementCampaign2) {
+			return advertisementCampaign1.advertisementData().type().compareTo(advertisementCampaign2.advertisementData().type());
+		}
+	}
 
-        public AdvertisementDataManipulatorBuilder sortByStartDate() {
-            manipulator.addSorter(new AdvertismetnStartDateSorter());
-            return this;
-        }
+	private static class AdvertisementTypeReverseSorter implements Sorter<AdvertisementCampaign> {
+		@Override
+		public int compare(AdvertisementCampaign advertisementCampaign1, AdvertisementCampaign advertisementCampaign2) {
+			return -advertisementCampaign1.advertisementData().type().compareTo(advertisementCampaign2.advertisementData().type());
+		}
+	}
 
-        public AdvertisementDataManipulatorBuilder sortReverseByStartDate() {
-            manipulator.addSorter(new AdvertismetnStartDateReverseSorter());
-            return this;
-        }
+	public static class AdvertisementDataManipulatorBuilder {
+		private final AdvertisementDataManipulator manipulator;
 
-        public AdvertisementDataManipulatorBuilder sortByAdvertisementType() {
-            manipulator.addSorter(new AdvertisementTypeSorter());
-            return this;
-        }
+		public AdvertisementDataManipulatorBuilder() {
+			manipulator = new AdvertisementDataManipulator();
+		}
 
-        public AdvertisementDataManipulatorBuilder sortByReverseAdvertisementType() {
-            manipulator.addSorter(new AdvertisementTypeReverseSorter());
-            return this;
-        }
+		public AdvertisementDataManipulatorBuilder withStartDateAfterFilter(LocalDate date) {
+			manipulator.addFilter(new AdvertisementStartDateAfterFilter(date));
+			return this;
+		}
 
-        public AdvertisementDataManipulator build() {
-            return manipulator;
-        }
-    }
+		public AdvertisementDataManipulatorBuilder withEndDateBeforeFilter(LocalDate date) {
+			manipulator.addFilter(new AdvertisementEndDateBeforeFilter(date));
+			return this;
+		}
+
+		public AdvertisementDataManipulatorBuilder sortByEndDate() {
+			manipulator.addSorter(new AdvertisementEndDateSorter());
+			return this;
+		}
+
+		public AdvertisementDataManipulatorBuilder sortReverseByEndDate() {
+			manipulator.addSorter(new AdvertisementEndDateReverseSorter());
+			return this;
+		}
+
+		public AdvertisementDataManipulatorBuilder sortByStartDate() {
+			manipulator.addSorter(new AdvertismetnStartDateSorter());
+			return this;
+		}
+
+		public AdvertisementDataManipulatorBuilder sortReverseByStartDate() {
+			manipulator.addSorter(new AdvertismetnStartDateReverseSorter());
+			return this;
+		}
+
+		public AdvertisementDataManipulatorBuilder sortByAdvertisementType() {
+			manipulator.addSorter(new AdvertisementTypeSorter());
+			return this;
+		}
+
+		public AdvertisementDataManipulatorBuilder sortByReverseAdvertisementType() {
+			manipulator.addSorter(new AdvertisementTypeReverseSorter());
+			return this;
+		}
+
+		public AdvertisementDataManipulator build() {
+			return manipulator;
+		}
+	}
 }
