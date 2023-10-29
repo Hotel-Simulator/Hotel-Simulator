@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import pl.agh.edu.data.loader.JSONOpinionDataLoader;
 import pl.agh.edu.engine.client.ClientGroup;
@@ -31,7 +32,7 @@ public class OpinionHandler {
 					RandomUtils.randomListElement(clientGroup.getMembers()).name(),
 					time.getTime().toLocalDate(),
 					clientGroup.opinion.getStars(),
-					clientGroup.opinion.getComment().stream().map(LanguageString::new).toList());
+					clientGroup.opinion.getComment().stream().map(LanguageString::new).collect(Collectors.toSet()));
 			timeCommandExecutor.addCommand(new TimeCommand(
 					() -> opinions.remove(opinionData),
 					time.getTime().plus(JSONOpinionDataLoader.opinionHoldingDuration)));
@@ -44,6 +45,7 @@ public class OpinionHandler {
 				.average();
 	}
 
+	@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 	private static Optional<BigDecimal> mapRating(OptionalDouble optionalRating) {
 		return optionalRating.stream()
 				.map(rating -> mappingFunction().apply(rating))

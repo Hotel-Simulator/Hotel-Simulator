@@ -57,10 +57,10 @@ public class Opinion {
 
 	public List<String> getComment() {
 		if (clientSteppedOutOfQueue) {
-			return List.of("opinionComment.steppedOutOfQueue");
+			return List.of("opinionComment.result.steppedOutOfQueue");
 		}
 		if (!clientGroupGotRoom) {
-			return List.of("opinionComment.didNotGetRoom");
+			return List.of("opinionComment.result.didNotGetRoom");
 		}
 		return opinionBuckets.stream().map(OpinionBucket::getComment).filter(Optional::isPresent).map(Optional::get).toList();
 	}

@@ -3,6 +3,7 @@ package pl.agh.edu.engine.generator;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -26,7 +27,7 @@ public class ClientGenerator {
 
 	private static ClientGenerator clientGeneratorInstance;
 	private final Time time = Time.getInstance();
-	private static final Faker faker = new Faker();
+	private static final Faker faker = new Faker(new Locale("pl-PL"));
 	// Set user input here (set hotelType)
 	private final GameDifficultyManager gameDifficultyManager = GameDifficultyManager.getInstance();
 
