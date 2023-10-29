@@ -4,12 +4,12 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static pl.agh.edu.engine.hotel.HotelType.HOTEL;
 
+import java.math.BigDecimal;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import pl.agh.edu.engine.hotel.scenario.HotelScenariosManager;
-
-import java.math.BigDecimal;
 
 public class HotelScenariosManagerTest {
 	private static HotelScenariosManager hotelScenariosManager;
