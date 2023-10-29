@@ -523,6 +523,11 @@
 	},
 	"star-dimmed": {
 		"up": "rating-star-dimmed"
+	},
+	"scenario-difficulty-button": {
+		"up": "scenario-button-up",
+		"down": "scenario-button-down",
+		"checked": "scenario-button-down"
 	}
 },
 "CheckBoxStyle": {
@@ -710,6 +715,45 @@
 		"down": "text-button-large-down",
 		"over": "text-button-large-over",
 		"disabled": "text-button-large-disabled"
+	},
+	"difficulty-button-small": {
+		"font": "white-subtitle1",
+		"fontColor": "alert-500",
+		"up": "scenario-button-up",
+		"down": "scenario-button-down",
+		"checked": "scenario-button-down"
+	},
+	"difficulty-button-medium": {
+		"font": "white-h4",
+		"fontColor": "alert-500",
+		"up": "scenario-button-up",
+		"down": "scenario-button-down",
+		"checked": "scenario-button-down"
+	},
+	"difficulty-button-large": {
+		"font": "white-h3",
+		"fontColor": "alert-500",
+		"up": "scenario-button-up",
+		"down": "scenario-button-down",
+		"checked": "scenario-button-down"
+	},
+	"difficulty-play-back-small": {
+		"font": "white-h4",
+		"fontColor": "alert-500",
+		"up": "scenario-button-up",
+		"down": "scenario-button-down"
+	},
+	"difficulty-play-back-medium": {
+		"font": "white-h2",
+		"fontColor": "alert-500",
+		"up": "scenario-button-up",
+		"down": "scenario-button-down"
+	},
+	"difficulty-play-back-large": {
+		"font": "white-h1",
+		"fontColor": "alert-500",
+		"up": "scenario-button-up",
+		"down": "scenario-button-down"
 	}
 },
 "TextFieldStyle": {
