@@ -12,6 +12,7 @@ public class GraphicConfig {
 	private static final FitViewport viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
 	private static Resolution resolution = Resolution._1920x1080;
 	private static boolean fullscreenMode = false;
+	private static boolean blurShaderEnabled = false;
 
 	public static void changeResolution(Resolution newResolution) {
 		resolution = newResolution;
@@ -45,4 +46,11 @@ public class GraphicConfig {
 		return viewport;
 	}
 
+	public static boolean isBlurShaderEnabled() {
+		return blurShaderEnabled;
+	}
+
+	public static void setBlurShaderEnabled(boolean value) {
+		blurShaderEnabled = value;
+	}
 }
