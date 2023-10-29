@@ -1,5 +1,8 @@
 package pl.agh.edu.ui.component.table;
 
+import static com.badlogic.gdx.utils.Align.left;
+import static com.badlogic.gdx.utils.Align.topLeft;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,11 +15,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
-import static com.badlogic.gdx.utils.Align.left;
-import static com.badlogic.gdx.utils.Align.topLeft;
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.ui.GameSkin;
-import pl.agh.edu.ui.component.CustomScroll;
+import pl.agh.edu.ui.component.CustomScrollPane;
 import pl.agh.edu.ui.component.label.LanguageLabel;
 import pl.agh.edu.ui.utils.FontType;
 import pl.agh.edu.ui.utils.wrapper.WrapperTable;
@@ -24,7 +25,7 @@ import pl.agh.edu.ui.utils.wrapper.WrapperTable;
 public abstract class BaseTable extends WrapperTable {
 	protected Table contentRows = new Table();
 	protected Skin skin = GameSkin.getInstance();
-	protected ScrollPane scrollPane = new CustomScroll(contentRows, skin, "transparent");
+	protected ScrollPane scrollPane = new CustomScrollPane(contentRows, skin, "transparent");
 
 	public BaseTable(List<String> columnNames) {
 		super();
@@ -67,6 +68,7 @@ public abstract class BaseTable extends WrapperTable {
 
 	protected abstract static class BaseRow extends WrapperTable {
 		protected final Skin skin = GameSkin.getInstance();
+
 		BaseRow() {
 			super();
 			this.setBackground("table-row-background");
@@ -80,12 +82,11 @@ public abstract class BaseTable extends WrapperTable {
 						.height(BaseTableStyle.getRowHeight())
 						.padLeft(BaseTableStyle.getCellPadding())
 						.padRight(BaseTableStyle.getCellPadding());
-				if(actor != actors.get(actors.size() - 1))
+				if (actor != actors.get(actors.size() - 1))
 					this.innerTable
 							.add(new Image(skin.getPatch("table-separator-line")))
 							.width(BaseTableStyle.getSeparatorWidth()).growY().center();
-			}
-			);
+			});
 		}
 
 	}
@@ -122,6 +123,7 @@ public abstract class BaseTable extends WrapperTable {
 				case LARGE -> FontType.H4.getName();
 			};
 		}
+
 		public static String getHeaderFont() {
 			return switch (GraphicConfig.getResolution().SIZE) {
 				case SMALL -> FontType.BODY_2.getName();

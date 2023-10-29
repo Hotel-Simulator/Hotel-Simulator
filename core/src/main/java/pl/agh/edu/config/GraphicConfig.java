@@ -49,6 +49,7 @@ public class GraphicConfig {
 	public static boolean isBlurShaderEnabled() {
 		return blurShaderEnabled;
 	}
+
 	public static void setBlurShaderEnabled(boolean value) {
 		blurShaderEnabled = value;
 	}
