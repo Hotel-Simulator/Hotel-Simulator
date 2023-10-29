@@ -528,6 +528,16 @@
 		"up": "scenario-button-up",
 		"down": "scenario-button-down",
 		"checked": "scenario-button-down"
+	},
+	"selection-right": {
+		"up": "selection-right-up",
+		"down": "selection-right-down",
+		"over": "selection-right-over"
+	},
+	"selection-left": {
+		"up": "selection-left-up",
+		"down": "selection-left-down",
+		"over": "selection-left-over"
 	}
 },
 "CheckBoxStyle": {
@@ -754,6 +764,16 @@
 		"fontColor": "alert-500",
 		"up": "scenario-button-up",
 		"down": "scenario-button-down"
+	},
+	"calendar-cell": {
+		"font": "button3",
+		"fontColor": "gray-900",
+		"disabledFontColor": "gray-700",
+		"up": "calendar-cell-up",
+		"down": "calendar-cell-down",
+		"over": "calendar-cell-over",
+		"disabled": "calendar-cell-disabled",
+		"checked": "calendar-cell-checked"
 	}
 },
 "TextFieldStyle": {
