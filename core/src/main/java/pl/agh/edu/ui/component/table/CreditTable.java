@@ -8,7 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 import pl.agh.edu.engine.bank.BankAccountHandler;
 import pl.agh.edu.engine.bank.Credit;
-import pl.agh.edu.ui.utils.LinkLabel;
+import pl.agh.edu.ui.component.label.CustomLabel;
+import pl.agh.edu.utils.CustomBigDecimal;
 
 public class CreditTable extends BaseTable {
 
@@ -29,8 +30,10 @@ public class CreditTable extends BaseTable {
 			super();
 
 			Label date = new Label(bankAccountHandler.getLastPaymentDate(credit).toString(), skin, CreditTableStyle.getFont());
-			Label monthly = new Label(credit.monthlyPayment.toString(), skin, CreditTableStyle.getFont());
-			LinkLabel payAllButton = new LinkLabel("linkLabel.payall", BUTTON_1.getWhiteVariantName(), () -> {
+			Label monthly = new Label("%s $".formatted(new CustomBigDecimal(credit.monthlyPayment.toString())), skin, CreditTableStyle.getFont());
+			CustomLabel payAllButton = new CustomLabel(BUTTON_1.getWhiteVariantName());
+			payAllButton.setText("%s $".formatted(new CustomBigDecimal(bankAccountHandler.getValueLeftToPay(credit))));
+			payAllButton.makeItLink(() -> {
 				bankAccountHandler.payEntireCredit(credit);
 				deleteRow(this);
 			});
