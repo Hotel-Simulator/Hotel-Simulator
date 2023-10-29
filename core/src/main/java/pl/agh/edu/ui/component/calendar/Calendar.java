@@ -1,5 +1,6 @@
 package pl.agh.edu.ui.component.calendar;
 
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import static com.badlogic.gdx.utils.Align.center;
 import static java.time.Month.DECEMBER;
 import static java.time.Month.JANUARY;
@@ -50,13 +51,6 @@ public class Calendar extends WrapperTable {
 
 		this.setBackground("modal-glass-background");
 
-		Window window = new Window("", skin);
-		window.setResizable(false);
-		window.setMovable(false);
-		window.setKeepWithinStage(true);
-		window.setModal(true);
-		window.add(this).grow();
-
 		setUpYearTable();
 		innerTable.add(yearTable).growX().padTop(10f).row();
 
@@ -68,7 +62,6 @@ public class Calendar extends WrapperTable {
 
 		this.setResolutionChangeHandler(this::resize);
 	}
-
 	private void updateYearLabel() {
 		yearLabel.setText(String.valueOf(year));
 	}
