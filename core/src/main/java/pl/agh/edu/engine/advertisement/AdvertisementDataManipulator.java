@@ -41,6 +41,13 @@ public class AdvertisementDataManipulator extends DataManipulator<AdvertisementC
         }
     }
 
+    private static class AdvertisementEndDateReverseSorter implements Sorter<AdvertisementCampaign> {
+        @Override
+        public int compare(AdvertisementCampaign advertisementCampaign1, AdvertisementCampaign advertisementCampaign2) {
+            return -advertisementCampaign1.endDate().compareTo(advertisementCampaign2.endDate());
+        }
+    }
+
     private static class AdvertismetnStartDateSorter implements Sorter<AdvertisementCampaign> {
         @Override
         public int compare(AdvertisementCampaign advertisementCampaign1, AdvertisementCampaign advertisementCampaign2) {
@@ -48,10 +55,24 @@ public class AdvertisementDataManipulator extends DataManipulator<AdvertisementC
         }
     }
 
+    private static class AdvertismetnStartDateReverseSorter implements Sorter<AdvertisementCampaign> {
+        @Override
+        public int compare(AdvertisementCampaign advertisementCampaign1, AdvertisementCampaign advertisementCampaign2) {
+            return -advertisementCampaign1.startDate().compareTo(advertisementCampaign2.startDate());
+        }
+    }
+
     private static class AdvertisementTypeSorter implements Sorter<AdvertisementCampaign> {
         @Override
         public int compare(AdvertisementCampaign advertisementCampaign1, AdvertisementCampaign advertisementCampaign2) {
             return advertisementCampaign1.advertisementData().type().compareTo(advertisementCampaign2.advertisementData().type());
+        }
+    }
+
+    private static class AdvertisementTypeReverseSorter implements Sorter<AdvertisementCampaign> {
+        @Override
+        public int compare(AdvertisementCampaign advertisementCampaign1, AdvertisementCampaign advertisementCampaign2) {
+            return -advertisementCampaign1.advertisementData().type().compareTo(advertisementCampaign2.advertisementData().type());
         }
     }
 
@@ -76,13 +97,28 @@ public class AdvertisementDataManipulator extends DataManipulator<AdvertisementC
             return this;
         }
 
+        public AdvertisementDataManipulatorBuilder sortReverseByEndDate() {
+            manipulator.addSorter(new AdvertisementEndDateReverseSorter());
+            return this;
+        }
+
         public AdvertisementDataManipulatorBuilder sortByStartDate() {
             manipulator.addSorter(new AdvertismetnStartDateSorter());
             return this;
         }
 
+        public AdvertisementDataManipulatorBuilder sortReverseByStartDate() {
+            manipulator.addSorter(new AdvertismetnStartDateReverseSorter());
+            return this;
+        }
+
         public AdvertisementDataManipulatorBuilder sortByAdvertisementType() {
             manipulator.addSorter(new AdvertisementTypeSorter());
+            return this;
+        }
+
+        public AdvertisementDataManipulatorBuilder sortByReverseAdvertisementType() {
+            manipulator.addSorter(new AdvertisementTypeReverseSorter());
             return this;
         }
 

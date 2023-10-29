@@ -13,11 +13,11 @@ public abstract class DataManipulator<T> {
     protected void addSorter(Sorter<T> sorter) {
         sorterList.add(sorter);
     }
-    private boolean filter(T t) {
+    private boolean filterStream(T t) {
         return filterList.stream().allMatch(filter -> filter.filter(t));
     }
 
-    private int compare(T t1, T t2) {
+    private int compareStream(T t1, T t2) {
         return sorterList.stream()
                 .mapToInt(comparator -> comparator.compare(t1, t2))
                 .filter(result -> result != 0)
@@ -27,8 +27,8 @@ public abstract class DataManipulator<T> {
 
     public Stream<T> filterAndSort(Stream<T> stream) {
         return stream
-                .filter(this::filter)
-                .sorted(this::compare);
+                .filter(this::filterStream)
+                .sorted(this::compareStream);
     }
     protected interface Filter<T> {
         boolean filter(T t);
