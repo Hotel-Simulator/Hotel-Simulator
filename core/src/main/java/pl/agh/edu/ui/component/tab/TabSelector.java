@@ -16,7 +16,6 @@ import pl.agh.edu.ui.utils.wrapper.WrapperTable;
 
 public class TabSelector extends WrapperTable {
 	Skin skin = GameSkin.getInstance();
-	boolean left = true;
 
 	public TabSelector(String laguagePathLeft, String languagePathRight, Runnable actionLeft, Runnable actionRight) {
 		super();
@@ -27,13 +26,11 @@ public class TabSelector extends WrapperTable {
 			actionLeft.run();
 			leftLinkLabel.setDisabled(true);
 			rightLinkLabel.setDisabled(false);
-			left = true;
 		};
 		Runnable newActionRight = () -> {
 			actionRight.run();
 			rightLinkLabel.setDisabled(true);
 			leftLinkLabel.setDisabled(false);
-			left = false;
 		};
 		leftLinkLabel.makeItLink(newActionLeft);
 		rightLinkLabel.makeItLink(newActionRight);
