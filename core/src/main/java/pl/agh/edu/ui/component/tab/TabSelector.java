@@ -17,10 +17,10 @@ import pl.agh.edu.ui.utils.wrapper.WrapperTable;
 public class TabSelector extends WrapperTable {
 	Skin skin = GameSkin.getInstance();
 
-	public TabSelector(String laguagePathLeft, String languagePathRight, Runnable actionLeft, Runnable actionRight) {
+	public TabSelector(String languagePathLeft, String languagePathRight, Runnable actionLeft, Runnable actionRight) {
 		super();
 		LanguageLabel rightLinkLabel = new LanguageLabel(languagePathRight, getFont());
-		LanguageLabel leftLinkLabel = new LanguageLabel(laguagePathLeft, getFont());
+		LanguageLabel leftLinkLabel = new LanguageLabel(languagePathLeft, getFont());
 
 		Runnable newActionLeft = () -> {
 			actionLeft.run();
