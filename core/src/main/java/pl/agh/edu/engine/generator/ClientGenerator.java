@@ -27,7 +27,7 @@ public class ClientGenerator {
 
 	private static ClientGenerator clientGeneratorInstance;
 	private final Time time = Time.getInstance();
-	private static final Faker faker = new Faker(new Locale("pl-PL"));
+	private static final Faker faker = new Faker(new Locale("en-GB"));
 	// Set user input here (set hotelType)
 	private final GameDifficultyManager gameDifficultyManager = GameDifficultyManager.getInstance();
 
