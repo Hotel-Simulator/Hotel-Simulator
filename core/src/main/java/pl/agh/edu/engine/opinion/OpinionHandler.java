@@ -61,7 +61,6 @@ public class OpinionHandler {
 	}
 
 	private static BigDecimal getDailyChangeValue() {
-		System.out.println("today avg: " + getAvgRating());
 		Optional<BigDecimal> optionalTargetOpinionModifier = mapRating(getAvgRating());
 		return optionalTargetOpinionModifier.map(bigDecimal -> bigDecimal.subtract(opinionModifier)
 				.multiply(JSONOpinionDataLoader.opinionChangeMultiplier)
@@ -69,10 +68,7 @@ public class OpinionHandler {
 	}
 
 	public static void dailyUpdate() {
-		BigDecimal dailyChangeValue = getDailyChangeValue();
-		System.out.println("daily modifier: " + dailyChangeValue);
-		opinionModifier = opinionModifier.add(dailyChangeValue);
-		System.out.println("opinionModifier:" + opinionModifier);
+		opinionModifier = opinionModifier.add(getDailyChangeValue());
 	}
 
 	public static BigDecimal getOpinionModifier() {
