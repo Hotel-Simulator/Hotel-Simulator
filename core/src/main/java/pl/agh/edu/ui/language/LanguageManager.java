@@ -9,6 +9,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.I18NBundle;
 
 import pl.agh.edu.config.LanguageConfig;
+import pl.agh.edu.utils.LanguageString;
 import pl.agh.edu.utils.Pair;
 
 public class LanguageManager {
@@ -35,6 +36,10 @@ public class LanguageManager {
 			result = result.replace(stringsWithReplacement.first(), stringsWithReplacement.second());
 		}
 		return result;
+	}
+
+	public static String get(LanguageString languageString) {
+		return get(languageString.property, languageString.stringsWithReplacements);
 	}
 
 	private static void notifyListeners() {

@@ -317,7 +317,7 @@ button3
   index: -1
 calendar-cell-checked
   rotate: false
-  xy: 1879, 1186
+  xy: 1879, 1312
   size: 40, 40
   split: 3, 3, 3, 3
   orig: 40, 40
@@ -325,7 +325,7 @@ calendar-cell-checked
   index: -1
 calendar-cell-disabled
   rotate: false
-  xy: 1879, 1144
+  xy: 1879, 1270
   size: 40, 40
   split: 1, 1, 1, 1
   orig: 40, 40
@@ -333,7 +333,7 @@ calendar-cell-disabled
   index: -1
 calendar-cell-down
   rotate: false
-  xy: 1837, 1100
+  xy: 1879, 1228
   size: 40, 40
   split: 1, 1, 1, 1
   orig: 40, 40
@@ -341,7 +341,7 @@ calendar-cell-down
   index: -1
 calendar-cell-over
   rotate: false
-  xy: 1837, 1142
+  xy: 1879, 1186
   size: 40, 40
   split: 1, 1, 1, 1
   orig: 40, 40
@@ -349,9 +349,49 @@ calendar-cell-over
   index: -1
 calendar-cell-up
   rotate: false
-  xy: 1837, 1184
+  xy: 1879, 1144
   size: 40, 40
   split: 1, 1, 1, 1
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+calendar-special-cell-checked
+  rotate: false
+  xy: 1879, 1102
+  size: 40, 40
+  split: 18, 18, 18, 18
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+calendar-special-cell-disabled
+  rotate: false
+  xy: 1879, 1060
+  size: 40, 40
+  split: 19, 19, 19, 19
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+calendar-special-cell-down
+  rotate: false
+  xy: 1921, 1381
+  size: 40, 40
+  split: 20, 19, 19, 19
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+calendar-special-cell-over
+  rotate: false
+  xy: 1921, 1339
+  size: 40, 40
+  split: 19, 19, 20, 19
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+calendar-special-cell-up
+  rotate: false
+  xy: 1963, 1381
+  size: 40, 40
+  split: 19, 19, 20, 19
   orig: 40, 40
   offset: 0, 0
   index: -1
@@ -961,44 +1001,58 @@ select-box-background-open
   orig: 40, 40
   offset: 0, 0
   index: -1
+selection-left-disabled
+  rotate: false
+  xy: 1921, 1297
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
 selection-left-down
   rotate: false
-  xy: 1837, 1058
+  xy: 1837, 1184
   size: 40, 40
   orig: 40, 40
   offset: 0, 0
   index: -1
 selection-left-over
   rotate: false
-  xy: 1879, 1396
+  xy: 1837, 1142
   size: 40, 40
   orig: 40, 40
   offset: 0, 0
   index: -1
 selection-left-up
   rotate: false
-  xy: 1879, 1354
+  xy: 1837, 1100
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+selection-right-disabled
+  rotate: false
+  xy: 1963, 1339
   size: 40, 40
   orig: 40, 40
   offset: 0, 0
   index: -1
 selection-right-down
   rotate: false
-  xy: 1879, 1312
+  xy: 1837, 1058
   size: 40, 40
   orig: 40, 40
   offset: 0, 0
   index: -1
 selection-right-over
   rotate: false
-  xy: 1879, 1270
+  xy: 1879, 1396
   size: 40, 40
   orig: 40, 40
   offset: 0, 0
   index: -1
 selection-right-up
   rotate: false
-  xy: 1879, 1228
+  xy: 1879, 1354
   size: 40, 40
   orig: 40, 40
   offset: 0, 0
