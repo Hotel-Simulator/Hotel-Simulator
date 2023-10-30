@@ -1,5 +1,8 @@
 package pl.agh.edu.engine.client;
 
+import static java.math.BigDecimal.ONE;
+import static java.math.RoundingMode.HALF_EVEN;
+
 import java.math.BigDecimal;
 import java.time.LocalTime;
 import java.util.EnumMap;
@@ -17,13 +20,10 @@ import pl.agh.edu.engine.generator.ClientGenerator;
 import pl.agh.edu.engine.hotel.HotelVisitPurpose;
 import pl.agh.edu.engine.hotel.scenario.HotelScenariosManager;
 import pl.agh.edu.engine.opinion.OpinionHandler;
-import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.utils.RandomUtils;
 
 public class ClientGroupGenerationHandler {
 	private final ClientGenerator clientGenerator = ClientGenerator.getInstance();
-	private final Time time = Time.getInstance();
-
 	private final ClientNumberModificationEventHandler clientNumberModificationEventHandler = ClientNumberModificationEventHandler.getInstance();
 	private final AdvertisementHandler advertisementHandler;
 	private final HotelScenariosManager hotelScenariosManager;
@@ -47,23 +47,47 @@ public class ClientGroupGenerationHandler {
 	}
 
 	private EnumMap<HotelVisitPurpose, Integer> getNumberOfClientGroups() {
-		EnumMap<HotelVisitPurpose, BigDecimal> eventModifier = clientNumberModificationEventHandler.getCumulatedModifier();
-		return Stream.of(HotelVisitPurpose.values()).collect(Collectors.toMap(
-				hotelVisitPurpose -> hotelVisitPurpose,
-				hotelVisitPurpose -> (int) Math.round(
-						getBasicNumberOfClientGroups() *
-								hotelScenariosManager.hotelVisitPurposeProbabilities.get(hotelVisitPurpose) *
-								Math.max(0, RandomUtils.randomGaussian(1, 1. / 3)) *
-								BigDecimal.ONE.add(eventModifier.get(hotelVisitPurpose)).doubleValue() *
-								BigDecimal.ONE.add(advertisementHandler.getCumulatedModifier().get(hotelVisitPurpose)).doubleValue() *
-								OpinionHandler.getOpinionModifier().doubleValue()),
-				(a, b) -> b,
-				() -> new EnumMap<>(HotelVisitPurpose.class)));
+		BigDecimal numberOfClientGroups = basicNumberOfClientGroups()
+				.multiply(randomMultiplier())
+				.multiply(OpinionHandler.getOpinionModifier());
+
+		return Stream.of(HotelVisitPurpose.values())
+				.collect(Collectors.toMap(
+						hotelVisitPurpose -> hotelVisitPurpose,
+						hotelVisitPurpose -> getNumberOfClientGroupsByHotelVisitPurpose(numberOfClientGroups, hotelVisitPurpose),
+						(a, b) -> b,
+						() -> new EnumMap<>(HotelVisitPurpose.class)));
 	}
 
-	private double getBasicNumberOfClientGroups() {
-		double popularityModifier = hotelScenariosManager.getCurrentDayMultiplier();
+	private Integer getNumberOfClientGroupsByHotelVisitPurpose(BigDecimal numberOfClientGroups,
+			HotelVisitPurpose hotelVisitPurpose) {
+		return numberOfClientGroups
+				.multiply(hotelVisitPurposeMultiplier(hotelVisitPurpose))
+				.multiply(eventMultiplier(hotelVisitPurpose))
+				.multiply(advertisementMultiplier(hotelVisitPurpose))
+				.setScale(0, HALF_EVEN)
+				.intValue();
+	}
+
+	private BigDecimal basicNumberOfClientGroups() {
 		AttractivenessConstantsData attractivenessConstants = hotelScenariosManager.attractivenessConstants;
-		return (attractivenessConstants.localMarket() + attractivenessConstants.localAttractions()) * popularityModifier;
+		return BigDecimal.valueOf(attractivenessConstants.localMarket() + attractivenessConstants.localAttractions())
+				.multiply(hotelScenariosManager.getCurrentDayMultiplier());
+	}
+
+	private BigDecimal hotelVisitPurposeMultiplier(HotelVisitPurpose hotelVisitPurpose) {
+		return hotelScenariosManager.hotelVisitPurposeProbabilities.get(hotelVisitPurpose);
+	}
+
+	private BigDecimal randomMultiplier() {
+		return BigDecimal.valueOf(Math.max(0, RandomUtils.randomGaussian(1, 1. / 3)));
+	}
+
+	private BigDecimal eventMultiplier(HotelVisitPurpose hotelVisitPurpose) {
+		return ONE.add(clientNumberModificationEventHandler.getCumulatedModifier().get(hotelVisitPurpose));
+	}
+
+	private BigDecimal advertisementMultiplier(HotelVisitPurpose hotelVisitPurpose) {
+		return ONE.add(advertisementHandler.getCumulatedModifier().get(hotelVisitPurpose));
 	}
 }

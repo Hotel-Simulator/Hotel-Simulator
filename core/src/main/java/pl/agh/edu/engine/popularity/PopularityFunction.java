@@ -1,5 +1,6 @@
 package pl.agh.edu.engine.popularity;
 
+import java.math.BigDecimal;
 import java.time.Month;
 import java.time.MonthDay;
 import java.util.HashMap;
@@ -17,12 +18,12 @@ import pl.agh.edu.engine.hotel.HotelType;
 
 public class PopularityFunction {
 
-	public static Map<MonthDay, Double> getSeasonalMultipliers(HotelType hotelType) {
+	public static Map<MonthDay, BigDecimal> getSeasonalMultipliers(HotelType hotelType) {
 		PolynomialSplineFunction splineFunction = getSplineFunction(hotelType);
 		return getDailyMultiplierFromSpline(splineFunction);
 	}
 
-	private static Map<MonthDay, Double> getDailyMultiplierFromSpline(PolynomialSplineFunction splineFunction) {
+	private static Map<MonthDay, BigDecimal> getDailyMultiplierFromSpline(PolynomialSplineFunction splineFunction) {
 		return Stream.of(Month.values())
 				.flatMap(PopularityFunction::generateMonthDays)
 				.collect(Collectors.toMap(
@@ -36,8 +37,8 @@ public class PopularityFunction {
 		return IntStream.range(1, month.maxLength() + 1).mapToObj(day -> MonthDay.of(month, day));
 	}
 
-	private static double calculateMultiplier(PolynomialSplineFunction splineFunction, MonthDay monthDay) {
-		return splineFunction.value(calculateDayFraction(monthDay));
+	private static BigDecimal calculateMultiplier(PolynomialSplineFunction splineFunction, MonthDay monthDay) {
+		return BigDecimal.valueOf(splineFunction.value(calculateDayFraction(monthDay)));
 	}
 
 	private static double calculateDayFraction(MonthDay monthDay) {

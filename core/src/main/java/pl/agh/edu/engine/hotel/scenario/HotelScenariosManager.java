@@ -1,5 +1,6 @@
 package pl.agh.edu.engine.hotel.scenario;
 
+import java.math.BigDecimal;
 import java.time.MonthDay;
 import java.util.EnumMap;
 import java.util.Map;
@@ -12,10 +13,10 @@ import pl.agh.edu.engine.popularity.PopularityFunction;
 import pl.agh.edu.engine.time.Time;
 
 public class HotelScenariosManager {
-	public final EnumMap<HotelVisitPurpose, Double> hotelVisitPurposeProbabilities;
+	public final EnumMap<HotelVisitPurpose, BigDecimal> hotelVisitPurposeProbabilities;
 	public final AttractivenessConstantsData attractivenessConstants;
 	public final HotelType hotelType;
-	private final Map<MonthDay, Double> seasonalMultiplier;
+	private final Map<MonthDay, BigDecimal> seasonalMultiplier;
 
 	private final Time time = Time.getInstance();
 
@@ -27,7 +28,7 @@ public class HotelScenariosManager {
 
 	}
 
-	public double getCurrentDayMultiplier() {
+	public BigDecimal getCurrentDayMultiplier() {
 		return seasonalMultiplier.get(time.getMonthDay());
 	}
 }
