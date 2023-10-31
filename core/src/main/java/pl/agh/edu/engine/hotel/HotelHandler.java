@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import pl.agh.edu.data.loader.JSONHotelDataLoader;
 import pl.agh.edu.engine.bank.BankAccount;
+import pl.agh.edu.engine.bank.BankAccountDetails;
 import pl.agh.edu.engine.bank.BankAccountHandler;
 import pl.agh.edu.engine.employee.EmployeeHandler;
 import pl.agh.edu.engine.employee.EmployeeSalaryHandler;
@@ -22,7 +23,8 @@ public class HotelHandler {
 
 	public final PossibleEmployeeHandler possibleEmployeeHandler = new PossibleEmployeeHandler(this);
 	public final EmployeeHandler employeeHandler = new EmployeeHandler();
-	public final BankAccount bankAccount = new BankAccount(GameDifficultyManager.getInstance().getInitialBalance(), new BigDecimal("0.05"), BigDecimal.valueOf(2));
+	public final BankAccount bankAccount = new BankAccount(GameDifficultyManager.getInstance().getInitialBalance(), new BankAccountDetails(new BigDecimal("0.05"), BigDecimal
+			.valueOf(2)));
 	public final BankAccountHandler bankAccountHandler = new BankAccountHandler(bankAccount);
 	public final EmployeeSalaryHandler employeeSalaryHandler = new EmployeeSalaryHandler(employeeHandler, bankAccountHandler);
 	public final RoomManager roomManager = new RoomManager(JSONHotelDataLoader.initialRooms, bankAccountHandler);
