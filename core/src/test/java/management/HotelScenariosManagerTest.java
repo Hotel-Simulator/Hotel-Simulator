@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static pl.agh.edu.engine.hotel.HotelType.HOTEL;
 
+import java.math.BigDecimal;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -32,9 +34,9 @@ public class HotelScenariosManagerTest {
 	@Test
 	public void testGetCurrentDayMultiplier() {
 		// When
-		double currentDayMultiplier = hotelScenariosManager.getCurrentDayMultiplier();
+		BigDecimal currentDayMultiplier = hotelScenariosManager.getCurrentDayMultiplier();
 
 		// Then
-		assertTrue(currentDayMultiplier >= 0.0 && currentDayMultiplier <= 2.0);
+		assertTrue(currentDayMultiplier.compareTo(BigDecimal.ZERO) >= 0 && currentDayMultiplier.compareTo(BigDecimal.valueOf(2)) <= 0);
 	}
 }

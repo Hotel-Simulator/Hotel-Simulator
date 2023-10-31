@@ -85,11 +85,7 @@ public class Engine {
 							OpinionBuilder.saveSteppingOutOfQueueData(arrival.clientGroup());
 							OpinionHandler.addOpinionWithProbability(arrival.clientGroup(), JSONOpinionDataLoader.opinionProbabilityForClientWhoSteppedOutOfQueue);
 						}
-
-					},
-							LocalDateTime.of(
-									time.getTime().toLocalDate(),
-									arrival.time()).plus(arrival.clientGroup().getMaxWaitingTime())));
+					}, LocalDateTime.of(time.getTime().toLocalDate(), arrival.time()).plus(arrival.clientGroup().getMaxWaitingTime())));
 		}, LocalDateTime.of(time.getTime().toLocalDate(), arrival.time()));
 	}
 
