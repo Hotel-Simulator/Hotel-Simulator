@@ -26,11 +26,13 @@ public abstract class WrapperContainer<T extends Actor> extends Container<T> imp
 		this.languagePath = languagePath;
 		LanguageManager.addListener(this);
 		ResolutionManager.addListener(this);
+		this.fill();
 	}
 
 	public WrapperContainer() {
 		this.languagePath = null;
 		ResolutionManager.addListener(this);
+		this.fill();
 	}
 
 	public void setLanguageChangeHandler(Consumer<String> languageChangeHandler) {
