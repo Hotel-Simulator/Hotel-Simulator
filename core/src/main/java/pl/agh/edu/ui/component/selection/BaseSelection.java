@@ -18,9 +18,16 @@ public abstract class BaseSelection<T> extends WrapperTable {
     private final Button rightButton = createRightButton();
     private T value;
     private final Label label;
+
+    private final boolean isBig;
+
     public BaseSelection(T value, Label label, Consumer<T> action){
+        this(value, label, action, false);
+    }
+    public BaseSelection(T value, Label label, Consumer<T> action,Boolean isBig){
         this.value = value;
         this.label = label;
+        this.isBig = isBig;
         leftButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -74,10 +81,10 @@ public abstract class BaseSelection<T> extends WrapperTable {
         innerTable.debugCell();
     }
     protected Button createLeftButton(){
-        return new Button(skin, "selection-left");
+        return new Button(skin, "selection-left" + (isBig ? "-big" : ""));
     }
     protected Button createRightButton(){
-        return new Button(skin, "selection-right");
+        return new Button(skin, "selection-right" + (isBig ? "-big" : ""));
     }
 
     protected abstract boolean isNextButtonCheck();
