@@ -1,4 +1,4 @@
-package pl.agh.edu.ui.component.selector;
+package pl.agh.edu.ui.component.selection;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -13,12 +13,11 @@ import pl.agh.edu.ui.utils.wrapper.WrapperTable;
 import java.util.function.Consumer;
 
 public abstract class BaseSelection<T> extends WrapperTable {
-    private final Skin skin = GameSkin.getInstance();
-    private final Button leftButton = new Button(skin, "selection-left");
-    private final Button rightButton = new Button(skin, "selection-right");
+    protected final Skin skin = GameSkin.getInstance();
+    private final Button leftButton = createLeftButton();
+    private final Button rightButton = createRightButton();
     private T value;
-
-    private Label label;
+    private final Label label;
     public BaseSelection(T value, Label label, Consumer<T> action){
         this.value = value;
         this.label = label;
@@ -64,12 +63,21 @@ public abstract class BaseSelection<T> extends WrapperTable {
         label.setAlignment(center,center);
         updateLabel(label);
 
-        innerTable.padTop(10f).padBottom(10f);
         innerTable.setFillParent(false);
-        innerTable.add(leftButton);
-        innerTable.add(label).width(200f);
-        innerTable.add(rightButton);
 
+        innerTable.add().uniform();
+        innerTable.add(leftButton).uniform();
+        innerTable.add(label).grow();
+        innerTable.add(rightButton).uniform();
+        innerTable.add().uniform().row();
+
+        innerTable.debugCell();
+    }
+    protected Button createLeftButton(){
+        return new Button(skin, "selection-left");
+    }
+    protected Button createRightButton(){
+        return new Button(skin, "selection-right");
     }
 
     protected abstract boolean isNextButtonCheck();

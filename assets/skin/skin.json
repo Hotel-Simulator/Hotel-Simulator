@@ -540,6 +540,18 @@
 		"down": "selection-left-down",
 		"over": "selection-left-over",
 		"disabled": "selection-left-disabled"
+	},
+	"selection-right-big": {
+		"up": "selection-right-up-big",
+		"down": "selection-right-down-big",
+		"over": "selection-right-over-big",
+		"disabled": "selection-right-disabled-big"
+	},
+	"selection-left-big": {
+		"up": "selection-left-up-big",
+		"down": "selection-left-down-big",
+		"over": "selection-left-over-big",
+		"disabled": "selection-left-disabled-big"
 	}
 },
 "CheckBoxStyle": {

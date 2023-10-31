@@ -4,8 +4,8 @@ import static java.time.Month.DECEMBER;
 import static java.time.Month.JANUARY;
 import pl.agh.edu.engine.calendar.Calendar;
 import pl.agh.edu.engine.calendar.CalendarEvent;
-import pl.agh.edu.ui.component.selector.MonthSelection;
-import pl.agh.edu.ui.component.selector.YearSelection;
+import pl.agh.edu.ui.component.selection.MonthSelection;
+import pl.agh.edu.ui.component.selection.YearSelection;
 import pl.agh.edu.ui.component.toolTip.LanguageToolTip;
 
 import java.time.LocalDate;
@@ -46,16 +46,15 @@ public class CalendarComponent extends WrapperTable {
 
 		this.setBackground("modal-glass-background");
 
-		innerTable.add(monthSelection).growX().center().pad(0f).row();
+		innerTable.add(monthSelection).growX().center().padTop(20f).row();
 		monthSelection.updateState(currentYearMonth);
-		innerTable.add(yearSelection).growX().center().pad(0f).row();
+		innerTable.add(yearSelection).growX().center().padTop(20f).row();
 		yearSelection.updateState(currentYearMonth);
 
 		updateCalendarMatrix();
 		innerTable.add(calendarMatrixContainer).pad(20f);
 
 		this.setResolutionChangeHandler(this::resize);
-//		this.debugAll();
 	}
 
 	private void monthSelectionHandler(YearMonth newYearMonth) {
@@ -70,6 +69,7 @@ public class CalendarComponent extends WrapperTable {
 	}
 	private void yearSelectionHandle(YearMonth newYearMonth) {
 		currentYearMonth = newYearMonth;
+		monthSelection.updateState(newYearMonth);
 		updateCalendarMatrix();
 	}
 	private void updateCalendarMatrix() {
@@ -97,7 +97,7 @@ public class CalendarComponent extends WrapperTable {
 
 			populateDaysBeforeCurrentMonth(startingColumn, daysInPreviousMonth, currentYearMonth.minusMonths(1).getMonth());
 			populateCurrentMonth(daysInMonth);
-			populateDaysAfterCurrentMonth(daysInMonth, startingColumn, currentYearMonth.plusMonths(1).getMonth());
+			populateDaysAfterCurrentMonth(daysInMonth, startingColumn!=0 ? startingColumn - 1 : 0, currentYearMonth.plusMonths(1).getMonth());
 		}
 
 		public void populateDaysBeforeCurrentMonth(int startingColumn, int daysInPreviousMonth, Month previousMonth) {
@@ -115,6 +115,7 @@ public class CalendarComponent extends WrapperTable {
 		}
 
 		public void populateDaysAfterCurrentMonth(int daysInMonth, int startingColumn, Month nextMonth) {
+			System.out.println(startingColumn +" | "+ daysInMonth);
 			IntStream.range(1, 43 - (startingColumn + daysInMonth))
 					.mapToObj(day -> new CalendarCellButton(LocalDate.of(currentYearMonth.getYear(), nextMonth, day)))
 					.toList()

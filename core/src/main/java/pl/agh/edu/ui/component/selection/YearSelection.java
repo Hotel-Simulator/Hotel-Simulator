@@ -1,9 +1,8 @@
-package pl.agh.edu.ui.component.selector;
+package pl.agh.edu.ui.component.selection;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.ui.component.label.CustomLabel;
-import pl.agh.edu.ui.component.label.LanguageLabel;
 import static pl.agh.edu.ui.utils.FontType.BODY_1;
 
 import java.time.YearMonth;
