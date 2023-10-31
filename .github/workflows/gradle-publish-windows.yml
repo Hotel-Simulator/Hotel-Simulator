@@ -1,4 +1,4 @@
-name: Gradle
+name: Gradle check for Windows
 
 on:
   pull_request:

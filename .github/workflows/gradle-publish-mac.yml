@@ -1,4 +1,4 @@
-name: Gradle
+name: Gradle check for Mac
 
 on:
   pull_request:

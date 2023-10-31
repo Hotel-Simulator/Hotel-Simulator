@@ -1,4 +1,4 @@
-name: Gradle
+name: Gradle check for Linux
 
 on:
   pull_request:
