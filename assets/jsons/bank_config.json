@@ -1,13 +1,13 @@
 {
   "scenarios": [
     {
-      "name": "The bank",
+      "name": "bank.name.1",
       "credit_interest_rate": 0,
       "deposit_interest_rate": 3,
       "account_fee": 100
     },
     {
-      "name": "Prank bank",
+      "name": "bank.name.2",
       "credit_interest_rate": 20,
       "deposit_interest_rate": 1,
       "account_fee": 1000
