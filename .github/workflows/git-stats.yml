@@ -27,17 +27,16 @@ jobs:
         run: pip install git-fame
 
       - name: Run git fame and capture output
-        uses: mathiasvr/command-output@v2.0.0
+        run: |
+          echo "TAG_NAME=$(git fame --incl=.java --loc=surv -e -w -M -C -R ./core/src/main)" >> $GITHUB_OUTPUT
         id: cmd
-        with:
-          run: git fame --incl=.java --loc=surv -e -w -M -C -R ./core/src/main
 
       - name: Comment PR
         uses: actions/github-script@v3
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            const output = ${{ steps.cmd.outputs.stdout }};
+            const output = ${{ steps.version.outputs.TAG_NAME }};
             const message = `Here are the contributor statistics:\n\`\`\`\n${output}\n\`\`\``;
             github.issues.createComment({
               issue_number: context.issue.number,
