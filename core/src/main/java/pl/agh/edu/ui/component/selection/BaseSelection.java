@@ -27,20 +27,17 @@ public abstract class BaseSelection<T> extends WrapperTable {
 		leftButton.addListener(new InputListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				if (!isPreviousButtonCheck()) {
-					leftButton.setDisabled(true);
-					return true;
-				}
 				return !leftButton.isDisabled();
 			}
 
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-				if (leftButton.isDisabled())
-					return;
 				SoundAudio.BUTTON_3.play();
 				rightButton.setDisabled(false);
 				previousButtonHandler();
+				if (!isPreviousButtonCheck()) {
+					leftButton.setDisabled(true);
+				}
 				updateLabel(label);
 				action.accept(getValue());
 			}
@@ -49,20 +46,17 @@ public abstract class BaseSelection<T> extends WrapperTable {
 		rightButton.addListener(new InputListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				if (!isNextButtonCheck()) {
-					rightButton.setDisabled(true);
-					return true;
-				}
 				return !rightButton.isDisabled();
 			}
 
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-				if (rightButton.isDisabled())
-					return;
 				SoundAudio.BUTTON_3.play();
 				leftButton.setDisabled(false);
 				nextButtonHandler();
+				if (!isNextButtonCheck()) {
+					rightButton.setDisabled(true);
+				}
 				updateLabel(label);
 				action.accept(getValue());
 			}

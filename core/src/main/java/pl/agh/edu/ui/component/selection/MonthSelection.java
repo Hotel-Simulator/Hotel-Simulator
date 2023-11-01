@@ -41,7 +41,8 @@ public class MonthSelection extends BaseSelection<YearMonth> {
 	@Override
 	protected boolean isPreviousButtonCheck() {
 		if (isBlockedByTime)
-			return (getValue().minusMonths(1).isAfter(time.getYearMonth().minusYears(2)) && getValue().isAfter(YearMonth.from(time.startingTime)));
+			return (getValue().minusMonths(1).isAfter(time.getYearMonth().minusYears(2))
+					&& !getValue().minusMonths(1).isBefore(YearMonth.from(time.startingTime)));
 		return true;
 	}
 

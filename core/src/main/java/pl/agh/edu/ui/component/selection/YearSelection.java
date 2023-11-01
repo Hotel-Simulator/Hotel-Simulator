@@ -34,26 +34,35 @@ public class YearSelection extends BaseSelection<YearMonth> {
 	@Override
 	protected boolean isNextButtonCheck() {
 		if (isBlockedByTime)
-			return getValue().plusYears(1).isBefore(time.getYearMonth().plusYears(2));
+			return getValue().plusYears(1).getYear() <= time.getYearMonth().plusYears(2).getYear();
 		return true;
 	}
 
 	@Override
 	protected boolean isPreviousButtonCheck() {
-		if (isBlockedByTime)
-			return (getValue().minusYears(1).isAfter(time.getYearMonth().minusYears(2))
-					&& !getValue().minusYears(1).isBefore(YearMonth.from(time.startingTime)));
+		if (isBlockedByTime) {
+			int newYear = getValue().minusYears(1).getYear();
+			System.out.println(newYear);
+			return newYear >= time.getYearMonth().minusYears(2).getYear()
+					&& newYear >= time.startingTime.getYear();
+		}
 		return true;
 	}
 
 	@Override
 	protected void nextButtonHandler() {
-		setValue(getValue().plusYears(1));
+		if (getValue().getYear() == time.getTime().getYear())
+			setValue(getValue().plusYears(1).withMonth(time.getTime().getMonthValue()));
+		else
+			setValue(getValue().plusYears(1));
 	}
 
 	@Override
 	protected void previousButtonHandler() {
-		setValue(getValue().minusYears(1));
+		if (getValue().getYear() == time.getTime().getYear())
+			setValue(getValue().minusYears(1).withMonth(time.getTime().getMonthValue()));
+		else
+			setValue(getValue().minusYears(1));
 	}
 
 	@Override
