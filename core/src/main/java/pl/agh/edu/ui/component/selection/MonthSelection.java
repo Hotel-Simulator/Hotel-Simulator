@@ -14,6 +14,7 @@ import pl.agh.edu.utils.LanguageString;
 public class MonthSelection extends BaseSelection<YearMonth> {
 	private static final Time time = Time.getInstance();
 	private final boolean isBlockedByTime;
+	private static final int timeRange = 2;
 
 	public MonthSelection(YearMonth startValue, Consumer<YearMonth> action, Boolean isBlockedByTime) {
 		super(startValue, createNewLabel(), action);
@@ -34,14 +35,14 @@ public class MonthSelection extends BaseSelection<YearMonth> {
 	@Override
 	protected boolean isNextButtonCheck() {
 		if (isBlockedByTime)
-			return getValue().plusMonths(1).isBefore(time.getYearMonth().plusYears(2));
+			return getValue().plusMonths(1).isBefore(time.getYearMonth().plusYears(timeRange));
 		return true;
 	}
 
 	@Override
 	protected boolean isPreviousButtonCheck() {
 		if (isBlockedByTime)
-			return (getValue().minusMonths(1).isAfter(time.getYearMonth().minusYears(2))
+			return (getValue().minusMonths(1).isAfter(time.getYearMonth().minusYears(timeRange))
 					&& !getValue().minusMonths(1).isBefore(YearMonth.from(time.startingTime)));
 		return true;
 	}
