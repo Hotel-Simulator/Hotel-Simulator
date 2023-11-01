@@ -1,7 +1,5 @@
 package pl.agh.edu.ui.component.selection;
 
-import static pl.agh.edu.ui.utils.FontType.BODY_1;
-
 import java.time.YearMonth;
 import java.util.function.Consumer;
 
@@ -9,6 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.ui.component.label.LanguageLabel;
+import static pl.agh.edu.ui.utils.SkinFont.BODY_1;
+import pl.agh.edu.utils.LanguageString;
 
 public class MonthSelection extends BaseSelection<YearMonth> {
 	private static final Time time = Time.getInstance();
@@ -17,6 +17,7 @@ public class MonthSelection extends BaseSelection<YearMonth> {
 	public MonthSelection(YearMonth startValue, Consumer<YearMonth> action, Boolean isBlockedByTime) {
 		super(startValue, createNewLabel(), action);
 		this.isBlockedByTime = isBlockedByTime;
+		this.checkButtons();
 	}
 
 	public void updateState(YearMonth yearMonth) {
@@ -26,7 +27,7 @@ public class MonthSelection extends BaseSelection<YearMonth> {
 	}
 
 	private static LanguageLabel createNewLabel() {
-		return new LanguageLabel(getMonthLanguagePath(YearMonth.from(time.startingTime)), BODY_1.getName());
+		return new LanguageLabel(getMonthLanguageString(YearMonth.from(time.startingTime)), BODY_1.getName());
 	}
 
 	@Override
@@ -56,11 +57,11 @@ public class MonthSelection extends BaseSelection<YearMonth> {
 	@Override
 	protected void updateLabel(Label label) {
 		if (label instanceof LanguageLabel) {
-			((LanguageLabel) label).updateLanguagePath(getMonthLanguagePath(getValue()));
+			((LanguageLabel) label).updateLanguagePath(getMonthLanguageString(getValue()));
 		}
 	}
 
-	private static String getMonthLanguagePath(YearMonth yearMonth) {
-		return "selection.month." + yearMonth.getMonth().toString().toLowerCase();
+	private static LanguageString getMonthLanguageString(YearMonth yearMonth) {
+		return new LanguageString("selection.month." + yearMonth.getMonth().toString().toLowerCase());
 	}
 }

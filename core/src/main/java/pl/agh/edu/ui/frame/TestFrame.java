@@ -3,10 +3,11 @@ package pl.agh.edu.ui.frame;
 import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.ui.component.selection.MonthSelection;
 import pl.agh.edu.ui.component.selection.YearSelection;
+import pl.agh.edu.utils.LanguageString;
 
 public class TestFrame extends BaseFrame {
-	public TestFrame(String languagePath) {
-		super(languagePath);
+	public TestFrame(LanguageString languageString) {
+		super(languageString);
 
 		MonthSelection monthSelection = new MonthSelection(Time.getInstance().getYearMonth(), System.out::println, false);
 		YearSelection yearSelection = new YearSelection(Time.getInstance().getYearMonth(), System.out::println, false);

@@ -1,6 +1,6 @@
 package pl.agh.edu.ui.component.selection;
 
-import static pl.agh.edu.ui.utils.FontType.BODY_1;
+import static pl.agh.edu.ui.utils.SkinFont.BODY_1;
 
 import java.time.YearMonth;
 import java.util.function.Consumer;
@@ -18,6 +18,7 @@ public class YearSelection extends BaseSelection<YearMonth> {
 	public YearSelection(YearMonth startValue, Consumer<YearMonth> action, Boolean isBlockedByTime) {
 		super(startValue, createNewLabel(), action);
 		this.isBlockedByTime = isBlockedByTime;
+		this.checkButtons();
 	}
 
 	private static CustomLabel createNewLabel() {
