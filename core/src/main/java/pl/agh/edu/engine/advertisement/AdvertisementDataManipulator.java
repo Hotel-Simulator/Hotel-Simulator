@@ -54,14 +54,14 @@ public class AdvertisementDataManipulator extends DataManipulator<AdvertisementC
 		}
 	}
 
-	private static class AdvertismetnStartDateSorter implements Sorter<AdvertisementCampaign> {
+	private static class AdvertisementStartDateSorter implements Sorter<AdvertisementCampaign> {
 		@Override
 		public int compare(AdvertisementCampaign advertisementCampaign1, AdvertisementCampaign advertisementCampaign2) {
 			return advertisementCampaign1.startDate().compareTo(advertisementCampaign2.startDate());
 		}
 	}
 
-	private static class AdvertismetnStartDateReverseSorter implements Sorter<AdvertisementCampaign> {
+	private static class AdvertismentStartDateReverseSorter implements Sorter<AdvertisementCampaign> {
 		@Override
 		public int compare(AdvertisementCampaign advertisementCampaign1, AdvertisementCampaign advertisementCampaign2) {
 			return -advertisementCampaign1.startDate().compareTo(advertisementCampaign2.startDate());
@@ -110,12 +110,12 @@ public class AdvertisementDataManipulator extends DataManipulator<AdvertisementC
 		}
 
 		public AdvertisementDataManipulatorBuilder sortByStartDate() {
-			manipulator.addSorter(new AdvertismetnStartDateSorter());
+			manipulator.addSorter(new AdvertisementStartDateSorter());
 			return this;
 		}
 
 		public AdvertisementDataManipulatorBuilder sortReverseByStartDate() {
-			manipulator.addSorter(new AdvertismetnStartDateReverseSorter());
+			manipulator.addSorter(new AdvertismentStartDateReverseSorter());
 			return this;
 		}
 
