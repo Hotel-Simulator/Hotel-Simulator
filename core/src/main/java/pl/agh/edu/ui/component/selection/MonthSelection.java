@@ -35,14 +35,14 @@ public class MonthSelection extends BaseSelection<YearMonth> {
 	@Override
 	protected boolean isNextButtonCheck() {
 		if (isBlockedByTime)
-			return getValue().plusMonths(1).isBefore(time.getYearMonth().plusYears(timeRange));
+			return !getValue().plusMonths(1).isAfter(time.getYearMonth().plusYears(timeRange));
 		return true;
 	}
 
 	@Override
 	protected boolean isPreviousButtonCheck() {
 		if (isBlockedByTime)
-			return (getValue().minusMonths(1).isAfter(time.getYearMonth().minusYears(timeRange))
+			return (!getValue().minusMonths(1).isBefore(time.getYearMonth().minusYears(timeRange))
 					&& !getValue().minusMonths(1).isBefore(YearMonth.from(time.startingTime)));
 		return true;
 	}
