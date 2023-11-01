@@ -46,12 +46,6 @@ jobs:
 
             const tableData = stats.match(/\|(.+?)\|(.+?)\|(.+?)\|(.+?)\|(.+?)\|/g);
 
-            const tableData = content
-              .split('\n')
-              .slice(3) // Remove the first two rows
-              .map(row => row.trim().split('|').slice(1, -1).map(col => col.trim())) // Split columns and remove empty elements
-              .filter(row => row.length === 5); // Filter out rows with incomplete data
-    
             // Construct the Markdown table header
             const tableHeader = '| Author | loc | coms | fils | distribution |\n|:------|-----:|------:|------:|:--------------|';
   
