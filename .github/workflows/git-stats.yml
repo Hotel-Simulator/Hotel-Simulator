@@ -12,6 +12,9 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    outputs:
+      output1: ${{ steps.stats.outputs.stats }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -28,15 +31,18 @@ jobs:
 
       - name: Run git fame and capture output
         run: |
-          echo "stats=$(git fame --incl=.java --loc=surv -s -e -w -M -C -R ./core/src/main)" >> "$GITHUB_OUTPUT"
+          echo "::set-output name=fame::$(git fame --incl=.java --loc=surv -s -e -w -M -C -R ./core/src/main)"
         id: stats
-
+  send-comment:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
       - name: Comment PR
         uses: actions/github-script@v6
         env:
-          stats: ${{ steps.stats.outputs.stats }}
+          stats: ${{ steps.git_fame.outputs.fame }}
         with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
+          github-token: ${{needs.build.outputs.stats}}
           script: |
             const { stats } = process.env;
             const message = `Here are the contributor statistics:\n\`\`\`\n${stats}\n\`\`\``;
