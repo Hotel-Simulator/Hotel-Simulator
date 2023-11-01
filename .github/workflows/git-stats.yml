@@ -31,8 +31,6 @@ jobs:
         id: run-git-fame
         with:
           run: git fame --incl=.java --loc=surv --bytype -w -M -C -R ./core/src/main
-      - name: Print output
-        run: echo Result ${{ steps.run-git-fame.outputs.stdout }}
 
       - name: Comment PR
         uses: actions/github-script@v3
