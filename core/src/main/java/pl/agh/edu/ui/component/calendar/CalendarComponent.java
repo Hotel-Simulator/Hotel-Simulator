@@ -10,7 +10,6 @@ import java.util.stream.IntStream;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -39,7 +38,7 @@ public class CalendarComponent extends WrapperTable {
 	private final YearSelection yearSelection;
 	private final boolean isActive;
 
-	public CalendarComponent(LocalDate chosenDate,Consumer<LocalDate> dateChangeHandler,Boolean isBlockedByTime,Boolean isActive) {
+	public CalendarComponent(LocalDate chosenDate, Consumer<LocalDate> dateChangeHandler, Boolean isBlockedByTime, Boolean isActive) {
 		super();
 		this.chosenDate = chosenDate;
 		this.dateChangeHandler = dateChangeHandler;
@@ -148,7 +147,8 @@ public class CalendarComponent extends WrapperTable {
 	private class CalendarCellButton extends WrapperContainer<TextButton> {
 		public CalendarCellButton(LocalDate date) {
 			TextButton button = new TextButton(String.valueOf(date.getDayOfMonth()), skin);
-			if(!isActive) button.removeListener(button.getClickListener());
+			if (!isActive)
+				button.removeListener(button.getClickListener());
 			setStyle(button, date);
 			if (date.getMonth().equals(currentYearMonth.getMonth())) {
 				if (date.equals(chosenDate)) {
@@ -170,7 +170,7 @@ public class CalendarComponent extends WrapperTable {
 		}
 
 		public void addEventListener(TextButton button, LocalDate date) {
-			if(isActive){
+			if (isActive) {
 				button.addListener(new InputListener() {
 					@Override
 					public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
