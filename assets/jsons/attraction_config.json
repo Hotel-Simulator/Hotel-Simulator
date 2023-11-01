@@ -1,0 +1,68 @@
+{
+  "daily_capacity" : {
+    "SMALL": 20,
+    "MEDIUM": 50,
+    "LARGE":  100
+  },
+  "daily_expenses": {
+    "SMALL": 300,
+    "MEDIUM": 750,
+    "LARGE":  1500
+  },
+
+  "build_cost": {
+    "SMALL": 100000,
+    "MEDIUM": 150000,
+    "LARGE":  200000
+  },
+
+  "income_per_client": 30,
+
+  "chances_of_visit": {
+    "RESTAURANT": {
+      "VACATION": 0.3,
+      "BUSINESS_TRIP": 0.5,
+      "REHABILITATION": 0.2
+    },
+    "SWIMMING_POOL": {
+      "VACATION": 0.5,
+      "BUSINESS_TRIP": 0.2,
+      "REHABILITATION": 0.3
+    },
+    "SPA": {
+      "VACATION": 0.3,
+      "BUSINESS_TRIP": 0.2,
+      "REHABILITATION": 0.5
+    }
+  },
+
+  "build_duration_in_days": {
+    "SMALL": 180,
+    "MEDIUM": 210,
+    "LARGE":  240
+  },
+
+  "modifier_base_values": {
+    "RESTAURANT": {
+      "VACATION": 0.03,
+      "BUSINESS_TRIP": 0.05,
+      "REHABILITATION": 0.02
+    },
+    "SWIMMING_POOL": {
+      "VACATION": 0.05,
+      "BUSINESS_TRIP": 0.02,
+      "REHABILITATION": 0.03
+    },
+    "SPA": {
+      "VACATION": 0.03,
+      "BUSINESS_TRIP": 0.02,
+      "REHABILITATION": 0.05
+    }
+  },
+  "modifier_multiplier": {
+    "SMALL": 1.0,
+    "MEDIUM": 1.5,
+    "LARGE":  2.0
+  }
+
+}

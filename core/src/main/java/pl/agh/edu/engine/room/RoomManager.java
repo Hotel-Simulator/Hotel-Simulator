@@ -140,4 +140,11 @@ public class RoomManager {
 	public RoomPricePerNight getRoomPriceList() {
 		return roomPricePerNight;
 	}
+
+	public List<ClientGroup> getResidents() {
+		return rooms.stream()
+				.filter(room -> room.roomState.isOccupied())
+				.map(Room::getResidents)
+				.toList();
+	}
 }

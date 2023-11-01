@@ -28,7 +28,10 @@ public class Engine {
 	private final HotelScenariosManager hotelScenariosManager = new HotelScenariosManager(HotelType.HOTEL);
 	public final EventHandler eventHandler = new EventHandler(hotelScenariosManager);
 	private final HotelHandler hotelHandler = new HotelHandler();
-	private final ClientGroupGenerationHandler clientGroupGenerationHandler = new ClientGroupGenerationHandler(hotelScenariosManager, hotelHandler.bankAccountHandler);
+	private final ClientGroupGenerationHandler clientGroupGenerationHandler = new ClientGroupGenerationHandler(
+			hotelScenariosManager,
+			hotelHandler.bankAccountHandler,
+			hotelHandler.attractionHandler);
 
 	public Engine() {
 
@@ -50,6 +53,7 @@ public class Engine {
 	}
 
 	private void initializeEveryDayUpdates(LocalDateTime currentTime) {
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, hotelHandler.attractionHandler::dailyUpdate, currentTime));
 		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, OpinionHandler::dailyUpdate, currentTime));
 		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, hotelHandler.possibleEmployeeHandler::dailyUpdate, currentTime));
 		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, this::dailyUpdate, currentTime));
