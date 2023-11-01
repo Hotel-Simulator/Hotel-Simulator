@@ -33,6 +33,7 @@ jobs:
         run: |
           echo "stats=$(git fame --incl=.java --loc=surv -s -e -w -M -C -R ./core/src/main)"
         id: stats
+      - run: echo "${{ steps.stats.outputs.stats }}"
   send-comment:
     runs-on: ubuntu-latest
     needs: build
