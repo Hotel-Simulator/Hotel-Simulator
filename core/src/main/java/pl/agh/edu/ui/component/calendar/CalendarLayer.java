@@ -15,10 +15,21 @@ import java.util.function.Consumer;
 
 public class CalendarLayer extends Stack {
     private final CalendarComponent calendarComponent;
-    private final Consumer<LocalDate> handler;
-    public CalendarLayer(Actor parent, LocalDate chosenDate, Consumer<LocalDate> dateChangeHandler, Boolean isBlockedByTime) {
+    public CalendarLayer(Actor parent, LocalDate chosenDate,Boolean isBlockedByTime,Consumer<LocalDate> dateChangeHandler) {
         super();
-        this.handler = dateChangeHandler;
+        this.setUpInvisibleBackground();
+        calendarComponent = new CalendarComponent(chosenDate, preAction(dateChangeHandler),isBlockedByTime,true);
+        this.setUpCalendarComponent(calendarComponent,parent);
+    }
+
+    public CalendarLayer(Actor parent, LocalDate chosenDate,Boolean isBlockedByTime) {
+        super();
+        this.setUpInvisibleBackground();
+        calendarComponent = new CalendarComponent(chosenDate, null,isBlockedByTime,false);
+        this.setUpCalendarComponent(calendarComponent,parent);
+    }
+
+    private void setUpInvisibleBackground(){
         Table invisibleTable = new Table();
         invisibleTable.setTouchable(Touchable.enabled);
         invisibleTable.addListener(new InputListener(){
@@ -33,17 +44,17 @@ public class CalendarLayer extends Stack {
         });
         invisibleTable.setFillParent(true);
         this.add(invisibleTable);
-        invisibleTable.debug();
-        calendarComponent = new CalendarComponent(chosenDate, this::dataChangeHandler,isBlockedByTime);
+    }
+
+    private void setUpCalendarComponent(CalendarComponent calendarComponent,Actor parent){
         calendarComponent.setTouchable(Touchable.enabled);
         this.add(calendarComponent);
         Vector2 position = getPosition(parent);
         calendarComponent.setPosition(position.x,position.y);
     }
-
-    private void dataChangeHandler(LocalDate date){
-        handler.accept(date);
+    private Consumer<LocalDate> preAction(Consumer<LocalDate> handler){
         clearAll();
+        return handler;
     }
 
     private void clearAll(){

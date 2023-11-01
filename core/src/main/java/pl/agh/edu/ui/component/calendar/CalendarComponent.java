@@ -1,8 +1,5 @@
 package pl.agh.edu.ui.component.calendar;
 
-import static java.time.Month.DECEMBER;
-import static java.time.Month.JANUARY;
-
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.YearMonth;
@@ -13,6 +10,7 @@ import java.util.stream.IntStream;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -39,11 +37,13 @@ public class CalendarComponent extends WrapperTable {
 	private YearMonth currentYearMonth = time.getYearMonth();
 	private final MonthSelection monthSelection;
 	private final YearSelection yearSelection;
+	private final boolean isActive;
 
-	public CalendarComponent(LocalDate chosenDate, Consumer<LocalDate> dateChangeHandler, Boolean isBlockedByTime) {
+	public CalendarComponent(LocalDate chosenDate,Consumer<LocalDate> dateChangeHandler,Boolean isBlockedByTime,Boolean isActive) {
 		super();
 		this.chosenDate = chosenDate;
 		this.dateChangeHandler = dateChangeHandler;
+		this.isActive = isActive;
 
 		this.monthSelection = new MonthSelection(YearMonth.from(time.getTime()), this::monthSelectionHandler, isBlockedByTime);
 		this.yearSelection = new YearSelection(YearMonth.from(time.getTime()), this::yearSelectionHandle, isBlockedByTime);
@@ -122,7 +122,6 @@ public class CalendarComponent extends WrapperTable {
 		}
 
 		public void populateDaysAfterCurrentMonth(int daysInMonth, int startingColumn, Month nextMonth) {
-			System.out.println(startingColumn + " | " + daysInMonth);
 			IntStream.range(1, 43 - (startingColumn + daysInMonth))
 					.mapToObj(day -> new CalendarCellButton(LocalDate.of(currentYearMonth.getYear(), nextMonth, day)))
 					.toList()
@@ -149,9 +148,8 @@ public class CalendarComponent extends WrapperTable {
 	private class CalendarCellButton extends WrapperContainer<TextButton> {
 		public CalendarCellButton(LocalDate date) {
 			TextButton button = new TextButton(String.valueOf(date.getDayOfMonth()), skin);
-
+			if(!isActive) button.removeListener(button.getClickListener());
 			setStyle(button, date);
-
 			if (date.getMonth().equals(currentYearMonth.getMonth())) {
 				if (date.equals(chosenDate)) {
 					button.setChecked(true);
@@ -172,15 +170,17 @@ public class CalendarComponent extends WrapperTable {
 		}
 
 		public void addEventListener(TextButton button, LocalDate date) {
-			button.addListener(new InputListener() {
-				@Override
-				public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-					SoundAudio.BUTTON_3.play();
-					closeAll();
-					dateChangeHandler.accept(date);
-					return true;
-				}
-			});
+			if(isActive){
+				button.addListener(new InputListener() {
+					@Override
+					public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+						SoundAudio.BUTTON_3.play();
+						closeAll();
+						dateChangeHandler.accept(date);
+						return true;
+					}
+				});
+			}
 			if (eventsMap.containsKey(date)) {
 				button.addListener(new DescriptionTooltip(eventsMap.get(date).title(), eventsMap.get(date).description()));
 			}

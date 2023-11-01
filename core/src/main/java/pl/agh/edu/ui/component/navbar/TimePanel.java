@@ -38,7 +38,7 @@ public class TimePanel extends Table {
 	}
 
 	private CalendarLayer setUpCalendarLayer() {
-		return new CalendarLayer(this, time.getTime().toLocalDate(), (time) -> {}, true);
+		return new CalendarLayer(this, time.getTime().toLocalDate(), true);
 	}
 
 	private void setTime() {
