@@ -37,6 +37,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
+      - env:
+          stats: ${{ needs.build.outputs.stats }}
+        run: echo "$stats"
+
       - name: Comment PR
         uses: actions/github-script@v6
         env:

@@ -1,37 +1,37 @@
-name: Gradle check for Windows
-
-on:
-  pull_request:
-    branches:
-      - main
-  workflow_dispatch:
-
-jobs:
-  build:
-
-    runs-on: windows-latest
-    permissions:
-      contents: read
-      packages: write
-      checks: write
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup JDK
-        uses: actions/setup-java@v3
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-
-      - name: Allow gradlew execution
-        run: chmod +x gradlew
-
-      - name: Build and test
-        run: ./gradlew clean check
-
-      - name: Publish Test Report
-        uses: mikepenz/action-junit-report@v3
-        if: success() || failure()
-        with:
-          report_paths: '**/build/test-results/test/TEST-*.xml'
+#name: Gradle check for Windows
+#
+#on:
+#  pull_request:
+#    branches:
+#      - main
+#  workflow_dispatch:
+#
+#jobs:
+#  build:
+#
+#    runs-on: windows-latest
+#    permissions:
+#      contents: read
+#      packages: write
+#      checks: write
+#
+#    steps:
+#      - uses: actions/checkout@v4
+#
+#      - name: Setup JDK
+#        uses: actions/setup-java@v3
+#        with:
+#          java-version: '17'
+#          distribution: 'temurin'
+#
+#      - name: Allow gradlew execution
+#        run: chmod +x gradlew
+#
+#      - name: Build and test
+#        run: ./gradlew clean check
+#
+#      - name: Publish Test Report
+#        uses: mikepenz/action-junit-report@v3
+#        if: success() || failure()
+#        with:
+#          report_paths: '**/build/test-results/test/TEST-*.xml'

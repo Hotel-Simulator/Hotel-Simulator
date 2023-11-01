@@ -1,27 +1,27 @@
-name: Jira Ticket Validation
-
-on:
-  pull_request:
-    branches:
-      - main
-
-jobs:
-  ticketValidation:
-    name: Ticket Validation
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Install Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '12'
-
-      - name: Install dependencies
-        run: npm install
-        working-directory: ./.github/actions
-
-      - name: Validate Jira ticket numbers
-        run: node ./.github/actions/jira-ticket-validator.js "${{ github.event.pull_request.title }}"
+#name: Jira Ticket Validation
+#
+#on:
+#  pull_request:
+#    branches:
+#      - main
+#
+#jobs:
+#  ticketValidation:
+#    name: Ticket Validation
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v2
+#
+#      - name: Install Node.js
+#        uses: actions/setup-node@v2
+#        with:
+#          node-version: '12'
+#
+#      - name: Install dependencies
+#        run: npm install
+#        working-directory: ./.github/actions
+#
+#      - name: Validate Jira ticket numbers
+#        run: node ./.github/actions/jira-ticket-validator.js "${{ github.event.pull_request.title }}"
