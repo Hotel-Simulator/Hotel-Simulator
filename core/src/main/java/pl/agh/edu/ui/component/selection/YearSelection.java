@@ -15,6 +15,8 @@ public class YearSelection extends BaseSelection<YearMonth> {
 	private final Time time = Time.getInstance();
 	private final boolean isBlockedByTime;
 
+	private static final int timeRange = 2;
+
 	public YearSelection(YearMonth startValue, Consumer<YearMonth> action, Boolean isBlockedByTime) {
 		super(startValue, createNewLabel(), action);
 		this.isBlockedByTime = isBlockedByTime;
@@ -34,7 +36,7 @@ public class YearSelection extends BaseSelection<YearMonth> {
 	@Override
 	protected boolean isNextButtonCheck() {
 		if (isBlockedByTime)
-			return getValue().plusYears(1).getYear() <= time.getYearMonth().plusYears(2).getYear();
+			return getValue().plusYears(1).getYear() <= time.getYearMonth().plusYears(timeRange).getYear();
 		return true;
 	}
 
@@ -42,8 +44,7 @@ public class YearSelection extends BaseSelection<YearMonth> {
 	protected boolean isPreviousButtonCheck() {
 		if (isBlockedByTime) {
 			int newYear = getValue().minusYears(1).getYear();
-			System.out.println(newYear);
-			return newYear >= time.getYearMonth().minusYears(2).getYear()
+			return newYear >= time.getYearMonth().minusYears(timeRange).getYear()
 					&& newYear >= time.startingTime.getYear();
 		}
 		return true;
@@ -51,7 +52,7 @@ public class YearSelection extends BaseSelection<YearMonth> {
 
 	@Override
 	protected void nextButtonHandler() {
-		if (getValue().getYear() == time.getTime().getYear())
+		if (getValue().getYear() == time.getTime().getYear() + timeRange)
 			setValue(getValue().plusYears(1).withMonth(time.getTime().getMonthValue()));
 		else
 			setValue(getValue().plusYears(1));
@@ -59,7 +60,7 @@ public class YearSelection extends BaseSelection<YearMonth> {
 
 	@Override
 	protected void previousButtonHandler() {
-		if (getValue().getYear() == time.getTime().getYear())
+		if (getValue().getYear() == time.getTime().getYear() + timeRange)
 			setValue(getValue().minusYears(1).withMonth(time.getTime().getMonthValue()));
 		else
 			setValue(getValue().minusYears(1));
