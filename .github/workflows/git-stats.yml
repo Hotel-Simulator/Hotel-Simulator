@@ -44,8 +44,17 @@ jobs:
   
             const content = fs.readFileSync('index.md', 'utf8');
 
-            const message = `Here are the contributor statistics:\n\`\`\`\n${content}\n\`\`\``;
+            const tableData = content.match(/\|(.+?)\|(.+?)\|(.+?)\|(.+?)\|(.+?)\|/g);
+            
+            // Construct the Markdown table header
+            const tableHeader = '| Author | loc | coms | fils | distribution |\n|:------|-----:|------:|------:|:--------------|';
   
+            // Construct the Markdown table rows
+            const tableRows = tableData.map(row => row.replace(/\|/g, '').trim()).join('\n');
+  
+            // Construct the final table
+            const markdownTable = `${tableHeader}\n${tableRows}`;
+          
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
