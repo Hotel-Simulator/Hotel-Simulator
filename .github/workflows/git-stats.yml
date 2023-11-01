@@ -44,14 +44,20 @@ jobs:
   
             const content = fs.readFileSync('index.md', 'utf8');
 
-            const tableData = content.match(/\|(.+?)\|(.+?)\|(.+?)\|(.+?)\|(.+?)\|/g);
-            
+            const tableData = content
+              .split('\n')
+              .slice(3) // Remove the first two rows
+              .map(row => row.trim().split('|').slice(1, -1).map(col => col.trim())) // Split columns and remove empty elements
+              .filter(row => row.length === 5); // Filter out rows with incomplete data
+    
             // Construct the Markdown table header
             const tableHeader = '| Author | loc | coms | fils | distribution |\n|:------|-----:|------:|------:|:--------------|';
   
             // Construct the Markdown table rows
-            const tableRows = tableData.map(row => row.replace(/\|/g, '').trim()).join('\n');
-  
+            const tableRows = tableData
+              .map(row => `| ${row.join(' | ')} |`)
+              .join('\n');
+            
             // Construct the final table
             const markdownTable = `${tableHeader}\n${tableRows}`;
 
