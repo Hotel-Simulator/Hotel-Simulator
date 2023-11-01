@@ -2,7 +2,10 @@ name: Git Fame
 
 on:
   pull_request:
-    types: [opened, synchronize]
+    branches:
+      - main
+permissions:
+  pull-requests: write
 
 jobs:
   build:
