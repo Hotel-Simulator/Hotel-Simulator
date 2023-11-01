@@ -1,12 +1,12 @@
 package pl.agh.edu.ui.component.label;
 
-import com.badlogic.gdx.graphics.Color;
 import static pl.agh.edu.ui.utils.SkinColor.ColorLevel._300;
 import static pl.agh.edu.ui.utils.SkinColor.ColorLevel._500;
 import static pl.agh.edu.ui.utils.SkinColor.ColorLevel._900;
 import static pl.agh.edu.ui.utils.SkinColor.GRAY;
-import static pl.agh.edu.ui.utils.SkinColor.SECONDARY;
+import static pl.agh.edu.ui.utils.SkinColor.WARNING;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -21,7 +21,6 @@ import com.badlogic.gdx.utils.Null;
 import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.audio.SoundAudio;
 import pl.agh.edu.ui.utils.SkinColor;
-import static pl.agh.edu.ui.utils.SkinColor.WARNING;
 
 public class CustomLabel extends Label {
 	private final Skin skin = GameSkin.getInstance();
@@ -54,7 +53,7 @@ public class CustomLabel extends Label {
 		underscorePatch.draw(batch, getX(), getY(), getWidth(), 5);
 	}
 
-	public Color getCurrentColor(){
+	public Color getCurrentColor() {
 		return getSkinColor().getColor(colorLevel);
 	}
 
@@ -75,7 +74,7 @@ public class CustomLabel extends Label {
 		updateColor();
 	}
 
-	private void updateColor(){
+	private void updateColor() {
 		LabelStyle labelStyle = new LabelStyle(this.getStyle());
 		labelStyle.fontColor = getCurrentColor();
 		this.setStyle(labelStyle);

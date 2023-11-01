@@ -4,14 +4,12 @@ import static com.badlogic.gdx.utils.Align.center;
 import static pl.agh.edu.ui.utils.SkinFont.H4;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import pl.agh.edu.engine.time.Frequency;
 import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.engine.time.TimeCommandExecutor;
 import pl.agh.edu.engine.time.command.RepeatingTimeCommand;
-import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.component.label.CustomLabel;
 
 public class TimePanel extends Table {
