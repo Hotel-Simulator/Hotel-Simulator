@@ -44,7 +44,10 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const output = fs.readFileSync('git-fame-output.txt', 'utf-8');
+            const { execSync } = require('child_process');
+            
+            // Read the git fame output from the file and set it as a comment body
+            const output = execSync('cat git-fame-output.txt', { encoding: 'utf-8' });
             const prNumber = context.payload.pull_request.number;
             const repo = context.repo.owner + '/' + context.repo.repo;
             github.issues.createComment({
