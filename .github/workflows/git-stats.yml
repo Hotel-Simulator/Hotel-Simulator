@@ -31,9 +31,9 @@ jobs:
         run: |
           
           output=$(git fame --incl=.java --loc=surv --bytype -w -M -C -R ./core/src/main)
-          echo |====================|
+          echo ====================
           echo "fame=${output}" >> $GITHUB_OUTPUT
-          echo |====================|
+          echo ====================
 
         continue-on-error: true
 
