@@ -1,6 +1,8 @@
 package pl.agh.edu.ui.component.modal.options;
 
-import static pl.agh.edu.ui.utils.FontType.H2;
+import static pl.agh.edu.ui.audio.SoundAudio.BUTTON_1;
+import static pl.agh.edu.ui.resolution.Size.LARGE;
+import static pl.agh.edu.ui.utils.SkinFont.H2;
 
 import java.util.function.Function;
 
@@ -13,7 +15,6 @@ import com.badlogic.gdx.utils.Align;
 import pl.agh.edu.config.AudioConfig;
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.config.LanguageConfig;
-import pl.agh.edu.ui.audio.SoundAudio;
 import pl.agh.edu.ui.component.button.LabeledButton;
 import pl.agh.edu.ui.component.label.LanguageLabel;
 import pl.agh.edu.ui.component.selectMenu.SelectMenu;
@@ -23,8 +24,8 @@ import pl.agh.edu.ui.component.selectMenu.SelectMenuLanguage;
 import pl.agh.edu.ui.component.selectMenu.SelectMenuResolutionItem;
 import pl.agh.edu.ui.component.slider.PercentSliderComponent;
 import pl.agh.edu.ui.component.slider.SliderComponent;
-import pl.agh.edu.ui.resolution.Size;
 import pl.agh.edu.ui.utils.wrapper.WrapperTable;
+import pl.agh.edu.utils.LanguageString;
 
 public class OptionModal extends WrapperTable {
 	private final SelectMenu selectResolutionMenu = createSelectMenuForResolution();
@@ -34,7 +35,7 @@ public class OptionModal extends WrapperTable {
 	public OptionModal(Runnable closeHandler) {
 		this.setBackground("modal-glass-background");
 
-		LanguageLabel titleLabel = new LanguageLabel("optionsFrame.label.title", H2.getName());
+		LanguageLabel titleLabel = new LanguageLabel(new LanguageString("optionsFrame.label.title"), H2.getName());
 		titleLabel.setAlignment(Align.center, Align.center);
 		innerTable.add(titleLabel).growX().center().row();
 
@@ -47,15 +48,15 @@ public class OptionModal extends WrapperTable {
 		innerTable.add(selectLanguageMenu).grow().pad(OptionFrameStyle.getInnerPadding()).row();
 
 		Table ButtonTable = new Table();
-		LabeledButton backButton = new LabeledButton(Size.LARGE, "optionsFrame.label.back");
+		LabeledButton backButton = new LabeledButton(LARGE, new LanguageString("optionsFrame.label.back"));
 		ButtonTable.add(backButton).pad(OptionFrameStyle.getInnerPadding()).grow().uniform();
-		LabeledButton saveButton = new LabeledButton(Size.LARGE, "optionsFrame.label.save");
+		LabeledButton saveButton = new LabeledButton(LARGE, new LanguageString("optionsFrame.label.save"));
 		ButtonTable.add(saveButton).pad(OptionFrameStyle.getInnerPadding()).grow().uniform();
 
 		backButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				SoundAudio.BUTTON_1.play();
+				BUTTON_1.play();
 				closeHandler.run();
 			}
 		});
@@ -63,7 +64,7 @@ public class OptionModal extends WrapperTable {
 		saveButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				SoundAudio.BUTTON_1.play();
+				BUTTON_1.play();
 				Gdx.app.exit();
 			}
 		});
@@ -91,7 +92,7 @@ public class OptionModal extends WrapperTable {
 		};
 
 		return new SelectMenu(
-				"optionsFrame.resolution.label",
+				new LanguageString("optionsFrame.resolution.label"),
 				SelectMenuResolutionItem.getArray(),
 				function);
 	}
@@ -105,7 +106,7 @@ public class OptionModal extends WrapperTable {
 		};
 
 		return new SelectMenu(
-				"optionsFrame.fullScreen.label",
+				new LanguageString("optionsFrame.fullScreen.label"),
 				SelectMenuBoolean.getArray(),
 				function);
 	}
@@ -119,14 +120,14 @@ public class OptionModal extends WrapperTable {
 		};
 
 		return new SelectMenu(
-				"optionsFrame.language.label",
+				new LanguageString("optionsFrame.language.label"),
 				SelectMenuLanguage.getArray(),
 				function);
 	}
 
 	private SliderComponent createSliderComponentForMusicVolume() {
 		PercentSliderComponent sliderComponent = new PercentSliderComponent(
-				"optionsFrame.music.label",
+				new LanguageString("optionsFrame.music.label"),
 				selectedOption -> {
 					AudioConfig.setMusicVolume(selectedOption);
 					return null;
@@ -137,7 +138,7 @@ public class OptionModal extends WrapperTable {
 
 	private SliderComponent createSliderComponentForSoundVolume() {
 		PercentSliderComponent sliderComponent = new PercentSliderComponent(
-				"optionsFrame.sound.label",
+				new LanguageString("optionsFrame.sound.label"),
 				selectedOption -> {
 					AudioConfig.setAudioVolume(selectedOption);
 					return null;
@@ -149,7 +150,7 @@ public class OptionModal extends WrapperTable {
 	private void setStartingValue() {
 		selectResolutionMenu.setItem(GraphicConfig.getResolution().toString());
 		selectFullScreenMenu.setItem("selectMenu.boolean." + (GraphicConfig.isFullscreen() ? "yes" : "no"));
-		selectLanguageMenu.setItem(LanguageConfig.getLanguage().languagePath);
+		selectLanguageMenu.setItem(LanguageConfig.getLanguage().languageString.path);
 	}
 
 	@Override

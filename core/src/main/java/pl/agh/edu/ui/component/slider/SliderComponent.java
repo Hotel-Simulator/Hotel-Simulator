@@ -1,6 +1,6 @@
 package pl.agh.edu.ui.component.slider;
 
-import static pl.agh.edu.ui.utils.FontType.SUBTITLE2;
+import static pl.agh.edu.ui.utils.SkinFont.SUBTITLE2;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -14,6 +14,7 @@ import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.audio.SoundAudio;
 import pl.agh.edu.ui.language.LanguageChangeListener;
 import pl.agh.edu.ui.utils.wrapper.WrapperDoubleTable;
+import pl.agh.edu.utils.LanguageString;
 
 public abstract class SliderComponent extends WrapperDoubleTable implements LanguageChangeListener {
 
@@ -22,8 +23,8 @@ public abstract class SliderComponent extends WrapperDoubleTable implements Lang
 	protected final Label valueLabel = new Label("100 %", skin, SUBTITLE2.getName());
 	private final Slider slider;
 
-	public SliderComponent(String languagePath, String suffix, float minValue, float maxValue, float step) {
-		super(languagePath);
+	public SliderComponent(LanguageString languageString, String suffix, float minValue, float maxValue, float step) {
+		super(languageString);
 
 		this.set10PatchBackground("slider-background-10-patch");
 

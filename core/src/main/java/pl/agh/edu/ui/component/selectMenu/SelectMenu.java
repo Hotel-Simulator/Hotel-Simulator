@@ -1,5 +1,8 @@
 package pl.agh.edu.ui.component.selectMenu;
 
+import static com.badlogic.gdx.utils.Align.center;
+import static pl.agh.edu.ui.utils.SkinFont.SUBTITLE1;
+
 import java.util.function.Function;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -10,23 +13,22 @@ import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.audio.SoundAudio;
 import pl.agh.edu.ui.component.label.CustomLabel;
-import pl.agh.edu.ui.utils.FontType;
 import pl.agh.edu.ui.utils.wrapper.WrapperTable;
+import pl.agh.edu.utils.LanguageString;
 
 public class SelectMenu extends WrapperTable {
 	private final Skin skin = GameSkin.getInstance();
 	private final Array<SelectMenuItem> items;
 	private final SelectBox<SelectMenuItem> selectOption = new DropDownSelect();
 
-	public SelectMenu(String languagePath, Array<SelectMenuItem> items, Function<? super SelectMenuItem, Void> function) {
-		super(languagePath);
+	public SelectMenu(LanguageString languageString, Array<SelectMenuItem> items, Function<? super SelectMenuItem, Void> function) {
+		super(languageString);
 		this.items = items;
 
 		setMaxListCount();
@@ -78,8 +80,9 @@ public class SelectMenu extends WrapperTable {
 
 	private static class SelectMenuLabel extends CustomLabel {
 		public SelectMenuLabel() {
-			super(FontType.SUBTITLE1.getName(), "label-select-box-background");
-			this.setAlignment(Align.center, Align.center);
+			super(SUBTITLE1.getName());
+			this.setBackground("label-select-box-background");
+			this.setAlignment(center, center);
 		}
 
 		@Override
@@ -120,7 +123,7 @@ public class SelectMenu extends WrapperTable {
 		public DropDownSelect() {
 			super(skin.get("selectMenu", SelectBox.SelectBoxStyle.class));
 			setUpSelectionPane();
-			this.getList().setAlignment(Align.center);
+			this.getList().setAlignment(center);
 		}
 
 		private void setUpSelectionPane() {
@@ -141,7 +144,7 @@ public class SelectMenu extends WrapperTable {
 		@Override
 		protected GlyphLayout drawItem(Batch batch, BitmapFont font, SelectMenuItem item, float x, float y, float width) {
 			String string = this.getSelected().toString();
-			return font.draw(batch, string, this.getX(), this.getY() + (this.getHeight() + font.getXHeight()) / 2, 0, string.length(), this.getWidth(), Align.center, false, "...");
+			return font.draw(batch, string, this.getX(), this.getY() + (this.getHeight() + font.getXHeight()) / 2, 0, string.length(), this.getWidth(), center, false, "...");
 		}
 
 		@Override

@@ -9,34 +9,33 @@ import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.engine.hotel.dificulty.DifficultyLevel;
 import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.audio.SoundAudio;
-import pl.agh.edu.ui.language.LanguageChangeListener;
-import pl.agh.edu.ui.language.LanguageManager;
-import pl.agh.edu.ui.resolution.ResolutionChangeListener;
-import pl.agh.edu.ui.resolution.ResolutionManager;
 import pl.agh.edu.ui.utils.wrapper.WrapperContainer;
+import pl.agh.edu.utils.LanguageString;
 
-public class DifficultyButton extends WrapperContainer<TextButton> implements LanguageChangeListener, ResolutionChangeListener {
+public class DifficultyButton extends WrapperContainer<TextButton> {
 	public final DifficultyLevel difficulty;
 	public final Skin skin = GameSkin.getInstance();
 	public final TextButton textButton;
 
 	public DifficultyButton(DifficultyLevel difficulty) {
+		super(getLanguageString(difficulty));
 		this.difficulty = difficulty;
 		textButton = new TextButton(null, getStyle());
+		updateLanguageString();
 		setActor(textButton);
 
-		setButtonText();
 		addSoundEvents();
-		listenForChanges();
-		setSize();
+
+		this.setLanguageChangeHandler(this::setButtonText);
+		this.setResolutionChangeHandler(this::resize);
 	}
 
-	private void setSize() {
-		switch (GraphicConfig.getResolution().SIZE) {
-			case SMALL -> this.size(200f, 60f);
-			case MEDIUM -> this.size(300f, 90f);
-			case LARGE -> this.size(400f, 120f);
-		}
+	private void updateLanguageString() {
+		this.updateLanguageString(getLanguageString(difficulty));
+	}
+
+	private static LanguageString getLanguageString(DifficultyLevel difficulty) {
+		return new LanguageString("difficulty." + difficulty.toString().toLowerCase());
 	}
 
 	private void addSoundEvents() {
@@ -52,36 +51,42 @@ public class DifficultyButton extends WrapperContainer<TextButton> implements La
 		});
 	}
 
-	private void listenForChanges() {
-		ResolutionManager.addListener(this);
-		LanguageManager.addListener(this);
+	public void setButtonText(String text) {
+		textButton.setText(text);
 	}
 
-	public void setButtonText() {
-		String path = "difficulty." + difficulty.toString().toLowerCase();
-		textButton.setText(LanguageManager.get(path));
-	}
-
-	public TextButton.TextButtonStyle getStyle() {
-		return switch (GraphicConfig.getResolution().SIZE) {
-			case SMALL -> skin.get("difficulty-button-small", TextButton.TextButtonStyle.class);
-			case MEDIUM -> skin.get("difficulty-button-medium", TextButton.TextButtonStyle.class);
-			case LARGE -> skin.get("difficulty-button-large", TextButton.TextButtonStyle.class);
-		};
-	}
-
-	public TextButton getTextButton() {
-		return textButton;
-	}
-
-	@Override
-	public void onLanguageChange() {
-		setButtonText();
-	}
-
-	@Override
-	public void onResolutionChange() {
-		setSize();
+	public void resize() {
+		this.setSize(DifficultyButtonStyle.getWidth(), DifficultyButtonStyle.getHeight());
 		textButton.setStyle(getStyle());
+	}
+
+	private TextButton.TextButtonStyle getStyle() {
+		return skin.get(DifficultyButtonStyle.getStyleName(), TextButton.TextButtonStyle.class);
+	}
+
+	private static class DifficultyButtonStyle {
+		private static float getWidth() {
+			return switch (GraphicConfig.getResolution().SIZE) {
+				case SMALL -> 200f;
+				case MEDIUM -> 300f;
+				case LARGE -> 400f;
+			};
+		}
+
+		private static float getHeight() {
+			return switch (GraphicConfig.getResolution().SIZE) {
+				case SMALL -> 60f;
+				case MEDIUM -> 90f;
+				case LARGE -> 120f;
+			};
+		}
+
+		private static String getStyleName() {
+			return switch (GraphicConfig.getResolution().SIZE) {
+				case SMALL -> "difficulty-button-small";
+				case MEDIUM -> "difficulty-button-medium";
+				case LARGE -> "difficulty-button-large";
+			};
+		}
 	}
 }
