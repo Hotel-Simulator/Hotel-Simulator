@@ -29,10 +29,9 @@ jobs:
       - name: Run git fame and capture output
         id: run-git-fame
         run: |
-          git fame --incl=.java --loc=surv --bytype -w -M -C -R ./core/src/main 2> git-fame-output.txt
           
           # Read the output from the file and set it as an output variable
-          output=$(cat git-fame-output.txt)
+          output=$(git fame --incl=.java --loc=surv --bytype -w -M -C -R ./core/src/main)
           echo "::set-output name=fame::${output}"
 
         # Store the git fame output in a file for later use
