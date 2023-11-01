@@ -28,14 +28,14 @@ jobs:
 
       - name: Run git fame and capture output
         uses: mathiasvr/command-output@v2.0.0
-        id: run-git-fame
+        id: cmd
         with:
-          run: git fame --incl=.java --loc=surv --bytype -w -M -C -R ./core/src/main
+          run: git fame --incl=.java --loc=surv -e -w -M -C -R ./core/src/main
 
       - name: Comment PR
         uses: actions/github-script@v3
         env:
-          OUTPUT: ${{ steps.run-git-fame.outputs.stdout }}
+          OUTPUT: ${{ steps.cmd.outputs.stdout }}
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
