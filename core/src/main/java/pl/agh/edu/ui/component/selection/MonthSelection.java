@@ -1,5 +1,7 @@
 package pl.agh.edu.ui.component.selection;
 
+import static pl.agh.edu.ui.utils.SkinFont.BODY_1;
+
 import java.time.YearMonth;
 import java.util.function.Consumer;
 
@@ -7,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.ui.component.label.LanguageLabel;
-import static pl.agh.edu.ui.utils.SkinFont.BODY_1;
 import pl.agh.edu.utils.LanguageString;
 
 public class MonthSelection extends BaseSelection<YearMonth> {
