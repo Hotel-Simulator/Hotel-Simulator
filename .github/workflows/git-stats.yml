@@ -42,7 +42,7 @@ jobs:
         env:
           stats: ${{ steps.git_fame.outputs.fame }}
         with:
-          github-token: ${{needs.build.outputs.stats}}
+          github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             const { stats } = process.env;
             const message = `Here are the contributor statistics:\n\`\`\`\n${stats}\n\`\`\``;
