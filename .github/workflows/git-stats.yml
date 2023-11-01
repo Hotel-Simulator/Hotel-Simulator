@@ -34,11 +34,6 @@ jobs:
           echo $(git fame --incl=.java --loc=surv -s -e -w -M -C -R ./core/src/main) > index.md
         id: stats
       - run: cat index.md
-  send-comment:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - run: cat index.md
 
       - name: Comment PR
         uses: actions/github-script@v6
