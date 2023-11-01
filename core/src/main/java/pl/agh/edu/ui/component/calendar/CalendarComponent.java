@@ -65,12 +65,8 @@ public class CalendarComponent extends WrapperTable {
 	}
 
 	private void monthSelectionHandler(YearMonth newYearMonth) {
-		if (newYearMonth.getMonth().equals(DECEMBER) && currentYearMonth.getMonth().equals(JANUARY)) {
-			yearSelection.updateState(newYearMonth);
-		} else if (newYearMonth.getMonth().equals(JANUARY) && currentYearMonth.getMonth().equals(DECEMBER)) {
-			yearSelection.updateState(newYearMonth);
-		}
 		currentYearMonth = newYearMonth;
+		yearSelection.updateState(newYearMonth);
 		updateCalendarMatrix();
 	}
 
