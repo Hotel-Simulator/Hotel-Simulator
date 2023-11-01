@@ -30,11 +30,11 @@ jobs:
         id: run-git-fame
         run: |
           
-          # Read the output from the file and set it as an output variable
           output=$(git fame --incl=.java --loc=surv --bytype -w -M -C -R ./core/src/main)
-          echo "::set-output name=fame::${output}"
+          echo |====================|
+          echo "fame=${output}" >> $GITHUB_OUTPUT
+          echo |====================|
 
-        # Store the git fame output in a file for later use
         continue-on-error: true
 
       - name: Comment PR
@@ -42,7 +42,7 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            const output = `${{steps.run-git-fame.outputs.fame}}`;
+            const output = process.env.fame;
             const message = `Here are the contributor statistics:\n\`\`\`\n${output}\n\`\`\``;
             github.issues.createComment({
               issue_number: context.issue.number,
