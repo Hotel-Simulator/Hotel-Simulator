@@ -35,10 +35,12 @@ jobs:
 
       - name: Comment PR
         uses: actions/github-script@v3
+        env:
+          OUTPUT: ${{ steps.run-git-fame.outputs.stdout }}
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            const output = ${{ steps.today.outputs.stdout }};
+            const output = $OUTPUT;
             const message = `Here are the contributor statistics:\n\`\`\`\n${output}\n\`\`\``;
             github.issues.createComment({
               issue_number: context.issue.number,
