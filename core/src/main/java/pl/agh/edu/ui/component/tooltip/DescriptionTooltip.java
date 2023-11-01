@@ -60,7 +60,6 @@ public class DescriptionTooltip extends Tooltip<WrapperTable> {
 
 	private static class DescriptionTooltipStyle {
 		private static float getWidth() {
-			System.out.println(GraphicConfig.getResolution().SIZE);
 			return switch (GraphicConfig.getResolution().SIZE) {
 				case SMALL -> 300f;
 				case MEDIUM -> 500f;
