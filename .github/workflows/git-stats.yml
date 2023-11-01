@@ -44,7 +44,7 @@ jobs:
   
             const content = fs.readFileSync('index.md', 'utf8');
 
-            const tableData = stats.match(/\|(.+?)\|(.+?)\|(.+?)\|(.+?)\|(.+?)\|/g);
+            const tableData = content.match(/\|(.+?)\|(.+?)\|(.+?)\|(.+?)\|(.+?)\|/g);
 
             // Construct the Markdown table header
             const tableHeader = '| Author | loc | coms | fils | distribution |\n|:------|-----:|------:|------:|:--------------|';
