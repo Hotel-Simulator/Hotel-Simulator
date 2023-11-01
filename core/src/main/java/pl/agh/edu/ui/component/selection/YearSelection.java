@@ -53,7 +53,7 @@ public class YearSelection extends BaseSelection<YearMonth> {
 	@Override
 	protected void nextButtonHandler() {
 		if (getValue().getYear() == time.getTime().getYear() + timeRange - 1)
-			setValue(getValue().plusYears(1).withMonth(Math.min(time.startingTime.getMonthValue(), getValue().getMonthValue())));
+			setValue(getValue().plusYears(1).withMonth(Math.min(time.getYearMonth().getMonthValue(), getValue().getMonthValue())));
 		else
 			setValue(getValue().plusYears(1));
 	}
