@@ -28,15 +28,15 @@ jobs:
 
       - name: Run git fame and capture output
         run: |
-          echo "TAG_NAME=$(git fame --incl=.java --loc=surv -e -w -M -C -R ./core/src/main)" >> $GITHUB_OUTPUT
-        id: cmd
+          echo "STATS=$(git fame --incl=.java --loc=surv -e -w -M -C -R ./core/src/main)" >> $GITHUB_OUTPUT
+        id: stats
 
       - name: Comment PR
         uses: actions/github-script@v3
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            const output = ${{ steps.version.outputs.TAG_NAME }};
+            const output = ${{ steps.stats.outputs.STATS }};
             const message = `Here are the contributor statistics:\n\`\`\`\n${output}\n\`\`\``;
             github.issues.createComment({
               issue_number: context.issue.number,
