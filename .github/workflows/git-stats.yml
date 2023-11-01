@@ -51,7 +51,7 @@ jobs:
   
             // Construct the Markdown table rows
             const tableRows = tableData
-              .slice(3)
+              .slice(2)
               .join('\n');
             
             // Construct the final table
