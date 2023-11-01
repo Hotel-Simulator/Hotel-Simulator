@@ -4,7 +4,7 @@ import static com.badlogic.gdx.utils.Align.center;
 import static pl.agh.edu.ui.audio.SoundAudio.BUTTON_1;
 import static pl.agh.edu.ui.audio.SoundAudio.BUTTON_2;
 import static pl.agh.edu.ui.audio.SoundAudio.BUTTON_3;
-import static pl.agh.edu.ui.utils.FontType.H4;
+import static pl.agh.edu.ui.utils.SkinFont.H4;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;

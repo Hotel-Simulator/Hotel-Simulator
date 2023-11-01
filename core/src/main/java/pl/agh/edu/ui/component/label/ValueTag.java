@@ -2,7 +2,7 @@ package pl.agh.edu.ui.component.label;
 
 import static com.badlogic.gdx.utils.Align.left;
 import static com.badlogic.gdx.utils.Align.right;
-import static pl.agh.edu.ui.utils.FontType.SUBTITLE1;
+import static pl.agh.edu.ui.utils.SkinFont.SUBTITLE1;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -10,15 +10,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.ui.GameSkin;
-import pl.agh.edu.ui.language.LanguageManager;
 import pl.agh.edu.ui.utils.wrapper.WrapperTable;
+import pl.agh.edu.utils.LanguageString;
 
 public class ValueTag extends WrapperTable {
 	private final Skin skin = GameSkin.getInstance();
 	private final Label valueLabel = new Label("", skin, SUBTITLE1.getWhiteVariantName());
 
-	public ValueTag(String languagePath, String value) {
-		super(languagePath);
+	public ValueTag(LanguageString languageString, String value) {
+		super(languageString);
 		this.setBackground("value-tag-background");
 
 		Label tagLabel = new Label("", skin, SUBTITLE1.getName());
@@ -29,7 +29,6 @@ public class ValueTag extends WrapperTable {
 		valueLabel.setText(value);
 		valueLabel.setAlignment(right, right);
 
-		tagLabel.setText(LanguageManager.get(languagePath));
 		tagLabel.setAlignment(left, left);
 
 		this.size(ValueTagStyle.getWidth(), ValueTagStyle.getHeight());

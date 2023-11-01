@@ -5,12 +5,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.ray3k.tenpatch.TenPatchDrawable;
 
 import pl.agh.edu.ui.GameSkin;
+import pl.agh.edu.utils.LanguageString;
 
 public abstract class WrapperTable extends WrapperContainer<Table> {
 	public final Table innerTable = new Table();
 
-	public WrapperTable(String languagePath) {
-		super(languagePath);
+	public WrapperTable(LanguageString languageString) {
+		super(languageString);
 		this.init();
 	}
 

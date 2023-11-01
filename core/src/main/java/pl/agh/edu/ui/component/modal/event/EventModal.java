@@ -4,10 +4,10 @@ import static com.badlogic.gdx.utils.Align.center;
 import static com.badlogic.gdx.utils.Align.left;
 import static pl.agh.edu.ui.audio.SoundAudio.BUTTON_1;
 import static pl.agh.edu.ui.resolution.Size.MEDIUM;
-import static pl.agh.edu.ui.utils.FontType.BODY_1;
-import static pl.agh.edu.ui.utils.FontType.BODY_2;
-import static pl.agh.edu.ui.utils.FontType.H3;
-import static pl.agh.edu.ui.utils.FontType.H4;
+import static pl.agh.edu.ui.utils.SkinFont.BODY_1;
+import static pl.agh.edu.ui.utils.SkinFont.BODY_2;
+import static pl.agh.edu.ui.utils.SkinFont.H3;
+import static pl.agh.edu.ui.utils.SkinFont.H4;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
@@ -19,23 +19,21 @@ import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.engine.event.EventModalData;
 import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.component.button.LabeledButton;
-import pl.agh.edu.ui.component.label.ReplaceLanguageLabel;
+import pl.agh.edu.ui.component.label.LanguageLabel;
 import pl.agh.edu.ui.utils.wrapper.WrapperTable;
+import pl.agh.edu.utils.LanguageString;
 
 public class EventModal extends WrapperTable {
 	private final Container<Image> imageContainer = new Container<>();
-	private final ReplaceLanguageLabel titleLabel;
-	private final ReplaceLanguageLabel descriptionLabel;
+	private final LanguageLabel titleLabel;
+	private final LanguageLabel descriptionLabel;
 
 	public EventModal(EventModalData eventModalData, Runnable closeHandler) {
 		this.setBackground("modal-glass-background");
 
 		innerTable.pad(EventModalStyle.getPadding());
 
-		titleLabel = new ReplaceLanguageLabel(
-				eventModalData.title().property,
-				H4.getName(),
-				eventModalData.title().stringsWithReplacements);
+		titleLabel = new LanguageLabel(eventModalData.title(), H4.getName());
 		titleLabel.setAlignment(center, center);
 
 		Table mainTable = new Table();
@@ -44,17 +42,14 @@ public class EventModal extends WrapperTable {
 		image.setFillParent(true);
 		imageContainer.setActor(image);
 
-		descriptionLabel = new ReplaceLanguageLabel(
-				eventModalData.description().property,
-				BODY_2.getName(),
-				eventModalData.description().stringsWithReplacements);
+		descriptionLabel = new LanguageLabel(eventModalData.description(), BODY_2.getName());
 		descriptionLabel.setWrap(true);
 		descriptionLabel.setAlignment(center, left);
 
 		mainTable.add(imageContainer).pad(EventModalStyle.getPadding());
 		mainTable.add(descriptionLabel).grow();
 
-		LabeledButton okButton = new LabeledButton(MEDIUM, "event.label.ok");
+		LabeledButton okButton = new LabeledButton(MEDIUM, new LanguageString("event.label.ok"));
 
 		innerTable.add(titleLabel).center().growX().row();
 		innerTable.add(mainTable).center().grow().row();

@@ -1,7 +1,7 @@
 package pl.agh.edu.ui.component.button;
 
 import static com.badlogic.gdx.utils.Align.top;
-import static pl.agh.edu.ui.utils.FontType.SUBTITLE2;
+import static pl.agh.edu.ui.utils.SkinFont.SUBTITLE2;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -20,6 +20,7 @@ import pl.agh.edu.ui.component.navbar.BottomNavbarState;
 import pl.agh.edu.ui.component.navbar.NavbarButtonType;
 import pl.agh.edu.ui.language.LanguageChangeListener;
 import pl.agh.edu.ui.language.LanguageManager;
+import pl.agh.edu.utils.LanguageString;
 
 public class NavbarButton extends Table implements LanguageChangeListener {
 	private final Image iconImage;
@@ -28,46 +29,39 @@ public class NavbarButton extends Table implements LanguageChangeListener {
 	private final BottomNavbarState state;
 	private final NavbarButtonStyle navbarButtonStyle;
 	private boolean disabled = false;
-
 	private Runnable touchUpAction;
+	private final Skin skin = GameSkin.getInstance();
 
 	public NavbarButton(NavbarButtonType type, BottomNavbarState state) {
-		Skin skin = GameSkin.getInstance();
 		this.type = type;
 		this.state = state;
+
 		navbarButtonStyle = skin.get(type.getStyleName(), NavbarButtonStyle.class);
 		iconImage = new Image(new TextureRegionDrawable(new TextureRegion(navbarButtonStyle.iconUp)));
-
-		label = new Label("", GameSkin.getInstance(), SUBTITLE2.getName());
+		label = new Label("", skin, SUBTITLE2.getName());
 
 		label.setAlignment(top);
 
-		float topSpace = 10f;
-		add().space(topSpace).row();
-		add(iconImage).width(100f);
-		row();
-		float labelHeight = 30f;
-		add(label).height(labelHeight).width(120f);
+		add(iconImage).width(100f).padTop(10f).row();
+		add(label).height(30f).width(120f);
 
-		float gap = 20f;
-		pad(0, gap, 0, gap);
+		this.pad(0, 20f, 0, 20f);
 
-		setText(LanguageManager.get(navbarButtonStyle.text));
 		LanguageManager.addListener(this);
+		onLanguageChange();
 
 		addListener(new InputListener() {
 			@Override
 			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-				if (!disabled) {
+				if (!disabled)
 					iconImage.setDrawable(new TextureRegionDrawable(new TextureRegion(navbarButtonStyle.iconOver)));
-				}
 			}
 
 			@Override
 			public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-				if (!disabled) {
+				if (!disabled)
 					iconImage.setDrawable(new TextureRegionDrawable(new TextureRegion(navbarButtonStyle.iconUp)));
-				}
+
 			}
 
 			@Override
@@ -77,11 +71,8 @@ public class NavbarButton extends Table implements LanguageChangeListener {
 
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-				if (!disabled) {
-					if (touchUpAction != null) {
-						touchUpAction.run();
-					}
-				}
+				if (!disabled && touchUpAction != null)
+					touchUpAction.run();
 			}
 		});
 	}
@@ -108,8 +99,9 @@ public class NavbarButton extends Table implements LanguageChangeListener {
 	}
 
 	@Override
-	public void onLanguageChange() {
-		setText(LanguageManager.get(navbarButtonStyle.text));
+	public Actor onLanguageChange() {
+		setText(LanguageManager.get(new LanguageString(navbarButtonStyle.text)));
+		return this;
 	}
 
 	public static class NavbarButtonStyle {

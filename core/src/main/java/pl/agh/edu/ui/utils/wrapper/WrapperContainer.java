@@ -15,44 +15,53 @@ import pl.agh.edu.ui.language.LanguageChangeListener;
 import pl.agh.edu.ui.language.LanguageManager;
 import pl.agh.edu.ui.resolution.ResolutionChangeListener;
 import pl.agh.edu.ui.resolution.ResolutionManager;
+import pl.agh.edu.utils.LanguageString;
 
 public abstract class WrapperContainer<T extends Actor> extends Container<T> implements LanguageChangeListener, ResolutionChangeListener {
-	private final String languagePath;
+	private LanguageString languageString;
 	private Consumer<String> languageChangeHandler;
 	private Runnable resolutionChangeHandler;
 	private Runnable returnHandler;
 
-	public WrapperContainer(String languagePath) {
-		this.languagePath = languagePath;
-		LanguageManager.addListener(this);
-		ResolutionManager.addListener(this);
-		this.fill();
+	public WrapperContainer(LanguageString languageString) {
+		this.languageString = languageString;
+		this.init();
 	}
 
 	public WrapperContainer() {
-		this.languagePath = null;
-		ResolutionManager.addListener(this);
+		this.init();
+	}
+
+	private void init() {
 		this.fill();
 	}
 
 	public void setLanguageChangeHandler(Consumer<String> languageChangeHandler) {
 		this.languageChangeHandler = languageChangeHandler;
+		LanguageManager.addListener(this);
 	}
 
 	public void setResolutionChangeHandler(Runnable resolutionChangeHandler) {
 		this.resolutionChangeHandler = resolutionChangeHandler;
+		ResolutionManager.addListener(this);
 	}
 
-	public void onLanguageChange() {
+	public Actor onLanguageChange() {
 		if (languageChangeHandler != null)
-			languageChangeHandler.accept(LanguageManager.get(languagePath));
+			languageChangeHandler.accept(LanguageManager.get(languageString));
+		return this;
 	}
 
-	public void onResolutionChange() {
+	public Actor onResolutionChange() {
 		if (resolutionChangeHandler != null)
 			resolutionChangeHandler.run();
 		this.setResetAnimationPosition();
 		this.resetAnimationPosition();
+		return this;
+	}
+
+	public void updateLanguageString(LanguageString languageString) {
+		this.languageString = languageString;
 	}
 
 	public void initChangeHandlers() {

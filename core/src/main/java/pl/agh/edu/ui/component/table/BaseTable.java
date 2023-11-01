@@ -19,15 +19,16 @@ import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.component.CustomScrollPane;
 import pl.agh.edu.ui.component.label.LanguageLabel;
-import pl.agh.edu.ui.utils.FontType;
+import pl.agh.edu.ui.utils.SkinFont;
 import pl.agh.edu.ui.utils.wrapper.WrapperTable;
+import pl.agh.edu.utils.LanguageString;
 
 public abstract class BaseTable extends WrapperTable {
 	protected Table contentRows = new Table();
 	protected Skin skin = GameSkin.getInstance();
 	protected ScrollPane scrollPane = new CustomScrollPane(contentRows, skin, "transparent");
 
-	public BaseTable(List<String> columnNames) {
+	public BaseTable(List<LanguageString> columnNames) {
 		super();
 		innerTable.align(left);
 
@@ -60,7 +61,7 @@ public abstract class BaseTable extends WrapperTable {
 	}
 
 	private static class HeaderRow extends BaseRow {
-		public HeaderRow(List<String> columnNames) {
+		public HeaderRow(List<LanguageString> columnNames) {
 			super();
 			insertActorsToRow(columnNames.stream().map(s -> new LanguageLabel(s, BaseTableStyle.getHeaderFont())).collect(Collectors.toList()));
 		}
@@ -118,17 +119,17 @@ public abstract class BaseTable extends WrapperTable {
 
 		public static String getFont() {
 			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> FontType.BODY_1.getName();
-				case MEDIUM -> FontType.BODY_2.getName();
-				case LARGE -> FontType.H4.getName();
+				case SMALL -> SkinFont.BODY_1.getName();
+				case MEDIUM -> SkinFont.BODY_2.getName();
+				case LARGE -> SkinFont.H4.getName();
 			};
 		}
 
 		public static String getHeaderFont() {
 			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> FontType.BODY_2.getName();
-				case MEDIUM -> FontType.BODY_1.getName();
-				case LARGE -> FontType.H4.getName();
+				case SMALL -> SkinFont.BODY_2.getName();
+				case MEDIUM -> SkinFont.BODY_1.getName();
+				case LARGE -> SkinFont.H4.getName();
 			};
 		}
 
