@@ -27,22 +27,18 @@ jobs:
         run: pip install git-fame
 
       - name: Run git fame and capture output
+        uses: mathiasvr/command-output@v2.0.0
         id: run-git-fame
-        run: |
-          
-          output=$(git fame --incl=.java --loc=surv --bytype -w -M -C -R ./core/src/main)
-          echo ====================
-          echo "fame=${output}" >> $GITHUB_OUTPUT
-          echo ====================
-
-        continue-on-error: true
+        with:
+          run: git fame --incl=.java --loc=surv --bytype -w -M -C -R ./core/src/main
+        run: echo Result ${{ steps.run-git-fame.outputs.stdout }}
 
       - name: Comment PR
         uses: actions/github-script@v3
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            const output = process.env.fame;
+            const output = ${{ steps.today.outputs.stdout }};
             const message = `Here are the contributor statistics:\n\`\`\`\n${output}\n\`\`\``;
             github.issues.createComment({
               issue_number: context.issue.number,
