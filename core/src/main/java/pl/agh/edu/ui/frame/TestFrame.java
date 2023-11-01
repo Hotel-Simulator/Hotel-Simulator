@@ -1,6 +1,7 @@
 package pl.agh.edu.ui.frame;
 
 import pl.agh.edu.ui.component.label.LanguageLabel;
+import pl.agh.edu.ui.component.tooltip.DescriptionTooltip;
 import pl.agh.edu.ui.utils.SkinColor;
 import pl.agh.edu.utils.LanguageString;
 
@@ -16,6 +17,8 @@ public class TestFrame extends BaseFrame {
 		label.setDisabled(false);
 		label.makeItLink(() -> System.out.println("test"));
 		label.setDisabled(true);
+
+		label.addListener(new DescriptionTooltip(new LanguageString("test.long"), new LanguageString("test.long")));
 
 		mainTable.add(label);
 
