@@ -41,10 +41,6 @@ public class LanguageManager {
 		return result;
 	}
 
-	public static String get(LanguageString languageString) {
-		return get(languageString.property, languageString.stringsWithReplacements);
-	}
-
 	private static void notifyListeners() {
 		listeners.forEach(elem -> {
 			Actor actor = elem.onLanguageChange();
