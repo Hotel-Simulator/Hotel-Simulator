@@ -54,10 +54,12 @@ jobs:
   
             // Construct the final table
             const markdownTable = `${tableHeader}\n${tableRows}`;
+
+            const message = `Here are the contributor statistics:\n\`\`\`\n${markdownTable}\n\`\`\``;
           
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `Here are the contributor statistics:\n\`\`\`\n${stats}\n\`\`\`\n\nMarkdown table:\n${markdownTable}`,
+              body: message,
             });
