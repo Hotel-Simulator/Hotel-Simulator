@@ -52,13 +52,13 @@ jobs:
             // Construct the Markdown table rows
             const tableRows = tableData
               .slice(3)
-              .map(row => `| ${row.join(' | ')} |`)
+              .map(row => row.replace(/\|/g, '').trim())
               .join('\n');
             
             // Construct the final table
             const markdownTable = `${tableHeader}\n${tableRows}`;
 
-            const message = `Here are the contributor statistics:\n\`\`\`\n${markdownTable}\n\`\`\``;
+            const message = `Here are the contributor statistics:\n${markdownTable}\n`;
           
             github.rest.issues.createComment({
               issue_number: context.issue.number,
