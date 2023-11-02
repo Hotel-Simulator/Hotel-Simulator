@@ -72,6 +72,10 @@ jobs:
             const totalLocSurv = surData.total.loc;
             const totalComs = surData.total.commits;
             const totalFils = surData.total.files;
+            
+            console.log(`================`);
+            console.log(`Total ${totalLocIns} ${totalLocDel} ${totalLocSurv} ${totalComs} ${totalFils}`);
+            console.log(`================`);
 
             // Construct the Markdown table header
             const tableHeader = '| Author | loc-ins | loc-del | loc-surv | coms | fils |\n|:-------|--------:|--------:|---------:|-----:|-----:|\n| Total  | ${totalLocIns} | ${totalLocDel} | ${totalLocSurv} | ${totalComs} | ${totalFils} |';
