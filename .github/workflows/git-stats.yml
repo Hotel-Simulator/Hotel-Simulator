@@ -31,15 +31,15 @@ jobs:
 
       - name: Run git fame and capture output ins
         run: |
-          echo $(git fame --incl=.java --loc ins -s -e -w -M -C --format json  ./core/src/main) > index_ins.json
+          echo $(git fame --incl=.java --loc ins -s -e -w -M -C --format=json --branch=main  ./core/src/main) > index_ins.json
 
       - name: Run git fame and capture output del
         run: |
-          echo $(git fame --incl=.java --loc del -s -e -w -M -C --format json  ./core/src/main) > index_del.json
+          echo $(git fame --incl=.java --loc del -s -e -w -M -C --format=json --branch=main  ./core/src/main) > index_del.json
 
       - name: Run git fame and capture output sur
         run: |
-          echo $(git fame --incl=.java --loc surv -s -e -w -M -C --format json  ./core/src/main) > index_sur.json
+          echo $(git fame --incl=.java --loc surv -s -e -w -M -C --format=json --branch=main  ./core/src/main) > index_sur.json
 
       - name: Comment PR
         uses: actions/github-script@v6
