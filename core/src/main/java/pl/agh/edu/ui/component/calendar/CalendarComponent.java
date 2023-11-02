@@ -23,6 +23,7 @@ import pl.agh.edu.ui.audio.SoundAudio;
 import pl.agh.edu.ui.component.selection.MonthSelection;
 import pl.agh.edu.ui.component.selection.YearSelection;
 import pl.agh.edu.ui.component.tooltip.DescriptionTooltip;
+import pl.agh.edu.ui.component.tooltip.EventDescriptionTooltip;
 import pl.agh.edu.ui.utils.wrapper.WrapperContainer;
 import pl.agh.edu.ui.utils.wrapper.WrapperTable;
 
@@ -32,11 +33,11 @@ public class CalendarComponent extends WrapperTable {
 	private final Container<CalendarMatrix> calendarMatrixContainer = new Container<>();
 	private final LocalDate chosenDate;
 	private final Consumer<LocalDate> dateChangeHandler;
-	private final Map<LocalDate, CalendarEvent> eventsMap = new HashMap<>();
 	private YearMonth currentYearMonth = time.getYearMonth();
 	private final MonthSelection monthSelection;
 	private final YearSelection yearSelection;
 	private final boolean isActive;
+	private final Calendar calendar = Calendar.getInstance();
 
 	public CalendarComponent(LocalDate chosenDate, Consumer<LocalDate> dateChangeHandler, Boolean isBlockedByTime, Boolean isActive) {
 		super();
@@ -99,8 +100,6 @@ public class CalendarComponent extends WrapperTable {
 			int startingColumn = firstDayOfMonth.getDayOfWeek().getValue() % 7;
 			int daysInPreviousMonth = firstDayOfMonth.minusMonths(1).lengthOfMonth();
 
-			updateEventsMap(firstDayOfMonth, 7);
-
 			populateDaysBeforeCurrentMonth(startingColumn, daysInPreviousMonth, currentYearMonth.minusMonths(1).getMonth());
 			populateCurrentMonth(daysInMonth);
 			populateDaysAfterCurrentMonth(daysInMonth, startingColumn != 0 ? startingColumn - 1 : 0, currentYearMonth.plusMonths(1).getMonth());
@@ -126,15 +125,6 @@ public class CalendarComponent extends WrapperTable {
 					.toList()
 					.forEach(this::addButton);
 		}
-
-		public void updateEventsMap(LocalDate firstDay, int numberOfWeeks) {
-			eventsMap.clear();
-			IntStream.range(0, numberOfWeeks)
-					.mapToObj(firstDay::plusWeeks)
-					.forEach(week -> Calendar.getInstance().getEventsForWeek(week)
-							.forEach(event -> eventsMap.put(event.date(), event)));
-		}
-
 		private void addButton(CalendarCellButton button) {
 			innerTable.add(button).grow().uniform();
 			if (innerTable.getChildren().size % 7 == 0) {
@@ -163,7 +153,7 @@ public class CalendarComponent extends WrapperTable {
 		}
 
 		public void setStyle(TextButton button, LocalDate date) {
-			if (eventsMap.containsKey(date))
+			if (!calendar.getEventsForDate(date).isEmpty())
 				button.setStyle(skin.get("calendar-special-cell", TextButton.TextButtonStyle.class));
 			else
 				button.setStyle(skin.get("calendar-cell", TextButton.TextButtonStyle.class));
@@ -181,8 +171,8 @@ public class CalendarComponent extends WrapperTable {
 					}
 				});
 			}
-			if (eventsMap.containsKey(date)) {
-				button.addListener(new DescriptionTooltip(eventsMap.get(date).title(), eventsMap.get(date).description()));
+			if (!calendar.getEventsForDate(date).isEmpty()) {
+				button.addListener(new EventDescriptionTooltip(calendar.getEventsForDate(date)));
 			}
 		}
 

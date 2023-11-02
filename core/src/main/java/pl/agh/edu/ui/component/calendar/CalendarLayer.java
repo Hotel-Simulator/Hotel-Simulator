@@ -11,23 +11,38 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
+import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.ui.audio.SoundAudio;
+import pl.agh.edu.ui.resolution.ResolutionChangeListener;
+import pl.agh.edu.ui.resolution.ResolutionManager;
 
-public class CalendarLayer extends Stack {
+public class CalendarLayer extends Stack implements ResolutionChangeListener {
 	private final CalendarComponent calendarComponent;
+	private final Actor parent;
 
 	public CalendarLayer(Actor parent, LocalDate chosenDate, Boolean isBlockedByTime, Consumer<LocalDate> dateChangeHandler) {
 		super();
-		this.setUpInvisibleBackground();
+
 		calendarComponent = new CalendarComponent(chosenDate, preAction(dateChangeHandler), isBlockedByTime, true);
-		this.setUpCalendarComponent(calendarComponent, parent);
+		this.parent = parent;
+
+		this.init();
 	}
 
 	public CalendarLayer(Actor parent, LocalDate chosenDate, Boolean isBlockedByTime) {
 		super();
-		this.setUpInvisibleBackground();
+
 		calendarComponent = new CalendarComponent(chosenDate, null, isBlockedByTime, false);
-		this.setUpCalendarComponent(calendarComponent, parent);
+		this.parent = parent;
+
+		this.init();
+		this.debugAll();
+	}
+
+	public void init(){
+		this.setUpInvisibleBackground();
+		this.setUpCalendarComponent();
+		ResolutionManager.addListener(this);
 	}
 
 	private void setUpInvisibleBackground() {
@@ -38,7 +53,7 @@ public class CalendarLayer extends Stack {
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 				if (!isOverCalendar(x, y)) {
 					SoundAudio.CLICK_2.play();
-					clearAll();
+					clearAll(null);
 				}
 				return true;
 			}
@@ -47,19 +62,22 @@ public class CalendarLayer extends Stack {
 		this.add(invisibleTable);
 	}
 
-	private void setUpCalendarComponent(CalendarComponent calendarComponent, Actor parent) {
+	private void setUpCalendarComponent() {
 		calendarComponent.setTouchable(Touchable.enabled);
 		this.add(calendarComponent);
+		setPosition();
+	}
+
+	private void setPosition() {
 		Vector2 position = getPosition(parent);
 		calendarComponent.setPosition(position.x, position.y);
 	}
 
 	private Consumer<LocalDate> preAction(Consumer<LocalDate> handler) {
-		clearAll();
-		return handler;
+		return handler.andThen(this::clearAll);
 	}
 
-	private void clearAll() {
+	private void clearAll(LocalDate localDate) {
 		this.clear();
 		this.clearChildren();
 		this.remove();
@@ -87,10 +105,12 @@ public class CalendarLayer extends Stack {
 	}
 
 	private Vector2 getPosition(Actor parent) {
-		Vector2 vector2 = parent.localToStageCoordinates(new Vector2(0, 0));
-		vector2.y -= this.getHeight() + parent.getHeight();
-		vector2.x += parent.getWidth() / 2;
-		return vector2;
+        return new Vector2((float) (GraphicConfig.getResolution().WIDTH/2), (float) (GraphicConfig.getResolution().HEIGHT - 350));
 	}
 
+	@Override
+	public Actor onResolutionChange() {
+		this.setPosition();
+		return this;
+	}
 }

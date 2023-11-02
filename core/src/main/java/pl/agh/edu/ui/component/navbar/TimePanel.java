@@ -1,6 +1,7 @@
 package pl.agh.edu.ui.component.navbar;
 
 import static com.badlogic.gdx.utils.Align.center;
+import static pl.agh.edu.engine.time.Frequency.EVERY_TIME_TICK;
 import static pl.agh.edu.ui.audio.SoundAudio.BUTTON_1;
 import static pl.agh.edu.ui.utils.SkinFont.H4;
 
@@ -46,7 +47,7 @@ public class TimePanel extends Table {
 	}
 
 	public void initializeSyncWithClock() {
-		timeCommandExecutor.addCommand(new RepeatingTimeCommand(Frequency.EVERY_TIME_TICK, this::setTime, time.getTime()));
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_TIME_TICK, this::setTime, time.getTime()));
 	}
 
 	private static class TimeLabel extends CustomLabel {
