@@ -66,9 +66,15 @@ jobs:
               const filsPer = entry[6];
               return `| ${author} | ${locIns} (${locInsPer}%) | ${locDel} (${locDelPer}%) | ${locSurv} (${locSurvPer}%) | ${coms} (${comsPer}%) | ${fils} (${filsPer}%) |`;
             }).join('\n');
+            
+            const totalLocIns = insData.total.loc;
+            const totalLocDel = delData.total.loc;
+            const totalLocSurv = surData.total.loc;
+            const totalComs = surData.total.commits;
+            const totalFils = surData.total.files;
 
             // Construct the Markdown table header
-            const tableHeader = '| Author | loc-ins | loc-del | loc-surv | coms | fils |\n|:-------|--------:|--------:|---------:|-----:|-----:|\n| Total  | ${insData.total.loc} | ${delData.total.loc} | ${surData.total.loc} | ${surData.total.commits} | ${surData.total.files} |\n';
+            const tableHeader = '| Author | loc-ins | loc-del | loc-surv | coms | fils |\n|:-------|--------:|--------:|---------:|-----:|-----:|\n| Total  | ${totalLocIns} | ${totalLocDel} | ${totalLocSurv} | ${totalComs} | ${totalFils} |';
   
             // Construct the Markdown table rows
             
