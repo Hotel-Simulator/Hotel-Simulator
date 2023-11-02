@@ -11,6 +11,7 @@ public class DescriptionTooltip extends BaseTooltip {
 		super(new DescriptionTooltipTable(title, description));
 		this.getContainer().fill();
 	}
+
 	private static class DescriptionTooltipTable extends BaseTooltipTable {
 
 		public DescriptionTooltipTable(LanguageString title, LanguageString description) {

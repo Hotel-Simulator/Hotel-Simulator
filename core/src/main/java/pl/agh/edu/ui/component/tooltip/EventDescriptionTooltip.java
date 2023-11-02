@@ -1,17 +1,19 @@
 package pl.agh.edu.ui.component.tooltip;
 
-import pl.agh.edu.engine.calendar.CalendarEvent;
-import pl.agh.edu.ui.component.label.LanguageLabel;
 import static pl.agh.edu.ui.utils.SkinFont.BODY_2;
 import static pl.agh.edu.ui.utils.SkinFont.H4;
 
 import java.util.List;
+
+import pl.agh.edu.engine.calendar.CalendarEvent;
+import pl.agh.edu.ui.component.label.LanguageLabel;
 
 public class EventDescriptionTooltip extends BaseTooltip {
 	public EventDescriptionTooltip(List<CalendarEvent> events) {
 		super(new EventDescriptionTooltipTable(events));
 		this.getContainer().fill();
 	}
+
 	private static class EventDescriptionTooltipTable extends BaseTooltipTable {
 
 		public EventDescriptionTooltipTable(List<CalendarEvent> events) {
