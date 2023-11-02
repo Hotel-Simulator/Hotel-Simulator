@@ -2,6 +2,8 @@ package pl.agh.edu.engine.attraction;
 
 import static java.math.BigDecimal.ZERO;
 import static java.time.temporal.ChronoUnit.DAYS;
+import static pl.agh.edu.engine.attraction.AttractionState.ACTIVE;
+import static pl.agh.edu.engine.attraction.AttractionState.CHANGING_SIZE;
 
 import java.math.BigDecimal;
 import java.util.EnumMap;
@@ -46,7 +48,7 @@ public class AttractionHandler extends ClientGroupModifierSupplier {
 		attractions.put(type, attraction);
 		accountHandler.registerExpense(JSONAttractionDataLoader.buildCost.get(size));
 		timeCommandExecutor.addCommand(new TimeCommand(
-				() -> attraction.setBeingBuild(false),
+				() -> attraction.setState(ACTIVE),
 				time.getTime()
 						.truncatedTo(DAYS)
 						.plus(JSONAttractionDataLoader.buildDuration.get(attraction.getSize()))));
@@ -73,9 +75,9 @@ public class AttractionHandler extends ClientGroupModifierSupplier {
 		} else {
 			accountHandler.registerIncome(cost.multiply(new BigDecimal("0.5")).negate());
 		}
-		attraction.setUnderSizeChange(true);
+		attraction.setState(CHANGING_SIZE);
 		timeCommandExecutor.addCommand(new TimeCommand(
-				() -> attraction.setUnderSizeChange(false),
+				() -> attraction.setState(ACTIVE),
 				time.getTime().truncatedTo(DAYS).plus(
 						JSONAttractionDataLoader.buildDuration.get(attraction.getSize())
 								.minus(JSONAttractionDataLoader.buildDuration.get(size))
@@ -102,7 +104,7 @@ public class AttractionHandler extends ClientGroupModifierSupplier {
 
 	public void dailyUpdate() {
 		attractions.values().stream()
-				.filter(attraction -> !attraction.isBeingBuild() && !attraction.isUnderSizeChange())
+				.filter(attraction -> attraction.getState() == ACTIVE)
 				.forEach(attraction -> {
 					accountHandler.registerExpense(attraction.getDailyExpenses());
 					accountHandler.registerIncome(JSONAttractionDataLoader.incomePerClient
@@ -114,7 +116,7 @@ public class AttractionHandler extends ClientGroupModifierSupplier {
 	@Override
 	public EnumMap<HotelVisitPurpose, BigDecimal> getCumulatedModifier() {
 		return attractions.values().stream()
-				.filter(attraction -> !attraction.isBeingBuild() && !attraction.isUnderSizeChange())
+				.filter(attraction -> attraction.getState() == ACTIVE)
 				.map(attraction -> JSONAttractionDataLoader.modifier.get(Pair.of(attraction.type, attraction.getSize())))
 				.reduce(getIdentity(), getAccumulator());
 	}

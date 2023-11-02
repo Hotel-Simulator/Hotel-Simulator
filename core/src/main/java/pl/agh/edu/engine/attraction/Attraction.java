@@ -1,5 +1,7 @@
 package pl.agh.edu.engine.attraction;
 
+import static pl.agh.edu.engine.attraction.AttractionState.BEING_BUILD;
+
 import java.math.BigDecimal;
 
 import pl.agh.edu.data.loader.JSONAttractionDataLoader;
@@ -7,8 +9,7 @@ import pl.agh.edu.data.loader.JSONAttractionDataLoader;
 public class Attraction {
 	public final AttractionType type;
 	private AttractionSize size;
-	private boolean isBeingBuild = true;
-	private boolean isUnderSizeChange = false;
+	private AttractionState state = BEING_BUILD;
 
 	public Attraction(AttractionType type, AttractionSize size) {
 		this.type = type;
@@ -31,19 +32,11 @@ public class Attraction {
 		return size;
 	}
 
-	public boolean isBeingBuild() {
-		return isBeingBuild;
+	public AttractionState getState() {
+		return state;
 	}
 
-	public void setBeingBuild(boolean beingBuild) {
-		isBeingBuild = beingBuild;
-	}
-
-	public boolean isUnderSizeChange() {
-		return isUnderSizeChange;
-	}
-
-	public void setUnderSizeChange(boolean underSizeChange) {
-		isUnderSizeChange = underSizeChange;
+	public void setState(AttractionState state) {
+		this.state = state;
 	}
 }
