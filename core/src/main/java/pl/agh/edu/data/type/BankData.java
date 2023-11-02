@@ -1,11 +1,10 @@
 package pl.agh.edu.data.type;
 
-import java.math.BigDecimal;
+import pl.agh.edu.engine.bank.BankAccountDetails;
+
 
 public record BankData(
         String name,
-        int creditInterestRate,
-        int depositInterestRate,
-        BigDecimal bankAccountFee
+        BankAccountDetails accountDetails
 ) {
 }
