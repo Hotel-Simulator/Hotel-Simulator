@@ -73,16 +73,10 @@ jobs:
               return `| ${author} | ${locIns} (${locInsPer}%) | ${locDel} (${locDelPer}%) | ${locSurv} (${locSurvPer}%) | ${coms} (${comsPer}%) | ${fils} (${filsPer}%) |`;
             }).join('\n');
             
-            console.log(`================`);
-            console.log(`Total ${totalLocIns} ${totalLocDel} ${totalLocSurv} ${totalComs} ${totalFils}`);
-            console.log(`================`);
-
             // Construct the Markdown table header
-            const tableHeader = '| Author | loc-ins | loc-del | loc-surv | coms | fils |\n|:-------|--------:|--------:|---------:|-----:|-----:|\n| Total  | ${totalLocIns} | ${totalLocDel} | ${totalLocSurv} | ${totalComs} | ${totalFils} |';
+            const tableHeader = `| Author | loc-ins | loc-del | loc-surv | coms | fils |\n|:-------|--------:|--------:|---------:|-----:|-----:|\n| Total  | ${totalLocIns} | ${totalLocDel} | ${totalLocSurv} | ${totalComs} | ${totalFils} |`;
   
             // Construct the Markdown table rows
-            
-            // Construct the final table
             const markdownTable = `${tableHeader}\n${tableRows}`;
 
             const message = `Here are the contributor statistics:\n${markdownTable}\n`;
