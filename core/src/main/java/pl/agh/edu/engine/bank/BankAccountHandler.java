@@ -13,7 +13,7 @@ import pl.agh.edu.engine.time.TimeCommandExecutor;
 import pl.agh.edu.engine.time.command.NRepeatingTimeCommand;
 
 public class BankAccountHandler {
-	private final BankAccount account;
+	public final BankAccount account;
 
 	private final Map<Credit, NRepeatingTimeCommand> currentCredits = new HashMap<>();
 
