@@ -11,6 +11,7 @@ import org.json.simple.JSONObject;
 import pl.agh.edu.data.extractor.JSONDataExtractor;
 import pl.agh.edu.data.extractor.JSONValueUtil;
 import pl.agh.edu.data.type.BankData;
+import pl.agh.edu.engine.bank.BankAccountDetails;
 
 public class JSONBankDataLoader {
 	private static final String JSON_FILE_PATH = BANK_CONFIG.get();
@@ -34,9 +35,9 @@ public class JSONBankDataLoader {
 					JSONObject data = (JSONObject) e;
 					return new BankData(
 							(String) data.get("name"),
-							Math.round((Long) data.get("credit_interest_rate")),
-							Math.round((Long) data.get("deposit_interest_rate")),
-							BigDecimal.valueOf((Long) data.get("account_fee")));
+							new BankAccountDetails(
+									BigDecimal.valueOf((Long) data.get("credit_interest_rate")),
+									BigDecimal.valueOf((Long) data.get("account_fee"))));
 				});
 		chargeAccountFeeDayOfMonth = JSONValueUtil.getInt(
 				JSONDataExtractor.extract(JSON_FILE_PATH, "charge_account_fee_day_of_month", Long.class));
