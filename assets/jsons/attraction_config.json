@@ -1,22 +1,22 @@
 {
   "daily_capacity" : {
-    "SMALL": 20,
-    "MEDIUM": 50,
-    "LARGE":  100
+    "SMALL": 50,
+    "MEDIUM": 120,
+    "LARGE":  300
   },
   "daily_expenses": {
-    "SMALL": 300,
-    "MEDIUM": 750,
-    "LARGE":  1500
+    "SMALL": 800,
+    "MEDIUM": 2000,
+    "LARGE":  5000
   },
 
   "build_cost": {
     "SMALL": 100000,
-    "MEDIUM": 150000,
-    "LARGE":  200000
+    "MEDIUM": 300000,
+    "LARGE": 800000
   },
 
-  "income_per_client": 30,
+  "income_per_client": 40,
 
   "chances_of_visit": {
     "RESTAURANT": {
@@ -37,9 +37,9 @@
   },
 
   "build_duration_in_days": {
-    "SMALL": 180,
-    "MEDIUM": 210,
-    "LARGE":  240
+    "SMALL": 60,
+    "MEDIUM": 150,
+    "LARGE":  360
   },
 
   "modifier_base_values": {
