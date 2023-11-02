@@ -51,6 +51,12 @@ jobs:
             const insData = JSON.parse(fs.readFileSync('index_ins.json', 'utf8'));
             const delData = JSON.parse(fs.readFileSync('index_del.json', 'utf8'));
             const surData = JSON.parse(fs.readFileSync('index_sur.json', 'utf8'));
+            
+            const totalLocIns = insData.total.loc;
+            const totalLocDel = delData.total.loc;
+            const totalLocSurv = surData.total.loc;
+            const totalComs = surData.total.commits;
+            const totalFils = surData.total.files;
 
             const tableRows = insData.data.map((entry, index) => {
               const author = entry[0];
@@ -66,12 +72,6 @@ jobs:
               const filsPer = entry[6];
               return `| ${author} | ${locIns} (${locInsPer}%) | ${locDel} (${locDelPer}%) | ${locSurv} (${locSurvPer}%) | ${coms} (${comsPer}%) | ${fils} (${filsPer}%) |`;
             }).join('\n');
-            
-            const totalLocIns = insData.total.loc;
-            const totalLocDel = delData.total.loc;
-            const totalLocSurv = surData.total.loc;
-            const totalComs = surData.total.commits;
-            const totalFils = surData.total.files;
             
             console.log(`================`);
             console.log(`Total ${totalLocIns} ${totalLocDel} ${totalLocSurv} ${totalComs} ${totalFils}`);
