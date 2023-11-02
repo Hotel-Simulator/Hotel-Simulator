@@ -1,5 +1,6 @@
 package pl.agh.edu.ui.component.button;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import pl.agh.edu.config.GraphicConfig;
@@ -8,14 +9,16 @@ import pl.agh.edu.ui.resolution.Size;
 import pl.agh.edu.ui.utils.wrapper.WrapperContainer;
 
 public class LabeledButton extends WrapperContainer<TextButton> {
-	private final Size type;
+	private Size type;
+	private final Skin skin = GameSkin.getInstance();
+	boolean isResizable = false;
 
 	private final TextButton button;
 
 	public LabeledButton(Size type, String languagePath) {
 		super(languagePath);
 		this.type = type;
-		this.button = new TextButton("", GameSkin.getInstance().get(type.toString(), TextButton.TextButtonStyle.class));
+		this.button = new TextButton("", skin.get(type.toString(), TextButton.TextButtonStyle.class));
 		this.button.setFillParent(true);
 		this.button.getLabel().setWrap(true);
 
@@ -32,6 +35,20 @@ public class LabeledButton extends WrapperContainer<TextButton> {
 
 	private void updateLabel(String text) {
 		button.setText(text);
+	}
+
+	public void setResizable(){
+		isResizable = true;
+	}
+
+	@Override
+	public void onResolutionChange() {
+		super.onResolutionChange();
+		if(isResizable){
+			this.type = GraphicConfig.getResolution().SIZE;
+			TextButton.TextButtonStyle textButtonStyle = skin.get(type.toString(), TextButton.TextButtonStyle.class);
+			button.setStyle(textButtonStyle);
+		}
 	}
 
 	private static class LabeledButtonStyle {
