@@ -29,30 +29,47 @@ jobs:
       - name: Install git-fame
         run: pip install git-fame
 
-      - name: Run git fame and capture output
+      - name: Run git fame and capture output ins
         run: |
-          echo $(git fame --incl=.java --loc=surv -s -e -w -M -C -R ./core/src/main) > index.md
-        id: stats
-      - run: cat index.md
+          echo $(git fame --incl=.java --loc ins -s -e -w -M -C --format json  ./core/src/main) > index_ins.json
 
+      - name: Run git fame and capture output del
+        run: |
+          echo $(git fame --incl=.java --loc del -s -e -w -M -C --format json  ./core/src/main) > index_del.json
+
+      - name: Run git fame and capture output sur
+        run: |
+          echo $(git fame --incl=.java --loc surv -s -e -w -M -C --format json  ./core/src/main) > index_sur.json
       - name: Comment PR
         uses: actions/github-script@v6
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             const fs = require('fs');
-  
-            const content = fs.readFileSync('index.md', 'utf8');
+            
+            const insData = JSON.parse(fs.readFileSync('index_ins.json', 'utf8'));
+            const delData = JSON.parse(fs.readFileSync('index_del.json', 'utf8'));
+            const surData = JSON.parse(fs.readFileSync('index_sur.json', 'utf8'));
 
-            const tableData = content.match(/\|(.+?)\|(.+?)\|(.+?)\|(.+?)\|(.+?)\|/g);
+            const tableRows = insData.data.map((entry, index) => {
+              const author = entry[0];
+              const locIns = entry[1];
+              const locInsPer = entry[4];
+              const locDel = delData.data[index][1];
+              const locDelPer = delData.data[index][4];
+              const locSurv = surData.data[index][1];
+              const locSurvPer = surData.data[index][4];
+              const coms = entry[2];
+              const comsPer = entry[5];
+              const fils = entry[3];
+              const filsPer = entry[6];
+              return `| ${author} | ${locIns} (${locInsPer}%) | ${locDel} (${locDelPer}%) | ${locSurv} (${locSurvPer}%) | ${coms} (${comsPer}%) | ${fils} (${filsPer}%) |`;
+            }).join('\n');
 
             // Construct the Markdown table header
-            const tableHeader = '| Author | loc | coms | fils | distribution |\n|:------|-----:|------:|------:|:--------------|';
+            const tableHeader = '| Author | loc-ins | loc-del | loc-surv | coms | fils |\n|:-------|--------:|--------:|---------:|-----:|-----:|\n| Total  | ${insData.total.loc} | ${delData.total.loc} | ${surData.total.loc} | ${surData.total.commits} | ${surData.total.files} |\n
   
             // Construct the Markdown table rows
-            const tableRows = tableData
-              .slice(2)
-              .join('\n');
             
             // Construct the final table
             const markdownTable = `${tableHeader}\n${tableRows}`;
