@@ -16,9 +16,8 @@ import pl.agh.edu.ui.utils.SkinColor;
 import pl.agh.edu.ui.utils.wrapper.WrapperContainer;
 
 public class ScenarioButton extends WrapperContainer<Button> {
-    public final Skin skin = GameSkin.getInstance();
-    public final HotelType hotelType;
-    public final Button button;
+    private final Skin skin = GameSkin.getInstance();
+    private final Button button;
     private final ScenarioButtonStyle scenarioButtonStyle;
     private int width;
     private int height;
@@ -28,23 +27,21 @@ public class ScenarioButton extends WrapperContainer<Button> {
     private LanguageLabel seasonLabel;
 
     public ScenarioButton(HotelType hotelType) {
-        this.hotelType = hotelType;
-        button = new Button(GameSkin.getInstance().get("scenario-difficulty-button", Button.ButtonStyle.class));
+        this.button = new Button(skin.get("scenario-difficulty-button", Button.ButtonStyle.class));
+        this.scenarioButtonStyle = new ScenarioButtonStyle(hotelType);
         setActor(button);
-
         setSize();
-        scenarioButtonStyle = new ScenarioButtonStyle(hotelType);
+
         ScenarioButtonStyle.createPad(this);
         ResolutionManager.addListener(this);
         LanguageManager.addListener(this);
 
         createActors();
         createButton();
-
         setTouchable(Touchable.enabled);
     }
 
-    public void createActors(){
+    public void createActors() {
         titleLabel = createLabel(scenarioButtonStyle.getTitleLabelPath(), scenarioButtonStyle.getTitleLabelFont(), height / 30);
         titleLabel.setAlignment(getAlign());
 
@@ -57,7 +54,7 @@ public class ScenarioButton extends WrapperContainer<Button> {
         seasonLabel.setAlignment(getAlign());
     }
 
-    public void createButton(){
+    public void createButton() {
         button.clearChildren();
         button.add(titleLabel).width(5 * width / 24).height(height / 12).row();
         button.add(scenarioImage).width(width / 12).height(height / 8).padTop(height / 50).center().row();
@@ -70,7 +67,8 @@ public class ScenarioButton extends WrapperContainer<Button> {
         height = GraphicConfig.getResolution().HEIGHT;
     }
 
-    public LanguageLabel createLabel(String labelTextPath, String labelFont, int lineHeight) {
+    private LanguageLabel createLabel(String labelTextPath, String labelFont, int lineHeight) {
+        System.out.println(labelTextPath);
         Label.LabelStyle labelStyle = skin.get(labelFont, Label.LabelStyle.class);
         labelStyle.font.getData().setLineHeight(lineHeight);
         labelStyle.fontColor = SkinColor.ALERT.getColor(SkinColor.ColorLevel._500);
@@ -99,19 +97,15 @@ public class ScenarioButton extends WrapperContainer<Button> {
     }
 
     public record ScenarioButtonStyle(HotelType hotelType) {
-        public static final int padTopBottom = 30;
-        public static final int padLeftRight = 20;
+        private static final int PAD_TOP_BOTTOM = 30;
+        private static final int PAD_LEFT_RIGHT = 20;
 
         public static void createPad(ScenarioButton button) {
-            button.pad(padTopBottom, padLeftRight, padTopBottom, padLeftRight);
+            button.pad(PAD_TOP_BOTTOM, PAD_LEFT_RIGHT, PAD_TOP_BOTTOM, PAD_LEFT_RIGHT);
         }
 
         public String getTitleLabelPath() {
-            return switch (hotelType) {
-                case RESORT -> "scenario.resort.title";
-                case HOTEL -> "scenario.hotel.title";
-                case SANATORIUM -> "scenario.sanatorium.title";
-            };
+            return scenarioKey("title");
         }
 
         public String getIconPath() {
@@ -123,19 +117,11 @@ public class ScenarioButton extends WrapperContainer<Button> {
         }
 
         public String getDescriptionLabelPath() {
-            return switch (hotelType) {
-                case RESORT -> "scenario.resort.description";
-                case HOTEL -> "scenario.hotel.description";
-                case SANATORIUM -> "scenario.sanatorium.description";
-            };
+            return scenarioKey("description");
         }
 
         public String getSeasonLabelPath() {
-            return switch (hotelType) {
-                case RESORT -> "scenario.resort.popularity";
-                case HOTEL -> "scenario.hotel.popularity";
-                case SANATORIUM -> "scenario.sanatorium.popularity";
-            };
+            return scenarioKey("popularity");
         }
 
         public String getTitleLabelFont() {
@@ -153,6 +139,9 @@ public class ScenarioButton extends WrapperContainer<Button> {
                 case LARGE -> FontType.H3.getWhiteVariantName();
             };
         }
-    }
 
+        private String scenarioKey(String propertyName) {
+            return "scenario." + hotelType.name().toLowerCase() + "." + propertyName;
+        }
+    }
 }
