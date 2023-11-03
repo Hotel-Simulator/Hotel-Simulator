@@ -34,6 +34,7 @@ public class JSONBankDataLoader {
 				e -> {
 					JSONObject data = (JSONObject) e;
 					return new BankData(
+							BankData.getNextId(),
 							(String) data.get("name"),
 							new BankAccountDetails(
 									BigDecimal.valueOf((Long) data.get("credit_interest_rate")),

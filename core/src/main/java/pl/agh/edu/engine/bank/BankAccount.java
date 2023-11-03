@@ -11,15 +11,14 @@ public class BankAccount {
 	private final List<Credit> credits = new ArrayList<>();
 	private final List<Transaction> transactions = new ArrayList<>();
 	private final Time time = Time.getInstance();
-	private final String nameLanguagePath;
 	private BigDecimal balance;
 	private BankAccountDetails accountDetails;
-
+	public Integer bankDataId;
 
 	public BankAccount(BigDecimal initialBalance, BankData bankData) {
 		this.balance = initialBalance;
 		this.accountDetails = bankData.accountDetails();
-		this.nameLanguagePath = bankData.name();
+		this.bankDataId = bankData.id();
 	}
 
 	private void chargeAccountFee() {
@@ -73,8 +72,9 @@ public class BankAccount {
 		return accountDetails.accountFee();
 	}
 
-	public void setAccountDetails(BankAccountDetails accountDetails) {
-		this.accountDetails = accountDetails;
+	public void setAccountDetails(BankData bankData) {
+		this.accountDetails = bankData.accountDetails();
+		this.bankDataId = bankData.id();
 	}
 
 	public void monthlyUpdate() {

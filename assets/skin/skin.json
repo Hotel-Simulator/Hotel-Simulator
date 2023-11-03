@@ -548,7 +548,7 @@
 	"transparent": {
 		"up": "transparent",
 		"down": "transparent",
-		"over": "transparent-dimed",
+		"over": "transparent-dimed-1",
 		"focused": "transparent"
 	}
 },

@@ -4,13 +4,10 @@ import static com.badlogic.gdx.utils.Align.left;
 import static pl.agh.edu.ui.utils.FontType.BODY_2;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Null;
 
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.data.type.BankData;
@@ -22,16 +19,19 @@ import pl.agh.edu.ui.utils.wrapper.ButtonTable;
 import pl.agh.edu.ui.utils.wrapper.WrapperTable;
 
 public class BankOffer extends ButtonTable {
+	BaseFrame baseFrame;
+	BankData bankData;
+
 	public BankOffer(BankData bankData, BaseFrame baseFrame) {
 		super();
-		// innerButton.debugAll();
-		innerTable.setBackground("table-row-background");
+		this.baseFrame = baseFrame;
+		this.bankData = bankData;
+		innerTable.setBackground("bank-offer-background");
 		String whiteFont = BODY_2.getWhiteVariantName();
 		String blackFont = BODY_2.getName();
 		String valueColor = SkinColor.GRAY.getName(SkinColor.ColorLevel._700);
 
 		Skin skin = GameSkin.getInstance();
-		// LabeledButton bankName = new LabeledButton(Size.LARGE,bankData.name());
 		WrapperTable buttonContainer = new WrapperTable() {
 			@Override
 			public void drawDebugBounds(ShapeRenderer shapes) {
@@ -62,19 +62,18 @@ public class BankOffer extends ButtonTable {
 		innerButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				baseFrame.game.engine.hotelHandler.bankAccount.setAccountDetails(bankData.accountDetails());
-				System.out.println(baseFrame.game.engine.hotelHandler.bankAccount.getAccountFee());
-				System.out.println("clicked");
+				baseFrame.game.engine.hotelHandler.bankAccount.setAccountDetails(bankData);
 			}
 		});
 
-		innerButton.addListener(new InputListener() {
-			@Override
-			public void enter(InputEvent event, float x, float y, int pointer, @Null Actor fromActor) {
-				System.out.println("enter");
-			}
-		});
+	}
 
+	@Override
+	public void layout() {
+		super.layout();
+		if (baseFrame.game != null && baseFrame.game.engine.hotelHandler.bankAccount.bankDataId == bankData.id()) {
+			innerTable.setBackground("bank-offer-background-selected");
+		}
 	}
 
 	public void changeSize() {

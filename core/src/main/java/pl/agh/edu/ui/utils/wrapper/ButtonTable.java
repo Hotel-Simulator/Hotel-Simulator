@@ -15,23 +15,13 @@ public class ButtonTable extends WrapperContainer<Stack> {
 	public final Table innerButtonTable = new Table();
 	public final Button innerButton = new Button(skin, "transparent");
 
-	// public final Table clickableTable = new Table();
 	public ButtonTable() {
 		super();
-		innerButtonTable.debugAll();
 		innerButtonTable.align(Align.bottomLeft);
-		// innerButton.setVisible(false);
 		this.setActor(innerStack);
-		// innerButton.setVisible(false);
 		innerButtonTable.add(innerButton).grow();
-		// innerButton.setWidth(100f);
-		// innerButton.setHeight(100f);
-		// innerButton.sizeBy(12f);
-		// innerButton.setSize(100f,100f);
-		// innerButton.setFillParent(true);
 		innerStack.add(innerTable);
 		innerStack.add(innerButtonTable);
-		// innerStack.add(clickableTable);
 	}
 
 }

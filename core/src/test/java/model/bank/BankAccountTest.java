@@ -25,7 +25,7 @@ public class BankAccountTest {
 
 	@BeforeEach
 	public void setUp() {
-		bankAccount = new BankAccount(initialBalance, new BankData("bank.name.1", new BankAccountDetails(new BigDecimal("0.05"), accountFee)));
+		bankAccount = new BankAccount(initialBalance, new BankData(1, "bank.name.1", new BankAccountDetails(new BigDecimal("0.05"), accountFee)));
 	}
 
 	@Test
