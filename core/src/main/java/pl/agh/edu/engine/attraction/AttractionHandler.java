@@ -4,6 +4,9 @@ import static java.math.BigDecimal.ZERO;
 import static java.time.temporal.ChronoUnit.DAYS;
 import static pl.agh.edu.engine.attraction.AttractionState.ACTIVE;
 import static pl.agh.edu.engine.attraction.AttractionState.CHANGING_SIZE;
+import static pl.agh.edu.engine.attraction.AttractionState.INACTIVE;
+import static pl.agh.edu.engine.attraction.AttractionState.OPENING;
+import static pl.agh.edu.engine.attraction.AttractionState.SHUTTING_DOWN;
 
 import java.math.BigDecimal;
 import java.util.EnumMap;
@@ -104,12 +107,15 @@ public class AttractionHandler extends ClientGroupModifierSupplier {
 
 	public void dailyUpdate() {
 		attractions.values().stream()
+				.filter(attraction -> attraction.getState() == ACTIVE
+						|| attraction.getState() == OPENING
+						|| attraction.getState() == SHUTTING_DOWN)
+				.forEach(attraction -> accountHandler.registerExpense(attraction.getDailyExpenses()));
+
+		attractions.values().stream()
 				.filter(attraction -> attraction.getState() == ACTIVE)
-				.forEach(attraction -> {
-					accountHandler.registerExpense(attraction.getDailyExpenses());
-					accountHandler.registerIncome(JSONAttractionDataLoader.incomePerClient
-							.multiply(BigDecimal.valueOf(getDailyClientNumber(attraction))));
-				});
+				.forEach(attraction -> accountHandler.registerIncome(JSONAttractionDataLoader.incomePerClient
+						.multiply(BigDecimal.valueOf(getDailyClientNumber(attraction)))));
 
 	}
 
@@ -119,5 +125,19 @@ public class AttractionHandler extends ClientGroupModifierSupplier {
 				.filter(attraction -> attraction.getState() == ACTIVE)
 				.map(attraction -> JSONAttractionDataLoader.modifier.get(Pair.of(attraction.type, attraction.getSize())))
 				.reduce(getIdentity(), getAccumulator());
+	}
+
+	public void activateAttraction(Attraction attraction) {
+		if (attraction.getState() == INACTIVE || attraction.getState() == SHUTTING_DOWN) {
+			attraction.setState(OPENING);
+			timeCommandExecutor.addCommand(new TimeCommand(() -> attraction.setState(ACTIVE), time.getTime().truncatedTo(DAYS).plusDays(1)));
+		}
+	}
+
+	public void deactivateAttraction(Attraction attraction) {
+		if (attraction.getState() == ACTIVE || attraction.getState() == OPENING) {
+			attraction.setState(SHUTTING_DOWN);
+			timeCommandExecutor.addCommand(new TimeCommand(() -> attraction.setState(INACTIVE), time.getTime().truncatedTo(DAYS).plusDays(1)));
+		}
 	}
 }

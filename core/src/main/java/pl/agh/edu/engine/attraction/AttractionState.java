@@ -3,5 +3,8 @@ package pl.agh.edu.engine.attraction;
 public enum AttractionState {
 	ACTIVE,
 	BEING_BUILD,
-	CHANGING_SIZE
+	CHANGING_SIZE,
+	SHUTTING_DOWN,
+	INACTIVE,
+	OPENING
 }
