@@ -1,4 +1,4 @@
-package pl.agh.edu.ui.window;
+package pl.agh.edu.ui.panel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,6 +39,7 @@ public class DifficultyPanel extends WrapperContainer<Table> {
 		createPlayButton();
 		createBackButton();
 		createFrame();
+		setResolutionChangeHandler(this::updateSizes);
 		LanguageManager.addListener(this);
 	}
 
@@ -67,9 +68,8 @@ public class DifficultyPanel extends WrapperContainer<Table> {
 	}
 
 	private void addDifficultyButtonsToFrame() {
-		for (DifficultyButton button : buttonsList) {
-			frame.add(button).left().padTop((int) (largePaddingMultiplier * frame.getHeight() / 24)).padLeft(frame.getWidth() / 6 + buttonsList.indexOf(button) * frame.getWidth() / 24).row();
-		}
+		buttonsList.forEach(button -> frame.add(button).left().padTop((int) (largePaddingMultiplier * frame.getHeight() / 24)).padLeft(frame.getWidth() / 6 + buttonsList.indexOf(
+				button) * frame.getWidth() / 24).row());
 	}
 
 	public void createDifficultyButtons() {
@@ -80,9 +80,7 @@ public class DifficultyPanel extends WrapperContainer<Table> {
 	public void createButtonGroup() {
 		buttonGroup.setMinCheckCount(1);
 		buttonGroup.setMaxCheckCount(1);
-		for (DifficultyButton difficultyButton : buttonsList) {
-			buttonGroup.add(difficultyButton.getActor());
-		}
+		buttonsList.forEach(difficultyButton -> buttonGroup.add(difficultyButton.getActor()));
 	}
 
 	public void getSize() {
@@ -90,8 +88,7 @@ public class DifficultyPanel extends WrapperContainer<Table> {
 		frame.setHeight(GraphicConfig.getResolution().HEIGHT);
 		if (GraphicConfig.getResolution().SIZE.equals(Size.LARGE)) {
 			largePaddingMultiplier = frame.getHeight() / 1000f * 0.85f;
-		}
-		else{
+		} else {
 			largePaddingMultiplier = 1;
 		}
 	}
@@ -149,8 +146,7 @@ public class DifficultyPanel extends WrapperContainer<Table> {
 		backButton.setText(getBackButtonText());
 	}
 
-	@Override
-	public void onResolutionChange() {
+	public void updateSizes() {
 		getSize();
 		createTitleLabel();
 		createPlayButton();
