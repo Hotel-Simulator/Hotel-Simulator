@@ -77,7 +77,7 @@ public class RoomManager {
 		if (changeCost.signum() > 0) {
 			bankAccountHandler.registerExpense(changeCost);
 		} else {
-			bankAccountHandler.registerIncome(changeCost.negate());
+			bankAccountHandler.registerIncome(changeCost.negate().divide(BigDecimal.valueOf(2), 0, RoundingMode.HALF_EVEN));
 		}
 		room.roomState.setUnderRankChange(true);
 
@@ -96,8 +96,7 @@ public class RoomManager {
 
 	private BigDecimal getChangeCost(RoomRank currentRank, RoomRank desiredRank, RoomSize size) {
 		return JSONRoomDataLoader.roomBuildingCosts.get(Pair.of(desiredRank, size))
-				.subtract(JSONRoomDataLoader.roomBuildingCosts.get(Pair.of(currentRank, size)))
-				.divide(BigDecimal.valueOf(2), 0, RoundingMode.HALF_EVEN);
+				.subtract(JSONRoomDataLoader.roomBuildingCosts.get(Pair.of(currentRank, size)));
 	}
 
 	public Optional<LocalDateTime> findChangeRankTime(Room room) {

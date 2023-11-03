@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import pl.agh.edu.data.loader.JSONAttractionDataLoader;
 import pl.agh.edu.engine.bank.BankAccountHandler;
@@ -157,5 +158,13 @@ public class AttractionHandler extends ClientGroupModifierSupplier {
 			attraction.setState(SHUTTING_DOWN);
 			timeCommandExecutor.addCommand(new TimeCommand(() -> attraction.setState(INACTIVE), time.getTime().truncatedTo(DAYS).plusDays(1)));
 		}
+	}
+
+	public Optional<Pair<AttractionSize, LocalDateTime>> findBuildingTime(AttractionType type) {
+		return Optional.ofNullable(attractionBuildingTimes.get(type));
+	}
+
+	public Optional<Pair<AttractionSize, LocalDateTime>> findChangingSizeTime(AttractionType type) {
+		return Optional.ofNullable(attractionChangingSizeTimes.get(type));
 	}
 }
