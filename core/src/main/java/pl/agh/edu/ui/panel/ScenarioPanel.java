@@ -7,6 +7,9 @@ import java.util.List;
 import static pl.agh.edu.ui.utils.SkinFont.H1;
 import static pl.agh.edu.ui.utils.SkinFont.H2;
 import static pl.agh.edu.ui.utils.SkinFont.H3;
+import static pl.agh.edu.ui.resolution.Size.LARGE;
+import static pl.agh.edu.ui.utils.SkinColor.ALERT;
+import static pl.agh.edu.ui.utils.SkinColor.ColorLevel._500;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
@@ -71,7 +74,7 @@ public class ScenarioPanel extends WrapperContainer<Table> {
 	public void getSize() {
 		width = GraphicConfig.getResolution().WIDTH;
 		height = GraphicConfig.getResolution().HEIGHT;
-		if (GraphicConfig.getResolution().SIZE.equals(Size.LARGE)) {
+		if (GraphicConfig.getResolution().SIZE.equals(LARGE)) {
 			largePaddingMultiplier = height / 1000f * 0.85f;
 		}
 	}
@@ -89,7 +92,7 @@ public class ScenarioPanel extends WrapperContainer<Table> {
 
 	public void createTitleLabel() {
 		Label.LabelStyle titleLabelStyle = skin.get(getTitleFont(), Label.LabelStyle.class);
-		titleLabelStyle.fontColor = SkinColor.ALERT.getColor(SkinColor.ColorLevel._500);
+		titleLabelStyle.fontColor = ALERT.getColor(_500);
 		titleLabel = new LanguageLabel(new LanguageString("scenario.title"), getTitleFont());
 		titleLabel.setStyle(titleLabelStyle);
 		titleLabelTable = new Table();
