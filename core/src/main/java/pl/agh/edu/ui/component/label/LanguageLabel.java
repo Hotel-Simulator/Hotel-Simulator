@@ -16,7 +16,7 @@ public class LanguageLabel extends CustomLabel implements LanguageChangeListener
 		setLanguagePath(languagePath);
 	}
 
-	private void setLanguagePath(String languagePath){
+	private void setLanguagePath(String languagePath) {
 		this.languagePath = languagePath;
 		LanguageManager.addListener(this);
 		onLanguageChange();

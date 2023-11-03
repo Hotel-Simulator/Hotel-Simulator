@@ -4,18 +4,22 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import pl.agh.edu.data.type.BankData;
 import pl.agh.edu.engine.time.Time;
 
 public class BankAccount {
 	private final List<Credit> credits = new ArrayList<>();
 	private final List<Transaction> transactions = new ArrayList<>();
 	private final Time time = Time.getInstance();
+	private final String nameLanguagePath;
 	private BigDecimal balance;
 	private BankAccountDetails accountDetails;
 
-	public BankAccount(BigDecimal initialBalance, BankAccountDetails accountDetails) {
+
+	public BankAccount(BigDecimal initialBalance, BankData bankData) {
 		this.balance = initialBalance;
-		this.accountDetails = accountDetails;
+		this.accountDetails = bankData.accountDetails();
+		this.nameLanguagePath = bankData.name();
 	}
 
 	private void chargeAccountFee() {

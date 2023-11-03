@@ -37,14 +37,14 @@ public class LabeledButton extends WrapperContainer<TextButton> {
 		button.setText(text);
 	}
 
-	public void setResizable(){
+	public void setResizable() {
 		isResizable = true;
 	}
 
 	@Override
 	public void onResolutionChange() {
 		super.onResolutionChange();
-		if(isResizable){
+		if (isResizable) {
 			this.type = GraphicConfig.getResolution().SIZE;
 			TextButton.TextButtonStyle textButtonStyle = skin.get(type.toString(), TextButton.TextButtonStyle.class);
 			button.setStyle(textButtonStyle);

@@ -29,10 +29,12 @@ public class MainScreen implements Screen, ResolutionChangeListener {
 	public final OptionsWrapper optionsWrapper = new OptionsWrapper(inputMultiplexer, blurShader, mainStage, topStage);
 	private final EventWrapper eventWrapper = new EventWrapper(inputMultiplexer, blurShader, mainStage, topStage);
 	private final InfinityBackground infinityBackground = new InfinityBackground("night-city");
+	public final GdxGame game;
 
 	public MainScreen(GdxGame game) {
 		game.engine.eventHandler.setEventHandlerFunction(eventWrapper::showEvent);
 		inputMultiplexer.setOpenOptionsAction(optionsWrapper.getOptionHandler());
+		this.game = game;
 		setupUI();
 	}
 

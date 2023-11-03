@@ -12,7 +12,6 @@ import pl.agh.edu.data.loader.JSONOpinionDataLoader;
 import pl.agh.edu.engine.client.Arrival;
 import pl.agh.edu.engine.client.ClientGroupGenerationHandler;
 import pl.agh.edu.engine.event.EventHandler;
-import pl.agh.edu.engine.hotel.Hotel;
 import pl.agh.edu.engine.hotel.HotelHandler;
 import pl.agh.edu.engine.hotel.HotelType;
 import pl.agh.edu.engine.hotel.scenario.HotelScenariosManager;
@@ -28,7 +27,7 @@ public class Engine {
 	private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
 	private final HotelScenariosManager hotelScenariosManager = new HotelScenariosManager(HotelType.HOTEL);
 	public final EventHandler eventHandler = new EventHandler(hotelScenariosManager);
-	private final HotelHandler hotelHandler = HotelHandler.getInstance();
+	public final HotelHandler hotelHandler = new HotelHandler();
 	private final ClientGroupGenerationHandler clientGroupGenerationHandler = new ClientGroupGenerationHandler(hotelScenariosManager, hotelHandler.bankAccountHandler);
 
 	public Engine() {

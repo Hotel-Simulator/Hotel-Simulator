@@ -84,6 +84,8 @@ public class NavbarBottom extends Table {
 			navbarButton.setDisabled(true);
 			currentNavbarButton = navbarButton;
 		}
+		if (mainScreen != null)
+			type.getFrame().game = mainScreen.game;
 		return navbarButton;
 	}
 

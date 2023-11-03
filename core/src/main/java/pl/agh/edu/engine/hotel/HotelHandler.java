@@ -14,7 +14,6 @@ import pl.agh.edu.engine.hotel.dificulty.GameDifficultyManager;
 import pl.agh.edu.engine.room.RoomManager;
 
 public class HotelHandler {
-	private static HotelHandler hotelHandler;
 	public final Hotel hotel = new Hotel();
 	public final CleaningScheduler cleaningScheduler = new CleaningScheduler(this);
 	public final ReceptionScheduler receptionScheduler = new ReceptionScheduler(this);
@@ -23,19 +22,12 @@ public class HotelHandler {
 	public final PossibleEmployeeHandler possibleEmployeeHandler = new PossibleEmployeeHandler(this);
 	public final EmployeeHandler employeeHandler = new EmployeeHandler();
 	public final BankAccount bankAccount = new BankAccount(
-					GameDifficultyManager.getInstance().getInitialBalance(),
-					JSONBankDataLoader.scenarios.get(0).accountDetails());
+			GameDifficultyManager.getInstance().getInitialBalance(),
+			JSONBankDataLoader.scenarios.get(0));
 	public final BankAccountHandler bankAccountHandler = new BankAccountHandler(bankAccount);
 	public final EmployeeSalaryHandler employeeSalaryHandler = new EmployeeSalaryHandler(employeeHandler, bankAccountHandler);
 	public final RoomManager roomManager = new RoomManager(JSONHotelDataLoader.initialRooms, bankAccountHandler);
 
-	private HotelHandler() {
-	}
+	public HotelHandler() {}
 
-	public static HotelHandler getInstance() {
-		if(hotelHandler == null) {
-			hotelHandler = new HotelHandler();
-		}
-		return hotelHandler;
-	}
 }
