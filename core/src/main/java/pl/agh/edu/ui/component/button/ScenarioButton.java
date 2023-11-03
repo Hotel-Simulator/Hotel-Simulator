@@ -59,7 +59,7 @@ public class ScenarioButton extends WrapperContainer<Button> {
 	public void createButton() {
 		button.clearChildren();
 		button.add(titleLabel).width(5 * button.getWidth() / 24).height(button.getHeight() / 12).row();
-		button.add(scenarioImage).width(button.getWidth() / 12).height(button.getHeight() / 8).padTop(button.getHeight() / 50).center().row();
+		button.add(scenarioImage).width(button.getHeight() / 8 * scenarioButtonStyle.getIconWidth()).height(button.getHeight() / 8).padTop(button.getHeight() / 50).center().row();
 		button.add(descriptionLabel).width(5 * button.getWidth() / 24).height(button.getHeight() / 12).padTop(button.getHeight() / 50).row();
 		button.add(seasonLabel).width(3 * button.getWidth() / 24).padTop(button.getHeight() / 40).center();
 	}
@@ -70,13 +70,18 @@ public class ScenarioButton extends WrapperContainer<Button> {
 	}
 
 	private LanguageLabel createLabel(String labelTextPath, String labelFont, int lineHeight) {
-		Label.LabelStyle labelStyle = skin.get(labelFont, Label.LabelStyle.class);
-		labelStyle.font.getData().setLineHeight(lineHeight);
-		labelStyle.fontColor = ALERT.getColor(_500);
+		Label.LabelStyle labelStyle = createLabelStyle(labelFont, lineHeight);
 		LanguageLabel languageLabel = new LanguageLabel(new LanguageString(labelTextPath), labelFont);
 		languageLabel.setStyle(labelStyle);
 		languageLabel.setWrap(true);
 		return languageLabel;
+	}
+
+	private Label.LabelStyle createLabelStyle(String labelFont, int lineHeight) {
+		Label.LabelStyle labelStyle = skin.get(labelFont, Label.LabelStyle.class);
+		labelStyle.font.getData().setLineHeight(lineHeight);
+		labelStyle.fontColor = ALERT.getColor(_500);
+		return labelStyle;
 	}
 
 	public void updateSizes() {
@@ -139,6 +144,14 @@ public class ScenarioButton extends WrapperContainer<Button> {
                 case LARGE -> H3.getWhiteVariantName();
             };
         }
+
+		public float getIconWidth(){
+			return switch (hotelType) {
+				case RESORT -> 148/104f;
+				case HOTEL -> 125/137f;
+				case SANATORIUM -> 124/135f;
+			};
+		}
 
         private String scenarioKey(String propertyName) {
             return "scenario." + hotelType.name().toLowerCase() + "." + propertyName;

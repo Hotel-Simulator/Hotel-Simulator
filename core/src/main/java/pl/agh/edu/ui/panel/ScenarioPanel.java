@@ -37,8 +37,6 @@ public class ScenarioPanel extends WrapperContainer<Table> {
 	private Table titleLabelTable;
 	private LanguageLabel titleLabel;
 	private TextButton nextButton;
-	private int width;
-	private int height;
 	private float largePaddingMultiplier = 1;
 
 	public ScenarioPanel() {
@@ -59,23 +57,23 @@ public class ScenarioPanel extends WrapperContainer<Table> {
 		frame.top();
 		frame.setFillParent(true);
 		frame.background(skin.getDrawable("hotel-room"));
-		frame.add(titleLabelTable).padTop(largePaddingMultiplier * height / 12).expandX().row();
+		frame.add(titleLabelTable).padTop(largePaddingMultiplier * frame.getHeight() / 16).expandX().row();
 		addScenarioButtonsToFrame();
-		frame.add(nextButton).right().padRight(width / 24).padTop(largePaddingMultiplier * height / 30);
+		frame.add(nextButton).right().padRight(frame.getWidth() / 24).padTop(largePaddingMultiplier * frame.getHeight() / 30);
 		frame.debug();
 	}
 
 	private void addScenarioButtonsToFrame() {
 		Table scenarioButtonsTable = new Table();
-		buttonList.forEach(button -> scenarioButtonsTable.add(button).padLeft(width / 48).padRight(width / 48));
-		frame.add(scenarioButtonsTable).padTop(largePaddingMultiplier * height / 24).row();
+		buttonList.forEach(button -> scenarioButtonsTable.add(button).padLeft(frame.getWidth() / 48).padRight(frame.getWidth() / 48));
+		frame.add(scenarioButtonsTable).padTop(largePaddingMultiplier * frame.getHeight() / 24).row();
 	}
 
 	public void getSize() {
-		width = GraphicConfig.getResolution().WIDTH;
-		height = GraphicConfig.getResolution().HEIGHT;
+		frame.setWidth(GraphicConfig.getResolution().WIDTH);
+		frame.setHeight(GraphicConfig.getResolution().HEIGHT);
 		if (GraphicConfig.getResolution().SIZE.equals(LARGE)) {
-			largePaddingMultiplier = height / 1000f * 0.85f;
+			largePaddingMultiplier = frame.getHeight() / 1000f * 0.85f;
 		}
 	}
 
