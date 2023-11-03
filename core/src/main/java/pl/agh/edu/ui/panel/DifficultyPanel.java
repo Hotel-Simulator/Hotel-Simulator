@@ -1,9 +1,14 @@
 package pl.agh.edu.ui.panel;
 
+import static pl.agh.edu.ui.utils.SkinFont.H1;
+import static pl.agh.edu.ui.utils.SkinFont.H2;
+import static pl.agh.edu.ui.utils.SkinFont.H3;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -17,9 +22,9 @@ import pl.agh.edu.ui.component.button.DifficultyButton;
 import pl.agh.edu.ui.component.label.LanguageLabel;
 import pl.agh.edu.ui.language.LanguageManager;
 import pl.agh.edu.ui.resolution.Size;
-import pl.agh.edu.ui.utils.FontType;
 import pl.agh.edu.ui.utils.SkinColor;
 import pl.agh.edu.ui.utils.wrapper.WrapperContainer;
+import pl.agh.edu.utils.LanguageString;
 
 public class DifficultyPanel extends WrapperContainer<Table> {
 	public final GameSkin skin = GameSkin.getInstance();
@@ -94,7 +99,7 @@ public class DifficultyPanel extends WrapperContainer<Table> {
 	}
 
 	public void createTitleLabel() {
-		titleLabel = new LanguageLabel("difficulty.title", getTitleFont());
+		titleLabel = new LanguageLabel(new LanguageString("difficulty.title"), getTitleFont());
 		titleLabel.setStyle(getTitleLabelStyle());
 	}
 
@@ -111,18 +116,18 @@ public class DifficultyPanel extends WrapperContainer<Table> {
 	}
 
 	public String getPlayButtonText() {
-		return LanguageManager.get("difficulty.play.button");
+		return LanguageManager.get(new LanguageString("difficulty.play.button"));
 	}
 
 	public String getBackButtonText() {
-		return LanguageManager.get("difficulty.back.button");
+		return LanguageManager.get(new LanguageString("difficulty.back.button"));
 	}
 
 	public String getTitleFont() {
 		return switch (GraphicConfig.getResolution().SIZE) {
-			case SMALL -> FontType.H3.getWhiteVariantName();
-			case MEDIUM -> FontType.H2.getWhiteVariantName();
-			case LARGE -> FontType.H1.getWhiteVariantName();
+			case SMALL -> H3.getWhiteVariantName();
+			case MEDIUM -> H2.getWhiteVariantName();
+			case LARGE -> H1.getWhiteVariantName();
 		};
 	}
 
@@ -140,10 +145,11 @@ public class DifficultyPanel extends WrapperContainer<Table> {
 		return titleLabelStyle;
 	}
 
-	public void onLanguageChange() {
+	public Actor onLanguageChange() {
 		super.onLanguageChange();
 		playButton.setText(getPlayButtonText());
 		backButton.setText(getBackButtonText());
+		return this;
 	}
 
 	public void updateSizes() {
