@@ -1,7 +1,7 @@
 package pl.agh.edu.ui.component.navbar;
 
 import static com.badlogic.gdx.utils.Align.center;
-import static pl.agh.edu.ui.utils.FontType.H4;
+import static pl.agh.edu.ui.utils.SkinFont.H4;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
@@ -22,7 +22,8 @@ public class MoneyPanel extends WrapperTable {
 
 	private static class MoneyLabel extends CustomLabel {
 		public MoneyLabel() {
-			super(H4.getName(), "label-money-background");
+			super(H4.getName());
+			this.setBackground("label-money-background");
 			this.setText("100$");
 			this.setAlignment(center, center);
 		}

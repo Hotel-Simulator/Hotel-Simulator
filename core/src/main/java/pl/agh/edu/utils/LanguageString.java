@@ -3,16 +3,19 @@ package pl.agh.edu.utils;
 import java.util.List;
 
 public class LanguageString {
-	public final String property;
-	public final List<Pair<String, String>> stringsWithReplacements;
+	public final String path;
+	public final List<Pair<String, String>> replacementsList;
 
-	public LanguageString(String property, List<Pair<String, String>> stringsWithReplacements) {
-		this.property = property;
-		this.stringsWithReplacements = stringsWithReplacements;
+	public LanguageString(String path, List<Pair<String, String>> replacementsList) {
+		this.path = path;
+		this.replacementsList = replacementsList;
 	}
 
-	public LanguageString(String property) {
-		this.property = property;
-		this.stringsWithReplacements = List.of();
+	public LanguageString() {
+		this("error.error");
+	}
+
+	public LanguageString(String path) {
+		this(path, List.of());
 	}
 }

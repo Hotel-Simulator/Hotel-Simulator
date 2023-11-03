@@ -9,6 +9,7 @@ import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.ui.shader.BlurShader;
 import pl.agh.edu.ui.utils.wrapper.WrapperContainer;
 import pl.agh.edu.ui.utils.wrapper.WrapperTable;
+import pl.agh.edu.utils.LanguageString;
 
 public abstract class BaseModalWrapper extends WrapperContainer<WrapperTable> {
 	private final InputMultiplexer inputMultiplexer;
@@ -21,7 +22,7 @@ public abstract class BaseModalWrapper extends WrapperContainer<WrapperTable> {
 			BlurShader blurShader,
 			Stage mainStage,
 			Stage modalStage) {
-		super();
+		super(new LanguageString());
 		this.inputMultiplexer = inputMultiplexer;
 		this.blurShader = blurShader;
 		this.mainStage = mainStage;
