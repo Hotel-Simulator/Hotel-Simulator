@@ -80,13 +80,14 @@ public class AttractionHandler extends ClientGroupModifierSupplier {
 		}
 		attraction.setState(CHANGING_SIZE);
 		timeCommandExecutor.addCommand(new TimeCommand(
-				() -> attraction.setState(ACTIVE),
+				() -> {
+					attraction.setSize(size);
+					attraction.setState(ACTIVE);
+				},
 				time.getTime().truncatedTo(DAYS).plus(
 						JSONAttractionDataLoader.buildDuration.get(attraction.getSize())
 								.minus(JSONAttractionDataLoader.buildDuration.get(size))
 								.abs())));
-		attractions.get(type).setSize(size);
-
 	}
 
 	private boolean clientGroupVisitAttraction(ClientGroup clientGroup, Attraction attraction) {
