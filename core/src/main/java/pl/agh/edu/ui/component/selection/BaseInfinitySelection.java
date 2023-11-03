@@ -1,12 +1,11 @@
 package pl.agh.edu.ui.component.selection;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+
 import java.util.List;
 import java.util.function.Consumer;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-
 public abstract class BaseInfinitySelection<T> extends BaseSelection<T> {
-
 	private final List<T> values;
 	private int index = 0;
 

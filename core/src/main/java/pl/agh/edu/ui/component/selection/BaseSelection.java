@@ -1,21 +1,16 @@
 package pl.agh.edu.ui.component.selection;
 
-import static com.badlogic.gdx.utils.Align.center;
-
-import java.util.function.Consumer;
-
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-
-import pl.agh.edu.ui.GameSkin;
-import pl.agh.edu.ui.audio.SoundAudio;
+import static com.badlogic.gdx.utils.Align.center;
+import static pl.agh.edu.ui.audio.SoundAudio.BUTTON_3;
 import pl.agh.edu.ui.utils.wrapper.WrapperTable;
 
+import java.util.function.Consumer;
+
 public abstract class BaseSelection<T> extends WrapperTable {
-	protected final Skin skin = GameSkin.getInstance();
 	private final Button leftButton = new Button(skin, "selection-left");
 	private final Button rightButton = new Button(skin, "selection-right");
 	private T value;
@@ -32,7 +27,7 @@ public abstract class BaseSelection<T> extends WrapperTable {
 
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-				SoundAudio.BUTTON_3.play();
+				BUTTON_3.playAudio();
 				rightButton.setDisabled(false);
 				previousButtonHandler();
 				if (!isPreviousButtonCheck()) {
@@ -51,7 +46,7 @@ public abstract class BaseSelection<T> extends WrapperTable {
 
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-				SoundAudio.BUTTON_3.play();
+				BUTTON_3.playAudio();
 				leftButton.setDisabled(false);
 				nextButtonHandler();
 				if (!isNextButtonCheck()) {
