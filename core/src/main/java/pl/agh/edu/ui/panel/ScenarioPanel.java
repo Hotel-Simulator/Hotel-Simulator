@@ -1,15 +1,15 @@
 package pl.agh.edu.ui.panel;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import static pl.agh.edu.ui.utils.SkinFont.H1;
-import static pl.agh.edu.ui.utils.SkinFont.H2;
-import static pl.agh.edu.ui.utils.SkinFont.H3;
 import static pl.agh.edu.ui.resolution.Size.LARGE;
 import static pl.agh.edu.ui.utils.SkinColor.ALERT;
 import static pl.agh.edu.ui.utils.SkinColor.ColorLevel._500;
+import static pl.agh.edu.ui.utils.SkinFont.H1;
+import static pl.agh.edu.ui.utils.SkinFont.H2;
+import static pl.agh.edu.ui.utils.SkinFont.H3;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
@@ -24,8 +24,6 @@ import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.component.button.ScenarioButton;
 import pl.agh.edu.ui.component.label.LanguageLabel;
 import pl.agh.edu.ui.language.LanguageManager;
-import pl.agh.edu.ui.resolution.Size;
-import pl.agh.edu.ui.utils.SkinColor;
 import pl.agh.edu.ui.utils.wrapper.WrapperContainer;
 import pl.agh.edu.utils.LanguageString;
 
@@ -111,7 +109,7 @@ public class ScenarioPanel extends WrapperContainer<Table> {
 		return LanguageManager.get(new LanguageString("scenario.next.button"));
 	}
 
-	public void setButtonText(String text){
+	public void setButtonText(String text) {
 		nextButton.setText(text);
 	}
 
