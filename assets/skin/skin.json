@@ -12,6 +12,12 @@
 		"markupEnabled": false,
 		"flip": false
 	},
+	"body3": {
+		"file": "body3.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
 	"button1": {
 		"file": "button1.fnt",
 		"scaledSize": -1,
@@ -72,6 +78,12 @@
 		"markupEnabled": false,
 		"flip": false
 	},
+	"subtitle3": {
+		"file": "subtitle3.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
 	"white-body1": {
 		"file": "white-body1.fnt",
 		"scaledSize": -1,
@@ -80,6 +92,12 @@
 	},
 	"white-body2": {
 		"file": "white-body2.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"white-body3": {
+		"file": "white-body3.fnt",
 		"scaledSize": -1,
 		"markupEnabled": false,
 		"flip": false
@@ -140,6 +158,12 @@
 	},
 	"white-subtitle2": {
 		"file": "white-subtitle2.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"white-subtitle3": {
+		"file": "white-subtitle3.fnt",
 		"scaledSize": -1,
 		"markupEnabled": false,
 		"flip": false
@@ -343,6 +367,24 @@
 		"g": 0.10980392,
 		"b": 0.10980392,
 		"a": 1
+	},
+	"Gray_900": {
+		"r": 0.12941177,
+		"g": 0.12941177,
+		"b": 0.12941177,
+		"a": 1
+	},
+	"Gray_700": {
+		"r": 0.38039216,
+		"g": 0.38039216,
+		"b": 0.38039216,
+		"a": 1
+	},
+	"Shadow": {
+		"r": 0,
+		"g": 0,
+		"b": 0,
+		"a": 0.3019608
 	}
 },
 "com.ray3k.tenpatch.TenPatchDrawable": {
