@@ -140,8 +140,8 @@ public class DifficultyPanel extends WrapperContainer<Table> {
 		return titleLabelStyle;
 	}
 
-	@Override
 	public void onLanguageChange() {
+		super.onLanguageChange();
 		playButton.setText(getPlayButtonText());
 		backButton.setText(getBackButtonText());
 	}
