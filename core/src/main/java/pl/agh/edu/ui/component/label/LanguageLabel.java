@@ -7,7 +7,7 @@ import pl.agh.edu.ui.language.LanguageManager;
 import pl.agh.edu.utils.LanguageString;
 
 public class LanguageLabel extends CustomLabel implements LanguageChangeListener {
-	private final LanguageString languageString;
+	private LanguageString languageString;
 
 	public LanguageLabel(LanguageString languageString, String font) {
 		super(font);
@@ -22,4 +22,8 @@ public class LanguageLabel extends CustomLabel implements LanguageChangeListener
 		return this;
 	}
 
+	public void updateLanguageString(LanguageString languageString) {
+		this.languageString = languageString;
+		onLanguageChange();
+	}
 }
