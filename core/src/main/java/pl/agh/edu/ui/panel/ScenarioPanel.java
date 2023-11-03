@@ -1,4 +1,4 @@
-package pl.agh.edu.ui.pane;
+package pl.agh.edu.ui.panel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,11 +22,10 @@ import pl.agh.edu.ui.component.button.ScenarioButton;
 import pl.agh.edu.ui.component.label.LanguageLabel;
 import pl.agh.edu.ui.language.LanguageManager;
 import pl.agh.edu.ui.resolution.Size;
-import pl.agh.edu.ui.utils.FontType;
 import pl.agh.edu.ui.utils.SkinColor;
 import pl.agh.edu.ui.utils.wrapper.WrapperContainer;
 
-public class ScenarioPane extends WrapperContainer<Table> {
+public class ScenarioPanel extends WrapperContainer<Table> {
 	public final GameSkin skin = GameSkin.getInstance();
 	public final Table frame = new Table();
 	public final List<ScenarioButton> buttonList = new ArrayList<>();
@@ -38,7 +37,7 @@ public class ScenarioPane extends WrapperContainer<Table> {
 	private int height;
 	private float largePaddingMultiplier = 1;
 
-	public ScenarioPane() {
+	public ScenarioPanel() {
 		setActor(frame);
 		getSize();
 		createDifficultyButtons();
