@@ -1,6 +1,7 @@
 package pl.agh.edu.ui.window;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
@@ -20,7 +21,7 @@ import pl.agh.edu.ui.utils.FontType;
 import pl.agh.edu.ui.utils.SkinColor;
 import pl.agh.edu.ui.utils.wrapper.WrapperContainer;
 
-public class DifficultyWindow extends WrapperContainer<Table> {
+public class DifficultyPanel extends WrapperContainer<Table> {
 	public final GameSkin skin = GameSkin.getInstance();
 	public final Table frame = new Table();
 	public final List<DifficultyButton> buttonsList = new ArrayList<>();
@@ -28,11 +29,9 @@ public class DifficultyWindow extends WrapperContainer<Table> {
 	private LanguageLabel titleLabel;
 	private TextButton backButton;
 	private TextButton playButton;
-	private int width;
-	private int height;
 	private float largePaddingMultiplier = 1;
 
-	public DifficultyWindow() {
+	public DifficultyPanel() {
 		setActor(frame);
 		getSize();
 		createDifficultyButtons();
@@ -48,7 +47,7 @@ public class DifficultyWindow extends WrapperContainer<Table> {
 		frame.left().top();
 		frame.setFillParent(true);
 		frame.background(skin.getDrawable("hotel-room"));
-		frame.add(createTitleLabelTable()).left().padLeft(width / 12).padTop(largePaddingMultiplier * height / 16).expandX().row();
+		frame.add(createTitleLabelTable()).left().padLeft(frame.getWidth() / 12).padTop(largePaddingMultiplier * frame.getHeight() / 16).expandX().row();
 		addDifficultyButtonsToFrame();
 		addPlayBackButtonsToFrame();
 	}
@@ -62,21 +61,19 @@ public class DifficultyWindow extends WrapperContainer<Table> {
 
 	private void addPlayBackButtonsToFrame() {
 		Table playBack = new Table();
-		playBack.add(backButton).padRight(3 * width / 5);
+		playBack.add(backButton).padRight(3 * frame.getWidth() / 5);
 		playBack.add(playButton);
-		frame.add(playBack).padTop(largePaddingMultiplier * height / 15);
+		frame.add(playBack).padTop(largePaddingMultiplier * frame.getHeight() / 15);
 	}
 
 	private void addDifficultyButtonsToFrame() {
 		for (DifficultyButton button : buttonsList) {
-			frame.add(button).left().padTop((int) (largePaddingMultiplier * height / 24)).padLeft(width / 6 + buttonsList.indexOf(button) * width / 24).row();
+			frame.add(button).left().padTop((int) (largePaddingMultiplier * frame.getHeight() / 24)).padLeft(frame.getWidth() / 6 + buttonsList.indexOf(button) * frame.getWidth() / 24).row();
 		}
 	}
 
 	public void createDifficultyButtons() {
-		for (DifficultyLevel level : DifficultyLevel.values()) {
-			buttonsList.add(new DifficultyButton(level));
-		}
+		Arrays.stream(DifficultyLevel.values()).forEach(level -> buttonsList.add(new DifficultyButton(level)));
 		createButtonGroup();
 	}
 
@@ -89,10 +86,13 @@ public class DifficultyWindow extends WrapperContainer<Table> {
 	}
 
 	public void getSize() {
-		width = GraphicConfig.getResolution().WIDTH;
-		height = GraphicConfig.getResolution().HEIGHT;
+		frame.setWidth(GraphicConfig.getResolution().WIDTH);
+		frame.setHeight(GraphicConfig.getResolution().HEIGHT);
 		if (GraphicConfig.getResolution().SIZE.equals(Size.LARGE)) {
-			largePaddingMultiplier = height / 1000f * 0.85f;
+			largePaddingMultiplier = frame.getHeight() / 1000f * 0.85f;
+		}
+		else{
+			largePaddingMultiplier = 1;
 		}
 	}
 
@@ -106,16 +106,11 @@ public class DifficultyWindow extends WrapperContainer<Table> {
 	}
 
 	public void createPlayButton() {
-		playButton = createTextButton(getPlayButtonText(), getPlayBackButtonStyle());
+		playButton = new TextButton(getPlayButtonText(), getPlayBackButtonStyle());
 	}
 
 	public void createBackButton() {
-		backButton = createTextButton(getBackButtonText(), getPlayBackButtonStyle());
-	}
-
-	private TextButton createTextButton(String text, TextButton.TextButtonStyle style) {
-		TextButton textButton = new TextButton(text, style);
-		return textButton;
+		backButton = new TextButton(getBackButtonText(), getPlayBackButtonStyle());
 	}
 
 	public String getPlayButtonText() {
