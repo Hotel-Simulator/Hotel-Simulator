@@ -9,16 +9,13 @@ import static pl.agh.edu.ui.utils.SkinFont.H4;
 
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import pl.agh.edu.config.GraphicConfig;
-import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.component.label.LanguageLabel;
 import pl.agh.edu.ui.utils.wrapper.WrapperTable;
 import pl.agh.edu.utils.LanguageString;
 
 public class TabSelector extends WrapperTable {
-	Skin skin = GameSkin.getInstance();
 
 	public TabSelector(String languagePathLeft, String languagePathRight, Runnable actionLeft, Runnable actionRight) {
 		super();

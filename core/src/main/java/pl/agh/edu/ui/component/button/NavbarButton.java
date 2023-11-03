@@ -30,12 +30,12 @@ public class NavbarButton extends Table implements LanguageChangeListener {
 	private final NavbarButtonStyle navbarButtonStyle;
 	private boolean disabled = false;
 	private Runnable touchUpAction;
-	private final Skin skin = GameSkin.getInstance();
 
 	public NavbarButton(NavbarButtonType type, BottomNavbarState state) {
 		this.type = type;
 		this.state = state;
 
+		Skin skin = GameSkin.getInstance();
 		navbarButtonStyle = skin.get(type.getStyleName(), NavbarButtonStyle.class);
 		iconImage = new Image(new TextureRegionDrawable(new TextureRegion(navbarButtonStyle.iconUp)));
 		label = new Label("", skin, SUBTITLE2.getName());
