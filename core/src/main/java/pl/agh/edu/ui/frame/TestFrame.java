@@ -1,8 +1,9 @@
 package pl.agh.edu.ui.frame;
 
+import static pl.agh.edu.ui.utils.SkinColor.ALERT;
+
 import pl.agh.edu.ui.component.label.LanguageLabel;
 import pl.agh.edu.ui.component.tooltip.DescriptionTooltip;
-import static pl.agh.edu.ui.utils.SkinColor.ALERT;
 import pl.agh.edu.utils.LanguageString;
 
 public class TestFrame extends BaseFrame {
