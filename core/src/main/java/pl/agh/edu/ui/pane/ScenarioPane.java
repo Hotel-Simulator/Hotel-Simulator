@@ -1,7 +1,12 @@
-package pl.agh.edu.ui.window.scenarios;
+package pl.agh.edu.ui.pane;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import static pl.agh.edu.ui.utils.FontType.H1;
+import static pl.agh.edu.ui.utils.FontType.H2;
+import static pl.agh.edu.ui.utils.FontType.H3;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
@@ -21,10 +26,10 @@ import pl.agh.edu.ui.utils.FontType;
 import pl.agh.edu.ui.utils.SkinColor;
 import pl.agh.edu.ui.utils.wrapper.WrapperContainer;
 
-public class ScenarioWindow extends WrapperContainer<Table> {
+public class ScenarioPane extends WrapperContainer<Table> {
 	public final GameSkin skin = GameSkin.getInstance();
 	public final Table frame = new Table();
-	public final List<ScenarioButton> buttonsList = new ArrayList<>();
+	public final List<ScenarioButton> buttonList = new ArrayList<>();
 	public final ButtonGroup<Button> buttonGroup = new ButtonGroup<>();
 	private Table titleLabelTable;
 	private LanguageLabel titleLabel;
@@ -33,7 +38,7 @@ public class ScenarioWindow extends WrapperContainer<Table> {
 	private int height;
 	private float largePaddingMultiplier = 1;
 
-	public ScenarioWindow() {
+	public ScenarioPane() {
 		setActor(frame);
 		getSize();
 		createDifficultyButtons();
@@ -57,9 +62,7 @@ public class ScenarioWindow extends WrapperContainer<Table> {
 
 	private void addScenarioButtonsToFrame() {
 		Table scenarioButtonsTable = new Table();
-		for (int i = 0; i < buttonsList.size(); i++) {
-			scenarioButtonsTable.add(buttonsList.get(i)).padLeft(width / 48).padRight(width / 48);
-		}
+		buttonList.forEach(button -> scenarioButtonsTable.add(button).padLeft(width / 48).padRight(width / 48));
 		frame.add(scenarioButtonsTable).padTop(largePaddingMultiplier * height / 24).row();
 	}
 
@@ -72,18 +75,14 @@ public class ScenarioWindow extends WrapperContainer<Table> {
 	}
 
 	public void createDifficultyButtons() {
-		for (HotelType hotelType : HotelType.values()) {
-			buttonsList.add(new ScenarioButton(hotelType));
-		}
+		Arrays.stream(HotelType.values()).forEach(hotelType -> buttonList.add(new ScenarioButton(hotelType)));
 		createButtonGroup();
 	}
 
 	public void createButtonGroup() {
 		buttonGroup.setMinCheckCount(1);
 		buttonGroup.setMaxCheckCount(1);
-		for (ScenarioButton scenarioButton : buttonsList) {
-			buttonGroup.add(scenarioButton.getActor());
-		}
+		buttonList.forEach(scenarioButton -> buttonGroup.add(scenarioButton.getActor()));
 	}
 
 	public void createTitleLabel() {
@@ -119,9 +118,9 @@ public class ScenarioWindow extends WrapperContainer<Table> {
 
 	public String getTitleFont() {
 		return switch (GraphicConfig.getResolution().SIZE) {
-			case SMALL -> FontType.H3.getWhiteVariantName();
-			case MEDIUM -> FontType.H2.getWhiteVariantName();
-			case LARGE -> FontType.H1.getWhiteVariantName();
+			case SMALL -> H3.getWhiteVariantName();
+			case MEDIUM -> H2.getWhiteVariantName();
+			case LARGE -> H1.getWhiteVariantName();
 		};
 	}
 

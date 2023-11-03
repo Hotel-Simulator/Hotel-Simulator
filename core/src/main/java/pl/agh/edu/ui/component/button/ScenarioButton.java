@@ -6,22 +6,23 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
+import static pl.agh.edu.ui.utils.FontType.H2;
+import static pl.agh.edu.ui.utils.FontType.H3;
+import static pl.agh.edu.ui.utils.FontType.H4;
+import static pl.agh.edu.ui.utils.FontType.SUBTITLE1;
+import static pl.agh.edu.ui.utils.SkinColor.ALERT;
+import static pl.agh.edu.ui.utils.SkinColor.ColorLevel._500;
+
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.engine.hotel.HotelType;
 import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.component.label.LanguageLabel;
-import pl.agh.edu.ui.language.LanguageManager;
-import pl.agh.edu.ui.resolution.ResolutionManager;
-import pl.agh.edu.ui.utils.FontType;
-import pl.agh.edu.ui.utils.SkinColor;
 import pl.agh.edu.ui.utils.wrapper.WrapperContainer;
 
 public class ScenarioButton extends WrapperContainer<Button> {
 	private final Skin skin = GameSkin.getInstance();
 	private final Button button;
 	private final ScenarioButtonStyle scenarioButtonStyle;
-	private int width;
-	private int height;
 	private LanguageLabel titleLabel;
 	private Image scenarioImage;
 	private LanguageLabel descriptionLabel;
@@ -34,8 +35,7 @@ public class ScenarioButton extends WrapperContainer<Button> {
 		setSize();
 
 		ScenarioButtonStyle.createPad(this);
-		ResolutionManager.addListener(this);
-		LanguageManager.addListener(this);
+		setResolutionChangeHandler(this::updateSizes);
 
 		createActors();
 		createButton();
@@ -43,44 +43,42 @@ public class ScenarioButton extends WrapperContainer<Button> {
 	}
 
 	public void createActors() {
-		titleLabel = createLabel(scenarioButtonStyle.getTitleLabelPath(), scenarioButtonStyle.getTitleLabelFont(), height / 30);
+		titleLabel = createLabel(scenarioButtonStyle.getTitleLabelPath(), scenarioButtonStyle.getTitleLabelFont(), (int) (button.getHeight() / 30));
 		titleLabel.setAlignment(getAlign());
 
 		scenarioImage = new Image(skin.getDrawable(scenarioButtonStyle.getIconPath()));
 
-		descriptionLabel = createLabel(scenarioButtonStyle.getDescriptionLabelPath(), scenarioButtonStyle.getDescriptionLabelFont(), height / 40);
+		descriptionLabel = createLabel(scenarioButtonStyle.getDescriptionLabelPath(), scenarioButtonStyle.getDescriptionLabelFont(), (int) (button.getHeight() / 40));
 		descriptionLabel.setAlignment(getAlign());
 
-		seasonLabel = createLabel(scenarioButtonStyle.getSeasonLabelPath(), scenarioButtonStyle.getDescriptionLabelFont(), height / 40);
+		seasonLabel = createLabel(scenarioButtonStyle.getSeasonLabelPath(), scenarioButtonStyle.getDescriptionLabelFont(), (int) (button.getHeight() / 40));
 		seasonLabel.setAlignment(getAlign());
 	}
 
 	public void createButton() {
 		button.clearChildren();
-		button.add(titleLabel).width(5 * width / 24).height(height / 12).row();
-		button.add(scenarioImage).width(width / 12).height(height / 8).padTop(height / 50).center().row();
-		button.add(descriptionLabel).width(5 * width / 24).height(height / 12).padTop(height / 50).row();
-		button.add(seasonLabel).width(3 * width / 24).padTop(height / 40).center();
+		button.add(titleLabel).width(5 * button.getWidth() / 24).height(button.getHeight() / 12).row();
+		button.add(scenarioImage).width(button.getWidth() / 12).height(button.getHeight() / 8).padTop(button.getHeight() / 50).center().row();
+		button.add(descriptionLabel).width(5 * button.getWidth() / 24).height(button.getHeight() / 12).padTop(button.getHeight() / 50).row();
+		button.add(seasonLabel).width(3 * button.getWidth() / 24).padTop(button.getHeight() / 40).center();
 	}
 
 	public void setSize() {
-		width = GraphicConfig.getResolution().WIDTH;
-		height = GraphicConfig.getResolution().HEIGHT;
+		button.setWidth(GraphicConfig.getResolution().WIDTH);
+		button.setHeight(GraphicConfig.getResolution().HEIGHT);
 	}
 
 	private LanguageLabel createLabel(String labelTextPath, String labelFont, int lineHeight) {
-		System.out.println(labelTextPath);
 		Label.LabelStyle labelStyle = skin.get(labelFont, Label.LabelStyle.class);
 		labelStyle.font.getData().setLineHeight(lineHeight);
-		labelStyle.fontColor = SkinColor.ALERT.getColor(SkinColor.ColorLevel._500);
+		labelStyle.fontColor = ALERT.getColor(_500);
 		LanguageLabel languageLabel = new LanguageLabel(labelTextPath, labelFont);
 		languageLabel.setStyle(labelStyle);
 		languageLabel.setWrap(true);
 		return languageLabel;
 	}
 
-	@Override
-	public void onResolutionChange() {
+	public void updateSizes() {
 		setSize();
 		createButton();
 		updateLabelStyles();
@@ -98,11 +96,11 @@ public class ScenarioButton extends WrapperContainer<Button> {
 	}
 
 	public record ScenarioButtonStyle(HotelType hotelType) {
-        private static final int PAD_TOP_BOTTOM = 30;
-        private static final int PAD_LEFT_RIGHT = 20;
+        private static final int PAD_VERTICAL = 30;
+        private static final int PAD_HORIZONTAL = 20;
 
         public static void createPad(ScenarioButton button) {
-            button.pad(PAD_TOP_BOTTOM, PAD_LEFT_RIGHT, PAD_TOP_BOTTOM, PAD_LEFT_RIGHT);
+            button.pad(PAD_VERTICAL, PAD_HORIZONTAL, PAD_VERTICAL, PAD_HORIZONTAL);
         }
 
         public String getTitleLabelPath() {
@@ -127,17 +125,17 @@ public class ScenarioButton extends WrapperContainer<Button> {
 
         public String getTitleLabelFont() {
             return switch (GraphicConfig.getResolution().SIZE) {
-                case SMALL -> FontType.H4.getWhiteVariantName();
-                case MEDIUM -> FontType.H3.getWhiteVariantName();
-                case LARGE -> FontType.H2.getWhiteVariantName();
+                case SMALL -> H4.getWhiteVariantName();
+                case MEDIUM -> H3.getWhiteVariantName();
+                case LARGE -> H2.getWhiteVariantName();
             };
         }
 
         public String getDescriptionLabelFont() {
             return switch (GraphicConfig.getResolution().SIZE) {
-                case SMALL -> FontType.SUBTITLE1.getWhiteVariantName();
-                case MEDIUM -> FontType.H4.getWhiteVariantName();
-                case LARGE -> FontType.H3.getWhiteVariantName();
+                case SMALL -> SUBTITLE1.getWhiteVariantName();
+                case MEDIUM -> H4.getWhiteVariantName();
+                case LARGE -> H3.getWhiteVariantName();
             };
         }
 
