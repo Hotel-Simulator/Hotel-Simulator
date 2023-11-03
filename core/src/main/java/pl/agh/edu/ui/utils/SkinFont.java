@@ -1,6 +1,6 @@
 package pl.agh.edu.ui.utils;
 
-public enum FontType {
+public enum SkinFont {
 	BODY_1("body1"),
 	BODY_2("body2"),
 	BUTTON_1("button1"),
@@ -16,7 +16,7 @@ public enum FontType {
 
 	private final String name;
 
-	FontType(String name) {
+	SkinFont(String name) {
 		this.name = name;
 	}
 
