@@ -10,6 +10,7 @@ import java.util.function.Function;
 
 import ch.obermuhlner.math.big.BigDecimalMath;
 import pl.agh.edu.utils.CustomBigDecimal;
+import pl.agh.edu.utils.LanguageString;
 
 public class MoneySliderComponent extends SliderComponent {
 	private static final MathContext fine = DECIMAL128;
@@ -18,8 +19,8 @@ public class MoneySliderComponent extends SliderComponent {
 	private final BigDecimal minMoneyValue;
 	private final Function<BigDecimal, Void> stateChangeHandler;
 
-	public MoneySliderComponent(String name, BigDecimal minValue, BigDecimal maxValue, Function<BigDecimal, Void> stateChangeHandler) {
-		super(name, "$", logarithmicMapping(CustomBigDecimal.getMinValue(minValue)), logarithmicMapping(CustomBigDecimal.getMaxValue(maxValue)), 0.01f);
+	public MoneySliderComponent(LanguageString languageString, BigDecimal minValue, BigDecimal maxValue, Function<BigDecimal, Void> stateChangeHandler) {
+		super(languageString, "$", logarithmicMapping(CustomBigDecimal.getMinValue(minValue)), logarithmicMapping(CustomBigDecimal.getMaxValue(maxValue)), 0.01f);
 		this.maxMoneyValue = CustomBigDecimal.getMaxValue(maxValue);
 		this.minMoneyValue = CustomBigDecimal.getMinValue(minValue);
 		this.stateChangeHandler = stateChangeHandler;
