@@ -1,5 +1,6 @@
 package pl.agh.edu.ui.component.modal.options;
 
+import static com.badlogic.gdx.utils.Align.center;
 import static pl.agh.edu.ui.audio.SoundAudio.BUTTON_1;
 import static pl.agh.edu.ui.resolution.Size.LARGE;
 import static pl.agh.edu.ui.utils.SkinFont.H2;
@@ -10,7 +11,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Align;
 
 import pl.agh.edu.config.AudioConfig;
 import pl.agh.edu.config.GraphicConfig;
@@ -36,7 +36,7 @@ public class OptionModal extends WrapperTable {
 		this.setBackground("modal-glass-background");
 
 		LanguageLabel titleLabel = new LanguageLabel(new LanguageString("optionsFrame.label.title"), H2.getName());
-		titleLabel.setAlignment(Align.center, Align.center);
+		titleLabel.setAlignment(center, center);
 		innerTable.add(titleLabel).growX().center().row();
 
 		innerTable.add(selectResolutionMenu).grow().pad(OptionFrameStyle.getInnerPadding()).row();
@@ -56,7 +56,7 @@ public class OptionModal extends WrapperTable {
 		backButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				BUTTON_1.play();
+				BUTTON_1.playAudio();
 				closeHandler.run();
 			}
 		});
@@ -64,7 +64,7 @@ public class OptionModal extends WrapperTable {
 		saveButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				BUTTON_1.play();
+				BUTTON_1.playAudio();
 				Gdx.app.exit();
 			}
 		});

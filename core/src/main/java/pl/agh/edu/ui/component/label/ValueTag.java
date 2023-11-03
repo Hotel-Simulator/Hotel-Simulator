@@ -6,15 +6,12 @@ import static pl.agh.edu.ui.utils.SkinFont.SUBTITLE1;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import pl.agh.edu.config.GraphicConfig;
-import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.utils.wrapper.WrapperTable;
 import pl.agh.edu.utils.LanguageString;
 
 public class ValueTag extends WrapperTable {
-	private final Skin skin = GameSkin.getInstance();
 	private final Label valueLabel = new Label("", skin, SUBTITLE1.getWhiteVariantName());
 
 	public ValueTag(LanguageString languageString, String value) {

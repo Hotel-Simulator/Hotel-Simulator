@@ -1,20 +1,18 @@
 package pl.agh.edu.ui.component.rating;
 
+import static pl.agh.edu.ui.audio.SoundAudio.BUTTON_3;
+
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Null;
 
 import pl.agh.edu.config.GraphicConfig;
-import pl.agh.edu.ui.GameSkin;
-import pl.agh.edu.ui.audio.SoundAudio;
+import pl.agh.edu.ui.utils.wrapper.WrapperContainer;
 
-public class Star extends Container<Button> {
+public class Star extends WrapperContainer<Button> {
 	public final int index;
-	private final Skin skin = GameSkin.getInstance();
 	private final Button button = new Button(skin, "star-normal");
 
 	public Star(int index, Rating rating) {
@@ -33,7 +31,7 @@ public class Star extends Container<Button> {
 
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-				SoundAudio.BUTTON_3.play();
+				BUTTON_3.playAudio();
 				rating.setRating(index);
 			}
 
