@@ -1,5 +1,7 @@
 package pl.agh.edu.engine.opinion;
 
+import static pl.agh.edu.engine.opinion.OpinionStars.ONE;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -52,7 +54,7 @@ public class Opinion {
 	}
 
 	public OpinionStars getStars() {
-		return clientGroupGotRoom ? OpinionStars.get(getValue()) : OpinionStars.ZERO;
+		return clientGroupGotRoom ? OpinionStars.get(getValue()) : ONE;
 	}
 
 	public List<String> getComment() {
