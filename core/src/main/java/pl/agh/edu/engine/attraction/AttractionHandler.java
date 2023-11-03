@@ -9,7 +9,10 @@ import static pl.agh.edu.engine.attraction.AttractionState.OPENING;
 import static pl.agh.edu.engine.attraction.AttractionState.SHUTTING_DOWN;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.Map;
 
 import pl.agh.edu.data.loader.JSONAttractionDataLoader;
 import pl.agh.edu.engine.bank.BankAccountHandler;
@@ -27,6 +30,9 @@ public class AttractionHandler extends ClientGroupModifierSupplier {
 	private final EnumMap<AttractionType, Attraction> attractions = new EnumMap<>(AttractionType.class);
 	private final BankAccountHandler accountHandler;
 	private final RoomManager roomManager;
+	private final Map<AttractionType, Pair<AttractionSize, LocalDateTime>> attractionBuildingTimes = new HashMap<>();
+	private final Map<AttractionType, Pair<AttractionSize, LocalDateTime>> attractionChangingSizeTimes = new HashMap<>();
+
 	private final Time time = Time.getInstance();
 	private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
 
@@ -48,13 +54,18 @@ public class AttractionHandler extends ClientGroupModifierSupplier {
 
 	public void build(AttractionType type, AttractionSize size) {
 		Attraction attraction = new Attraction(type, size);
+
 		attractions.put(type, attraction);
 		accountHandler.registerExpense(JSONAttractionDataLoader.buildCost.get(size));
-		timeCommandExecutor.addCommand(new TimeCommand(
-				() -> attraction.setState(ACTIVE),
-				time.getTime()
-						.truncatedTo(DAYS)
-						.plus(JSONAttractionDataLoader.buildDuration.get(attraction.getSize()))));
+
+		LocalDateTime buildTime = time.getTime().truncatedTo(DAYS)
+				.plus(JSONAttractionDataLoader.buildDuration.get(attraction.getSize()));
+		attractionBuildingTimes.put(type, Pair.of(size, buildTime));
+
+		timeCommandExecutor.addCommand(new TimeCommand(() -> {
+			attraction.setState(ACTIVE);
+			attractionBuildingTimes.remove(type);
+		}, buildTime));
 	}
 
 	public boolean canChangeSize(AttractionType type, AttractionSize size) {
@@ -71,6 +82,7 @@ public class AttractionHandler extends ClientGroupModifierSupplier {
 
 	public void changeSize(AttractionType type, AttractionSize size) {
 		Attraction attraction = attractions.get(type);
+
 		BigDecimal cost = JSONAttractionDataLoader.buildCost.get(size)
 				.subtract(JSONAttractionDataLoader.buildCost.get(attraction.getSize()));
 		if (cost.compareTo(ZERO) > 0) {
@@ -78,16 +90,21 @@ public class AttractionHandler extends ClientGroupModifierSupplier {
 		} else {
 			accountHandler.registerIncome(cost.multiply(new BigDecimal("0.5")).negate());
 		}
+
 		attraction.setState(CHANGING_SIZE);
+
+		LocalDateTime changeSizeTime = time.getTime().truncatedTo(DAYS).plus(
+				JSONAttractionDataLoader.buildDuration.get(attraction.getSize())
+						.minus(JSONAttractionDataLoader.buildDuration.get(size))
+						.abs());
+		attractionChangingSizeTimes.put(type, Pair.of(size, changeSizeTime));
+
 		timeCommandExecutor.addCommand(new TimeCommand(
 				() -> {
 					attraction.setSize(size);
 					attraction.setState(ACTIVE);
-				},
-				time.getTime().truncatedTo(DAYS).plus(
-						JSONAttractionDataLoader.buildDuration.get(attraction.getSize())
-								.minus(JSONAttractionDataLoader.buildDuration.get(size))
-								.abs())));
+					attractionChangingSizeTimes.remove(type);
+				}, changeSizeTime));
 	}
 
 	private boolean clientGroupVisitAttraction(ClientGroup clientGroup, Attraction attraction) {
