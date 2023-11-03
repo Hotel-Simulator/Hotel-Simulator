@@ -6,10 +6,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
-import static pl.agh.edu.ui.utils.FontType.H2;
-import static pl.agh.edu.ui.utils.FontType.H3;
-import static pl.agh.edu.ui.utils.FontType.H4;
-import static pl.agh.edu.ui.utils.FontType.SUBTITLE1;
+import static pl.agh.edu.ui.utils.SkinFont.H2;
+import static pl.agh.edu.ui.utils.SkinFont.H3;
+import static pl.agh.edu.ui.utils.SkinFont.H4;
+import static pl.agh.edu.ui.utils.SkinFont.SUBTITLE1;
 import static pl.agh.edu.ui.utils.SkinColor.ALERT;
 import static pl.agh.edu.ui.utils.SkinColor.ColorLevel._500;
 
@@ -18,6 +18,7 @@ import pl.agh.edu.engine.hotel.HotelType;
 import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.component.label.LanguageLabel;
 import pl.agh.edu.ui.utils.wrapper.WrapperContainer;
+import pl.agh.edu.utils.LanguageString;
 
 public class ScenarioButton extends WrapperContainer<Button> {
 	private final Skin skin = GameSkin.getInstance();
@@ -72,7 +73,7 @@ public class ScenarioButton extends WrapperContainer<Button> {
 		Label.LabelStyle labelStyle = skin.get(labelFont, Label.LabelStyle.class);
 		labelStyle.font.getData().setLineHeight(lineHeight);
 		labelStyle.fontColor = ALERT.getColor(_500);
-		LanguageLabel languageLabel = new LanguageLabel(labelTextPath, labelFont);
+		LanguageLabel languageLabel = new LanguageLabel(new LanguageString(labelTextPath), labelFont);
 		languageLabel.setStyle(labelStyle);
 		languageLabel.setWrap(true);
 		return languageLabel;

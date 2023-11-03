@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static pl.agh.edu.ui.utils.FontType.H1;
-import static pl.agh.edu.ui.utils.FontType.H2;
-import static pl.agh.edu.ui.utils.FontType.H3;
+import static pl.agh.edu.ui.utils.SkinFont.H1;
+import static pl.agh.edu.ui.utils.SkinFont.H2;
+import static pl.agh.edu.ui.utils.SkinFont.H3;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
@@ -24,6 +24,7 @@ import pl.agh.edu.ui.language.LanguageManager;
 import pl.agh.edu.ui.resolution.Size;
 import pl.agh.edu.ui.utils.SkinColor;
 import pl.agh.edu.ui.utils.wrapper.WrapperContainer;
+import pl.agh.edu.utils.LanguageString;
 
 public class ScenarioPanel extends WrapperContainer<Table> {
 	public final GameSkin skin = GameSkin.getInstance();
@@ -38,6 +39,7 @@ public class ScenarioPanel extends WrapperContainer<Table> {
 	private float largePaddingMultiplier = 1;
 
 	public ScenarioPanel() {
+		super(new LanguageString("scenario.next.button"));
 		setActor(frame);
 		getSize();
 		createDifficultyButtons();
@@ -45,7 +47,8 @@ public class ScenarioPanel extends WrapperContainer<Table> {
 		createNextButton();
 
 		createFrame();
-		LanguageManager.addListener(this);
+		setResolutionChangeHandler(this::updatedSizes);
+		setLanguageChangeHandler(this::setButtonText);
 	}
 
 	public void createFrame() {
@@ -87,7 +90,7 @@ public class ScenarioPanel extends WrapperContainer<Table> {
 	public void createTitleLabel() {
 		Label.LabelStyle titleLabelStyle = skin.get(getTitleFont(), Label.LabelStyle.class);
 		titleLabelStyle.fontColor = SkinColor.ALERT.getColor(SkinColor.ColorLevel._500);
-		titleLabel = new LanguageLabel("scenario.title", getTitleFont());
+		titleLabel = new LanguageLabel(new LanguageString("scenario.title"), getTitleFont());
 		titleLabel.setStyle(titleLabelStyle);
 		titleLabelTable = new Table();
 		titleLabelTable.setBackground(getTitleLabelBackground());
@@ -104,7 +107,11 @@ public class ScenarioPanel extends WrapperContainer<Table> {
 	}
 
 	public String getNextButtonText() {
-		return LanguageManager.get("scenario.next.button");
+		return LanguageManager.get(new LanguageString("scenario.next.button"));
+	}
+
+	public void setButtonText(String text){
+		nextButton.setText(text);
 	}
 
 	public void updateLabels() {
@@ -131,13 +138,7 @@ public class ScenarioPanel extends WrapperContainer<Table> {
 		};
 	}
 
-	@Override
-	public void onLanguageChange() {
-		nextButton.setText(getNextButtonText());
-	}
-
-	@Override
-	public void onResolutionChange() {
+	public void updatedSizes() {
 		getSize();
 		updateLabels();
 		createFrame();
