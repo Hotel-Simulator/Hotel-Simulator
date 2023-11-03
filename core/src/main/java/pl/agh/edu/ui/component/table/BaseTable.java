@@ -2,6 +2,9 @@ package pl.agh.edu.ui.component.table;
 
 import static com.badlogic.gdx.utils.Align.left;
 import static com.badlogic.gdx.utils.Align.topLeft;
+import static pl.agh.edu.ui.utils.SkinFont.BODY_1;
+import static pl.agh.edu.ui.utils.SkinFont.BODY_2;
+import static pl.agh.edu.ui.utils.SkinFont.H4;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,21 +14,17 @@ import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 import pl.agh.edu.config.GraphicConfig;
-import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.component.CustomScrollPane;
 import pl.agh.edu.ui.component.label.LanguageLabel;
-import pl.agh.edu.ui.utils.SkinFont;
 import pl.agh.edu.ui.utils.wrapper.WrapperTable;
 import pl.agh.edu.utils.LanguageString;
 
 public abstract class BaseTable extends WrapperTable {
 	protected Table contentRows = new Table();
-	protected Skin skin = GameSkin.getInstance();
 	protected ScrollPane scrollPane = new CustomScrollPane(contentRows, skin, "transparent");
 
 	public BaseTable(List<LanguageString> columnNames) {
@@ -68,8 +67,6 @@ public abstract class BaseTable extends WrapperTable {
 	}
 
 	protected abstract static class BaseRow extends WrapperTable {
-		protected final Skin skin = GameSkin.getInstance();
-
 		BaseRow() {
 			super();
 			this.setBackground("table-row-background");
@@ -119,17 +116,17 @@ public abstract class BaseTable extends WrapperTable {
 
 		public static String getFont() {
 			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> SkinFont.BODY_1.getName();
-				case MEDIUM -> SkinFont.BODY_2.getName();
-				case LARGE -> SkinFont.H4.getName();
+				case SMALL -> BODY_1.getName();
+				case MEDIUM -> BODY_2.getName();
+				case LARGE -> H4.getName();
 			};
 		}
 
 		public static String getHeaderFont() {
 			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> SkinFont.BODY_2.getName();
-				case MEDIUM -> SkinFont.BODY_1.getName();
-				case LARGE -> SkinFont.H4.getName();
+				case SMALL -> BODY_2.getName();
+				case MEDIUM -> BODY_1.getName();
+				case LARGE -> H4.getName();
 			};
 		}
 

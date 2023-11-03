@@ -17,7 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.engine.event.EventModalData;
-import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.component.button.LabeledButton;
 import pl.agh.edu.ui.component.label.LanguageLabel;
 import pl.agh.edu.ui.utils.wrapper.WrapperTable;
@@ -38,7 +37,7 @@ public class EventModal extends WrapperTable {
 
 		Table mainTable = new Table();
 
-		Image image = new Image(GameSkin.getInstance().getDrawable(eventModalData.imagePath()));
+		Image image = new Image(skin.getDrawable(eventModalData.imagePath()));
 		image.setFillParent(true);
 		imageContainer.setActor(image);
 
@@ -57,7 +56,7 @@ public class EventModal extends WrapperTable {
 		okButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				BUTTON_1.play();
+				BUTTON_1.playAudio();
 				closeHandler.run();
 			}
 		});

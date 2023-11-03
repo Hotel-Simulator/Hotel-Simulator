@@ -1,6 +1,7 @@
 package pl.agh.edu.ui.component.selectMenu;
 
 import static com.badlogic.gdx.utils.Align.center;
+import static pl.agh.edu.ui.audio.SoundAudio.PIP_1;
 import static pl.agh.edu.ui.utils.SkinFont.SUBTITLE1;
 
 import java.util.function.Function;
@@ -11,19 +12,15 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
 
 import pl.agh.edu.config.GraphicConfig;
-import pl.agh.edu.ui.GameSkin;
-import pl.agh.edu.ui.audio.SoundAudio;
 import pl.agh.edu.ui.component.label.CustomLabel;
 import pl.agh.edu.ui.utils.wrapper.WrapperTable;
 import pl.agh.edu.utils.LanguageString;
 
 public class SelectMenu extends WrapperTable {
-	private final Skin skin = GameSkin.getInstance();
 	private final Array<SelectMenuItem> items;
 	private final SelectBox<SelectMenuItem> selectOption = new DropDownSelect();
 
@@ -150,13 +147,13 @@ public class SelectMenu extends WrapperTable {
 		@Override
 		protected void onShow(Actor scrollPane, boolean below) {
 			super.onShow(scrollPane, below);
-			SoundAudio.PIP_1.play();
+			PIP_1.playAudio();
 		}
 
 		@Override
 		protected void onHide(Actor scrollPane) {
 			super.onHide(scrollPane);
-			SoundAudio.PIP_1.play();
+			PIP_1.playAudio();
 		}
 	}
 }

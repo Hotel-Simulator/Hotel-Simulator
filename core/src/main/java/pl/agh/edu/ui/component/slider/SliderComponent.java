@@ -1,24 +1,22 @@
 package pl.agh.edu.ui.component.slider;
 
+import static com.badlogic.gdx.utils.Align.center;
+import static com.badlogic.gdx.utils.Align.right;
+import static pl.agh.edu.ui.audio.SoundAudio.PIP_1;
 import static pl.agh.edu.ui.utils.SkinFont.SUBTITLE2;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.Align;
 
 import pl.agh.edu.config.GraphicConfig;
-import pl.agh.edu.ui.GameSkin;
-import pl.agh.edu.ui.audio.SoundAudio;
 import pl.agh.edu.ui.language.LanguageChangeListener;
 import pl.agh.edu.ui.utils.wrapper.WrapperDoubleTable;
 import pl.agh.edu.utils.LanguageString;
 
 public abstract class SliderComponent extends WrapperDoubleTable implements LanguageChangeListener {
 
-	protected final Skin skin = GameSkin.getInstance();
 	protected final String suffix;
 	protected final Label valueLabel = new Label("100 %", skin, SUBTITLE2.getName());
 	private final Slider slider;
@@ -34,14 +32,14 @@ public abstract class SliderComponent extends WrapperDoubleTable implements Lang
 		this.setLanguageChangeHandler(nameLabel::setText);
 		this.setResolutionChangeHandler(this::changeResolutionHandler);
 
-		nameLabel.setAlignment(Align.center, Align.center);
-		valueLabel.setAlignment(Align.right, Align.right);
+		nameLabel.setAlignment(center, center);
+		valueLabel.setAlignment(right, right);
 
 		slider = new Slider(minValue, maxValue, step, false, skin);
 		slider.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-				SoundAudio.PIP_1.play();
+				PIP_1.playAudio();
 				stateChangeHandler();
 			}
 		});

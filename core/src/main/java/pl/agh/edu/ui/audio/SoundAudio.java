@@ -21,7 +21,7 @@ public enum SoundAudio {
 		this.sound = Gdx.audio.newSound(Gdx.files.internal(path));
 	}
 
-	public void play() {
+	public void playAudio() {
 		sound.setVolume(sound.play(), AudioConfig.getAudioVolume());
 	}
 
