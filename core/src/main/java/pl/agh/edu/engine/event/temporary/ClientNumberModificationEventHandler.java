@@ -1,4 +1,4 @@
-package pl.agh.edu.engine.event;
+package pl.agh.edu.engine.event.temporary;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -8,6 +8,7 @@ import java.util.function.BinaryOperator;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import pl.agh.edu.engine.event.ClientNumberModifier;
 import pl.agh.edu.engine.hotel.HotelVisitPurpose;
 
 public class ClientNumberModificationEventHandler {

@@ -15,7 +15,7 @@ import pl.agh.edu.data.type.AttractivenessConstantsData;
 import pl.agh.edu.engine.advertisement.AdvertisementHandler;
 import pl.agh.edu.engine.bank.BankAccountHandler;
 import pl.agh.edu.engine.client.report.collector.ClientGroupReportDataCollector;
-import pl.agh.edu.engine.event.ClientNumberModificationEventHandler;
+import pl.agh.edu.engine.event.temporary.ClientNumberModificationEventHandler;
 import pl.agh.edu.engine.generator.ClientGenerator;
 import pl.agh.edu.engine.hotel.HotelVisitPurpose;
 import pl.agh.edu.engine.hotel.scenario.HotelScenariosManager;

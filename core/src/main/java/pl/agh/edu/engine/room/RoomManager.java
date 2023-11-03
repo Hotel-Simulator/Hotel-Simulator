@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 import pl.agh.edu.data.loader.JSONClientDataLoader;
 import pl.agh.edu.data.loader.JSONRoomDataLoader;
 import pl.agh.edu.engine.bank.BankAccountHandler;
+import pl.agh.edu.engine.building_cost.BuildingCostSupplier;
 import pl.agh.edu.engine.client.ClientGroup;
 import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.engine.time.TimeCommandExecutor;
@@ -95,8 +96,8 @@ public class RoomManager {
 	}
 
 	private BigDecimal getChangeCost(RoomRank currentRank, RoomRank desiredRank, RoomSize size) {
-		return JSONRoomDataLoader.roomBuildingCosts.get(Pair.of(desiredRank, size))
-				.subtract(JSONRoomDataLoader.roomBuildingCosts.get(Pair.of(currentRank, size)))
+		return BuildingCostSupplier.roomBuildingCost(Pair.of(desiredRank, size))
+				.subtract(BuildingCostSupplier.roomBuildingCost(Pair.of(currentRank, size)))
 				.divide(BigDecimal.valueOf(2), 0, RoundingMode.HALF_EVEN);
 	}
 
@@ -124,7 +125,7 @@ public class RoomManager {
 		Room buildRoom = new Room(roomRank, roomSize);
 		buildRoom.roomState.setBeingBuild(true);
 		rooms.add(buildRoom);
-		bankAccountHandler.registerExpense(JSONRoomDataLoader.roomBuildingCosts.get(Pair.of(roomRank, roomSize)));
+		bankAccountHandler.registerExpense(BuildingCostSupplier.roomBuildingCost(Pair.of(roomRank, roomSize)));
 
 		LocalDateTime buildTime = time.getTime().plusHours(
 				(long) (JSONRoomDataLoader.roomBuildingDuration.toHours() * roomTimeMultiplier(buildRoom)));

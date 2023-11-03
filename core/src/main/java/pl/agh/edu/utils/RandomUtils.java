@@ -3,6 +3,7 @@ package pl.agh.edu.utils;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Year;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalUnit;
 import java.util.List;
@@ -26,6 +27,10 @@ public class RandomUtils {
 
 	public static int randomInt(int origin, int bound) {
 		return ThreadLocalRandom.current().nextInt(origin, bound);
+	}
+
+	public static int getRandomSign() {
+		return randomArrayElement(new Integer[]{-1, 1});
 	}
 
 	public static double randomDouble() {
@@ -72,6 +77,10 @@ public class RandomUtils {
 		return origin.plusDays(randomDays);
 	}
 
+	public static LocalDate dateOfYear(Year year) {
+		return LocalDate.ofYearDay(year.getValue(), RandomUtils.randomInt(1, year.isLeap() ? 366 : 365));
+	}
+
 	public static LocalTime randomLocalTime(LocalTime origin, LocalTime bound) {
 		if (!origin.isBefore(bound)) {
 			throw new IllegalArgumentException("origin must be before bound.");
@@ -111,5 +120,4 @@ public class RandomUtils {
 		}
 		return constantsProbabilities.keySet().stream().toList().get(0);
 	}
-
 }
