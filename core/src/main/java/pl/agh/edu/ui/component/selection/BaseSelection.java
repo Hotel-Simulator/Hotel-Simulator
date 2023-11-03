@@ -1,14 +1,16 @@
 package pl.agh.edu.ui.component.selection;
 
+import static com.badlogic.gdx.utils.Align.center;
+import static pl.agh.edu.ui.audio.SoundAudio.BUTTON_3;
+
+import java.util.function.Consumer;
+
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import static com.badlogic.gdx.utils.Align.center;
-import static pl.agh.edu.ui.audio.SoundAudio.BUTTON_3;
-import pl.agh.edu.ui.utils.wrapper.WrapperTable;
 
-import java.util.function.Consumer;
+import pl.agh.edu.ui.utils.wrapper.WrapperTable;
 
 public abstract class BaseSelection<T> extends WrapperTable {
 	private final Button leftButton = new Button(skin, "selection-left");
