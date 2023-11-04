@@ -18,8 +18,8 @@ public class TestFrame extends BaseFrame {
 		BankOffer bankOffer = new BankOffer(JSONBankDataLoader.scenarios.get(0), this);
 		bankOffer.align(left);
 		mainTable.add(bankOffer).space(20f).row();
-		Button innerButton = new Button(GameSkin.getInstance(), "transparent");
-		mainTable.add(innerButton);
+//		Button innerButton = new Button(GameSkin.getInstance(), "transparent");
+//		mainTable.add(innerButton);
 		// BankAccount bankAccount = new BankAccount(BigDecimal.ONE,new BankAccountDetails(BigDecimal.TEN, BigDecimal.TEN));
 		// BankAccountHandler bankAccountHandler = new BankAccountHandler(bankAccount);
 		// bankAccountHandler.registerCredit(BigDecimal.valueOf(100000), 10);

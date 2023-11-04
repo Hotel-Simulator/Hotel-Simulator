@@ -2,23 +2,30 @@ package pl.agh.edu.ui.component.bankOffer;
 
 import static com.badlogic.gdx.utils.Align.left;
 import static pl.agh.edu.ui.utils.FontType.BODY_2;
+import static pl.agh.edu.ui.utils.SkinColor.ColorLevel._300;
+import static pl.agh.edu.ui.utils.SkinColor.ColorLevel._500;
+import static pl.agh.edu.ui.utils.SkinColor.ColorLevel._900;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import com.badlogic.gdx.utils.Null;
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.data.type.BankData;
 import pl.agh.edu.ui.GameSkin;
+import pl.agh.edu.ui.audio.SoundAudio;
 import pl.agh.edu.ui.component.label.LanguageLabel;
 import pl.agh.edu.ui.frame.BaseFrame;
 import pl.agh.edu.ui.utils.SkinColor;
-import pl.agh.edu.ui.utils.wrapper.ButtonTable;
 import pl.agh.edu.ui.utils.wrapper.WrapperTable;
 
-public class BankOffer extends ButtonTable {
+public class BankOffer extends WrapperTable {
 	BaseFrame baseFrame;
 	BankData bankData;
 
@@ -26,12 +33,15 @@ public class BankOffer extends ButtonTable {
 		super();
 		this.baseFrame = baseFrame;
 		this.bankData = bankData;
-		innerTable.setBackground("bank-offer-background");
+
+
+		Skin skin = GameSkin.getInstance();
 		String whiteFont = BODY_2.getWhiteVariantName();
 		String blackFont = BODY_2.getName();
 		String valueColor = SkinColor.GRAY.getName(SkinColor.ColorLevel._700);
 
-		Skin skin = GameSkin.getInstance();
+		innerTable.setTouchable(Touchable.enabled);
+		setBackground("bank-offer-background");
 		WrapperTable buttonContainer = new WrapperTable() {
 			@Override
 			public void drawDebugBounds(ShapeRenderer shapes) {
@@ -44,7 +54,6 @@ public class BankOffer extends ButtonTable {
 		buttonContainer.setBackground("text-button-medium-up");
 		buttonContainer.innerTable.add(bankNameLabel).padRight(20f).padLeft(20f);
 
-		// podkreślenie, cały obszar klikalny, jakaś obwódka
 		innerTable.add(buttonContainer).colspan(2).spaceBottom(50f).row();
 		LanguageLabel creditInterestRate = new LanguageLabel("bank.credit.interest", blackFont);
 		Label creditInterestRateValue = new Label(bankData.accountDetails().creditInterestRate() + "%", skin, whiteFont, valueColor);
@@ -59,10 +68,36 @@ public class BankOffer extends ButtonTable {
 		setResolutionChangeHandler(this::changeSize);
 		onResolutionChange();
 
-		innerButton.addListener(new ClickListener() {
+		innerTable.addListener(new InputListener(){
 			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				baseFrame.game.engine.hotelHandler.bankAccount.setAccountDetails(bankData);
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				setBackground("bank-offer-background-down");
+					SoundAudio.CLICK_2.play();
+					return true;
+			}
+
+			@Override
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				SoundAudio.BUTTON_2.play();
+				setBackground("bank-offer-background-over");
+			}
+
+			@Override
+			public void enter(InputEvent event, float x, float y, int pointer, @Null Actor fromActor) {
+				if (pointer == -1)
+					setBackground("bank-offer-background-over");
+			}
+
+			@Override
+			public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+				if (pointer == -1)
+				{
+					if (baseFrame.game != null && baseFrame.game.engine.hotelHandler.bankAccount.bankDataId == bankData.id()) {
+						setBackground("bank-offer-background-selected");
+					} else {
+						setBackground("bank-offer-background");
+					}
+				}
 			}
 		});
 
@@ -72,7 +107,7 @@ public class BankOffer extends ButtonTable {
 	public void layout() {
 		super.layout();
 		if (baseFrame.game != null && baseFrame.game.engine.hotelHandler.bankAccount.bankDataId == bankData.id()) {
-			innerTable.setBackground("bank-offer-background-selected");
+			setBackground("bank-offer-background-selected");
 		}
 	}
 

@@ -544,12 +544,6 @@
 		"up": "selection-left-up",
 		"down": "selection-left-down",
 		"over": "selection-left-over"
-	},
-	"transparent": {
-		"up": "transparent",
-		"down": "transparent",
-		"over": "transparent-dimed-1",
-		"focused": "transparent"
 	}
 },
 "CheckBoxStyle": {
