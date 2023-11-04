@@ -1,5 +1,7 @@
 package pl.agh.edu.ui.component.label;
 
+import static pl.agh.edu.ui.audio.SoundAudio.BUTTON_2;
+import static pl.agh.edu.ui.audio.SoundAudio.CLICK_2;
 import static pl.agh.edu.ui.utils.SkinColor.ColorLevel._300;
 import static pl.agh.edu.ui.utils.SkinColor.ColorLevel._500;
 import static pl.agh.edu.ui.utils.SkinColor.ColorLevel._900;
@@ -19,18 +21,17 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.Null;
 
 import pl.agh.edu.ui.GameSkin;
-import pl.agh.edu.ui.audio.SoundAudio;
 import pl.agh.edu.ui.utils.SkinColor;
 
 public class CustomLabel extends Label {
-	private final Skin skin = GameSkin.getInstance();
+	private static final Skin skin = GameSkin.getInstance();
 	private boolean hasUnderscore = false;
 	private boolean isDisabled = false;
 	private SkinColor baseColor = WARNING;
 	private SkinColor.ColorLevel colorLevel = _300;
 
 	public CustomLabel(String font) {
-		super("", GameSkin.getInstance(), font);
+		super("", skin, font);
 	}
 
 	public void setBackground(String backgroundPatch) {
@@ -96,7 +97,7 @@ public class CustomLabel extends Label {
 					public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 						if (!isDisabled) {
 							colorLevel = _900;
-							SoundAudio.CLICK_2.play();
+							CLICK_2.playAudio();
 							return true;
 						}
 						return false;
@@ -106,7 +107,7 @@ public class CustomLabel extends Label {
 					public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 						if (!isDisabled) {
 							colorLevel = _500;
-							SoundAudio.BUTTON_2.play();
+							BUTTON_2.playAudio();
 						}
 					}
 

@@ -6,7 +6,6 @@ import java.util.function.Consumer;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 public abstract class BaseInfinitySelection<T> extends BaseSelection<T> {
-
 	private final List<T> values;
 	private int index = 0;
 

@@ -60,7 +60,7 @@ public class MonthSelection extends BaseSelection<YearMonth> {
 	@Override
 	protected void updateLabel(Label label) {
 		if (label instanceof LanguageLabel) {
-			((LanguageLabel) label).updateLanguagePath(getMonthLanguageString(getValue()));
+			((LanguageLabel) label).updateLanguageString(getMonthLanguageString(getValue()));
 		}
 	}
 

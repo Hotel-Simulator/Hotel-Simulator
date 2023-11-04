@@ -365,15 +365,15 @@ calendar-special-cell-checked
   index: -1
 calendar-special-cell-disabled
   rotate: false
-  xy: 1324, 261
+  xy: 1879, 1080
   size: 40, 40
-  split: 19, 19, 20, 19
+  split: 19, 19, 19, 19
   orig: 40, 40
   offset: 0, 0
   index: -1
 calendar-special-cell-down
   rotate: false
-  xy: 1879, 1080
+  xy: 1879, 1038
   size: 40, 40
   split: 20, 19, 19, 19
   orig: 40, 40
@@ -381,7 +381,7 @@ calendar-special-cell-down
   index: -1
 calendar-special-cell-over
   rotate: false
-  xy: 1879, 1038
+  xy: 1548, 429
   size: 40, 40
   split: 19, 19, 20, 19
   orig: 40, 40
@@ -389,9 +389,9 @@ calendar-special-cell-over
   index: -1
 calendar-special-cell-up
   rotate: false
-  xy: 1969, 1429
+  xy: 1927, 1429
   size: 40, 40
-  split: 19, 19, 19, 19
+  split: 19, 19, 20, 19
   orig: 40, 40
   offset: 0, 0
   index: -1
@@ -1003,7 +1003,7 @@ select-box-background-open
   index: -1
 selection-left-disabled
   rotate: false
-  xy: 1548, 429
+  xy: 1969, 1429
   size: 40, 40
   orig: 40, 40
   offset: 0, 0
@@ -1059,7 +1059,7 @@ selection-left-up-big
   index: -1
 selection-right-disabled
   rotate: false
-  xy: 1927, 1429
+  xy: 1324, 261
   size: 40, 40
   orig: 40, 40
   offset: 0, 0

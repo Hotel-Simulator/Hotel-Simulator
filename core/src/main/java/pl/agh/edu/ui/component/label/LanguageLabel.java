@@ -27,4 +27,8 @@ public class LanguageLabel extends CustomLabel implements LanguageChangeListener
 		return this;
 	}
 
+	public void updateLanguageString(LanguageString languageString) {
+		this.languageString = languageString;
+		onLanguageChange();
+	}
 }
