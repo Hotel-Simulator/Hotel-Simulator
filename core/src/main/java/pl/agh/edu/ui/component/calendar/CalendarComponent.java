@@ -1,67 +1,61 @@
 package pl.agh.edu.ui.component.calendar;
 
-import java.time.LocalDate;
-import java.time.Month;
-import java.time.YearMonth;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Consumer;
-import java.util.stream.IntStream;
-
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.engine.calendar.Calendar;
-import pl.agh.edu.engine.calendar.CalendarEvent;
 import pl.agh.edu.engine.time.Time;
-import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.audio.SoundAudio;
 import pl.agh.edu.ui.component.selection.MonthSelection;
 import pl.agh.edu.ui.component.selection.YearSelection;
-import pl.agh.edu.ui.component.tooltip.DescriptionTooltip;
 import pl.agh.edu.ui.component.tooltip.EventDescriptionTooltip;
 import pl.agh.edu.ui.utils.wrapper.WrapperContainer;
 import pl.agh.edu.ui.utils.wrapper.WrapperTable;
 
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.YearMonth;
+import java.util.function.Consumer;
+import java.util.stream.IntStream;
+
 public class CalendarComponent extends WrapperTable {
-	private final Skin skin = GameSkin.getInstance();
 	private final Time time = Time.getInstance();
 	private final Container<CalendarMatrix> calendarMatrixContainer = new Container<>();
 	private final LocalDate chosenDate;
 	private final Consumer<LocalDate> dateChangeHandler;
-	private YearMonth currentYearMonth = time.getYearMonth();
+	private YearMonth currentYearMonth;
 	private final MonthSelection monthSelection;
 	private final YearSelection yearSelection;
 	private final boolean isActive;
 	private final Calendar calendar = Calendar.getInstance();
-
 	public CalendarComponent(LocalDate chosenDate, Consumer<LocalDate> dateChangeHandler, Boolean isBlockedByTime, Boolean isActive) {
 		super();
 		this.chosenDate = chosenDate;
 		this.dateChangeHandler = dateChangeHandler;
 		this.isActive = isActive;
 
+		currentYearMonth = YearMonth.from(chosenDate);
+
 		this.monthSelection = new MonthSelection(YearMonth.from(time.getTime()), this::monthSelectionHandler, isBlockedByTime);
 		this.yearSelection = new YearSelection(YearMonth.from(time.getTime()), this::yearSelectionHandle, isBlockedByTime);
 
 		this.setBackground("modal-glass-background");
 
-		innerTable.add(monthSelection).growX().center().padTop(20f).row();
+		innerTable.add(monthSelection).growX().center().row();
 		monthSelection.updateState(currentYearMonth);
-		innerTable.add(yearSelection).growX().center().padTop(20f).row();
+		innerTable.add(yearSelection).growX().center().row();
 		yearSelection.updateState(currentYearMonth);
+		this.resize();
 
 		updateCalendarMatrix();
-		innerTable.add(calendarMatrixContainer).pad(20f);
+		innerTable.add(calendarMatrixContainer);
 
 		this.setResolutionChangeHandler(this::resize);
-		this.fill(false);
-		this.setFillParent(false);
 		innerTable.setFillParent(false);
+
+		this.debugAll();
 	}
 
 	private void monthSelectionHandler(YearMonth newYearMonth) {
@@ -86,6 +80,10 @@ public class CalendarComponent extends WrapperTable {
 
 	private void resize() {
 		updateCalendarMatrix();
+		monthSelection.pad(CalendarComponentStyle.getPadding());
+		yearSelection.pad(CalendarComponentStyle.getPadding());
+		calendarMatrixContainer.pad(CalendarComponentStyle.getPadding());
+		innerTable.pad(CalendarComponentStyle.getPadding());
 	}
 
 	private class CalendarMatrix extends WrapperTable {
@@ -131,7 +129,6 @@ public class CalendarComponent extends WrapperTable {
 				innerTable.row();
 			}
 		}
-
 	}
 
 	private class CalendarCellButton extends WrapperContainer<TextButton> {
@@ -164,7 +161,7 @@ public class CalendarComponent extends WrapperTable {
 				button.addListener(new InputListener() {
 					@Override
 					public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-						SoundAudio.BUTTON_3.play();
+						SoundAudio.BUTTON_3.playAudio();
 						closeAll();
 						dateChangeHandler.accept(date);
 						return true;
@@ -177,12 +174,24 @@ public class CalendarComponent extends WrapperTable {
 		}
 
 		private void resize() {
-			switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> this.size(40f, 40f);
-				case MEDIUM -> this.size(50f, 50f);
-				case LARGE -> this.size(70f, 70f);
-			}
+			this.size(CalendarComponentStyle.getCellSize());
+		}
+	}
+	private static class CalendarComponentStyle{
+		private static float getCellSize(){
+			return switch (GraphicConfig.getResolution().SIZE) {
+				case SMALL -> 50f;
+				case MEDIUM -> 60f;
+				case LARGE -> 70f;
+			};
 		}
 
+		private static float getPadding(){
+			return switch (GraphicConfig.getResolution().SIZE) {
+				case SMALL -> 5f;
+				case MEDIUM -> 10f;
+				case LARGE -> 15f;
+			};
+		}
 	}
 }

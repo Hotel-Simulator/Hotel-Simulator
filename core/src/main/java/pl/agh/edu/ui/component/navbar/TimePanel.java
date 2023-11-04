@@ -29,7 +29,7 @@ public class TimePanel extends Table {
 		this.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				BUTTON_1.play();
+				BUTTON_1.playAudio();
 				getStage().addActor(setUpCalendarLayer());
 			}
 		});

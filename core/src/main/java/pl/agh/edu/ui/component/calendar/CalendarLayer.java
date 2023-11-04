@@ -1,8 +1,5 @@
 package pl.agh.edu.ui.component.calendar;
 
-import java.time.LocalDate;
-import java.util.function.Consumer;
-
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -10,11 +7,12 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-
-import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.ui.audio.SoundAudio;
 import pl.agh.edu.ui.resolution.ResolutionChangeListener;
 import pl.agh.edu.ui.resolution.ResolutionManager;
+
+import java.time.LocalDate;
+import java.util.function.Consumer;
 
 public class CalendarLayer extends Stack implements ResolutionChangeListener {
 	private final CalendarComponent calendarComponent;
@@ -36,7 +34,6 @@ public class CalendarLayer extends Stack implements ResolutionChangeListener {
 		this.parent = parent;
 
 		this.init();
-		this.debugAll();
 	}
 
 	public void init(){
@@ -52,7 +49,7 @@ public class CalendarLayer extends Stack implements ResolutionChangeListener {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 				if (!isOverCalendar(x, y)) {
-					SoundAudio.CLICK_2.play();
+					SoundAudio.CLICK_2.playAudio();
 					clearAll(null);
 				}
 				return true;
@@ -105,7 +102,10 @@ public class CalendarLayer extends Stack implements ResolutionChangeListener {
 	}
 
 	private Vector2 getPosition(Actor parent) {
-        return new Vector2((float) (GraphicConfig.getResolution().WIDTH/2), (float) (GraphicConfig.getResolution().HEIGHT - 350));
+		Vector2 vector2 = parent.localToStageCoordinates(new Vector2(0, 0));
+		vector2.x += parent.getWidth() / 2;
+		vector2.y -= calendarComponent.getActor().getPrefHeight() / 2;
+        return vector2;
 	}
 
 	@Override
