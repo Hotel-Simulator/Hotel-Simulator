@@ -31,12 +31,12 @@ public class RoomManager {
 	private final BankAccountHandler bankAccountHandler;
 
 	private final Comparator<Room> roomComparator = (o1, o2) -> {
-		int broken = Boolean.compare(o1.roomState.isFaulty(),o2.roomState.isFaulty());
-		if(broken != 0){
+		int broken = Boolean.compare(o1.roomState.isFaulty(), o2.roomState.isFaulty());
+		if (broken != 0) {
 			return broken;
 		}
 		int dirty = Boolean.compare(o1.roomState.isDirty(), o2.roomState.isDirty());
-		if(dirty != 0) {
+		if (dirty != 0) {
 			return dirty;
 		}
 		return roomPricePerNight.getPrice(o1).compareTo(roomPricePerNight.getPrice(o2));

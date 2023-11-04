@@ -18,7 +18,10 @@ public class RoomBreakingOpinionBucket extends OpinionBucket {
 	public void roomRepaired() {
 		repaired = true;
 	}
-	public void setGotBrokenRoom(boolean gotBrokenRoom) {this.gotBrokenRoom = gotBrokenRoom;}
+
+	public void setGotBrokenRoom(boolean gotBrokenRoom) {
+		this.gotBrokenRoom = gotBrokenRoom;
+	}
 
 	@Override
 	public double getValue() {
@@ -27,7 +30,7 @@ public class RoomBreakingOpinionBucket extends OpinionBucket {
 
 	@Override
 	public Optional<String> getComment() {
-		if(gotBrokenRoom && repaired) {
+		if (gotBrokenRoom && repaired) {
 			return Optional.of("opinionComment.roomBreaking.gotBrokenButRepaired");
 		} else if (gotBrokenRoom) {
 			return Optional.of("opinionComment.roomBreaking.gotBrokenAndNotRepaired");
