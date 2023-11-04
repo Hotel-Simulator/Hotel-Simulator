@@ -6,6 +6,7 @@ import static pl.agh.edu.ui.utils.SkinFont.H2;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
+import pl.agh.edu.GdxGame;
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.ui.utils.wrapper.WrapperTable;
 import pl.agh.edu.utils.LanguageString;
@@ -14,6 +15,7 @@ public abstract class BaseFrame extends WrapperTable {
 
 	public final Table mainTable = new Table();
 	private final Label titleLabel = new Label("", skin, H2.getWhiteVariantName());
+	public GdxGame game;
 
 	public BaseFrame(LanguageString languageString) {
 		super(languageString);

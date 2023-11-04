@@ -1,10 +1,7 @@
 package pl.agh.edu.ui.component.bankOffer;
 
 import static com.badlogic.gdx.utils.Align.left;
-import static pl.agh.edu.ui.utils.FontType.BODY_2;
-import static pl.agh.edu.ui.utils.SkinColor.ColorLevel._300;
-import static pl.agh.edu.ui.utils.SkinColor.ColorLevel._500;
-import static pl.agh.edu.ui.utils.SkinColor.ColorLevel._900;
+import static pl.agh.edu.ui.utils.SkinFont.BODY_2;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -13,9 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-
 import com.badlogic.gdx.utils.Null;
+
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.data.type.BankData;
 import pl.agh.edu.ui.GameSkin;
@@ -24,6 +20,7 @@ import pl.agh.edu.ui.component.label.LanguageLabel;
 import pl.agh.edu.ui.frame.BaseFrame;
 import pl.agh.edu.ui.utils.SkinColor;
 import pl.agh.edu.ui.utils.wrapper.WrapperTable;
+import pl.agh.edu.utils.LanguageString;
 
 public class BankOffer extends WrapperTable {
 	BaseFrame baseFrame;
@@ -33,7 +30,6 @@ public class BankOffer extends WrapperTable {
 		super();
 		this.baseFrame = baseFrame;
 		this.bankData = bankData;
-
 
 		Skin skin = GameSkin.getInstance();
 		String whiteFont = BODY_2.getWhiteVariantName();
@@ -55,9 +51,9 @@ public class BankOffer extends WrapperTable {
 		buttonContainer.innerTable.add(bankNameLabel).padRight(20f).padLeft(20f);
 
 		innerTable.add(buttonContainer).colspan(2).spaceBottom(50f).row();
-		LanguageLabel creditInterestRate = new LanguageLabel("bank.credit.interest", blackFont);
+		LanguageLabel creditInterestRate = new LanguageLabel(new LanguageString("bank.credit.interest"), blackFont);
 		Label creditInterestRateValue = new Label(bankData.accountDetails().creditInterestRate() + "%", skin, whiteFont, valueColor);
-		LanguageLabel bankAccountFee = new LanguageLabel("bank.fee", blackFont);
+		LanguageLabel bankAccountFee = new LanguageLabel(new LanguageString("bank.fee"), blackFont);
 		Label bankAccountFeeValue = new Label(bankData.accountDetails().accountFee() + "$", skin, whiteFont, valueColor);
 
 		innerTable.add(creditInterestRate).padRight(50f).spaceBottom(20f).align(left);
@@ -68,17 +64,17 @@ public class BankOffer extends WrapperTable {
 		setResolutionChangeHandler(this::changeSize);
 		onResolutionChange();
 
-		innerTable.addListener(new InputListener(){
+		innerTable.addListener(new InputListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 				setBackground("bank-offer-background-down");
-					SoundAudio.CLICK_2.play();
-					return true;
+				SoundAudio.CLICK_2.playAudio();
+				return true;
 			}
 
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-				SoundAudio.BUTTON_2.play();
+				SoundAudio.BUTTON_2.playAudio();
 				setBackground("bank-offer-background-over");
 			}
 
@@ -90,8 +86,7 @@ public class BankOffer extends WrapperTable {
 
 			@Override
 			public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-				if (pointer == -1)
-				{
+				if (pointer == -1) {
 					if (baseFrame.game != null && baseFrame.game.engine.hotelHandler.bankAccount.bankDataId == bankData.id()) {
 						setBackground("bank-offer-background-selected");
 					} else {
