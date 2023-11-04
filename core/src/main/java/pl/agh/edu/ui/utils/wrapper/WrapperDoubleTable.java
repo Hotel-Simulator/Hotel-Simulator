@@ -4,15 +4,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.ray3k.tenpatch.TenPatchDrawable;
 
-import pl.agh.edu.ui.GameSkin;
+import pl.agh.edu.utils.LanguageString;
 
 public abstract class WrapperDoubleTable extends WrapperContainer<Table> {
 	public final Table rightTable = new Table();
 	public final Table leftTable = new Table();
 	private final Table innerTable = new Table();
 
-	public WrapperDoubleTable(String languagePath) {
-		super(languagePath);
+	public WrapperDoubleTable(LanguageString languageString) {
+		super(languageString);
 		this.init();
 	}
 
@@ -30,10 +30,10 @@ public abstract class WrapperDoubleTable extends WrapperContainer<Table> {
 	}
 
 	public void setBackground(String backgroundPatch) {
-		innerTable.setBackground(new NinePatchDrawable(GameSkin.getInstance().getPatch(backgroundPatch)));
+		innerTable.setBackground(new NinePatchDrawable(skin.getPatch(backgroundPatch)));
 	}
 
 	public void set10PatchBackground(String backgroundPatch) {
-		innerTable.setBackground(new TenPatchDrawable(GameSkin.getInstance().get(backgroundPatch, TenPatchDrawable.class)));
+		innerTable.setBackground(new TenPatchDrawable(skin.get(backgroundPatch, TenPatchDrawable.class)));
 	}
 }
