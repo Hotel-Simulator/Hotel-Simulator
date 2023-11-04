@@ -2,6 +2,7 @@ package pl.agh.edu.engine.room;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.EnumMap;
@@ -99,12 +100,12 @@ public class RoomManager {
 				.subtract(JSONRoomDataLoader.roomBuildingCosts.get(Pair.of(currentRank, size)));
 	}
 
-	public Optional<LocalDateTime> findChangeRankTime(Room room) {
-		return Optional.ofNullable(roomRankChangeTimes.get(room));
+	public Optional<Duration> findChangeRankTime(Room room) {
+		return Optional.ofNullable(roomRankChangeTimes.get(room)).map(dateTime -> Duration.between(time.getTime(), dateTime));
 	}
 
-	public Optional<LocalDateTime> findBuildTime(Room room) {
-		return Optional.ofNullable(roomBuildingTimes.get(room));
+	public Optional<Duration> findBuildTime(Room room) {
+		return Optional.ofNullable(roomBuildingTimes.get(room)).map(dateTime -> Duration.between(time.getTime(), dateTime));
 	}
 
 	public boolean canChangeRoomRank(Room room) {

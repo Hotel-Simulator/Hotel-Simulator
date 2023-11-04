@@ -9,6 +9,7 @@ import static pl.agh.edu.engine.attraction.AttractionState.OPENING;
 import static pl.agh.edu.engine.attraction.AttractionState.SHUTTING_DOWN;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -160,11 +161,11 @@ public class AttractionHandler extends ClientGroupModifierSupplier {
 		}
 	}
 
-	public Optional<Pair<AttractionSize, LocalDateTime>> findBuildingTime(AttractionType type) {
-		return Optional.ofNullable(attractionBuildingTimes.get(type));
+	public Optional<Pair<AttractionSize, Duration>> findBuildingTime(AttractionType type) {
+		return Optional.ofNullable(attractionBuildingTimes.get(type)).map(pair -> Pair.of(pair.first(), Duration.between(time.getTime(), pair.second())));
 	}
 
-	public Optional<Pair<AttractionSize, LocalDateTime>> findChangingSizeTime(AttractionType type) {
-		return Optional.ofNullable(attractionChangingSizeTimes.get(type));
+	public Optional<Pair<AttractionSize, Duration>> findChangingSizeTime(AttractionType type) {
+		return Optional.ofNullable(attractionChangingSizeTimes.get(type)).map(pair -> Pair.of(pair.first(), Duration.between(time.getTime(), pair.second())));
 	}
 }
