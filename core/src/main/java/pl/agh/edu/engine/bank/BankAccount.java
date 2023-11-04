@@ -13,7 +13,7 @@ public class BankAccount {
 	private final Time time = Time.getInstance();
 	private BigDecimal balance;
 	private BankAccountDetails accountDetails;
-	public Integer bankDataId;
+	public String bankDataId;
 
 	public BankAccount(BigDecimal initialBalance, BankData bankData) {
 		this.balance = initialBalance;
