@@ -65,13 +65,13 @@ public class AttractionHandler extends ClientGroupModifierSupplier {
 		attractionBuildingTimes.put(type, Pair.of(size, buildTime));
 
 		timeCommandExecutor.addCommand(new TimeCommand(() -> {
-			attraction.setState(ACTIVE);
+			attraction.setState(INACTIVE);
 			attractionBuildingTimes.remove(type);
 		}, buildTime));
 	}
 
 	public boolean canChangeSize(AttractionType type, AttractionSize size) {
-		if (!hasAttraction(type) || attractions.get(type).getSize() == size) {
+		if (!hasAttraction(type) || attractions.get(type).getSize() == size || attractions.get(type).getState() != INACTIVE) {
 			return false;
 		}
 		BigDecimal cost = JSONAttractionDataLoader.buildCost.get(size)
@@ -104,7 +104,7 @@ public class AttractionHandler extends ClientGroupModifierSupplier {
 		timeCommandExecutor.addCommand(new TimeCommand(
 				() -> {
 					attraction.setSize(size);
-					attraction.setState(ACTIVE);
+					attraction.setState(INACTIVE);
 					attractionChangingSizeTimes.remove(type);
 				}, changeSizeTime));
 	}
@@ -127,37 +127,40 @@ public class AttractionHandler extends ClientGroupModifierSupplier {
 
 	public void dailyUpdate() {
 		attractions.values().stream()
-				.filter(attraction -> attraction.getState() == ACTIVE
-						|| attraction.getState() == OPENING
-						|| attraction.getState() == SHUTTING_DOWN)
-				.forEach(attraction -> accountHandler.registerExpense(attraction.getDailyExpenses()));
-
-		attractions.values().stream()
-				.filter(attraction -> attraction.getState() == ACTIVE)
-				.forEach(attraction -> accountHandler.registerIncome(JSONAttractionDataLoader.incomePerClient
-						.multiply(BigDecimal.valueOf(getDailyClientNumber(attraction)))));
+				.filter(Attraction::isWorking)
+				.forEach(attraction -> {
+					accountHandler.registerExpense(attraction.getDailyExpenses());
+					accountHandler.registerIncome(JSONAttractionDataLoader.incomePerClient
+							.multiply(BigDecimal.valueOf(getDailyClientNumber(attraction))));
+				});
 
 	}
 
 	@Override
 	public EnumMap<HotelVisitPurpose, BigDecimal> getCumulatedModifier() {
 		return attractions.values().stream()
-				.filter(attraction -> attraction.getState() == ACTIVE)
+				.filter(Attraction::isWorking)
 				.map(attraction -> JSONAttractionDataLoader.modifier.get(Pair.of(attraction.type, attraction.getSize())))
 				.reduce(getIdentity(), getAccumulator());
 	}
 
 	public void activateAttraction(Attraction attraction) {
-		if (attraction.getState() == INACTIVE || attraction.getState() == SHUTTING_DOWN) {
-			attraction.setState(OPENING);
-			timeCommandExecutor.addCommand(new TimeCommand(() -> attraction.setState(ACTIVE), time.getTime().truncatedTo(DAYS).plusDays(1)));
+		switch (attraction.getState()) {
+			case SHUTTING_DOWN -> attraction.setState(ACTIVE);
+			case INACTIVE -> {
+				attraction.setState(OPENING);
+				timeCommandExecutor.addCommand(new TimeCommand(() -> attraction.setState(ACTIVE), time.getTime().truncatedTo(DAYS).plusDays(1)));
+			}
 		}
 	}
 
 	public void deactivateAttraction(Attraction attraction) {
-		if (attraction.getState() == ACTIVE || attraction.getState() == OPENING) {
-			attraction.setState(SHUTTING_DOWN);
-			timeCommandExecutor.addCommand(new TimeCommand(() -> attraction.setState(INACTIVE), time.getTime().truncatedTo(DAYS).plusDays(1)));
+		switch (attraction.getState()) {
+			case OPENING -> attraction.setState(INACTIVE);
+			case ACTIVE -> {
+				attraction.setState(SHUTTING_DOWN);
+				timeCommandExecutor.addCommand(new TimeCommand(() -> attraction.setState(INACTIVE), time.getTime().truncatedTo(DAYS).plusDays(1)));
+			}
 		}
 	}
 
