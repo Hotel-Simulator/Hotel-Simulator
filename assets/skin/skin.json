@@ -528,30 +528,6 @@
 		"up": "scenario-button-up",
 		"down": "scenario-button-down",
 		"checked": "scenario-button-down"
-	},
-	"selection-right": {
-		"up": "selection-right-up",
-		"down": "selection-right-down",
-		"over": "selection-right-over",
-		"disabled": "selection-right-disabled"
-	},
-	"selection-left": {
-		"up": "selection-left-up",
-		"down": "selection-left-down",
-		"over": "selection-left-over",
-		"disabled": "selection-left-disabled"
-	},
-	"selection-right-big": {
-		"up": "selection-right-up-big",
-		"down": "selection-right-down-big",
-		"over": "selection-right-over-big",
-		"disabled": "selection-right-disabled-big"
-	},
-	"selection-left-big": {
-		"up": "selection-left-up-big",
-		"down": "selection-left-down-big",
-		"over": "selection-left-over-big",
-		"disabled": "selection-left-disabled-big"
 	}
 },
 "CheckBoxStyle": {
@@ -639,6 +615,21 @@
 	},
 	"white-subtitle2": {
 		"font": "white-subtitle2"
+	},
+	"scenario-title-panel-small": {
+		"font": "white-h3",
+		"fontColor": "alert-500",
+		"background": "scenario-button-up"
+	},
+	"scenario-title-panel-medium": {
+		"font": "white-h2",
+		"fontColor": "alert-500",
+		"background": "scenario-button-up"
+	},
+	"scenario-title-panel-large": {
+		"font": "white-h1",
+		"fontColor": "alert-500",
+		"background": "scenario-button-up"
 	}
 },
 "ListStyle": {
@@ -778,26 +769,6 @@
 		"fontColor": "alert-500",
 		"up": "scenario-button-up",
 		"down": "scenario-button-down"
-	},
-	"calendar-cell": {
-		"font": "button3",
-		"fontColor": "gray-900",
-		"disabledFontColor": "gray-700",
-		"up": "calendar-cell-up",
-		"down": "calendar-cell-down",
-		"over": "calendar-cell-over",
-		"disabled": "calendar-cell-disabled",
-		"checked": "calendar-cell-checked"
-	},
-	"calendar-special-cell": {
-		"font": "button3",
-		"fontColor": "gray-900",
-		"disabledFontColor": "gray-700",
-		"up": "calendar-special-cell-up",
-		"down": "calendar-special-cell-down",
-		"over": "calendar-special-cell-over",
-		"disabled": "calendar-special-cell-disabled",
-		"checked": "calendar-special-cell-checked"
 	}
 },
 "TextFieldStyle": {
@@ -817,9 +788,7 @@
 },
 "TextTooltipStyle": {
 	"default": {
-		"label": "body2",
-		"background": "modal-glass-background",
-		"wrapWidth": 10
+		"label": "default"
 	}
 },
 "TreeStyle": {

@@ -3,9 +3,6 @@ package pl.agh.edu.ui.panel;
 import static pl.agh.edu.ui.resolution.Size.LARGE;
 import static pl.agh.edu.ui.utils.SkinColor.ALERT;
 import static pl.agh.edu.ui.utils.SkinColor.ColorLevel._500;
-import static pl.agh.edu.ui.utils.SkinFont.H1;
-import static pl.agh.edu.ui.utils.SkinFont.H2;
-import static pl.agh.edu.ui.utils.SkinFont.H3;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,7 +29,6 @@ public class ScenarioPanel extends WrapperContainer<Table> {
 	public final Table frame = new Table();
 	public final List<ScenarioButton> buttonList = new ArrayList<>();
 	public final ButtonGroup<Button> buttonGroup = new ButtonGroup<>();
-	private Table titleLabelTable;
 	private LanguageLabel titleLabel;
 	private TextButton nextButton;
 	private float largePaddingMultiplier = 1;
@@ -55,7 +51,7 @@ public class ScenarioPanel extends WrapperContainer<Table> {
 		frame.top();
 		frame.setFillParent(true);
 		frame.background(skin.getDrawable("hotel-room"));
-		frame.add(titleLabelTable).padTop(largePaddingMultiplier * frame.getHeight() / 16).expandX().row();
+		frame.add(titleLabel).padTop(largePaddingMultiplier * frame.getHeight() / 16).expandX().row();
 		addScenarioButtonsToFrame();
 		frame.add(nextButton).right().padRight(frame.getWidth() / 24).padTop(largePaddingMultiplier * frame.getHeight() / 30);
 		frame.debug();
@@ -87,18 +83,8 @@ public class ScenarioPanel extends WrapperContainer<Table> {
 	}
 
 	public void createTitleLabel() {
-		Label.LabelStyle titleLabelStyle = skin.get(getTitleFont(), Label.LabelStyle.class);
-		titleLabelStyle.fontColor = ALERT.getColor(_500);
-		titleLabel = new LanguageLabel(new LanguageString("scenario.title"), getTitleFont());
-		titleLabel.setStyle(titleLabelStyle);
-		titleLabelTable = new Table();
-		titleLabelTable.setBackground(getTitleLabelBackground());
-		titleLabelTable.add(titleLabel);
-		titleLabelTable.pad(20f, 40f, 20f, 40f);
-	}
-
-	private NinePatchDrawable getTitleLabelBackground() {
-		return new NinePatchDrawable(skin.getPatch("scenario-button-up"));
+		titleLabel = new LanguageLabel(new LanguageString("scenario.title"), getTitleLabelStyle().font.toString());
+		titleLabel.setStyle(getTitleLabelStyle());
 	}
 
 	public void createNextButton() {
@@ -114,18 +100,15 @@ public class ScenarioPanel extends WrapperContainer<Table> {
 	}
 
 	public void updateLabels() {
-		Label.LabelStyle titleLabelStyle = titleLabel.getStyle();
-		titleLabelStyle.font = skin.getFont(getTitleFont());
-		titleLabel.setStyle(titleLabelStyle);
-
+		titleLabel.setStyle(getTitleLabelStyle());
 		nextButton.setStyle(getNextButtonStyle());
 	}
 
-	public String getTitleFont() {
+	public Label.LabelStyle getTitleLabelStyle() {
 		return switch (GraphicConfig.getResolution().SIZE) {
-			case SMALL -> H3.getWhiteVariantName();
-			case MEDIUM -> H2.getWhiteVariantName();
-			case LARGE -> H1.getWhiteVariantName();
+			case SMALL -> skin.get("scenario-title-panel-small", Label.LabelStyle.class);
+			case MEDIUM -> skin.get("scenario-title-panel-medium", Label.LabelStyle.class);
+			case LARGE -> skin.get("scenario-title-panel-large", Label.LabelStyle.class);
 		};
 	}
 
