@@ -1,5 +1,29 @@
 {
 "BitmapFont": {
+	"body3": {
+		"file": "body3.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"subtitle3": {
+		"file": "subtitle3.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"white-body3": {
+		"file": "white-body3.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"white-subtitle3": {
+		"file": "white-subtitle3.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
 	"body1": {
 		"file": "body1.fnt",
 		"scaledSize": -1,
@@ -489,12 +513,6 @@
 	}
 },
 "ButtonStyle": {
-	"default": {
-		"up": "text-button-large-up",
-		"down": "text-button-large-down",
-		"over": "text-button-large-over",
-		"disabled": "text-button-large-disabled"
-	},
 	"navbar-minus": {
 		"up": "button-time-minus-up",
 		"down": "button-time-minus-down",
@@ -538,12 +556,26 @@
 	"selection-right": {
 		"up": "selection-right-up",
 		"down": "selection-right-down",
-		"over": "selection-right-over"
+		"over": "selection-right-over",
+		"disabled": "selection-right-disabled"
 	},
 	"selection-left": {
 		"up": "selection-left-up",
 		"down": "selection-left-down",
-		"over": "selection-left-over"
+		"over": "selection-left-over",
+		"disabled": "selection-left-disabled"
+	},
+	"selection-right-big": {
+		"up": "selection-right-up-big",
+		"down": "selection-right-down-big",
+		"over": "selection-right-over-big",
+		"disabled": "selection-right-disabled-big"
+	},
+	"selection-left-big": {
+		"up": "selection-left-up-big",
+		"down": "selection-left-down-big",
+		"over": "selection-left-over-big",
+		"disabled": "selection-left-disabled-big"
 	}
 },
 "CheckBoxStyle": {
@@ -809,7 +841,9 @@
 },
 "TextTooltipStyle": {
 	"default": {
-		"label": "default"
+		"label": "body2",
+		"background": "modal-glass-background",
+		"wrapWidth": 10
 	}
 },
 "TreeStyle": {

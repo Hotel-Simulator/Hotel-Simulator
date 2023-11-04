@@ -76,7 +76,7 @@ public class NavbarBottom extends Table {
 				currentNavbarButton.setDisabled(false);
 				currentNavbarButton = navbarButton;
 				navbarButton.setDisabled(true);
-				KNOCK_1.play();
+				KNOCK_1.playAudio();
 			}
 		});
 		if (navbarButton.compare(currentNavbarButtonType, currentBottomNavbarState)) {

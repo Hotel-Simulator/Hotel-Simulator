@@ -15,11 +15,9 @@ import pl.agh.edu.ui.component.modal.options.OptionsWrapper;
 import pl.agh.edu.ui.component.navbar.NavbarBottom;
 import pl.agh.edu.ui.component.navbar.NavbarTop;
 import pl.agh.edu.ui.frame.FrameStack;
-import pl.agh.edu.ui.resolution.ResolutionChangeListener;
-import pl.agh.edu.ui.resolution.ResolutionManager;
 import pl.agh.edu.ui.shader.BlurShader;
 
-public class MainScreen implements Screen, ResolutionChangeListener {
+public class MainScreen implements Screen {
 	public final FrameStack frameStack = new FrameStack();
 	private final Stage mainStage = new Stage(GraphicConfig.getViewport());
 	private final Stage middleStage = new Stage(GraphicConfig.getViewport());
@@ -64,7 +62,6 @@ public class MainScreen implements Screen, ResolutionChangeListener {
 		topStage.addActor(eventWrapper);
 		topStage.addActor(optionsWrapper);
 
-		ResolutionManager.addListener(this);
 		Gdx.input.setInputProcessor(inputMultiplexer);
 	}
 
@@ -102,11 +99,4 @@ public class MainScreen implements Screen, ResolutionChangeListener {
 	@Override
 	public void dispose() {}
 
-	@Override
-	public void onResolutionChange() {
-		if (GraphicConfig.isFullscreen())
-			this.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		else
-			this.resize(GraphicConfig.getResolution().WIDTH, GraphicConfig.getResolution().HEIGHT);
-	}
 }

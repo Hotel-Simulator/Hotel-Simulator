@@ -1,5 +1,6 @@
 package pl.agh.edu.ui.component.background;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
@@ -65,8 +66,9 @@ public class InfinityBackground extends Stack implements ResolutionChangeListene
 	}
 
 	@Override
-	public void onResolutionChange() {
+	public Actor onResolutionChange() {
 		this.stopAnimation();
 		this.restartAnimation();
+		return this;
 	}
 }

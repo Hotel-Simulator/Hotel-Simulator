@@ -4,20 +4,22 @@ import static java.util.Locale.ENGLISH;
 
 import java.util.Locale;
 
+import pl.agh.edu.utils.LanguageString;
+
 public enum Language {
 	Polish("language.pl", new Locale("pl", "PL")),
 	English("language.en", ENGLISH);
 
-	public final String languagePath;
+	public final LanguageString languageString;
 	public final Locale locale;
 
-	Language(String path, Locale locale) {
-		this.languagePath = path;
+	Language(String languagePath, Locale locale) {
+		this.languageString = new LanguageString(languagePath);
 		this.locale = locale;
 	}
 
 	@Override
 	public String toString() {
-		return LanguageManager.get(languagePath);
+		return LanguageManager.get(languageString);
 	}
 }

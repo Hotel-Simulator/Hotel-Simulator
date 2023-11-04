@@ -33,6 +33,7 @@ public class OpinionHandler {
 					time.getTime().toLocalDate(),
 					clientGroup.opinion.getStars(),
 					clientGroup.opinion.getComment().stream().map(LanguageString::new).collect(Collectors.toSet()));
+			opinions.add(opinionData);
 			timeCommandExecutor.addCommand(new TimeCommand(
 					() -> opinions.remove(opinionData),
 					time.getTime().plus(JSONOpinionDataLoader.opinionHoldingDuration)));

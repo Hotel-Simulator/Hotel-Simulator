@@ -1,0 +1,98 @@
+name: Git Fame
+
+on:
+  pull_request:
+    types:
+      - opened
+permissions:
+  pull-requests: write
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    outputs:
+      stats: ${{ steps.stats.outputs.stats }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # fetch the entire history
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install git-fame
+        run: pip install git-fame
+
+      - name: Run git fame and capture output ins
+        run: |
+          echo $(git fame --incl=.java --loc ins -s -e -w -M -C --branch origin/main --format json ./core/src/main) > index_ins.json
+
+      - name: Run git fame and capture output del
+        run: |
+          echo $(git fame --incl=.java --loc del -s -e -w -M -C --branch origin/main --format json ./core/src/main) > index_del.json
+
+      - name: Run git fame and capture output sur
+        run: |
+          echo $(git fame --incl=.java --loc surv -s -e -w -M -C --branch origin/main --format json ./core/src/main) > index_sur.json
+
+      - name: Print Results
+        run: |
+          echo "=================== ins ==================="
+          cat index_ins.json
+          echo "=================== del ==================="
+          cat index_del.json
+          echo "=================== sur ==================="
+          cat index_sur.json
+
+      - name: Comment PR
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const fs = require('fs');
+            
+            const insData = JSON.parse(fs.readFileSync('index_ins.json', 'utf8'));
+            const delData = JSON.parse(fs.readFileSync('index_del.json', 'utf8'));
+            const surData = JSON.parse(fs.readFileSync('index_sur.json', 'utf8'));
+            
+            const totalLocIns = insData.total.loc;
+            const totalLocDel = delData.total.loc;
+            const totalLocSurv = surData.total.loc;
+            const totalComs = surData.total.commits;
+            const totalFils = surData.total.files;
+
+            const tableRows = insData.data.map((entry, index) => {
+              const author = entry[0];
+              const locIns = entry[1];
+              const locInsPer = entry[4];
+              const locDel = delData.data[index][1];
+              const locDelPer = delData.data[index][4];
+              const locSurv = surData.data[index][1];
+              const locSurvPer = surData.data[index][4];
+              const coms = entry[2];
+              const comsPer = entry[5];
+              const fils = entry[3];
+              const filsPer = entry[6];
+              return `| ${author} | ${locIns} (${locInsPer}%) | ${locDel} (${locDelPer}%) | ${locSurv} (${locSurvPer}%) | ${coms} (${comsPer}%) | ${fils} (${filsPer}%) |`;
+            }).join('\n');
+            
+            // Construct the Markdown table header
+            const tableHeader = `| Author | loc-ins | loc-del | loc-surv | coms | fils |\n|:-------|--------:|--------:|---------:|-----:|-----:|\n| Total  | ${totalLocIns} | ${totalLocDel} | ${totalLocSurv} | ${totalComs} | ${totalFils} |`;
+  
+            // Construct the Markdown table rows
+            const markdownTable = `${tableHeader}\n${tableRows}`;
+
+            const message = `Here are the contributor statistics:\n${markdownTable}\n`;
+          
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: message,
+            });

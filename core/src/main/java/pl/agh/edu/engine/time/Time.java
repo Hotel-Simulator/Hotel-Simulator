@@ -13,11 +13,13 @@ public class Time {
 	private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
 	private final List<Runnable> timeStopChangeHandlers = new ArrayList<>();
 	private final List<Runnable> timeStartChangeHandlers = new ArrayList<>();
-	private int minutes = 0;
-	private int hours = 0;
-	private int days = 1;
-	private int months = 1;
-	private int years = 2020;
+
+	public final LocalDateTime startingTime = LocalDateTime.of(2020, 1, 1, 0, 0);
+	private int minutes = startingTime.getMinute();
+	private int hours = startingTime.getHour();
+	private int days = startingTime.getDayOfMonth();
+	private int months = startingTime.getMonthValue();
+	private int years = startingTime.getYear();
 	private int acceleration = 1;
 	private boolean isRunning = false;
 	private float remaining = interval;

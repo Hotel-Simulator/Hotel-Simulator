@@ -1,30 +1,29 @@
 package pl.agh.edu.ui.component.label;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
+
 import pl.agh.edu.ui.language.LanguageChangeListener;
 import pl.agh.edu.ui.language.LanguageManager;
+import pl.agh.edu.utils.LanguageString;
 
 public class LanguageLabel extends CustomLabel implements LanguageChangeListener {
-	private String languagePath;
+	private LanguageString languageString;
 
-	public LanguageLabel(String languagePath, String font) {
+	public LanguageLabel(LanguageString languageString, String font) {
 		super(font);
-		setLanguagePath(languagePath);
-	}
-
-	public LanguageLabel(String languagePath, String font, String background) {
-		super(font, background);
-		setLanguagePath(languagePath);
-	}
-
-	private void setLanguagePath(String languagePath) {
-		this.languagePath = languagePath;
+		this.languageString = languageString;
 		LanguageManager.addListener(this);
 		onLanguageChange();
 	}
 
 	@Override
-	public void onLanguageChange() {
-		this.setText(LanguageManager.get(languagePath));
+	public Actor onLanguageChange() {
+		this.setText(LanguageManager.get(languageString));
+		return this;
 	}
 
+	public void updateLanguageString(LanguageString languageString) {
+		this.languageString = languageString;
+		onLanguageChange();
+	}
 }
