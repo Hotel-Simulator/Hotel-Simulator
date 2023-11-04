@@ -1,18 +1,20 @@
 package pl.agh.edu.ui.component.navbar;
 
+import static com.badlogic.gdx.utils.Align.center;
+import static pl.agh.edu.engine.time.Frequency.EVERY_TIME_TICK;
+import static pl.agh.edu.ui.audio.SoundAudio.BUTTON_1;
+import static pl.agh.edu.ui.utils.SkinFont.H4;
+
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import static com.badlogic.gdx.utils.Align.center;
-import static pl.agh.edu.engine.time.Frequency.EVERY_TIME_TICK;
+
 import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.engine.time.TimeCommandExecutor;
 import pl.agh.edu.engine.time.command.RepeatingTimeCommand;
-import static pl.agh.edu.ui.audio.SoundAudio.BUTTON_1;
 import pl.agh.edu.ui.component.calendar.CalendarLayer;
 import pl.agh.edu.ui.component.label.CustomLabel;
-import static pl.agh.edu.ui.utils.SkinFont.H4;
 
 public class TimePanel extends Table {
 	private static final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();

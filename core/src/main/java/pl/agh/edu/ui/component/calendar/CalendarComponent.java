@@ -1,9 +1,16 @@
 package pl.agh.edu.ui.component.calendar;
 
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.YearMonth;
+import java.util.function.Consumer;
+import java.util.stream.IntStream;
+
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.engine.calendar.Calendar;
 import pl.agh.edu.engine.time.Time;
@@ -13,12 +20,6 @@ import pl.agh.edu.ui.component.selection.YearSelection;
 import pl.agh.edu.ui.component.tooltip.EventDescriptionTooltip;
 import pl.agh.edu.ui.utils.wrapper.WrapperContainer;
 import pl.agh.edu.ui.utils.wrapper.WrapperTable;
-
-import java.time.LocalDate;
-import java.time.Month;
-import java.time.YearMonth;
-import java.util.function.Consumer;
-import java.util.stream.IntStream;
 
 public class CalendarComponent extends WrapperTable {
 	private final Time time = Time.getInstance();
@@ -30,6 +31,7 @@ public class CalendarComponent extends WrapperTable {
 	private final YearSelection yearSelection;
 	private final boolean isActive;
 	private final Calendar calendar = Calendar.getInstance();
+
 	public CalendarComponent(LocalDate chosenDate, Consumer<LocalDate> dateChangeHandler, Boolean isBlockedByTime, Boolean isActive) {
 		super();
 		this.chosenDate = chosenDate;
@@ -54,8 +56,6 @@ public class CalendarComponent extends WrapperTable {
 
 		this.setResolutionChangeHandler(this::resize);
 		innerTable.setFillParent(false);
-
-		this.debugAll();
 	}
 
 	private void monthSelectionHandler(YearMonth newYearMonth) {
@@ -123,6 +123,7 @@ public class CalendarComponent extends WrapperTable {
 					.toList()
 					.forEach(this::addButton);
 		}
+
 		private void addButton(CalendarCellButton button) {
 			innerTable.add(button).grow().uniform();
 			if (innerTable.getChildren().size % 7 == 0) {
@@ -177,8 +178,9 @@ public class CalendarComponent extends WrapperTable {
 			this.size(CalendarComponentStyle.getCellSize());
 		}
 	}
-	private static class CalendarComponentStyle{
-		private static float getCellSize(){
+
+	private static class CalendarComponentStyle {
+		private static float getCellSize() {
 			return switch (GraphicConfig.getResolution().SIZE) {
 				case SMALL -> 50f;
 				case MEDIUM -> 60f;
@@ -186,7 +188,7 @@ public class CalendarComponent extends WrapperTable {
 			};
 		}
 
-		private static float getPadding(){
+		private static float getPadding() {
 			return switch (GraphicConfig.getResolution().SIZE) {
 				case SMALL -> 5f;
 				case MEDIUM -> 10f;

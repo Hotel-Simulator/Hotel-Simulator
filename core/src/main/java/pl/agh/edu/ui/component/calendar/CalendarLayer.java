@@ -1,5 +1,8 @@
 package pl.agh.edu.ui.component.calendar;
 
+import java.time.LocalDate;
+import java.util.function.Consumer;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -7,12 +10,10 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+
 import pl.agh.edu.ui.audio.SoundAudio;
 import pl.agh.edu.ui.resolution.ResolutionChangeListener;
 import pl.agh.edu.ui.resolution.ResolutionManager;
-
-import java.time.LocalDate;
-import java.util.function.Consumer;
 
 public class CalendarLayer extends Stack implements ResolutionChangeListener {
 	private final CalendarComponent calendarComponent;
@@ -36,7 +37,7 @@ public class CalendarLayer extends Stack implements ResolutionChangeListener {
 		this.init();
 	}
 
-	public void init(){
+	public void init() {
 		this.setUpInvisibleBackground();
 		this.setUpCalendarComponent();
 		ResolutionManager.addListener(this);
@@ -105,7 +106,7 @@ public class CalendarLayer extends Stack implements ResolutionChangeListener {
 		Vector2 vector2 = parent.localToStageCoordinates(new Vector2(0, 0));
 		vector2.x += parent.getWidth() / 2;
 		vector2.y -= calendarComponent.getActor().getPrefHeight() / 2;
-        return vector2;
+		return vector2;
 	}
 
 	@Override
