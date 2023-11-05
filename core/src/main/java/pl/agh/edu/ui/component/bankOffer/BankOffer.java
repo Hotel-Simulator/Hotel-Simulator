@@ -87,7 +87,7 @@ public class BankOffer extends WrapperTable {
 			@Override
 			public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
 				if (pointer == -1) {
-					if (baseFrame.game != null && baseFrame.game.engine.hotelHandler.bankAccount.bankDataId == bankData.id()) {
+					if (baseFrame.game != null && baseFrame.game.engine.hotelHandler.bankAccount.bankId == bankData.id()) {
 						setBackground("bank-offer-background-selected");
 					} else {
 						setBackground("bank-offer-background");
@@ -101,7 +101,7 @@ public class BankOffer extends WrapperTable {
 	@Override
 	public void layout() {
 		super.layout();
-		if (baseFrame.game != null && baseFrame.game.engine.hotelHandler.bankAccount.bankDataId == bankData.id()) {
+		if (baseFrame.game != null && baseFrame.game.engine.hotelHandler.bankAccount.bankId == bankData.id()) {
 			setBackground("bank-offer-background-selected");
 		}
 	}

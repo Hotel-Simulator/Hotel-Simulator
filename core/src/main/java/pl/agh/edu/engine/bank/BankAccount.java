@@ -13,12 +13,12 @@ public class BankAccount {
 	private final Time time = Time.getInstance();
 	private BigDecimal balance;
 	private BankAccountDetails accountDetails;
-	public String bankDataId;
+	public Integer bankId;
 
 	public BankAccount(BigDecimal initialBalance, BankData bankData) {
 		this.balance = initialBalance;
 		this.accountDetails = bankData.accountDetails();
-		this.bankDataId = bankData.id();
+		this.bankId = bankData.id();
 	}
 
 	private void chargeAccountFee() {
@@ -72,9 +72,9 @@ public class BankAccount {
 		return accountDetails.accountFee();
 	}
 
-	public void setAccountDetails(BankData bankData) {
+	public void setBankData(BankData bankData) {
 		this.accountDetails = bankData.accountDetails();
-		this.bankDataId = bankData.id();
+		this.bankId = bankData.id();
 	}
 
 	public void monthlyUpdate() {

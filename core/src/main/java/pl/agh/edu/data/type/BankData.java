@@ -5,7 +5,7 @@ import pl.agh.edu.utils.LanguageString;
 
 
 public record BankData(
-        String id,
+        Integer id,
         LanguageString name,
         BankAccountDetails accountDetails
 ) {
