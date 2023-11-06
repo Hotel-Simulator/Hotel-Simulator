@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -19,8 +18,8 @@ import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.engine.hotel.dificulty.DifficultyLevel;
 import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.component.button.DifficultyButton;
+import pl.agh.edu.ui.component.button.ScenarioLabeledButton;
 import pl.agh.edu.ui.component.label.LanguageLabel;
-import pl.agh.edu.ui.language.LanguageManager;
 import pl.agh.edu.ui.resolution.Size;
 import pl.agh.edu.ui.utils.SkinColor;
 import pl.agh.edu.ui.utils.wrapper.WrapperContainer;
@@ -32,8 +31,8 @@ public class DifficultyPanel extends WrapperContainer<Table> {
 	public final List<DifficultyButton> buttonsList = new ArrayList<>();
 	public final ButtonGroup<TextButton> buttonGroup = new ButtonGroup<>();
 	private LanguageLabel titleLabel;
-	private TextButton backButton;
-	private TextButton playButton;
+	private ScenarioLabeledButton backButton;
+	private ScenarioLabeledButton playButton;
 	private float largePaddingMultiplier = 1;
 
 	public DifficultyPanel() {
@@ -45,7 +44,6 @@ public class DifficultyPanel extends WrapperContainer<Table> {
 		createBackButton();
 		createFrame();
 		setResolutionChangeHandler(this::updateSizes);
-		LanguageManager.addListener(this);
 	}
 
 	public void createFrame() {
@@ -67,7 +65,7 @@ public class DifficultyPanel extends WrapperContainer<Table> {
 
 	private void addPlayBackButtonsToFrame() {
 		Table playBack = new Table();
-		playBack.add(backButton).padRight(3 * frame.getWidth() / 5);
+		playBack.add(backButton).padRight(frame.getWidth() / 2);
 		playBack.add(playButton);
 		frame.add(playBack).padTop(largePaddingMultiplier * frame.getHeight() / 15);
 	}
@@ -108,19 +106,19 @@ public class DifficultyPanel extends WrapperContainer<Table> {
 	}
 
 	public void createPlayButton() {
-		playButton = new TextButton(getPlayButtonText(), getPlayBackButtonStyle());
+		playButton = new ScenarioLabeledButton(getPlayButtonText());
 	}
 
 	public void createBackButton() {
-		backButton = new TextButton(getBackButtonText(), getPlayBackButtonStyle());
+		backButton = new ScenarioLabeledButton(getBackButtonText());
 	}
 
-	public String getPlayButtonText() {
-		return LanguageManager.get(new LanguageString("difficulty.play.button"));
+	public LanguageString getPlayButtonText() {
+		return new LanguageString("difficulty.play.button");
 	}
 
-	public String getBackButtonText() {
-		return LanguageManager.get(new LanguageString("difficulty.back.button"));
+	public LanguageString getBackButtonText() {
+		return new LanguageString("difficulty.back.button");
 	}
 
 	public String getTitleFont() {
@@ -131,32 +129,15 @@ public class DifficultyPanel extends WrapperContainer<Table> {
 		};
 	}
 
-	public TextButton.TextButtonStyle getPlayBackButtonStyle() {
-		return switch (GraphicConfig.getResolution().SIZE) {
-			case SMALL -> skin.get("difficulty-play-back-small", TextButton.TextButtonStyle.class);
-			case MEDIUM -> skin.get("difficulty-play-back-medium", TextButton.TextButtonStyle.class);
-			case LARGE -> skin.get("difficulty-play-back-large", TextButton.TextButtonStyle.class);
-		};
-	}
-
 	private Label.LabelStyle getTitleLabelStyle() {
 		Label.LabelStyle titleLabelStyle = skin.get(getTitleFont(), Label.LabelStyle.class);
 		titleLabelStyle.fontColor = SkinColor.ALERT.getColor(SkinColor.ColorLevel._500);
 		return titleLabelStyle;
 	}
 
-	public Actor onLanguageChange() {
-		super.onLanguageChange();
-		playButton.setText(getPlayButtonText());
-		backButton.setText(getBackButtonText());
-		return this;
-	}
-
 	public void updateSizes() {
 		getSize();
 		createTitleLabel();
-		createPlayButton();
-		createBackButton();
 		createFrame();
 	}
 }
