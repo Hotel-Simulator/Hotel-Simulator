@@ -11,9 +11,10 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
-import pl.agh.edu.ui.audio.SoundAudio;
 import pl.agh.edu.ui.resolution.ResolutionChangeListener;
 import pl.agh.edu.ui.resolution.ResolutionManager;
+
+import static pl.agh.edu.ui.audio.SoundAudio.CLICK_2;
 
 public class CalendarLayer extends Stack implements ResolutionChangeListener {
 	private final CalendarComponent calendarComponent;
@@ -50,7 +51,7 @@ public class CalendarLayer extends Stack implements ResolutionChangeListener {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 				if (!isOverCalendar(x, y)) {
-					SoundAudio.CLICK_2.playAudio();
+					CLICK_2.playAudio();
 					clearAll(null);
 				}
 				return true;

@@ -14,15 +14,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.engine.calendar.Calendar;
 import pl.agh.edu.engine.time.Time;
-import pl.agh.edu.ui.audio.SoundAudio;
 import pl.agh.edu.ui.component.selection.MonthSelection;
 import pl.agh.edu.ui.component.selection.YearSelection;
 import pl.agh.edu.ui.component.tooltip.EventDescriptionTooltip;
 import pl.agh.edu.ui.utils.wrapper.WrapperContainer;
 import pl.agh.edu.ui.utils.wrapper.WrapperTable;
 
+import static pl.agh.edu.ui.audio.SoundAudio.BUTTON_3;
+
 public class CalendarComponent extends WrapperTable {
-	private final Time time = Time.getInstance();
 	private final Container<CalendarMatrix> calendarMatrixContainer = new Container<>();
 	private final LocalDate chosenDate;
 	private final Consumer<LocalDate> dateChangeHandler;
@@ -40,6 +40,7 @@ public class CalendarComponent extends WrapperTable {
 
 		currentYearMonth = YearMonth.from(chosenDate);
 
+		Time time = Time.getInstance();
 		this.monthSelection = new MonthSelection(YearMonth.from(time.getTime()), this::monthSelectionHandler, isBlockedByTime);
 		this.yearSelection = new YearSelection(YearMonth.from(time.getTime()), this::yearSelectionHandle, isBlockedByTime);
 
@@ -162,7 +163,7 @@ public class CalendarComponent extends WrapperTable {
 				button.addListener(new InputListener() {
 					@Override
 					public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-						SoundAudio.BUTTON_3.playAudio();
+						BUTTON_3.playAudio();
 						closeAll();
 						dateChangeHandler.accept(date);
 						return true;
