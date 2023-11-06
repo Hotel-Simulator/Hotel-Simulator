@@ -6,8 +6,8 @@ import static pl.agh.edu.ui.utils.SkinFont.H2;
 import static pl.agh.edu.ui.utils.SkinFont.H3;
 import static pl.agh.edu.ui.utils.SkinFont.H4;
 import static pl.agh.edu.ui.utils.SkinFont.SUBTITLE1;
+import static com.badlogic.gdx.scenes.scene2d.Touchable.enabled;
 
-import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -42,7 +42,7 @@ public class ScenarioButton extends WrapperContainer<Button> {
 
 		createActors();
 		createButton();
-		setTouchable(Touchable.enabled);
+		setTouchable(enabled);
 	}
 
 	public void createActors() {
