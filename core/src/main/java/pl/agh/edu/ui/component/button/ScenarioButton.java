@@ -61,8 +61,10 @@ public class ScenarioButton extends WrapperContainer<Button> {
 	public void createButton() {
 		button.clearChildren();
 		button.add(titleLabel).width(scenarioButtonStyle.getTitleDescriptionWidth()).height(scenarioButtonStyle.getTitleDescriptionHeight()).row();
-		button.add(scenarioImage).width(scenarioButtonStyle.getIconWidthHeight()).height(scenarioButtonStyle.getIconWidthHeight()).padTop(scenarioButtonStyle.getElementPadTop()).center().row();
-		button.add(descriptionLabel).width(scenarioButtonStyle.getTitleDescriptionWidth()).height(scenarioButtonStyle.getTitleDescriptionHeight()).padTop(scenarioButtonStyle.getElementPadTop()).row();
+		button.add(scenarioImage).width(scenarioButtonStyle.getIconWidthHeight()).height(scenarioButtonStyle.getIconWidthHeight()).padTop(scenarioButtonStyle.getElementPadTop())
+				.center().row();
+		button.add(descriptionLabel).width(scenarioButtonStyle.getTitleDescriptionWidth()).height(scenarioButtonStyle.getTitleDescriptionHeight()).padTop(scenarioButtonStyle
+				.getElementPadTop()).row();
 		button.add(seasonLabel).width(scenarioButtonStyle.getSeasonLabelWidth()).padTop(scenarioButtonStyle.getElementPadTop()).center();
 	}
 
@@ -104,71 +106,71 @@ public class ScenarioButton extends WrapperContainer<Button> {
 	}
 
 	public class ScenarioButtonStyle {
-        private static final int PAD_VERTICAL = 30;
-        private static final int PAD_HORIZONTAL = 20;
+		private static final int PAD_VERTICAL = 30;
+		private static final int PAD_HORIZONTAL = 20;
 
-        public static void createPad(ScenarioButton button) {
-            button.pad(PAD_VERTICAL, PAD_HORIZONTAL, PAD_VERTICAL, PAD_HORIZONTAL);
-        }
+		public static void createPad(ScenarioButton button) {
+			button.pad(PAD_VERTICAL, PAD_HORIZONTAL, PAD_VERTICAL, PAD_HORIZONTAL);
+		}
 
-        public String getTitleLabelPath() {
-            return scenarioKey("title");
-        }
+		public String getTitleLabelPath() {
+			return scenarioKey("title");
+		}
 
-        public String getIconPath() {
-            return switch (hotelType) {
-                case RESORT -> "scenario-icon-water";
-                case HOTEL -> "scenario-icon-hotel";
-                case SANATORIUM -> "scenario-icon-hospital";
-            };
-        }
+		public String getIconPath() {
+			return switch (hotelType) {
+				case RESORT -> "scenario-icon-water";
+				case HOTEL -> "scenario-icon-hotel";
+				case SANATORIUM -> "scenario-icon-hospital";
+			};
+		}
 
-        public String getDescriptionLabelPath() {
-            return scenarioKey("description");
-        }
+		public String getDescriptionLabelPath() {
+			return scenarioKey("description");
+		}
 
-        public String getSeasonLabelPath() {
-            return scenarioKey("popularity");
-        }
+		public String getSeasonLabelPath() {
+			return scenarioKey("popularity");
+		}
 
-        public String getTitleLabelFont() {
-            return switch (GraphicConfig.getResolution().SIZE) {
-                case SMALL -> H4.getWhiteVariantName();
-                case MEDIUM -> H3.getWhiteVariantName();
-                case LARGE -> H2.getWhiteVariantName();
-            };
-        }
+		public String getTitleLabelFont() {
+			return switch (GraphicConfig.getResolution().SIZE) {
+				case SMALL -> H4.getWhiteVariantName();
+				case MEDIUM -> H3.getWhiteVariantName();
+				case LARGE -> H2.getWhiteVariantName();
+			};
+		}
 
-        public String getDescriptionLabelFont() {
-            return switch (GraphicConfig.getResolution().SIZE) {
-                case SMALL -> SUBTITLE1.getWhiteVariantName();
-                case MEDIUM -> H4.getWhiteVariantName();
-                case LARGE -> H3.getWhiteVariantName();
-            };
-        }
+		public String getDescriptionLabelFont() {
+			return switch (GraphicConfig.getResolution().SIZE) {
+				case SMALL -> SUBTITLE1.getWhiteVariantName();
+				case MEDIUM -> H4.getWhiteVariantName();
+				case LARGE -> H3.getWhiteVariantName();
+			};
+		}
 
-        private String scenarioKey(String propertyName) {
-            return "scenario." + hotelType.name().toLowerCase() + "." + propertyName;
-        }
+		private String scenarioKey(String propertyName) {
+			return "scenario." + hotelType.name().toLowerCase() + "." + propertyName;
+		}
 
-		public float getTitleDescriptionWidth(){
+		public float getTitleDescriptionWidth() {
 			return 5 * button.getWidth() / 24;
 		}
 
-		public float getTitleDescriptionHeight(){
+		public float getTitleDescriptionHeight() {
 			return button.getHeight() / 12;
 		}
 
-		public float getElementPadTop(){
+		public float getElementPadTop() {
 			return button.getHeight() / 50;
 		}
 
-		public float getSeasonLabelWidth(){
+		public float getSeasonLabelWidth() {
 			return 3 * button.getWidth() / 24;
 		}
 
-		public float getIconWidthHeight(){
+		public float getIconWidthHeight() {
 			return button.getHeight() / 8;
 		}
-    }
+	}
 }

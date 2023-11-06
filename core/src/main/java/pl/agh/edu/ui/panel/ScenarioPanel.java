@@ -1,8 +1,6 @@
 package pl.agh.edu.ui.panel;
 
 import static pl.agh.edu.ui.resolution.Size.LARGE;
-import static pl.agh.edu.ui.utils.SkinColor.ALERT;
-import static pl.agh.edu.ui.utils.SkinColor.ColorLevel._500;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.engine.hotel.HotelType;
@@ -21,7 +18,6 @@ import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.component.button.ScenarioButton;
 import pl.agh.edu.ui.component.button.ScenarioLabeledButton;
 import pl.agh.edu.ui.component.label.LanguageLabel;
-import pl.agh.edu.ui.language.LanguageManager;
 import pl.agh.edu.ui.utils.wrapper.WrapperContainer;
 import pl.agh.edu.utils.LanguageString;
 
@@ -91,7 +87,6 @@ public class ScenarioPanel extends WrapperContainer<Table> {
 		return new LanguageString("scenario.next.button");
 	}
 
-
 	public void updateLabels() {
 		titleLabel.setStyle(ScenarioPanelStyles.getTitleLabelStyle());
 	}
@@ -106,11 +101,10 @@ public class ScenarioPanel extends WrapperContainer<Table> {
 		public static final GameSkin skin = GameSkin.getInstance();
 		public static float largePaddingMultiplier = 1;
 
-		public static void updatePaddingMultiplier(Table frame){
+		public static void updatePaddingMultiplier(Table frame) {
 			if (GraphicConfig.getResolution().SIZE.equals(LARGE)) {
 				largePaddingMultiplier = frame.getHeight() / 1000f * 0.85f;
-			}
-			else {
+			} else {
 				largePaddingMultiplier = 1;
 			}
 		}
