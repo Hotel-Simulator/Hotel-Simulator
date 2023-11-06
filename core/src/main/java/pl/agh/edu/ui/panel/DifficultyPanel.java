@@ -37,7 +37,7 @@ public class DifficultyPanel extends WrapperContainer<Table> {
 
 	public DifficultyPanel() {
 		setActor(frame);
-		getSize();
+		setSize();
 		createDifficultyButtons();
 		createTitleLabel();
 		createPlayButton();
@@ -86,7 +86,7 @@ public class DifficultyPanel extends WrapperContainer<Table> {
 		buttonsList.forEach(difficultyButton -> buttonGroup.add(difficultyButton.getActor()));
 	}
 
-	public void getSize() {
+	public void setSize() {
 		frame.setWidth(GraphicConfig.getResolution().WIDTH);
 		frame.setHeight(GraphicConfig.getResolution().HEIGHT);
 		if (GraphicConfig.getResolution().SIZE.equals(Size.LARGE)) {
@@ -130,13 +130,13 @@ public class DifficultyPanel extends WrapperContainer<Table> {
 	}
 
 	private Label.LabelStyle getTitleLabelStyle() {
-		Label.LabelStyle titleLabelStyle = skin.get(getTitleFont(), Label.LabelStyle.class);
+		Label.LabelStyle titleLabelStyle = new Label.LabelStyle(skin.get(getTitleFont(), Label.LabelStyle.class));
 		titleLabelStyle.fontColor = SkinColor.ALERT.getColor(SkinColor.ColorLevel._500);
 		return titleLabelStyle;
 	}
 
 	public void updateSizes() {
-		getSize();
+		setSize();
 		createTitleLabel();
 		createFrame();
 	}
