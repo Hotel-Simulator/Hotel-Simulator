@@ -28,10 +28,12 @@ public class ScenarioButton extends WrapperContainer<Button> {
 	private Image scenarioImage;
 	private LanguageLabel descriptionLabel;
 	private LanguageLabel seasonLabel;
+	private HotelType hotelType;
 
 	public ScenarioButton(HotelType hotelType) {
 		this.button = new Button(skin.get("scenario-difficulty-button", Button.ButtonStyle.class));
-		this.scenarioButtonStyle = new ScenarioButtonStyle(hotelType);
+		this.scenarioButtonStyle = new ScenarioButtonStyle();
+		this.hotelType = hotelType;
 		setActor(button);
 		setSize();
 
@@ -101,7 +103,7 @@ public class ScenarioButton extends WrapperContainer<Button> {
 		seasonLabel.setStyle(descriptionStyle);
 	}
 
-	public record ScenarioButtonStyle(HotelType hotelType) {
+	public class ScenarioButtonStyle {
         private static final int PAD_VERTICAL = 30;
         private static final int PAD_HORIZONTAL = 20;
 
