@@ -62,7 +62,7 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 						OpinionBuilder.saveRoomGettingData(clientGroup, room, roomPrice);
 						hotelHandler.bankAccountHandler.registerIncome(roomPrice.multiply(BigDecimal.valueOf(clientGroup.getNumberOfNights())));
 						LocalDateTime checkOutTime = getCheckOutTime(clientGroup.getNumberOfNights(), hotelHandler.hotel.getCheckOutTime());
-						if (RandomUtils.randomBooleanWithProbability(JSONGameDataLoader.roomFaultProbability)) {
+						if (!room.roomState.isFaulty() && RandomUtils.randomBooleanWithProbability(JSONGameDataLoader.roomFaultProbability)) {
 							timeCommandExecutor.addCommand(createTimeCommandForBreakingRoom(room, checkOutTime));
 						}
 						timeCommandExecutor.addCommand(createTimeCommandForCheckingOutClients(room, checkOutTime));

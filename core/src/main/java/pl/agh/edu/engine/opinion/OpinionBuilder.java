@@ -45,6 +45,7 @@ public class OpinionBuilder {
 		clientGroup.opinion.setClientGroupGotRoom();
 		clientGroup.opinion.roomPrice.setPrices(roomPrice);
 		clientGroup.opinion.roomCleaning.setGotCleanRoom(!room.roomState.isDirty());
+		clientGroup.opinion.roomBreaking.setGotBrokenRoom(room.roomState.isFaulty());
 	}
 
 	public static void saveSteppingOutOfQueueData(ClientGroup clientGroup) {
