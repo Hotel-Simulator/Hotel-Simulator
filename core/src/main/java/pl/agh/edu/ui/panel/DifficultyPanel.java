@@ -28,51 +28,65 @@ import pl.agh.edu.utils.LanguageString;
 public class DifficultyPanel extends WrapperContainer<Table> {
 	public final GameSkin skin = GameSkin.getInstance();
 	public final Table frame = new Table();
+	public final DifficultyPanelSizes sizes = new DifficultyPanelSizes(frame);
 	public final List<DifficultyButton> buttonsList = new ArrayList<>();
 	public final ButtonGroup<TextButton> buttonGroup = new ButtonGroup<>();
+	public final Table topTable = new Table();
+	public final Table middleTable = new Table();
+	public final Table bottomTable = new Table();
 	private LanguageLabel titleLabel;
 	private ScenarioLabeledButton backButton;
 	private ScenarioLabeledButton playButton;
-	private float largePaddingMultiplier = 1;
 
 	public DifficultyPanel() {
 		setActor(frame);
 		setSize();
+
 		createDifficultyButtons();
 		createTitleLabel();
 		createPlayButton();
 		createBackButton();
 		createFrame();
+
 		setResolutionChangeHandler(this::updateSizes);
 	}
 
 	public void createFrame() {
+		topTable.clearChildren();
+		middleTable.clearChildren();
+		bottomTable.clearChildren();
+
 		frame.clearChildren();
-		frame.left().top();
 		frame.setFillParent(true);
 		frame.background(skin.getDrawable("hotel-room"));
-		frame.add(createTitleLabelTable()).left().padLeft(frame.getWidth() / 12).padTop(largePaddingMultiplier * frame.getHeight() / 16).expandX().row();
+
+		createTitleLabelTable();
 		addDifficultyButtonsToFrame();
 		addPlayBackButtonsToFrame();
+
+		frame.add(topTable).left().height(sizes.getTopTableHeight()).expandX().row();
+		frame.add(middleTable).left().height(sizes.getMiddleTableHeight()).expandX().row();
+		frame.add(bottomTable).height(sizes.getBottomTableHeight()).expandX().row();
 	}
 
-	private Table createTitleLabelTable() {
+	private void createTitleLabelTable() {
 		Table titleLabelTable = new Table();
 		titleLabelTable.setBackground(getTitleLabelBackground());
-		titleLabelTable.add(titleLabel).pad(10f, 40f, 10f, 40f);
-		return titleLabelTable;
+		titleLabelTable.add(titleLabel).pad(DifficultyPanelStyle.PAD_VERTICAL, DifficultyPanelStyle.PAD_HORIZONTAL, DifficultyPanelStyle.PAD_VERTICAL,
+				DifficultyPanelStyle.PAD_HORIZONTAL);
+		topTable.add(titleLabelTable).bottom().padLeft(sizes.getLabelTableWidth()).growX();
 	}
 
 	private void addPlayBackButtonsToFrame() {
 		Table playBack = new Table();
 		playBack.add(backButton).padRight(frame.getWidth() / 2);
 		playBack.add(playButton);
-		frame.add(playBack).padTop(largePaddingMultiplier * frame.getHeight() / 15);
+		bottomTable.add(playBack);
 	}
 
 	private void addDifficultyButtonsToFrame() {
-		buttonsList.forEach(button -> frame.add(button).left().padTop((int) (largePaddingMultiplier * frame.getHeight() / 24)).padLeft(frame.getWidth() / 6 + buttonsList.indexOf(
-				button) * frame.getWidth() / 24).row());
+		buttonsList.forEach(button -> middleTable.add(button).left().padBottom(sizes.getButtonPadBottom()).padLeft(sizes.getButtonPadLeft(buttonsList.indexOf(
+				button))).row());
 	}
 
 	public void createDifficultyButtons() {
@@ -89,16 +103,12 @@ public class DifficultyPanel extends WrapperContainer<Table> {
 	public void setSize() {
 		frame.setWidth(GraphicConfig.getResolution().WIDTH);
 		frame.setHeight(GraphicConfig.getResolution().HEIGHT);
-		if (GraphicConfig.getResolution().SIZE.equals(Size.LARGE)) {
-			largePaddingMultiplier = frame.getHeight() / 1000f * 0.85f;
-		} else {
-			largePaddingMultiplier = 1;
-		}
+		DifficultyPanelStyle.updatePaddingMultiplier(frame);
 	}
 
 	public void createTitleLabel() {
-		titleLabel = new LanguageLabel(new LanguageString("difficulty.title"), getTitleFont());
-		titleLabel.setStyle(getTitleLabelStyle());
+		titleLabel = new LanguageLabel(new LanguageString("difficulty.title"), DifficultyPanelStyle.getTitleFont());
+		titleLabel.setStyle(DifficultyPanelStyle.getTitleLabelStyle());
 	}
 
 	private NinePatchDrawable getTitleLabelBackground() {
@@ -121,23 +131,65 @@ public class DifficultyPanel extends WrapperContainer<Table> {
 		return new LanguageString("difficulty.back.button");
 	}
 
-	public String getTitleFont() {
-		return switch (GraphicConfig.getResolution().SIZE) {
-			case SMALL -> H3.getWhiteVariantName();
-			case MEDIUM -> H2.getWhiteVariantName();
-			case LARGE -> H1.getWhiteVariantName();
-		};
-	}
-
-	private Label.LabelStyle getTitleLabelStyle() {
-		Label.LabelStyle titleLabelStyle = new Label.LabelStyle(skin.get(getTitleFont(), Label.LabelStyle.class));
-		titleLabelStyle.fontColor = SkinColor.ALERT.getColor(SkinColor.ColorLevel._500);
-		return titleLabelStyle;
-	}
-
 	public void updateSizes() {
 		setSize();
 		createTitleLabel();
 		createFrame();
+	}
+
+	private static class DifficultyPanelStyle {
+		public static GameSkin skin = GameSkin.getInstance();
+		public static float largePaddingMultiplier = 1;
+		public static final float PAD_VERTICAL = 10f;
+		public static final float PAD_HORIZONTAL = 40f;
+
+		public static void updatePaddingMultiplier(Table frame) {
+			if (GraphicConfig.getResolution().SIZE.equals(Size.LARGE)) {
+				largePaddingMultiplier = frame.getHeight() / 1000f * 0.85f;
+			} else {
+				largePaddingMultiplier = 1;
+			}
+		}
+
+		private static Label.LabelStyle getTitleLabelStyle() {
+			Label.LabelStyle titleLabelStyle = new Label.LabelStyle(skin.get(getTitleFont(), Label.LabelStyle.class));
+			titleLabelStyle.fontColor = SkinColor.ALERT.getColor(SkinColor.ColorLevel._500);
+			return titleLabelStyle;
+		}
+
+		public static String getTitleFont() {
+			return switch (GraphicConfig.getResolution().SIZE) {
+				case SMALL -> H3.getWhiteVariantName();
+				case MEDIUM -> H2.getWhiteVariantName();
+				case LARGE -> H1.getWhiteVariantName();
+			};
+		}
+	}
+
+	record DifficultyPanelSizes(Table frame){
+
+		public float getTopTableHeight(){
+			return 3*frame.getHeight()/9;
+		}
+
+		public float getMiddleTableHeight(){
+			return 4*frame.getHeight()/9;
+		}
+
+		public float getBottomTableHeight(){
+			return 2*frame.getHeight()/9;
+		}
+
+		public float getLabelTableWidth(){
+			return frame.getWidth() / 12;
+		}
+
+		public float getButtonPadLeft(int multiplier){
+			return frame.getWidth() / 6 + multiplier * frame.getWidth() / 12;
+		}
+
+		public float getButtonPadBottom(){
+			return DifficultyPanelStyle.largePaddingMultiplier * frame.getHeight() / 24;
+		}
 	}
 }
