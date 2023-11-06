@@ -62,6 +62,10 @@ public class ClientGroup {
 		return members.size();
 	}
 
+	public HotelVisitPurpose getHotelVisitPurpose() {
+		return hotelVisitPurpose;
+	}
+
 	public static class Builder {
 		private HotelVisitPurpose hotelVisitPurpose;
 		private List<Client> members;
