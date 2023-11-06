@@ -31,6 +31,18 @@ public class RoomManager {
 	private final RoomPricePerNight roomPricePerNight = new RoomPricePerNight(JSONClientDataLoader.averagePricesPerNight);
 	private final BankAccountHandler bankAccountHandler;
 
+	private final Comparator<Room> roomComparator = (o1, o2) -> {
+		int broken = Boolean.compare(o1.roomState.isFaulty(), o2.roomState.isFaulty());
+		if (broken != 0) {
+			return broken;
+		}
+		int dirty = Boolean.compare(o1.roomState.isDirty(), o2.roomState.isDirty());
+		if (dirty != 0) {
+			return dirty;
+		}
+		return roomPricePerNight.getPrice(o1).compareTo(roomPricePerNight.getPrice(o2));
+	};
+
 	public RoomManager(List<Room> initialRooms, BankAccountHandler bankAccountHandler) {
 		this.rooms = initialRooms;
 		this.bankAccountHandler = bankAccountHandler;
@@ -62,8 +74,7 @@ public class RoomManager {
 				.filter(room -> !room.roomState.isUnderRankChange())
 				.filter(room -> !room.roomState.isBeingBuild())
 				.filter(room -> roomPricePerNight.getPrice(room).compareTo(group.getDesiredPricePerNight()) < 1)
-				.sorted(Comparator.comparing(roomPricePerNight::getPrice))
-				.min(Comparator.comparing(room -> room.roomState.isDirty()));
+				.min(roomComparator);
 	}
 
 	private double roomTimeMultiplier(Room room) {
