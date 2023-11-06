@@ -1,5 +1,7 @@
 package pl.agh.edu.ui.component.calendar;
 
+import static pl.agh.edu.ui.audio.SoundAudio.BUTTON_3;
+
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.YearMonth;
@@ -19,8 +21,6 @@ import pl.agh.edu.ui.component.selection.YearSelection;
 import pl.agh.edu.ui.component.tooltip.EventDescriptionTooltip;
 import pl.agh.edu.ui.utils.wrapper.WrapperContainer;
 import pl.agh.edu.ui.utils.wrapper.WrapperTable;
-
-import static pl.agh.edu.ui.audio.SoundAudio.BUTTON_3;
 
 public class CalendarComponent extends WrapperTable {
 	private final Container<CalendarMatrix> calendarMatrixContainer = new Container<>();
@@ -104,21 +104,21 @@ public class CalendarComponent extends WrapperTable {
 			populateDaysAfterCurrentMonth(daysInMonth, startingColumn != 0 ? startingColumn - 1 : 0, currentYearMonth.plusMonths(1).getMonth());
 		}
 
-		public void populateDaysBeforeCurrentMonth(int startingColumn, int daysInPreviousMonth, Month previousMonth) {
+		private void populateDaysBeforeCurrentMonth(int startingColumn, int daysInPreviousMonth, Month previousMonth) {
 			IntStream.range(0, startingColumn - 1)
 					.mapToObj(day -> new CalendarCellButton(LocalDate.of(currentYearMonth.getYear(), previousMonth, daysInPreviousMonth - day)))
 					.toList()
 					.forEach(this::addButton);
 		}
 
-		public void populateCurrentMonth(int daysInMonth) {
+		private void populateCurrentMonth(int daysInMonth) {
 			IntStream.range(1, daysInMonth + 1)
 					.mapToObj(day -> new CalendarCellButton(LocalDate.of(currentYearMonth.getYear(), currentYearMonth.getMonth(), day)))
 					.toList()
 					.forEach(this::addButton);
 		}
 
-		public void populateDaysAfterCurrentMonth(int daysInMonth, int startingColumn, Month nextMonth) {
+		private void populateDaysAfterCurrentMonth(int daysInMonth, int startingColumn, Month nextMonth) {
 			IntStream.range(1, 43 - (startingColumn + daysInMonth))
 					.mapToObj(day -> new CalendarCellButton(LocalDate.of(currentYearMonth.getYear(), nextMonth, day)))
 					.toList()
@@ -151,21 +151,21 @@ public class CalendarComponent extends WrapperTable {
 			this.resize();
 		}
 
-		public void setStyle(TextButton button, LocalDate date) {
+		private void setStyle(TextButton button, LocalDate date) {
 			if (!calendar.getEventsForDate(date).isEmpty())
 				button.setStyle(skin.get("calendar-special-cell", TextButton.TextButtonStyle.class));
 			else
 				button.setStyle(skin.get("calendar-cell", TextButton.TextButtonStyle.class));
 		}
 
-		public void addEventListener(TextButton button, LocalDate date) {
+		private void addEventListener(TextButton button, LocalDate date) {
 			if (isActive) {
 				button.addListener(new InputListener() {
 					@Override
 					public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 						BUTTON_3.playAudio();
 						closeAll();
-						dateChangeHandler.accept(date);
+						dateChangeHandler.accept(LocalDate.now());
 						return true;
 					}
 				});

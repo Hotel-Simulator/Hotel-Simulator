@@ -1,5 +1,7 @@
 package pl.agh.edu.ui.component.calendar;
 
+import static pl.agh.edu.ui.audio.SoundAudio.CLICK_2;
+
 import java.time.LocalDate;
 import java.util.function.Consumer;
 
@@ -13,8 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import pl.agh.edu.ui.resolution.ResolutionChangeListener;
 import pl.agh.edu.ui.resolution.ResolutionManager;
-
-import static pl.agh.edu.ui.audio.SoundAudio.CLICK_2;
 
 public class CalendarLayer extends Stack implements ResolutionChangeListener {
 	private final CalendarComponent calendarComponent;
