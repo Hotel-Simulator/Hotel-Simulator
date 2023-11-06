@@ -11,7 +11,8 @@ public enum JSONFilePath {
 	HOTEL_CONFIG,
 	ROOM_CONFIG,
 	HOTEL_SCENARIOS_CONFIG,
-	OPINION_CONFIG;
+	OPINION_CONFIG,
+	ATTRACTION_CONFIG;
 
 	private static final String PATH = "assets/jsons/%s.json";
 

@@ -2,6 +2,7 @@ package pl.agh.edu.engine.room;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.EnumMap;
@@ -77,7 +78,7 @@ public class RoomManager {
 		if (changeCost.signum() > 0) {
 			bankAccountHandler.registerExpense(changeCost);
 		} else {
-			bankAccountHandler.registerIncome(changeCost.negate());
+			bankAccountHandler.registerIncome(changeCost.negate().divide(BigDecimal.valueOf(2), 0, RoundingMode.HALF_EVEN));
 		}
 		room.roomState.setUnderRankChange(true);
 
@@ -96,16 +97,15 @@ public class RoomManager {
 
 	private BigDecimal getChangeCost(RoomRank currentRank, RoomRank desiredRank, RoomSize size) {
 		return JSONRoomDataLoader.roomBuildingCosts.get(Pair.of(desiredRank, size))
-				.subtract(JSONRoomDataLoader.roomBuildingCosts.get(Pair.of(currentRank, size)))
-				.divide(BigDecimal.valueOf(2), 0, RoundingMode.HALF_EVEN);
+				.subtract(JSONRoomDataLoader.roomBuildingCosts.get(Pair.of(currentRank, size)));
 	}
 
-	public Optional<LocalDateTime> findChangeRankTime(Room room) {
-		return Optional.ofNullable(roomRankChangeTimes.get(room));
+	public Optional<Duration> findChangeRankTime(Room room) {
+		return Optional.ofNullable(roomRankChangeTimes.get(room)).map(dateTime -> Duration.between(time.getTime(), dateTime));
 	}
 
-	public Optional<LocalDateTime> findBuildTime(Room room) {
-		return Optional.ofNullable(roomBuildingTimes.get(room));
+	public Optional<Duration> findBuildTime(Room room) {
+		return Optional.ofNullable(roomBuildingTimes.get(room)).map(dateTime -> Duration.between(time.getTime(), dateTime));
 	}
 
 	public boolean canChangeRoomRank(Room room) {
@@ -139,5 +139,12 @@ public class RoomManager {
 
 	public RoomPricePerNight getRoomPriceList() {
 		return roomPricePerNight;
+	}
+
+	public List<ClientGroup> getResidents() {
+		return rooms.stream()
+				.filter(room -> room.roomState.isOccupied())
+				.map(Room::getResidents)
+				.toList();
 	}
 }

@@ -1,7 +1,6 @@
 package pl.agh.edu.engine.advertisement;
 
 import static java.math.BigDecimal.ONE;
-import static java.math.BigDecimal.ZERO;
 import static java.time.LocalTime.MIDNIGHT;
 import static java.time.temporal.ChronoUnit.DAYS;
 
@@ -10,18 +9,17 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
-import java.util.function.BinaryOperator;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import pl.agh.edu.data.loader.JSONAdvertisementDataLoader;
 import pl.agh.edu.engine.bank.BankAccountHandler;
+import pl.agh.edu.engine.client.ClientGroupModifierSupplier;
 import pl.agh.edu.engine.hotel.HotelVisitPurpose;
 import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.engine.time.TimeCommandExecutor;
 import pl.agh.edu.engine.time.command.TimeCommand;
 
-public class AdvertisementHandler {
+public class AdvertisementHandler extends ClientGroupModifierSupplier {
 	private final List<AdvertisementCampaign> advertisementCampaigns = new ArrayList<>();
 	private final Time time = Time.getInstance();
 	private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
@@ -67,30 +65,12 @@ public class AdvertisementHandler {
 		advertisementCampaigns.add(advertisementCampaign);
 	}
 
+	@Override
 	public EnumMap<HotelVisitPurpose, BigDecimal> getCumulatedModifier() {
 		return advertisementCampaigns.stream()
 				.filter(this::isCurrentlyEmitted)
 				.map(advertisementCampaigns -> advertisementCampaigns.advertisementData().effectiveness())
 				.reduce(getIdentity(), getAccumulator());
-	}
-
-	private EnumMap<HotelVisitPurpose, BigDecimal> getIdentity() {
-		return Stream.of(HotelVisitPurpose.values())
-				.collect(Collectors.toMap(
-						e -> e,
-						e -> ZERO,
-						(a, b) -> b,
-						() -> new EnumMap<>(HotelVisitPurpose.class)));
-	}
-
-	private BinaryOperator<EnumMap<HotelVisitPurpose, BigDecimal>> getAccumulator() {
-		return (resultMap, enumMap) -> {
-			enumMap.keySet().forEach(key -> {
-				BigDecimal value = enumMap.get(key);
-				resultMap.merge(key, value, BigDecimal::add);
-			});
-			return resultMap;
-		};
 	}
 
 	private boolean isCurrentlyEmitted(AdvertisementCampaign campaign) {
