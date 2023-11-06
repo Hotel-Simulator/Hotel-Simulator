@@ -19,6 +19,7 @@ import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.engine.hotel.HotelType;
 import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.component.button.ScenarioButton;
+import pl.agh.edu.ui.component.button.ScenarioLabeledButton;
 import pl.agh.edu.ui.component.label.LanguageLabel;
 import pl.agh.edu.ui.language.LanguageManager;
 import pl.agh.edu.ui.utils.wrapper.WrapperContainer;
@@ -29,7 +30,7 @@ public class ScenarioPanel extends WrapperContainer<Table> {
 	public final List<ScenarioButton> buttonList = new ArrayList<>();
 	public final ButtonGroup<Button> buttonGroup = new ButtonGroup<>();
 	private LanguageLabel titleLabel;
-	private TextButton nextButton;
+	private ScenarioLabeledButton nextButton;
 
 	public ScenarioPanel() {
 		super(new LanguageString("scenario.next.button"));
@@ -41,7 +42,6 @@ public class ScenarioPanel extends WrapperContainer<Table> {
 
 		createFrame();
 		setResolutionChangeHandler(this::updatedSizes);
-		setLanguageChangeHandler(this::setButtonText);
 	}
 
 	public void createFrame() {
@@ -84,20 +84,16 @@ public class ScenarioPanel extends WrapperContainer<Table> {
 	}
 
 	public void createNextButton() {
-		nextButton = new TextButton(getNextButtonText(), ScenarioPanelStyles.getNextButtonStyle());
+		nextButton = new ScenarioLabeledButton(getNextButtonText());
 	}
 
-	public String getNextButtonText() {
-		return LanguageManager.get(new LanguageString("scenario.next.button"));
+	public LanguageString getNextButtonText() {
+		return new LanguageString("scenario.next.button");
 	}
 
-	public void setButtonText(String text) {
-		nextButton.setText(text);
-	}
 
 	public void updateLabels() {
 		titleLabel.setStyle(ScenarioPanelStyles.getTitleLabelStyle());
-		nextButton.setStyle(ScenarioPanelStyles.getNextButtonStyle());
 	}
 
 	public void updatedSizes() {
