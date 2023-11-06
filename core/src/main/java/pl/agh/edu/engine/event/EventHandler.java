@@ -64,7 +64,7 @@ public class EventHandler {
 				event.calendarDescription);
 		return new TimeCommand(
 				() -> calendar.addEvent(calendarEvent),
-				event.appearanceDate.atTime(LocalTime.NOON));
+				time.getTime());
 	}
 
 	private TimeCommand createTimeCommandForEventStartPopup(Event event) {
