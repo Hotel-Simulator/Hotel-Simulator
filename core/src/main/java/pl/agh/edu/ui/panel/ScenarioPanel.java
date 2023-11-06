@@ -25,13 +25,11 @@ import pl.agh.edu.ui.utils.wrapper.WrapperContainer;
 import pl.agh.edu.utils.LanguageString;
 
 public class ScenarioPanel extends WrapperContainer<Table> {
-	public final GameSkin skin = GameSkin.getInstance();
 	public final Table frame = new Table();
 	public final List<ScenarioButton> buttonList = new ArrayList<>();
 	public final ButtonGroup<Button> buttonGroup = new ButtonGroup<>();
 	private LanguageLabel titleLabel;
 	private TextButton nextButton;
-	private float largePaddingMultiplier = 1;
 
 	public ScenarioPanel() {
 		super(new LanguageString("scenario.next.button"));
@@ -51,24 +49,22 @@ public class ScenarioPanel extends WrapperContainer<Table> {
 		frame.top();
 		frame.setFillParent(true);
 		frame.background(skin.getDrawable("hotel-room"));
-		frame.add(titleLabel).padTop(largePaddingMultiplier * frame.getHeight() / 16).expandX().row();
+		frame.add(titleLabel).padTop(ScenarioPanelStyles.largePaddingMultiplier * frame.getHeight() / 16).expandX().row();
 		addScenarioButtonsToFrame();
-		frame.add(nextButton).right().padRight(frame.getWidth() / 24).padTop(largePaddingMultiplier * frame.getHeight() / 30);
+		frame.add(nextButton).right().padRight(frame.getWidth() / 24).padTop(ScenarioPanelStyles.largePaddingMultiplier * frame.getHeight() / 30);
 		frame.debug();
 	}
 
 	private void addScenarioButtonsToFrame() {
 		Table scenarioButtonsTable = new Table();
 		buttonList.forEach(button -> scenarioButtonsTable.add(button).padLeft(frame.getWidth() / 48).padRight(frame.getWidth() / 48));
-		frame.add(scenarioButtonsTable).padTop(largePaddingMultiplier * frame.getHeight() / 24).row();
+		frame.add(scenarioButtonsTable).padTop(ScenarioPanelStyles.largePaddingMultiplier * frame.getHeight() / 24).row();
 	}
 
 	public void getSize() {
 		frame.setWidth(GraphicConfig.getResolution().WIDTH);
 		frame.setHeight(GraphicConfig.getResolution().HEIGHT);
-		if (GraphicConfig.getResolution().SIZE.equals(LARGE)) {
-			largePaddingMultiplier = frame.getHeight() / 1000f * 0.85f;
-		}
+		ScenarioPanelStyles.updatePaddingMultiplier(frame);
 	}
 
 	public void createDifficultyButtons() {
@@ -83,12 +79,12 @@ public class ScenarioPanel extends WrapperContainer<Table> {
 	}
 
 	public void createTitleLabel() {
-		titleLabel = new LanguageLabel(new LanguageString("scenario.title"), getTitleLabelStyle().font.toString());
-		titleLabel.setStyle(getTitleLabelStyle());
+		titleLabel = new LanguageLabel(new LanguageString("scenario.title"), ScenarioPanelStyles.getTitleLabelStyle().font.toString());
+		titleLabel.setStyle(ScenarioPanelStyles.getTitleLabelStyle());
 	}
 
 	public void createNextButton() {
-		nextButton = new TextButton(getNextButtonText(), getNextButtonStyle());
+		nextButton = new TextButton(getNextButtonText(), ScenarioPanelStyles.getNextButtonStyle());
 	}
 
 	public String getNextButtonText() {
@@ -100,30 +96,45 @@ public class ScenarioPanel extends WrapperContainer<Table> {
 	}
 
 	public void updateLabels() {
-		titleLabel.setStyle(getTitleLabelStyle());
-		nextButton.setStyle(getNextButtonStyle());
-	}
-
-	public Label.LabelStyle getTitleLabelStyle() {
-		return switch (GraphicConfig.getResolution().SIZE) {
-			case SMALL -> skin.get("scenario-title-panel-small", Label.LabelStyle.class);
-			case MEDIUM -> skin.get("scenario-title-panel-medium", Label.LabelStyle.class);
-			case LARGE -> skin.get("scenario-title-panel-large", Label.LabelStyle.class);
-		};
-	}
-
-	public TextButton.TextButtonStyle getNextButtonStyle() {
-		return switch (GraphicConfig.getResolution().SIZE) {
-			case SMALL -> skin.get("difficulty-play-back-small", TextButton.TextButtonStyle.class);
-			case MEDIUM -> skin.get("difficulty-play-back-medium", TextButton.TextButtonStyle.class);
-			case LARGE -> skin.get("difficulty-play-back-large", TextButton.TextButtonStyle.class);
-		};
+		titleLabel.setStyle(ScenarioPanelStyles.getTitleLabelStyle());
+		nextButton.setStyle(ScenarioPanelStyles.getNextButtonStyle());
 	}
 
 	public void updatedSizes() {
 		getSize();
 		updateLabels();
 		createFrame();
+	}
+
+	public static class ScenarioPanelStyles {
+		public static final GameSkin skin = GameSkin.getInstance();
+		public static float largePaddingMultiplier = 1;
+
+		public static void updatePaddingMultiplier(Table frame){
+			if (GraphicConfig.getResolution().SIZE.equals(LARGE)) {
+				largePaddingMultiplier = frame.getHeight() / 1000f * 0.85f;
+			}
+			else {
+				largePaddingMultiplier = 1;
+			}
+		}
+
+		public static Label.LabelStyle getTitleLabelStyle() {
+			return switch (GraphicConfig.getResolution().SIZE) {
+				case SMALL -> skin.get("scenario-title-panel-small", Label.LabelStyle.class);
+				case MEDIUM -> skin.get("scenario-title-panel-medium", Label.LabelStyle.class);
+				case LARGE -> skin.get("scenario-title-panel-large", Label.LabelStyle.class);
+			};
+		}
+
+		public static TextButton.TextButtonStyle getNextButtonStyle() {
+			return switch (GraphicConfig.getResolution().SIZE) {
+				case SMALL -> skin.get("difficulty-play-back-small", TextButton.TextButtonStyle.class);
+				case MEDIUM -> skin.get("difficulty-play-back-medium", TextButton.TextButtonStyle.class);
+				case LARGE -> skin.get("difficulty-play-back-large", TextButton.TextButtonStyle.class);
+			};
+		}
+
 	}
 
 }

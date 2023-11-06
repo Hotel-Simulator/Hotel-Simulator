@@ -31,7 +31,7 @@ public class ScenarioButton extends WrapperContainer<Button> {
 	private HotelType hotelType;
 
 	public ScenarioButton(HotelType hotelType) {
-		this.button = new Button(skin.get("scenario-difficulty-button", Button.ButtonStyle.class));
+		this.button = new Button(skin, "scenario-difficulty-button");
 		this.scenarioButtonStyle = new ScenarioButtonStyle();
 		this.hotelType = hotelType;
 		setActor(button);
@@ -60,10 +60,10 @@ public class ScenarioButton extends WrapperContainer<Button> {
 
 	public void createButton() {
 		button.clearChildren();
-		button.add(titleLabel).width(5 * button.getWidth() / 24).height(button.getHeight() / 12).row();
-		button.add(scenarioImage).width(button.getHeight() / 8 * scenarioButtonStyle.getIconWidth()).height(button.getHeight() / 8).padTop(button.getHeight() / 50).center().row();
-		button.add(descriptionLabel).width(5 * button.getWidth() / 24).height(button.getHeight() / 12).padTop(button.getHeight() / 50).row();
-		button.add(seasonLabel).width(3 * button.getWidth() / 24).padTop(button.getHeight() / 40).center();
+		button.add(titleLabel).width(scenarioButtonStyle.getTitleDescriptionWidth()).height(scenarioButtonStyle.getTitleDescriptionHeight()).row();
+		button.add(scenarioImage).width(scenarioButtonStyle.getIconWidthHeight()).height(scenarioButtonStyle.getIconWidthHeight()).padTop(scenarioButtonStyle.getElementPadTop()).center().row();
+		button.add(descriptionLabel).width(scenarioButtonStyle.getTitleDescriptionWidth()).height(scenarioButtonStyle.getTitleDescriptionHeight()).padTop(scenarioButtonStyle.getElementPadTop()).row();
+		button.add(seasonLabel).width(scenarioButtonStyle.getSeasonLabelWidth()).padTop(scenarioButtonStyle.getElementPadTop()).center();
 	}
 
 	public void setSize() {
@@ -80,7 +80,7 @@ public class ScenarioButton extends WrapperContainer<Button> {
 	}
 
 	private Label.LabelStyle createLabelStyle(String labelFont, int lineHeight) {
-		Label.LabelStyle labelStyle = skin.get(labelFont, Label.LabelStyle.class);
+		Label.LabelStyle labelStyle = new Label.LabelStyle(skin.get(labelFont, Label.LabelStyle.class));
 		labelStyle.font.getData().setLineHeight(lineHeight);
 		labelStyle.fontColor = ALERT.getColor(_500);
 		return labelStyle;
@@ -147,16 +147,28 @@ public class ScenarioButton extends WrapperContainer<Button> {
             };
         }
 
-		public float getIconWidth(){
-			return switch (hotelType) {
-				case RESORT -> 148/104f;
-				case HOTEL -> 125/137f;
-				case SANATORIUM -> 124/135f;
-			};
-		}
-
         private String scenarioKey(String propertyName) {
             return "scenario." + hotelType.name().toLowerCase() + "." + propertyName;
         }
+
+		public float getTitleDescriptionWidth(){
+			return 5 * button.getWidth() / 24;
+		}
+
+		public float getTitleDescriptionHeight(){
+			return button.getHeight() / 12;
+		}
+
+		public float getElementPadTop(){
+			return button.getHeight() / 50;
+		}
+
+		public float getSeasonLabelWidth(){
+			return 3 * button.getWidth() / 24;
+		}
+
+		public float getIconWidthHeight(){
+			return button.getHeight() / 8;
+		}
     }
 }

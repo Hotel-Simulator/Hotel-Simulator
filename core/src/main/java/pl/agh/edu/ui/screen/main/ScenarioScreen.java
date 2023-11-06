@@ -22,7 +22,6 @@ public class ScenarioScreen implements Screen {
 		stage.getViewport().update(GraphicConfig.getResolution().WIDTH, GraphicConfig.getResolution().HEIGHT, true);
 		ScenarioPanel frame = new ScenarioPanel();
 		stage.addActor(frame.getActor());
-		frame.debug();
 
 		InputProcessor inputMultiplexer = new MyInputAdapter(stage);
 		Gdx.input.setInputProcessor(inputMultiplexer);
