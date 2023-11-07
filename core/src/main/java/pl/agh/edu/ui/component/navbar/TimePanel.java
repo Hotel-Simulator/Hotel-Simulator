@@ -2,7 +2,7 @@ package pl.agh.edu.ui.component.navbar;
 
 import static com.badlogic.gdx.utils.Align.center;
 import static pl.agh.edu.engine.time.Frequency.EVERY_TIME_TICK;
-import static pl.agh.edu.ui.audio.SoundAudio.BUTTON_1;
+import static pl.agh.edu.ui.audio.SoundAudio.CLICK;
 import static pl.agh.edu.ui.utils.SkinFont.H4;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -31,7 +31,7 @@ public class TimePanel extends Table {
 		this.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				BUTTON_1.playAudio();
+				CLICK.playSound();
 				getStage().addActor(setUpCalendarLayer());
 			}
 		});

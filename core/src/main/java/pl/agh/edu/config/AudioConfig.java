@@ -1,11 +1,12 @@
 package pl.agh.edu.config;
 
+import pl.agh.edu.engine.hotel.HotelType;
 import pl.agh.edu.ui.audio.MusicController;
 
 public class AudioConfig {
 	private static float musicVolume = 0.00f;
 	private static float audioVolume = 0.50f;
-	private static MusicController musicController = new MusicController();
+	private static MusicController musicController = new MusicController(HotelType.CITY);
 
 	public static float getAudioVolume() {
 		return audioVolume;
@@ -24,8 +25,8 @@ public class AudioConfig {
 		musicController.updateMusicVolume();
 	}
 
-	public static void setUpAudioController() {
-		musicController = new MusicController();
+	public static void setUpAudioController(HotelType hotelType) {
+		musicController = new MusicController(hotelType);
 	}
 
 	public static void stopAudioController() {

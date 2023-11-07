@@ -1,6 +1,6 @@
 package pl.agh.edu.ui.component.button;
 
-import static pl.agh.edu.ui.audio.SoundAudio.BUTTON_1;
+import static pl.agh.edu.ui.audio.SoundAudio.*;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -14,7 +14,7 @@ public class OptionButton extends Button {
 		addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				BUTTON_1.playAudio();
+				POP.playSound();
 				clickedHandler.run();
 			}
 		});

@@ -2,7 +2,7 @@ package pl.agh.edu.ui.component.modal.event;
 
 import static com.badlogic.gdx.utils.Align.center;
 import static com.badlogic.gdx.utils.Align.left;
-import static pl.agh.edu.ui.audio.SoundAudio.BUTTON_1;
+import static pl.agh.edu.ui.audio.SoundAudio.CLICK;
 import static pl.agh.edu.ui.resolution.Size.MEDIUM;
 import static pl.agh.edu.ui.utils.SkinFont.BODY_1;
 import static pl.agh.edu.ui.utils.SkinFont.BODY_2;
@@ -56,7 +56,7 @@ public class EventModal extends WrapperTable {
 		okButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				BUTTON_1.playAudio();
+				CLICK.playSound();
 				closeHandler.run();
 			}
 		});

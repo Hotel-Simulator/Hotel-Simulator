@@ -1,9 +1,7 @@
 package pl.agh.edu.ui.component.navbar;
 
 import static com.badlogic.gdx.utils.Align.center;
-import static pl.agh.edu.ui.audio.SoundAudio.BUTTON_1;
-import static pl.agh.edu.ui.audio.SoundAudio.BUTTON_2;
-import static pl.agh.edu.ui.audio.SoundAudio.BUTTON_3;
+import static pl.agh.edu.ui.audio.SoundAudio.*;
 import static pl.agh.edu.ui.utils.SkinFont.H4;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -29,7 +27,7 @@ public class AccelerationPanel extends WrapperTable {
 		increaseButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				BUTTON_1.playAudio();
+				CLICK.playSound();
 				Time.getInstance().increaseAcceleration();
 				setAcceleration();
 			}
@@ -39,7 +37,7 @@ public class AccelerationPanel extends WrapperTable {
 		decreaseButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				BUTTON_1.playAudio();
+				CLICK.playSound();
 				Time.getInstance().decreaseAcceleration();
 				setAcceleration();
 			}
@@ -50,10 +48,10 @@ public class AccelerationPanel extends WrapperTable {
 			public void clicked(InputEvent event, float x, float y) {
 				if (playButton.isChecked()) {
 					playTime();
-					BUTTON_2.playAudio();
+					DING.playSound();
 				} else {
 					stopTime();
-					BUTTON_3.playAudio();
+					DING.playSound();
 				}
 			}
 		});
