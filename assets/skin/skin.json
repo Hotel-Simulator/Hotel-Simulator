@@ -667,17 +667,17 @@
 	"scenario-title-panel-small": {
 		"font": "white-h3",
 		"fontColor": "alert-500",
-		"background": "scenario-button-up"
+		"background": "scenario-title"
 	},
 	"scenario-title-panel-medium": {
 		"font": "white-h2",
 		"fontColor": "alert-500",
-		"background": "scenario-button-up"
+		"background": "scenario-title"
 	},
 	"scenario-title-panel-large": {
 		"font": "white-h1",
 		"fontColor": "alert-500",
-		"background": "scenario-button-up"
+		"background": "scenario-title"
 	}
 },
 "ListStyle": {
