@@ -1,4 +1,4 @@
-package pl.agh.edu.engine.event;
+package pl.agh.edu.engine.event.temporary;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -6,6 +6,7 @@ import java.util.EnumMap;
 import java.util.List;
 
 import pl.agh.edu.engine.client.ClientGroupModifierSupplier;
+import pl.agh.edu.engine.event.ClientNumberModifier;
 import pl.agh.edu.engine.hotel.HotelVisitPurpose;
 
 public class ClientNumberModificationEventHandler extends ClientGroupModifierSupplier {

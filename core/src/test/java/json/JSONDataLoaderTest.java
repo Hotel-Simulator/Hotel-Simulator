@@ -28,6 +28,7 @@ import pl.agh.edu.data.type.AttractivenessConstantsData;
 import pl.agh.edu.data.type.BankData;
 import pl.agh.edu.data.type.ClientNumberModificationRandomEventData;
 import pl.agh.edu.data.type.CyclicEventData;
+import pl.agh.edu.data.type.RandomBuildingCostModificationPermanentEventData;
 import pl.agh.edu.engine.advertisement.AdvertisementType;
 import pl.agh.edu.engine.attraction.AttractionSize;
 import pl.agh.edu.engine.attraction.AttractionType;
@@ -79,6 +80,7 @@ public class JSONDataLoaderTest {
 		assertDoesNotThrow(() -> {
 			List<CyclicEventData> cyclicEventData = JSONEventDataLoader.cyclicEventData;
 			List<ClientNumberModificationRandomEventData> clientNumberModificationRandomEventData = JSONEventDataLoader.clientNumberModificationRandomEventData;
+			RandomBuildingCostModificationPermanentEventData randomPermanentEventData = JSONEventDataLoader.randomPermanentEventData;
 		});
 	}
 
