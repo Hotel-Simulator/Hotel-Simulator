@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.engine.hotel.HotelType;
@@ -89,7 +88,7 @@ public class ScenarioPanel extends WrapperContainer<Table> {
 		titleLabel.setStyle(ScenarioPanelStyles.getTitleLabelStyle());
 	}
 
-	public void addTitleLabelToFrame(){
+	public void addTitleLabelToFrame() {
 		topTable.add(titleLabel);
 	}
 
@@ -97,7 +96,7 @@ public class ScenarioPanel extends WrapperContainer<Table> {
 		nextButton = new ScenarioLabeledButton(getNextButtonText());
 	}
 
-	public void addNextButtonToFrame(){
+	public void addNextButtonToFrame() {
 		bottomTable.add(nextButton).growX().right().padRight(sizes.getPaddingHorizontal());
 	}
 
@@ -128,17 +127,17 @@ public class ScenarioPanel extends WrapperContainer<Table> {
 
 	}
 
-	public class ScenarioPanelSizes{
+	public class ScenarioPanelSizes {
 
-		public float getTopAndBottomTableHeight(){
+		public float getTopAndBottomTableHeight() {
 			return 2 * frame.getHeight() / 9;
 		}
 
-		public float getMiddleTableHeight(){
+		public float getMiddleTableHeight() {
 			return 5 * frame.getHeight() / 9;
 		}
 
-		public float getPaddingHorizontal(){
+		public float getPaddingHorizontal() {
 			return frame.getWidth() / 50;
 		}
 

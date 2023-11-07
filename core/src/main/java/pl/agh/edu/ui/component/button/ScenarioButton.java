@@ -1,12 +1,12 @@
 package pl.agh.edu.ui.component.button;
 
+import static com.badlogic.gdx.scenes.scene2d.Touchable.enabled;
 import static pl.agh.edu.ui.utils.SkinColor.ALERT;
 import static pl.agh.edu.ui.utils.SkinColor.ColorLevel._500;
 import static pl.agh.edu.ui.utils.SkinFont.H2;
 import static pl.agh.edu.ui.utils.SkinFont.H3;
 import static pl.agh.edu.ui.utils.SkinFont.H4;
 import static pl.agh.edu.ui.utils.SkinFont.SUBTITLE1;
-import static com.badlogic.gdx.scenes.scene2d.Touchable.enabled;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
