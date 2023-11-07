@@ -1,12 +1,12 @@
 package pl.agh.edu.ui.component.label;
 
+import static pl.agh.edu.ui.audio.SoundAudio.BUTTON_2;
+import static pl.agh.edu.ui.audio.SoundAudio.CLICK_2;
 import static pl.agh.edu.ui.utils.SkinColor.ColorLevel._300;
 import static pl.agh.edu.ui.utils.SkinColor.ColorLevel._500;
-import static pl.agh.edu.ui.utils.SkinColor.ColorLevel._700;
 import static pl.agh.edu.ui.utils.SkinColor.ColorLevel._900;
 import static pl.agh.edu.ui.utils.SkinColor.GRAY;
-import static pl.agh.edu.ui.utils.SkinColor.SECONDARY;
-import static pl.agh.edu.ui.utils.SkinSpecialColor.TRANSPARENT;
+import static pl.agh.edu.ui.utils.SkinColor.WARNING;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -21,42 +21,41 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.Null;
 
 import pl.agh.edu.ui.GameSkin;
-import pl.agh.edu.ui.audio.SoundAudio;
 import pl.agh.edu.ui.utils.SkinColor;
 
 public class CustomLabel extends Label {
-	private final Skin skin = GameSkin.getInstance();
-	private Color underscoreColor = TRANSPARENT.getColor();
-	private boolean isDisabled = true;
-	private SkinColor baseColor = SECONDARY;
-
-	public CustomLabel(String font, String backgroundPatch) {
-		this(font);
-		getStyle().background = new NinePatchDrawable(skin.getPatch(backgroundPatch));
-	}
+	private static final Skin skin = GameSkin.getInstance();
+	private boolean hasUnderscore = false;
+	private boolean isDisabled = false;
+	private SkinColor baseColor = WARNING;
+	private SkinColor.ColorLevel colorLevel = _300;
 
 	public CustomLabel(String font) {
-		super("", GameSkin.getInstance());
-		LabelStyle labelStyle = new LabelStyle();
-		labelStyle.font = skin.getFont(font);
-		this.setStyle(labelStyle);
+		super("", skin, font);
 	}
 
-	public void setUnderscoreColor(Color color) {
-		this.underscoreColor = color;
+	public void setBackground(String backgroundPatch) {
+		LabelStyle labelStyle = new LabelStyle(this.getStyle());
+		labelStyle.background = new NinePatchDrawable(skin.getPatch(backgroundPatch));
+		this.setStyle(labelStyle);
 	}
 
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		super.draw(batch, parentAlpha);
+		if (!hasUnderscore)
+			return;
 
 		NinePatch underscorePatch = new NinePatchDrawable(skin.getPatch("underscore"))
-				.tint(underscoreColor)
+				.tint(getCurrentColor())
 				.getPatch();
 
 		underscorePatch.scale(1F, (float) Math.sqrt(getHeight() / 1000) + 0.05f);
 		underscorePatch.draw(batch, getX(), getY(), getWidth(), 5);
+	}
 
+	public Color getCurrentColor() {
+		return getSkinColor().getColor(colorLevel);
 	}
 
 	public void setFont(String font) {
@@ -65,32 +64,40 @@ public class CustomLabel extends Label {
 		this.setStyle(labelStyle);
 	}
 
-	public void setBaseColor(SkinColor baseColor) {
-		this.baseColor = baseColor;
-		setLinkColor(baseColor.getColor(_300));
+	private SkinColor getSkinColor() {
+		if (isDisabled)
+			return GRAY;
+		return baseColor;
 	}
 
-	private void setLinkColor(Color color) {
-		setColor(color);
-		setUnderscoreColor(color);
+	public void setBaseColor(SkinColor baseColor) {
+		this.baseColor = baseColor;
+		updateColor();
+	}
+
+	private void updateColor() {
+		LabelStyle labelStyle = new LabelStyle(this.getStyle());
+		labelStyle.fontColor = getCurrentColor();
+		this.setStyle(labelStyle);
 	}
 
 	public void setDisabled(boolean isDisabled) {
 		this.isDisabled = isDisabled;
-		setLinkColor(isDisabled ? GRAY.getColor(_700) : baseColor.getColor(_300));
+		updateColor();
+	}
+
+	public void setUnderscore(boolean hasUnderscore) {
+		this.hasUnderscore = hasUnderscore;
 	}
 
 	public void makeItLink(Runnable linkAction) {
-		setLinkColor(baseColor.getColor(_300));
-		setDisabled(false);
-
 		addListener(
 				new InputListener() {
 					@Override
 					public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 						if (!isDisabled) {
-							setLinkColor(baseColor.getColor(_900));
-							SoundAudio.CLICK_2.play();
+							colorLevel = _900;
+							CLICK_2.playAudio();
 							return true;
 						}
 						return false;
@@ -99,23 +106,22 @@ public class CustomLabel extends Label {
 					@Override
 					public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 						if (!isDisabled) {
-							setLinkColor(baseColor.getColor(_500));
-							SoundAudio.BUTTON_2.play();
+							colorLevel = _500;
+							BUTTON_2.playAudio();
 						}
 					}
 
 					@Override
 					public void enter(InputEvent event, float x, float y, int pointer, @Null Actor fromActor) {
 						if (!isDisabled && pointer == -1) {
-							setLinkColor(baseColor.getColor(_500));
-
+							colorLevel = _500;
 						}
 					}
 
 					@Override
 					public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
 						if (!isDisabled && pointer == -1) {
-							setLinkColor(baseColor.getColor(_300));
+							colorLevel = _300;
 						}
 					}
 				});

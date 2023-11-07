@@ -13,6 +13,7 @@ import java.util.stream.Stream;
 
 import pl.agh.edu.data.type.AttractivenessConstantsData;
 import pl.agh.edu.engine.advertisement.AdvertisementHandler;
+import pl.agh.edu.engine.attraction.AttractionHandler;
 import pl.agh.edu.engine.bank.BankAccountHandler;
 import pl.agh.edu.engine.client.report.collector.ClientGroupReportDataCollector;
 import pl.agh.edu.engine.event.temporary.ClientNumberModificationEventHandler;
@@ -26,12 +27,16 @@ public class ClientGroupGenerationHandler {
 	private final ClientGenerator clientGenerator = ClientGenerator.getInstance();
 	private final ClientNumberModificationEventHandler clientNumberModificationEventHandler = ClientNumberModificationEventHandler.getInstance();
 	private final AdvertisementHandler advertisementHandler;
+	private final AttractionHandler attractionHandler;
 	private final HotelScenariosManager hotelScenariosManager;
 
-	public ClientGroupGenerationHandler(HotelScenariosManager hotelScenariosManager,
-			BankAccountHandler bankAccountHandler) {
+	public ClientGroupGenerationHandler(
+			HotelScenariosManager hotelScenariosManager,
+			BankAccountHandler bankAccountHandler,
+			AttractionHandler attractionHandler) {
 		this.advertisementHandler = new AdvertisementHandler(bankAccountHandler);
 		this.hotelScenariosManager = hotelScenariosManager;
+		this.attractionHandler = attractionHandler;
 	}
 
 	public List<Arrival> getArrivalsForDay(LocalTime checkInMinTime) {
@@ -63,8 +68,9 @@ public class ClientGroupGenerationHandler {
 			HotelVisitPurpose hotelVisitPurpose) {
 		return numberOfClientGroups
 				.multiply(hotelVisitPurposeMultiplier(hotelVisitPurpose))
-				.multiply(eventMultiplier(hotelVisitPurpose))
-				.multiply(advertisementMultiplier(hotelVisitPurpose))
+				.multiply(multiplier(clientNumberModificationEventHandler, hotelVisitPurpose))
+				.multiply(multiplier(advertisementHandler, hotelVisitPurpose))
+				.multiply(multiplier(attractionHandler, hotelVisitPurpose))
 				.setScale(0, HALF_EVEN)
 				.intValue();
 	}
@@ -83,11 +89,8 @@ public class ClientGroupGenerationHandler {
 		return BigDecimal.valueOf(Math.max(0, RandomUtils.randomGaussian(1, 1. / 3)));
 	}
 
-	private BigDecimal eventMultiplier(HotelVisitPurpose hotelVisitPurpose) {
-		return ONE.add(clientNumberModificationEventHandler.getCumulatedModifier().get(hotelVisitPurpose));
+	private BigDecimal multiplier(ClientGroupModifierSupplier supplier, HotelVisitPurpose hotelVisitPurpose) {
+		return ONE.add(supplier.getCumulatedModifier().get(hotelVisitPurpose));
 	}
 
-	private BigDecimal advertisementMultiplier(HotelVisitPurpose hotelVisitPurpose) {
-		return ONE.add(advertisementHandler.getCumulatedModifier().get(hotelVisitPurpose));
-	}
 }
