@@ -54,7 +54,7 @@ public class DifficultyButton extends WrapperContainer<TextButton> {
 	}
 
 	public void resize() {
-		this.setSize(DifficultyButtonStyle.getWidth(), DifficultyButtonStyle.getHeight());
+		this.size(DifficultyButtonStyle.getWidth(), DifficultyButtonStyle.getHeight());
 		textButton.setStyle(getStyle());
 	}
 

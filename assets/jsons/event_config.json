@@ -115,5 +115,15 @@
       },
       "image_path": "event-icon-sport-tournament"
     }
-  ]
+  ],
+
+  "random_building_cost_modification_event" : {
+    "title": "randomPermanentEvent.buildingCost.title",
+    "positive_event_appearance_popup_description": "randomPermanentEvent.buildingCost.positiveEventAppearancePopupDescription",
+    "negative_event_appearance_popup_description": "randomPermanentEvent.buildingCost.negativeEventAppearancePopupDescription",
+    "occurrence_probability": 0.3,
+    "min_modifier_value_in_percent": 1,
+    "max_modifier_value_in_percent": 10,
+    "image_path": "event-icon-sport-tournament"
+  }
 }

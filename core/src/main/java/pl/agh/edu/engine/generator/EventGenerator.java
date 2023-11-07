@@ -9,8 +9,10 @@ import java.util.Map;
 
 import pl.agh.edu.data.loader.JSONEventDataLoader;
 import pl.agh.edu.data.type.ClientNumberModificationRandomEventData;
-import pl.agh.edu.engine.event.ClientNumberModificationEvent;
-import pl.agh.edu.engine.event.Event;
+import pl.agh.edu.data.type.RandomBuildingCostModificationPermanentEventData;
+import pl.agh.edu.engine.event.permanent.BuildingCostModificationPermanentEvent;
+import pl.agh.edu.engine.event.temporary.ClientNumberModificationTemporaryEvent;
+import pl.agh.edu.engine.event.temporary.TemporaryEvent;
 import pl.agh.edu.engine.hotel.scenario.HotelScenariosManager;
 import pl.agh.edu.utils.LanguageString;
 import pl.agh.edu.utils.Pair;
@@ -37,7 +39,12 @@ public class EventGenerator {
 				Pair.of("{{noDays}}", String.valueOf(noDays))));
 	}
 
-	public List<ClientNumberModificationEvent> generateClientNumberModificationRandomEventsForYear(Year year) {
+	private static LanguageString getLanguageStringWithModifierValue(String string, int modifierValueInPercent) {
+		return new LanguageString(string, List.of(
+				Pair.of("{{modifierValueInPercent}}", String.valueOf(modifierValueInPercent))));
+	}
+
+	public List<ClientNumberModificationTemporaryEvent> generateClientNumberModificationRandomTemporaryEventsForYear(Year year) {
 		return JSONEventDataLoader.clientNumberModificationRandomEventData.stream()
 				.filter(eventData -> RandomUtils.randomBooleanWithProbability(eventData.occurrenceProbability().get(hotelScenariosManager.hotelType).doubleValue()))
 				.map(eventData -> {
@@ -45,7 +52,7 @@ public class EventGenerator {
 					lastOccurrenceRandomEvents.put(eventData.titleProperty(), appearanceDate);
 					int durationDays = RandomUtils.randomInt(eventData.minDurationDays(), eventData.maxDurationDays() + 1);
 					LocalDate startDate = appearanceDate.plusMonths(monthsBetweenEventAppearanceAndStart);
-					return new ClientNumberModificationEvent(
+					return new ClientNumberModificationTemporaryEvent(
 							new LanguageString(eventData.titleProperty()),
 							getLanguageStringWithDateAndNoDays(eventData.eventAppearancePopupDescriptionProperty(), startDate, durationDays),
 							getLanguageStringWithDateAndNoDays(eventData.eventStartPopupDescriptionProperty(), startDate, durationDays),
@@ -71,13 +78,13 @@ public class EventGenerator {
 		return LocalDate.ofYearDay(year.getValue(), RandomUtils.randomInt(begin, daysInYear + 1));
 	}
 
-	public List<Event> generateCyclicEventsForYear(Year year) {
+	public List<TemporaryEvent> generateCyclicTemporaryEventsForYear(Year year) {
 		return JSONEventDataLoader.cyclicEventData.stream()
 				.map(
 						eventData -> {
 							LocalDate appearanceDate = LocalDate.of(year.getValue(), eventData.startDateWithoutYear().getMonth().minus(
 									monthsBetweenEventAppearanceAndStart), eventData.startDateWithoutYear().getDayOfMonth());
-							return new Event(
+							return new TemporaryEvent(
 									new LanguageString(eventData.titleProperty()),
 									new LanguageString(eventData.eventAppearancePopupDescriptionProperty()),
 									new LanguageString(eventData.eventStartPopupDescriptionProperty()),
@@ -86,5 +93,21 @@ public class EventGenerator {
 									appearanceDate,
 									appearanceDate.plusMonths(monthsBetweenEventAppearanceAndStart));
 						}).toList();
+	}
+
+	public List<BuildingCostModificationPermanentEvent> generateRandomBuildingCostModificationPermanentEventForYear(Year year) {
+		RandomBuildingCostModificationPermanentEventData randomPermanentEventData = JSONEventDataLoader.randomPermanentEventData;
+		int sign = RandomUtils.getRandomSign();
+		int modifierValueInPercent = RandomUtils.randomInt(randomPermanentEventData.minModifierValueInPercent(), randomPermanentEventData.maxModifierValueInPercent());
+		if (RandomUtils.randomBooleanWithProbability(randomPermanentEventData.occurrenceProbability().doubleValue())) {
+			return List.of(new BuildingCostModificationPermanentEvent(
+					new LanguageString(randomPermanentEventData.titleProperty()),
+					getLanguageStringWithModifierValue(sign > 0 ? randomPermanentEventData.negativeEventAppearancePopupDescriptionProperty()
+							: randomPermanentEventData.positiveEventAppearancePopupDescriptionProperty(), modifierValueInPercent),
+					RandomUtils.dateOfYear(year),
+					sign * modifierValueInPercent,
+					randomPermanentEventData.imagePath()));
+		}
+		return List.of();
 	}
 }

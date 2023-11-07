@@ -20,6 +20,7 @@ import pl.agh.edu.data.extractor.JSONDataExtractor;
 import pl.agh.edu.data.extractor.JSONValueUtil;
 import pl.agh.edu.data.type.ClientNumberModificationRandomEventData;
 import pl.agh.edu.data.type.CyclicEventData;
+import pl.agh.edu.data.type.RandomBuildingCostModificationPermanentEventData;
 import pl.agh.edu.engine.event.ClientNumberModifier;
 import pl.agh.edu.engine.hotel.HotelType;
 import pl.agh.edu.engine.hotel.HotelVisitPurpose;
@@ -29,6 +30,7 @@ public class JSONEventDataLoader {
 
 	public static List<CyclicEventData> cyclicEventData;
 	public static List<ClientNumberModificationRandomEventData> clientNumberModificationRandomEventData;
+	public static RandomBuildingCostModificationPermanentEventData randomPermanentEventData;
 
 	static {
 		load();
@@ -88,5 +90,14 @@ public class JSONEventDataLoader {
 
 				);
 				});
+		JSONObject randomBuildingCostModificationEvent = JSONDataExtractor.extract(JSON_FILE_PATH, "random_building_cost_modification_event", JSONObject.class);
+		randomPermanentEventData = new RandomBuildingCostModificationPermanentEventData(
+				(String) randomBuildingCostModificationEvent.get("title"),
+				(String) randomBuildingCostModificationEvent.get("positive_event_appearance_popup_description"),
+				(String) randomBuildingCostModificationEvent.get("negative_event_appearance_popup_description"),
+				BigDecimal.valueOf((double) randomBuildingCostModificationEvent.get("occurrence_probability")),
+				((Long) randomBuildingCostModificationEvent.get("min_modifier_value_in_percent")).intValue(),
+				((Long) randomBuildingCostModificationEvent.get("max_modifier_value_in_percent")).intValue(),
+				(String) randomBuildingCostModificationEvent.get("image_path"));
 	}
 }
