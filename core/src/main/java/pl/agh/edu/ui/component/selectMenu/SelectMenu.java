@@ -1,7 +1,7 @@
 package pl.agh.edu.ui.component.selectMenu;
 
 import static com.badlogic.gdx.utils.Align.center;
-import static pl.agh.edu.ui.audio.SoundAudio.PIP_1;
+import static pl.agh.edu.ui.audio.SoundAudio.CLICK;
 import static pl.agh.edu.ui.utils.SkinFont.SUBTITLE1;
 
 import java.util.function.Function;
@@ -147,13 +147,13 @@ public class SelectMenu extends WrapperTable {
 		@Override
 		protected void onShow(Actor scrollPane, boolean below) {
 			super.onShow(scrollPane, below);
-			PIP_1.playAudio();
+			CLICK.playSound();
 		}
 
 		@Override
 		protected void onHide(Actor scrollPane) {
 			super.onHide(scrollPane);
-			PIP_1.playAudio();
+			CLICK.playSound();
 		}
 	}
 }

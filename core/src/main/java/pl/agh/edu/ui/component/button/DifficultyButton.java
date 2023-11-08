@@ -1,6 +1,6 @@
 package pl.agh.edu.ui.component.button;
 
-import static pl.agh.edu.ui.audio.SoundAudio.CLICK_2;
+import static pl.agh.edu.ui.audio.SoundAudio.CLICK;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -41,7 +41,7 @@ public class DifficultyButton extends WrapperContainer<TextButton> {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 				if (!textButton.isChecked()) {
-					CLICK_2.playAudio();
+					CLICK.playSound();
 					return true;
 				}
 				return false;

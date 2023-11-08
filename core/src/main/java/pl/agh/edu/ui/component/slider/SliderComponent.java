@@ -2,7 +2,7 @@ package pl.agh.edu.ui.component.slider;
 
 import static com.badlogic.gdx.utils.Align.center;
 import static com.badlogic.gdx.utils.Align.right;
-import static pl.agh.edu.ui.audio.SoundAudio.PIP_1;
+import static pl.agh.edu.ui.audio.SoundAudio.PIP;
 import static pl.agh.edu.ui.utils.SkinFont.SUBTITLE2;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -39,7 +39,7 @@ public abstract class SliderComponent extends WrapperDoubleTable implements Lang
 		slider.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-				PIP_1.playAudio();
+				PIP.playSound();
 				stateChangeHandler();
 			}
 		});
