@@ -23,6 +23,7 @@ import pl.agh.edu.engine.client.report.data.ClientGroupReportData;
 import pl.agh.edu.engine.generator.ClientGenerator;
 import pl.agh.edu.engine.hotel.HotelVisitPurpose;
 import pl.agh.edu.engine.opinion.Opinion;
+import pl.agh.edu.engine.opinion.OpinionBuilder;
 import pl.agh.edu.serialization.KryoConfig;
 import pl.agh.edu.utils.LanguageString;
 import pl.agh.edu.utils.Pair;
@@ -238,6 +239,18 @@ public class SerializationTest {
         Opinion opinion = ClientGenerator.getInstance().generateClientGroupForGivenHotelVisitPurpose(BUSINESS_TRIP).opinion;
 
         // When
+        opinion.roomCleaning.setGotCleanRoom(true);
+        opinion.roomCleaning.setRoomCleaned();
+        opinion.roomBreaking.setGotBrokenRoom(true);
+        opinion.roomBreaking.roomRepaired();
+        opinion.roomPrice.setPrices(new BigDecimal("20"));
+        opinion.queueWaiting.setStartDate(LocalDateTime.now());
+        opinion.queueWaiting.setEndDate(LocalDateTime.now().plusMinutes(20));
+        opinion.employeesSatisfaction.addSatisfaction(new BigDecimal("0.5"));
+        opinion.employeesSatisfaction.addSatisfaction(new BigDecimal("0.8"));
+        opinion.setClientGroupGotRoom();
+        opinion.setClientSteppedOutOfQueue();
+
         kryo.writeObject(output,opinion);
 
         initInput();

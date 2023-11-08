@@ -241,8 +241,8 @@ public class KryoConfig {
             public void write(Kryo kryo, Output output, QueueWaitingOpinionBucket object) {
                 kryo.writeObject(output,object.weight);
                 kryo.writeObject(output,getPrivateFieldValue(object,"maxWaitingTime",Duration.class));
-                kryo.writeObjectOrNull(output,getPrivateFieldValue(object,"startDate",BigDecimal.class),LocalDateTime.class);
-                kryo.writeObjectOrNull(output,getPrivateFieldValue(object,"endDate",BigDecimal.class),LocalDateTime.class);
+                kryo.writeObjectOrNull(output,getPrivateFieldValue(object,"startDate",LocalDateTime.class),LocalDateTime.class);
+                kryo.writeObjectOrNull(output,getPrivateFieldValue(object,"endDate",LocalDateTime.class),LocalDateTime.class);
 
             }
 
@@ -252,8 +252,8 @@ public class KryoConfig {
                         kryo.readObject(input, Integer.class),
                         kryo.readObject(input, Duration.class));
 
-                setPrivateFieldValue(queueWaitingOpinionBucket,"startDate",kryo.readObjectOrNull(input, Boolean.class));
-                setPrivateFieldValue(queueWaitingOpinionBucket,"endDate",kryo.readObjectOrNull(input, Boolean.class));
+                setPrivateFieldValue(queueWaitingOpinionBucket,"startDate",kryo.readObjectOrNull(input, LocalDateTime.class));
+                setPrivateFieldValue(queueWaitingOpinionBucket,"endDate",kryo.readObjectOrNull(input, LocalDateTime.class));
 
                 return queueWaitingOpinionBucket;
             }
