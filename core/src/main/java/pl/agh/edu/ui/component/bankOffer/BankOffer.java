@@ -1,13 +1,14 @@
 package pl.agh.edu.ui.component.bankOffer;
 
+import static com.badlogic.gdx.scenes.scene2d.Touchable.enabled;
 import static com.badlogic.gdx.utils.Align.left;
+import static pl.agh.edu.ui.utils.SkinColor.GRAY;
 import static pl.agh.edu.ui.utils.SkinFont.BODY_2;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Null;
@@ -34,9 +35,9 @@ public class BankOffer extends WrapperTable {
 		Skin skin = GameSkin.getInstance();
 		String whiteFont = BODY_2.getWhiteVariantName();
 		String blackFont = BODY_2.getName();
-		String valueColor = SkinColor.GRAY.getName(SkinColor.ColorLevel._700);
+		String valueColor = GRAY.getName(SkinColor.ColorLevel._700);
 
-		innerTable.setTouchable(Touchable.enabled);
+		innerTable.setTouchable(enabled);
 		setBackground("bank-offer-background");
 		WrapperTable buttonContainer = new WrapperTable() {
 			@Override
@@ -45,7 +46,7 @@ public class BankOffer extends WrapperTable {
 			}
 		};
 		LanguageLabel bankNameLabel = new LanguageLabel(bankData.name(), whiteFont);
-		bankNameLabel.setBaseColor(SkinColor.GRAY);
+		bankNameLabel.setBaseColor(GRAY);
 
 		buttonContainer.setBackground("text-button-medium-up");
 		buttonContainer.innerTable.add(bankNameLabel).padRight(20f).padLeft(20f);
