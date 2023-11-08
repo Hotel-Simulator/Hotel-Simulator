@@ -67,7 +67,7 @@ public abstract class BaseTable extends WrapperTable {
 	}
 
 	protected abstract static class BaseRow extends WrapperTable {
-		BaseRow() {
+		protected BaseRow() {
 			super();
 			this.setBackground("table-row-background");
 		}

@@ -2,6 +2,7 @@ package pl.agh.edu.ui.component.navbar;
 
 import pl.agh.edu.ui.frame.BaseFrame;
 import pl.agh.edu.ui.frame.TestFrame;
+import pl.agh.edu.ui.frame.employee.HireEmployeeFrame;
 import pl.agh.edu.utils.LanguageString;
 
 public enum NavbarButtonType {
@@ -18,7 +19,7 @@ public enum NavbarButtonType {
 	ACCOUNT("account", new TestFrame(new LanguageString("frame.title.account"))),
 	DEPOSIT("deposit", new TestFrame(new LanguageString("frame.title.deposit"))),
 	CREDIT("credit", new TestFrame(new LanguageString("frame.title.credit"))),
-	HIRE("hire", new TestFrame(new LanguageString("frame.title.hire"))),
+	HIRE("hire", new HireEmployeeFrame()),
 	MANAGE("manage", new TestFrame(new LanguageString("frame.title.manage"))),
 	HISTORY("history", new TestFrame(new LanguageString("frame.title.history")));
 

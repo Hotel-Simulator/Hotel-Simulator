@@ -14,10 +14,13 @@ import pl.agh.edu.ui.component.modal.event.EventWrapper;
 import pl.agh.edu.ui.component.modal.options.OptionsWrapper;
 import pl.agh.edu.ui.component.navbar.NavbarBottom;
 import pl.agh.edu.ui.component.navbar.NavbarTop;
+import pl.agh.edu.ui.frame.BaseFrame;
 import pl.agh.edu.ui.frame.FrameStack;
 import pl.agh.edu.ui.shader.BlurShader;
 
 public class MainScreen implements Screen {
+
+	public final GdxGame game = (GdxGame) Gdx.app.getApplicationListener();
 	public final FrameStack frameStack = new FrameStack();
 	private final Stage mainStage = new Stage(GraphicConfig.getViewport());
 	private final Stage middleStage = new Stage(GraphicConfig.getViewport());
@@ -28,7 +31,7 @@ public class MainScreen implements Screen {
 	private final EventWrapper eventWrapper = new EventWrapper(inputMultiplexer, blurShader, mainStage, topStage);
 	private final InfinityBackground infinityBackground = new InfinityBackground("night-city");
 
-	public MainScreen(GdxGame game) {
+	public MainScreen() {
 		game.engine.eventHandler.setEventHandlerFunction(eventWrapper::showEvent);
 		inputMultiplexer.setOpenOptionsAction(optionsWrapper.getOptionHandler());
 		setupUI();
@@ -61,6 +64,10 @@ public class MainScreen implements Screen {
 		topStage.addActor(optionsWrapper);
 
 		Gdx.input.setInputProcessor(inputMultiplexer);
+	}
+
+	private void setUpEngige() {
+		BaseFrame.setUoEngine(game.engine);
 	}
 
 	@Override
