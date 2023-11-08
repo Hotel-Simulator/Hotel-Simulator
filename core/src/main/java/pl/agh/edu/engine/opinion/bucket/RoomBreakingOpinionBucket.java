@@ -1,5 +1,6 @@
 package pl.agh.edu.engine.opinion.bucket;
 
+import java.util.Objects;
 import java.util.Optional;
 
 public class RoomBreakingOpinionBucket extends OpinionBucket {
@@ -41,5 +42,18 @@ public class RoomBreakingOpinionBucket extends OpinionBucket {
 			return Optional.of("opinionComment.roomBreaking.brokeAndNotRepaired");
 		}
 		return Optional.empty();
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		RoomBreakingOpinionBucket that = (RoomBreakingOpinionBucket) o;
+		return gotBrokenRoom == that.gotBrokenRoom && roomBroke == that.roomBroke && repaired == that.repaired;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(gotBrokenRoom, roomBroke, repaired);
 	}
 }

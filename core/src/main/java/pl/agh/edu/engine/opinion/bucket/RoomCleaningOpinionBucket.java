@@ -1,9 +1,10 @@
 package pl.agh.edu.engine.opinion.bucket;
 
+import java.util.Objects;
 import java.util.Optional;
 
 public class RoomCleaningOpinionBucket extends OpinionBucket {
-	private boolean gotCleanRoom;
+	private boolean gotCleanRoom = false;
 	private int cleanRoomCounter = 0;
 	private final int numberOfNights;
 
@@ -43,5 +44,18 @@ public class RoomCleaningOpinionBucket extends OpinionBucket {
 		}
 		return Optional.of("opinionComment.roomCleaning.sometimesCleanedAndGotDirtyRoom");
 
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		RoomCleaningOpinionBucket that = (RoomCleaningOpinionBucket) o;
+		return gotCleanRoom == that.gotCleanRoom && cleanRoomCounter == that.cleanRoomCounter && numberOfNights == that.numberOfNights;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(gotCleanRoom, cleanRoomCounter, numberOfNights);
 	}
 }

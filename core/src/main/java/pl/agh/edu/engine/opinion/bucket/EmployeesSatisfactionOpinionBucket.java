@@ -5,6 +5,7 @@ import static java.math.BigDecimal.ZERO;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class EmployeesSatisfactionOpinionBucket extends OpinionBucket {
@@ -35,5 +36,18 @@ public class EmployeesSatisfactionOpinionBucket extends OpinionBucket {
 			return Optional.of("opinionComment.employeesSatisfaction.bad");
 		}
 		return Optional.empty();
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		EmployeesSatisfactionOpinionBucket that = (EmployeesSatisfactionOpinionBucket) o;
+		return Objects.equals(satisfactions, that.satisfactions);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(satisfactions);
 	}
 }

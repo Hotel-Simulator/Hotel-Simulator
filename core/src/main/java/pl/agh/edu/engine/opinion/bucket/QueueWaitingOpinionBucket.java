@@ -3,6 +3,7 @@ package pl.agh.edu.engine.opinion.bucket;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Objects;
 import java.util.Optional;
 
 public class QueueWaitingOpinionBucket extends OpinionBucket {
@@ -39,4 +40,16 @@ public class QueueWaitingOpinionBucket extends OpinionBucket {
 		return Optional.empty();
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		QueueWaitingOpinionBucket that = (QueueWaitingOpinionBucket) o;
+		return Objects.equals(maxWaitingTime, that.maxWaitingTime) && Objects.equals(startDate, that.startDate) && Objects.equals(endDate, that.endDate);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(maxWaitingTime, startDate, endDate);
+	}
 }

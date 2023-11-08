@@ -38,6 +38,26 @@ public class Opinion {
 		Collections.addAll(opinionBuckets, roomCleaning, roomBreaking, roomPrice, queueWaiting, employeesSatisfaction);
 	}
 
+	public Opinion(RoomCleaningOpinionBucket roomCleaning,
+				   RoomBreakingOpinionBucket roomBreaking,
+				   RoomPriceOpinionBucket roomPrice,
+				   QueueWaitingOpinionBucket queueWaiting,
+				   EmployeesSatisfactionOpinionBucket employeesSatisfaction,
+				   boolean clientGotRoom,
+				   boolean clientSteppedOutOfQueue) {
+		this.roomCleaning = roomCleaning;
+		this.roomBreaking = roomBreaking;
+		this.roomPrice = roomPrice;
+		this.queueWaiting = queueWaiting;
+		this.employeesSatisfaction = employeesSatisfaction;
+		this.clientGroupGotRoom = clientGotRoom;
+		this.clientSteppedOutOfQueue =clientSteppedOutOfQueue;
+
+		Collections.addAll(opinionBuckets, roomCleaning, roomBreaking, roomPrice, queueWaiting, employeesSatisfaction);
+	}
+
+
+
 	public void setClientGroupGotRoom() {
 		this.clientGroupGotRoom = true;
 	}

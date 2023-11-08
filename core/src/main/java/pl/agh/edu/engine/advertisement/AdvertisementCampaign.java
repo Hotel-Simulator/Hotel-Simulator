@@ -4,7 +4,8 @@ import java.time.LocalDate;
 
 import pl.agh.edu.data.type.AdvertisementData;
 
-public record AdvertisementCampaign(AdvertisementData advertisementData, LocalDate startDate,
+public record AdvertisementCampaign(AdvertisementData advertisementData,
+                                    LocalDate startDate,
                                     LocalDate endDate) implements Comparable<AdvertisementCampaign> {
 
     @Override

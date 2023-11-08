@@ -1,6 +1,6 @@
 package pl.agh.edu.engine.client;
 
-public enum Sex {
+public enum Gender {
 	MALE,
 	FEMALE,
 	OTHER

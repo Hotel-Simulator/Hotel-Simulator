@@ -1,6 +1,7 @@
 package pl.agh.edu.engine.opinion.bucket;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 import java.util.Optional;
 
 public class RoomPriceOpinionBucket extends OpinionBucket {
@@ -33,5 +34,18 @@ public class RoomPriceOpinionBucket extends OpinionBucket {
 
 		}
 		return Optional.empty();
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		RoomPriceOpinionBucket that = (RoomPriceOpinionBucket) o;
+		return Objects.equals(maxPrice, that.maxPrice) && Objects.equals(offeredPrice, that.offeredPrice);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(maxPrice, offeredPrice);
 	}
 }
