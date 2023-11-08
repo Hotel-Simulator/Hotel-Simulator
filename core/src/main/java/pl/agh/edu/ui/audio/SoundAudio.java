@@ -51,7 +51,6 @@ public enum SoundAudio {
 	}
 
 	private void play(Sound sound) {
-		System.out.println("Sound volume: " + AudioConfig.getAudioVolume());
 		sound.setVolume(sound.play(), AudioConfig.getAudioVolume());
 	}
 

@@ -1,6 +1,6 @@
 package pl.agh.edu.ui.component.button;
 
-import static pl.agh.edu.ui.audio.SoundAudio.*;
+import static pl.agh.edu.ui.audio.SoundAudio.POP;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;

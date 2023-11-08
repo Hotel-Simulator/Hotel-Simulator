@@ -1,7 +1,8 @@
 package pl.agh.edu.ui.component.navbar;
 
 import static com.badlogic.gdx.utils.Align.center;
-import static pl.agh.edu.ui.audio.SoundAudio.*;
+import static pl.agh.edu.ui.audio.SoundAudio.CLICK;
+import static pl.agh.edu.ui.audio.SoundAudio.DING;
 import static pl.agh.edu.ui.utils.SkinFont.H4;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
