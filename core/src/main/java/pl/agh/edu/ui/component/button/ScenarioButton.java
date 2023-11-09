@@ -65,10 +65,12 @@ public class ScenarioButton extends WrapperContainer<Button> {
 	public void createButton() {
 		scenarioButton.clearChildren();
 		scenarioButton.add(titleLabel).width(scenarioButtonStyle.getTitleDescriptionWidth()).height(scenarioButtonStyle.getTitleDescriptionHeight()).row();
-		scenarioButton.add(scenarioImage).width(scenarioButtonStyle.getIconWidthHeight()).height(scenarioButtonStyle.getIconWidthHeight()).padTop(scenarioButtonStyle.getElementPadTop())
+		scenarioButton.add(scenarioImage).width(scenarioButtonStyle.getIconWidthHeight()).height(scenarioButtonStyle.getIconWidthHeight()).padTop(scenarioButtonStyle
+				.getElementPadTop())
 				.center().row();
-		scenarioButton.add(descriptionLabel).width(scenarioButtonStyle.getTitleDescriptionWidth()).height(scenarioButtonStyle.getTitleDescriptionHeight()).padTop(scenarioButtonStyle
-				.getElementPadTop()).row();
+		scenarioButton.add(descriptionLabel).width(scenarioButtonStyle.getTitleDescriptionWidth()).height(scenarioButtonStyle.getTitleDescriptionHeight()).padTop(
+				scenarioButtonStyle
+						.getElementPadTop()).row();
 		scenarioButton.add(seasonLabel).width(scenarioButtonStyle.getSeasonLabelWidth()).padTop(scenarioButtonStyle.getElementPadTop()).center();
 	}
 

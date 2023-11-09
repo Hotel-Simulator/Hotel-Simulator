@@ -1,7 +1,7 @@
 package pl.agh.edu.ui.screen.main;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -12,7 +12,6 @@ import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.panel.DifficultyPanel;
 import pl.agh.edu.ui.panel.ScenarioPanel;
-import pl.agh.edu.utils.MyInputAdapter;
 
 public class ScenarioScreen implements Screen {
 	private Stage stage = new Stage(GraphicConfig.getViewport());
@@ -25,16 +24,13 @@ public class ScenarioScreen implements Screen {
 		this.game = game;
 		stage.getViewport().update(GraphicConfig.getResolution().WIDTH, GraphicConfig.getResolution().HEIGHT, true);
 		stage.addActor(scenarioActor);
-
-		InputProcessor inputMultiplexer = new MyInputAdapter(stage);
-		Gdx.input.setInputProcessor(inputMultiplexer);
 	}
 
 	@Override
 	public void show() {
-		// InputMultiplexer multiplexer = new InputMultiplexer();
-		// multiplexer.addProcessor(stage);
-		// Gdx.input.setInputProcessor(multiplexer);
+		InputMultiplexer multiplexer = new InputMultiplexer();
+		multiplexer.addProcessor(stage);
+		Gdx.input.setInputProcessor(multiplexer);
 	}
 
 	@Override
@@ -68,17 +64,17 @@ public class ScenarioScreen implements Screen {
 
 	}
 
-	public void goToDifficultyPanel(){
+	public void goToDifficultyPanel() {
 		stage.clear();
 		stage.addActor(difficultyActor);
 	}
 
-	public void goToScenarioPanel(){
+	public void goToScenarioPanel() {
 		stage.clear();
 		stage.addActor(scenarioActor);
 	}
 
-	public void startGame(){
+	public void startGame() {
 		game.setScreen(new MainScreen(game));
 	}
 }

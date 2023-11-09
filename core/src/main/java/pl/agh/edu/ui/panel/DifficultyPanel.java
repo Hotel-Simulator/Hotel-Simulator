@@ -78,7 +78,7 @@ public class DifficultyPanel extends WrapperContainer<Table> {
 		frame.add(bottomTable).height(sizes.getBottomTableHeight()).expandX().row();
 	}
 
-	private void addListeners(){
+	private void addListeners() {
 		backButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {

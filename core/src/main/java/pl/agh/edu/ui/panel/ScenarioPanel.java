@@ -12,8 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.engine.hotel.HotelType;
 import pl.agh.edu.ui.GameSkin;
@@ -67,8 +67,8 @@ public class ScenarioPanel extends WrapperContainer<Table> {
 		frame.add(bottomTable).height(sizes.getTopAndBottomTableHeight()).growX().row();
 	}
 
-	private void setEventListeners(){
-		nextButton.addListener( new ClickListener() {
+	private void setEventListeners() {
+		nextButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				CLICK.playSound();

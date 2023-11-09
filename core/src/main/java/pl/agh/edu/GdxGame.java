@@ -9,7 +9,6 @@ import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.config.LanguageConfig;
 import pl.agh.edu.engine.Engine;
 import pl.agh.edu.ui.language.LanguageManager;
-import pl.agh.edu.ui.screen.main.MainScreen;
 import pl.agh.edu.ui.screen.main.ScenarioScreen;
 
 public class GdxGame extends ApplicationAdapter {
