@@ -1,5 +1,6 @@
 package pl.agh.edu.ui.panel;
 
+import static pl.agh.edu.ui.audio.SoundAudio.CLICK;
 import static pl.agh.edu.ui.resolution.Size.LARGE;
 
 import java.util.ArrayList;
@@ -70,6 +71,7 @@ public class ScenarioPanel extends WrapperContainer<Table> {
 		nextButton.addListener( new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+				CLICK.playSound();
 				goToDifficultyPanel.run();
 			}
 		});

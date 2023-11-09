@@ -1,5 +1,6 @@
 package pl.agh.edu.ui.panel;
 
+import static pl.agh.edu.ui.audio.SoundAudio.CLICK;
 import static pl.agh.edu.ui.utils.SkinFont.H1;
 import static pl.agh.edu.ui.utils.SkinFont.H2;
 import static pl.agh.edu.ui.utils.SkinFont.H3;
@@ -81,6 +82,7 @@ public class DifficultyPanel extends WrapperContainer<Table> {
 		backButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+				CLICK.playSound();
 				goToScenarioPanel.run();
 			}
 		});
@@ -88,6 +90,7 @@ public class DifficultyPanel extends WrapperContainer<Table> {
 		playButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+				CLICK.playSound();
 				startGame.run();
 			}
 		});
@@ -136,7 +139,7 @@ public class DifficultyPanel extends WrapperContainer<Table> {
 	}
 
 	private NinePatchDrawable getTitleLabelBackground() {
-		return new NinePatchDrawable(skin.getPatch("scenario-button-up"));
+		return new NinePatchDrawable(skin.getPatch("scenario-title"));
 	}
 
 	public void createPlayButton() {
