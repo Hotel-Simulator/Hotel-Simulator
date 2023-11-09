@@ -31,7 +31,7 @@ public class ScenarioButton extends WrapperContainer<Button> {
 	private Image scenarioImage;
 	private LanguageLabel descriptionLabel;
 	private LanguageLabel seasonLabel;
-	private HotelType hotelType;
+	public final HotelType hotelType;
 
 	public ScenarioButton(HotelType hotelType) {
 		this.scenarioButton = new Button(skin, "scenario-difficulty-button");

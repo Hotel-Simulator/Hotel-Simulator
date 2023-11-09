@@ -7,17 +7,24 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
+import org.apache.commons.lang3.builder.Diff;
 import pl.agh.edu.GdxGame;
 import pl.agh.edu.config.GraphicConfig;
+import pl.agh.edu.engine.hotel.HotelType;
+import pl.agh.edu.engine.hotel.dificulty.DifficultyLevel;
 import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.panel.DifficultyPanel;
 import pl.agh.edu.ui.panel.ScenarioPanel;
 
+import java.util.Optional;
+
 public class ScenarioScreen implements Screen {
 	private Stage stage = new Stage(GraphicConfig.getViewport());
 	public final Skin skin = GameSkin.getInstance();
-	public final Actor scenarioActor = new ScenarioPanel(this::goToDifficultyPanel).getActor();
-	public final Actor difficultyActor = new DifficultyPanel(this::goToScenarioPanel, this::startGame).getActor();
+	public final ScenarioPanel scenarioPanel = new ScenarioPanel(this::goToDifficultyPanel);
+	public final DifficultyPanel difficultyPanel = new DifficultyPanel(this::goToScenarioPanel, this::startGame);
+	public final Actor scenarioActor = scenarioPanel.getActor();
+	public final Actor difficultyActor = difficultyPanel.getActor();
 	private final GdxGame game;
 
 	public ScenarioScreen(GdxGame game) {
@@ -75,6 +82,10 @@ public class ScenarioScreen implements Screen {
 	}
 
 	public void startGame() {
+		Optional<DifficultyLevel> lvl = difficultyPanel.getSelectedDifficulty();
+		Optional<HotelType> type = scenarioPanel.getSelectedScenario();
+		if(!lvl.isEmpty()) System.out.println(lvl.get());
+		if(!type.isEmpty()) System.out.println(type.get());
 		game.setScreen(new MainScreen(game));
 	}
 }

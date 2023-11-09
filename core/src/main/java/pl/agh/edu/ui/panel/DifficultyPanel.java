@@ -8,6 +8,7 @@ import static pl.agh.edu.ui.utils.SkinFont.H3;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
@@ -32,7 +33,7 @@ public class DifficultyPanel extends WrapperContainer<Table> {
 	public final GameSkin skin = GameSkin.getInstance();
 	public final Table frame = new Table();
 	public final DifficultyPanelSizes sizes = new DifficultyPanelSizes(frame);
-	public final List<DifficultyButton> buttonsList = new ArrayList<>();
+	public final List<DifficultyButton> buttonList = new ArrayList<>();
 	public final ButtonGroup<TextButton> buttonGroup = new ButtonGroup<>();
 	public final Table topTable = new Table();
 	public final Table middleTable = new Table();
@@ -96,6 +97,15 @@ public class DifficultyPanel extends WrapperContainer<Table> {
 		});
 	}
 
+	public Optional<DifficultyLevel> getSelectedDifficulty(){
+		TextButton selectedButton = buttonGroup.getChecked();
+
+		return buttonList.stream()
+				.filter(button -> selectedButton.equals(button.getActor()))
+				.map(button -> button.difficulty)
+				.findFirst();
+	}
+
 	private void createTitleLabelTable() {
 		Table titleLabelTable = new Table();
 		titleLabelTable.setBackground(getTitleLabelBackground());
@@ -112,19 +122,19 @@ public class DifficultyPanel extends WrapperContainer<Table> {
 	}
 
 	private void addDifficultyButtonsToFrame() {
-		buttonsList.forEach(button -> middleTable.add(button).left().padBottom(sizes.getButtonPadBottom()).padLeft(sizes.getButtonPadLeft(buttonsList.indexOf(
+		buttonList.forEach(button -> middleTable.add(button).left().padBottom(sizes.getButtonPadBottom()).padLeft(sizes.getButtonPadLeft(buttonList.indexOf(
 				button))).row());
 	}
 
 	public void createDifficultyButtons() {
-		Arrays.stream(DifficultyLevel.values()).forEach(level -> buttonsList.add(new DifficultyButton(level)));
+		Arrays.stream(DifficultyLevel.values()).forEach(level -> buttonList.add(new DifficultyButton(level)));
 		createButtonGroup();
 	}
 
 	public void createButtonGroup() {
 		buttonGroup.setMinCheckCount(1);
 		buttonGroup.setMaxCheckCount(1);
-		buttonsList.forEach(difficultyButton -> buttonGroup.add(difficultyButton.getActor()));
+		buttonList.forEach(difficultyButton -> buttonGroup.add(difficultyButton.getActor()));
 	}
 
 	public void setSize() {
