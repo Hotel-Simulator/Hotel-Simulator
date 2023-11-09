@@ -12,21 +12,19 @@ import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.panel.DifficultyPanel;
 import pl.agh.edu.ui.panel.ScenarioPanel;
-import pl.agh.edu.ui.resolution.ResolutionChangeListener;
-import pl.agh.edu.ui.resolution.ResolutionManager;
 import pl.agh.edu.utils.MyInputAdapter;
 
 public class ScenarioScreen implements Screen {
 	private Stage stage = new Stage(GraphicConfig.getViewport());
 	public final Skin skin = GameSkin.getInstance();
-	public final DifficultyPanel difficultyPanel = new DifficultyPanel();
-	public final ScenarioPanel scenarioPanel = new ScenarioPanel(this::goToDifficultyScreen);
+	public final Actor scenarioActor = new ScenarioPanel(this::goToDifficultyPanel).getActor();
+	public final Actor difficultyActor = new DifficultyPanel(this::goToScenarioPanel, this::startGame).getActor();
 	private final GdxGame game;
 
 	public ScenarioScreen(GdxGame game) {
 		this.game = game;
 		stage.getViewport().update(GraphicConfig.getResolution().WIDTH, GraphicConfig.getResolution().HEIGHT, true);
-		stage.addActor(scenarioPanel.getActor());
+		stage.addActor(scenarioActor);
 
 		InputProcessor inputMultiplexer = new MyInputAdapter(stage);
 		Gdx.input.setInputProcessor(inputMultiplexer);
@@ -70,8 +68,17 @@ public class ScenarioScreen implements Screen {
 
 	}
 
-	public void goToDifficultyScreen(){
+	public void goToDifficultyPanel(){
 		stage.clear();
-		stage.addActor(difficultyPanel.getActor());
+		stage.addActor(difficultyActor);
+	}
+
+	public void goToScenarioPanel(){
+		stage.clear();
+		stage.addActor(scenarioActor);
+	}
+
+	public void startGame(){
+		game.setScreen(new MainScreen(game));
 	}
 }

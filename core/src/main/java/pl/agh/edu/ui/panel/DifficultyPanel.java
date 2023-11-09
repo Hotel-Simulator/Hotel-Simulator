@@ -8,10 +8,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 
 import pl.agh.edu.config.GraphicConfig;
@@ -37,10 +39,15 @@ public class DifficultyPanel extends WrapperContainer<Table> {
 	private LanguageLabel titleLabel;
 	private ScenarioLabeledButton backButton;
 	private ScenarioLabeledButton playButton;
+	private Runnable goToScenarioPanel;
+	private Runnable startGame;
 
-	public DifficultyPanel() {
+	public DifficultyPanel(Runnable goToScenarioPanel, Runnable startGame) {
 		setActor(frame);
 		setSize();
+
+		this.goToScenarioPanel = goToScenarioPanel;
+		this.startGame = startGame;
 
 		createDifficultyButtons();
 		createTitleLabel();
@@ -49,6 +56,7 @@ public class DifficultyPanel extends WrapperContainer<Table> {
 		createFrame();
 
 		setResolutionChangeHandler(this::updateSizes);
+		addListeners();
 	}
 
 	public void createFrame() {
@@ -67,6 +75,22 @@ public class DifficultyPanel extends WrapperContainer<Table> {
 		frame.add(topTable).left().height(sizes.getTopTableHeight()).expandX().row();
 		frame.add(middleTable).left().height(sizes.getMiddleTableHeight()).expandX().row();
 		frame.add(bottomTable).height(sizes.getBottomTableHeight()).expandX().row();
+	}
+
+	private void addListeners(){
+		backButton.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				goToScenarioPanel.run();
+			}
+		});
+
+		playButton.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				startGame.run();
+			}
+		});
 	}
 
 	private void createTitleLabelTable() {
