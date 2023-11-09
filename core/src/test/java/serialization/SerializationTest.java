@@ -18,8 +18,16 @@ import pl.agh.edu.engine.bank.Credit;
 import pl.agh.edu.engine.bank.Transaction;
 import pl.agh.edu.engine.bank.TransactionType;
 import pl.agh.edu.engine.calendar.CalendarEvent;
+import pl.agh.edu.engine.client.Arrival;
 import pl.agh.edu.engine.client.ClientGroup;
 import pl.agh.edu.engine.client.report.data.ClientGroupReportData;
+import pl.agh.edu.engine.employee.Employee;
+import pl.agh.edu.engine.employee.EmployeeStatus;
+import pl.agh.edu.engine.employee.EmploymentPreferences;
+import pl.agh.edu.engine.employee.PossibleEmployee;
+import pl.agh.edu.engine.employee.contract.Offer;
+import pl.agh.edu.engine.event.permanent.BuildingCostModificationPermanentEvent;
+import pl.agh.edu.engine.event.temporary.TemporaryEvent;
 import pl.agh.edu.engine.generator.ClientGenerator;
 import pl.agh.edu.engine.hotel.HotelVisitPurpose;
 import pl.agh.edu.engine.opinion.Opinion;
@@ -34,6 +42,7 @@ import java.io.FileOutputStream;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.Year;
 import java.util.Collection;
 import java.util.List;
@@ -44,6 +53,9 @@ import static pl.agh.edu.engine.advertisement.AdvertisementType.FLYERS;
 import static pl.agh.edu.engine.attraction.AttractionSize.MEDIUM;
 import static pl.agh.edu.engine.attraction.AttractionType.RESTAURANT;
 import static pl.agh.edu.engine.bank.TransactionType.EXPENSE;
+import static pl.agh.edu.engine.employee.Profession.CLEANER;
+import static pl.agh.edu.engine.employee.Shift.MORNING;
+import static pl.agh.edu.engine.employee.contract.TypeOfContract.PERMANENT;
 import static pl.agh.edu.engine.hotel.HotelVisitPurpose.BUSINESS_TRIP;
 
 public class SerializationTest {
@@ -214,17 +226,20 @@ public class SerializationTest {
     }
 
     @Test
-    public void clientGroupTest() {
+    public void clientArrivalTest() {
         // Give
         ClientGroup clientGroup = ClientGenerator.getInstance().generateClientGroupForGivenHotelVisitPurpose(BUSINESS_TRIP);
-
+        Arrival arrival = new Arrival(LocalTime.NOON, clientGroup);
         // When
-        kryo.writeObject(output,clientGroup);
+        kryo.writeObject(output,arrival);
 
         initInput();
-        ClientGroup clientGroup2 = kryo.readObject(input,ClientGroup.class);
+        Arrival arrival2 = kryo.readObject(input,Arrival.class);
+        ClientGroup clientGroup2 = arrival2.clientGroup();
 
         // Then
+        assertEquals(arrival.time(),arrival2.time());
+
         assertEquals(clientGroup.getHotelVisitPurpose(),clientGroup2.getHotelVisitPurpose());
         assertEquals(clientGroup.getMembers(),clientGroup2.getMembers());
         assertEquals(clientGroup.getDesiredPricePerNight(),clientGroup2.getDesiredPricePerNight());
@@ -264,6 +279,155 @@ public class SerializationTest {
         assertEquals(opinion.employeesSatisfaction,opinion2.employeesSatisfaction);
         assertEquals(opinion.getStars(),opinion2.getStars());
         assertEquals(opinion.getComment(),opinion2.getComment());
+    }
+
+    @Test
+    public void possibleEmployeeTest() {
+        // Given
+        PossibleEmployee possibleEmployee = new PossibleEmployee.Builder()
+                .firstName("Jan")
+                .lastName("Kowal")
+                .age(18)
+                .skills(new BigDecimal("0.45"))
+                .preferences(new EmploymentPreferences.Builder()
+                        .desiredShift(MORNING)
+                        .acceptableWage(BigDecimal.valueOf(5000))
+                        .desiredWage(BigDecimal.valueOf(6000))
+                        .desiredTypeOfContract(PERMANENT)
+                        .build())
+                .profession(CLEANER)
+                .build();
+
+        // When
+        kryo.writeObject(output, possibleEmployee);
+
+        initInput();
+        PossibleEmployee possibleEmployee2 = kryo.readObject(input, PossibleEmployee.class);
+
+        // Then
+
+        assertEquals(possibleEmployee.firstName, possibleEmployee2.firstName);
+        assertEquals(possibleEmployee.lastName, possibleEmployee2.lastName);
+        assertEquals(possibleEmployee.age, possibleEmployee2.age);
+        assertEquals(possibleEmployee.skills, possibleEmployee2.skills);
+        assertEquals(possibleEmployee.preferences.desiredShift, possibleEmployee2.preferences.desiredShift);
+        assertEquals(possibleEmployee.preferences.acceptableWage, possibleEmployee2.preferences.acceptableWage);
+        assertEquals(possibleEmployee.preferences.desiredWage, possibleEmployee2.preferences.desiredWage);
+        assertEquals(possibleEmployee.preferences.desiredTypeOfContract, possibleEmployee2.preferences.desiredTypeOfContract);
+        assertEquals(possibleEmployee.profession, possibleEmployee2.profession);
+
+    }
+
+    @Test
+    public void employeeTest(){
+        // Given
+        PossibleEmployee possibleEmployee = new PossibleEmployee.Builder()
+                .firstName("")
+                .lastName("")
+                .age(18)
+                .skills(new BigDecimal("0.45"))
+                .preferences(new EmploymentPreferences.Builder()
+                        .desiredShift(MORNING)
+                        .acceptableWage(BigDecimal.valueOf(5000))
+                        .desiredWage(BigDecimal.valueOf(6000))
+                        .desiredTypeOfContract(PERMANENT)
+                        .build())
+                .profession(CLEANER)
+                .build();
+
+        Offer contractOffer = new Offer(MORNING, BigDecimal.valueOf(5000), PERMANENT);
+        Employee employee = new Employee(possibleEmployee, contractOffer);
+
+        // When
+        employee.setStatus(EmployeeStatus.HIRED_WORKING);
+        employee.setOccupied(true);
+        employee.addBonus(BigDecimal.valueOf(1000));
+
+        kryo.writeObject(output, employee);
+
+        initInput();
+        Employee employee2 = kryo.readObject(input, Employee.class);
+
+        assertEquals(employee.firstName, employee2.firstName);
+        assertEquals(employee.lastName, employee2.lastName);
+        assertEquals(employee.age, employee2.age);
+        assertEquals(employee.skills, employee2.skills);
+        assertEquals(employee.preferences.desiredShift, employee2.preferences.desiredShift);
+        assertEquals(employee.preferences.acceptableWage, employee2.preferences.acceptableWage);
+        assertEquals(employee.preferences.desiredWage, employee2.preferences.desiredWage);
+        assertEquals(employee.preferences.desiredTypeOfContract, employee2.preferences.desiredTypeOfContract);
+        assertEquals(employee.profession, employee2.profession);
+
+
+        assertEquals(employee.shift, employee2.shift);
+        assertEquals(employee.wage, employee2.wage);
+        assertEquals(employee.typeOfContract, employee2.typeOfContract);
+
+        assertEquals(employee.isOccupied(), employee2.isOccupied());
+        assertEquals(employee.getStatus(), employee2.getStatus());
+        assertEquals(employee.getSatisfaction(), employee2.getSatisfaction());
+        assertEquals(employee.getServiceExecutionTime(), employee2.getServiceExecutionTime());
+    }
+
+    @Test
+    public void buildingCostModificationPermanentEventTest() {
+        // Given
+        BuildingCostModificationPermanentEvent event = new BuildingCostModificationPermanentEvent(
+                new LanguageString("some.title"),
+                new LanguageString("some.description"),
+                LocalDate.now(),
+                10,
+                "imagePath"
+        );
+
+        // When
+        kryo.writeObject(output, event);
+
+        initInput();
+        BuildingCostModificationPermanentEvent event2 = kryo.readObject(input, BuildingCostModificationPermanentEvent.class);
+
+        // Then
+        assertEquals(event.title.path, event2.title.path);
+        assertEquals(event.title.replacementsList, event2.title.replacementsList);
+        assertEquals(event.eventAppearancePopupDescription.path, event2.eventAppearancePopupDescription.path);
+        assertEquals(event.eventAppearancePopupDescription.replacementsList, event2.eventAppearancePopupDescription.replacementsList);
+        assertEquals(event.appearanceDate, event2.appearanceDate);
+        assertEquals(event.modifierValueInPercent, event2.modifierValueInPercent);
+        assertEquals(event.imagePath, event2.imagePath);
+    }
+
+    @Test
+    public void temporaryEventTest() {
+        // Given
+        TemporaryEvent event = new TemporaryEvent(
+                new LanguageString("some.title"),
+                new LanguageString("some.eventAppearancePopupDescription"),
+                new LanguageString("some.eventStartPopupDescription"),
+                new LanguageString("some.calendarDescription"),
+                "imagePath",
+                LocalDate.now(),
+                LocalDate.now().plusMonths(1)
+        );
+
+        // When
+        kryo.writeObject(output, event);
+
+        initInput();
+        TemporaryEvent event2 = kryo.readObject(input, TemporaryEvent.class);
+
+        // Then
+        assertEquals(event.title.path, event2.title.path);
+        assertEquals(event.title.replacementsList, event2.title.replacementsList);
+        assertEquals(event.eventAppearancePopupDescription.path, event2.eventAppearancePopupDescription.path);
+        assertEquals(event.eventAppearancePopupDescription.replacementsList, event2.eventAppearancePopupDescription.replacementsList);
+        assertEquals(event.eventStartPopupDescription.path, event2.eventStartPopupDescription.path);
+        assertEquals(event.eventStartPopupDescription.replacementsList, event2.eventStartPopupDescription.replacementsList);
+        assertEquals(event.calendarDescription.path, event2.calendarDescription.path);
+        assertEquals(event.calendarDescription.replacementsList, event2.calendarDescription.replacementsList);
+        assertEquals(event.imagePath, event2.imagePath);
+        assertEquals(event.appearanceDate, event2.appearanceDate);
+        assertEquals(event.startDate, event2.startDate);
+
     }
 
 

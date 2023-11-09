@@ -17,9 +17,20 @@ import pl.agh.edu.engine.bank.Credit;
 import pl.agh.edu.engine.bank.Transaction;
 import pl.agh.edu.engine.bank.TransactionType;
 import pl.agh.edu.engine.calendar.CalendarEvent;
+import pl.agh.edu.engine.client.Arrival;
 import pl.agh.edu.engine.client.Client;
 import pl.agh.edu.engine.client.ClientGroup;
 import pl.agh.edu.engine.client.Gender;
+import pl.agh.edu.engine.employee.Employee;
+import pl.agh.edu.engine.employee.EmployeeStatus;
+import pl.agh.edu.engine.employee.EmploymentPreferences;
+import pl.agh.edu.engine.employee.PossibleEmployee;
+import pl.agh.edu.engine.employee.Profession;
+import pl.agh.edu.engine.employee.Shift;
+import pl.agh.edu.engine.employee.contract.Offer;
+import pl.agh.edu.engine.employee.contract.TypeOfContract;
+import pl.agh.edu.engine.event.permanent.BuildingCostModificationPermanentEvent;
+import pl.agh.edu.engine.event.temporary.TemporaryEvent;
 import pl.agh.edu.engine.hotel.HotelVisitPurpose;
 import pl.agh.edu.engine.opinion.Opinion;
 import pl.agh.edu.engine.opinion.bucket.EmployeesSatisfactionOpinionBucket;
@@ -36,6 +47,7 @@ import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.Year;
 import java.time.YearMonth;
 import java.util.List;
@@ -53,6 +65,7 @@ public class KryoConfig {
         kryo.register(YearMonth.class);
         kryo.register(Year.class);
         kryo.register(Duration.class);
+        kryo.register(LocalTime.class);
 
 
         registerAdvertisementCampaign(kryo);
@@ -67,12 +80,19 @@ public class KryoConfig {
         //calendar
         kryo.register(CalendarEvent.class);
 
-        //
+        //opinion
         registerOpinion(kryo);
 
         //client.generation
         registerClientGroup(kryo);
+        kryo.register(Arrival.class);
 
+        //employee
+        registerPossibleEmployee(kryo);
+        registerEmployee(kryo);
+
+        //events
+        registerEvents(kryo);
 
 
     }
@@ -366,8 +386,152 @@ public class KryoConfig {
         };
     }
 
+    public void registerPossibleEmployee(Kryo kryo) {
+        kryo.register(Shift.class);
+        kryo.register(TypeOfContract.class);
+        kryo.register(EmploymentPreferences.class, new Serializer<EmploymentPreferences>() {
+            @Override
+            public void write(Kryo kryo, Output output, EmploymentPreferences object) {
+                kryo.writeObject(output, object.desiredShift);
+                kryo.writeObject(output, object.acceptableWage);
+                kryo.writeObject(output, object.desiredWage);
+                kryo.writeObject(output, object.desiredTypeOfContract);
+            }
+
+            @Override
+            public EmploymentPreferences read(Kryo kryo, Input input, Class<? extends EmploymentPreferences> type) {
+                return new EmploymentPreferences.Builder()
+                        .desiredShift(kryo.readObject(input,Shift.class))
+                        .acceptableWage(kryo.readObject(input, BigDecimal.class))
+                        .desiredWage(kryo.readObject(input, BigDecimal.class))
+                        .desiredTypeOfContract(kryo.readObject(input, TypeOfContract.class))
+                        .build();
+            }
+        });
+        kryo.register(EmploymentPreferences.class);
+        kryo.register(Profession.class);
+        kryo.register(PossibleEmployee.class, new Serializer<PossibleEmployee>() {
+            @Override
+            public void write(Kryo kryo, Output output, PossibleEmployee object) {
+                kryo.writeObject(output, object.firstName);
+                kryo.writeObject(output, object.lastName);
+                kryo.writeObject(output, object.age);
+                kryo.writeObject(output, object.skills);
+                kryo.writeObject(output, object.preferences);
+                kryo.writeObject(output, object.profession);
+            }
+
+            @Override
+            public PossibleEmployee read(Kryo kryo, Input input, Class<? extends PossibleEmployee> type) {
+                return new PossibleEmployee.Builder()
+                        .firstName(kryo.readObject(input, String.class))
+                        .lastName(kryo.readObject(input, String.class))
+                        .age(kryo.readObject(input, Integer.class))
+                        .skills(kryo.readObject(input, BigDecimal.class))
+                        .preferences(kryo.readObject(input, EmploymentPreferences.class))
+                        .profession(kryo.readObject(input, Profession.class))
+                        .build();
+            }
+        });
+    }
+
+    public void registerEmployee(Kryo kryo) {
+        kryo.register(EmployeeStatus.class);
+        kryo.register(Offer.class);
+        kryo.register(Employee.class, new Serializer<Employee>() {
+            @Override
+            public void write(Kryo kryo, Output output, Employee object) {
+                kryo.writeObject(output, object.firstName);
+                kryo.writeObject(output, object.lastName);
+                kryo.writeObject(output, object.age);
+                kryo.writeObject(output, object.skills);
+                kryo.writeObject(output, object.preferences);
+                kryo.writeObject(output, object.profession);
+                kryo.writeObject(output, object.shift);
+                kryo.writeObject(output, object.wage);
+                kryo.writeObject(output, object.typeOfContract);
+                kryo.writeObject(output, getPrivateFieldValue(object, "bonuses",List.class),listSerializer(BigDecimal.class));
+                kryo.writeObject(output, object.isOccupied());
+                kryo.writeObject(output, object.getStatus());
+            }
+
+            @Override
+            public Employee read(Kryo kryo, Input input, Class<? extends Employee> type) {
+                PossibleEmployee possibleEmployee = new PossibleEmployee.Builder()
+                        .firstName(kryo.readObject(input, String.class))
+                        .lastName(kryo.readObject(input, String.class))
+                        .age(kryo.readObject(input, Integer.class))
+                        .skills(kryo.readObject(input, BigDecimal.class))
+                        .preferences(kryo.readObject(input, EmploymentPreferences.class))
+                        .profession(kryo.readObject(input, Profession.class))
+                        .build();
+                Offer offer = new Offer(
+                        kryo.readObject(input, Shift.class),
+                        kryo.readObject(input, BigDecimal.class),
+                        kryo.readObject(input, TypeOfContract.class)
+                );
+                Employee employee = new Employee(possibleEmployee,offer);
+                setPrivateFieldValue(employee, "bonuses",kryo.readObject(input, List.class, listSerializer(BigDecimal.class)));
+                employee.setOccupied(kryo.readObject(input, Boolean.class));
+                employee.setStatus(kryo.readObject(input, EmployeeStatus.class));
+
+                return employee;
+            }
+        });
+    }
+
+    public void registerEvents(Kryo kryo) {
+        kryo.register(BuildingCostModificationPermanentEvent.class, new Serializer<BuildingCostModificationPermanentEvent>() {
+            @Override
+            public void write(Kryo kryo, Output output, BuildingCostModificationPermanentEvent object) {
+                kryo.writeObject(output, object.title);
+                kryo.writeObject(output, object.eventAppearancePopupDescription);
+                kryo.writeObject(output, object.appearanceDate);
+                kryo.writeObject(output, object.modifierValueInPercent);
+                kryo.writeObject(output, object.imagePath);
+            }
+
+            @Override
+            public BuildingCostModificationPermanentEvent read(Kryo kryo, Input input, Class<? extends BuildingCostModificationPermanentEvent> type) {
+                return new BuildingCostModificationPermanentEvent(
+                        kryo.readObject(input, LanguageString.class),
+                        kryo.readObject(input, LanguageString.class),
+                        kryo.readObject(input, LocalDate.class),
+                        kryo.readObject(input, Integer.class),
+                        kryo.readObject(input, String.class)
+                );
+            }
+        });
+
+        kryo.register(TemporaryEvent.class, new Serializer<TemporaryEvent>() {
+            @Override
+            public void write(Kryo kryo, Output output, TemporaryEvent object) {
+                kryo.writeObject(output, object.title);
+                kryo.writeObject(output, object.eventAppearancePopupDescription);
+                kryo.writeObject(output, object.eventStartPopupDescription);
+                kryo.writeObject(output, object.calendarDescription);
+                kryo.writeObject(output, object.imagePath);
+                kryo.writeObject(output, object.appearanceDate);
+                kryo.writeObject(output, object.startDate);
+            }
+
+            @Override
+            public TemporaryEvent read(Kryo kryo, Input input, Class<? extends TemporaryEvent> type) {
+                return new TemporaryEvent(
+                        kryo.readObject(input, LanguageString.class),
+                        kryo.readObject(input, LanguageString.class),
+                        kryo.readObject(input, LanguageString.class),
+                        kryo.readObject(input, LanguageString.class),
+                        kryo.readObject(input, String.class),
+                        kryo.readObject(input, LocalDate.class),
+                        kryo.readObject(input, LocalDate.class)
+                );
+            }
+        });
+    }
+
     private static  <T> T getPrivateFieldValue(Object object, String fieldName, Class<T> clazz) {
-        Field f; //NoSuchFieldException
+        Field f;
         try {
             f = object.getClass().getDeclaredField(fieldName);
         } catch (NoSuchFieldException e) {
@@ -394,10 +558,5 @@ public class KryoConfig {
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public static void main(String[] args) {
-        RoomCleaningOpinionBucket roomCleaningOpinionBucket = new RoomCleaningOpinionBucket(3,5);
-        System.out.println(getPrivateFieldValue(roomCleaningOpinionBucket,"numberOfNights", Integer.class));
     }
 }

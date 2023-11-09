@@ -26,9 +26,9 @@ public class Employee {
 	public final Profession profession;
 	private final Duration basicServiceExecutionTime;
 	private final List<BigDecimal> bonuses = new ArrayList<>();
+	public Shift shift;
 	public BigDecimal wage;
 	public TypeOfContract typeOfContract;
-	public Shift shift;
 	private boolean isOccupied;
 	private EmployeeStatus employeeStatus = EmployeeStatus.HIRED_NOT_WORKING;
 
@@ -37,8 +37,8 @@ public class Employee {
 		this.lastName = possibleEmployee.lastName;
 		this.age = possibleEmployee.age;
 		this.skills = possibleEmployee.skills;
-		this.profession = possibleEmployee.profession;
 		this.preferences = possibleEmployee.preferences;
+		this.profession = possibleEmployee.profession;
 
 		setContract(offer);
 
