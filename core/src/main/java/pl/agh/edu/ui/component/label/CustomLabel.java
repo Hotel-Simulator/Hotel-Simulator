@@ -20,14 +20,18 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.Null;
 
 import pl.agh.edu.ui.GameSkin;
+import pl.agh.edu.ui.resolution.ResolutionChangeListener;
+import pl.agh.edu.ui.resolution.ResolutionManager;
 import pl.agh.edu.ui.utils.SkinColor;
 
-public class CustomLabel extends Label {
+public class CustomLabel extends Label implements ResolutionChangeListener {
 	private static final Skin skin = GameSkin.getInstance();
 	private boolean hasUnderscore = false;
 	private boolean isDisabled = false;
 	private SkinColor baseColor = WARNING;
 	private SkinColor.ColorLevel colorLevel = _300;
+
+	private Runnable resolutionChangeHandler;
 
 	public CustomLabel(String font) {
 		super("", skin, font);
@@ -133,4 +137,14 @@ public class CustomLabel extends Label {
 		});
 	}
 
+	public void setUpResolutionChangeHandler(Runnable action){
+		resolutionChangeHandler = action;
+		ResolutionManager.addListener(this);
+	}
+
+	@Override
+	public Actor onResolutionChange() {
+		resolutionChangeHandler.run();
+		return this;
+	}
 }

@@ -12,8 +12,8 @@ import pl.agh.edu.config.GraphicConfig;
 
 public class CustomScrollPane extends ScrollPane {
 
-	public CustomScrollPane(Actor actor, Skin skin, String styleName) {
-		super(actor, skin, styleName);
+	public CustomScrollPane(Actor actor,Skin skin, String styleName) {
+		super(actor,skin, styleName);
 	}
 
 	@Override
