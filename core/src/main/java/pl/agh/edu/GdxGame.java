@@ -8,12 +8,13 @@ import com.badlogic.gdx.graphics.GL20;
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.config.LanguageConfig;
 import pl.agh.edu.engine.Engine;
+import pl.agh.edu.engine.hotel.HotelType;
 import pl.agh.edu.ui.language.LanguageManager;
 import pl.agh.edu.ui.screen.main.ScenarioScreen;
 
 public class GdxGame extends ApplicationAdapter {
 
-	public final Engine engine = new Engine();
+	private Engine engine;
 	private Screen currentScreen;
 	private Screen previousScreen;
 
@@ -38,7 +39,9 @@ public class GdxGame extends ApplicationAdapter {
 			currentScreen.render(Gdx.graphics.getDeltaTime());
 		}
 
-		engine.time.update(Gdx.graphics.getDeltaTime());
+		if (engine != null) {
+			engine.time.update(Gdx.graphics.getDeltaTime());
+		}
 	}
 
 	@Override
@@ -76,6 +79,14 @@ public class GdxGame extends ApplicationAdapter {
 		currentScreen = previousScreen;
 		previousScreen = temp;
 		setScreen(currentScreen);
+	}
+
+	public Engine getEngine() {
+		return engine;
+	}
+
+	public void createEngine(HotelType hotelType) {
+		engine = new Engine(hotelType);
 	}
 
 }

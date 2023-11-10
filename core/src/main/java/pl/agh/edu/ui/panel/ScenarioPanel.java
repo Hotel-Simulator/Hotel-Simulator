@@ -13,13 +13,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import pl.agh.edu.config.GraphicConfig;
-import pl.agh.edu.engine.hotel.Hotel;
 import pl.agh.edu.engine.hotel.HotelType;
-import pl.agh.edu.engine.hotel.dificulty.DifficultyLevel;
 import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.component.button.ScenarioButton;
 import pl.agh.edu.ui.component.button.ScenarioLabeledButton;
@@ -81,7 +78,7 @@ public class ScenarioPanel extends WrapperContainer<Table> {
 		});
 	}
 
-	public Optional<HotelType> getSelectedScenario(){
+	public Optional<HotelType> getSelectedScenario() {
 		Button selectedButton = buttonGroup.getChecked();
 
 		return buttonList.stream()

@@ -97,7 +97,7 @@ public class DifficultyPanel extends WrapperContainer<Table> {
 		});
 	}
 
-	public Optional<DifficultyLevel> getSelectedDifficulty(){
+	public Optional<DifficultyLevel> getSelectedDifficulty() {
 		TextButton selectedButton = buttonGroup.getChecked();
 
 		return buttonList.stream()

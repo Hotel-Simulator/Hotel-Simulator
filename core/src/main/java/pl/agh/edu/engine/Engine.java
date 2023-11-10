@@ -25,15 +25,17 @@ import pl.agh.edu.engine.time.command.TimeCommand;
 public class Engine {
 	public final Time time = Time.getInstance();
 	private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
-	private final HotelScenariosManager hotelScenariosManager = new HotelScenariosManager(HotelType.CITY);
-	public final EventHandler eventHandler = new EventHandler(hotelScenariosManager);
+	public final EventHandler eventHandler;
 	private final HotelHandler hotelHandler = new HotelHandler();
-	private final ClientGroupGenerationHandler clientGroupGenerationHandler = new ClientGroupGenerationHandler(
-			hotelScenariosManager,
-			hotelHandler.bankAccountHandler,
-			hotelHandler.attractionHandler);
+	private final ClientGroupGenerationHandler clientGroupGenerationHandler;
 
-	public Engine() {
+	public Engine(HotelType hotelType) {
+		HotelScenariosManager hotelScenariosManager = new HotelScenariosManager(hotelType);
+		this.eventHandler = new EventHandler(hotelScenariosManager);
+		this.clientGroupGenerationHandler = new ClientGroupGenerationHandler(
+				hotelScenariosManager,
+				hotelHandler.bankAccountHandler,
+				hotelHandler.attractionHandler);
 
 		LocalDateTime currentTime = time.getTime();
 

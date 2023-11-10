@@ -12,7 +12,6 @@ public class GameDifficultyManager {
 	private BigDecimal initialBalance;
 
 	private GameDifficultyManager() {
-		// Set user input here (set difficultyLevel)
 		setDifficulty(MEDIUM);
 	}
 
