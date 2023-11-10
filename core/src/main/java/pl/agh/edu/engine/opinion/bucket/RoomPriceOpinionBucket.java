@@ -38,8 +38,10 @@ public class RoomPriceOpinionBucket extends OpinionBucket {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
 		RoomPriceOpinionBucket that = (RoomPriceOpinionBucket) o;
 		return Objects.equals(maxPrice, that.maxPrice) && Objects.equals(offeredPrice, that.offeredPrice);
 	}

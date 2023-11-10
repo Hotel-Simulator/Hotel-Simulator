@@ -46,8 +46,10 @@ public class RoomBreakingOpinionBucket extends OpinionBucket {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
 		RoomBreakingOpinionBucket that = (RoomBreakingOpinionBucket) o;
 		return gotBrokenRoom == that.gotBrokenRoom && roomBroke == that.roomBroke && repaired == that.repaired;
 	}

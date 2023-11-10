@@ -1,28 +1,16 @@
 package pl.agh.edu.engine.room;
 
-import java.math.BigDecimal;
-
 import pl.agh.edu.engine.client.ClientGroup;
 
 public class Room {
+	private RoomRank rank;
 	public final RoomSize size;
 	public final RoomState roomState = new RoomState();
-	private RoomRank rank;
-	private BigDecimal marketPrice;
-	private BigDecimal maintenancePrice;
 	private ClientGroup residents;
 
 	public Room(RoomRank rank, RoomSize size) {
 		this.size = size;
 		this.rank = rank;
-	}
-
-	public BigDecimal getMaintenancePrice() {
-		return maintenancePrice;
-	}
-
-	public void setMaintenancePrice(BigDecimal maintenancePrice) {
-		this.maintenancePrice = maintenancePrice;
 	}
 
 	public RoomRank getRank() {

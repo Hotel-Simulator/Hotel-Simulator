@@ -40,8 +40,10 @@ public class EmployeesSatisfactionOpinionBucket extends OpinionBucket {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
 		EmployeesSatisfactionOpinionBucket that = (EmployeesSatisfactionOpinionBucket) o;
 		return Objects.equals(satisfactions, that.satisfactions);
 	}

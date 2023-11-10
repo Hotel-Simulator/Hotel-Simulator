@@ -42,8 +42,10 @@ public class QueueWaitingOpinionBucket extends OpinionBucket {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
 		QueueWaitingOpinionBucket that = (QueueWaitingOpinionBucket) o;
 		return Objects.equals(maxWaitingTime, that.maxWaitingTime) && Objects.equals(startDate, that.startDate) && Objects.equals(endDate, that.endDate);
 	}

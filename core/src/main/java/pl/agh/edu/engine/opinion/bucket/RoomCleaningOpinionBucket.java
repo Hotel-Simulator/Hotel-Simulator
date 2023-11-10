@@ -48,8 +48,10 @@ public class RoomCleaningOpinionBucket extends OpinionBucket {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
 		RoomCleaningOpinionBucket that = (RoomCleaningOpinionBucket) o;
 		return gotCleanRoom == that.gotCleanRoom && cleanRoomCounter == that.cleanRoomCounter && numberOfNights == that.numberOfNights;
 	}
