@@ -19,16 +19,15 @@ import pl.agh.edu.ui.panel.ScenarioPanel;
 import java.util.Optional;
 
 public class ScenarioScreen implements Screen {
-	private Stage stage = new Stage(GraphicConfig.getViewport());
+	public final Stage stage = new Stage(GraphicConfig.getViewport());
+	public final GdxGame game = (GdxGame) Gdx.app.getApplicationListener();
 	public final Skin skin = GameSkin.getInstance();
 	public final ScenarioPanel scenarioPanel = new ScenarioPanel(this::goToDifficultyPanel);
 	public final DifficultyPanel difficultyPanel = new DifficultyPanel(this::goToScenarioPanel, this::startGame);
 	public final Actor scenarioActor = scenarioPanel.getActor();
 	public final Actor difficultyActor = difficultyPanel.getActor();
-	private final GdxGame game;
 
-	public ScenarioScreen(GdxGame game) {
-		this.game = game;
+	public ScenarioScreen() {
 		stage.getViewport().update(GraphicConfig.getResolution().WIDTH, GraphicConfig.getResolution().HEIGHT, true);
 		stage.addActor(scenarioActor);
 	}
@@ -84,8 +83,8 @@ public class ScenarioScreen implements Screen {
 	public void startGame() {
 		Optional<DifficultyLevel> lvl = difficultyPanel.getSelectedDifficulty();
 		Optional<HotelType> type = scenarioPanel.getSelectedScenario();
-		if(!lvl.isEmpty()) System.out.println(lvl.get());
-		if(!type.isEmpty()) System.out.println(type.get());
+		if(lvl.isPresent()) System.out.println(lvl.get());
+		if(type.isPresent()) System.out.println(type.get());
 		game.setScreen(new MainScreen(game));
 	}
 }

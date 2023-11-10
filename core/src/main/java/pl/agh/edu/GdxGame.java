@@ -21,7 +21,7 @@ public class GdxGame extends ApplicationAdapter {
 	public void create() {
 		LanguageManager.updateLanguage();
 
-		currentScreen = new ScenarioScreen(this);
+		currentScreen = new ScenarioScreen();
 		setScreen(currentScreen);
 
 		LanguageConfig.setLanguage(LanguageConfig.getLanguage());
