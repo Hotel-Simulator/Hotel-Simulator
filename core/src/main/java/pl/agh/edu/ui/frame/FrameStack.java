@@ -14,7 +14,7 @@ public class FrameStack extends WrapperContainer<Stack> {
 		super();
 		this.stack.setFillParent(true);
 		this.setActor(stack);
-		this.stack.add(NavbarButtonType.BOARD.getFrame());
+		this.stack.add(NavbarButtonType.BOARD.getFrameCreator());
 		this.resize();
 		this.setResolutionChangeHandler(this::resize);
 	}

@@ -78,9 +78,9 @@ public class Rating extends WrapperTable {
 
 		public static float getPadding() {
 			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> 15f;
-				case MEDIUM -> 20f;
-				case LARGE -> 30f;
+				case SMALL -> 5f;
+				case MEDIUM -> 10f;
+				case LARGE -> 15f;
 			};
 		}
 

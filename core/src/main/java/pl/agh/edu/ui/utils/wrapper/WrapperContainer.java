@@ -3,6 +3,7 @@ package pl.agh.edu.ui.utils.wrapper;
 import static com.badlogic.gdx.math.Interpolation.fade;
 import static com.badlogic.gdx.math.Interpolation.smooth;
 
+import com.badlogic.gdx.Gdx;
 import java.util.function.Consumer;
 
 import com.badlogic.gdx.math.Interpolation;
@@ -11,7 +12,9 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
+import pl.agh.edu.GdxGame;
 import pl.agh.edu.config.GraphicConfig;
+import pl.agh.edu.engine.Engine;
 import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.language.LanguageChangeListener;
 import pl.agh.edu.ui.language.LanguageManager;
@@ -25,6 +28,7 @@ public abstract class WrapperContainer<T extends Actor> extends Container<T> imp
 	private Runnable resolutionChangeHandler;
 	private Runnable returnHandler;
 	protected Skin skin = GameSkin.getInstance();
+	protected Engine engine = ((GdxGame) Gdx.app.getApplicationListener()).engine;
 
 	public WrapperContainer(LanguageString languageString) {
 		this.languageString = languageString;

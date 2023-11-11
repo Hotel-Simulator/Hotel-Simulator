@@ -65,11 +65,6 @@ public class MainScreen implements Screen {
 
 		Gdx.input.setInputProcessor(inputMultiplexer);
 	}
-
-	private void setUpEngige() {
-		BaseFrame.setUoEngine(game.engine);
-	}
-
 	@Override
 	public void show() {}
 

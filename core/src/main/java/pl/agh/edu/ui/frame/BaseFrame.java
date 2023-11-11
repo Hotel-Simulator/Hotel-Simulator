@@ -1,18 +1,17 @@
 package pl.agh.edu.ui.frame;
 
 import static com.badlogic.gdx.utils.Align.center;
+import static com.badlogic.gdx.utils.Align.top;
 import static pl.agh.edu.ui.utils.SkinFont.H2;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import pl.agh.edu.config.GraphicConfig;
-import pl.agh.edu.engine.Engine;
 import pl.agh.edu.ui.utils.wrapper.WrapperTable;
 import pl.agh.edu.utils.LanguageString;
 
 public abstract class BaseFrame extends WrapperTable {
-	private static Engine engine;
 	public final Table mainTable = new Table();
 	private final Label titleLabel = new Label("", skin, H2.getWhiteVariantName());
 
@@ -44,9 +43,5 @@ public abstract class BaseFrame extends WrapperTable {
 				case LARGE -> 20f;
 			};
 		}
-	}
-
-	public static void setUoEngine(Engine engine) {
-		BaseFrame.engine = engine;
 	}
 }
