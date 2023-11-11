@@ -28,7 +28,6 @@ public class FrameStack extends WrapperContainer<Stack> {
 		stack.addActor(newFrame);
 		newFrame.runHorizontalTrainInAnimation();
 		baseFrame.runHorizontalTrainOutAnimation();
-		newFrame.debug();
 	}
 
 	public void resize() {

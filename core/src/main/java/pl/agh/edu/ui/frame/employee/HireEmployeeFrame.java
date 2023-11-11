@@ -29,8 +29,6 @@ public class HireEmployeeFrame extends BaseFrame {
 		engine.hotelHandler.possibleEmployeeHandler.getPossibleEmployees()
 				.forEach(possibleEmployee -> hireEmployeeTable.addRowWithRemove(possibleEmployee, () -> clickAction(possibleEmployee)));
 		mainTable.add(hireEmployeeTable).grow();
-
-		this.debugAll();
 	}
 
 	private void clickAction(PossibleEmployee possibleEmployee) {

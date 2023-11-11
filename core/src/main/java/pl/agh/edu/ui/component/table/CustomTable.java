@@ -2,7 +2,6 @@ package pl.agh.edu.ui.component.table;
 
 import static com.badlogic.gdx.utils.Align.center;
 import static com.badlogic.gdx.utils.Align.top;
-import static com.badlogic.gdx.utils.Align.topLeft;
 import static pl.agh.edu.ui.audio.SoundAudio.CLICK;
 import static pl.agh.edu.ui.utils.SkinFont.BODY1;
 import static pl.agh.edu.ui.utils.SkinFont.BODY2;
@@ -45,35 +44,30 @@ public class CustomTable<DataType> extends WrapperTable {
 		super();
 		this.sizeList = sizeList;
 		this.mapperList = mapperList;
+
 		HeaderRow headerRow = new HeaderRow(headerNameList);
 		innerTable.add(headerRow).growX().height(BaseTableStyle.getHeaderHeight());
 
 		contentRows.top();
 		contentRows.padTop(BaseTableStyle.getHeaderSpacing());
-		innerTable.align(topLeft);
 
 		Drawable knobDrawable = skin.getDrawable("scroll-pane-knob");
 		Image knobImage = new Image(knobDrawable);
 		knobImage.setVisible(false);
 		innerTable.add(knobImage).row();
+		innerTable.align(top);
 
-		this.align(top);
-		innerTable.add(scrollPane).colspan(2).grow();
-		this.setUpScrollPane();
-
-		this.setResolutionChangeHandler(this::resize);
-	}
-
-	private void setUpScrollPane() {
-		scrollPane.setWidth(scrollPane.getWidth() + scrollPane.getScrollWidth());
 		scrollPane.setForceScroll(false, true);
 		scrollPane.setSmoothScrolling(true);
 		scrollPane.setScrollingDisabled(true, false);
 		scrollPane.setOverscroll(false, false);
 		scrollPane.setupFadeScrollBars(1f, 1f);
+
+		this.setResolutionChangeHandler(this::resize);
+		this.align(top);
 	}
 
-	private void addRow(BaseRow baseRow, DataType dataType, Boolean withRemove) {
+	private void addRow(BaseRow baseRow, DataType dataType) {
 		zipLists(mapperList, sizeList).forEach(entry -> baseRow.insert(entry.first().apply(dataType), entry.second()));
 		contentRows.add(baseRow).growX()
 				.height(BaseTableStyle.getRowHeight())
@@ -82,7 +76,7 @@ public class CustomTable<DataType> extends WrapperTable {
 	}
 
 	public void addRow(DataType dataType, Runnable action, Boolean special) {
-		addRow(new BaseRow(special, action), dataType, false);
+		addRow(new BaseRow(special, action), dataType);
 	}
 
 	public void addRow(DataType dataType, Runnable action) {
@@ -90,7 +84,7 @@ public class CustomTable<DataType> extends WrapperTable {
 	}
 
 	public void addRow(DataType dataType, Boolean special) {
-		addRow(new BaseRow(special), dataType, false);
+		addRow(new BaseRow(special), dataType);
 	}
 
 	public void addRow(DataType dataType) {
@@ -98,7 +92,7 @@ public class CustomTable<DataType> extends WrapperTable {
 	}
 
 	public void addRowWithRemove(DataType dataType, Runnable action, Boolean special) {
-		addRow(new BaseRow(special, action, true), dataType, true);
+		addRow(new BaseRow(special, action, true), dataType);
 	}
 
 	public void addRowWithRemove(DataType dataType, Runnable action) {
@@ -113,13 +107,12 @@ public class CustomTable<DataType> extends WrapperTable {
 				cell.height(BaseTableStyle.getRowHeight());
 			}
 		});
-		scrollPane.setScrollingDisabled(false, contentRows.getHeight() <= scrollPane.getHeight());
 	}
 
 	private abstract static class TableRow extends WrapperTable {
 		private final String separatorName;
 		private final String backgroundName;
-		private List<Container<Image>> separatorList = new ArrayList<>();
+		private final List<Container<Image>> separatorList = new ArrayList<>();
 
 		private TableRow(Boolean special) {
 			if (special) {
@@ -162,14 +155,15 @@ public class CustomTable<DataType> extends WrapperTable {
 
 		public void insert(Actor actor, int size) {
 			if (!innerTable.getChildren().isEmpty())
-				innerTable.add(createSeparatorImage(separatorName + "-up")).growY().width(3f);
+				innerTable.add(createSeparatorImage(separatorName + "-up")).growY();
 			innerTable.add(actor).colspan(size).center().grow();
 		}
 
 		private Container<Image> createSeparatorImage(String separatorName) {
 			Container<Image> container = new Container<>(new Image(skin.getPatch(separatorName)));
 			container.fill();
-			container.pad(BaseTableStyle.getSeparateLinePadding());
+			container.padTop(BaseTableStyle.getSeparateLinePadding());
+			container.padBottom(BaseTableStyle.getSeparateLinePadding());
 			separatorList.add(container);
 			return container;
 		}
@@ -251,7 +245,6 @@ public class CustomTable<DataType> extends WrapperTable {
 	}
 
 	private static class BaseTableStyle {
-
 		public static float getHeaderHeight() {
 			return switch (GraphicConfig.getResolution().SIZE) {
 				case SMALL -> 50f;
