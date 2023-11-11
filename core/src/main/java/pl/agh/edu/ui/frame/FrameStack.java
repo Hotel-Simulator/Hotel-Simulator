@@ -1,10 +1,7 @@
 package pl.agh.edu.ui.frame;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 
-import com.badlogic.gdx.utils.SnapshotArray;
-import java.util.List;
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.ui.component.navbar.NavbarButtonType;
 import pl.agh.edu.ui.utils.wrapper.WrapperContainer;

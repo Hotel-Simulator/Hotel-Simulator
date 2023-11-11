@@ -1,6 +1,7 @@
 package pl.agh.edu.ui.component.navbar;
 
 import java.util.function.Supplier;
+
 import pl.agh.edu.ui.frame.BaseFrame;
 import pl.agh.edu.ui.frame.TestFrame;
 import pl.agh.edu.ui.frame.employee.HireEmployeeFrame;

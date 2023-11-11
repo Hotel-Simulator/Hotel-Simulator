@@ -13,6 +13,7 @@ import pl.agh.edu.utils.LanguageString;
 
 public abstract class BaseFrame extends WrapperTable {
 	public final Table mainTable = new Table();
+
 	public BaseFrame(LanguageString languageString) {
 		super();
 		this.align(center);

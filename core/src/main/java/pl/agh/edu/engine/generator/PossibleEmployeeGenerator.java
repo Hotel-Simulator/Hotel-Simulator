@@ -21,7 +21,7 @@ public class PossibleEmployeeGenerator {
 
 	public static PossibleEmployee generatePossibleEmployeeWithProfession(Profession profession) {
 		BigDecimal skills = BigDecimal.valueOf(RandomUtils.randomInt(1, 101)).divide(BigDecimal.valueOf(100), 2, RoundingMode.CEILING);
-		Pair<String,String> name = createRandomName();
+		Pair<String, String> name = createRandomName();
 		return new PossibleEmployee.Builder()
 				.firstName(name.first())
 				.lastName(name.second())
@@ -51,13 +51,13 @@ public class PossibleEmployeeGenerator {
 		return BigDecimal.valueOf((int) (JSONEmployeeDataLoader.minWage.doubleValue() * (1 + 0.5 * (skills.doubleValue() + RandomUtils.randomDouble(0.2)))) / 100 * 100);
 	}
 
-	private static Pair<String,String> createRandomName(){
+	private static Pair<String, String> createRandomName() {
 		String firstName = faker.name().firstName();
 		String lastName = faker.name().lastName();
-		while(firstName.length()+lastName.length()>maxNameLength){
+		while (firstName.length() + lastName.length() > maxNameLength) {
 			firstName = faker.name().firstName();
 			lastName = faker.name().lastName();
 		}
-		return new Pair<>(firstName,lastName);
+		return new Pair<>(firstName, lastName);
 	}
 }

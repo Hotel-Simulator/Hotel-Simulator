@@ -14,7 +14,6 @@ import pl.agh.edu.ui.component.modal.event.EventWrapper;
 import pl.agh.edu.ui.component.modal.options.OptionsWrapper;
 import pl.agh.edu.ui.component.navbar.NavbarBottom;
 import pl.agh.edu.ui.component.navbar.NavbarTop;
-import pl.agh.edu.ui.frame.BaseFrame;
 import pl.agh.edu.ui.frame.FrameStack;
 import pl.agh.edu.ui.shader.BlurShader;
 
@@ -65,6 +64,7 @@ public class MainScreen implements Screen {
 
 		Gdx.input.setInputProcessor(inputMultiplexer);
 	}
+
 	@Override
 	public void show() {}
 

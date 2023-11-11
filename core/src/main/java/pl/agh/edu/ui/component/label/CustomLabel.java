@@ -137,7 +137,7 @@ public class CustomLabel extends Label implements ResolutionChangeListener {
 		});
 	}
 
-	public void setUpResolutionChangeHandler(Runnable action){
+	public void setUpResolutionChangeHandler(Runnable action) {
 		resolutionChangeHandler = action;
 		ResolutionManager.addListener(this);
 	}

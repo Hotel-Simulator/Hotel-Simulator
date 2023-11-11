@@ -84,7 +84,7 @@ public class Star extends WrapperContainer<Button> {
 
 	}
 
-	private void resize(){
+	private void resize() {
 		this.size(StarStyle.getSize());
 	}
 
