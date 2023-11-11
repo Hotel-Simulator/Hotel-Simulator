@@ -4,9 +4,39 @@ import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.Optional;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.Serializer;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
+
+import pl.agh.edu.serialization.KryoConfig;
+
 public class RoomPriceOpinionBucket extends OpinionBucket {
 	private final BigDecimal maxPrice;
 	private BigDecimal offeredPrice;
+
+	static {
+		KryoConfig.kryo.register(RoomPriceOpinionBucket.class, new Serializer<RoomPriceOpinionBucket>() {
+			@Override
+			public void write(Kryo kryo, Output output, RoomPriceOpinionBucket object) {
+				kryo.writeObject(output, object.weight);
+				kryo.writeObject(output, object.maxPrice);
+				kryo.writeObjectOrNull(output, object.offeredPrice, BigDecimal.class);
+
+			}
+
+			@Override
+			public RoomPriceOpinionBucket read(Kryo kryo, Input input, Class<? extends RoomPriceOpinionBucket> type) {
+				RoomPriceOpinionBucket roomBreakingOpinionBucket = new RoomPriceOpinionBucket(
+						kryo.readObject(input, Integer.class),
+						kryo.readObject(input, BigDecimal.class));
+
+				roomBreakingOpinionBucket.setPrices(kryo.readObjectOrNull(input, BigDecimal.class));
+
+				return roomBreakingOpinionBucket;
+			}
+		});
+	}
 
 	public RoomPriceOpinionBucket(int weight, BigDecimal maxPrice) {
 		super(weight);

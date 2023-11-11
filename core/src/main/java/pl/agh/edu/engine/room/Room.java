@@ -1,12 +1,40 @@
 package pl.agh.edu.engine.room;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.Serializer;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
+
 import pl.agh.edu.engine.client.ClientGroup;
+import pl.agh.edu.serialization.KryoConfig;
 
 public class Room {
 	private RoomRank rank;
 	public final RoomSize size;
 	public final RoomState roomState = new RoomState();
 	private ClientGroup residents;
+
+	static {
+		KryoConfig.kryo.register(Room.class, new Serializer<Room>() {
+			@Override
+			public void write(Kryo kryo, Output output, Room object) {
+				kryo.writeObject(output, object.rank);
+				kryo.writeObject(output, object.size);
+				kryo.writeObject(output, object.roomState);
+				kryo.writeObjectOrNull(output, object.residents, ClientGroup.class);
+			}
+
+			@Override
+			public Room read(Kryo kryo, Input input, Class<? extends Room> type) {
+				Room room = new Room(kryo.readObject(input, RoomRank.class), kryo.readObject(input, RoomSize.class));
+
+				KryoConfig.setPrivateFieldValue(room, "roomState", kryo.readObject(input, RoomState.class));
+
+				room.residents = kryo.readObjectOrNull(input, ClientGroup.class);
+				return room;
+			}
+		});
+	}
 
 	public Room(RoomRank rank, RoomSize size) {
 		this.size = size;

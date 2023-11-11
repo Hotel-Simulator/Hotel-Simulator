@@ -6,10 +6,40 @@ import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 import java.util.Optional;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.Serializer;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
+
+import pl.agh.edu.serialization.KryoConfig;
+
 public class QueueWaitingOpinionBucket extends OpinionBucket {
 	private final Duration maxWaitingTime;
 	private LocalDateTime startDate;
 	private LocalDateTime endDate;
+
+	static {
+		KryoConfig.kryo.register(QueueWaitingOpinionBucket.class, new Serializer<QueueWaitingOpinionBucket>() {
+			@Override
+			public void write(Kryo kryo, Output output, QueueWaitingOpinionBucket object) {
+				kryo.writeObject(output, object.weight);
+				kryo.writeObject(output, object.maxWaitingTime);
+				kryo.writeObjectOrNull(output, object.startDate, LocalDateTime.class);
+				kryo.writeObjectOrNull(output, object.endDate, LocalDateTime.class);
+			}
+
+			@Override
+			public QueueWaitingOpinionBucket read(Kryo kryo, Input input, Class<? extends QueueWaitingOpinionBucket> type) {
+				QueueWaitingOpinionBucket queueWaitingOpinionBucket = new QueueWaitingOpinionBucket(
+						kryo.readObject(input, Integer.class),
+						kryo.readObject(input, Duration.class));
+				queueWaitingOpinionBucket.startDate = kryo.readObjectOrNull(input, LocalDateTime.class);
+				queueWaitingOpinionBucket.endDate = kryo.readObjectOrNull(input, LocalDateTime.class);
+
+				return queueWaitingOpinionBucket;
+			}
+		});
+	}
 
 	public QueueWaitingOpinionBucket(int weight, Duration maxWaitingTime) {
 		super(weight);

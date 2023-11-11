@@ -8,8 +8,37 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.Serializer;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
+
+import pl.agh.edu.serialization.KryoConfig;
+
 public class EmployeesSatisfactionOpinionBucket extends OpinionBucket {
 	private final List<BigDecimal> satisfactions = new ArrayList<>();
+
+	static {
+		KryoConfig.kryo.register(EmployeesSatisfactionOpinionBucket.class, new Serializer<EmployeesSatisfactionOpinionBucket>() {
+			@Override
+			public void write(Kryo kryo, Output output, EmployeesSatisfactionOpinionBucket object) {
+				kryo.writeObject(output, object.weight);
+				kryo.writeObject(output, object.satisfactions, KryoConfig.listSerializer(BigDecimal.class));
+			}
+
+			@Override
+			public EmployeesSatisfactionOpinionBucket read(Kryo kryo, Input input, Class<? extends EmployeesSatisfactionOpinionBucket> type) {
+				EmployeesSatisfactionOpinionBucket employeesSatisfactionOpinionBucket = new EmployeesSatisfactionOpinionBucket(
+						kryo.readObject(input, Integer.class));
+
+				List<BigDecimal> satisfactions = kryo.readObject(input, List.class, KryoConfig.listSerializer(BigDecimal.class));
+
+				employeesSatisfactionOpinionBucket.satisfactions.addAll(satisfactions);
+
+				return employeesSatisfactionOpinionBucket;
+			}
+		});
+	}
 
 	public EmployeesSatisfactionOpinionBucket(int weight) {
 		super(weight);

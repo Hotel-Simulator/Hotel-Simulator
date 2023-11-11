@@ -55,8 +55,7 @@ import pl.agh.edu.utils.Pair;
 
 public class SerializationTest {
 
-	Kryo kryo = new Kryo();
-	KryoConfig kryoConfig = new KryoConfig(kryo);
+	Kryo kryo = KryoConfig.kryo;
 
 	Output output;
 	Input input;

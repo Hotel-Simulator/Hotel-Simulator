@@ -8,6 +8,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.Serializer;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
+
 import pl.agh.edu.engine.client.ClientGroup;
 import pl.agh.edu.engine.opinion.bucket.EmployeesSatisfactionOpinionBucket;
 import pl.agh.edu.engine.opinion.bucket.OpinionBucket;
@@ -15,6 +20,7 @@ import pl.agh.edu.engine.opinion.bucket.QueueWaitingOpinionBucket;
 import pl.agh.edu.engine.opinion.bucket.RoomBreakingOpinionBucket;
 import pl.agh.edu.engine.opinion.bucket.RoomCleaningOpinionBucket;
 import pl.agh.edu.engine.opinion.bucket.RoomPriceOpinionBucket;
+import pl.agh.edu.serialization.KryoConfig;
 
 public class Opinion {
 
@@ -27,6 +33,34 @@ public class Opinion {
 	public final EmployeesSatisfactionOpinionBucket employeesSatisfaction;
 
 	private final List<OpinionBucket> opinionBuckets = new ArrayList<>();
+
+	static {
+		KryoConfig.kryo.register(Opinion.class, new Serializer<Opinion>() {
+			@Override
+			public void write(Kryo kryo, Output output, Opinion object) {
+				kryo.writeObject(output, object.roomCleaning);
+				kryo.writeObject(output, object.roomBreaking);
+				kryo.writeObject(output, object.roomPrice);
+				kryo.writeObject(output, object.queueWaiting);
+				kryo.writeObject(output, object.employeesSatisfaction);
+				kryo.writeObject(output, object.clientGroupGotRoom);
+				kryo.writeObject(output, object.clientSteppedOutOfQueue);
+
+			}
+
+			@Override
+			public Opinion read(Kryo kryo, Input input, Class type) {
+				return new Opinion(
+						kryo.readObject(input, RoomCleaningOpinionBucket.class),
+						kryo.readObject(input, RoomBreakingOpinionBucket.class),
+						kryo.readObject(input, RoomPriceOpinionBucket.class),
+						kryo.readObject(input, QueueWaitingOpinionBucket.class),
+						kryo.readObject(input, EmployeesSatisfactionOpinionBucket.class),
+						kryo.readObject(input, Boolean.class),
+						kryo.readObject(input, Boolean.class));
+			}
+		});
+	}
 
 	public Opinion(ClientGroup clientGroup) {
 		roomCleaning = new RoomCleaningOpinionBucket(2, clientGroup.getNumberOfNights());
