@@ -1,7 +1,10 @@
 package pl.agh.edu.ui.frame;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 
+import com.badlogic.gdx.utils.SnapshotArray;
+import java.util.List;
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.ui.component.navbar.NavbarButtonType;
 import pl.agh.edu.ui.utils.wrapper.WrapperContainer;
@@ -24,14 +27,11 @@ public class FrameStack extends WrapperContainer<Stack> {
 	}
 
 	public void changeFrame(BaseFrame newFrame) {
-		((BaseFrame) stack.getChildren().peek()).runHorizontalTrainOutAnimation();
-		stack.getChildren().forEach(actor -> {
-			if (actor instanceof BaseFrame) {
-				((BaseFrame) actor).runHorizontalTrainOutAnimation();
-			}
-		});
+		BaseFrame baseFrame = (BaseFrame) stack.getChildren().peek();
 		stack.addActor(newFrame);
 		newFrame.runHorizontalTrainInAnimation();
+		baseFrame.runHorizontalTrainOutAnimation();
+		newFrame.debug();
 	}
 
 	public void resize() {

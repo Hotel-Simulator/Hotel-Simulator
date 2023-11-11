@@ -4,8 +4,8 @@ import static com.badlogic.gdx.utils.Align.center;
 import static com.badlogic.gdx.utils.Align.left;
 import static pl.agh.edu.ui.audio.SoundAudio.CLICK;
 import static pl.agh.edu.ui.resolution.Size.MEDIUM;
-import static pl.agh.edu.ui.utils.SkinFont.BODY_1;
-import static pl.agh.edu.ui.utils.SkinFont.BODY_2;
+import static pl.agh.edu.ui.utils.SkinFont.BODY1;
+import static pl.agh.edu.ui.utils.SkinFont.BODY2;
 import static pl.agh.edu.ui.utils.SkinFont.H3;
 import static pl.agh.edu.ui.utils.SkinFont.H4;
 
@@ -41,7 +41,7 @@ public class EventModal extends WrapperTable {
 		image.setFillParent(true);
 		imageContainer.setActor(image);
 
-		descriptionLabel = new LanguageLabel(eventModalData.description(), BODY_2.getName());
+		descriptionLabel = new LanguageLabel(eventModalData.description(), BODY2.getName());
 		descriptionLabel.setWrap(true);
 		descriptionLabel.setAlignment(center, left);
 
@@ -107,8 +107,8 @@ public class EventModal extends WrapperTable {
 
 		public static String getDescriptionFont() {
 			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL, MEDIUM -> BODY_2.getName();
-				case LARGE -> BODY_1.getName();
+				case SMALL, MEDIUM -> BODY2.getName();
+				case LARGE -> BODY1.getName();
 			};
 		}
 

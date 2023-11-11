@@ -1,18 +1,5 @@
 package pl.agh.edu.ui.component.table;
 
-import static pl.agh.edu.ui.utils.SkinFont.BUTTON_1;
-
-import java.util.List;
-import java.util.stream.Stream;
-
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-
-import pl.agh.edu.engine.bank.BankAccountHandler;
-import pl.agh.edu.engine.bank.Credit;
-import pl.agh.edu.ui.component.label.CustomLabel;
-import pl.agh.edu.utils.CustomBigDecimal;
-import pl.agh.edu.utils.LanguageString;
-
 //public class CreditTable extends CustomTable {
 //
 //	private final BankAccountHandler bankAccountHandler;

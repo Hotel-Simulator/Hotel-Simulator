@@ -1,11 +1,9 @@
 package pl.agh.edu.ui.frame.employee;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import java.math.BigDecimal;
-import pl.agh.edu.GdxGame;
 import pl.agh.edu.engine.employee.PossibleEmployee;
 import pl.agh.edu.ui.component.rating.Rating;
 import pl.agh.edu.ui.component.table.CustomTable;
@@ -16,7 +14,6 @@ import static pl.agh.edu.ui.component.table.CustomTable.createCustomLabel;
 import static pl.agh.edu.ui.component.table.CustomTable.createLanguageLabel;
 
 public class HireEmployeeFrame extends BaseFrame{
-    public final GdxGame game = (GdxGame) Gdx.app.getApplicationListener();
     public HireEmployeeFrame() {
         super(new LanguageString("navbar.button.hire"));
         CustomTable<PossibleEmployee> hireEmployeeTable = new CustomTable.CustomTableBuilder<PossibleEmployee>()
@@ -27,8 +24,13 @@ public class HireEmployeeFrame extends BaseFrame{
                 .addColumn(new LanguageString("hireEmployeeTable.column.salary"), this::createSalary,3)
                 .build();
 
-        game.engine.hotelHandler.possibleEmployeeHandler.getPossibleEmployees().forEach(hireEmployeeTable::addRow);
+        engine.hotelHandler.possibleEmployeeHandler.getPossibleEmployees()
+                .forEach( possibleEmployee -> hireEmployeeTable.addRow(possibleEmployee, () -> clickAction(possibleEmployee)));
         mainTable.add(hireEmployeeTable).growX();
+    }
+
+    private void clickAction(PossibleEmployee possibleEmployee){
+        System.out.println(possibleEmployee.firstName+" "+possibleEmployee.lastName);
     }
 
     private Actor createPhoto(PossibleEmployee possibleEmployee){
