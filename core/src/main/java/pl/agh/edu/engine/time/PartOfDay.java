@@ -2,6 +2,8 @@ package pl.agh.edu.engine.time;
 
 import java.util.Arrays;
 
+import pl.agh.edu.serialization.KryoConfig;
+
 public enum PartOfDay {
 	MORNING(6),
 	DAY(10),
@@ -9,6 +11,10 @@ public enum PartOfDay {
 	NIGHT(22);
 
 	public final int startHour;
+
+	static {
+		KryoConfig.kryo.register(PartOfDay.class);
+	}
 
 	PartOfDay(int startHour) {
 		this.startHour = startHour;

@@ -11,6 +11,7 @@ import static pl.agh.edu.engine.employee.contract.TypeOfContract.PERMANENT;
 import static pl.agh.edu.engine.hotel.HotelVisitPurpose.BUSINESS_TRIP;
 import static pl.agh.edu.engine.room.RoomRank.ECONOMIC;
 import static pl.agh.edu.engine.room.RoomSize.DOUBLE;
+import static pl.agh.edu.engine.time.Frequency.EVERY_DAY;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -49,18 +50,23 @@ import pl.agh.edu.engine.generator.ClientGenerator;
 import pl.agh.edu.engine.opinion.Opinion;
 import pl.agh.edu.engine.room.Room;
 import pl.agh.edu.engine.room.RoomState;
+import pl.agh.edu.engine.time.command.NRepeatingTimeCommand;
+import pl.agh.edu.engine.time.command.RepeatingTimeCommand;
+import pl.agh.edu.engine.time.command.TimeCommand;
 import pl.agh.edu.serialization.KryoConfig;
 import pl.agh.edu.utils.LanguageString;
 import pl.agh.edu.utils.Pair;
 
 public class SerializationTest {
 
-	Kryo kryo = KryoConfig.kryo;
+	private final Kryo kryo = KryoConfig.kryo;
 
-	Output output;
-	Input input;
+	private Output output;
+	private Input input;
 
-	public SerializationTest() {}
+	public SerializationTest() {
+		kryo.register(SerializationTest.class);
+	}
 
 	@BeforeEach
 	public void setUp() {
@@ -552,5 +558,58 @@ public class SerializationTest {
 		assertEquals(clientGroup.getDesiredRoomRank(), room2.getResidents().getDesiredRoomRank());
 		assertEquals(clientGroup.getMaxWaitingTime(), room2.getResidents().getMaxWaitingTime());
 		assertEquals(clientGroup.getNumberOfNights(), room2.getResidents().getNumberOfNights());
+	}
+
+	@Test
+	public void timeCommandTest() {
+		// Given
+		TimeCommand timeCommand = new TimeCommand(() -> System.out.println("hi"), LocalDateTime.now());
+
+		// When
+		kryo.writeObject(output, timeCommand);
+
+		initInput();
+		TimeCommand timeCommand2 = kryo.readObject(input, TimeCommand.class);
+
+		// Then
+
+		assertEquals(0, timeCommand.compareTo(timeCommand2));
+		assertEquals(timeCommand.getDueDateTime(), timeCommand2.getDueDateTime());
+	}
+
+	@Test
+	public void repeatingTimeCommandTest() {
+		// Given
+		RepeatingTimeCommand repeatingTimeCommand = new RepeatingTimeCommand(EVERY_DAY, () -> System.out.println("hi"), LocalDateTime.now());
+
+		// When
+		kryo.writeObject(output, repeatingTimeCommand);
+
+		initInput();
+		RepeatingTimeCommand repeatingTimeCommand2 = kryo.readObject(input, RepeatingTimeCommand.class);
+
+		// Then
+
+		assertEquals(0, repeatingTimeCommand.compareTo(repeatingTimeCommand2));
+		assertEquals(repeatingTimeCommand.getDueDateTime(), repeatingTimeCommand2.getDueDateTime());
+	}
+
+	@Test
+	public void nRepeatingTimeCommandTest() {
+		// Given
+		NRepeatingTimeCommand nRepeatingTimeCommand = new NRepeatingTimeCommand(EVERY_DAY, () -> System.out.println("hi"), LocalDateTime.now(), 3);
+
+		// When
+		kryo.writeObject(output, nRepeatingTimeCommand);
+
+		initInput();
+		NRepeatingTimeCommand nRepeatingTimeCommand2 = kryo.readObject(input, NRepeatingTimeCommand.class);
+
+		// Then
+
+		assertEquals(0, nRepeatingTimeCommand.compareTo(nRepeatingTimeCommand2));
+		assertEquals(nRepeatingTimeCommand.getDueDateTime(), nRepeatingTimeCommand.getDueDateTime());
+		assertEquals(nRepeatingTimeCommand.getCounter(), nRepeatingTimeCommand.getCounter());
+
 	}
 }
