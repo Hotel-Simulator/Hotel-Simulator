@@ -18,7 +18,6 @@ import pl.agh.edu.engine.generator.EventGenerator;
 import pl.agh.edu.engine.hotel.scenario.HotelScenariosManager;
 import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.engine.time.TimeCommandExecutor;
-import pl.agh.edu.engine.time.command.SerializableRunnable;
 import pl.agh.edu.engine.time.command.TimeCommand;
 
 public class EventHandler {
@@ -68,21 +67,21 @@ public class EventHandler {
 
 	private TimeCommand createTimeCommandForEventAppearancePopup(TemporaryEvent temporaryEvent) {
 		return new TimeCommand(
-				(SerializableRunnable) () -> eventHandlerFunction.accept(new EventModalData(temporaryEvent.title, temporaryEvent.eventAppearancePopupDescription,
+				() -> eventHandlerFunction.accept(new EventModalData(temporaryEvent.title, temporaryEvent.eventAppearancePopupDescription,
 						temporaryEvent.imagePath)),
 				temporaryEvent.appearanceDate.atTime(LocalTime.NOON));
 	}
 
 	private TimeCommand createTimeCommandForEventAppearancePopup(BuildingCostModificationPermanentEvent permanentEvent) {
 		return new TimeCommand(
-				(SerializableRunnable) () -> eventHandlerFunction.accept(new EventModalData(permanentEvent.title, permanentEvent.eventAppearancePopupDescription,
+				() -> eventHandlerFunction.accept(new EventModalData(permanentEvent.title, permanentEvent.eventAppearancePopupDescription,
 						permanentEvent.imagePath)),
 				permanentEvent.appearanceDate.atTime(LocalTime.NOON));
 	}
 
 	private TimeCommand createTimeCommandForBuildingCostModifierStart(BuildingCostModificationPermanentEvent permanentEvent) {
 		return new TimeCommand(
-				(SerializableRunnable) () -> buildingCostHandler.modify(new BigDecimal(permanentEvent.modifierValueInPercent)
+				() -> buildingCostHandler.modify(new BigDecimal(permanentEvent.modifierValueInPercent)
 						.divide(new BigDecimal(100), 2, RoundingMode.HALF_EVEN)),
 				permanentEvent.appearanceDate.atTime(LocalTime.NOON));
 	}
@@ -93,26 +92,26 @@ public class EventHandler {
 				temporaryEvent.title,
 				temporaryEvent.calendarDescription);
 		return new TimeCommand(
-				(SerializableRunnable) () -> calendar.addEvent(calendarEvent),
+				() -> calendar.addEvent(calendarEvent),
 				time.getTime());
 	}
 
 	private TimeCommand createTimeCommandForEventStartPopup(TemporaryEvent temporaryEvent) {
 		return new TimeCommand(
-				(SerializableRunnable) () -> eventHandlerFunction.accept(new EventModalData(temporaryEvent.title, temporaryEvent.eventStartPopupDescription,
+				() -> eventHandlerFunction.accept(new EventModalData(temporaryEvent.title, temporaryEvent.eventStartPopupDescription,
 						temporaryEvent.imagePath)),
 				temporaryEvent.startDate.atTime(LocalTime.MIDNIGHT));
 	}
 
 	private TimeCommand createTimeCommandForModifierStart(ClientNumberModificationTemporaryEvent event) {
 		return new TimeCommand(
-				(SerializableRunnable) () -> clientNumberModificationEventHandler.add(event.modifier),
+				() -> clientNumberModificationEventHandler.add(event.modifier),
 				event.appearanceDate.atTime(LocalTime.MIDNIGHT).minusMinutes(1));
 	}
 
 	private TimeCommand createTimeCommandForModifierEnd(ClientNumberModificationTemporaryEvent event) {
 		return new TimeCommand(
-				(SerializableRunnable) () -> clientNumberModificationEventHandler.remove(event.modifier),
+				() -> clientNumberModificationEventHandler.remove(event.modifier),
 				event.appearanceDate.atTime(LocalTime.MIDNIGHT).minusMinutes(1));
 	}
 

@@ -16,7 +16,6 @@ import pl.agh.edu.engine.hotel.HotelHandler;
 import pl.agh.edu.engine.opinion.OpinionBuilder;
 import pl.agh.edu.engine.opinion.OpinionHandler;
 import pl.agh.edu.engine.room.Room;
-import pl.agh.edu.engine.time.command.SerializableRunnable;
 import pl.agh.edu.engine.time.command.TimeCommand;
 import pl.agh.edu.utils.RandomUtils;
 
@@ -36,7 +35,7 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 	}
 
 	private TimeCommand createTimeCommandForBreakingRoom(Room room, LocalDateTime checkOutTime) {
-		return new TimeCommand((SerializableRunnable) () -> {
+		return new TimeCommand(() -> {
 			room.roomState.setFaulty(true);
 			OpinionBuilder.saveRoomBreakingData(room);
 			hotelHandler.repairScheduler.addEntity(room);
@@ -44,7 +43,7 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 	}
 
 	private TimeCommand createTimeCommandForCheckingOutClients(Room room, LocalDateTime checkOutTime) {
-		return new TimeCommand((SerializableRunnable) () -> {
+		return new TimeCommand(() -> {
 			OpinionHandler.addOpinionWithProbability(room.getResidents(), JSONOpinionDataLoader.opinionProbabilityForClientWhoGotRoom);
 			room.checkOut();
 			hotelHandler.cleaningScheduler.addEntity(room);
@@ -53,7 +52,7 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 
 	private TimeCommand createTimeCommandForServingArrivedClients(Employee receptionist, ClientGroup clientGroup) {
 		return new TimeCommand(
-				(SerializableRunnable) () -> {
+				() -> {
 					Optional<Room> optionalRoom = hotelHandler.roomManager.findRoomForClientGroup(clientGroup);
 					if (optionalRoom.isPresent()) {
 						ClientGroupReportDataCollector.increaseClientGroupWithRoomCounter();
