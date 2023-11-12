@@ -1,5 +1,20 @@
 package pl.agh.edu.ui.component.table;
 
+import static com.badlogic.gdx.utils.Align.center;
+import static com.badlogic.gdx.utils.Align.top;
+import static pl.agh.edu.ui.audio.SoundAudio.CLICK;
+import static pl.agh.edu.ui.utils.SkinFont.BODY1;
+import static pl.agh.edu.ui.utils.SkinFont.BODY2;
+import static pl.agh.edu.ui.utils.SkinFont.BODY3;
+import static pl.agh.edu.ui.utils.SkinFont.SUBTITLE1;
+import static pl.agh.edu.ui.utils.SkinFont.SUBTITLE2;
+import static pl.agh.edu.ui.utils.SkinFont.SUBTITLE3;
+import static pl.agh.edu.utils.ListUtils.zipLists;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Function;
+
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -10,27 +25,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import static com.badlogic.gdx.utils.Align.center;
-import static com.badlogic.gdx.utils.Align.top;
 import com.badlogic.gdx.utils.Null;
+
 import pl.agh.edu.config.GraphicConfig;
-import static pl.agh.edu.ui.audio.SoundAudio.CLICK;
 import pl.agh.edu.ui.component.CustomScrollPane;
 import pl.agh.edu.ui.component.label.CustomLabel;
 import pl.agh.edu.ui.component.label.LanguageLabel;
-import static pl.agh.edu.ui.utils.SkinFont.BODY1;
-import static pl.agh.edu.ui.utils.SkinFont.BODY2;
-import static pl.agh.edu.ui.utils.SkinFont.BODY3;
-import static pl.agh.edu.ui.utils.SkinFont.SUBTITLE1;
-import static pl.agh.edu.ui.utils.SkinFont.SUBTITLE2;
-import static pl.agh.edu.ui.utils.SkinFont.SUBTITLE3;
 import pl.agh.edu.ui.utils.wrapper.WrapperTable;
 import pl.agh.edu.utils.LanguageString;
-import static pl.agh.edu.utils.ListUtils.zipLists;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Function;
 
 public class CustomTable<DataType> extends WrapperTable {
 	private final Table contentRows = new Table();
