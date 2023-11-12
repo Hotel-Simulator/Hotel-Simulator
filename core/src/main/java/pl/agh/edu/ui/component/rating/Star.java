@@ -1,6 +1,6 @@
 package pl.agh.edu.ui.component.rating;
 
-import static pl.agh.edu.ui.audio.SoundAudio.BUTTON_3;
+import static pl.agh.edu.ui.audio.SoundAudio.CLICK;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -31,7 +31,7 @@ public class Star extends WrapperContainer<Button> {
 
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-				BUTTON_3.playAudio();
+				CLICK.playSound();
 				rating.setRating(index);
 			}
 

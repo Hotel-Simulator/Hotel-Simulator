@@ -1,10 +1,19 @@
 package pl.agh.edu.ui.frame;
 
+import pl.agh.edu.ui.component.label.CustomLabel;
+import pl.agh.edu.ui.utils.SkinFont;
 import pl.agh.edu.utils.LanguageString;
 
 public class TestFrame extends BaseFrame {
 	public TestFrame(LanguageString languageString) {
 		super(languageString);
+
+		CustomLabel label = new CustomLabel(SkinFont.H4.getWhiteVariantName());
+		label.setText("Test");
+		label.makeItLink(() -> {});
+		label.setUnderscore(true);
+
+		mainTable.add(label).row();
 
 		// MonthSelection monthSelection = new MonthSelection(Time.getInstance().getYearMonth(), System.out::println, false);
 		// YearSelection yearSelection = new YearSelection(Time.getInstance().getYearMonth(), System.out::println, false);

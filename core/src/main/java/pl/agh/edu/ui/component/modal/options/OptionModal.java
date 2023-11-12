@@ -1,7 +1,7 @@
 package pl.agh.edu.ui.component.modal.options;
 
 import static com.badlogic.gdx.utils.Align.center;
-import static pl.agh.edu.ui.audio.SoundAudio.BUTTON_1;
+import static pl.agh.edu.ui.audio.SoundAudio.CLICK;
 import static pl.agh.edu.ui.resolution.Size.LARGE;
 import static pl.agh.edu.ui.utils.SkinFont.H2;
 
@@ -56,7 +56,7 @@ public class OptionModal extends WrapperTable {
 		backButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				BUTTON_1.playAudio();
+				CLICK.playSound();
 				closeHandler.run();
 			}
 		});
@@ -64,7 +64,7 @@ public class OptionModal extends WrapperTable {
 		saveButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				BUTTON_1.playAudio();
+				CLICK.playSound();
 				Gdx.app.exit();
 			}
 		});

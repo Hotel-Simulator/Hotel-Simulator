@@ -120,7 +120,7 @@ public class ScenarioButton extends WrapperContainer<Button> {
 		public String getIconPath() {
 			return switch (hotelType) {
 				case RESORT -> "scenario-icon-water";
-				case HOTEL -> "scenario-icon-hotel";
+				case CITY -> "scenario-icon-hotel";
 				case SANATORIUM -> "scenario-icon-hospital";
 			};
 		}

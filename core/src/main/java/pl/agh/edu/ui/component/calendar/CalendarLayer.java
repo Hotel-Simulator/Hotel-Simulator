@@ -1,6 +1,6 @@
 package pl.agh.edu.ui.component.calendar;
 
-import static pl.agh.edu.ui.audio.SoundAudio.CLICK_2;
+import static pl.agh.edu.ui.audio.SoundAudio.CLICK;
 
 import java.time.LocalDate;
 import java.util.function.Consumer;
@@ -51,7 +51,7 @@ public class CalendarLayer extends Stack implements ResolutionChangeListener {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 				if (!isOverCalendar(x, y)) {
-					CLICK_2.playAudio();
+					CLICK.playSound();
 					clearAll(null);
 				}
 				return true;

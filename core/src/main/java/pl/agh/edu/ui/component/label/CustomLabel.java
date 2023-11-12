@@ -1,7 +1,6 @@
 package pl.agh.edu.ui.component.label;
 
-import static pl.agh.edu.ui.audio.SoundAudio.BUTTON_2;
-import static pl.agh.edu.ui.audio.SoundAudio.CLICK_2;
+import static pl.agh.edu.ui.audio.SoundAudio.POP;
 import static pl.agh.edu.ui.utils.SkinColor.ColorLevel._300;
 import static pl.agh.edu.ui.utils.SkinColor.ColorLevel._500;
 import static pl.agh.edu.ui.utils.SkinColor.ColorLevel._900;
@@ -97,7 +96,7 @@ public class CustomLabel extends Label {
 					public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 						if (!isDisabled) {
 							colorLevel = _900;
-							CLICK_2.playAudio();
+							POP.playSound();
 							return true;
 						}
 						return false;
@@ -107,7 +106,6 @@ public class CustomLabel extends Label {
 					public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 						if (!isDisabled) {
 							colorLevel = _500;
-							BUTTON_2.playAudio();
 						}
 					}
 

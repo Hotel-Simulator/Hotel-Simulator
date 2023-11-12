@@ -1,7 +1,7 @@
 package pl.agh.edu.ui.component.selection;
 
 import static com.badlogic.gdx.utils.Align.center;
-import static pl.agh.edu.ui.audio.SoundAudio.BUTTON_3;
+import static pl.agh.edu.ui.audio.SoundAudio.CLICK;
 
 import java.util.function.Consumer;
 
@@ -29,7 +29,7 @@ public abstract class BaseSelection<T> extends WrapperTable {
 
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-				BUTTON_3.playAudio();
+				CLICK.playSound();
 				rightButton.setDisabled(false);
 				previousButtonHandler();
 				if (!isPreviousButtonCheck()) {
@@ -48,7 +48,7 @@ public abstract class BaseSelection<T> extends WrapperTable {
 
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-				BUTTON_3.playAudio();
+				CLICK.playSound();
 				leftButton.setDisabled(false);
 				nextButtonHandler();
 				if (!isNextButtonCheck()) {

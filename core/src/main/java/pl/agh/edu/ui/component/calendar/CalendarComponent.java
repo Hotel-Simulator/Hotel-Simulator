@@ -1,6 +1,6 @@
 package pl.agh.edu.ui.component.calendar;
 
-import static pl.agh.edu.ui.audio.SoundAudio.BUTTON_3;
+import static pl.agh.edu.ui.audio.SoundAudio.CLICK;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -163,7 +163,7 @@ public class CalendarComponent extends WrapperTable {
 				button.addListener(new InputListener() {
 					@Override
 					public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-						BUTTON_3.playAudio();
+						CLICK.playSound();
 						closeAll();
 						dateChangeHandler.accept(LocalDate.now());
 						return true;
