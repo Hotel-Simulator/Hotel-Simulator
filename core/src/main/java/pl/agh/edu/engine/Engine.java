@@ -54,24 +54,24 @@ public class Engine {
 	}
 
 	private void initializeEveryDayUpdates(LocalDateTime currentTime) {
-		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, (SerializableRunnable)hotelHandler.attractionHandler::dailyUpdate, currentTime));
-		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, (SerializableRunnable)OpinionHandler::dailyUpdate, currentTime));
-		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, (SerializableRunnable)hotelHandler.possibleEmployeeHandler::dailyUpdate, currentTime));
-		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, (SerializableRunnable)this::dailyUpdate, currentTime));
-		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, (SerializableRunnable)hotelHandler.cleaningScheduler::dailyAtCheckOutTimeUpdate,
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, (SerializableRunnable) hotelHandler.attractionHandler::dailyUpdate, currentTime));
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, (SerializableRunnable) OpinionHandler::dailyUpdate, currentTime));
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, (SerializableRunnable) hotelHandler.possibleEmployeeHandler::dailyUpdate, currentTime));
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, (SerializableRunnable) this::dailyUpdate, currentTime));
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, (SerializableRunnable) hotelHandler.cleaningScheduler::dailyAtCheckOutTimeUpdate,
 				LocalDateTime.of(currentTime.toLocalDate(), hotelHandler.hotel.getCheckOutTime())));
-		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, (SerializableRunnable)hotelHandler.cleaningScheduler::dailyAtCheckInTimeUpdate,
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, (SerializableRunnable) hotelHandler.cleaningScheduler::dailyAtCheckInTimeUpdate,
 				LocalDateTime.of(currentTime.toLocalDate(), hotelHandler.hotel.getCheckOutTime())));
 	}
 
 	private void initializeEveryMonthUpdates(LocalDateTime currentTime) {
-		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_MONTH, (SerializableRunnable)hotelHandler.employeeSalaryHandler::monthlyUpdate, currentTime));
-		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_MONTH, (SerializableRunnable)hotelHandler.bankAccount::monthlyUpdate, currentTime.plusDays(
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_MONTH, (SerializableRunnable) hotelHandler.employeeSalaryHandler::monthlyUpdate, currentTime));
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_MONTH, (SerializableRunnable) hotelHandler.bankAccount::monthlyUpdate, currentTime.plusDays(
 				JSONBankDataLoader.chargeAccountFeeDayOfMonth - 1)));
 	}
 
 	private void initializeEveryYearUpdates(LocalDateTime currentTime) {
-		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_YEAR, (SerializableRunnable)eventHandler::yearlyUpdate, currentTime));
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_YEAR, (SerializableRunnable) eventHandler::yearlyUpdate, currentTime));
 	}
 
 	private void generateClientArrivals() {
@@ -81,11 +81,11 @@ public class Engine {
 	}
 
 	private TimeCommand createTimeCommandForClientArrival(Arrival arrival) {
-		return new TimeCommand((SerializableRunnable)() -> {
+		return new TimeCommand((SerializableRunnable) () -> {
 			OpinionBuilder.saveStartWaitingAtQueueData(arrival.clientGroup());
 			hotelHandler.receptionScheduler.addEntity(arrival.clientGroup());
 			timeCommandExecutor.addCommand(
-					new TimeCommand((SerializableRunnable)() -> {
+					new TimeCommand((SerializableRunnable) () -> {
 						if (hotelHandler.receptionScheduler.removeEntity(arrival.clientGroup())) {
 							OpinionBuilder.saveSteppingOutOfQueueData(arrival.clientGroup());
 							OpinionHandler.addOpinionWithProbability(arrival.clientGroup(), JSONOpinionDataLoader.opinionProbabilityForClientWhoSteppedOutOfQueue);

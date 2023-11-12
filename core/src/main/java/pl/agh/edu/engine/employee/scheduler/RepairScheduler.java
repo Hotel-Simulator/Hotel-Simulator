@@ -20,7 +20,7 @@ public class RepairScheduler extends WorkScheduler<Room> {
 		technician.setOccupied(true);
 
 		timeCommandExecutor.addCommand(
-				new TimeCommand((SerializableRunnable)() -> {
+				new TimeCommand((SerializableRunnable) () -> {
 					technician.setOccupied(false);
 					room.roomState.setFaulty(false);
 					OpinionBuilder.saveRoomRepairingData(technician, room);

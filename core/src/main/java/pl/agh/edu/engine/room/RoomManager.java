@@ -100,7 +100,7 @@ public class RoomManager {
 		roomRankChangeTimes.put(room, upgradeTime);
 
 		timeCommandExecutor.addCommand(new TimeCommand(
-				(SerializableRunnable)() -> {
+				(SerializableRunnable) () -> {
 					room.roomState.setUnderRankChange(false);
 					room.changeRank(desiredRank);
 					roomRankChangeTimes.remove(room);
@@ -145,7 +145,7 @@ public class RoomManager {
 		roomBuildingTimes.put(buildRoom, buildTime);
 
 		timeCommandExecutor.addCommand(new TimeCommand(
-				(SerializableRunnable)() -> {
+				(SerializableRunnable) () -> {
 					buildRoom.roomState.setBeingBuild(false);
 					roomBuildingTimes.remove(buildRoom);
 				}, buildTime));

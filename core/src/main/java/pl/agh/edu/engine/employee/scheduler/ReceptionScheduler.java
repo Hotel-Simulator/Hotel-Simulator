@@ -36,7 +36,7 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 	}
 
 	private TimeCommand createTimeCommandForBreakingRoom(Room room, LocalDateTime checkOutTime) {
-		return new TimeCommand((SerializableRunnable)() -> {
+		return new TimeCommand((SerializableRunnable) () -> {
 			room.roomState.setFaulty(true);
 			OpinionBuilder.saveRoomBreakingData(room);
 			hotelHandler.repairScheduler.addEntity(room);
@@ -44,7 +44,7 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 	}
 
 	private TimeCommand createTimeCommandForCheckingOutClients(Room room, LocalDateTime checkOutTime) {
-		return new TimeCommand((SerializableRunnable)() -> {
+		return new TimeCommand((SerializableRunnable) () -> {
 			OpinionHandler.addOpinionWithProbability(room.getResidents(), JSONOpinionDataLoader.opinionProbabilityForClientWhoGotRoom);
 			room.checkOut();
 			hotelHandler.cleaningScheduler.addEntity(room);
@@ -53,7 +53,7 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 
 	private TimeCommand createTimeCommandForServingArrivedClients(Employee receptionist, ClientGroup clientGroup) {
 		return new TimeCommand(
-				(SerializableRunnable)() -> {
+				(SerializableRunnable) () -> {
 					Optional<Room> optionalRoom = hotelHandler.roomManager.findRoomForClientGroup(clientGroup);
 					if (optionalRoom.isPresent()) {
 						ClientGroupReportDataCollector.increaseClientGroupWithRoomCounter();

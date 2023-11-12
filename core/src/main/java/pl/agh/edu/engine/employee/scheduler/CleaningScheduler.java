@@ -39,7 +39,7 @@ public class CleaningScheduler extends WorkScheduler<Room> {
 	protected void executeService(Employee cleaner, Room room) {
 		cleaner.setOccupied(true);
 		timeCommandExecutor.addCommand(
-				new TimeCommand((SerializableRunnable)() -> {
+				new TimeCommand((SerializableRunnable) () -> {
 					cleaner.setOccupied(false);
 					room.roomState.setDirty(false);
 					OpinionBuilder.saveRoomDailyCleaningData(cleaner, room);

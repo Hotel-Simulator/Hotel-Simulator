@@ -47,7 +47,7 @@ public class TimePanel extends Table {
 	}
 
 	public void initializeSyncWithClock() {
-		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_TIME_TICK, (SerializableRunnable)this::setTime, time.getTime()));
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_TIME_TICK, (SerializableRunnable) this::setTime, time.getTime()));
 	}
 
 	private static class TimeLabel extends CustomLabel {
