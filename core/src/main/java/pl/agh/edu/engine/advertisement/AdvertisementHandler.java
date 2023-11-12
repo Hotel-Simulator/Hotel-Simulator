@@ -59,7 +59,7 @@ public class AdvertisementHandler extends ClientGroupModifierSupplier {
 	public void buyAdvertisementCampaign(AdvertisementType type, LocalDate startDate, LocalDate endDate) {
 		AdvertisementCampaign advertisementCampaign = new AdvertisementCampaign(JSONAdvertisementDataLoader.advertisementData.get(type), startDate, endDate);
 		bankAccountHandler.registerExpense(getCampaignFullCost(type, DAYS.between(startDate, endDate)));
-		timeCommandExecutor.addCommand(new TimeCommand((SerializableRunnable) () -> advertisementCampaigns.remove(advertisementCampaign),
+		timeCommandExecutor.addCommand(new TimeCommand(() -> advertisementCampaigns.remove(advertisementCampaign),
 				endDate.atTime(MIDNIGHT).minusMinutes(1)));
 
 		advertisementCampaigns.add(advertisementCampaign);

@@ -31,7 +31,7 @@ public class ClientGroupReportDataCollector {
 		LocalDate date = time.getTime().toLocalDate();
 		timeCommandExecutor.addCommand(
 				new TimeCommand(
-						(SerializableRunnable) () -> {
+						() -> {
 							allClientGroupNumber.insert(date, allClientGroupNumberForToday);
 							clientGroupWithRoomNumber.insert(date, clientGroupWithRoomCounter);
 							clientGroupWithoutRoomNumber.insert(date, allClientGroupNumberForToday - clientGroupWithRoomCounter);

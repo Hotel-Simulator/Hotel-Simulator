@@ -46,7 +46,7 @@ public class EmployeeHandler {
 	public void hireEmployee(Employee employee) {
 		this.employees.add(employee);
 		timeCommandExecutor.addCommand(
-				new TimeCommand((SerializableRunnable) () -> employee.setStatus(HIRED_WORKING),
+				new TimeCommand(() -> employee.setStatus(HIRED_WORKING),
 						LocalDateTime.of(time.getTime()
 								.toLocalDate()
 								.minusDays(time.getTime().getDayOfMonth() - 1)
@@ -58,7 +58,7 @@ public class EmployeeHandler {
 		employee.setStatus(EmployeeStatus.FIRED_WORKING);
 		timeCommandExecutor.addCommand(
 				new TimeCommand(
-						(SerializableRunnable) () -> this.removeEmployee(employee),
+						() -> this.removeEmployee(employee),
 						LocalDateTime.of(LocalDate.of(time.getTime().getYear(), time.getTime().getMonth(), 1).plusMonths(JSONEmployeeDataLoader.noticePeriodInMonths + 1),
 								MIDNIGHT)));
 	}

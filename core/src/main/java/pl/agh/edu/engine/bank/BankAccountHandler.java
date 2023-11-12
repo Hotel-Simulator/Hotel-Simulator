@@ -54,10 +54,10 @@ public class BankAccountHandler {
 	private NRepeatingTimeCommand createTimeCommandForCreditMonthlyPayment(BigDecimal monthlyPayments, Credit credit) {
 		return new NRepeatingTimeCommand(
 				Frequency.EVERY_MONTH,
-				(SerializableRunnable) () -> registerExpense(monthlyPayments),
+				() -> registerExpense(monthlyPayments),
 				time.getTime().plusMonths(1).truncatedTo(ChronoUnit.DAYS),
 				credit.lengthInMonths,
-				(SerializableRunnable) () -> currentCredits.remove(credit));
+				() -> currentCredits.remove(credit));
 	}
 
 	public boolean hasOperationAbility(BigDecimal expense) {

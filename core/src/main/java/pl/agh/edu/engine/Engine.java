@@ -81,11 +81,11 @@ public class Engine {
 	}
 
 	private TimeCommand createTimeCommandForClientArrival(Arrival arrival) {
-		return new TimeCommand((SerializableRunnable) () -> {
+		return new TimeCommand(() -> {
 			OpinionBuilder.saveStartWaitingAtQueueData(arrival.clientGroup());
 			hotelHandler.receptionScheduler.addEntity(arrival.clientGroup());
 			timeCommandExecutor.addCommand(
-					new TimeCommand((SerializableRunnable) () -> {
+					new TimeCommand(() -> {
 						if (hotelHandler.receptionScheduler.removeEntity(arrival.clientGroup())) {
 							OpinionBuilder.saveSteppingOutOfQueueData(arrival.clientGroup());
 							OpinionHandler.addOpinionWithProbability(arrival.clientGroup(), JSONOpinionDataLoader.opinionProbabilityForClientWhoSteppedOutOfQueue);
