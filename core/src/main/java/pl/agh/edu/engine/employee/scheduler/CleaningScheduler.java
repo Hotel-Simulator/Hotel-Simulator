@@ -9,6 +9,7 @@ import pl.agh.edu.engine.employee.Employee;
 import pl.agh.edu.engine.hotel.HotelHandler;
 import pl.agh.edu.engine.opinion.OpinionBuilder;
 import pl.agh.edu.engine.room.Room;
+import pl.agh.edu.engine.time.command.SerializableRunnable;
 import pl.agh.edu.engine.time.command.TimeCommand;
 
 public class CleaningScheduler extends WorkScheduler<Room> {
@@ -38,7 +39,7 @@ public class CleaningScheduler extends WorkScheduler<Room> {
 	protected void executeService(Employee cleaner, Room room) {
 		cleaner.setOccupied(true);
 		timeCommandExecutor.addCommand(
-				new TimeCommand(() -> {
+				new TimeCommand((SerializableRunnable)() -> {
 					cleaner.setOccupied(false);
 					room.roomState.setDirty(false);
 					OpinionBuilder.saveRoomDailyCleaningData(cleaner, room);

@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.engine.time.TimeCommandExecutor;
 import pl.agh.edu.engine.time.command.RepeatingTimeCommand;
+import pl.agh.edu.engine.time.command.SerializableRunnable;
 import pl.agh.edu.ui.component.calendar.CalendarLayer;
 import pl.agh.edu.ui.component.label.CustomLabel;
 
@@ -46,7 +47,7 @@ public class TimePanel extends Table {
 	}
 
 	public void initializeSyncWithClock() {
-		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_TIME_TICK, this::setTime, time.getTime()));
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_TIME_TICK, (SerializableRunnable)this::setTime, time.getTime()));
 	}
 
 	private static class TimeLabel extends CustomLabel {

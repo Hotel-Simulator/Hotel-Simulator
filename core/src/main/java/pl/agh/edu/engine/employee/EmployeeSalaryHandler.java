@@ -9,6 +9,7 @@ import pl.agh.edu.data.loader.JSONEmployeeDataLoader;
 import pl.agh.edu.engine.bank.BankAccountHandler;
 import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.engine.time.TimeCommandExecutor;
+import pl.agh.edu.engine.time.command.SerializableRunnable;
 import pl.agh.edu.engine.time.command.TimeCommand;
 
 public class EmployeeSalaryHandler {
@@ -27,7 +28,7 @@ public class EmployeeSalaryHandler {
 				.map(employee -> employee.wage)
 				.reduce(ZERO, BigDecimal::add);
 
-		timeCommandExecutor.addCommand(new TimeCommand(() -> bankAccountHandler.registerExpense(salaryToPayForThisMonth),
+		timeCommandExecutor.addCommand(new TimeCommand((SerializableRunnable)() -> bankAccountHandler.registerExpense(salaryToPayForThisMonth),
 				time.getTime().plusMonths(1)
 						.truncatedTo(ChronoUnit.DAYS)
 						.withDayOfMonth(JSONEmployeeDataLoader.payDayOfMonth)
@@ -38,7 +39,7 @@ public class EmployeeSalaryHandler {
 		employee.addBonus(bonus);
 		bankAccountHandler.registerExpense(bonus);
 		timeCommandExecutor.addCommand(
-				new TimeCommand(() -> employee.removeBonus(bonus), time.getTime().plusMonths(1)));
+				new TimeCommand((SerializableRunnable)() -> employee.removeBonus(bonus), time.getTime().plusMonths(1)));
 	}
 
 }

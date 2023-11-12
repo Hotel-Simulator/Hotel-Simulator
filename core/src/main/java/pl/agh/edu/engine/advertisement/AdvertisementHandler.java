@@ -17,6 +17,7 @@ import pl.agh.edu.engine.client.ClientGroupModifierSupplier;
 import pl.agh.edu.engine.hotel.HotelVisitPurpose;
 import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.engine.time.TimeCommandExecutor;
+import pl.agh.edu.engine.time.command.SerializableRunnable;
 import pl.agh.edu.engine.time.command.TimeCommand;
 
 public class AdvertisementHandler extends ClientGroupModifierSupplier {
@@ -58,7 +59,7 @@ public class AdvertisementHandler extends ClientGroupModifierSupplier {
 	public void buyAdvertisementCampaign(AdvertisementType type, LocalDate startDate, LocalDate endDate) {
 		AdvertisementCampaign advertisementCampaign = new AdvertisementCampaign(JSONAdvertisementDataLoader.advertisementData.get(type), startDate, endDate);
 		bankAccountHandler.registerExpense(getCampaignFullCost(type, DAYS.between(startDate, endDate)));
-		timeCommandExecutor.addCommand(new TimeCommand(
+		timeCommandExecutor.addCommand(new TimeCommand((SerializableRunnable)
 				() -> advertisementCampaigns.remove(advertisementCampaign),
 				endDate.atTime(MIDNIGHT).minusMinutes(1)));
 

@@ -11,6 +11,7 @@ import pl.agh.edu.engine.time.Frequency;
 import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.engine.time.TimeCommandExecutor;
 import pl.agh.edu.engine.time.command.NRepeatingTimeCommand;
+import pl.agh.edu.engine.time.command.SerializableRunnable;
 
 public class BankAccountHandler {
 	public final BankAccount account;
@@ -53,10 +54,10 @@ public class BankAccountHandler {
 	private NRepeatingTimeCommand createTimeCommandForCreditMonthlyPayment(BigDecimal monthlyPayments, Credit credit) {
 		return new NRepeatingTimeCommand(
 				Frequency.EVERY_MONTH,
-				() -> registerExpense(monthlyPayments),
+				(SerializableRunnable)() -> registerExpense(monthlyPayments),
 				time.getTime().plusMonths(1).truncatedTo(ChronoUnit.DAYS),
 				credit.lengthInMonths,
-				() -> currentCredits.remove(credit));
+				(SerializableRunnable)() -> currentCredits.remove(credit));
 	}
 
 	public boolean hasOperationAbility(BigDecimal expense) {

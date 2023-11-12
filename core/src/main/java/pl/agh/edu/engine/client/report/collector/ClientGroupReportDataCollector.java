@@ -9,6 +9,7 @@ import pl.agh.edu.engine.client.report.util.DateTrie;
 import pl.agh.edu.engine.hotel.HotelVisitPurpose;
 import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.engine.time.TimeCommandExecutor;
+import pl.agh.edu.engine.time.command.SerializableRunnable;
 import pl.agh.edu.engine.time.command.TimeCommand;
 
 public class ClientGroupReportDataCollector {
@@ -30,7 +31,7 @@ public class ClientGroupReportDataCollector {
 		LocalDate date = time.getTime().toLocalDate();
 		timeCommandExecutor.addCommand(
 				new TimeCommand(
-						() -> {
+						(SerializableRunnable)() -> {
 							allClientGroupNumber.insert(date, allClientGroupNumberForToday);
 							clientGroupWithRoomNumber.insert(date, clientGroupWithRoomCounter);
 							clientGroupWithoutRoomNumber.insert(date, allClientGroupNumberForToday - clientGroupWithRoomCounter);

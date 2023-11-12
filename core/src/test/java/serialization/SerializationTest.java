@@ -52,6 +52,7 @@ import pl.agh.edu.engine.room.Room;
 import pl.agh.edu.engine.room.RoomState;
 import pl.agh.edu.engine.time.command.NRepeatingTimeCommand;
 import pl.agh.edu.engine.time.command.RepeatingTimeCommand;
+import pl.agh.edu.engine.time.command.SerializableRunnable;
 import pl.agh.edu.engine.time.command.TimeCommand;
 import pl.agh.edu.serialization.KryoConfig;
 import pl.agh.edu.utils.LanguageString;
@@ -563,7 +564,7 @@ public class SerializationTest {
 	@Test
 	public void timeCommandTest() {
 		// Given
-		TimeCommand timeCommand = new TimeCommand(() -> System.out.println("hi"), LocalDateTime.now());
+		TimeCommand timeCommand = new TimeCommand((SerializableRunnable)() -> System.out.println("hi"), LocalDateTime.now());
 
 		// When
 		kryo.writeObject(output, timeCommand);
@@ -580,7 +581,7 @@ public class SerializationTest {
 	@Test
 	public void repeatingTimeCommandTest() {
 		// Given
-		RepeatingTimeCommand repeatingTimeCommand = new RepeatingTimeCommand(EVERY_DAY, () -> System.out.println("hi"), LocalDateTime.now());
+		RepeatingTimeCommand repeatingTimeCommand = new RepeatingTimeCommand(EVERY_DAY, (SerializableRunnable)() -> System.out.println("hi"), LocalDateTime.now());
 
 		// When
 		kryo.writeObject(output, repeatingTimeCommand);
@@ -597,7 +598,7 @@ public class SerializationTest {
 	@Test
 	public void nRepeatingTimeCommandTest() {
 		// Given
-		NRepeatingTimeCommand nRepeatingTimeCommand = new NRepeatingTimeCommand(EVERY_DAY, () -> System.out.println("hi"), LocalDateTime.now(), 3);
+		NRepeatingTimeCommand nRepeatingTimeCommand = new NRepeatingTimeCommand(EVERY_DAY, (SerializableRunnable)() -> System.out.println("hi"), LocalDateTime.now(), 3);
 
 		// When
 		kryo.writeObject(output, nRepeatingTimeCommand);

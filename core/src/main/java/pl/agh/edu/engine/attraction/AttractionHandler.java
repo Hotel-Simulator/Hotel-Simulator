@@ -24,6 +24,7 @@ import pl.agh.edu.engine.hotel.HotelVisitPurpose;
 import pl.agh.edu.engine.room.RoomManager;
 import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.engine.time.TimeCommandExecutor;
+import pl.agh.edu.engine.time.command.SerializableRunnable;
 import pl.agh.edu.engine.time.command.TimeCommand;
 import pl.agh.edu.utils.Pair;
 import pl.agh.edu.utils.RandomUtils;
@@ -64,7 +65,7 @@ public class AttractionHandler extends ClientGroupModifierSupplier {
 				.plus(JSONAttractionDataLoader.buildDuration.get(attraction.getSize()));
 		attractionBuildingTimes.put(type, Pair.of(size, buildTime));
 
-		timeCommandExecutor.addCommand(new TimeCommand(() -> {
+		timeCommandExecutor.addCommand(new TimeCommand((SerializableRunnable)() -> {
 			attraction.setState(INACTIVE);
 			attractionBuildingTimes.remove(type);
 		}, buildTime));
@@ -102,7 +103,7 @@ public class AttractionHandler extends ClientGroupModifierSupplier {
 		attractionChangingSizeTimes.put(type, Pair.of(size, changeSizeTime));
 
 		timeCommandExecutor.addCommand(new TimeCommand(
-				() -> {
+				(SerializableRunnable)() -> {
 					attraction.setSize(size);
 					attraction.setState(INACTIVE);
 					attractionChangingSizeTimes.remove(type);
@@ -149,7 +150,7 @@ public class AttractionHandler extends ClientGroupModifierSupplier {
 			case SHUTTING_DOWN -> attraction.setState(ACTIVE);
 			case INACTIVE -> {
 				attraction.setState(OPENING);
-				timeCommandExecutor.addCommand(new TimeCommand(() -> attraction.setState(ACTIVE), time.getTime().truncatedTo(DAYS).plusDays(1)));
+				timeCommandExecutor.addCommand(new TimeCommand((SerializableRunnable)() -> attraction.setState(ACTIVE), time.getTime().truncatedTo(DAYS).plusDays(1)));
 			}
 		}
 	}
@@ -159,7 +160,7 @@ public class AttractionHandler extends ClientGroupModifierSupplier {
 			case OPENING -> attraction.setState(INACTIVE);
 			case ACTIVE -> {
 				attraction.setState(SHUTTING_DOWN);
-				timeCommandExecutor.addCommand(new TimeCommand(() -> attraction.setState(INACTIVE), time.getTime().truncatedTo(DAYS).plusDays(1)));
+				timeCommandExecutor.addCommand(new TimeCommand((SerializableRunnable)() -> attraction.setState(INACTIVE), time.getTime().truncatedTo(DAYS).plusDays(1)));
 			}
 		}
 	}

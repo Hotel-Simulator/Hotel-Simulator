@@ -19,6 +19,7 @@ import pl.agh.edu.engine.building_cost.BuildingCostSupplier;
 import pl.agh.edu.engine.client.ClientGroup;
 import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.engine.time.TimeCommandExecutor;
+import pl.agh.edu.engine.time.command.SerializableRunnable;
 import pl.agh.edu.engine.time.command.TimeCommand;
 import pl.agh.edu.utils.Pair;
 
@@ -99,7 +100,7 @@ public class RoomManager {
 		roomRankChangeTimes.put(room, upgradeTime);
 
 		timeCommandExecutor.addCommand(new TimeCommand(
-				() -> {
+				(SerializableRunnable)() -> {
 					room.roomState.setUnderRankChange(false);
 					room.changeRank(desiredRank);
 					roomRankChangeTimes.remove(room);
@@ -144,7 +145,7 @@ public class RoomManager {
 		roomBuildingTimes.put(buildRoom, buildTime);
 
 		timeCommandExecutor.addCommand(new TimeCommand(
-				() -> {
+				(SerializableRunnable)() -> {
 					buildRoom.roomState.setBeingBuild(false);
 					roomBuildingTimes.remove(buildRoom);
 				}, buildTime));

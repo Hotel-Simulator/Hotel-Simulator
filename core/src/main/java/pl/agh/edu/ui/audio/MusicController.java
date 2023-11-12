@@ -6,6 +6,7 @@ import pl.agh.edu.config.AudioConfig;
 import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.engine.time.TimeCommandExecutor;
 import pl.agh.edu.engine.time.command.RepeatingTimeCommand;
+import pl.agh.edu.engine.time.command.SerializableRunnable;
 
 public class MusicController {
 	private static RepeatingTimeCommand repeatingTimeCommand;
@@ -16,7 +17,7 @@ public class MusicController {
 		musicTrack.music.setVolume(AudioConfig.getMusicVolume());
 		musicTrack.music.setLooping(true);
 		musicTrack.music.play();
-		repeatingTimeCommand = new RepeatingTimeCommand(EVERY_PART_OF_DAY, this::playNextTrack, time.getNextPartOfDayTime());
+		repeatingTimeCommand = new RepeatingTimeCommand(EVERY_PART_OF_DAY, (SerializableRunnable)this::playNextTrack, time.getNextPartOfDayTime());
 		TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
 		timeCommandExecutor.addCommand(repeatingTimeCommand);
 	}

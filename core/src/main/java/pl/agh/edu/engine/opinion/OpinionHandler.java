@@ -16,6 +16,7 @@ import pl.agh.edu.data.loader.JSONOpinionDataLoader;
 import pl.agh.edu.engine.client.ClientGroup;
 import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.engine.time.TimeCommandExecutor;
+import pl.agh.edu.engine.time.command.SerializableRunnable;
 import pl.agh.edu.engine.time.command.TimeCommand;
 import pl.agh.edu.utils.LanguageString;
 import pl.agh.edu.utils.RandomUtils;
@@ -35,7 +36,7 @@ public class OpinionHandler {
 					clientGroup.opinion.getComment().stream().map(LanguageString::new).collect(Collectors.toSet()));
 			opinions.add(opinionData);
 			timeCommandExecutor.addCommand(new TimeCommand(
-					() -> opinions.remove(opinionData),
+					(SerializableRunnable) () -> opinions.remove(opinionData),
 					time.getTime().plus(JSONOpinionDataLoader.opinionHoldingDuration)));
 		}
 	}
