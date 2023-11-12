@@ -11,7 +11,6 @@ import pl.agh.edu.engine.time.Frequency;
 import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.engine.time.TimeCommandExecutor;
 import pl.agh.edu.engine.time.command.NRepeatingTimeCommand;
-import pl.agh.edu.engine.time.command.SerializableRunnable;
 
 public class BankAccountHandler {
 	public final BankAccount account;

@@ -17,7 +17,6 @@ import pl.agh.edu.engine.client.ClientGroupModifierSupplier;
 import pl.agh.edu.engine.hotel.HotelVisitPurpose;
 import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.engine.time.TimeCommandExecutor;
-import pl.agh.edu.engine.time.command.SerializableRunnable;
 import pl.agh.edu.engine.time.command.TimeCommand;
 
 public class AdvertisementHandler extends ClientGroupModifierSupplier {

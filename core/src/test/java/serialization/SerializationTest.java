@@ -52,7 +52,6 @@ import pl.agh.edu.engine.room.Room;
 import pl.agh.edu.engine.room.RoomState;
 import pl.agh.edu.engine.time.command.NRepeatingTimeCommand;
 import pl.agh.edu.engine.time.command.RepeatingTimeCommand;
-import pl.agh.edu.engine.time.command.SerializableRunnable;
 import pl.agh.edu.engine.time.command.TimeCommand;
 import pl.agh.edu.serialization.KryoConfig;
 import pl.agh.edu.utils.LanguageString;

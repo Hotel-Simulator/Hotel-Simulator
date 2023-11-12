@@ -24,7 +24,6 @@ import pl.agh.edu.engine.hotel.HotelVisitPurpose;
 import pl.agh.edu.engine.room.RoomManager;
 import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.engine.time.TimeCommandExecutor;
-import pl.agh.edu.engine.time.command.SerializableRunnable;
 import pl.agh.edu.engine.time.command.TimeCommand;
 import pl.agh.edu.utils.Pair;
 import pl.agh.edu.utils.RandomUtils;
