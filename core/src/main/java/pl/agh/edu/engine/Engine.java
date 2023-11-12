@@ -20,7 +20,6 @@ import pl.agh.edu.engine.opinion.OpinionHandler;
 import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.engine.time.TimeCommandExecutor;
 import pl.agh.edu.engine.time.command.RepeatingTimeCommand;
-import pl.agh.edu.engine.time.command.SerializableRunnable;
 import pl.agh.edu.engine.time.command.TimeCommand;
 
 public class Engine {
@@ -48,25 +47,25 @@ public class Engine {
 	}
 
 	private void initializeEveryShiftUpdates(LocalDateTime currentTime) {
-		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_SHIFT, (SerializableRunnable) hotelHandler.cleaningScheduler::perShiftUpdate, currentTime));
-		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_SHIFT, (SerializableRunnable) hotelHandler.receptionScheduler::perShiftUpdate, currentTime));
-		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_SHIFT, (SerializableRunnable) hotelHandler.repairScheduler::perShiftUpdate, currentTime));
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_SHIFT, hotelHandler.cleaningScheduler::perShiftUpdate, currentTime));
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_SHIFT, hotelHandler.receptionScheduler::perShiftUpdate, currentTime));
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_SHIFT, hotelHandler.repairScheduler::perShiftUpdate, currentTime));
 	}
 
 	private void initializeEveryDayUpdates(LocalDateTime currentTime) {
-		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, (SerializableRunnable) hotelHandler.attractionHandler::dailyUpdate, currentTime));
-		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, (SerializableRunnable) OpinionHandler::dailyUpdate, currentTime));
-		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, (SerializableRunnable) hotelHandler.possibleEmployeeHandler::dailyUpdate, currentTime));
-		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, (SerializableRunnable) this::dailyUpdate, currentTime));
-		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, (SerializableRunnable) hotelHandler.cleaningScheduler::dailyAtCheckOutTimeUpdate,
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, hotelHandler.attractionHandler::dailyUpdate, currentTime));
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, OpinionHandler::dailyUpdate, currentTime));
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, hotelHandler.possibleEmployeeHandler::dailyUpdate, currentTime));
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, this::dailyUpdate, currentTime));
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, hotelHandler.cleaningScheduler::dailyAtCheckOutTimeUpdate,
 				LocalDateTime.of(currentTime.toLocalDate(), hotelHandler.hotel.getCheckOutTime())));
-		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, (SerializableRunnable) hotelHandler.cleaningScheduler::dailyAtCheckInTimeUpdate,
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, hotelHandler.cleaningScheduler::dailyAtCheckInTimeUpdate,
 				LocalDateTime.of(currentTime.toLocalDate(), hotelHandler.hotel.getCheckOutTime())));
 	}
 
 	private void initializeEveryMonthUpdates(LocalDateTime currentTime) {
-		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_MONTH, (SerializableRunnable) hotelHandler.employeeSalaryHandler::monthlyUpdate, currentTime));
-		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_MONTH, (SerializableRunnable) hotelHandler.bankAccount::monthlyUpdate, currentTime.plusDays(
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_MONTH, hotelHandler.employeeSalaryHandler::monthlyUpdate, currentTime));
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_MONTH, hotelHandler.bankAccount::monthlyUpdate, currentTime.plusDays(
 				JSONBankDataLoader.chargeAccountFeeDayOfMonth - 1)));
 	}
 
