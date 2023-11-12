@@ -564,7 +564,7 @@ public class SerializationTest {
 	@Test
 	public void timeCommandTest() {
 		// Given
-		TimeCommand timeCommand = new TimeCommand((SerializableRunnable) () -> System.out.println("hi"), LocalDateTime.now());
+		TimeCommand timeCommand = new TimeCommand(() -> System.out.println("hi"), LocalDateTime.now());
 
 		// When
 		kryo.writeObject(output, timeCommand);
