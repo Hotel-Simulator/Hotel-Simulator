@@ -11,7 +11,7 @@ import pl.agh.edu.serialization.KryoConfig;
 public class Room {
 	private RoomRank rank;
 	public final RoomSize size;
-	public final RoomState roomState = new RoomState();
+	public final RoomState roomState;
 	private ClientGroup residents;
 
 	static {
@@ -26,9 +26,10 @@ public class Room {
 
 			@Override
 			public Room read(Kryo kryo, Input input, Class<? extends Room> type) {
-				Room room = new Room(kryo.readObject(input, RoomRank.class), kryo.readObject(input, RoomSize.class));
-
-				KryoConfig.setPrivateFieldValue(room, "roomState", kryo.readObject(input, RoomState.class));
+				Room room = new Room(kryo.readObject(
+						input, RoomRank.class),
+						kryo.readObject(input, RoomSize.class),
+						kryo.readObject(input, RoomState.class));
 
 				room.residents = kryo.readObjectOrNull(input, ClientGroup.class);
 				return room;
@@ -39,6 +40,13 @@ public class Room {
 	public Room(RoomRank rank, RoomSize size) {
 		this.size = size;
 		this.rank = rank;
+		this.roomState = new RoomState();
+	}
+
+	private Room(RoomRank rank, RoomSize size, RoomState state) {
+		this.size = size;
+		this.rank = rank;
+		this.roomState = state;
 	}
 
 	public RoomRank getRank() {

@@ -8,6 +8,5 @@ public enum TransactionType {
 
 	static {
 		KryoConfig.kryo.register(TransactionType.class);
-
 	}
 }

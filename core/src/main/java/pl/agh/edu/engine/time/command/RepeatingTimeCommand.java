@@ -33,8 +33,9 @@ public class RepeatingTimeCommand extends TimeCommand {
 				RepeatingTimeCommand repeatingTimeCommand = new RepeatingTimeCommand(
 						kryo.readObject(input, Frequency.class),
 						(SerializableRunnable) kryo.readObject(input, ClosureSerializer.Closure.class),
-						kryo.readObject(input, LocalDateTime.class));
-				KryoConfig.setPrivateFieldValue(repeatingTimeCommand, "version", kryo.readObject(input, Long.class));
+						kryo.readObject(input, LocalDateTime.class),
+						kryo.readObject(input, Long.class));
+
 				repeatingTimeCommand.toStop = kryo.readObject(input, Boolean.class);
 				return repeatingTimeCommand;
 			}
@@ -43,6 +44,11 @@ public class RepeatingTimeCommand extends TimeCommand {
 
 	public RepeatingTimeCommand(Frequency frequency, SerializableRunnable toExecute, LocalDateTime dueTime) {
 		super(toExecute, dueTime);
+		this.frequency = frequency;
+	}
+
+	protected RepeatingTimeCommand(Frequency frequency, SerializableRunnable toExecute, LocalDateTime dueTime, Long version) {
+		super(toExecute, dueTime, version);
 		this.frequency = frequency;
 	}
 

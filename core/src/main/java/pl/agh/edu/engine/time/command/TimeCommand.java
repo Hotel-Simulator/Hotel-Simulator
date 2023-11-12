@@ -14,7 +14,7 @@ import pl.agh.edu.serialization.KryoConfig;
 public class TimeCommand implements Comparable<TimeCommand> {
 	private static final AtomicLong creationVersion = new AtomicLong(1L);
 	protected final SerializableRunnable toExecute;
-	private final Long version = creationVersion.getAndIncrement();
+	private final Long version;
 	protected LocalDateTime dueDateTime;
 
 	static {
@@ -29,12 +29,11 @@ public class TimeCommand implements Comparable<TimeCommand> {
 
 			@Override
 			public TimeCommand read(Kryo kryo, Input input, Class<? extends TimeCommand> type) {
-				TimeCommand timeCommand = new TimeCommand(
-						(SerializableRunnable) kryo.readObject(input, ClosureSerializer.Closure.class),
-						kryo.readObject(input, LocalDateTime.class));
-				KryoConfig.setPrivateFieldValue(timeCommand, "version", kryo.readObject(input, Long.class));
 
-				return timeCommand;
+				return new TimeCommand(
+						(SerializableRunnable) kryo.readObject(input, ClosureSerializer.Closure.class),
+						kryo.readObject(input, LocalDateTime.class),
+						kryo.readObject(input, Long.class));
 			}
 		});
 	}
@@ -42,6 +41,13 @@ public class TimeCommand implements Comparable<TimeCommand> {
 	public TimeCommand(SerializableRunnable toExecute, LocalDateTime dueDateTime) {
 		this.toExecute = toExecute;
 		this.dueDateTime = dueDateTime;
+		this.version = creationVersion.getAndIncrement();
+	}
+
+	protected TimeCommand(SerializableRunnable toExecute, LocalDateTime dueDateTime, Long version) {
+		this.toExecute = toExecute;
+		this.dueDateTime = dueDateTime;
+		this.version = version;
 	}
 
 	public void execute() {

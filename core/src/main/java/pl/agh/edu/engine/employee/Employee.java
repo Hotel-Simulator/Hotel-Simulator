@@ -58,19 +58,17 @@ public class Employee {
 
 			@Override
 			public Employee read(Kryo kryo, Input input, Class<? extends Employee> type) {
-				PossibleEmployee possibleEmployee = new PossibleEmployee.Builder()
-						.firstName(kryo.readObject(input, String.class))
-						.lastName(kryo.readObject(input, String.class))
-						.age(kryo.readObject(input, Integer.class))
-						.skills(kryo.readObject(input, BigDecimal.class))
-						.preferences(kryo.readObject(input, EmploymentPreferences.class))
-						.profession(kryo.readObject(input, Profession.class))
-						.build();
-				Offer offer = new Offer(
+				Employee employee = new Employee(
+						kryo.readObject(input, String.class),
+						kryo.readObject(input, String.class),
+						kryo.readObject(input, Integer.class),
+						kryo.readObject(input, BigDecimal.class),
+						kryo.readObject(input, EmploymentPreferences.class),
+						kryo.readObject(input, Profession.class),
 						kryo.readObject(input, Shift.class),
 						kryo.readObject(input, BigDecimal.class),
 						kryo.readObject(input, TypeOfContract.class));
-				Employee employee = new Employee(possibleEmployee, offer);
+
 				List<BigDecimal> bonuses = kryo.readObject(input, List.class, KryoConfig.listSerializer(BigDecimal.class));
 				employee.bonuses.addAll(bonuses);
 				employee.isOccupied = kryo.readObject(input, Boolean.class);
@@ -92,6 +90,29 @@ public class Employee {
 		setContract(offer);
 
 		this.basicServiceExecutionTime = JSONEmployeeDataLoader.basicServiceExecutionTimes.get(possibleEmployee.profession);
+	}
+
+	public Employee(String firstName,
+			String lastName,
+			int age,
+			BigDecimal skills,
+			EmploymentPreferences preferences,
+			Profession profession,
+			Shift shift,
+			BigDecimal wage,
+			TypeOfContract typeOfContract) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.age = age;
+		this.skills = skills;
+		this.preferences = preferences;
+		this.profession = profession;
+		this.shift = shift;
+		this.wage = wage;
+		this.typeOfContract = typeOfContract;
+
+		this.basicServiceExecutionTime = JSONEmployeeDataLoader.basicServiceExecutionTimes.get(profession);
+
 	}
 
 	public void setContract(Offer offer) {

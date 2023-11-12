@@ -69,20 +69,6 @@ public class KryoConfig {
 		}
 	}
 
-	public static void setPrivateFieldValue(Object object, String fieldName, Object valueTobeSet) {
-		Field field;
-		field = getFieldRecursively(object.getClass(), fieldName);
-
-		assert field != null;
-		field.setAccessible(true);
-		try {
-			field.set(object, valueTobeSet);
-		} catch (IllegalAccessException e) {
-			throw new RuntimeException(e);
-		}
-
-	}
-
 	private static Field getFieldRecursively(Class<?> clazz, String fieldName) {
 		try {
 			return clazz.getDeclaredField(fieldName);

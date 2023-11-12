@@ -35,15 +35,19 @@ public class NRepeatingTimeCommand extends RepeatingTimeCommand {
 						(SerializableRunnable) kryo.readObject(input, ClosureSerializer.Closure.class),
 						kryo.readObject(input, LocalDateTime.class),
 						kryo.readObject(input, Long.class),
-						(SerializableRunnable) kryo.readObject(input, ClosureSerializer.Closure.class));
-				KryoConfig.setPrivateFieldValue(nRepeatingTimeCommand, "version", kryo.readObject(input, Long.class));
+						(SerializableRunnable) kryo.readObject(input, ClosureSerializer.Closure.class),
+						kryo.readObject(input, Long.class));
+
 				nRepeatingTimeCommand.toStop = kryo.readObject(input, Boolean.class);
 				return nRepeatingTimeCommand;
 			}
 		});
 	}
 
-	public NRepeatingTimeCommand(Frequency frequency, SerializableRunnable toExecute, LocalDateTime dueTime, long N, SerializableRunnable toExecuteAfterLastRepetition) {
+	public NRepeatingTimeCommand(Frequency frequency,
+			SerializableRunnable toExecute,
+			LocalDateTime dueTime, long N,
+			SerializableRunnable toExecuteAfterLastRepetition) {
 		super(frequency, toExecute, dueTime);
 		this.counter = N;
 		this.toExecuteAfterLastRepetition = toExecuteAfterLastRepetition;
@@ -51,6 +55,24 @@ public class NRepeatingTimeCommand extends RepeatingTimeCommand {
 
 	public NRepeatingTimeCommand(Frequency frequency, SerializableRunnable toExecute, LocalDateTime dueTime, long N) {
 		this(frequency, toExecute, dueTime, N, () -> {});
+	}
+
+	public NRepeatingTimeCommand(Frequency frequency,
+			SerializableRunnable toExecute,
+			LocalDateTime dueTime,
+			long N,
+			SerializableRunnable toExecuteAfterLastRepetition,
+			Long version) {
+		super(frequency, toExecute, dueTime, version);
+		this.counter = N;
+		this.toExecuteAfterLastRepetition = toExecuteAfterLastRepetition;
+	}
+
+	public NRepeatingTimeCommand(Frequency frequency,
+			SerializableRunnable toExecute,
+			LocalDateTime dueTime,
+			long N, Long version) {
+		this(frequency, toExecute, dueTime, N, () -> {}, version);
 	}
 
 	public long getCounter() {

@@ -38,17 +38,14 @@ public class ClientGroup {
 
 			@Override
 			public ClientGroup read(Kryo kryo, Input input, Class<? extends ClientGroup> type) {
-				ClientGroup clientGroup = new ClientGroup.Builder()
-						.members(kryo.readObject(input, List.class, KryoConfig.listSerializer(Client.class)))
-						.hotelVisitPurpose(kryo.readObject(input, HotelVisitPurpose.class))
-						.desiredPricePerNight(kryo.readObject(input, BigDecimal.class))
-						.desiredRoomRank(kryo.readObject(input, RoomRank.class))
-						.maxWaitingTime(kryo.readObject(input, Duration.class))
-						.numberOfNights(kryo.readObject(input, Integer.class))
-						.build();
-
-				KryoConfig.setPrivateFieldValue(clientGroup, "opinion", kryo.readObject(input, Opinion.class));
-				return clientGroup;
+				return new ClientGroup(
+						kryo.readObject(input, List.class, KryoConfig.listSerializer(Client.class)),
+						kryo.readObject(input, HotelVisitPurpose.class),
+						kryo.readObject(input, BigDecimal.class),
+						kryo.readObject(input, RoomRank.class),
+						kryo.readObject(input, Duration.class),
+						kryo.readObject(input, Integer.class),
+						kryo.readObject(input, Opinion.class));
 			}
 		});
 	}
@@ -61,6 +58,22 @@ public class ClientGroup {
 		this.maxWaitingTime = builder.maxWaitingTime;
 		this.numberOfNights = builder.numberOfNights;
 		opinion = new Opinion(this);
+	}
+
+	private ClientGroup(List<Client> members,
+			HotelVisitPurpose hotelVisitPurpose,
+			BigDecimal desiredPricePerNight,
+			RoomRank desiredRoomRank,
+			Duration maxWaitingTime,
+			int numberOfNights,
+			Opinion opinion) {
+		this.members = members;
+		this.hotelVisitPurpose = hotelVisitPurpose;
+		this.desiredPricePerNight = desiredPricePerNight;
+		this.desiredRoomRank = desiredRoomRank;
+		this.maxWaitingTime = maxWaitingTime;
+		this.numberOfNights = numberOfNights;
+		this.opinion = opinion;
 	}
 
 	public RoomRank getDesiredRoomRank() {
