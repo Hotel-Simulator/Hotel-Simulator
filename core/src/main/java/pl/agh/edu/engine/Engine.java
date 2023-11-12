@@ -71,7 +71,7 @@ public class Engine {
 	}
 
 	private void initializeEveryYearUpdates(LocalDateTime currentTime) {
-		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_YEAR, (SerializableRunnable) eventHandler::yearlyUpdate, currentTime));
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_YEAR, eventHandler::yearlyUpdate, currentTime));
 	}
 
 	private void generateClientArrivals() {
