@@ -1,5 +1,6 @@
 package pl.agh.edu.engine.employee;
 
+import pl.agh.edu.utils.LanguageString;
 import pl.agh.edu.serialization.KryoConfig;
 
 public enum Profession {
@@ -7,7 +8,14 @@ public enum Profession {
 	TECHNICIAN,
 	RECEPTIONIST;
 
+	public final LanguageString languageString;
+
 	static {
 		KryoConfig.kryo.register(Profession.class);
 	}
+
+	Profession() {
+		this.languageString = new LanguageString("employee.profession." + this.name().toLowerCase());
+	}
+
 }

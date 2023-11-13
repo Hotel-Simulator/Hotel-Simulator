@@ -27,7 +27,7 @@ public class Engine {
 	private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
 	private final HotelScenariosManager hotelScenariosManager = new HotelScenariosManager(HotelType.CITY);
 	public final EventHandler eventHandler = new EventHandler(hotelScenariosManager);
-	private final HotelHandler hotelHandler = new HotelHandler();
+	public final HotelHandler hotelHandler = new HotelHandler();
 	private final ClientGroupGenerationHandler clientGroupGenerationHandler = new ClientGroupGenerationHandler(
 			hotelScenariosManager,
 			hotelHandler.bankAccountHandler,

@@ -1,6 +1,6 @@
 package pl.agh.edu.ui.component.tooltip;
 
-import static pl.agh.edu.ui.utils.SkinFont.BODY_2;
+import static pl.agh.edu.ui.utils.SkinFont.BODY2;
 import static pl.agh.edu.ui.utils.SkinFont.H4;
 
 import pl.agh.edu.ui.component.label.LanguageLabel;
@@ -21,7 +21,7 @@ public class DescriptionTooltip extends BaseTooltip {
 			titleLabel.setWrap(true);
 			innerTable.add(titleLabel).growX().row();
 
-			LanguageLabel descriptionLabel = new LanguageLabel(description, BODY_2.getName());
+			LanguageLabel descriptionLabel = new LanguageLabel(description, BODY2.getName());
 			descriptionLabel.setWrap(true);
 			innerTable.add(descriptionLabel).growX().row();
 		}

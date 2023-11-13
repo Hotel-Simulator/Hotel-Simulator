@@ -2,16 +2,21 @@ package pl.agh.edu.ui.utils.wrapper;
 
 import static com.badlogic.gdx.math.Interpolation.fade;
 import static com.badlogic.gdx.math.Interpolation.smooth;
+import static com.badlogic.gdx.scenes.scene2d.Touchable.disabled;
+import static com.badlogic.gdx.scenes.scene2d.Touchable.enabled;
 
 import java.util.function.Consumer;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
+import pl.agh.edu.GdxGame;
 import pl.agh.edu.config.GraphicConfig;
+import pl.agh.edu.engine.Engine;
 import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.language.LanguageChangeListener;
 import pl.agh.edu.ui.language.LanguageManager;
@@ -25,6 +30,7 @@ public abstract class WrapperContainer<T extends Actor> extends Container<T> imp
 	private Runnable resolutionChangeHandler;
 	private Runnable returnHandler;
 	protected Skin skin = GameSkin.getInstance();
+	protected Engine engine = ((GdxGame) Gdx.app.getApplicationListener()).engine;
 
 	public WrapperContainer(LanguageString languageString) {
 		this.languageString = languageString;
@@ -89,12 +95,14 @@ public abstract class WrapperContainer<T extends Actor> extends Container<T> imp
 		this.clearActions();
 		this.addAction(
 				Actions.sequence(
+						Actions.touchable(disabled),
 						Actions.parallel(
 								Actions.alpha(0f),
 								Actions.moveBy(distanceX, distanceY)),
 						Actions.parallel(
 								Actions.moveBy(-distanceX, -distanceY, duration, interpolation),
-								Actions.alpha(1f, duration))));
+								Actions.alpha(1f, duration)),
+						Actions.touchable(enabled)));
 		this.resetAnimationPosition();
 	}
 
@@ -102,6 +110,7 @@ public abstract class WrapperContainer<T extends Actor> extends Container<T> imp
 		this.clearActions();
 		this.addAction(
 				Actions.sequence(
+						Actions.touchable(disabled),
 						Actions.alpha(1f),
 						Actions.parallel(
 								Actions.alpha(0f, duration),
