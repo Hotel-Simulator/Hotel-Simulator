@@ -26,7 +26,8 @@ import pl.agh.edu.utils.LanguageString;
 public class BankOffer extends WrapperTable {
 	BaseFrame baseFrame;
 	BankData bankData;
-
+	// button group
+	// wyekstraktować klikalny obszar, eventy
 	public BankOffer(BankData bankData, BaseFrame baseFrame) {
 		super();
 		this.baseFrame = baseFrame;
