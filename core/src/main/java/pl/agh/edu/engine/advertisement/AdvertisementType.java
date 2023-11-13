@@ -1,5 +1,7 @@
 package pl.agh.edu.engine.advertisement;
 
+import pl.agh.edu.serialization.KryoConfig;
+
 public enum AdvertisementType {
 	NEWSPAPER_ADVERTISEMENT,
 	TV_ADVERTISEMENT,
@@ -8,5 +10,9 @@ public enum AdvertisementType {
 	FLYERS,
 	WEB_PAGE,
 	SOCIAL_MEDIA,
-	BOOKING_PORTALS_PROFILE
+	BOOKING_PORTALS_PROFILE;
+
+	static {
+		KryoConfig.kryo.register(AdvertisementType.class);
+	}
 }

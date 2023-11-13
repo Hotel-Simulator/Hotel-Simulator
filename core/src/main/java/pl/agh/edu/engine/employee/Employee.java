@@ -11,10 +11,16 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.Serializer;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
+
 import pl.agh.edu.data.loader.JSONEmployeeDataLoader;
 import pl.agh.edu.engine.employee.contract.Offer;
 import pl.agh.edu.engine.employee.contract.OfferResponse;
 import pl.agh.edu.engine.employee.contract.TypeOfContract;
+import pl.agh.edu.serialization.KryoConfig;
 
 public class Employee {
 
@@ -26,23 +32,87 @@ public class Employee {
 	public final Profession profession;
 	private final Duration basicServiceExecutionTime;
 	private final List<BigDecimal> bonuses = new ArrayList<>();
+	public Shift shift;
 	public BigDecimal wage;
 	public TypeOfContract typeOfContract;
-	public Shift shift;
 	private boolean isOccupied;
 	private EmployeeStatus employeeStatus = EmployeeStatus.HIRED_NOT_WORKING;
+
+	static {
+		KryoConfig.kryo.register(Employee.class, new Serializer<Employee>() {
+			@Override
+			public void write(Kryo kryo, Output output, Employee object) {
+				kryo.writeObject(output, object.firstName);
+				kryo.writeObject(output, object.lastName);
+				kryo.writeObject(output, object.age);
+				kryo.writeObject(output, object.skills);
+				kryo.writeObject(output, object.preferences);
+				kryo.writeObject(output, object.profession);
+				kryo.writeObject(output, object.shift);
+				kryo.writeObject(output, object.wage);
+				kryo.writeObject(output, object.typeOfContract);
+				kryo.writeObject(output, object.bonuses, KryoConfig.listSerializer(BigDecimal.class));
+				kryo.writeObject(output, object.isOccupied);
+				kryo.writeObject(output, object.employeeStatus);
+			}
+
+			@Override
+			public Employee read(Kryo kryo, Input input, Class<? extends Employee> type) {
+				Employee employee = new Employee(
+						kryo.readObject(input, String.class),
+						kryo.readObject(input, String.class),
+						kryo.readObject(input, Integer.class),
+						kryo.readObject(input, BigDecimal.class),
+						kryo.readObject(input, EmploymentPreferences.class),
+						kryo.readObject(input, Profession.class),
+						kryo.readObject(input, Shift.class),
+						kryo.readObject(input, BigDecimal.class),
+						kryo.readObject(input, TypeOfContract.class));
+
+				List<BigDecimal> bonuses = kryo.readObject(input, List.class, KryoConfig.listSerializer(BigDecimal.class));
+				employee.bonuses.addAll(bonuses);
+				employee.isOccupied = kryo.readObject(input, Boolean.class);
+				employee.employeeStatus = kryo.readObject(input, EmployeeStatus.class);
+
+				return employee;
+			}
+		});
+	}
 
 	public Employee(PossibleEmployee possibleEmployee, Offer offer) {
 		this.firstName = possibleEmployee.firstName;
 		this.lastName = possibleEmployee.lastName;
 		this.age = possibleEmployee.age;
 		this.skills = possibleEmployee.skills;
-		this.profession = possibleEmployee.profession;
 		this.preferences = possibleEmployee.preferences;
+		this.profession = possibleEmployee.profession;
 
 		setContract(offer);
 
 		this.basicServiceExecutionTime = JSONEmployeeDataLoader.basicServiceExecutionTimes.get(possibleEmployee.profession);
+	}
+
+	public Employee(String firstName,
+			String lastName,
+			int age,
+			BigDecimal skills,
+			EmploymentPreferences preferences,
+			Profession profession,
+			Shift shift,
+			BigDecimal wage,
+			TypeOfContract typeOfContract) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.age = age;
+		this.skills = skills;
+		this.preferences = preferences;
+		this.profession = profession;
+		this.shift = shift;
+		this.wage = wage;
+		this.typeOfContract = typeOfContract;
+
+		this.basicServiceExecutionTime = JSONEmployeeDataLoader.basicServiceExecutionTimes.get(profession);
+
 	}
 
 	public void setContract(Offer offer) {

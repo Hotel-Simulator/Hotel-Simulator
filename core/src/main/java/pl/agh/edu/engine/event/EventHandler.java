@@ -67,13 +67,15 @@ public class EventHandler {
 
 	private TimeCommand createTimeCommandForEventAppearancePopup(TemporaryEvent temporaryEvent) {
 		return new TimeCommand(
-				() -> eventHandlerFunction.accept(new EventModalData(temporaryEvent.title, temporaryEvent.eventAppearancePopupDescription, temporaryEvent.imagePath)),
+				() -> eventHandlerFunction.accept(new EventModalData(temporaryEvent.title, temporaryEvent.eventAppearancePopupDescription,
+						temporaryEvent.imagePath)),
 				temporaryEvent.appearanceDate.atTime(LocalTime.NOON));
 	}
 
 	private TimeCommand createTimeCommandForEventAppearancePopup(BuildingCostModificationPermanentEvent permanentEvent) {
 		return new TimeCommand(
-				() -> eventHandlerFunction.accept(new EventModalData(permanentEvent.title, permanentEvent.eventAppearancePopupDescription, permanentEvent.imagePath)),
+				() -> eventHandlerFunction.accept(new EventModalData(permanentEvent.title, permanentEvent.eventAppearancePopupDescription,
+						permanentEvent.imagePath)),
 				permanentEvent.appearanceDate.atTime(LocalTime.NOON));
 	}
 
@@ -96,7 +98,8 @@ public class EventHandler {
 
 	private TimeCommand createTimeCommandForEventStartPopup(TemporaryEvent temporaryEvent) {
 		return new TimeCommand(
-				() -> eventHandlerFunction.accept(new EventModalData(temporaryEvent.title, temporaryEvent.eventStartPopupDescription, temporaryEvent.imagePath)),
+				() -> eventHandlerFunction.accept(new EventModalData(temporaryEvent.title, temporaryEvent.eventStartPopupDescription,
+						temporaryEvent.imagePath)),
 				temporaryEvent.startDate.atTime(LocalTime.MIDNIGHT));
 	}
 
