@@ -2,7 +2,7 @@ package pl.agh.edu.ui.component.navbar;
 
 import static com.badlogic.gdx.utils.Align.bottom;
 import static com.badlogic.gdx.utils.Scaling.none;
-import static pl.agh.edu.ui.audio.SoundAudio.KNOCK_1;
+import static pl.agh.edu.ui.audio.SoundAudio.BUMP;
 import static pl.agh.edu.ui.component.navbar.BottomNavbarState.AD_MENU;
 import static pl.agh.edu.ui.component.navbar.BottomNavbarState.BANK_MENU;
 import static pl.agh.edu.ui.component.navbar.BottomNavbarState.EMPLOYEE_MENU;
@@ -70,13 +70,13 @@ public class NavbarBottom extends Table {
 				state);
 		navbarButton.setTouchUpAction(() -> {
 			if (mainScreen.frameStack.isActionPossible()) {
-				mainScreen.frameStack.changeFrame(type.getFrame());
+				mainScreen.frameStack.changeFrame(type.getFrameCreator());
 				currentBottomNavbarState = state;
 				currentNavbarButtonType = type;
 				currentNavbarButton.setDisabled(false);
 				currentNavbarButton = navbarButton;
 				navbarButton.setDisabled(true);
-				KNOCK_1.playAudio();
+				BUMP.playSound();
 			}
 		});
 		if (navbarButton.compare(currentNavbarButtonType, currentBottomNavbarState)) {

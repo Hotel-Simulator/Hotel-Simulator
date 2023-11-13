@@ -32,7 +32,7 @@
         "REHABILITATION": 0.0
       },
       "occurrence_probability": {
-        "HOTEL": 0.4,
+        "CITY": 0.4,
         "RESORT": 0.1,
         "SANATORIUM": 0.0
       },
@@ -52,7 +52,7 @@
         "REHABILITATION": 0.1
       },
       "occurrence_probability": {
-        "HOTEL": 0.3,
+        "CITY": 0.3,
         "RESORT": 0.2,
         "SANATORIUM": 0.1
       },
@@ -71,7 +71,7 @@
         "REHABILITATION": 0.1
       },
       "occurrence_probability": {
-        "HOTEL": 0.1,
+        "CITY": 0.1,
         "RESORT": 0.2,
         "SANATORIUM": 0.3
       },
@@ -90,7 +90,7 @@
         "REHABILITATION": 0.0
       },
       "occurrence_probability": {
-        "HOTEL": 0.4,
+        "CITY": 0.4,
         "RESORT": 0.1,
         "SANATORIUM": 0.0
       },
@@ -109,11 +109,21 @@
         "REHABILITATION": 0.0
       },
       "occurrence_probability": {
-        "HOTEL": 0.1,
+        "CITY": 0.1,
         "RESORT": 0.1,
         "SANATORIUM": 0.1
       },
       "image_path": "event-icon-sport-tournament"
     }
-  ]
+  ],
+
+  "random_building_cost_modification_event" : {
+    "title": "randomPermanentEvent.buildingCost.title",
+    "positive_event_appearance_popup_description": "randomPermanentEvent.buildingCost.positiveEventAppearancePopupDescription",
+    "negative_event_appearance_popup_description": "randomPermanentEvent.buildingCost.negativeEventAppearancePopupDescription",
+    "occurrence_probability": 0.3,
+    "min_modifier_value_in_percent": 1,
+    "max_modifier_value_in_percent": 10,
+    "image_path": "event-icon-sport-tournament"
+  }
 }

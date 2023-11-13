@@ -2,6 +2,7 @@ package pl.agh.edu.engine.hotel;
 
 import pl.agh.edu.data.loader.JSONBankDataLoader;
 import pl.agh.edu.data.loader.JSONHotelDataLoader;
+import pl.agh.edu.engine.attraction.AttractionHandler;
 import pl.agh.edu.engine.bank.BankAccount;
 import pl.agh.edu.engine.bank.BankAccountHandler;
 import pl.agh.edu.engine.employee.EmployeeHandler;
@@ -27,6 +28,7 @@ public class HotelHandler {
 	public final BankAccountHandler bankAccountHandler = new BankAccountHandler(bankAccount);
 	public final EmployeeSalaryHandler employeeSalaryHandler = new EmployeeSalaryHandler(employeeHandler, bankAccountHandler);
 	public final RoomManager roomManager = new RoomManager(JSONHotelDataLoader.initialRooms, bankAccountHandler);
+	public final AttractionHandler attractionHandler = new AttractionHandler(bankAccountHandler, roomManager);
 
 	public HotelHandler() {}
 

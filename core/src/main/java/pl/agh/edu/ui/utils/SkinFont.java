@@ -1,12 +1,12 @@
 package pl.agh.edu.ui.utils;
 
 public enum SkinFont {
-	BODY_1("body1"),
-	BODY_2("body2"),
-	BODY_3("body3"),
-	BUTTON_1("button1"),
-	BUTTON_2("button2"),
-	BUTTON_3("button3"),
+	BODY1("body1"),
+	BODY2("body2"),
+	BODY3("body3"),
+	BUTTON1("button1"),
+	BUTTON2("button2"),
+	BUTTON3("button3"),
 	CONSOLE("console"),
 	H1("h1"),
 	H2("h2"),

@@ -2,6 +2,7 @@ package pl.agh.edu.engine.room;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.EnumMap;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 import pl.agh.edu.data.loader.JSONClientDataLoader;
 import pl.agh.edu.data.loader.JSONRoomDataLoader;
 import pl.agh.edu.engine.bank.BankAccountHandler;
+import pl.agh.edu.engine.building_cost.BuildingCostSupplier;
 import pl.agh.edu.engine.client.ClientGroup;
 import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.engine.time.TimeCommandExecutor;
@@ -29,6 +31,18 @@ public class RoomManager {
 	private final Map<Room, LocalDateTime> roomBuildingTimes = new HashMap<>();
 	private final RoomPricePerNight roomPricePerNight = new RoomPricePerNight(JSONClientDataLoader.averagePricesPerNight);
 	private final BankAccountHandler bankAccountHandler;
+
+	private final Comparator<Room> roomComparator = (o1, o2) -> {
+		int broken = Boolean.compare(o1.roomState.isFaulty(), o2.roomState.isFaulty());
+		if (broken != 0) {
+			return broken;
+		}
+		int dirty = Boolean.compare(o1.roomState.isDirty(), o2.roomState.isDirty());
+		if (dirty != 0) {
+			return dirty;
+		}
+		return roomPricePerNight.getPrice(o1).compareTo(roomPricePerNight.getPrice(o2));
+	};
 
 	public RoomManager(List<Room> initialRooms, BankAccountHandler bankAccountHandler) {
 		this.rooms = initialRooms;
@@ -61,8 +75,7 @@ public class RoomManager {
 				.filter(room -> !room.roomState.isUnderRankChange())
 				.filter(room -> !room.roomState.isBeingBuild())
 				.filter(room -> roomPricePerNight.getPrice(room).compareTo(group.getDesiredPricePerNight()) < 1)
-				.sorted(Comparator.comparing(roomPricePerNight::getPrice))
-				.min(Comparator.comparing(room -> room.roomState.isDirty()));
+				.min(roomComparator);
 	}
 
 	private double roomTimeMultiplier(Room room) {
@@ -77,7 +90,7 @@ public class RoomManager {
 		if (changeCost.signum() > 0) {
 			bankAccountHandler.registerExpense(changeCost);
 		} else {
-			bankAccountHandler.registerIncome(changeCost.negate());
+			bankAccountHandler.registerIncome(changeCost.negate().divide(BigDecimal.valueOf(2), 0, RoundingMode.HALF_EVEN));
 		}
 		room.roomState.setUnderRankChange(true);
 
@@ -95,17 +108,17 @@ public class RoomManager {
 	}
 
 	private BigDecimal getChangeCost(RoomRank currentRank, RoomRank desiredRank, RoomSize size) {
-		return JSONRoomDataLoader.roomBuildingCosts.get(Pair.of(desiredRank, size))
-				.subtract(JSONRoomDataLoader.roomBuildingCosts.get(Pair.of(currentRank, size)))
+		return BuildingCostSupplier.roomBuildingCost(Pair.of(desiredRank, size))
+				.subtract(BuildingCostSupplier.roomBuildingCost(Pair.of(currentRank, size)))
 				.divide(BigDecimal.valueOf(2), 0, RoundingMode.HALF_EVEN);
 	}
 
-	public Optional<LocalDateTime> findChangeRankTime(Room room) {
-		return Optional.ofNullable(roomRankChangeTimes.get(room));
+	public Optional<Duration> findChangeRankTime(Room room) {
+		return Optional.ofNullable(roomRankChangeTimes.get(room)).map(dateTime -> Duration.between(time.getTime(), dateTime));
 	}
 
-	public Optional<LocalDateTime> findBuildTime(Room room) {
-		return Optional.ofNullable(roomBuildingTimes.get(room));
+	public Optional<Duration> findBuildTime(Room room) {
+		return Optional.ofNullable(roomBuildingTimes.get(room)).map(dateTime -> Duration.between(time.getTime(), dateTime));
 	}
 
 	public boolean canChangeRoomRank(Room room) {
@@ -124,7 +137,7 @@ public class RoomManager {
 		Room buildRoom = new Room(roomRank, roomSize);
 		buildRoom.roomState.setBeingBuild(true);
 		rooms.add(buildRoom);
-		bankAccountHandler.registerExpense(JSONRoomDataLoader.roomBuildingCosts.get(Pair.of(roomRank, roomSize)));
+		bankAccountHandler.registerExpense(BuildingCostSupplier.roomBuildingCost(Pair.of(roomRank, roomSize)));
 
 		LocalDateTime buildTime = time.getTime().plusHours(
 				(long) (JSONRoomDataLoader.roomBuildingDuration.toHours() * roomTimeMultiplier(buildRoom)));
@@ -139,5 +152,12 @@ public class RoomManager {
 
 	public RoomPricePerNight getRoomPriceList() {
 		return roomPricePerNight;
+	}
+
+	public List<ClientGroup> getResidents() {
+		return rooms.stream()
+				.filter(room -> room.roomState.isOccupied())
+				.map(Room::getResidents)
+				.toList();
 	}
 }

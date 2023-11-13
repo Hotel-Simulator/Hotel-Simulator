@@ -663,6 +663,33 @@
 	},
 	"white-subtitle2": {
 		"font": "white-subtitle2"
+	},
+	"scenario-title-panel-small": {
+		"font": "white-h3",
+		"fontColor": "alert-500",
+		"background": "scenario-title"
+	},
+	"scenario-title-panel-medium": {
+		"font": "white-h2",
+		"fontColor": "alert-500",
+		"background": "scenario-title"
+	},
+	"scenario-title-panel-large": {
+		"font": "white-h1",
+		"fontColor": "alert-500",
+		"background": "scenario-title"
+	},
+	"subtitle3": {
+		"font": "subtitle3"
+	},
+	"white-subtitle3": {
+		"font": "white-subtitle3"
+	},
+	"body3": {
+		"font": "body3"
+	},
+	"white-body3": {
+		"font": "white-body3"
 	}
 },
 "ListStyle": {

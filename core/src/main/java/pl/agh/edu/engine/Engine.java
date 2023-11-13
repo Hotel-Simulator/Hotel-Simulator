@@ -25,10 +25,13 @@ import pl.agh.edu.engine.time.command.TimeCommand;
 public class Engine {
 	public final Time time = Time.getInstance();
 	private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
-	private final HotelScenariosManager hotelScenariosManager = new HotelScenariosManager(HotelType.HOTEL);
+	private final HotelScenariosManager hotelScenariosManager = new HotelScenariosManager(HotelType.CITY);
 	public final EventHandler eventHandler = new EventHandler(hotelScenariosManager);
 	public final HotelHandler hotelHandler = new HotelHandler();
-	private final ClientGroupGenerationHandler clientGroupGenerationHandler = new ClientGroupGenerationHandler(hotelScenariosManager, hotelHandler.bankAccountHandler);
+	private final ClientGroupGenerationHandler clientGroupGenerationHandler = new ClientGroupGenerationHandler(
+			hotelScenariosManager,
+			hotelHandler.bankAccountHandler,
+			hotelHandler.attractionHandler);
 
 	public Engine() {
 
@@ -50,6 +53,7 @@ public class Engine {
 	}
 
 	private void initializeEveryDayUpdates(LocalDateTime currentTime) {
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, hotelHandler.attractionHandler::dailyUpdate, currentTime));
 		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, OpinionHandler::dailyUpdate, currentTime));
 		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, hotelHandler.possibleEmployeeHandler::dailyUpdate, currentTime));
 		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, this::dailyUpdate, currentTime));

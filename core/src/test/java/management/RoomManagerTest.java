@@ -280,6 +280,51 @@ public class RoomManagerTest {
 	}
 
 	@Test
+	public void shouldReturnCleanRoom_FaultyRoomPossible() {
+		// Given
+		Room faultyRoom = new Room(STANDARD, FAMILY);
+		Room cleanRoom = new Room(STANDARD, FAMILY);
+
+		faultyRoom.roomState.setFaulty(true);
+		roomManager.addRoom(faultyRoom);
+		roomManager.addRoom(cleanRoom);
+
+		when(clientGroup.getDesiredRoomRank()).thenReturn(STANDARD);
+		when(clientGroup.getSize()).thenReturn(3);
+		when(clientGroup.getDesiredPricePerNight()).thenReturn(BigDecimal.valueOf(1000));
+
+		// When
+		Optional<Room> foundRoom = roomManager.findRoomForClientGroup(clientGroup);
+
+		// Then
+		assertTrue(foundRoom.isPresent());
+		assertEquals(cleanRoom, foundRoom.get());
+	}
+
+	@Test
+	public void shouldReturnDirtyRoom_FaultyRoomPossible() {
+		// Given
+		Room faultyRoom = new Room(STANDARD, FAMILY);
+		Room dirtyRoom = new Room(STANDARD, FAMILY);
+
+		faultyRoom.roomState.setFaulty(true);
+		dirtyRoom.roomState.setDirty(true);
+		roomManager.addRoom(faultyRoom);
+		roomManager.addRoom(dirtyRoom);
+
+		when(clientGroup.getDesiredRoomRank()).thenReturn(STANDARD);
+		when(clientGroup.getSize()).thenReturn(3);
+		when(clientGroup.getDesiredPricePerNight()).thenReturn(BigDecimal.valueOf(1000));
+
+		// When
+		Optional<Room> foundRoom = roomManager.findRoomForClientGroup(clientGroup);
+
+		// Then
+		assertTrue(foundRoom.isPresent());
+		assertEquals(dirtyRoom, foundRoom.get());
+	}
+
+	@Test
 	public void findRoomForClientGroupTest_rankChangeRoom() {
 		// Given
 		Room room = new Room(STANDARD, FAMILY);

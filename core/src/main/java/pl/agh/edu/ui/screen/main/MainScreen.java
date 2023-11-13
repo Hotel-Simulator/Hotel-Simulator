@@ -18,6 +18,8 @@ import pl.agh.edu.ui.frame.FrameStack;
 import pl.agh.edu.ui.shader.BlurShader;
 
 public class MainScreen implements Screen {
+
+	public final GdxGame game = (GdxGame) Gdx.app.getApplicationListener();
 	public final FrameStack frameStack = new FrameStack();
 	private final Stage mainStage = new Stage(GraphicConfig.getViewport());
 	private final Stage middleStage = new Stage(GraphicConfig.getViewport());
@@ -29,7 +31,7 @@ public class MainScreen implements Screen {
 	private final InfinityBackground infinityBackground = new InfinityBackground("night-city");
 	public final GdxGame game;
 
-	public MainScreen(GdxGame game) {
+	public MainScreen() {
 		game.engine.eventHandler.setEventHandlerFunction(eventWrapper::showEvent);
 		inputMultiplexer.setOpenOptionsAction(optionsWrapper.getOptionHandler());
 		this.game = game;

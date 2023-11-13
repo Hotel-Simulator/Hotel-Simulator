@@ -2,7 +2,7 @@ package management;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static pl.agh.edu.engine.hotel.HotelType.HOTEL;
+import static pl.agh.edu.engine.hotel.HotelType.CITY;
 
 import java.math.BigDecimal;
 
@@ -16,7 +16,7 @@ public class HotelScenariosManagerTest {
 
 	@BeforeEach
 	public void setUp() {
-		hotelScenariosManager = new HotelScenariosManager(HOTEL);
+		hotelScenariosManager = new HotelScenariosManager(CITY);
 	}
 
 	@Test

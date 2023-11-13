@@ -1,7 +1,7 @@
 package pl.agh.edu.engine.hotel;
 
 public enum HotelType {
-	HOTEL,
+	CITY,
 	RESORT,
 	SANATORIUM
 }

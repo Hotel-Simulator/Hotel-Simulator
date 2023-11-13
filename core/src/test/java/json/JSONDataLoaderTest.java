@@ -13,6 +13,7 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 import pl.agh.edu.data.loader.JSONAdvertisementDataLoader;
+import pl.agh.edu.data.loader.JSONAttractionDataLoader;
 import pl.agh.edu.data.loader.JSONBankDataLoader;
 import pl.agh.edu.data.loader.JSONClientDataLoader;
 import pl.agh.edu.data.loader.JSONEmployeeDataLoader;
@@ -27,7 +28,10 @@ import pl.agh.edu.data.type.AttractivenessConstantsData;
 import pl.agh.edu.data.type.BankData;
 import pl.agh.edu.data.type.ClientNumberModificationRandomEventData;
 import pl.agh.edu.data.type.CyclicEventData;
+import pl.agh.edu.data.type.RandomBuildingCostModificationPermanentEventData;
 import pl.agh.edu.engine.advertisement.AdvertisementType;
+import pl.agh.edu.engine.attraction.AttractionSize;
+import pl.agh.edu.engine.attraction.AttractionType;
 import pl.agh.edu.engine.employee.Profession;
 import pl.agh.edu.engine.employee.Shift;
 import pl.agh.edu.engine.hotel.HotelType;
@@ -76,6 +80,7 @@ public class JSONDataLoaderTest {
 		assertDoesNotThrow(() -> {
 			List<CyclicEventData> cyclicEventData = JSONEventDataLoader.cyclicEventData;
 			List<ClientNumberModificationRandomEventData> clientNumberModificationRandomEventData = JSONEventDataLoader.clientNumberModificationRandomEventData;
+			RandomBuildingCostModificationPermanentEventData randomPermanentEventData = JSONEventDataLoader.randomPermanentEventData;
 		});
 	}
 
@@ -146,6 +151,20 @@ public class JSONDataLoaderTest {
 			BigDecimal opinionChangeMultiplier = JSONOpinionDataLoader.opinionChangeMultiplier;
 			double desiredPriceModifier = JSONOpinionDataLoader.desiredPriceModifier;
 			double maxWaitingTimeModifier = JSONOpinionDataLoader.maxWaitingTimeModifier;
+		});
+	}
+
+	@Test
+	@SuppressWarnings("unused")
+	public void jSONAttractionDataLoaderTest() {
+		assertDoesNotThrow(() -> {
+			EnumMap<AttractionSize, Integer> dailyCapacity = JSONAttractionDataLoader.dailyCapacity;
+			EnumMap<AttractionSize, BigDecimal> dailyExpenses = JSONAttractionDataLoader.dailyExpenses;
+			BigDecimal incomePerClient = JSONAttractionDataLoader.incomePerClient;
+			EnumMap<AttractionSize, BigDecimal> buildCost = JSONAttractionDataLoader.buildCost;
+			EnumMap<AttractionSize, Duration> buildDuration = JSONAttractionDataLoader.buildDuration;
+			Map<Pair<AttractionType, HotelVisitPurpose>, Double> chancesOfVisit = JSONAttractionDataLoader.chancesOfVisit;
+			Map<Pair<AttractionType, AttractionSize>, EnumMap<HotelVisitPurpose, BigDecimal>> modifier = JSONAttractionDataLoader.modifier;
 		});
 	}
 }

@@ -16,6 +16,11 @@ public class LanguageLabel extends CustomLabel implements LanguageChangeListener
 		onLanguageChange();
 	}
 
+	public void updateLanguagePath(LanguageString languageString) {
+		this.languageString = languageString;
+		onLanguageChange();
+	}
+
 	@Override
 	public Actor onLanguageChange() {
 		this.setText(LanguageManager.get(languageString));
