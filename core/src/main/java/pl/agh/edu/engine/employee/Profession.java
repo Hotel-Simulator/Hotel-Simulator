@@ -1,7 +1,7 @@
 package pl.agh.edu.engine.employee;
 
-import pl.agh.edu.utils.LanguageString;
 import pl.agh.edu.serialization.KryoConfig;
+import pl.agh.edu.utils.LanguageString;
 
 public enum Profession {
 	CLEANER,
