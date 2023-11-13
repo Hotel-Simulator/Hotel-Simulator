@@ -70,7 +70,7 @@ public class NavbarBottom extends Table {
 				state);
 		navbarButton.setTouchUpAction(() -> {
 			if (mainScreen.frameStack.isActionPossible()) {
-				mainScreen.frameStack.changeFrame(type.getFrame());
+				mainScreen.frameStack.changeFrame(type.getFrameCreator());
 				currentBottomNavbarState = state;
 				currentNavbarButtonType = type;
 				currentNavbarButton.setDisabled(false);

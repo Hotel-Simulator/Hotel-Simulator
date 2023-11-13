@@ -1,6 +1,6 @@
 package pl.agh.edu.ui.component.selection;
 
-import static pl.agh.edu.ui.utils.SkinFont.BODY_1;
+import static pl.agh.edu.ui.utils.SkinFont.BODY1;
 
 import java.time.YearMonth;
 import java.util.function.Consumer;
@@ -24,7 +24,7 @@ public class YearSelection extends BaseSelection<YearMonth> {
 	}
 
 	private static CustomLabel createNewLabel() {
-		return new CustomLabel(BODY_1.getName());
+		return new CustomLabel(BODY1.getName());
 	}
 
 	public void updateState(YearMonth yearMonth) {

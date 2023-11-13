@@ -1,6 +1,6 @@
 package pl.agh.edu.ui.component.selection;
 
-import static pl.agh.edu.ui.utils.SkinFont.BODY_1;
+import static pl.agh.edu.ui.utils.SkinFont.BODY1;
 
 import java.time.YearMonth;
 import java.util.function.Consumer;
@@ -29,7 +29,7 @@ public class MonthSelection extends BaseSelection<YearMonth> {
 	}
 
 	private static LanguageLabel createNewLabel() {
-		return new LanguageLabel(getMonthLanguageString(YearMonth.from(time.startingTime)), BODY_1.getName());
+		return new LanguageLabel(getMonthLanguageString(YearMonth.from(time.startingTime)), BODY1.getName());
 	}
 
 	@Override
