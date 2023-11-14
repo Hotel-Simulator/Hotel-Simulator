@@ -29,7 +29,6 @@ public class ScenarioScreen implements Screen {
 	public final GameCreationWizard wizard = new GameCreationWizard(mainTable);
 
 	public ScenarioScreen() {
-		stage.getViewport().update(GraphicConfig.getResolution().WIDTH, GraphicConfig.getResolution().HEIGHT, true);
 		stage.addActor(stack);
 		stack.setFillParent(true);
 		stack.add(mainTable);

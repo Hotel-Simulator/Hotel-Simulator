@@ -7,19 +7,15 @@ import java.math.BigDecimal;
 import pl.agh.edu.data.loader.JSONGameDataLoader;
 
 public class GameDifficultyManager {
-	private static GameDifficultyManager instance;
 	private double difficultyMultiplier;
 	private BigDecimal initialBalance;
 
-	private GameDifficultyManager() {
+	public GameDifficultyManager() {
 		setDifficulty(MEDIUM);
 	}
 
-	public static GameDifficultyManager getInstance() {
-		if (instance == null) {
-			instance = new GameDifficultyManager();
-		}
-		return instance;
+	public GameDifficultyManager(DifficultyLevel difficultyLevel) {
+		setDifficulty(difficultyLevel);
 	}
 
 	public double getDifficultyMultiplier() {

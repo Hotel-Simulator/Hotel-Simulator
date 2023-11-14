@@ -13,7 +13,7 @@ public class GameDifficultyManagerTest {
 
 	@BeforeEach
 	public void setUp() {
-		gameDifficultyManager = GameDifficultyManager.getInstance();
+		gameDifficultyManager = new GameDifficultyManager();
 	}
 
 	@Test

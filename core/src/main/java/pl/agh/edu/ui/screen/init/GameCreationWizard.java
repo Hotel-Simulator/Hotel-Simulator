@@ -40,8 +40,7 @@ public class GameCreationWizard {
         Optional<DifficultyLevel> difficultyLevel = difficultyPanel.getSelectedDifficulty();
         Optional<HotelType> hotelType = scenarioPanel.getSelectedScenario();
         if (difficultyLevel.isPresent() && hotelType.isPresent()) {
-            GameDifficultyManager.getInstance().setDifficulty(difficultyLevel.get());
-            game.createEngine(hotelType.get());
+            game.createEngine(hotelType.get(), difficultyLevel.get());
         }
         game.setScreen(new MainScreen(game));
     }

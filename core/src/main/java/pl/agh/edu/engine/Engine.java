@@ -14,6 +14,8 @@ import pl.agh.edu.engine.client.ClientGroupGenerationHandler;
 import pl.agh.edu.engine.event.EventHandler;
 import pl.agh.edu.engine.hotel.HotelHandler;
 import pl.agh.edu.engine.hotel.HotelType;
+import pl.agh.edu.engine.hotel.dificulty.DifficultyLevel;
+import pl.agh.edu.engine.hotel.dificulty.GameDifficultyManager;
 import pl.agh.edu.engine.hotel.scenario.HotelScenariosManager;
 import pl.agh.edu.engine.opinion.OpinionBuilder;
 import pl.agh.edu.engine.opinion.OpinionHandler;
@@ -26,16 +28,19 @@ public class Engine {
 	public final Time time = Time.getInstance();
 	private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
 	public final EventHandler eventHandler;
-	private final HotelHandler hotelHandler = new HotelHandler();
+	private final HotelHandler hotelHandler;
 	private final ClientGroupGenerationHandler clientGroupGenerationHandler;
 
-	public Engine(HotelType hotelType) {
+	public Engine(HotelType hotelType, DifficultyLevel difficultyLevel) {
 		HotelScenariosManager hotelScenariosManager = new HotelScenariosManager(hotelType);
+		GameDifficultyManager gameDifficultyManager = new GameDifficultyManager(difficultyLevel);
+		this.hotelHandler = new HotelHandler(gameDifficultyManager);
 		this.eventHandler = new EventHandler(hotelScenariosManager);
 		this.clientGroupGenerationHandler = new ClientGroupGenerationHandler(
 				hotelScenariosManager,
 				hotelHandler.bankAccountHandler,
-				hotelHandler.attractionHandler);
+				hotelHandler.attractionHandler,
+				gameDifficultyManager);
 
 		LocalDateTime currentTime = time.getTime();
 

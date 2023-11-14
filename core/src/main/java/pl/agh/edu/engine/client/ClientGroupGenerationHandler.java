@@ -19,12 +19,13 @@ import pl.agh.edu.engine.client.report.collector.ClientGroupReportDataCollector;
 import pl.agh.edu.engine.event.temporary.ClientNumberModificationEventHandler;
 import pl.agh.edu.engine.generator.ClientGenerator;
 import pl.agh.edu.engine.hotel.HotelVisitPurpose;
+import pl.agh.edu.engine.hotel.dificulty.GameDifficultyManager;
 import pl.agh.edu.engine.hotel.scenario.HotelScenariosManager;
 import pl.agh.edu.engine.opinion.OpinionHandler;
 import pl.agh.edu.utils.RandomUtils;
 
 public class ClientGroupGenerationHandler {
-	private final ClientGenerator clientGenerator = ClientGenerator.getInstance();
+	private final ClientGenerator clientGenerator;
 	private final ClientNumberModificationEventHandler clientNumberModificationEventHandler = ClientNumberModificationEventHandler.getInstance();
 	private final AdvertisementHandler advertisementHandler;
 	private final AttractionHandler attractionHandler;
@@ -33,10 +34,12 @@ public class ClientGroupGenerationHandler {
 	public ClientGroupGenerationHandler(
 			HotelScenariosManager hotelScenariosManager,
 			BankAccountHandler bankAccountHandler,
-			AttractionHandler attractionHandler) {
+			AttractionHandler attractionHandler,
+			GameDifficultyManager gameDifficultyManager) {
 		this.advertisementHandler = new AdvertisementHandler(bankAccountHandler);
 		this.hotelScenariosManager = hotelScenariosManager;
 		this.attractionHandler = attractionHandler;
+		clientGenerator = new ClientGenerator(gameDifficultyManager);
 	}
 
 	public List<Arrival> getArrivalsForDay(LocalTime checkInMinTime) {
