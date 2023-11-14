@@ -26,14 +26,23 @@ public class HotelTable extends WrapperTable {
 
     public HotelTable() {
         createFrameTable();
+        setResolutionChangeHandler(this::createFrameTable);
     }
 
     private void createFrameTable() {
+        innerTable.clearChildren();
+        leftTable.clear();
+        rightTable.clear();
         createLeftTable();
         createRightTable();
         innerTable.pad(10);
         innerTable.add(leftTable).width(HotelTableStyles.getLeftTableWidth()).height(HotelTableStyles.getTablesHeight()).padRight(30f);
         innerTable.add(rightTable).width(HotelTableStyles.getRightTableWidth()).height(HotelTableStyles.getTablesHeight());
+    }
+
+
+    public void doSth(){
+
     }
 
     public void createLeftTable(){
@@ -54,7 +63,7 @@ public class HotelTable extends WrapperTable {
         rightTable.add(createScenarioRow()).growX().expandY().top().row();
         rightTable.add(createCheckInRow()).growX().expandY().row();
         rightTable.add(createCheckOutRow()).growX().expandY().row();
-        rightTable.add(createWorkersOpinionTable()).growX().expandY().bottom().row();
+        rightTable.add(createWorkersOpinionTable()).growX().expandY().bottom();
     }
 
     private Table createScenarioRow(){
@@ -108,8 +117,8 @@ public class HotelTable extends WrapperTable {
     private Table createWorkersOpinionTable(){
         Table workersOpinion = new Table();
 
-        workersOpinion.add(createWorkersTable()).width(300f).height(150f).expandX().fillX().align(Align.left);
-        workersOpinion.add(createOpinionTable()).width(300f).height(150f).expandX().fillX().align(Align.right);
+        workersOpinion.add(createWorkersTable()).width(HotelTableStyles.getWorkersOpinionsWidth()).height(HotelTableStyles.getWorkersOpinionsHeight()).expandX().fillX().align(Align.left);
+        workersOpinion.add(createOpinionTable()).width(HotelTableStyles.getWorkersOpinionsWidth()).height(HotelTableStyles.getWorkersOpinionsHeight()).expandX().fillX().align(Align.right);
         return workersOpinion;
     }
 
@@ -138,12 +147,12 @@ public class HotelTable extends WrapperTable {
         opinion.pad(20f);
 
         LanguageLabel title = new LanguageLabel(new LanguageString("hotelFrame.opinions.label"),SkinFont.H4.getName());
-        // set rating and value from engine
-        Rating rating = new Rating(2);
+//        // set rating and value from engine
+//        Rating rating = new Rating(2, (15) > {4+5});
         Label value = new Label("(100)", skin, SkinFont.SUBTITLE2.getName());
-
+//
         opinion.add(title).colspan(2).row();
-        opinion.add(rating).padTop(5f).row();
+//        opinion.add(rating).padTop(5f).row();
         opinion.add(value).padTop(5f);
         return opinion;
     }
@@ -171,6 +180,22 @@ public class HotelTable extends WrapperTable {
                 case SMALL -> 500f;
                 case MEDIUM -> 600f;
                 case LARGE -> 700f;
+            };
+        }
+
+        public static float getWorkersOpinionsWidth(){
+            return switch (GraphicConfig.getResolution().SIZE){
+                case SMALL -> 200f;
+                case MEDIUM -> 300f;
+                case LARGE -> 400f;
+            };
+        }
+
+        public static float getWorkersOpinionsHeight(){
+            return switch (GraphicConfig.getResolution().SIZE){
+                case SMALL -> 120f;
+                case MEDIUM -> 150f;
+                case LARGE -> 200f;
             };
         }
     }
