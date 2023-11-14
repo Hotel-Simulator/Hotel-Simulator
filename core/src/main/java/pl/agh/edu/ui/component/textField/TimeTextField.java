@@ -5,8 +5,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 
 public class TimeTextField extends TextField {
 
-    public TimeTextField(String text, Skin skin) {
-        super(text, skin);
+    public TimeTextField(String text, Skin skin, String style) {
+        super(text, skin, style);
         setMaxLength(5);  // Limit the maximum length to 5 characters
         setTextFieldFilter(new TimeTextFieldFilter());
     }

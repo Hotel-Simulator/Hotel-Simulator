@@ -41,12 +41,12 @@ public class HotelTable extends WrapperTable {
         leftTable.pad(50f);
 
         // from engine scenario
-        Image scenarioImage = new Image(skin.getDrawable("scenario-icon-water"));
-        TextField hotelName = new HotelNameTextField("hotelFrame.defaultName", skin);
+        Image scenarioImage = new Image(skin.getDrawable("resort-icon"));
+        TextField hotelName = new HotelNameTextField("hotelFrame.defaultName", skin, "hotel_frame_medium");
         hotelName.setAlignment(Align.center);
 
         leftTable.add(scenarioImage).grow().row();
-        leftTable.add(hotelName).padTop(30f).growX();
+        leftTable.add(hotelName).width(450f).padTop(30f).growX();
 
     }
 
@@ -80,11 +80,11 @@ public class HotelTable extends WrapperTable {
         title.setWrap(true);
         title.setAlignment(Align.center);
         // set value from engine
-        TextField time = new TimeTextField("13:00", skin);
+        TextField time = new TimeTextField("13:00", skin, "hotel_frame_medium");
         time.setAlignment(Align.center);
 
         checkIn.add(title).width(250f).expandX();
-        checkIn.add(time).expandX();
+        checkIn.add(time).width(200f).right().padRight(40f).expandX();
         return checkIn;
     }
 
@@ -97,11 +97,11 @@ public class HotelTable extends WrapperTable {
         title.setWrap(true);
         title.setAlignment(Align.center);
         // set value from engine
-        TextField time = new TimeTextField("11:00", skin);
+        TextField time = new TimeTextField("11:00", skin, "hotel_frame_medium");
         time.setAlignment(Align.center);
 
         checkOut.add(title).width(300f).expandX();
-        checkOut.add(time).expandX();
+        checkOut.add(time).width(200f).right().padRight(40f).expandX();
         return checkOut;
     }
 

@@ -13,8 +13,8 @@ public class HotelNameTextField extends TextField {
     private boolean wasModified = false;
     private final LanguageLabel label;
 
-    public HotelNameTextField(String text, Skin skin) {
-        super("", skin);
+    public HotelNameTextField(String text, Skin skin, String style) {
+        super("", skin, style);
         this.label = new LanguageLabel(new LanguageString(text), SkinFont.BODY1.getName());
         setText(label.getText().toString());
         setTextFieldListener((textField, c) -> {
