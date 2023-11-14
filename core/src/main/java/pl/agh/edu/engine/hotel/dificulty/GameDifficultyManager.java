@@ -4,16 +4,38 @@ import static pl.agh.edu.engine.hotel.dificulty.DifficultyLevel.MEDIUM;
 
 import java.math.BigDecimal;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.Serializer;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
+
 import pl.agh.edu.data.loader.JSONGameDataLoader;
+import pl.agh.edu.serialization.KryoConfig;
 
 public class GameDifficultyManager {
 	private static GameDifficultyManager instance;
-	private double difficultyMultiplier;
-	private BigDecimal initialBalance;
+	private final DifficultyLevel difficultyLevel;
+
+	static {
+		KryoConfig.kryo.register(GameDifficultyManager.class, new Serializer<GameDifficultyManager>() {
+			@Override
+			public void write(Kryo kryo, Output output, GameDifficultyManager object) {
+				kryo.writeObject(output, object.difficultyLevel);
+			}
+
+			@Override
+			public GameDifficultyManager read(Kryo kryo, Input input, Class<? extends GameDifficultyManager> type) {
+				return new GameDifficultyManager(kryo.readObject(input, DifficultyLevel.class));
+			}
+		});
+	}
 
 	private GameDifficultyManager() {
-		// Set user input here (set difficultyLevel)
-		setDifficulty(MEDIUM);
+		this.difficultyLevel = MEDIUM;
+	}
+
+	private GameDifficultyManager(DifficultyLevel difficultyLevel) {
+		this.difficultyLevel = difficultyLevel;
 	}
 
 	public static GameDifficultyManager getInstance() {
@@ -24,15 +46,10 @@ public class GameDifficultyManager {
 	}
 
 	public double getDifficultyMultiplier() {
-		return difficultyMultiplier;
+		return JSONGameDataLoader.difficultyMultiplier.get(difficultyLevel);
 	}
 
 	public BigDecimal getInitialBalance() {
-		return initialBalance;
-	}
-
-	public void setDifficulty(DifficultyLevel difficulty) {
-		this.difficultyMultiplier = JSONGameDataLoader.difficultyMultiplier.get(difficulty);
-		this.initialBalance = JSONGameDataLoader.initialBalance.get(difficulty);
+		return JSONGameDataLoader.initialBalance.get(difficultyLevel);
 	}
 }

@@ -3,19 +3,66 @@ package pl.agh.edu.engine.employee.scheduler;
 import static pl.agh.edu.engine.employee.Profession.CLEANER;
 
 import java.util.Comparator;
+import java.util.List;
 import java.util.PriorityQueue;
+import java.util.Queue;
+
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.Serializer;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
+import com.esotericsoftware.kryo.serializers.DefaultSerializers;
 
 import pl.agh.edu.engine.employee.Employee;
+import pl.agh.edu.engine.employee.Shift;
 import pl.agh.edu.engine.hotel.HotelHandler;
 import pl.agh.edu.engine.opinion.OpinionBuilder;
 import pl.agh.edu.engine.room.Room;
+import pl.agh.edu.engine.time.Time;
+import pl.agh.edu.engine.time.TimeCommandExecutor;
 import pl.agh.edu.engine.time.command.TimeCommand;
+import pl.agh.edu.serialization.KryoConfig;
 
 public class CleaningScheduler extends WorkScheduler<Room> {
 	private static final Comparator<Room> roomComparator = (o1, o2) -> Boolean.compare(o1.roomState.isOccupied(), o2.roomState.isOccupied());
 
+	static {
+		KryoConfig.kryo.register(CleaningScheduler.class, new Serializer<CleaningScheduler>() {
+			@Override
+			public void write(Kryo kryo, Output output, CleaningScheduler object) {
+				kryo.writeObject(output, object.time);
+				kryo.writeObject(output, object.timeCommandExecutor);
+				kryo.writeObject(output, object.hotelHandler);
+				kryo.writeObject(output, object.entitiesToExecuteService, new DefaultSerializers.PriorityQueueSerializer());
+				kryo.writeObject(output, object.workingEmployees);
+				kryo.writeObject(output, object.currentShift);
+
+			}
+
+			@Override
+			public CleaningScheduler read(Kryo kryo, Input input, Class<? extends CleaningScheduler> type) {
+				return new CleaningScheduler(
+						kryo.readObject(input, Time.class),
+						kryo.readObject(input, TimeCommandExecutor.class),
+						kryo.readObject(input, HotelHandler.class),
+						kryo.readObject(input, Queue.class, new DefaultSerializers.PriorityQueueSerializer()),
+						kryo.readObject(input, List.class, KryoConfig.listSerializer(Employee.class)),
+						kryo.readObject(input, Shift.class));
+			}
+		});
+	}
+
 	public CleaningScheduler(HotelHandler hotelHandler) {
 		super(hotelHandler, new PriorityQueue<>(roomComparator), CLEANER);
+	}
+
+	private CleaningScheduler(Time time,
+			TimeCommandExecutor timeCommandExecutor,
+			HotelHandler hotelHandler,
+			Queue<Room> entitiesToExecuteService,
+			List<Employee> workingEmployees,
+			Shift currentShift) {
+		super(time, timeCommandExecutor, hotelHandler, entitiesToExecuteService, CLEANER, workingEmployees, currentShift);
 	}
 
 	public void dailyAtCheckOutTimeUpdate() {

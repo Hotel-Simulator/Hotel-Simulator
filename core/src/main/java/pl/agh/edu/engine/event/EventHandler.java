@@ -6,6 +6,11 @@ import java.time.LocalTime;
 import java.time.Year;
 import java.util.function.Consumer;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.Serializer;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
+
 import pl.agh.edu.data.loader.JSONGameDataLoader;
 import pl.agh.edu.engine.building_cost.BuildingCostMultiplierHandler;
 import pl.agh.edu.engine.calendar.Calendar;
@@ -15,23 +20,69 @@ import pl.agh.edu.engine.event.temporary.ClientNumberModificationEventHandler;
 import pl.agh.edu.engine.event.temporary.ClientNumberModificationTemporaryEvent;
 import pl.agh.edu.engine.event.temporary.TemporaryEvent;
 import pl.agh.edu.engine.generator.EventGenerator;
-import pl.agh.edu.engine.hotel.scenario.HotelScenariosManager;
 import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.engine.time.TimeCommandExecutor;
 import pl.agh.edu.engine.time.command.TimeCommand;
+import pl.agh.edu.serialization.KryoConfig;
 
 public class EventHandler {
 
+	private final Time time;
+	private final TimeCommandExecutor timeCommandExecutor;
+	private final Calendar calendar;
+	private final BuildingCostMultiplierHandler buildingCostHandler;
 	private final EventGenerator eventGenerator;
-	private final ClientNumberModificationEventHandler clientNumberModificationEventHandler = ClientNumberModificationEventHandler.getInstance();
-	private final Calendar calendar = Calendar.getInstance();
-	private final BuildingCostMultiplierHandler buildingCostHandler = BuildingCostMultiplierHandler.getInstance();
-	private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
-	private final Time time = Time.getInstance();
+	private final ClientNumberModificationEventHandler clientNumberModificationEventHandler;
 	private Consumer<EventModalData> eventHandlerFunction;
 
-	public EventHandler(HotelScenariosManager hotelScenariosManager) {
-		this.eventGenerator = new EventGenerator(hotelScenariosManager);
+	static {
+		KryoConfig.kryo.register(EventHandler.class, new Serializer<EventHandler>() {
+			@Override
+			public void write(Kryo kryo, Output output, EventHandler object) {
+				kryo.writeObject(output, object.time);
+				kryo.writeObject(output, object.timeCommandExecutor);
+				kryo.writeObject(output, object.calendar);
+				kryo.writeObject(output, object.buildingCostHandler);
+				kryo.writeObject(output, object.eventGenerator);
+				kryo.writeObject(output, object.clientNumberModificationEventHandler);
+			}
+
+			@Override
+			public EventHandler read(Kryo kryo, Input input, Class<? extends EventHandler> type) {
+				return new EventHandler(
+						kryo.readObject(input, Time.class),
+						kryo.readObject(input, TimeCommandExecutor.class),
+						kryo.readObject(input, Calendar.class),
+						kryo.readObject(input, BuildingCostMultiplierHandler.class),
+						kryo.readObject(input, EventGenerator.class),
+						kryo.readObject(input, ClientNumberModificationEventHandler.class));
+			}
+		});
+	}
+
+	public EventHandler(
+			EventGenerator eventGenerator,
+			ClientNumberModificationEventHandler clientNumberModificationEventHandler) {
+		this.time = Time.getInstance();
+		this.timeCommandExecutor = TimeCommandExecutor.getInstance();
+		this.calendar = Calendar.getInstance();
+		this.buildingCostHandler = BuildingCostMultiplierHandler.getInstance();
+		this.eventGenerator = eventGenerator;
+		this.clientNumberModificationEventHandler = clientNumberModificationEventHandler;
+	}
+
+	private EventHandler(Time time,
+			TimeCommandExecutor timeCommandExecutor,
+			Calendar calendar,
+			BuildingCostMultiplierHandler buildingCostHandler,
+			EventGenerator eventGenerator,
+			ClientNumberModificationEventHandler clientNumberModificationEventHandler) {
+		this.time = time;
+		this.timeCommandExecutor = timeCommandExecutor;
+		this.calendar = calendar;
+		this.buildingCostHandler = buildingCostHandler;
+		this.eventGenerator = eventGenerator;
+		this.clientNumberModificationEventHandler = clientNumberModificationEventHandler;
 	}
 
 	public void yearlyUpdate() {

@@ -24,13 +24,14 @@ import pl.agh.edu.utils.Pair;
 
 public class RoomManager {
 
-	private final List<Room> rooms;
-	private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
 	private final Time time = Time.getInstance();
+	private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
+	private final List<Room> rooms;
 	private final Map<Room, LocalDateTime> roomRankChangeTimes = new HashMap<>();
 	private final Map<Room, LocalDateTime> roomBuildingTimes = new HashMap<>();
 	private final RoomPricePerNight roomPricePerNight = new RoomPricePerNight(JSONClientDataLoader.averagePricesPerNight);
 	private final BankAccountHandler bankAccountHandler;
+	private final BuildingCostSupplier buildingCostSupplier;
 
 	private final Comparator<Room> roomComparator = (o1, o2) -> {
 		int broken = Boolean.compare(o1.roomState.isFaulty(), o2.roomState.isFaulty());
@@ -44,9 +45,10 @@ public class RoomManager {
 		return roomPricePerNight.getPrice(o1).compareTo(roomPricePerNight.getPrice(o2));
 	};
 
-	public RoomManager(List<Room> initialRooms, BankAccountHandler bankAccountHandler) {
+	public RoomManager(List<Room> initialRooms, BankAccountHandler bankAccountHandler, BuildingCostSupplier buildingCostSupplier) {
 		this.rooms = initialRooms;
 		this.bankAccountHandler = bankAccountHandler;
+		this.buildingCostSupplier = buildingCostSupplier;
 	}
 
 	public List<Room> getRooms() {
@@ -108,8 +110,8 @@ public class RoomManager {
 	}
 
 	private BigDecimal getChangeCost(RoomRank currentRank, RoomRank desiredRank, RoomSize size) {
-		return BuildingCostSupplier.roomBuildingCost(Pair.of(desiredRank, size))
-				.subtract(BuildingCostSupplier.roomBuildingCost(Pair.of(currentRank, size)))
+		return buildingCostSupplier.roomBuildingCost(Pair.of(desiredRank, size))
+				.subtract(buildingCostSupplier.roomBuildingCost(Pair.of(currentRank, size)))
 				.divide(BigDecimal.valueOf(2), 0, RoundingMode.HALF_EVEN);
 	}
 
@@ -137,7 +139,7 @@ public class RoomManager {
 		Room buildRoom = new Room(roomRank, roomSize);
 		buildRoom.roomState.setBeingBuild(true);
 		rooms.add(buildRoom);
-		bankAccountHandler.registerExpense(BuildingCostSupplier.roomBuildingCost(Pair.of(roomRank, roomSize)));
+		bankAccountHandler.registerExpense(buildingCostSupplier.roomBuildingCost(Pair.of(roomRank, roomSize)));
 
 		LocalDateTime buildTime = time.getTime().plusHours(
 				(long) (JSONRoomDataLoader.roomBuildingDuration.toHours() * roomTimeMultiplier(buildRoom)));

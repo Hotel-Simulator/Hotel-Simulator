@@ -14,18 +14,38 @@ import pl.agh.edu.engine.time.TimeCommandExecutor;
 
 public abstract class WorkScheduler<T> {
 
-	protected final Time time = Time.getInstance();
+	protected final Time time;
+	protected final TimeCommandExecutor timeCommandExecutor;
 	protected final HotelHandler hotelHandler;
 	protected final Queue<T> entitiesToExecuteService;
-	protected final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
 	private final Profession employeesProfession;
-	protected List<Employee> workingEmployees = new ArrayList<>();
-	private Shift currentShift = Shift.EVENING;
+	protected List<Employee> workingEmployees;
+	protected Shift currentShift;
 
 	protected WorkScheduler(HotelHandler hotelHandler, Queue<T> entitiesToExecuteService, Profession employeesProfession) {
+		this.time = Time.getInstance();
+		this.timeCommandExecutor = TimeCommandExecutor.getInstance();
 		this.employeesProfession = employeesProfession;
 		this.hotelHandler = hotelHandler;
 		this.entitiesToExecuteService = entitiesToExecuteService;
+		this.workingEmployees = new ArrayList<>();
+		this.currentShift = Shift.EVENING;
+	}
+
+	protected WorkScheduler(Time time,
+			TimeCommandExecutor timeCommandExecutor,
+			HotelHandler hotelHandler,
+			Queue<T> entitiesToExecuteService,
+			Profession employeesProfession,
+			List<Employee> workingEmployees,
+			Shift currentShift) {
+		this.time = time;
+		this.timeCommandExecutor = timeCommandExecutor;
+		this.employeesProfession = employeesProfession;
+		this.hotelHandler = hotelHandler;
+		this.entitiesToExecuteService = entitiesToExecuteService;
+		this.workingEmployees = workingEmployees;
+		this.currentShift = currentShift;
 	}
 
 	protected boolean willEmployeeExecuteServiceBeforeShiftEnds(Employee employee) {

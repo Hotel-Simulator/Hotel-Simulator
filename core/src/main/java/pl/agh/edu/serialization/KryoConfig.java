@@ -8,8 +8,14 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Year;
 import java.time.YearMonth;
+import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import com.esotericsoftware.kryo.Kryo;
@@ -32,6 +38,7 @@ public class KryoConfig {
 		kryo.register(Duration.class);
 		kryo.register(LocalTime.class);
 		kryo.register(ArrayList.class);
+		kryo.register(LinkedList.class);
 
 		kryo.register(Object[].class);
 		kryo.register(Class.class);
@@ -52,6 +59,69 @@ public class KryoConfig {
 			public List<T> read(Kryo kryo, Input input, Class<? extends List<T>> type) {
 				int size = kryo.readObject(input, Integer.class);
 				return IntStream.range(0, size).mapToObj(i -> kryo.readObject(input, clazz)).toList();
+			}
+		};
+	}
+
+	public static <T> Serializer<Set<T>> setSerializer(Class<T> clazz) {
+		return new Serializer<>() {
+
+			@Override
+			public void write(Kryo kryo, Output output, Set<T> object) {
+				kryo.writeObject(output, object.size());
+				object.forEach(e -> kryo.writeObject(output, e));
+			}
+
+			@Override
+			public Set<T> read(Kryo kryo, Input input, Class<? extends Set<T>> type) {
+				int size = kryo.readObject(input, Integer.class);
+				return IntStream.range(0, size).mapToObj(i -> kryo.readObject(input, clazz)).collect(Collectors.toSet());
+			}
+		};
+	}
+
+	public static <T, K> Serializer<Map<T, K>> mapSerializer(Class<T> clazzT, Class<K> clazzK) {
+		return new Serializer<>() {
+			@Override
+			public void write(Kryo kryo, Output output, Map<T, K> object) {
+				kryo.writeObject(output, object.size());
+				object.forEach((key, value) -> {
+					kryo.writeObject(output, key);
+					kryo.writeObjectOrNull(output, value, clazzK);
+				});
+			}
+
+			@Override
+			public Map<T, K> read(Kryo kryo, Input input, Class<? extends Map<T, K>> type) {
+				int size = kryo.readObject(input, Integer.class);
+				return IntStream.range(0, size)
+						.mapToObj(i -> new AbstractMap.SimpleEntry<>(
+								kryo.readObject(input, clazzT),
+								kryo.readObjectOrNull(input, clazzK)))
+						.collect(HashMap::new, (map, entry) -> map.put(entry.getKey(), entry.getValue()), HashMap::putAll);
+			}
+		};
+	}
+
+	public static <T, K> Serializer<Map<T, List<K>>> mapOfListSerializer(Class<T> clazzT, Class<K> clazzK) {
+		return new Serializer<>() {
+			@Override
+			public void write(Kryo kryo, Output output, Map<T, List<K>> object) {
+				kryo.writeObject(output, object.size());
+				object.forEach((key, value) -> {
+					kryo.writeObject(output, key);
+					kryo.writeObjectOrNull(output, value, listSerializer(clazzK));
+				});
+			}
+
+			@Override
+			public Map<T, List<K>> read(Kryo kryo, Input input, Class<? extends Map<T, List<K>>> type) {
+				int size = kryo.readObject(input, Integer.class);
+				return IntStream.range(0, size)
+						.mapToObj(i -> new AbstractMap.SimpleEntry<>(
+								kryo.readObject(input, clazzT),
+								kryo.readObjectOrNull(input, List.class, listSerializer(clazzK))))
+						.collect(HashMap::new, (map, entry) -> map.put(entry.getKey(), entry.getValue()), HashMap::putAll);
 			}
 		};
 	}

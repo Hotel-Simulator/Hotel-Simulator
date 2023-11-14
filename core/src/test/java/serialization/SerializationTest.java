@@ -4,11 +4,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static pl.agh.edu.engine.advertisement.AdvertisementType.FLYERS;
 import static pl.agh.edu.engine.attraction.AttractionSize.MEDIUM;
 import static pl.agh.edu.engine.attraction.AttractionType.RESTAURANT;
+import static pl.agh.edu.engine.attraction.AttractionType.SPA;
+import static pl.agh.edu.engine.attraction.AttractionType.SWIMMING_POOL;
 import static pl.agh.edu.engine.bank.TransactionType.EXPENSE;
 import static pl.agh.edu.engine.employee.Profession.CLEANER;
 import static pl.agh.edu.engine.employee.Shift.MORNING;
 import static pl.agh.edu.engine.employee.contract.TypeOfContract.PERMANENT;
 import static pl.agh.edu.engine.hotel.HotelVisitPurpose.BUSINESS_TRIP;
+import static pl.agh.edu.engine.opinion.OpinionStars.FIVE;
 import static pl.agh.edu.engine.room.RoomRank.ECONOMIC;
 import static pl.agh.edu.engine.room.RoomSize.DOUBLE;
 import static pl.agh.edu.engine.time.Frequency.EVERY_DAY;
@@ -18,6 +21,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,13 +37,16 @@ import pl.agh.edu.data.loader.JSONEventDataLoader;
 import pl.agh.edu.data.type.BankData;
 import pl.agh.edu.engine.advertisement.AdvertisementCampaign;
 import pl.agh.edu.engine.attraction.Attraction;
+import pl.agh.edu.engine.attraction.AttractionSize;
 import pl.agh.edu.engine.attraction.AttractionState;
+import pl.agh.edu.engine.attraction.AttractionType;
 import pl.agh.edu.engine.bank.BankAccountDetails;
 import pl.agh.edu.engine.bank.Credit;
 import pl.agh.edu.engine.bank.Transaction;
 import pl.agh.edu.engine.calendar.CalendarEvent;
 import pl.agh.edu.engine.client.Arrival;
 import pl.agh.edu.engine.client.ClientGroup;
+import pl.agh.edu.engine.client.report.util.DateTrie;
 import pl.agh.edu.engine.employee.Employee;
 import pl.agh.edu.engine.employee.EmployeeStatus;
 import pl.agh.edu.engine.employee.EmploymentPreferences;
@@ -48,6 +57,7 @@ import pl.agh.edu.engine.event.temporary.ClientNumberModificationTemporaryEvent;
 import pl.agh.edu.engine.event.temporary.TemporaryEvent;
 import pl.agh.edu.engine.generator.ClientGenerator;
 import pl.agh.edu.engine.opinion.Opinion;
+import pl.agh.edu.engine.opinion.OpinionData;
 import pl.agh.edu.engine.room.Room;
 import pl.agh.edu.engine.room.RoomState;
 import pl.agh.edu.engine.time.command.NRepeatingTimeCommand;
@@ -185,8 +195,7 @@ public class SerializationTest {
 		LanguageString languageString2 = kryo.readObject(input, LanguageString.class);
 
 		// Then
-		assertEquals(languageString.path, languageString2.path);
-		assertEquals(languageString.replacementsList, languageString2.replacementsList);
+		assertEquals(languageString, languageString2);
 
 	}
 
@@ -207,10 +216,8 @@ public class SerializationTest {
 
 		// Then
 		assertEquals(calendarEvent.date(), calendarEvent2.date());
-		assertEquals(calendarEvent.title().path, calendarEvent.title().path);
-		assertEquals(calendarEvent.title().replacementsList, calendarEvent.title().replacementsList);
-		assertEquals(calendarEvent.description().path, calendarEvent.description().path);
-		assertEquals(calendarEvent.description().replacementsList, calendarEvent.description().replacementsList);
+		assertEquals(calendarEvent.title(), calendarEvent.title());
+		assertEquals(calendarEvent.description(), calendarEvent.description());
 
 	}
 
@@ -396,10 +403,8 @@ public class SerializationTest {
 		BuildingCostModificationPermanentEvent event2 = kryo.readObject(input, BuildingCostModificationPermanentEvent.class);
 
 		// Then
-		assertEquals(event.title.path, event2.title.path);
-		assertEquals(event.title.replacementsList, event2.title.replacementsList);
-		assertEquals(event.eventAppearancePopupDescription.path, event2.eventAppearancePopupDescription.path);
-		assertEquals(event.eventAppearancePopupDescription.replacementsList, event2.eventAppearancePopupDescription.replacementsList);
+		assertEquals(event.title, event2.title);
+		assertEquals(event.eventAppearancePopupDescription, event2.eventAppearancePopupDescription);
 		assertEquals(event.appearanceDate, event2.appearanceDate);
 		assertEquals(event.modifierValueInPercent, event2.modifierValueInPercent);
 		assertEquals(event.imagePath, event2.imagePath);
@@ -424,14 +429,10 @@ public class SerializationTest {
 		TemporaryEvent event2 = kryo.readObject(input, TemporaryEvent.class);
 
 		// Then
-		assertEquals(event.title.path, event2.title.path);
-		assertEquals(event.title.replacementsList, event2.title.replacementsList);
-		assertEquals(event.eventAppearancePopupDescription.path, event2.eventAppearancePopupDescription.path);
-		assertEquals(event.eventAppearancePopupDescription.replacementsList, event2.eventAppearancePopupDescription.replacementsList);
-		assertEquals(event.eventStartPopupDescription.path, event2.eventStartPopupDescription.path);
-		assertEquals(event.eventStartPopupDescription.replacementsList, event2.eventStartPopupDescription.replacementsList);
-		assertEquals(event.calendarDescription.path, event2.calendarDescription.path);
-		assertEquals(event.calendarDescription.replacementsList, event2.calendarDescription.replacementsList);
+		assertEquals(event.title, event2.title);
+		assertEquals(event.eventAppearancePopupDescription, event2.eventAppearancePopupDescription);
+		assertEquals(event.eventStartPopupDescription, event2.eventStartPopupDescription);
+		assertEquals(event.calendarDescription, event2.calendarDescription);
 		assertEquals(event.imagePath, event2.imagePath);
 		assertEquals(event.appearanceDate, event2.appearanceDate);
 		assertEquals(event.startDate, event2.startDate);
@@ -462,14 +463,10 @@ public class SerializationTest {
 		ClientNumberModificationTemporaryEvent event2 = kryo.readObject(input, ClientNumberModificationTemporaryEvent.class);
 
 		// Then
-		assertEquals(event.title.path, event2.title.path);
-		assertEquals(event.title.replacementsList, event2.title.replacementsList);
-		assertEquals(event.eventAppearancePopupDescription.path, event2.eventAppearancePopupDescription.path);
-		assertEquals(event.eventAppearancePopupDescription.replacementsList, event2.eventAppearancePopupDescription.replacementsList);
-		assertEquals(event.eventStartPopupDescription.path, event2.eventStartPopupDescription.path);
-		assertEquals(event.eventStartPopupDescription.replacementsList, event2.eventStartPopupDescription.replacementsList);
-		assertEquals(event.calendarDescription.path, event2.calendarDescription.path);
-		assertEquals(event.calendarDescription.replacementsList, event2.calendarDescription.replacementsList);
+		assertEquals(event.title, event2.title);
+		assertEquals(event.eventAppearancePopupDescription, event2.eventAppearancePopupDescription);
+		assertEquals(event.eventStartPopupDescription, event2.eventStartPopupDescription);
+		assertEquals(event.calendarDescription, event2.calendarDescription);
 		assertEquals(event.imagePath, event2.imagePath);
 		assertEquals(event.appearanceDate, event2.appearanceDate);
 		assertEquals(event.startDate, event2.startDate);
@@ -612,4 +609,74 @@ public class SerializationTest {
 		assertEquals(nRepeatingTimeCommand.getCounter(), nRepeatingTimeCommand.getCounter());
 
 	}
+
+	@Test
+	public void mapTest() {
+		// Given
+		Map<AttractionType, Pair<AttractionSize, LocalDateTime>> map = new TreeMap<>();
+		map.put(RESTAURANT, Pair.of(MEDIUM, LocalDateTime.now()));
+		map.put(SPA, Pair.of(MEDIUM, LocalDateTime.now()));
+		map.put(SWIMMING_POOL, null);
+
+		// When
+		kryo.writeObject(output, map, KryoConfig.mapSerializer(AttractionType.class, Pair.class));
+
+		initInput();
+		Map<AttractionType, Pair<AttractionSize, LocalDateTime>> map2 = kryo.readObject(input, Map.class, KryoConfig.mapSerializer(AttractionType.class, Pair.class));
+
+		// Then
+		assertEquals(map, map2);
+	}
+
+	@Test
+	public void dateTrieTest() {
+		// Given
+		DateTrie dateTrie = new DateTrie();
+
+		// When
+		dateTrie.insert(LocalDate.of(2020, 1, 1), 10);
+		dateTrie.insert(LocalDate.of(2020, 1, 2), 20);
+		dateTrie.insert(LocalDate.of(2020, 1, 3), 30);
+
+		dateTrie.insert(LocalDate.of(2020, 2, 1), 40);
+		dateTrie.insert(LocalDate.of(2020, 2, 2), 50);
+
+		dateTrie.insert(LocalDate.of(2021, 1, 1), 60);
+
+		kryo.writeObject(output, dateTrie);
+
+		initInput();
+		DateTrie dateTrie2 = kryo.readObject(input, DateTrie.class);
+
+		// Then
+		assertEquals(dateTrie.getDailyData(), dateTrie2.getDailyData());
+		assertEquals(dateTrie.getMonthlyData(), dateTrie2.getMonthlyData());
+		assertEquals(dateTrie.getYearlyData(), dateTrie2.getYearlyData());
+	}
+
+	@Test
+	public void opinionDataTest() {
+		// Given
+		OpinionData opinionData = new OpinionData(
+				"John",
+				LocalDate.of(2020, 11, 1),
+				FIVE,
+				Set.of(
+						new LanguageString("some.path", List.of(Pair.of("a", "b"), Pair.of("c", "d"))),
+						new LanguageString("some.other.path")));
+
+		// When
+		kryo.writeObject(output, opinionData);
+
+		initInput();
+		OpinionData opinionData2 = kryo.readObject(input, OpinionData.class);
+
+		// Then
+		assertEquals(opinionData.guest(), opinionData2.guest());
+		assertEquals(opinionData.date(), opinionData2.date());
+		assertEquals(opinionData.stars(), opinionData2.stars());
+		assertEquals(opinionData.comments(), opinionData2.comments());
+
+	}
+
 }

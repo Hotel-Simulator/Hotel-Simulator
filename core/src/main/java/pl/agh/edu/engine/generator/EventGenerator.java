@@ -7,6 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.Serializer;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
+
 import pl.agh.edu.data.loader.JSONEventDataLoader;
 import pl.agh.edu.data.type.ClientNumberModificationRandomEventData;
 import pl.agh.edu.data.type.RandomBuildingCostModificationPermanentEventData;
@@ -14,17 +19,41 @@ import pl.agh.edu.engine.event.permanent.BuildingCostModificationPermanentEvent;
 import pl.agh.edu.engine.event.temporary.ClientNumberModificationTemporaryEvent;
 import pl.agh.edu.engine.event.temporary.TemporaryEvent;
 import pl.agh.edu.engine.hotel.scenario.HotelScenariosManager;
+import pl.agh.edu.serialization.KryoConfig;
 import pl.agh.edu.utils.LanguageString;
 import pl.agh.edu.utils.Pair;
 import pl.agh.edu.utils.RandomUtils;
 
 public class EventGenerator {
 	private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM");
-	private final Map<String, LocalDate> lastOccurrenceRandomEvents = new HashMap<>();
-	private final int monthsBetweenEventAppearanceAndStart = 1;
+	private final Map<String, LocalDate> lastOccurrenceRandomEvents;
 	private final HotelScenariosManager hotelScenariosManager;
+	private final int monthsBetweenEventAppearanceAndStart = 1;
+
+	static {
+		KryoConfig.kryo.register(EventGenerator.class, new Serializer<EventGenerator>() {
+			@Override
+			public void write(Kryo kryo, Output output, EventGenerator object) {
+				kryo.writeObject(output, object.lastOccurrenceRandomEvents, KryoConfig.mapSerializer(String.class, LocalDate.class));
+				kryo.writeObject(output, object.hotelScenariosManager);
+			}
+
+			@Override
+			public EventGenerator read(Kryo kryo, Input input, Class<? extends EventGenerator> type) {
+				return new EventGenerator(
+						kryo.readObject(input, Map.class, KryoConfig.mapSerializer(String.class, LocalDate.class)),
+						kryo.readObject(input, HotelScenariosManager.class));
+			}
+		});
+	}
 
 	public EventGenerator(HotelScenariosManager hotelScenariosManager) {
+		this.lastOccurrenceRandomEvents = new HashMap<>();
+		this.hotelScenariosManager = hotelScenariosManager;
+	}
+
+	private EventGenerator(Map<String, LocalDate> lastOccurrenceRandomEvents, HotelScenariosManager hotelScenariosManager) {
+		this.lastOccurrenceRandomEvents = lastOccurrenceRandomEvents;
 		this.hotelScenariosManager = hotelScenariosManager;
 	}
 

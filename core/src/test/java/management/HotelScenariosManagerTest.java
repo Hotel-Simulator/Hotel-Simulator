@@ -22,13 +22,13 @@ public class HotelScenariosManagerTest {
 	@Test
 	public void testGetHotelVisitPurposeProbabilities() {
 		// Then
-		assertNotNull(hotelScenariosManager.hotelVisitPurposeProbabilities);
+		assertNotNull(hotelScenariosManager.getHotelVisitPurposeProbabilities());
 	}
 
 	@Test
 	public void testGetAttractivenessConstants() {
 		// Then
-		assertNotNull(hotelScenariosManager.attractivenessConstants);
+		assertNotNull(hotelScenariosManager.getAttractivenessConstants());
 	}
 
 	@Test

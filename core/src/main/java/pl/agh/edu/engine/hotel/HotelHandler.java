@@ -5,6 +5,8 @@ import pl.agh.edu.data.loader.JSONHotelDataLoader;
 import pl.agh.edu.engine.attraction.AttractionHandler;
 import pl.agh.edu.engine.bank.BankAccount;
 import pl.agh.edu.engine.bank.BankAccountHandler;
+import pl.agh.edu.engine.building_cost.BuildingCostSupplier;
+import pl.agh.edu.engine.client.report.collector.ClientGroupReportDataCollector;
 import pl.agh.edu.engine.employee.EmployeeHandler;
 import pl.agh.edu.engine.employee.EmployeeSalaryHandler;
 import pl.agh.edu.engine.employee.PossibleEmployeeHandler;
@@ -16,8 +18,9 @@ import pl.agh.edu.engine.room.RoomManager;
 
 public class HotelHandler {
 	public final Hotel hotel = new Hotel();
+	public final ClientGroupReportDataCollector clientGroupReportDataCollector = new ClientGroupReportDataCollector();
 	public final CleaningScheduler cleaningScheduler = new CleaningScheduler(this);
-	public final ReceptionScheduler receptionScheduler = new ReceptionScheduler(this);
+	public final ReceptionScheduler receptionScheduler = new ReceptionScheduler(this, clientGroupReportDataCollector);
 	public final RepairScheduler repairScheduler = new RepairScheduler(this);
 
 	public final PossibleEmployeeHandler possibleEmployeeHandler = new PossibleEmployeeHandler(this);
@@ -27,8 +30,10 @@ public class HotelHandler {
 			JSONBankDataLoader.scenarios.get(0).accountDetails());
 	public final BankAccountHandler bankAccountHandler = new BankAccountHandler(bankAccount);
 	public final EmployeeSalaryHandler employeeSalaryHandler = new EmployeeSalaryHandler(employeeHandler, bankAccountHandler);
-	public final RoomManager roomManager = new RoomManager(JSONHotelDataLoader.initialRooms, bankAccountHandler);
-	public final AttractionHandler attractionHandler = new AttractionHandler(bankAccountHandler, roomManager);
+
+	private final BuildingCostSupplier buildingCostSupplier = new BuildingCostSupplier();
+	public final RoomManager roomManager = new RoomManager(JSONHotelDataLoader.initialRooms, bankAccountHandler, buildingCostSupplier);
+	public final AttractionHandler attractionHandler = new AttractionHandler(bankAccountHandler, roomManager, buildingCostSupplier);
 
 	public HotelHandler() {}
 }

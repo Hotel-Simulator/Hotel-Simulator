@@ -17,19 +17,53 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.Serializer;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
+
 import pl.agh.edu.data.loader.JSONEmployeeDataLoader;
 import pl.agh.edu.engine.employee.contract.Offer;
 import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.engine.time.TimeCommandExecutor;
 import pl.agh.edu.engine.time.command.TimeCommand;
+import pl.agh.edu.serialization.KryoConfig;
 
 public class EmployeeHandler {
+	private final Time time;
+	private final TimeCommandExecutor timeCommandExecutor;
 	private final List<Employee> employees;
-	private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
-	private final Time time = Time.getInstance();
+
+	static {
+		KryoConfig.kryo.register(EmployeeHandler.class, new Serializer<EmployeeHandler>() {
+			@Override
+			public void write(Kryo kryo, Output output, EmployeeHandler object) {
+				kryo.writeObject(output, object.time);
+				kryo.writeObject(output, object.timeCommandExecutor);
+				kryo.writeObject(output, object.employees, KryoConfig.listSerializer(Employee.class));
+			}
+
+			@Override
+			public EmployeeHandler read(Kryo kryo, Input input, Class<? extends EmployeeHandler> type) {
+
+				return new EmployeeHandler(
+						kryo.readObject(input, Time.class),
+						kryo.readObject(input, TimeCommandExecutor.class),
+						kryo.readObject(input, List.class, KryoConfig.listSerializer(Employee.class)));
+			}
+		});
+	}
 
 	public EmployeeHandler() {
+		this.time = Time.getInstance();
+		this.timeCommandExecutor = TimeCommandExecutor.getInstance();
 		this.employees = getInitialEmployees();
+	}
+
+	private EmployeeHandler(Time time, TimeCommandExecutor timeCommandExecutor, List<Employee> employees) {
+		this.time = time;
+		this.timeCommandExecutor = timeCommandExecutor;
+		this.employees = employees;
 	}
 
 	public boolean canNegotiateContractWith(Employee employee) {

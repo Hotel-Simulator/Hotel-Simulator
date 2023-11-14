@@ -9,9 +9,12 @@ import java.time.LocalDateTime;
 
 import pl.agh.edu.data.loader.JSONBankDataLoader;
 import pl.agh.edu.data.loader.JSONOpinionDataLoader;
+import pl.agh.edu.engine.advertisement.AdvertisementHandler;
 import pl.agh.edu.engine.client.Arrival;
 import pl.agh.edu.engine.client.ClientGroupGenerationHandler;
 import pl.agh.edu.engine.event.EventHandler;
+import pl.agh.edu.engine.event.temporary.ClientNumberModificationEventHandler;
+import pl.agh.edu.engine.generator.EventGenerator;
 import pl.agh.edu.engine.hotel.HotelHandler;
 import pl.agh.edu.engine.hotel.HotelType;
 import pl.agh.edu.engine.hotel.scenario.HotelScenariosManager;
@@ -26,12 +29,18 @@ public class Engine {
 	public final Time time = Time.getInstance();
 	private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
 	private final HotelScenariosManager hotelScenariosManager = new HotelScenariosManager(HotelType.CITY);
-	public final EventHandler eventHandler = new EventHandler(hotelScenariosManager);
+	private final ClientNumberModificationEventHandler clientNumberModificationEventHandler = new ClientNumberModificationEventHandler();
+	public final EventHandler eventHandler = new EventHandler(new EventGenerator(hotelScenariosManager), clientNumberModificationEventHandler);
 	public final HotelHandler hotelHandler = new HotelHandler();
+	public final AdvertisementHandler advertisementHandler = new AdvertisementHandler(hotelHandler.bankAccountHandler);
 	private final ClientGroupGenerationHandler clientGroupGenerationHandler = new ClientGroupGenerationHandler(
+			clientNumberModificationEventHandler,
+			advertisementHandler,
+			hotelHandler.attractionHandler,
 			hotelScenariosManager,
-			hotelHandler.bankAccountHandler,
-			hotelHandler.attractionHandler);
+			hotelHandler.clientGroupReportDataCollector);
+
+	private final OpinionHandler opinionHandler = OpinionHandler.getInstance();
 
 	public Engine() {
 
@@ -54,7 +63,7 @@ public class Engine {
 
 	private void initializeEveryDayUpdates(LocalDateTime currentTime) {
 		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, hotelHandler.attractionHandler::dailyUpdate, currentTime));
-		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, OpinionHandler::dailyUpdate, currentTime));
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, opinionHandler::dailyUpdate, currentTime));
 		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, hotelHandler.possibleEmployeeHandler::dailyUpdate, currentTime));
 		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, this::dailyUpdate, currentTime));
 		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, hotelHandler.cleaningScheduler::dailyAtCheckOutTimeUpdate,
@@ -81,13 +90,13 @@ public class Engine {
 
 	private TimeCommand createTimeCommandForClientArrival(Arrival arrival) {
 		return new TimeCommand(() -> {
-			OpinionBuilder.saveStartWaitingAtQueueData(arrival.clientGroup());
+			OpinionBuilder.saveStartWaitingAtQueueData(arrival.clientGroup(), time.getTime());
 			hotelHandler.receptionScheduler.addEntity(arrival.clientGroup());
 			timeCommandExecutor.addCommand(
 					new TimeCommand(() -> {
 						if (hotelHandler.receptionScheduler.removeEntity(arrival.clientGroup())) {
 							OpinionBuilder.saveSteppingOutOfQueueData(arrival.clientGroup());
-							OpinionHandler.addOpinionWithProbability(arrival.clientGroup(), JSONOpinionDataLoader.opinionProbabilityForClientWhoSteppedOutOfQueue);
+							opinionHandler.addOpinionWithProbability(arrival.clientGroup(), JSONOpinionDataLoader.opinionProbabilityForClientWhoSteppedOutOfQueue);
 						}
 					}, LocalDateTime.of(time.getTime().toLocalDate(), arrival.time()).plus(arrival.clientGroup().getMaxWaitingTime())));
 		}, LocalDateTime.of(time.getTime().toLocalDate(), arrival.time()));

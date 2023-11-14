@@ -4,18 +4,62 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.Serializer;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
+
 import pl.agh.edu.engine.time.Time;
+import pl.agh.edu.serialization.KryoConfig;
 
 public class BankAccount {
-	private final List<Credit> credits = new ArrayList<>();
-	private final List<Transaction> transactions = new ArrayList<>();
-	private final Time time = Time.getInstance();
+	private final Time time;
 	private BigDecimal balance;
 	private BankAccountDetails accountDetails;
+	private final List<Credit> credits;
+	private final List<Transaction> transactions;
+
+	static {
+		KryoConfig.kryo.register(BankAccount.class, new Serializer<BankAccount>() {
+			@Override
+			public void write(Kryo kryo, Output output, BankAccount object) {
+				kryo.writeObject(output, object.time);
+				kryo.writeObject(output, object.balance);
+				kryo.writeObject(output, object.accountDetails);
+				kryo.writeObject(output, object.credits);
+				kryo.writeObject(output, object.transactions);
+			}
+
+			@Override
+			public BankAccount read(Kryo kryo, Input input, Class<? extends BankAccount> type) {
+				return new BankAccount(
+						kryo.readObject(input, Time.class),
+						kryo.readObject(input, BigDecimal.class),
+						kryo.readObject(input, BankAccountDetails.class),
+						kryo.readObject(input, List.class, KryoConfig.listSerializer(Credit.class)),
+						kryo.readObject(input, List.class, KryoConfig.listSerializer(Transaction.class)));
+			}
+		});
+	}
 
 	public BankAccount(BigDecimal initialBalance, BankAccountDetails accountDetails) {
+		this.time = Time.getInstance();
 		this.balance = initialBalance;
 		this.accountDetails = accountDetails;
+		this.credits = new ArrayList<>();
+		this.transactions = new ArrayList<>();
+	}
+
+	public BankAccount(Time time,
+			BigDecimal balance,
+			BankAccountDetails accountDetails,
+			List<Credit> credits,
+			List<Transaction> transactions) {
+		this.time = time;
+		this.balance = balance;
+		this.accountDetails = accountDetails;
+		this.credits = credits;
+		this.transactions = transactions;
 	}
 
 	private void chargeAccountFee() {

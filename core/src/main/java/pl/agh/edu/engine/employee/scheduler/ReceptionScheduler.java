@@ -1,10 +1,19 @@
 package pl.agh.edu.engine.employee.scheduler;
 
+import static pl.agh.edu.engine.employee.Profession.CLEANER;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
+import java.util.Queue;
+
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.Serializer;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
 
 import pl.agh.edu.data.loader.JSONGameDataLoader;
 import pl.agh.edu.data.loader.JSONOpinionDataLoader;
@@ -12,24 +21,74 @@ import pl.agh.edu.engine.client.ClientGroup;
 import pl.agh.edu.engine.client.report.collector.ClientGroupReportDataCollector;
 import pl.agh.edu.engine.employee.Employee;
 import pl.agh.edu.engine.employee.Profession;
+import pl.agh.edu.engine.employee.Shift;
 import pl.agh.edu.engine.hotel.HotelHandler;
 import pl.agh.edu.engine.opinion.OpinionBuilder;
 import pl.agh.edu.engine.opinion.OpinionHandler;
 import pl.agh.edu.engine.room.Room;
+import pl.agh.edu.engine.time.Time;
+import pl.agh.edu.engine.time.TimeCommandExecutor;
 import pl.agh.edu.engine.time.command.TimeCommand;
+import pl.agh.edu.serialization.KryoConfig;
 import pl.agh.edu.utils.RandomUtils;
 
 public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
+	private final OpinionHandler opinionHandler;
+	private final ClientGroupReportDataCollector clientGroupReportDataCollector;
 
-	public ReceptionScheduler(HotelHandler hotelHandler) {
+	static {
+		KryoConfig.kryo.register(ReceptionScheduler.class, new Serializer<ReceptionScheduler>() {
+			@Override
+			public void write(Kryo kryo, Output output, ReceptionScheduler object) {
+				kryo.writeObject(output, object.time);
+				kryo.writeObject(output, object.timeCommandExecutor);
+				kryo.writeObject(output, object.opinionHandler);
+				kryo.writeObject(output, object.clientGroupReportDataCollector);
+				kryo.writeObject(output, object.hotelHandler);
+				kryo.writeObject(output, object.entitiesToExecuteService);
+				kryo.writeObject(output, object.workingEmployees);
+				kryo.writeObject(output, object.currentShift);
+			}
+
+			@Override
+			public ReceptionScheduler read(Kryo kryo, Input input, Class<? extends ReceptionScheduler> type) {
+				return new ReceptionScheduler(
+						kryo.readObject(input, Time.class),
+						kryo.readObject(input, TimeCommandExecutor.class),
+						kryo.readObject(input, OpinionHandler.class),
+						kryo.readObject(input, ClientGroupReportDataCollector.class),
+						kryo.readObject(input, HotelHandler.class),
+						kryo.readObject(input, LinkedList.class),
+						kryo.readObject(input, List.class, KryoConfig.listSerializer(Employee.class)),
+						kryo.readObject(input, Shift.class));
+			}
+		});
+	}
+
+	public ReceptionScheduler(HotelHandler hotelHandler, ClientGroupReportDataCollector clientGroupReportDataCollector) {
 		super(hotelHandler, new LinkedList<>(), Profession.RECEPTIONIST);
+		this.opinionHandler = OpinionHandler.getInstance();
+		this.clientGroupReportDataCollector = clientGroupReportDataCollector;
+	}
+
+	private ReceptionScheduler(Time time,
+			TimeCommandExecutor timeCommandExecutor,
+			OpinionHandler opinionHandler,
+			ClientGroupReportDataCollector clientGroupReportDataCollector,
+			HotelHandler hotelHandler,
+			Queue<ClientGroup> entitiesToExecuteService,
+			List<Employee> workingEmployees,
+			Shift currentShift) {
+		super(time, timeCommandExecutor, hotelHandler, entitiesToExecuteService, CLEANER, workingEmployees, currentShift);
+		this.opinionHandler = opinionHandler;
+		this.clientGroupReportDataCollector = clientGroupReportDataCollector;
 	}
 
 	@Override
 	protected void executeService(Employee receptionist, ClientGroup clientGroup) {
 		receptionist.setOccupied(true);
 
-		OpinionBuilder.saveReceptionData(receptionist, clientGroup);
+		OpinionBuilder.saveReceptionData(receptionist, clientGroup, time.getTime());
 
 		timeCommandExecutor.addCommand(createTimeCommandForServingArrivedClients(receptionist, clientGroup));
 	}
@@ -44,7 +103,7 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 
 	private TimeCommand createTimeCommandForCheckingOutClients(Room room, LocalDateTime checkOutTime) {
 		return new TimeCommand(() -> {
-			OpinionHandler.addOpinionWithProbability(room.getResidents(), JSONOpinionDataLoader.opinionProbabilityForClientWhoGotRoom);
+			opinionHandler.addOpinionWithProbability(room.getResidents(), JSONOpinionDataLoader.opinionProbabilityForClientWhoGotRoom);
 			room.checkOut();
 			hotelHandler.cleaningScheduler.addEntity(room);
 		}, checkOutTime);
@@ -55,7 +114,7 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 				() -> {
 					Optional<Room> optionalRoom = hotelHandler.roomManager.findRoomForClientGroup(clientGroup);
 					if (optionalRoom.isPresent()) {
-						ClientGroupReportDataCollector.increaseClientGroupWithRoomCounter();
+						clientGroupReportDataCollector.increaseClientGroupWithRoomCounter();
 						Room room = optionalRoom.get();
 						room.checkIn(clientGroup);
 						BigDecimal roomPrice = hotelHandler.roomManager.getRoomPriceList().getPrice(room);
@@ -67,7 +126,7 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 						}
 						timeCommandExecutor.addCommand(createTimeCommandForCheckingOutClients(room, checkOutTime));
 					} else {
-						OpinionHandler.addOpinionWithProbability(clientGroup, JSONOpinionDataLoader.opinionProbabilityForClientWhoDidNotGetRoom);
+						opinionHandler.addOpinionWithProbability(clientGroup, JSONOpinionDataLoader.opinionProbabilityForClientWhoDidNotGetRoom);
 					}
 					receptionist.setOccupied(false);
 					executeServiceIfPossible(receptionist);
