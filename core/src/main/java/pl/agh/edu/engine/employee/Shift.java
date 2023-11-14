@@ -3,6 +3,8 @@ package pl.agh.edu.engine.employee;
 import java.time.Duration;
 import java.time.LocalTime;
 
+import pl.agh.edu.serialization.KryoConfig;
+
 public enum Shift {
 	MORNING(LocalTime.of(8, 0)),
 	EVENING(LocalTime.of(16, 0)),
@@ -10,6 +12,10 @@ public enum Shift {
 
 	private final LocalTime startTime;
 	private final Duration duration = Duration.ofHours(8);
+
+	static {
+		KryoConfig.kryo.register(Shift.class);
+	}
 
 	Shift(LocalTime startTime) {
 		this.startTime = startTime;

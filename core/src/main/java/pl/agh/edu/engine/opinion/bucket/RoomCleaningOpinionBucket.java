@@ -1,11 +1,43 @@
 package pl.agh.edu.engine.opinion.bucket;
 
+import java.util.Objects;
 import java.util.Optional;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.Serializer;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
+
+import pl.agh.edu.serialization.KryoConfig;
+
 public class RoomCleaningOpinionBucket extends OpinionBucket {
-	private boolean gotCleanRoom;
+	private boolean gotCleanRoom = false;
 	private int cleanRoomCounter = 0;
 	private final int numberOfNights;
+
+	static {
+		KryoConfig.kryo.register(RoomCleaningOpinionBucket.class, new Serializer<RoomCleaningOpinionBucket>() {
+			@Override
+			public void write(Kryo kryo, Output output, RoomCleaningOpinionBucket object) {
+				kryo.writeObject(output, object.weight);
+				kryo.writeObject(output, object.numberOfNights);
+				kryo.writeObject(output, object.gotCleanRoom);
+				kryo.writeObject(output, object.cleanRoomCounter);
+
+			}
+
+			@Override
+			public RoomCleaningOpinionBucket read(Kryo kryo, Input input, Class<? extends RoomCleaningOpinionBucket> type) {
+				RoomCleaningOpinionBucket roomCleaningOpinionBucket = new RoomCleaningOpinionBucket(
+						kryo.readObject(input, Integer.class),
+						kryo.readObject(input, Integer.class));
+				roomCleaningOpinionBucket.gotCleanRoom = kryo.readObject(input, Boolean.class);
+				roomCleaningOpinionBucket.cleanRoomCounter = kryo.readObject(input, Integer.class);
+
+				return roomCleaningOpinionBucket;
+			}
+		});
+	}
 
 	public RoomCleaningOpinionBucket(int weight, int numberOfNights) {
 		super(weight);
@@ -43,5 +75,20 @@ public class RoomCleaningOpinionBucket extends OpinionBucket {
 		}
 		return Optional.of("opinionComment.roomCleaning.sometimesCleanedAndGotDirtyRoom");
 
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		RoomCleaningOpinionBucket that = (RoomCleaningOpinionBucket) o;
+		return gotCleanRoom == that.gotCleanRoom && cleanRoomCounter == that.cleanRoomCounter && numberOfNights == that.numberOfNights;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(gotCleanRoom, cleanRoomCounter, numberOfNights);
 	}
 }

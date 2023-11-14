@@ -80,6 +80,7 @@ project(":core") {
         implementation 'com.github.raeleus.TenPatch:tenpatch:5.2.3'
         implementation 'org.apache.commons:commons-math3:3.6.1'
         implementation 'ch.obermuhlner:big-math:2.3.2'
+        implementation 'com.esotericsoftware:kryo:5.5.0'
         testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
         testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
         testImplementation 'org.junit.jupiter:junit-jupiter-params:5.9.2'
