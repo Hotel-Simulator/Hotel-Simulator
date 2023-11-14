@@ -17,7 +17,7 @@ public class HotelTable extends WrapperTable {
     private final Table leftTable = new Table();
     private final Table rightTable = new Table();
     private final GameSkin skin = GameSkin.getInstance();
-    private final Drawable background = new NinePatchDrawable(skin.getPatch("table-row-background"));
+    private final Drawable background = new NinePatchDrawable(skin.getPatch("modal-glass-background"));
 
     public HotelTable() {
         createLeftTable();
@@ -39,8 +39,6 @@ public class HotelTable extends WrapperTable {
         leftTable.add(scenarioImage).grow().row();
         leftTable.add(hotelName).padTop(30f).growX();
 
-
-        leftTable.debug();
     }
 
     public void createRightTable(){
@@ -48,7 +46,6 @@ public class HotelTable extends WrapperTable {
         rightTable.add(createCheckInRow()).growX().expandY().row();
         rightTable.add(createCheckOutRow()).growX().expandY().row();
         rightTable.add(createWorkersOpinionTable()).growX().expandY().bottom().row();
-        rightTable.debug();
     }
 
     private Table createScenarioRow(){
@@ -82,6 +79,23 @@ public class HotelTable extends WrapperTable {
         return checkIn;
     }
 
+    private Table createCheckOutRow(){
+        Table checkOut = new Table();
+        checkOut.setBackground(background);
+        checkOut.pad(20f, 0f, 20f, 0f);
+
+        Label title = new Label("Check-out time", skin, SkinFont.H4.getName());
+        title.setWrap(true);
+        title.setAlignment(Align.center);
+        // set value from engine
+        TextField time = new TextField("11:00", skin);
+        time.setAlignment(Align.center);
+
+        checkOut.add(title).width(250f).expandX();
+        checkOut.add(time).expandX();
+        return checkOut;
+    }
+
     private Table createWorkersOpinionTable(){
         Table workersOpinion = new Table();
 
@@ -104,13 +118,13 @@ public class HotelTable extends WrapperTable {
         workersTable.add(title).colspan(2).row();
         workersTable.add(photo);
         workersTable.add(value);
-        workersTable.debug();
         return workersTable;
     }
 
     private Table createOpinionTable() {
         Table opinion = new Table();
 
+        opinion.align(Align.center);
         opinion.setBackground(background);
         opinion.pad(20f);
 
@@ -120,27 +134,9 @@ public class HotelTable extends WrapperTable {
         Label value = new Label("(100)", skin, SkinFont.SUBTITLE2.getName());
 
         opinion.add(title).colspan(2).row();
-        opinion.add(rating);
+        opinion.add(rating).row();
         opinion.add(value);
-        opinion.debug();
         return opinion;
-    }
-
-    private Table createCheckOutRow(){
-        Table checkOut = new Table();
-        checkOut.setBackground(background);
-        checkOut.pad(20f, 0f, 20f, 0f);
-
-        Label title = new Label("Check-out time", skin, SkinFont.H4.getName());
-        title.setWrap(true);
-        title.setAlignment(Align.center);
-        // set value from engine
-        TextField time = new TextField("11:00", skin);
-        time.setAlignment(Align.center);
-
-        checkOut.add(title).width(250f).expandX();
-        checkOut.add(time).expandX();
-        return checkOut;
     }
 
     private static class HotelTableStyles{

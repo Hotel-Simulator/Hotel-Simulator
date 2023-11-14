@@ -17,7 +17,8 @@ public class Star extends WrapperContainer<Button> {
 
 	public Star(int index, Rating rating) {
 		this.setActor(button);
-		this.size(StarStyle.getSize(), StarStyle.getSize());
+		this.resize();
+		this.setResolutionChangeHandler(this::resize);
 		this.center();
 
 		this.index = index;
@@ -83,12 +84,16 @@ public class Star extends WrapperContainer<Button> {
 
 	}
 
+	private void resize() {
+		this.size(StarStyle.getSize());
+	}
+
 	private static class StarStyle {
 		public static float getSize() {
 			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> 30f;
-				case MEDIUM -> 40f;
-				case LARGE -> 50f;
+				case SMALL -> 25f;
+				case MEDIUM -> 30f;
+				case LARGE -> 40f;
 			};
 		}
 	}
