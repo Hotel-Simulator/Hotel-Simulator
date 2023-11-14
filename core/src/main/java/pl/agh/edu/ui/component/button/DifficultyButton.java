@@ -37,7 +37,7 @@ public class DifficultyButton extends WrapperContainer<TextButton> {
 	}
 
 	private void addSoundEvents() {
-		addListener(new InputListener() {
+		textButton.addListener(new InputListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 				if (!textButton.isChecked()) {

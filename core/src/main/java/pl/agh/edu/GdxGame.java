@@ -10,7 +10,7 @@ import pl.agh.edu.config.LanguageConfig;
 import pl.agh.edu.engine.Engine;
 import pl.agh.edu.engine.hotel.HotelType;
 import pl.agh.edu.ui.language.LanguageManager;
-import pl.agh.edu.ui.screen.main.ScenarioScreen;
+import pl.agh.edu.ui.screen.init.ScenarioScreen;
 
 public class GdxGame extends ApplicationAdapter {
 

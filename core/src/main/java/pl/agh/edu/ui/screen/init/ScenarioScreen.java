@@ -1,4 +1,4 @@
-package pl.agh.edu.ui.screen.main;
+package pl.agh.edu.ui.screen.init;
 
 import java.util.Optional;
 
@@ -9,6 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Stack;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import pl.agh.edu.GdxGame;
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.engine.hotel.HotelType;
@@ -17,19 +19,22 @@ import pl.agh.edu.engine.hotel.dificulty.GameDifficultyManager;
 import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.panel.DifficultyPanel;
 import pl.agh.edu.ui.panel.ScenarioPanel;
+import pl.agh.edu.ui.screen.main.MainScreen;
 
 public class ScenarioScreen implements Screen {
 	public final Stage stage = new Stage(GraphicConfig.getViewport());
-	public final GdxGame game = (GdxGame) Gdx.app.getApplicationListener();
 	public final Skin skin = GameSkin.getInstance();
-	public final ScenarioPanel scenarioPanel = new ScenarioPanel(this::goToDifficultyPanel);
-	public final DifficultyPanel difficultyPanel = new DifficultyPanel(this::goToScenarioPanel, this::startGame);
-	public final Actor scenarioActor = scenarioPanel.getActor();
-	public final Actor difficultyActor = difficultyPanel.getActor();
+	public final Stack stack = new Stack();
+	public final Table mainTable = new Table();
+	public final GameCreationWizard wizard = new GameCreationWizard(mainTable);
 
 	public ScenarioScreen() {
 		stage.getViewport().update(GraphicConfig.getResolution().WIDTH, GraphicConfig.getResolution().HEIGHT, true);
-		stage.addActor(scenarioActor);
+		stage.addActor(stack);
+		stack.setFillParent(true);
+		stack.add(mainTable);
+		mainTable.setFillParent(true);
+		mainTable.background(skin.getDrawable("hotel-room"));
 	}
 
 	@Override
@@ -68,25 +73,5 @@ public class ScenarioScreen implements Screen {
 	@Override
 	public void dispose() {
 
-	}
-
-	public void goToDifficultyPanel() {
-		stage.clear();
-		stage.addActor(difficultyActor);
-	}
-
-	public void goToScenarioPanel() {
-		stage.clear();
-		stage.addActor(scenarioActor);
-	}
-
-	public void startGame() {
-		Optional<DifficultyLevel> difficultyLevel = difficultyPanel.getSelectedDifficulty();
-		Optional<HotelType> hotelType = scenarioPanel.getSelectedScenario();
-		if (difficultyLevel.isPresent() && hotelType.isPresent()) {
-			GameDifficultyManager.getInstance().setDifficulty(difficultyLevel.get());
-			game.createEngine(hotelType.get());
-		}
-		game.setScreen(new MainScreen(game));
 	}
 }
