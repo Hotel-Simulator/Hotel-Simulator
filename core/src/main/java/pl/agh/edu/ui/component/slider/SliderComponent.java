@@ -11,11 +11,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import pl.agh.edu.config.GraphicConfig;
-import pl.agh.edu.ui.language.LanguageChangeListener;
 import pl.agh.edu.ui.utils.wrapper.WrapperDoubleTable;
 import pl.agh.edu.utils.LanguageString;
 
-public abstract class SliderComponent extends WrapperDoubleTable implements LanguageChangeListener {
+public abstract class SliderComponent extends WrapperDoubleTable{
 
 	protected final String suffix;
 	protected final Label valueLabel = new Label("100 %", skin, SUBTITLE2.getName());
@@ -30,6 +29,7 @@ public abstract class SliderComponent extends WrapperDoubleTable implements Lang
 
 		Label nameLabel = new Label("", skin, SUBTITLE2.getName());
 		this.setLanguageChangeHandler(nameLabel::setText);
+		this.onLanguageChange();
 		this.setResolutionChangeHandler(this::changeResolutionHandler);
 
 		nameLabel.setAlignment(center, center);

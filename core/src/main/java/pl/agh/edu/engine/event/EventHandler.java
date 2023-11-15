@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalTime;
 import java.time.Year;
-import java.util.function.Consumer;
 
 import pl.agh.edu.data.loader.JSONGameDataLoader;
 import pl.agh.edu.engine.building_cost.BuildingCostMultiplierHandler;
@@ -19,6 +18,7 @@ import pl.agh.edu.engine.hotel.scenario.HotelScenariosManager;
 import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.engine.time.TimeCommandExecutor;
 import pl.agh.edu.engine.time.command.TimeCommand;
+import pl.agh.edu.ui.component.modal.ModalManager;
 
 public class EventHandler {
 
@@ -28,8 +28,6 @@ public class EventHandler {
 	private final BuildingCostMultiplierHandler buildingCostHandler = BuildingCostMultiplierHandler.getInstance();
 	private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
 	private final Time time = Time.getInstance();
-	private Consumer<EventModalData> eventHandlerFunction;
-
 	public EventHandler(HotelScenariosManager hotelScenariosManager) {
 		this.eventGenerator = new EventGenerator(hotelScenariosManager);
 	}
@@ -67,14 +65,14 @@ public class EventHandler {
 
 	private TimeCommand createTimeCommandForEventAppearancePopup(TemporaryEvent temporaryEvent) {
 		return new TimeCommand(
-				() -> eventHandlerFunction.accept(new EventModalData(temporaryEvent.title, temporaryEvent.eventAppearancePopupDescription,
+				() -> ModalManager.getInstance().showEventModal(new EventModalData(temporaryEvent.title, temporaryEvent.eventAppearancePopupDescription,
 						temporaryEvent.imagePath)),
 				temporaryEvent.appearanceDate.atTime(LocalTime.NOON));
 	}
 
 	private TimeCommand createTimeCommandForEventAppearancePopup(BuildingCostModificationPermanentEvent permanentEvent) {
 		return new TimeCommand(
-				() -> eventHandlerFunction.accept(new EventModalData(permanentEvent.title, permanentEvent.eventAppearancePopupDescription,
+				() -> ModalManager.getInstance().showEventModal(new EventModalData(permanentEvent.title, permanentEvent.eventAppearancePopupDescription,
 						permanentEvent.imagePath)),
 				permanentEvent.appearanceDate.atTime(LocalTime.NOON));
 	}
@@ -98,7 +96,7 @@ public class EventHandler {
 
 	private TimeCommand createTimeCommandForEventStartPopup(TemporaryEvent temporaryEvent) {
 		return new TimeCommand(
-				() -> eventHandlerFunction.accept(new EventModalData(temporaryEvent.title, temporaryEvent.eventStartPopupDescription,
+				() -> ModalManager.getInstance().showEventModal(new EventModalData(temporaryEvent.title, temporaryEvent.eventStartPopupDescription,
 						temporaryEvent.imagePath)),
 				temporaryEvent.startDate.atTime(LocalTime.MIDNIGHT));
 	}
@@ -113,9 +111,5 @@ public class EventHandler {
 		return new TimeCommand(
 				() -> clientNumberModificationEventHandler.remove(event.modifier),
 				event.appearanceDate.atTime(LocalTime.MIDNIGHT).minusMinutes(1));
-	}
-
-	public void setEventHandlerFunction(Consumer<EventModalData> eventHandlerFunction) {
-		this.eventHandlerFunction = eventHandlerFunction;
 	}
 }

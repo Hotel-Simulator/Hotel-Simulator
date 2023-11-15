@@ -1,75 +1,46 @@
 package pl.agh.edu.ui.component.modal.event;
 
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
 
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.engine.event.EventModalData;
 import pl.agh.edu.engine.time.Time;
+import pl.agh.edu.ui.component.modal.BaseModalWrapper;
 import pl.agh.edu.ui.shader.BlurShader;
-import pl.agh.edu.ui.utils.wrapper.WrapperContainer;
 
-public class EventWrapper extends WrapperContainer<EventModal> {
+public class EventWrapper extends BaseModalWrapper {
 
-	private final InputMultiplexer inputMultiplexer;
-	private final BlurShader blurShader;
-	private final Stage mainStage;
-	private final Stage eventStage;
-
+	private final EventModalData eventModalData;
 	public EventWrapper(
 			InputMultiplexer inputMultiplexer,
 			BlurShader blurShader,
 			Stage mainStage,
-			Stage eventStage) {
-		super();
-		this.inputMultiplexer = inputMultiplexer;
-		this.blurShader = blurShader;
-		this.mainStage = mainStage;
-		this.eventStage = eventStage;
-		this.resize();
+			Stage modalStage,
+			EventModalData eventModalData
+			) {
+		super(inputMultiplexer, blurShader, mainStage, modalStage);
+		this.eventModalData = eventModalData;
 		this.setResolutionChangeHandler(this::resize);
-		this.setFillParent(true);
+		this.resize();
 	}
 
-	public boolean isEventOpen() {
-		return this.getActor() != null;
-	}
-
-	public int countContainersWithActors() {
-		int count = 0;
-		for (Actor actor : eventStage.getActors()) {
-			if (actor instanceof Container container && container.getActor() != null) {
-				count++;
-			}
-		}
-		return count;
-	}
-
-	private boolean isStageActive() {
-		return countContainersWithActors() > 0;
-	}
-
-	private boolean isStageReadyToClose() {
-		return countContainersWithActors() <= 1;
-	}
-
-	public void showEvent(EventModalData eventModalData) {
-		if (isEventOpen())
+	@Override
+	public void openModal() {
+		if (isModalOpen())
 			return;
 		if (!isStageActive()) {
 			Time.getInstance().stop();
-			inputMultiplexer.setProcessors(eventStage);
+			inputMultiplexer.setProcessors(modalStage);
 			blurShader.startBlur();
 		}
-		EventModal optionModal = new EventModal(eventModalData, this::closeOptions);
+		EventModal optionModal = new EventModal(eventModalData);
 		this.setActor(optionModal);
 		optionModal.runVerticalFadeInAnimation();
 	}
-
-	private void closeOptions() {
-		if (!isEventOpen())
+	@Override
+	public void closeModal() {
+		if (!isModalOpen())
 			return;
 		if (isStageReadyToClose()) {
 			inputMultiplexer.setProcessors(mainStage);

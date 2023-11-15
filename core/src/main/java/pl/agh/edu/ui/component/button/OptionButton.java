@@ -7,15 +7,21 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import pl.agh.edu.ui.GameSkin;
+import pl.agh.edu.ui.component.modal.ModalManager;
 
 public class OptionButton extends Button {
-	public OptionButton(Runnable clickedHandler) {
+	private final ModalManager modalManager = ModalManager.getInstance();
+	public OptionButton() {
 		super(GameSkin.getInstance(), "options");
 		addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				POP.playSound();
-				clickedHandler.run();
+				System.out.println(modalManager.isModalActive());
+				if(modalManager.isModalActive())
+					modalManager.closeModal();
+				else
+					modalManager.setUpOptionModal();
 			}
 		});
 	}
