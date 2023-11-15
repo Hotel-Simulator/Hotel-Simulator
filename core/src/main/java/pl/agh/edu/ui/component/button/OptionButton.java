@@ -11,6 +11,7 @@ import pl.agh.edu.ui.component.modal.ModalManager;
 
 public class OptionButton extends Button {
 	private final ModalManager modalManager = ModalManager.getInstance();
+
 	public OptionButton() {
 		super(GameSkin.getInstance(), "options");
 		addListener(new ClickListener() {
@@ -18,7 +19,7 @@ public class OptionButton extends Button {
 			public void clicked(InputEvent event, float x, float y) {
 				POP.playSound();
 				System.out.println(modalManager.isModalActive());
-				if(modalManager.isModalActive())
+				if (modalManager.isModalActive())
 					modalManager.closeModal();
 				else
 					modalManager.setUpOptionModal();

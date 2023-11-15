@@ -14,7 +14,7 @@ import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.ui.utils.wrapper.WrapperDoubleTable;
 import pl.agh.edu.utils.LanguageString;
 
-public abstract class SliderComponent extends WrapperDoubleTable{
+public abstract class SliderComponent extends WrapperDoubleTable {
 
 	protected final String suffix;
 	protected final Label valueLabel = new Label("100 %", skin, SUBTITLE2.getName());

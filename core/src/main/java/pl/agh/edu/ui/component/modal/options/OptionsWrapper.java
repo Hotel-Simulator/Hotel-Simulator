@@ -9,6 +9,7 @@ import pl.agh.edu.ui.shader.BlurShader;
 
 public class OptionsWrapper extends BaseModalWrapper {
 	private final OptionModal optionModal = new OptionModal();
+
 	public OptionsWrapper(
 			InputMultiplexer inputMultiplexer,
 			BlurShader blurShader,
@@ -18,6 +19,7 @@ public class OptionsWrapper extends BaseModalWrapper {
 		this.resize();
 		this.setResolutionChangeHandler(this::resize);
 	}
+
 	@Override
 	public void openModal() {
 		if (isModalOpen())

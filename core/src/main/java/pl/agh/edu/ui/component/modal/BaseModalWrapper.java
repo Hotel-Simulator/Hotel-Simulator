@@ -31,6 +31,7 @@ public abstract class BaseModalWrapper extends WrapperContainer<WrapperTable> {
 	public boolean isModalOpen() {
 		return this.getActor() != null;
 	}
+
 	protected boolean isStageActive() {
 		return ModalManager.getInstance().isModalActive();
 	}

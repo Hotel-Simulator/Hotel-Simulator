@@ -83,7 +83,7 @@ public class OptionModal extends WrapperTable {
 
 	private void resize() {
 		this.resetAnimationPosition();
-//		this.validate();
+		// this.validate();
 	}
 
 	private SelectMenu createSelectMenuForResolution() {
@@ -156,20 +156,20 @@ public class OptionModal extends WrapperTable {
 		selectLanguageMenu.setItem(LanguageConfig.getLanguage().languageString.path);
 	}
 
-//	@Override
-//	public void validate() {
-//		super.validate();
-//		if (this.getParent() != null) {
-//			innerTable.setBounds(
-//					this.getParent().getX(),
-//					this.getParent().getY(),
-//					this.getWidth(),
-//					this.getHeight());
-//			this.setResetAnimationPosition(
-//					this.getParent().getX() + (GraphicConfig.getResolution().WIDTH - this.getWidth()) / 2,
-//					this.getParent().getY() + (GraphicConfig.getResolution().HEIGHT - this.getHeight()) / 2);
-//		}
-//	}
+	// @Override
+	// public void validate() {
+	// super.validate();
+	// if (this.getParent() != null) {
+	// innerTable.setBounds(
+	// this.getParent().getX(),
+	// this.getParent().getY(),
+	// this.getWidth(),
+	// this.getHeight());
+	// this.setResetAnimationPosition(
+	// this.getParent().getX() + (GraphicConfig.getResolution().WIDTH - this.getWidth()) / 2,
+	// this.getParent().getY() + (GraphicConfig.getResolution().HEIGHT - this.getHeight()) / 2);
+	// }
+	// }
 
 	private static class OptionFrameStyle {
 		public static float getPadding() {

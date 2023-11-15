@@ -12,13 +12,13 @@ import pl.agh.edu.ui.shader.BlurShader;
 public class EventWrapper extends BaseModalWrapper {
 
 	private final EventModalData eventModalData;
+
 	public EventWrapper(
 			InputMultiplexer inputMultiplexer,
 			BlurShader blurShader,
 			Stage mainStage,
 			Stage modalStage,
-			EventModalData eventModalData
-			) {
+			EventModalData eventModalData) {
 		super(inputMultiplexer, blurShader, mainStage, modalStage);
 		this.eventModalData = eventModalData;
 		this.setResolutionChangeHandler(this::resize);
@@ -38,6 +38,7 @@ public class EventWrapper extends BaseModalWrapper {
 		this.setActor(optionModal);
 		optionModal.runVerticalFadeInAnimation();
 	}
+
 	@Override
 	public void closeModal() {
 		if (!isModalOpen())

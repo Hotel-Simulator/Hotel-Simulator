@@ -28,6 +28,7 @@ public class EventHandler {
 	private final BuildingCostMultiplierHandler buildingCostHandler = BuildingCostMultiplierHandler.getInstance();
 	private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
 	private final Time time = Time.getInstance();
+
 	public EventHandler(HotelScenariosManager hotelScenariosManager) {
 		this.eventGenerator = new EventGenerator(hotelScenariosManager);
 	}
