@@ -25,7 +25,7 @@ import pl.agh.edu.engine.opinion.OpinionHandler;
 import pl.agh.edu.utils.RandomUtils;
 
 public class ClientGroupGenerationHandler {
-	private final ClientGenerator clientGenerator;
+	private final ClientGenerator clientGenerator = ClientGenerator.getInstance();
 	private final ClientNumberModificationEventHandler clientNumberModificationEventHandler = ClientNumberModificationEventHandler.getInstance();
 	private final AdvertisementHandler advertisementHandler;
 	private final AttractionHandler attractionHandler;
@@ -34,12 +34,10 @@ public class ClientGroupGenerationHandler {
 	public ClientGroupGenerationHandler(
 			HotelScenariosManager hotelScenariosManager,
 			BankAccountHandler bankAccountHandler,
-			AttractionHandler attractionHandler,
-			GameDifficultyManager gameDifficultyManager) {
+			AttractionHandler attractionHandler) {
 		this.advertisementHandler = new AdvertisementHandler(bankAccountHandler);
 		this.hotelScenariosManager = hotelScenariosManager;
 		this.attractionHandler = attractionHandler;
-		clientGenerator = new ClientGenerator(gameDifficultyManager);
 	}
 
 	public List<Arrival> getArrivalsForDay(LocalTime checkInMinTime) {

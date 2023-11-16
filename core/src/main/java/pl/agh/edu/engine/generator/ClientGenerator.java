@@ -25,15 +25,19 @@ import pl.agh.edu.utils.RandomUtils;
 
 public class ClientGenerator {
 
+	private static ClientGenerator clientGeneratorInstance;
 	private final Time time = Time.getInstance();
 	private static final Faker faker = new Faker(new Locale("en-GB"));
-	private final GameDifficultyManager gameDifficultyManager;
+	// Set user input here (set hotelType)
+	private final GameDifficultyManager gameDifficultyManager = GameDifficultyManager.getInstance();
 
-	public ClientGenerator(GameDifficultyManager difficultyManager) {
-		this.gameDifficultyManager = difficultyManager;
+	private ClientGenerator() {}
+
+	public static ClientGenerator getInstance() {
+		if (clientGeneratorInstance == null)
+			clientGeneratorInstance = new ClientGenerator();
+		return clientGeneratorInstance;
 	}
-
-
 
 	public ClientGroup generateClientGroupForGivenHotelVisitPurpose(HotelVisitPurpose hotelVisitPurpose) {
 		RoomRank desiredRoomRank = RandomUtils.randomKeyWithProbabilities(JSONClientDataLoader.desiredRankProbabilities.get(hotelVisitPurpose));

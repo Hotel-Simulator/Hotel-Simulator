@@ -20,7 +20,7 @@ import pl.agh.edu.engine.hotel.dificulty.GameDifficultyManager;
 public class BankAccountTest {
 	private final BigDecimal accountFee = BigDecimal.valueOf(10);
 	private BankAccount bankAccount;
-	private final BigDecimal initialBalance = new GameDifficultyManager().getInitialBalance();
+	private final BigDecimal initialBalance = GameDifficultyManager.getInstance().getInitialBalance();
 
 	@BeforeEach
 	public void setUp() {

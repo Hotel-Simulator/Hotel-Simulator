@@ -22,19 +22,13 @@ public class HotelHandler {
 
 	public final PossibleEmployeeHandler possibleEmployeeHandler = new PossibleEmployeeHandler(this);
 	public final EmployeeHandler employeeHandler = new EmployeeHandler();
-	public final BankAccount bankAccount;
-	public final BankAccountHandler bankAccountHandler;
-	public final EmployeeSalaryHandler employeeSalaryHandler;
-	public final RoomManager roomManager;
-	public final AttractionHandler attractionHandler;
+	public final BankAccount bankAccount = new BankAccount(
+			GameDifficultyManager.getInstance().getInitialBalance(),
+			JSONBankDataLoader.scenarios.get(0).accountDetails());
+	public final BankAccountHandler bankAccountHandler = new BankAccountHandler(bankAccount);
+	public final EmployeeSalaryHandler employeeSalaryHandler = new EmployeeSalaryHandler(employeeHandler, bankAccountHandler);
+	public final RoomManager roomManager = new RoomManager(JSONHotelDataLoader.initialRooms, bankAccountHandler);
+	public final AttractionHandler attractionHandler = new AttractionHandler(bankAccountHandler, roomManager);
 
-	public HotelHandler(GameDifficultyManager gameDifficultyManager) {
-		this.bankAccount = new BankAccount(
-				gameDifficultyManager.getInitialBalance(),
-				JSONBankDataLoader.scenarios.get(0).accountDetails());
-		this.bankAccountHandler = new BankAccountHandler(bankAccount);
-		this.employeeSalaryHandler = new EmployeeSalaryHandler(employeeHandler, bankAccountHandler);
-		this.roomManager = new RoomManager(JSONHotelDataLoader.initialRooms, bankAccountHandler);
-		this.attractionHandler = new AttractionHandler(bankAccountHandler, roomManager);
-	}
+	public HotelHandler() {}
 }

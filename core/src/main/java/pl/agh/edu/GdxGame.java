@@ -15,7 +15,7 @@ import pl.agh.edu.ui.screen.init.ScenarioScreen;
 
 public class GdxGame extends ApplicationAdapter {
 
-	private Engine engine;
+	public final Engine engine = new Engine();
 	private Screen currentScreen;
 	private Screen previousScreen;
 
@@ -82,12 +82,8 @@ public class GdxGame extends ApplicationAdapter {
 		setScreen(currentScreen);
 	}
 
-	public Engine getEngine() {
-		return engine;
-	}
-
 	public void createEngine(HotelType hotelType, DifficultyLevel difficultyLevel) {
-		engine = new Engine(hotelType, difficultyLevel);
+
 	}
 
 }
