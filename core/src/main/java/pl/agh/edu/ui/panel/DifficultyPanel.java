@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -24,12 +25,16 @@ import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.component.button.DifficultyButton;
 import pl.agh.edu.ui.component.button.ScenarioLabeledButton;
 import pl.agh.edu.ui.component.label.LanguageLabel;
+import pl.agh.edu.ui.language.LanguageChangeListener;
+import pl.agh.edu.ui.language.LanguageManager;
+import pl.agh.edu.ui.resolution.ResolutionChangeListener;
+import pl.agh.edu.ui.resolution.ResolutionManager;
 import pl.agh.edu.ui.resolution.Size;
 import pl.agh.edu.ui.utils.SkinColor;
 import pl.agh.edu.ui.utils.wrapper.WrapperContainer;
 import pl.agh.edu.utils.LanguageString;
 
-public class DifficultyPanel extends WrapperContainer<Table> {
+public class DifficultyPanel implements LanguageChangeListener, ResolutionChangeListener {
 	public final GameSkin skin = GameSkin.getInstance();
 	public final Table frame = new Table();
 	public final DifficultyPanelSizes sizes = new DifficultyPanelSizes(frame);
@@ -45,7 +50,6 @@ public class DifficultyPanel extends WrapperContainer<Table> {
 	private Runnable startGame;
 
 	public DifficultyPanel(Runnable goToScenarioPanel, Runnable startGame) {
-		setActor(frame);
 		setSize();
 
 		this.goToScenarioPanel = goToScenarioPanel;
@@ -57,8 +61,9 @@ public class DifficultyPanel extends WrapperContainer<Table> {
 		createBackButton();
 		createFrame();
 
-		setResolutionChangeHandler(this::updateSizes);
 		addListeners();
+		LanguageManager.addListener(this);
+		ResolutionManager.addListener(this);
 	}
 
 	public void createFrame() {
@@ -172,6 +177,17 @@ public class DifficultyPanel extends WrapperContainer<Table> {
 		setSize();
 		createTitleLabel();
 		createFrame();
+	}
+
+	@Override
+	public Actor onLanguageChange() {
+		return frame;
+	}
+
+	@Override
+	public Actor onResolutionChange() {
+		updateSizes();
+		return frame;
 	}
 
 	private static class DifficultyPanelStyle {

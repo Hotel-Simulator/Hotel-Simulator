@@ -34,8 +34,26 @@ public class Engine {
 			hotelScenariosManager,
 			hotelHandler.bankAccountHandler,
 			hotelHandler.attractionHandler);
+	private HotelType hotelType;
+	private DifficultyLevel difficultyLevel;
 
 	public Engine() {
+
+		LocalDateTime currentTime = time.getTime();
+
+		initializeEveryShiftUpdates(currentTime);
+
+		initializeEveryDayUpdates(currentTime);
+
+		initializeEveryMonthUpdates(currentTime);
+
+		initializeEveryYearUpdates(currentTime);
+	}
+
+	public Engine(HotelType hotelType, DifficultyLevel difficultyLevel) {
+
+		this.hotelType = hotelType;
+		this.difficultyLevel = difficultyLevel;
 
 		LocalDateTime currentTime = time.getTime();
 

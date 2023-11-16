@@ -40,9 +40,7 @@ public class GdxGame extends ApplicationAdapter {
 			currentScreen.render(Gdx.graphics.getDeltaTime());
 		}
 
-		if (engine != null) {
-			engine.time.update(Gdx.graphics.getDeltaTime());
-		}
+		engine.time.update(Gdx.graphics.getDeltaTime());
 	}
 
 	@Override
@@ -83,7 +81,7 @@ public class GdxGame extends ApplicationAdapter {
 	}
 
 	public void createEngine(HotelType hotelType, DifficultyLevel difficultyLevel) {
-
+//		engine = new Engine(hotelType, difficultyLevel);
 	}
 
 }

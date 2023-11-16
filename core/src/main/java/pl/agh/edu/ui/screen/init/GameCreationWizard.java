@@ -18,29 +18,27 @@ public class GameCreationWizard {
     public final GdxGame game = (GdxGame) Gdx.app.getApplicationListener();
     public final ScenarioPanel scenarioPanel = new ScenarioPanel(this::goToDifficultyPanel);
     public final DifficultyPanel difficultyPanel = new DifficultyPanel(this::goToScenarioPanel, this::startGame);
-    public final Actor scenarioActor = scenarioPanel.getActor();
-    public final Actor difficultyActor = difficultyPanel.getActor();
 
     public GameCreationWizard(Table mainTable){
         this.mainTable = mainTable;
-        mainTable.add(scenarioActor);
+        mainTable.add(scenarioPanel.frame);
     }
 
     public void goToDifficultyPanel() {
-        mainTable.clear();
-        mainTable.addActor(difficultyActor);
+        mainTable.clearChildren();
+        mainTable.addActor(difficultyPanel.frame);
     }
 
     public void goToScenarioPanel() {
-        mainTable.clear();
-        mainTable.addActor(scenarioActor);
+        mainTable.clearChildren();
+        mainTable.addActor(scenarioPanel.frame);
     }
 
     public void startGame() {
         Optional<DifficultyLevel> difficultyLevel = difficultyPanel.getSelectedDifficulty();
         Optional<HotelType> hotelType = scenarioPanel.getSelectedScenario();
         if (difficultyLevel.isPresent() && hotelType.isPresent()) {
-            game.createEngine(hotelType.get(), difficultyLevel.get());
+            // Create engine
         }
         game.setScreen(new MainScreen(game));
     }

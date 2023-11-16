@@ -8,10 +8,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
@@ -21,11 +23,16 @@ import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.component.button.ScenarioButton;
 import pl.agh.edu.ui.component.button.ScenarioLabeledButton;
 import pl.agh.edu.ui.component.label.LanguageLabel;
+import pl.agh.edu.ui.language.LanguageChangeListener;
+import pl.agh.edu.ui.language.LanguageManager;
+import pl.agh.edu.ui.resolution.ResolutionChangeListener;
+import pl.agh.edu.ui.resolution.ResolutionManager;
 import pl.agh.edu.ui.utils.wrapper.WrapperContainer;
 import pl.agh.edu.utils.LanguageString;
 
-public class ScenarioPanel extends WrapperContainer<Table> {
+public class ScenarioPanel implements LanguageChangeListener, ResolutionChangeListener {
 	public final Table frame = new Table();
+	protected Skin skin = GameSkin.getInstance();
 	public final ScenarioPanelSizes sizes = new ScenarioPanelSizes();
 	public final List<ScenarioButton> buttonList = new ArrayList<>();
 	public final ButtonGroup<Button> buttonGroup = new ButtonGroup<>();
@@ -37,17 +44,17 @@ public class ScenarioPanel extends WrapperContainer<Table> {
 	private Runnable goToDifficultyPanel;
 
 	public ScenarioPanel(Runnable goToDifficultyPanel) {
-		super(new LanguageString("scenario.next.button"));
 		this.goToDifficultyPanel = goToDifficultyPanel;
-		setActor(frame);
 		getSize();
 		createDifficultyButtons();
 		createTitleLabel();
 		createNextButton();
 
 		createFrame();
-		setResolutionChangeHandler(this::updatedSizes);
 		setEventListeners();
+
+		LanguageManager.addListener(this);
+		ResolutionManager.addListener(this);
 	}
 
 	public void createFrame() {
@@ -138,6 +145,18 @@ public class ScenarioPanel extends WrapperContainer<Table> {
 		getSize();
 		updateLabels();
 		createFrame();
+	}
+
+	@Override
+	public Actor onLanguageChange() {
+		updateLabels();
+		return frame;
+	}
+
+	@Override
+	public Actor onResolutionChange() {
+		updatedSizes();
+		return frame;
 	}
 
 	public static class ScenarioPanelStyles {

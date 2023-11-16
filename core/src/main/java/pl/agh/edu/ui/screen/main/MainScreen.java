@@ -29,7 +29,7 @@ public class MainScreen implements Screen {
 	private final InfinityBackground infinityBackground = new InfinityBackground("night-city");
 
 	public MainScreen(GdxGame game) {
-		game.getEngine().eventHandler.setEventHandlerFunction(eventWrapper::showEvent);
+		game.engine.eventHandler.setEventHandlerFunction(eventWrapper::showEvent);
 		inputMultiplexer.setOpenOptionsAction(optionsWrapper.getOptionHandler());
 		setupUI();
 	}
