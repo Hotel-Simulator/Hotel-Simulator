@@ -13,7 +13,7 @@ import pl.agh.edu.data.loader.JSONClientDataLoader;
 import pl.agh.edu.data.loader.JSONOpinionDataLoader;
 import pl.agh.edu.engine.client.Client;
 import pl.agh.edu.engine.client.ClientGroup;
-import pl.agh.edu.engine.client.Sex;
+import pl.agh.edu.engine.client.Gender;
 import pl.agh.edu.engine.hotel.HotelVisitPurpose;
 import pl.agh.edu.engine.hotel.dificulty.GameDifficultyManager;
 import pl.agh.edu.engine.opinion.OpinionHandler;
@@ -69,7 +69,7 @@ public class ClientGenerator {
 				.mapToObj(it -> new Client(
 						faker.name().firstName(),
 						RandomUtils.randomInt(1, 99),
-						RandomUtils.randomEnumElement(Sex.class),
+						RandomUtils.randomEnumElement(Gender.class),
 						hotelVisitPurpose))
 				.collect(Collectors.toList());
 	}
