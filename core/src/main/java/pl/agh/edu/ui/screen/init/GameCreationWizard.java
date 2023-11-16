@@ -39,6 +39,6 @@ public class GameCreationWizard {
 		if (difficultyLevel.isPresent() && hotelType.isPresent()) {
 			// Create engine
 		}
-		game.setScreen(new MainScreen(game));
+		game.setScreen(new MainScreen());
 	}
 }

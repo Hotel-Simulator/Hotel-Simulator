@@ -9,6 +9,7 @@ import pl.agh.edu.engine.hotel.HotelType;
 import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.engine.time.TimeCommandExecutor;
 import pl.agh.edu.engine.time.command.RepeatingTimeCommand;
+import pl.agh.edu.engine.time.command.SerializableRunnable;
 
 public class MusicController {
 	private static RepeatingTimeCommand repeatingTimeCommand;
@@ -21,7 +22,7 @@ public class MusicController {
 		musicTrack.setLooping(true);
 		musicTrack.play();
 
-		Runnable playNextTrack = () -> {
+		SerializableRunnable playNextTrack = () -> {
 			musicTrack.stop();
 			musicTrack = MusicTrack.getTrack(hotelType);
 			musicTrack.setVolume(AudioConfig.getMusicVolume());

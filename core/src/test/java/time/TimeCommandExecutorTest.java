@@ -15,6 +15,7 @@ import org.mockito.InOrder;
 import org.mockito.MockitoAnnotations;
 
 import pl.agh.edu.engine.time.TimeCommandExecutor;
+import pl.agh.edu.engine.time.command.SerializableRunnable;
 import pl.agh.edu.engine.time.command.TimeCommand;
 
 public class TimeCommandExecutorTest {
@@ -45,7 +46,7 @@ public class TimeCommandExecutorTest {
 	@Test
 	public void testExecuteCommands_WithCommands() {
 		// Given
-		Runnable runnable = createMockRunnable();
+		SerializableRunnable runnable = createMockRunnable();
 		TimeCommand command1 = new TimeCommand(runnable, DUE_DATE_TIME_LATER);
 		TimeCommand command2 = new TimeCommand(runnable, DUE_DATE_TIME);
 
@@ -62,8 +63,8 @@ public class TimeCommandExecutorTest {
 	@Test
 	public void testExecuteCommands_InCorrectOrder() {
 		// Given
-		Runnable runnable = createMockRunnable();
-		Runnable runnableLater = createMockRunnable();
+		SerializableRunnable runnable = createMockRunnable();
+		SerializableRunnable runnableLater = createMockRunnable();
 		TimeCommand command1 = new TimeCommand(runnable, DUE_DATE_TIME);
 		TimeCommand command2 = new TimeCommand(runnableLater, DUE_DATE_TIME);
 
@@ -89,7 +90,7 @@ public class TimeCommandExecutorTest {
 		}
 	}
 
-	private Runnable createMockRunnable() {
-		return mock(Runnable.class);
+	private SerializableRunnable createMockRunnable() {
+		return mock(SerializableRunnable.class);
 	}
 }

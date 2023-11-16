@@ -14,7 +14,7 @@ public class FrameStack extends WrapperContainer<Stack> {
 		super();
 		this.stack.setFillParent(true);
 		this.setActor(stack);
-		this.stack.add(NavbarButtonType.BOARD.getFrame());
+		this.stack.add(NavbarButtonType.BOARD.getFrameCreator());
 		this.resize();
 		this.setResolutionChangeHandler(this::resize);
 	}
@@ -24,14 +24,10 @@ public class FrameStack extends WrapperContainer<Stack> {
 	}
 
 	public void changeFrame(BaseFrame newFrame) {
-		((BaseFrame) stack.getChildren().peek()).runHorizontalTrainOutAnimation();
-		stack.getChildren().forEach(actor -> {
-			if (actor instanceof BaseFrame) {
-				((BaseFrame) actor).runHorizontalTrainOutAnimation();
-			}
-		});
+		BaseFrame baseFrame = (BaseFrame) stack.getChildren().peek();
 		stack.addActor(newFrame);
 		newFrame.runHorizontalTrainInAnimation();
+		baseFrame.runHorizontalTrainOutAnimation();
 	}
 
 	public void resize() {

@@ -3,8 +3,8 @@ package pl.agh.edu.ui.component.tab;
 import static pl.agh.edu.ui.component.tab.TabSelector.TabSelectorStyle.getFont;
 import static pl.agh.edu.ui.utils.SkinColor.ColorLevel._500;
 import static pl.agh.edu.ui.utils.SkinColor.GRAY;
-import static pl.agh.edu.ui.utils.SkinFont.BODY_1;
-import static pl.agh.edu.ui.utils.SkinFont.BODY_2;
+import static pl.agh.edu.ui.utils.SkinFont.BODY1;
+import static pl.agh.edu.ui.utils.SkinFont.BODY2;
 import static pl.agh.edu.ui.utils.SkinFont.H4;
 
 import com.badlogic.gdx.graphics.g2d.NinePatch;
@@ -45,8 +45,8 @@ public class TabSelector extends WrapperTable {
 	static class TabSelectorStyle {
 		static String getFont() {
 			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> BODY_2.getWhiteVariantName();
-				case MEDIUM -> BODY_1.getWhiteVariantName();
+				case SMALL -> BODY2.getWhiteVariantName();
+				case MEDIUM -> BODY1.getWhiteVariantName();
 				case LARGE -> H4.getWhiteVariantName();
 			};
 		}
