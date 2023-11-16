@@ -21,7 +21,7 @@ public class OptionButton extends Button {
 				if (modalManager.isModalActive())
 					modalManager.closeModal();
 				else
-					modalManager.setUpOptionModal();
+					modalManager.showOptionModal();
 			}
 		});
 	}

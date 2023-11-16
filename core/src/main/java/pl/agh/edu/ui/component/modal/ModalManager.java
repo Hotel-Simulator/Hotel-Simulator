@@ -54,7 +54,7 @@ public class ModalManager extends Stack {
 		this.add(actor);
 	}
 
-	public void setUpOptionModal() {
+	public void showOptionModal() {
 		addModal(new OptionsWrapper(inputMultiplexer, blurShader, mainStage, eventStage));
 	}
 

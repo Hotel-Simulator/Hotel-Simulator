@@ -27,7 +27,7 @@ public class MainScreenInputAdapter extends InputMultiplexer {
 			if (modalManager.isModalActive())
 				modalManager.closeModal();
 			else
-				modalManager.setUpOptionModal();
+				modalManager.showOptionModal();
 			return true;
 		}
 		if (keycode == GRAVE) {
