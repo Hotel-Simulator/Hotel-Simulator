@@ -31,7 +31,6 @@ import pl.agh.edu.ui.resolution.ResolutionChangeListener;
 import pl.agh.edu.ui.resolution.ResolutionManager;
 import pl.agh.edu.ui.resolution.Size;
 import pl.agh.edu.ui.utils.SkinColor;
-import pl.agh.edu.ui.utils.wrapper.WrapperContainer;
 import pl.agh.edu.utils.LanguageString;
 
 public class DifficultyPanel implements LanguageChangeListener, ResolutionChangeListener {

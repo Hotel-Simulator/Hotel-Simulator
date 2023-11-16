@@ -20,7 +20,7 @@ public class HotelScenariosManager {
 
 	private final Time time = Time.getInstance();
 
-	public HotelScenariosManager(HotelType hotelType){
+	public HotelScenariosManager(HotelType hotelType) {
 		this.hotelType = hotelType;
 		hotelVisitPurposeProbabilities = JSONHotelScenariosDataLoader.hotelTypeVisitProbabilities.get(hotelType);
 		attractivenessConstants = JSONHotelScenariosDataLoader.attractivenessConstants.get(hotelType);

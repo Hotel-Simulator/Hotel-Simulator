@@ -15,7 +15,6 @@ import pl.agh.edu.engine.event.EventHandler;
 import pl.agh.edu.engine.hotel.HotelHandler;
 import pl.agh.edu.engine.hotel.HotelType;
 import pl.agh.edu.engine.hotel.dificulty.DifficultyLevel;
-import pl.agh.edu.engine.hotel.dificulty.GameDifficultyManager;
 import pl.agh.edu.engine.hotel.scenario.HotelScenariosManager;
 import pl.agh.edu.engine.opinion.OpinionBuilder;
 import pl.agh.edu.engine.opinion.OpinionHandler;

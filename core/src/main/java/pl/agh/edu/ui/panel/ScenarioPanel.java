@@ -27,7 +27,6 @@ import pl.agh.edu.ui.language.LanguageChangeListener;
 import pl.agh.edu.ui.language.LanguageManager;
 import pl.agh.edu.ui.resolution.ResolutionChangeListener;
 import pl.agh.edu.ui.resolution.ResolutionManager;
-import pl.agh.edu.ui.utils.wrapper.WrapperContainer;
 import pl.agh.edu.utils.LanguageString;
 
 public class ScenarioPanel implements LanguageChangeListener, ResolutionChangeListener {

@@ -1,25 +1,15 @@
 package pl.agh.edu.ui.screen.init;
 
-import java.util.Optional;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import pl.agh.edu.GdxGame;
+
 import pl.agh.edu.config.GraphicConfig;
-import pl.agh.edu.engine.hotel.HotelType;
-import pl.agh.edu.engine.hotel.dificulty.DifficultyLevel;
-import pl.agh.edu.engine.hotel.dificulty.GameDifficultyManager;
 import pl.agh.edu.ui.GameSkin;
-import pl.agh.edu.ui.panel.DifficultyPanel;
-import pl.agh.edu.ui.panel.ScenarioPanel;
-import pl.agh.edu.ui.screen.main.MainScreen;
 
 public class ScenarioScreen implements Screen {
 	public final Stage stage = new Stage(GraphicConfig.getViewport());

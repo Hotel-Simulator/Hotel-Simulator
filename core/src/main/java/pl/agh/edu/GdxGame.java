@@ -81,7 +81,7 @@ public class GdxGame extends ApplicationAdapter {
 	}
 
 	public void createEngine(HotelType hotelType, DifficultyLevel difficultyLevel) {
-//		engine = new Engine(hotelType, difficultyLevel);
+		// engine = new Engine(hotelType, difficultyLevel);
 	}
 
 }
