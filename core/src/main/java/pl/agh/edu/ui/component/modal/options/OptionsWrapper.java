@@ -49,9 +49,9 @@ public class OptionsWrapper extends BaseModalWrapper {
 	private static class OptionWrapperStyle {
 		public static float getHeight() {
 			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> 600f;
-				case MEDIUM -> 700f;
-				case LARGE -> 800f;
+				case SMALL -> 500f;
+				case MEDIUM -> 600f;
+				case LARGE -> 700f;
 			};
 		}
 

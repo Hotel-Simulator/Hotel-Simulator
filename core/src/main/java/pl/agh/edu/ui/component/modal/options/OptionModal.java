@@ -50,11 +50,9 @@ public class OptionModal extends WrapperTable {
 
 		Table ButtonTable = new Table();
 		LabeledButton backButton = new LabeledButton(LARGE, new LanguageString("optionsFrame.label.back"));
-		ButtonTable.add(backButton).pad(OptionFrameStyle.getInnerPadding()).grow().uniform();
+		ButtonTable.add(backButton).growX().expandY().uniform();
 		LabeledButton saveButton = new LabeledButton(LARGE, new LanguageString("optionsFrame.label.save"));
-		ButtonTable.add(saveButton).pad(OptionFrameStyle.getInnerPadding()).grow().uniform();
-
-		this.debugAll();
+		ButtonTable.add(saveButton).growX().expandY().uniform();
 
 		backButton.addListener(new ClickListener() {
 			@Override
@@ -83,7 +81,8 @@ public class OptionModal extends WrapperTable {
 
 	private void resize() {
 		this.resetAnimationPosition();
-		// this.validate();
+		this.validate();
+		innerTable.pad(OptionFrameStyle.getPadding());
 	}
 
 	private SelectMenu createSelectMenuForResolution() {
@@ -156,20 +155,20 @@ public class OptionModal extends WrapperTable {
 		selectLanguageMenu.setItem(LanguageConfig.getLanguage().languageString.path);
 	}
 
-	// @Override
-	// public void validate() {
-	// super.validate();
-	// if (this.getParent() != null) {
-	// innerTable.setBounds(
-	// this.getParent().getX(),
-	// this.getParent().getY(),
-	// this.getWidth(),
-	// this.getHeight());
-	// this.setResetAnimationPosition(
-	// this.getParent().getX() + (GraphicConfig.getResolution().WIDTH - this.getWidth()) / 2,
-	// this.getParent().getY() + (GraphicConfig.getResolution().HEIGHT - this.getHeight()) / 2);
-	// }
-	// }
+	@Override
+	public void validate() {
+		super.validate();
+		if (this.getParent() != null) {
+			innerTable.setBounds(
+					this.getParent().getX(),
+					this.getParent().getY(),
+					this.getWidth(),
+					this.getHeight());
+			this.setResetAnimationPosition(
+					this.getParent().getX() + (GraphicConfig.getResolution().WIDTH - this.getWidth()) / 2,
+					this.getParent().getY() + (GraphicConfig.getResolution().HEIGHT - this.getHeight()) / 2);
+		}
+	}
 
 	private static class OptionFrameStyle {
 		public static float getPadding() {
@@ -178,10 +177,6 @@ public class OptionModal extends WrapperTable {
 				case MEDIUM -> 40f;
 				case LARGE -> 50f;
 			};
-		}
-
-		public static float getInnerPadding() {
-			return 0f;
 		}
 	}
 }

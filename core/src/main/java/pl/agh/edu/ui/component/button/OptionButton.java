@@ -18,7 +18,6 @@ public class OptionButton extends Button {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				POP.playSound();
-				System.out.println(modalManager.isModalActive());
 				if (modalManager.isModalActive())
 					modalManager.closeModal();
 				else
