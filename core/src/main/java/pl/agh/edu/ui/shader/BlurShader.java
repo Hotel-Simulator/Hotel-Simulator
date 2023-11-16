@@ -154,12 +154,17 @@ public class BlurShader extends WrapperContainer<Image> {
 	}
 
 	public void render() {
+		actAndDrawAdditionalStages();
+		this.updateState();
+	}
+
+	public boolean isActive(){
 		switch (stateOfTransition) {
 			case OPENING, CLOSING, OPEN -> {
-				actAndDrawAdditionalStages();
-				this.updateState();
+				return true;
 			}
 		}
+		return false;
 	}
 
 	private void actAndDrawAdditionalStages() {

@@ -63,9 +63,7 @@ public class ModalManager extends Stack {
 	}
 
 	public void closeModal() {
-		BaseModalWrapper currentModal = modalList.get(0);
-		modalList.remove(0);
-		this.removeActor(currentModal);
+		BaseModalWrapper currentModal = modalList.remove(0);
 		currentModal.closeModal();
 		if (!modalList.isEmpty()) {
 			BaseModalWrapper newModal = modalList.get(0);
@@ -74,10 +72,10 @@ public class ModalManager extends Stack {
 	}
 
 	public boolean isModalActive() {
-		return this.getChildren().size > 0;
+		return modalList.size() > 0;
 	}
 
 	public boolean isModalReadyToClose() {
-		return this.getChildren().size <= 1;
+		return modalList.size() <= 1;
 	}
 }

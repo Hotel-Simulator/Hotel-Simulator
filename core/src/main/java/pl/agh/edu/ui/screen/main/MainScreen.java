@@ -67,8 +67,8 @@ public class MainScreen implements Screen {
 	public void render(float delta) {
 		mainStage.act();
 		mainStage.draw();
-		blurShader.render();
-		if (modalManager.isModalActive()) {
+		if (blurShader.isActive() || modalManager.isModalActive()) {
+			blurShader.render();
 			topStage.act();
 			topStage.draw();
 		}
