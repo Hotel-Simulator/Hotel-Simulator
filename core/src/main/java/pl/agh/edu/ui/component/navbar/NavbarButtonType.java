@@ -4,6 +4,7 @@ import java.util.function.Supplier;
 
 import pl.agh.edu.ui.frame.BaseFrame;
 import pl.agh.edu.ui.frame.TestFrame;
+import pl.agh.edu.ui.frame.bank.CreditFrame;
 import pl.agh.edu.ui.frame.employee.HireEmployeeFrame;
 import pl.agh.edu.ui.frame.employee.ManageEmployeeFrame;
 import pl.agh.edu.utils.LanguageString;
@@ -21,7 +22,7 @@ public enum NavbarButtonType {
 	OFFER("offer", () -> new TestFrame(new LanguageString("frame.title.offer"))),
 	ACCOUNT("account", () -> new TestFrame(new LanguageString("frame.title.account"))),
 	DEPOSIT("deposit", () -> new TestFrame(new LanguageString("frame.title.deposit"))),
-	CREDIT("credit", () -> new TestFrame(new LanguageString("frame.title.credit"))),
+	CREDIT("credit", CreditFrame::new),
 	HIRE("hire", HireEmployeeFrame::new),
 	MANAGE("manage", ManageEmployeeFrame::new),
 	HISTORY("history", () -> new TestFrame(new LanguageString("frame.title.history")));
