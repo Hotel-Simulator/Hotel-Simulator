@@ -12,6 +12,7 @@ public class TimeTextField extends TextField {
 
     public TimeTextField(String text, Skin skin, String style) {
         super("", skin, style);
+        scaleBy(-0.9f);
         setText(getTimeFromEngine(text));
         setMaxLength(5);  // Limit the maximum length to 5 characters
         setTextFieldFilter(new TimeTextFieldFilter());

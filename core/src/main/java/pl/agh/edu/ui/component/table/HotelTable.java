@@ -16,10 +16,11 @@ import pl.agh.edu.ui.component.label.LanguageLabel;
 import pl.agh.edu.ui.component.rating.Rating;
 import pl.agh.edu.ui.component.textField.HotelNameTextField;
 import pl.agh.edu.ui.component.textField.TimeTextField;
-import pl.agh.edu.ui.language.LanguageManager;
 import pl.agh.edu.ui.utils.SkinFont;
 import pl.agh.edu.ui.utils.wrapper.WrapperTable;
 import pl.agh.edu.utils.LanguageString;
+
+import java.util.OptionalDouble;
 
 public class HotelTable extends WrapperTable {
     public final GdxGame game = (GdxGame) Gdx.app.getApplicationListener();
@@ -27,8 +28,10 @@ public class HotelTable extends WrapperTable {
     private final Table rightTable = new Table();
     private final GameSkin skin = GameSkin.getInstance();
     private final Drawable background = new NinePatchDrawable(skin.getPatch("modal-glass-background"));
+    public Rating rating;
 
     public HotelTable() {
+        createRating();
         createFrameTable();
         setResolutionChangeHandler(this::createFrameTable);
     }
@@ -39,27 +42,21 @@ public class HotelTable extends WrapperTable {
         rightTable.clear();
         createLeftTable();
         createRightTable();
-        innerTable.pad(10);
+        innerTable.pad(10f);
         innerTable.add(leftTable).width(HotelTableStyles.getLeftTableWidth()).height(HotelTableStyles.getTablesHeight()).padRight(30f);
         innerTable.add(rightTable).width(HotelTableStyles.getRightTableWidth()).height(HotelTableStyles.getTablesHeight());
     }
 
-
-    public void doSth(){
-
-    }
-
     public void createLeftTable(){
         leftTable.setBackground(background);
-        leftTable.pad(50f);
+        leftTable.pad(HotelTableStyles.getLeftTablePad());
 
-        // from engine scenario
         Image scenarioImage = new Image(skin.getDrawable("resort-icon"));
-        TextField hotelName = new HotelNameTextField(skin, "hotel_frame_medium");
+        TextField hotelName = new HotelNameTextField(skin, HotelTableStyles.getTextFieldStyle());
         hotelName.setAlignment(Align.center);
 
         leftTable.add(scenarioImage).grow().row();
-        leftTable.add(hotelName).width(450f).padTop(30f).growX();
+        leftTable.add(hotelName).padTop(30f).growX();
 
     }
 
@@ -73,11 +70,11 @@ public class HotelTable extends WrapperTable {
     private Table createScenarioRow(){
         Table scenario = new Table();
         scenario.setBackground(background);
-        scenario.pad(20f, 0f, 20f, 0f);
+        scenario.pad(HotelTableStyles.VERTICAL_PAD, HotelTableStyles.HORIZONTAL_PAD, HotelTableStyles.VERTICAL_PAD, HotelTableStyles.HORIZONTAL_PAD);
 
-        LanguageLabel title = new LanguageLabel(new LanguageString("hotelFrame.scenario.label"),SkinFont.H4.getName());
+        LanguageLabel title = new LanguageLabel(new LanguageString("hotelFrame.scenario.label"),HotelTableStyles.getLabelsStyle());
         String hotelType = game.engine.hotelScenariosManager.hotelType.toString();
-        Label value = new Label(hotelType, skin, SkinFont.H4.getName());
+        Label value = new Label(hotelType, skin, HotelTableStyles.getLabelsStyle());
 
         scenario.add(title).expandX();
         scenario.add(value).expandX();
@@ -87,33 +84,34 @@ public class HotelTable extends WrapperTable {
     private Table createCheckInRow(){
         Table checkIn = new Table();
         checkIn.setBackground(background);
-        checkIn.pad(20f, 0f, 20f, 0f);
+//        checkIn.pad(HotelTableStyles.VERTICAL_PAD, HotelTableStyles.HORIZONTAL_PAD, HotelTableStyles.VERTICAL_PAD, HotelTableStyles.HORIZONTAL_PAD);
 
-        LanguageLabel title = new LanguageLabel(new LanguageString("hotelFrame.checkIn.label"),SkinFont.H4.getName());
+        checkIn.pad(0f);
+        LanguageLabel title = new LanguageLabel(new LanguageString("hotelFrame.checkIn.label"),HotelTableStyles.getLabelsStyle());
         title.setWrap(true);
         title.setAlignment(Align.center);
-        TextField time = new TimeTextField("in", skin, "hotel_frame_medium");
+        TextField time = new TimeTextField("in", skin, HotelTableStyles.getTextFieldStyle());
         time.setAlignment(Align.center);
 
-        checkIn.add(title).width(250f).expandX();
-        checkIn.add(time).width(200f).right().padRight(40f).expandX();
+        checkIn.add(title).width(HotelTableStyles.getChecksTitleWidth()).expandX();
+        checkIn.add(time).width(HotelTableStyles.getTimeWidth()).right().padRight(40f).expandX();
         return checkIn;
     }
 
     private Table createCheckOutRow(){
         Table checkOut = new Table();
         checkOut.setBackground(background);
-        checkOut.pad(20f, 0f, 20f, 0f);
+        checkOut.pad(0f);
+//        checkOut.pad(HotelTableStyles.VERTICAL_PAD, HotelTableStyles.HORIZONTAL_PAD, HotelTableStyles.VERTICAL_PAD, HotelTableStyles.HORIZONTAL_PAD);
 
-        LanguageLabel title = new LanguageLabel(new LanguageString("hotelFrame.checkOut.label"),SkinFont.H4.getName());
+        LanguageLabel title = new LanguageLabel(new LanguageString("hotelFrame.checkOut.label"),HotelTableStyles.getLabelsStyle());
         title.setWrap(true);
         title.setAlignment(Align.center);
-        // set value from engine
-        TextField time = new TimeTextField("out", skin, "hotel_frame_medium");
+        TextField time = new TimeTextField("out", skin, HotelTableStyles.getTextFieldStyle());
         time.setAlignment(Align.center);
 
-        checkOut.add(title).width(300f).expandX();
-        checkOut.add(time).width(200f).right().padRight(40f).expandX();
+        checkOut.add(title).width(HotelTableStyles.getChecksTitleWidth()).expandX();
+        checkOut.add(time).width(HotelTableStyles.getTimeWidth()).right().padRight(40f).expandX();
         return checkOut;
     }
 
@@ -129,12 +127,11 @@ public class HotelTable extends WrapperTable {
         Table workersTable = new Table();
 
         workersTable.setBackground(background);
-        workersTable.pad(20f);
 
-        LanguageLabel title = new LanguageLabel(new LanguageString("hotelFrame.workers.label"),SkinFont.H4.getName());
+        LanguageLabel title = new LanguageLabel(new LanguageString("hotelFrame.workers.label"),HotelTableStyles.getLabelsStyle());
         Image photo = new Image(skin.getDrawable("default"));
         String employees = String.valueOf(game.engine.hotelHandler.employeeHandler.getEmployees().size());
-        Label value = new Label(employees, skin, SkinFont.H4.getName());
+        Label value = new Label(employees, skin, HotelTableStyles.getLabelsStyle());
 
         workersTable.add(title).colspan(2).row();
         workersTable.add(photo);
@@ -147,35 +144,45 @@ public class HotelTable extends WrapperTable {
 
         opinion.align(Align.center);
         opinion.setBackground(background);
-        opinion.pad(20f);
+        opinion.pad(0f, 20f, 0f, 20f);
 
-        LanguageLabel title = new LanguageLabel(new LanguageString("hotelFrame.opinions.label"),SkinFont.H4.getName());
-//        // set rating and value from engine
-//        Rating rating = new Rating(2, (15) > {4+5});
+        LanguageLabel title = new LanguageLabel(new LanguageString("hotelFrame.opinions.label"),HotelTableStyles.getLabelsStyle());
         String numOpinions = String.valueOf(OpinionHandler.opinions.size());
         Label value = new Label("(" + numOpinions + ")", skin, SkinFont.SUBTITLE2.getName());
 
         opinion.add(title).colspan(2).row();
-//        opinion.add(rating).padTop(5f).row();
-        opinion.add(value).padTop(5f);
+        opinion.add(rating).padRight(10f);
+        opinion.add(value);
+        opinion.debug();
         return opinion;
     }
 
+    private void createRating() {
+        OptionalDouble ratingValue = OpinionHandler.getAvgRating();
+        if(ratingValue.isPresent())
+            this.rating = new Rating((int) ratingValue.getAsDouble());
+        else{
+            this.rating = new Rating(0);
+        }
+    }
+
     private static class HotelTableStyles{
+        public static float HORIZONTAL_PAD = 0f;
+        public static float VERTICAL_PAD = 0f;
 
         public static float getLeftTableWidth(){
             return switch (GraphicConfig.getResolution().SIZE){
-                case SMALL -> 400f;
+                case SMALL -> 350f;
                 case MEDIUM -> 500f;
-                case LARGE -> 600f;
+                case LARGE -> 700f;
             };
         }
 
         public static float getTablesHeight(){
             return switch (GraphicConfig.getResolution().SIZE){
-                case SMALL -> 450f;
+                case SMALL -> 350f;
                 case MEDIUM -> 550f;
-                case LARGE -> 650f;
+                case LARGE -> 700f;
             };
         }
 
@@ -200,6 +207,44 @@ public class HotelTable extends WrapperTable {
                 case SMALL -> 120f;
                 case MEDIUM -> 150f;
                 case LARGE -> 200f;
+            };
+        }
+        public static float getChecksTitleWidth(){
+            return switch (GraphicConfig.getResolution().SIZE){
+                case SMALL -> 200f;
+                case MEDIUM -> 300f;
+                case LARGE -> 400f;
+            };
+        }
+        public static float getTimeWidth(){
+            return switch (GraphicConfig.getResolution().SIZE){
+                case SMALL -> 150f;
+                case MEDIUM -> 200f;
+                case LARGE -> 250f;
+            };
+        }
+
+        public static float getLeftTablePad(){
+            return switch (GraphicConfig.getResolution().SIZE){
+                case SMALL -> 20f;
+                case MEDIUM -> 50f;
+                case LARGE -> 90f;
+            };
+        }
+
+        public static String getTextFieldStyle(){
+            return switch (GraphicConfig.getResolution().SIZE){
+                case SMALL -> "hotel_frame_small";
+                case MEDIUM -> "hotel_frame_medium";
+                case LARGE -> "hotel_frame_large";
+            };
+        }
+
+        public static String getLabelsStyle(){
+            return switch (GraphicConfig.getResolution().SIZE){
+                case SMALL -> SkinFont.SUBTITLE1.getName();
+                case MEDIUM -> SkinFont.H4.getName();
+                case LARGE -> SkinFont.H3.getName();
             };
         }
     }
