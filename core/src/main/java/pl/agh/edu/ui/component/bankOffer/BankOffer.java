@@ -4,6 +4,8 @@ import static com.badlogic.gdx.utils.Align.left;
 import static pl.agh.edu.ui.utils.SkinColor.GRAY;
 import static pl.agh.edu.ui.utils.SkinFont.BODY2;
 
+import java.util.Objects;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -17,8 +19,6 @@ import pl.agh.edu.ui.component.label.LanguageLabel;
 import pl.agh.edu.ui.utils.SkinColor;
 import pl.agh.edu.ui.utils.wrapper.WrapperTable;
 import pl.agh.edu.utils.LanguageString;
-
-import java.util.Objects;
 
 public class BankOffer extends ClickableTable {
 
@@ -50,6 +50,10 @@ public class BankOffer extends ClickableTable {
 		innerTable.add(bankAccountFee).padRight(50f).spaceBottom(20f).align(left);
 		innerTable.add(bankAccountFeeValue).spaceBottom(20f).row();
 
+	}
+
+	protected void changeSize() {
+		size(BankOfferStyle.getWidth(), BankOfferStyle.getHeight());
 	}
 
 	@Override

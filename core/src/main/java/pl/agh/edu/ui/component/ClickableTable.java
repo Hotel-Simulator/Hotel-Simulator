@@ -1,7 +1,10 @@
 package pl.agh.edu.ui.component;
 
+import static com.badlogic.gdx.graphics.Cursor.SystemCursor.Arrow;
+import static com.badlogic.gdx.graphics.Cursor.SystemCursor.Hand;
 import static com.badlogic.gdx.scenes.scene2d.Touchable.enabled;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -34,8 +37,10 @@ public abstract class ClickableTable extends WrapperTable {
 
 			@Override
 			public void enter(InputEvent event, float x, float y, int pointer, @Null Actor fromActor) {
-				if (pointer == -1)
+				if (pointer == -1) {
 					setBackground("clickable-table-background-over");
+					Gdx.graphics.setSystemCursor(Hand);
+				}
 			}
 
 			@Override
@@ -46,6 +51,7 @@ public abstract class ClickableTable extends WrapperTable {
 					} else {
 						setBackground("clickable-table-background");
 					}
+					Gdx.graphics.setSystemCursor(Arrow);
 				}
 			}
 		});
@@ -60,9 +66,7 @@ public abstract class ClickableTable extends WrapperTable {
 		}
 	}
 
-	private void changeSize() {
-		size(ClickableTableStyle.getWidth(), ClickableTableStyle.getHeight());
-	}
+	protected abstract void changeSize();
 
 	protected abstract boolean selectedCondition();
 
