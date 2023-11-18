@@ -1,4 +1,4 @@
-package serialization;
+package kryo_serialization;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static pl.agh.edu.engine.advertisement.AdvertisementType.FLYERS;
