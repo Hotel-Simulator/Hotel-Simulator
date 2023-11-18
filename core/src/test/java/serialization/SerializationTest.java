@@ -47,6 +47,8 @@ import pl.agh.edu.engine.event.permanent.BuildingCostModificationPermanentEvent;
 import pl.agh.edu.engine.event.temporary.ClientNumberModificationTemporaryEvent;
 import pl.agh.edu.engine.event.temporary.TemporaryEvent;
 import pl.agh.edu.engine.generator.ClientGenerator;
+import pl.agh.edu.engine.hotel.dificulty.DifficultyLevel;
+import pl.agh.edu.engine.hotel.dificulty.GameDifficultyManager;
 import pl.agh.edu.engine.opinion.Opinion;
 import pl.agh.edu.engine.room.Room;
 import pl.agh.edu.engine.room.RoomState;
@@ -217,6 +219,7 @@ public class SerializationTest {
 	@Test
 	public void clientArrivalTest() {
 		// Give
+		ClientGenerator.init(new GameDifficultyManager(DifficultyLevel.MEDIUM));
 		ClientGroup clientGroup = ClientGenerator.getInstance().generateClientGroupForGivenHotelVisitPurpose(BUSINESS_TRIP);
 		Arrival arrival = new Arrival(LocalTime.NOON, clientGroup);
 		Opinion opinion = clientGroup.opinion;
@@ -262,6 +265,7 @@ public class SerializationTest {
 	@Test
 	public void opinionTest() {
 		// Give
+		ClientGenerator.init(new GameDifficultyManager(DifficultyLevel.MEDIUM));
 		Opinion opinion = ClientGenerator.getInstance().generateClientGroupForGivenHotelVisitPurpose(BUSINESS_TRIP).opinion;
 
 		// When
@@ -531,6 +535,7 @@ public class SerializationTest {
 	public void roomWithResidentsTest() {
 		// Given
 		Room room = new Room(ECONOMIC, DOUBLE);
+		ClientGenerator.init(new GameDifficultyManager(DifficultyLevel.MEDIUM));
 		ClientGroup clientGroup = ClientGenerator.getInstance().generateClientGroupForGivenHotelVisitPurpose(BUSINESS_TRIP);
 		room.checkIn(clientGroup);
 		// When

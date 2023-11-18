@@ -31,16 +31,18 @@ public class ClientGenerator {
 	// Set user input here (set hotelType)
 	private GameDifficultyManager gameDifficultyManager;
 
-	private ClientGenerator() {}
+	private ClientGenerator(GameDifficultyManager gameDifficultyManager) {
+		this.gameDifficultyManager = gameDifficultyManager;
+	}
 
 	public static ClientGenerator getInstance() {
 		if (clientGeneratorInstance == null)
-			clientGeneratorInstance = new ClientGenerator();
+			throw new IllegalStateException("ClientGenerator not initialized. Run init with gameDifficultyManager object.");
 		return clientGeneratorInstance;
 	}
 
-	public void setGameDifficultyManager(GameDifficultyManager gameDifficultyManager) {
-		this.gameDifficultyManager = gameDifficultyManager;
+	public static void init(GameDifficultyManager gameDifficultyManager) {
+		clientGeneratorInstance = new ClientGenerator(gameDifficultyManager);
 	}
 
 	public ClientGroup generateClientGroupForGivenHotelVisitPurpose(HotelVisitPurpose hotelVisitPurpose) {

@@ -38,7 +38,7 @@ public class Engine {
 
 		this.hotelScenariosManager = new HotelScenariosManager(hotelType);
 		this.gameDifficultyManager = new GameDifficultyManager(difficultyLevel);
-		ClientGenerator.getInstance().setGameDifficultyManager(this.gameDifficultyManager);
+		ClientGenerator.getInstance().init(this.gameDifficultyManager);
 		this.eventHandler = new EventHandler(hotelScenariosManager);
 		this.hotelHandler = new HotelHandler(gameDifficultyManager);
 		this.clientGroupGenerationHandler = new ClientGroupGenerationHandler(
