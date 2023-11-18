@@ -40,7 +40,7 @@ public class OpinionHandler {
 			public void write(Kryo kryo, Output output, OpinionHandler object) {
 				kryo.writeObject(output, object.time);
 				kryo.writeObject(output, object.timeCommandExecutor);
-				kryo.writeObject(output, object.opinionModifier, KryoConfig.listSerializer(OpinionData.class));
+				kryo.writeObject(output, object.opinions, KryoConfig.listSerializer(OpinionData.class));
 				kryo.writeObject(output, object.opinionModifier);
 			}
 

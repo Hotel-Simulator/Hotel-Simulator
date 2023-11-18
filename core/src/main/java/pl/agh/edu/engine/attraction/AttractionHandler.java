@@ -18,6 +18,7 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.Serializer;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
+import com.esotericsoftware.kryo.serializers.EnumMapSerializer;
 
 import pl.agh.edu.data.loader.JSONAttractionDataLoader;
 import pl.agh.edu.engine.bank.BankAccountHandler;
@@ -52,9 +53,9 @@ public class AttractionHandler extends ClientGroupModifierSupplier {
 				kryo.writeObject(output, object.accountHandler);
 				kryo.writeObject(output, object.roomManager);
 				kryo.writeObject(output, object.buildingCostSupplier);
-				kryo.writeObject(output, object.attractions);
-				kryo.writeObject(output, object.attractionBuildingTimes);
-				kryo.writeObject(output, object.attractionChangingSizeTimes);
+				kryo.writeObject(output, object.attractions, new EnumMapSerializer(AttractionType.class));
+				kryo.writeObject(output, object.attractionBuildingTimes, new EnumMapSerializer(AttractionType.class));
+				kryo.writeObject(output, object.attractionChangingSizeTimes, new EnumMapSerializer(AttractionType.class));
 			}
 
 			@Override
@@ -65,9 +66,9 @@ public class AttractionHandler extends ClientGroupModifierSupplier {
 						kryo.readObject(input, BankAccountHandler.class),
 						kryo.readObject(input, RoomManager.class),
 						kryo.readObject(input, BuildingCostSupplier.class),
-						kryo.readObject(input, EnumMap.class),
-						kryo.readObject(input, EnumMap.class),
-						kryo.readObject(input, EnumMap.class));
+						kryo.readObject(input, EnumMap.class, new EnumMapSerializer(AttractionType.class)),
+						kryo.readObject(input, EnumMap.class, new EnumMapSerializer(AttractionType.class)),
+						kryo.readObject(input, EnumMap.class, new EnumMapSerializer(AttractionType.class)));
 			}
 		});
 	}

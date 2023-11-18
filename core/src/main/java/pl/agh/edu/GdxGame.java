@@ -1,5 +1,7 @@
 package pl.agh.edu;
 
+import static pl.agh.edu.engine.hotel.HotelType.CITY;
+
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -13,7 +15,7 @@ import pl.agh.edu.ui.screen.main.MainScreen;
 
 public class GdxGame extends ApplicationAdapter {
 
-	public final Engine engine = new Engine();
+	public final Engine engine = new Engine(CITY);
 	private Screen currentScreen;
 	private Screen previousScreen;
 

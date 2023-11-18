@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Queue;
+import java.util.stream.Collectors;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.Serializer;
@@ -17,15 +18,18 @@ import com.esotericsoftware.kryo.io.Output;
 
 import pl.agh.edu.data.loader.JSONGameDataLoader;
 import pl.agh.edu.data.loader.JSONOpinionDataLoader;
+import pl.agh.edu.engine.bank.BankAccountHandler;
 import pl.agh.edu.engine.client.ClientGroup;
 import pl.agh.edu.engine.client.report.collector.ClientGroupReportDataCollector;
 import pl.agh.edu.engine.employee.Employee;
+import pl.agh.edu.engine.employee.EmployeeHandler;
 import pl.agh.edu.engine.employee.Profession;
 import pl.agh.edu.engine.employee.Shift;
-import pl.agh.edu.engine.hotel.HotelHandler;
+import pl.agh.edu.engine.hotel.Hotel;
 import pl.agh.edu.engine.opinion.OpinionBuilder;
 import pl.agh.edu.engine.opinion.OpinionHandler;
 import pl.agh.edu.engine.room.Room;
+import pl.agh.edu.engine.room.RoomManager;
 import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.engine.time.TimeCommandExecutor;
 import pl.agh.edu.engine.time.command.TimeCommand;
@@ -35,6 +39,11 @@ import pl.agh.edu.utils.RandomUtils;
 public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 	private final OpinionHandler opinionHandler;
 	private final ClientGroupReportDataCollector clientGroupReportDataCollector;
+	private final RepairScheduler repairScheduler;
+	private final CleaningScheduler cleaningScheduler;
+	private final RoomManager roomManager;
+	private final BankAccountHandler bankAccountHandler;
+	private final Hotel hotel;
 
 	static {
 		KryoConfig.kryo.register(ReceptionScheduler.class, new Serializer<ReceptionScheduler>() {
@@ -42,9 +51,14 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 			public void write(Kryo kryo, Output output, ReceptionScheduler object) {
 				kryo.writeObject(output, object.time);
 				kryo.writeObject(output, object.timeCommandExecutor);
+				kryo.writeObject(output, object.employeeHandler);
 				kryo.writeObject(output, object.opinionHandler);
 				kryo.writeObject(output, object.clientGroupReportDataCollector);
-				kryo.writeObject(output, object.hotelHandler);
+				kryo.writeObject(output, object.repairScheduler);
+				kryo.writeObject(output, object.cleaningScheduler);
+				kryo.writeObject(output, object.roomManager);
+				kryo.writeObject(output, object.bankAccountHandler);
+				kryo.writeObject(output, object.hotel);
 				kryo.writeObject(output, object.entitiesToExecuteService);
 				kryo.writeObject(output, object.workingEmployees);
 				kryo.writeObject(output, object.currentShift);
@@ -55,9 +69,14 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 				return new ReceptionScheduler(
 						kryo.readObject(input, Time.class),
 						kryo.readObject(input, TimeCommandExecutor.class),
+						kryo.readObject(input, EmployeeHandler.class),
 						kryo.readObject(input, OpinionHandler.class),
 						kryo.readObject(input, ClientGroupReportDataCollector.class),
-						kryo.readObject(input, HotelHandler.class),
+						kryo.readObject(input, RepairScheduler.class),
+						kryo.readObject(input, CleaningScheduler.class),
+						kryo.readObject(input, RoomManager.class),
+						kryo.readObject(input, BankAccountHandler.class),
+						kryo.readObject(input, Hotel.class),
 						kryo.readObject(input, LinkedList.class),
 						kryo.readObject(input, List.class, KryoConfig.listSerializer(Employee.class)),
 						kryo.readObject(input, Shift.class));
@@ -65,23 +84,44 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 		});
 	}
 
-	public ReceptionScheduler(HotelHandler hotelHandler, ClientGroupReportDataCollector clientGroupReportDataCollector) {
-		super(hotelHandler, new LinkedList<>(), Profession.RECEPTIONIST);
+	public ReceptionScheduler(EmployeeHandler employeeHandler,
+			ClientGroupReportDataCollector clientGroupReportDataCollector,
+			RepairScheduler repairScheduler,
+			CleaningScheduler cleaningScheduler,
+			RoomManager roomManager,
+			BankAccountHandler bankAccountHandler,
+			Hotel hotel) {
+		super(employeeHandler, new LinkedList<>(), Profession.RECEPTIONIST);
 		this.opinionHandler = OpinionHandler.getInstance();
 		this.clientGroupReportDataCollector = clientGroupReportDataCollector;
+		this.repairScheduler = repairScheduler;
+		this.cleaningScheduler = cleaningScheduler;
+		this.roomManager = roomManager;
+		this.bankAccountHandler = bankAccountHandler;
+		this.hotel = hotel;
 	}
 
 	private ReceptionScheduler(Time time,
 			TimeCommandExecutor timeCommandExecutor,
+			EmployeeHandler employeeHandler,
 			OpinionHandler opinionHandler,
 			ClientGroupReportDataCollector clientGroupReportDataCollector,
-			HotelHandler hotelHandler,
+			RepairScheduler repairScheduler,
+			CleaningScheduler cleaningScheduler,
+			RoomManager roomManager,
+			BankAccountHandler bankAccountHandler,
+			Hotel hotel,
 			Queue<ClientGroup> entitiesToExecuteService,
 			List<Employee> workingEmployees,
 			Shift currentShift) {
-		super(time, timeCommandExecutor, hotelHandler, entitiesToExecuteService, CLEANER, workingEmployees, currentShift);
+		super(time, timeCommandExecutor, employeeHandler, entitiesToExecuteService, CLEANER, workingEmployees, currentShift);
 		this.opinionHandler = opinionHandler;
 		this.clientGroupReportDataCollector = clientGroupReportDataCollector;
+		this.repairScheduler = repairScheduler;
+		this.cleaningScheduler = cleaningScheduler;
+		this.roomManager = roomManager;
+		this.bankAccountHandler = bankAccountHandler;
+		this.hotel = hotel;
 	}
 
 	@Override
@@ -97,7 +137,7 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 		return new TimeCommand(() -> {
 			room.roomState.setFaulty(true);
 			OpinionBuilder.saveRoomBreakingData(room);
-			hotelHandler.repairScheduler.addEntity(room);
+			repairScheduler.addEntity(room);
 		}, RandomUtils.randomDateTime(time.getTime(), checkOutTime));
 	}
 
@@ -105,22 +145,22 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 		return new TimeCommand(() -> {
 			opinionHandler.addOpinionWithProbability(room.getResidents(), JSONOpinionDataLoader.opinionProbabilityForClientWhoGotRoom);
 			room.checkOut();
-			hotelHandler.cleaningScheduler.addEntity(room);
+			cleaningScheduler.addEntity(room);
 		}, checkOutTime);
 	}
 
 	private TimeCommand createTimeCommandForServingArrivedClients(Employee receptionist, ClientGroup clientGroup) {
 		return new TimeCommand(
 				() -> {
-					Optional<Room> optionalRoom = hotelHandler.roomManager.findRoomForClientGroup(clientGroup);
+					Optional<Room> optionalRoom = roomManager.findRoomForClientGroup(clientGroup);
 					if (optionalRoom.isPresent()) {
 						clientGroupReportDataCollector.increaseClientGroupWithRoomCounter();
 						Room room = optionalRoom.get();
 						room.checkIn(clientGroup);
-						BigDecimal roomPrice = hotelHandler.roomManager.getRoomPriceList().getPrice(room);
+						BigDecimal roomPrice = roomManager.getRoomPriceList().getPrice(room);
 						OpinionBuilder.saveRoomGettingData(clientGroup, room, roomPrice);
-						hotelHandler.bankAccountHandler.registerIncome(roomPrice.multiply(BigDecimal.valueOf(clientGroup.getNumberOfNights())));
-						LocalDateTime checkOutTime = getCheckOutTime(clientGroup.getNumberOfNights(), hotelHandler.hotel.getCheckOutTime());
+						bankAccountHandler.registerIncome(roomPrice.multiply(BigDecimal.valueOf(clientGroup.getNumberOfNights())));
+						LocalDateTime checkOutTime = getCheckOutTime(clientGroup.getNumberOfNights(), hotel.getCheckOutTime());
 						if (!room.roomState.isFaulty() && RandomUtils.randomBooleanWithProbability(JSONGameDataLoader.roomFaultProbability)) {
 							timeCommandExecutor.addCommand(createTimeCommandForBreakingRoom(room, checkOutTime));
 						}
@@ -141,6 +181,15 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 
 	public boolean removeEntity(ClientGroup clientGroup) {
 		return entitiesToExecuteService.remove(clientGroup);
+	}
+
+	public void perShiftUpdate() {
+		currentShift = currentShift.next();
+		workingEmployees = employeeHandler.getWorkingEmployeesByProfession(employeesProfession).stream()
+				.filter(employee -> employee.shift.equals(currentShift))
+				.collect(Collectors.toList());
+		workingEmployees.forEach(this::executeServiceIfPossible);
+
 	}
 
 }

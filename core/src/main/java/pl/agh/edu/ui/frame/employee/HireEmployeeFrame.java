@@ -26,7 +26,7 @@ public class HireEmployeeFrame extends BaseFrame {
 				.addColumn(new LanguageString("hireEmployeeTable.column.salary"), this::createSalary, 3)
 				.build();
 
-		engine.hotelHandler.possibleEmployeeHandler.getPossibleEmployees()
+		engine.possibleEmployeeHandler.getPossibleEmployees()
 				.forEach(possibleEmployee -> hireEmployeeTable.addRowWithRemove(possibleEmployee, () -> clickAction(possibleEmployee)));
 		mainTable.add(hireEmployeeTable).grow();
 	}

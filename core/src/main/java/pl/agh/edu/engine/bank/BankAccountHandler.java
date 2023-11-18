@@ -31,7 +31,7 @@ public class BankAccountHandler {
 				kryo.writeObject(output, object.time);
 				kryo.writeObject(output, object.timeCommandExecutor);
 				kryo.writeObject(output, object.account);
-				kryo.writeObject(output, object.currentCredits);
+				kryo.writeObject(output, object.currentCredits, KryoConfig.mapSerializer(Credit.class, NRepeatingTimeCommand.class));
 
 			}
 
@@ -46,16 +46,17 @@ public class BankAccountHandler {
 		});
 	}
 
-	public BankAccountHandler(BankAccount account) {
+	public BankAccountHandler(BankAccount bankAccount) {
 		this.time = Time.getInstance();
 		this.timeCommandExecutor = TimeCommandExecutor.getInstance();
-		this.account = account;
+		this.account = bankAccount;
 		this.currentCredits = new HashMap<>();
 	}
 
 	private BankAccountHandler(Time time,
 			TimeCommandExecutor timeCommandExecutor,
-			BankAccount account, Map<Credit, NRepeatingTimeCommand> currentCredits) {
+			BankAccount account,
+			Map<Credit, NRepeatingTimeCommand> currentCredits) {
 		this.time = time;
 		this.timeCommandExecutor = timeCommandExecutor;
 		this.account = account;

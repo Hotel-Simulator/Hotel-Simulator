@@ -10,6 +10,7 @@ import static pl.agh.edu.engine.bank.TransactionType.EXPENSE;
 import static pl.agh.edu.engine.employee.Profession.CLEANER;
 import static pl.agh.edu.engine.employee.Shift.MORNING;
 import static pl.agh.edu.engine.employee.contract.TypeOfContract.PERMANENT;
+import static pl.agh.edu.engine.hotel.HotelType.CITY;
 import static pl.agh.edu.engine.hotel.HotelVisitPurpose.BUSINESS_TRIP;
 import static pl.agh.edu.engine.opinion.OpinionStars.FIVE;
 import static pl.agh.edu.engine.room.RoomRank.ECONOMIC;
@@ -20,6 +21,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -31,10 +33,12 @@ import org.junit.jupiter.api.Test;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
+import com.esotericsoftware.kryo.serializers.EnumMapSerializer;
 
 import pl.agh.edu.data.loader.JSONAdvertisementDataLoader;
 import pl.agh.edu.data.loader.JSONEventDataLoader;
 import pl.agh.edu.data.type.BankData;
+import pl.agh.edu.engine.Engine;
 import pl.agh.edu.engine.advertisement.AdvertisementCampaign;
 import pl.agh.edu.engine.attraction.Attraction;
 import pl.agh.edu.engine.attraction.AttractionSize;
@@ -629,6 +633,24 @@ public class SerializationTest {
 	}
 
 	@Test
+	public void enumMapTest() {
+		// Given
+		EnumMap<AttractionType, Pair<AttractionSize, LocalDateTime>> map = new EnumMap<>(AttractionType.class);
+		map.put(RESTAURANT, Pair.of(MEDIUM, LocalDateTime.now()));
+		map.put(SPA, Pair.of(MEDIUM, LocalDateTime.now()));
+		map.put(SWIMMING_POOL, null);
+
+		// When
+		kryo.writeObject(output, map, new EnumMapSerializer(AttractionType.class));
+
+		initInput();
+		EnumMap<AttractionType, Pair<AttractionSize, LocalDateTime>> map2 = kryo.readObject(input, EnumMap.class, new EnumMapSerializer(AttractionType.class));
+
+		// Then
+		assertEquals(map, map2);
+	}
+
+	@Test
 	public void dateTrieTest() {
 		// Given
 		DateTrie dateTrie = new DateTrie();
@@ -677,6 +699,18 @@ public class SerializationTest {
 		assertEquals(opinionData.stars(), opinionData2.stars());
 		assertEquals(opinionData.comments(), opinionData2.comments());
 
+	}
+
+	@Test
+	public void engineTest() {
+		// Given
+		Engine engine = new Engine(CITY);
+
+		// When
+		kryo.writeObject(output, engine);
+
+		initInput();
+		kryo.readObject(input, Engine.class);
 	}
 
 }

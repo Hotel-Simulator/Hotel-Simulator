@@ -20,6 +20,7 @@ import pl.agh.edu.engine.event.temporary.ClientNumberModificationEventHandler;
 import pl.agh.edu.engine.event.temporary.ClientNumberModificationTemporaryEvent;
 import pl.agh.edu.engine.event.temporary.TemporaryEvent;
 import pl.agh.edu.engine.generator.EventGenerator;
+import pl.agh.edu.engine.hotel.scenario.HotelScenariosManager;
 import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.engine.time.TimeCommandExecutor;
 import pl.agh.edu.engine.time.command.TimeCommand;
@@ -61,13 +62,13 @@ public class EventHandler {
 	}
 
 	public EventHandler(
-			EventGenerator eventGenerator,
+			HotelScenariosManager hotelScenariosManager,
 			ClientNumberModificationEventHandler clientNumberModificationEventHandler) {
 		this.time = Time.getInstance();
 		this.timeCommandExecutor = TimeCommandExecutor.getInstance();
 		this.calendar = Calendar.getInstance();
 		this.buildingCostHandler = BuildingCostMultiplierHandler.getInstance();
-		this.eventGenerator = eventGenerator;
+		this.eventGenerator = new EventGenerator(hotelScenariosManager);
 		this.clientNumberModificationEventHandler = clientNumberModificationEventHandler;
 	}
 

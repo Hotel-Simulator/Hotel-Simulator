@@ -3,12 +3,11 @@ package pl.agh.edu.engine.employee.scheduler;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
-import java.util.stream.Collectors;
 
 import pl.agh.edu.engine.employee.Employee;
+import pl.agh.edu.engine.employee.EmployeeHandler;
 import pl.agh.edu.engine.employee.Profession;
 import pl.agh.edu.engine.employee.Shift;
-import pl.agh.edu.engine.hotel.HotelHandler;
 import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.engine.time.TimeCommandExecutor;
 
@@ -16,17 +15,17 @@ public abstract class WorkScheduler<T> {
 
 	protected final Time time;
 	protected final TimeCommandExecutor timeCommandExecutor;
-	protected final HotelHandler hotelHandler;
+	protected final EmployeeHandler employeeHandler;
 	protected final Queue<T> entitiesToExecuteService;
-	private final Profession employeesProfession;
+	protected final Profession employeesProfession;
 	protected List<Employee> workingEmployees;
 	protected Shift currentShift;
 
-	protected WorkScheduler(HotelHandler hotelHandler, Queue<T> entitiesToExecuteService, Profession employeesProfession) {
+	protected WorkScheduler(EmployeeHandler employeeHandler, Queue<T> entitiesToExecuteService, Profession employeesProfession) {
 		this.time = Time.getInstance();
 		this.timeCommandExecutor = TimeCommandExecutor.getInstance();
 		this.employeesProfession = employeesProfession;
-		this.hotelHandler = hotelHandler;
+		this.employeeHandler = employeeHandler;
 		this.entitiesToExecuteService = entitiesToExecuteService;
 		this.workingEmployees = new ArrayList<>();
 		this.currentShift = Shift.EVENING;
@@ -34,7 +33,7 @@ public abstract class WorkScheduler<T> {
 
 	protected WorkScheduler(Time time,
 			TimeCommandExecutor timeCommandExecutor,
-			HotelHandler hotelHandler,
+			EmployeeHandler employeeHandler,
 			Queue<T> entitiesToExecuteService,
 			Profession employeesProfession,
 			List<Employee> workingEmployees,
@@ -42,7 +41,7 @@ public abstract class WorkScheduler<T> {
 		this.time = time;
 		this.timeCommandExecutor = timeCommandExecutor;
 		this.employeesProfession = employeesProfession;
-		this.hotelHandler = hotelHandler;
+		this.employeeHandler = employeeHandler;
 		this.entitiesToExecuteService = entitiesToExecuteService;
 		this.workingEmployees = workingEmployees;
 		this.currentShift = currentShift;
@@ -56,15 +55,6 @@ public abstract class WorkScheduler<T> {
 		if (!entitiesToExecuteService.isEmpty() && willEmployeeExecuteServiceBeforeShiftEnds(employee)) {
 			executeService(employee, entitiesToExecuteService.remove());
 		}
-	}
-
-	public void perShiftUpdate() {
-		currentShift = currentShift.next();
-		workingEmployees = hotelHandler.employeeHandler.getWorkingEmployeesByProfession(employeesProfession).stream()
-				.filter(employee -> employee.shift.equals(currentShift))
-				.collect(Collectors.toList());
-		workingEmployees.forEach(this::executeServiceIfPossible);
-
 	}
 
 	public void addEntity(T entity) {

@@ -26,7 +26,7 @@ public class ManageEmployeeFrame extends BaseFrame {
 				.addColumn(new LanguageString("hireEmployeeTable.column.salary"), this::createJobSatisfaction, 3)
 				.build();
 
-		engine.hotelHandler.employeeHandler.getEmployees().forEach(hireEmployeeTable::addRow);
+		engine.employeeHandler.getEmployees().forEach(hireEmployeeTable::addRow);
 		mainTable.add(hireEmployeeTable).grow();
 	}
 

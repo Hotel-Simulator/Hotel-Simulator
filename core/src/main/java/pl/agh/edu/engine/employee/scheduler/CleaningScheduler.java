@@ -6,25 +6,27 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.stream.Collectors;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.Serializer;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
-import com.esotericsoftware.kryo.serializers.DefaultSerializers;
 
 import pl.agh.edu.engine.employee.Employee;
+import pl.agh.edu.engine.employee.EmployeeHandler;
 import pl.agh.edu.engine.employee.Shift;
-import pl.agh.edu.engine.hotel.HotelHandler;
 import pl.agh.edu.engine.opinion.OpinionBuilder;
 import pl.agh.edu.engine.room.Room;
+import pl.agh.edu.engine.room.RoomManager;
 import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.engine.time.TimeCommandExecutor;
 import pl.agh.edu.engine.time.command.TimeCommand;
 import pl.agh.edu.serialization.KryoConfig;
 
 public class CleaningScheduler extends WorkScheduler<Room> {
-	private static final Comparator<Room> roomComparator = (o1, o2) -> Boolean.compare(o1.roomState.isOccupied(), o2.roomState.isOccupied());
+	private final RoomManager roomManager;
+	private static final Comparator<Room> roomComparator = new RoomComparator();
 
 	static {
 		KryoConfig.kryo.register(CleaningScheduler.class, new Serializer<CleaningScheduler>() {
@@ -32,8 +34,9 @@ public class CleaningScheduler extends WorkScheduler<Room> {
 			public void write(Kryo kryo, Output output, CleaningScheduler object) {
 				kryo.writeObject(output, object.time);
 				kryo.writeObject(output, object.timeCommandExecutor);
-				kryo.writeObject(output, object.hotelHandler);
-				kryo.writeObject(output, object.entitiesToExecuteService, new DefaultSerializers.PriorityQueueSerializer());
+				kryo.writeObject(output, object.employeeHandler);
+				kryo.writeObject(output, object.roomManager);
+				kryo.writeObject(output, object.entitiesToExecuteService);
 				kryo.writeObject(output, object.workingEmployees);
 				kryo.writeObject(output, object.currentShift);
 
@@ -44,30 +47,34 @@ public class CleaningScheduler extends WorkScheduler<Room> {
 				return new CleaningScheduler(
 						kryo.readObject(input, Time.class),
 						kryo.readObject(input, TimeCommandExecutor.class),
-						kryo.readObject(input, HotelHandler.class),
-						kryo.readObject(input, Queue.class, new DefaultSerializers.PriorityQueueSerializer()),
+						kryo.readObject(input, EmployeeHandler.class),
+						kryo.readObject(input, RoomManager.class),
+						kryo.readObject(input, PriorityQueue.class),
 						kryo.readObject(input, List.class, KryoConfig.listSerializer(Employee.class)),
 						kryo.readObject(input, Shift.class));
 			}
 		});
 	}
 
-	public CleaningScheduler(HotelHandler hotelHandler) {
-		super(hotelHandler, new PriorityQueue<>(roomComparator), CLEANER);
+	public CleaningScheduler(EmployeeHandler employeeHandler, RoomManager roomManager) {
+		super(employeeHandler, new PriorityQueue<>(roomComparator), CLEANER);
+		this.roomManager = roomManager;
 	}
 
 	private CleaningScheduler(Time time,
 			TimeCommandExecutor timeCommandExecutor,
-			HotelHandler hotelHandler,
+			EmployeeHandler employeeHandler,
+			RoomManager roomManager,
 			Queue<Room> entitiesToExecuteService,
 			List<Employee> workingEmployees,
 			Shift currentShift) {
-		super(time, timeCommandExecutor, hotelHandler, entitiesToExecuteService, CLEANER, workingEmployees, currentShift);
+		super(time, timeCommandExecutor, employeeHandler, entitiesToExecuteService, CLEANER, workingEmployees, currentShift);
+		this.roomManager = roomManager;
 	}
 
 	public void dailyAtCheckOutTimeUpdate() {
 		int sizeBefore = entitiesToExecuteService.size();
-		entitiesToExecuteService.addAll(hotelHandler.roomManager.getRooms().stream()
+		entitiesToExecuteService.addAll(roomManager.getRooms().stream()
 				.filter(room -> room.roomState.isOccupied())
 				.toList());
 		if (sizeBefore == 0 && !entitiesToExecuteService.isEmpty()) {
@@ -91,6 +98,15 @@ public class CleaningScheduler extends WorkScheduler<Room> {
 					OpinionBuilder.saveRoomDailyCleaningData(cleaner, room);
 					executeServiceIfPossible(cleaner);
 				}, time.getTime().plusMinutes(cleaner.getServiceExecutionTime().toMinutes())));
+	}
+
+	public void perShiftUpdate() {
+		currentShift = currentShift.next();
+		workingEmployees = employeeHandler.getWorkingEmployeesByProfession(employeesProfession).stream()
+				.filter(employee -> employee.shift.equals(currentShift))
+				.collect(Collectors.toList());
+		workingEmployees.forEach(this::executeServiceIfPossible);
+
 	}
 
 }

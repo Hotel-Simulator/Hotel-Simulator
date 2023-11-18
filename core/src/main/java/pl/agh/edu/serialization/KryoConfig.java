@@ -6,14 +6,18 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.MonthDay;
 import java.time.Year;
 import java.time.YearMonth;
 import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -23,6 +27,8 @@ import com.esotericsoftware.kryo.Serializer;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.esotericsoftware.kryo.serializers.ClosureSerializer;
+
+import pl.agh.edu.engine.client.ClientGroup;
 
 public class KryoConfig {
 
@@ -34,15 +40,21 @@ public class KryoConfig {
 		kryo.register(LocalDate.class);
 		kryo.register(LocalDateTime.class);
 		kryo.register(YearMonth.class);
+		kryo.register(MonthDay.class);
 		kryo.register(Year.class);
 		kryo.register(Duration.class);
 		kryo.register(LocalTime.class);
 		kryo.register(ArrayList.class);
 		kryo.register(LinkedList.class);
+		kryo.register(PriorityQueue.class);
+		kryo.register(EnumMap.class);
+		kryo.register(Comparator.class);
 
 		kryo.register(Object[].class);
 		kryo.register(Class.class);
 		kryo.register(ClosureSerializer.Closure.class, new ClosureSerializer());
+
+		kryo.register(ClientGroup.class);
 
 	}
 
@@ -59,6 +71,27 @@ public class KryoConfig {
 			public List<T> read(Kryo kryo, Input input, Class<? extends List<T>> type) {
 				int size = kryo.readObject(input, Integer.class);
 				return IntStream.range(0, size).mapToObj(i -> kryo.readObject(input, clazz)).toList();
+			}
+		};
+	}
+
+	public static <T> Serializer<PriorityQueue<T>> priorityQueueSerializer(Class<T> clazz) {
+		return new Serializer<>() {
+
+			@Override
+			public void write(Kryo kryo, Output output, PriorityQueue<T> object) {
+				kryo.writeObject(output, object.comparator());
+				kryo.writeObject(output, object.size());
+				object.forEach(e -> kryo.writeObject(output, e));
+			}
+
+			@Override
+			public PriorityQueue<T> read(Kryo kryo, Input input, Class<? extends PriorityQueue<T>> type) {
+				Comparator<T> comparator = kryo.readObject(input, Comparator.class);
+				int size = kryo.readObject(input, Integer.class);
+				PriorityQueue<T> priorityQueue = new PriorityQueue<>(comparator);
+				IntStream.range(0, size).mapToObj(i -> kryo.readObject(input, clazz)).forEach(priorityQueue::add);
+				return priorityQueue;
 			}
 		};
 	}
