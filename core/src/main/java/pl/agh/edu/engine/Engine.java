@@ -12,9 +12,11 @@ import pl.agh.edu.data.loader.JSONOpinionDataLoader;
 import pl.agh.edu.engine.client.Arrival;
 import pl.agh.edu.engine.client.ClientGroupGenerationHandler;
 import pl.agh.edu.engine.event.EventHandler;
+import pl.agh.edu.engine.generator.ClientGenerator;
 import pl.agh.edu.engine.hotel.HotelHandler;
 import pl.agh.edu.engine.hotel.HotelType;
 import pl.agh.edu.engine.hotel.dificulty.DifficultyLevel;
+import pl.agh.edu.engine.hotel.dificulty.GameDifficultyManager;
 import pl.agh.edu.engine.hotel.scenario.HotelScenariosManager;
 import pl.agh.edu.engine.opinion.OpinionBuilder;
 import pl.agh.edu.engine.opinion.OpinionHandler;
@@ -26,18 +28,28 @@ import pl.agh.edu.engine.time.command.TimeCommand;
 public class Engine {
 	public final Time time = Time.getInstance();
 	private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
-	private final HotelScenariosManager hotelScenariosManager = new HotelScenariosManager(HotelType.CITY);
-	public final EventHandler eventHandler = new EventHandler(hotelScenariosManager);
-	public final HotelHandler hotelHandler = new HotelHandler();
-	private final ClientGroupGenerationHandler clientGroupGenerationHandler = new ClientGroupGenerationHandler(
-			hotelScenariosManager,
-			hotelHandler.bankAccountHandler,
-			hotelHandler.attractionHandler);
-	private HotelType hotelType;
-	private DifficultyLevel difficultyLevel;
+	public final HotelScenariosManager hotelScenariosManager;
+	public final GameDifficultyManager gameDifficultyManager;
+	public final EventHandler eventHandler;
+	public final HotelHandler hotelHandler;
+	private final ClientGroupGenerationHandler clientGroupGenerationHandler;
 
-	public Engine() {
+	public Engine(HotelType hotelType, DifficultyLevel difficultyLevel) {
 
+		this.hotelScenariosManager = new HotelScenariosManager(hotelType);
+		this.gameDifficultyManager = new GameDifficultyManager(difficultyLevel);
+		ClientGenerator.getInstance().setGameDifficultyManager(this.gameDifficultyManager);
+		this.eventHandler = new EventHandler(hotelScenariosManager);
+		this.hotelHandler = new HotelHandler(gameDifficultyManager);
+		this.clientGroupGenerationHandler = new ClientGroupGenerationHandler(
+				hotelScenariosManager,
+				hotelHandler.bankAccountHandler,
+				hotelHandler.attractionHandler);
+
+		initializeUpdates();
+	}
+
+	private void initializeUpdates() {
 		LocalDateTime currentTime = time.getTime();
 
 		initializeEveryShiftUpdates(currentTime);
@@ -47,14 +59,6 @@ public class Engine {
 		initializeEveryMonthUpdates(currentTime);
 
 		initializeEveryYearUpdates(currentTime);
-	}
-
-	public Engine(HotelType hotelType, DifficultyLevel difficultyLevel) {
-
-		this.hotelType = hotelType;
-		this.difficultyLevel = difficultyLevel;
-
-		new Engine();
 	}
 
 	private void initializeEveryShiftUpdates(LocalDateTime currentTime) {

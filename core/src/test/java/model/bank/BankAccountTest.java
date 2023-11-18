@@ -15,12 +15,13 @@ import org.junit.jupiter.api.Test;
 import pl.agh.edu.engine.bank.BankAccount;
 import pl.agh.edu.engine.bank.BankAccountDetails;
 import pl.agh.edu.engine.bank.Credit;
+import pl.agh.edu.engine.hotel.dificulty.DifficultyLevel;
 import pl.agh.edu.engine.hotel.dificulty.GameDifficultyManager;
 
 public class BankAccountTest {
 	private final BigDecimal accountFee = BigDecimal.valueOf(10);
 	private BankAccount bankAccount;
-	private final BigDecimal initialBalance = GameDifficultyManager.getInstance().getInitialBalance();
+	private final BigDecimal initialBalance = new GameDifficultyManager(DifficultyLevel.MEDIUM).initialBalance;
 
 	@BeforeEach
 	public void setUp() {

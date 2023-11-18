@@ -37,8 +37,8 @@ public class GameStartContainer {
 		Optional<DifficultyLevel> difficultyLevel = difficultyPanel.getSelectedDifficulty();
 		Optional<HotelType> hotelType = scenarioPanel.getSelectedScenario();
 		if (difficultyLevel.isPresent() && hotelType.isPresent()) {
-			// Create engine
+			game.createEngine(hotelType.get(), difficultyLevel.get());
+			game.setScreen(new MainScreen());
 		}
-		game.setScreen(new MainScreen());
 	}
 }

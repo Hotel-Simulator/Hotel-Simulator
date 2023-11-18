@@ -29,7 +29,7 @@ public class ClientGenerator {
 	private final Time time = Time.getInstance();
 	private static final Faker faker = new Faker(new Locale("en-GB"));
 	// Set user input here (set hotelType)
-	private final GameDifficultyManager gameDifficultyManager = GameDifficultyManager.getInstance();
+	private GameDifficultyManager gameDifficultyManager;
 
 	private ClientGenerator() {}
 
@@ -37,6 +37,10 @@ public class ClientGenerator {
 		if (clientGeneratorInstance == null)
 			clientGeneratorInstance = new ClientGenerator();
 		return clientGeneratorInstance;
+	}
+
+	public void setGameDifficultyManager(GameDifficultyManager gameDifficultyManager) {
+		this.gameDifficultyManager = gameDifficultyManager;
 	}
 
 	public ClientGroup generateClientGroupForGivenHotelVisitPurpose(HotelVisitPurpose hotelVisitPurpose) {
@@ -58,7 +62,7 @@ public class ClientGenerator {
 	private BigDecimal getDesiredPricePerNight(RoomRank desiredRoomRank, RoomSize roomSize) {
 		double opinionModifier = (1. + JSONOpinionDataLoader.desiredPriceModifier * OpinionHandler.getOpinionModifier().doubleValue());
 		double meanPrice = JSONClientDataLoader.averagePricesPerNight.get(Pair.of(desiredRoomRank, roomSize)).doubleValue()
-				/ gameDifficultyManager.getDifficultyMultiplier()
+				/ gameDifficultyManager.difficultyMultiplier
 				* opinionModifier;
 		double variation = 0.2 * meanPrice;
 		return BigDecimal.valueOf(Math.round(RandomUtils.randomGaussian(meanPrice, variation)));
