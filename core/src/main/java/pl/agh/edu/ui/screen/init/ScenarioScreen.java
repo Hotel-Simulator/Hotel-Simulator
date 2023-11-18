@@ -16,14 +16,15 @@ public class ScenarioScreen implements Screen {
 	public final Skin skin = GameSkin.getInstance();
 	public final Stack stack = new Stack();
 	public final Table mainTable = new Table();
-	public final GameCreationWizard wizard = new GameCreationWizard(mainTable);
 
 	public ScenarioScreen() {
-		stage.addActor(stack);
 		stack.setFillParent(true);
-		stack.add(mainTable);
+		stage.addActor(stack);
 		mainTable.setFillParent(true);
 		mainTable.background(skin.getDrawable("hotel-room"));
+		mainTable.left();
+		stack.add(mainTable);
+		new GameCreationWizard(mainTable);
 	}
 
 	@Override

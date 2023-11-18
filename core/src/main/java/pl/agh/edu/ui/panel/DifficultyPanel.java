@@ -25,15 +25,13 @@ import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.component.button.DifficultyButton;
 import pl.agh.edu.ui.component.button.ScenarioLabeledButton;
 import pl.agh.edu.ui.component.label.LanguageLabel;
-import pl.agh.edu.ui.language.LanguageChangeListener;
-import pl.agh.edu.ui.language.LanguageManager;
 import pl.agh.edu.ui.resolution.ResolutionChangeListener;
 import pl.agh.edu.ui.resolution.ResolutionManager;
 import pl.agh.edu.ui.resolution.Size;
 import pl.agh.edu.ui.utils.SkinColor;
 import pl.agh.edu.utils.LanguageString;
 
-public class DifficultyPanel implements LanguageChangeListener, ResolutionChangeListener {
+public class DifficultyPanel implements ResolutionChangeListener {
 	public final GameSkin skin = GameSkin.getInstance();
 	public final Table frame = new Table();
 	public final DifficultyPanelSizes sizes = new DifficultyPanelSizes(frame);
@@ -61,7 +59,6 @@ public class DifficultyPanel implements LanguageChangeListener, ResolutionChange
 		createFrame();
 
 		addListeners();
-		LanguageManager.addListener(this);
 		ResolutionManager.addListener(this);
 	}
 
@@ -176,11 +173,6 @@ public class DifficultyPanel implements LanguageChangeListener, ResolutionChange
 		setSize();
 		createTitleLabel();
 		createFrame();
-	}
-
-	@Override
-	public Actor onLanguageChange() {
-		return frame;
 	}
 
 	@Override

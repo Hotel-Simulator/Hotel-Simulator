@@ -49,7 +49,6 @@ public class ScenarioPanel implements LanguageChangeListener, ResolutionChangeLi
 		createTitleLabel();
 		createNextButton();
 
-		createFrame();
 		setEventListeners();
 
 		LanguageManager.addListener(this);
@@ -63,7 +62,7 @@ public class ScenarioPanel implements LanguageChangeListener, ResolutionChangeLi
 
 		frame.clearChildren();
 		frame.setFillParent(true);
-		frame.background(skin.getDrawable("hotel-room"));
+		frame.left();
 
 		addTitleLabelToFrame();
 		addScenarioButtonsToFrame();
