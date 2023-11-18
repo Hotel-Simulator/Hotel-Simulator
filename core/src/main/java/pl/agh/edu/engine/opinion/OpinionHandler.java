@@ -22,7 +22,7 @@ import pl.agh.edu.utils.RandomUtils;
 
 public class OpinionHandler {
 	private static BigDecimal opinionModifier = new BigDecimal("0.1");
-	private static final List<OpinionData> opinions = new ArrayList<>();
+	public static final List<OpinionData> opinions = new ArrayList<>();
 	private static final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
 	private static final Time time = Time.getInstance();
 

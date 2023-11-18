@@ -1,14 +1,30 @@
 package pl.agh.edu.ui.component.textField;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import pl.agh.edu.GdxGame;
+
+import java.util.Objects;
 
 public class TimeTextField extends TextField {
+    public final GdxGame game = (GdxGame) Gdx.app.getApplicationListener();
 
     public TimeTextField(String text, Skin skin, String style) {
-        super(text, skin, style);
+        super("", skin, style);
+        setText(getTimeFromEngine(text));
         setMaxLength(5);  // Limit the maximum length to 5 characters
         setTextFieldFilter(new TimeTextFieldFilter());
+    }
+
+    private String getTimeFromEngine(String text){
+        if(Objects.equals(text, "in")){
+            return game.engine.hotelHandler.hotel.getCheckInTime().toString();
+        }
+        else if(Objects.equals(text, "out")){
+            return game.engine.hotelHandler.hotel.getCheckOutTime().toString();
+        }
+        return "";
     }
 
     private class TimeTextFieldFilter implements TextFieldFilter {

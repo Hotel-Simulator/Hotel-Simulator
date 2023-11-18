@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.Align;
 import pl.agh.edu.GdxGame;
 import pl.agh.edu.config.GraphicConfig;
+import pl.agh.edu.engine.opinion.OpinionHandler;
 import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.component.label.LanguageLabel;
 import pl.agh.edu.ui.component.rating.Rating;
@@ -54,7 +55,7 @@ public class HotelTable extends WrapperTable {
 
         // from engine scenario
         Image scenarioImage = new Image(skin.getDrawable("resort-icon"));
-        TextField hotelName = new HotelNameTextField( skin, "hotel_frame_medium");
+        TextField hotelName = new HotelNameTextField(skin, "hotel_frame_medium");
         hotelName.setAlignment(Align.center);
 
         leftTable.add(scenarioImage).grow().row();
@@ -75,8 +76,8 @@ public class HotelTable extends WrapperTable {
         scenario.pad(20f, 0f, 20f, 0f);
 
         LanguageLabel title = new LanguageLabel(new LanguageString("hotelFrame.scenario.label"),SkinFont.H4.getName());
-        // set value from engine
-        Label value = new Label("Resort", skin, SkinFont.H4.getName());
+        String hotelType = game.engine.hotelScenariosManager.hotelType.toString();
+        Label value = new Label(hotelType, skin, SkinFont.H4.getName());
 
         scenario.add(title).expandX();
         scenario.add(value).expandX();
@@ -91,8 +92,7 @@ public class HotelTable extends WrapperTable {
         LanguageLabel title = new LanguageLabel(new LanguageString("hotelFrame.checkIn.label"),SkinFont.H4.getName());
         title.setWrap(true);
         title.setAlignment(Align.center);
-        // set value from engine
-        TextField time = new TimeTextField("13:00", skin, "hotel_frame_medium");
+        TextField time = new TimeTextField("in", skin, "hotel_frame_medium");
         time.setAlignment(Align.center);
 
         checkIn.add(title).width(250f).expandX();
@@ -109,7 +109,7 @@ public class HotelTable extends WrapperTable {
         title.setWrap(true);
         title.setAlignment(Align.center);
         // set value from engine
-        TextField time = new TimeTextField("11:00", skin, "hotel_frame_medium");
+        TextField time = new TimeTextField("out", skin, "hotel_frame_medium");
         time.setAlignment(Align.center);
 
         checkOut.add(title).width(300f).expandX();
@@ -133,8 +133,8 @@ public class HotelTable extends WrapperTable {
 
         LanguageLabel title = new LanguageLabel(new LanguageString("hotelFrame.workers.label"),SkinFont.H4.getName());
         Image photo = new Image(skin.getDrawable("default"));
-        // set value from engine
-        Label value = new Label("10", skin, SkinFont.H4.getName());
+        String employees = String.valueOf(game.engine.hotelHandler.employeeHandler.getEmployees().size());
+        Label value = new Label(employees, skin, SkinFont.H4.getName());
 
         workersTable.add(title).colspan(2).row();
         workersTable.add(photo);
@@ -152,8 +152,9 @@ public class HotelTable extends WrapperTable {
         LanguageLabel title = new LanguageLabel(new LanguageString("hotelFrame.opinions.label"),SkinFont.H4.getName());
 //        // set rating and value from engine
 //        Rating rating = new Rating(2, (15) > {4+5});
-        Label value = new Label("(100)", skin, SkinFont.SUBTITLE2.getName());
-//
+        String numOpinions = String.valueOf(OpinionHandler.opinions.size());
+        Label value = new Label("(" + numOpinions + ")", skin, SkinFont.SUBTITLE2.getName());
+
         opinion.add(title).colspan(2).row();
 //        opinion.add(rating).padTop(5f).row();
         opinion.add(value).padTop(5f);
