@@ -1,7 +1,6 @@
 package pl.agh.edu.ui.panel;
 
 import static pl.agh.edu.ui.audio.SoundAudio.CLICK;
-import static pl.agh.edu.ui.resolution.Size.LARGE;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,13 +22,11 @@ import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.component.button.ScenarioButton;
 import pl.agh.edu.ui.component.button.ScenarioLabeledButton;
 import pl.agh.edu.ui.component.label.LanguageLabel;
-import pl.agh.edu.ui.language.LanguageChangeListener;
-import pl.agh.edu.ui.language.LanguageManager;
 import pl.agh.edu.ui.resolution.ResolutionChangeListener;
 import pl.agh.edu.ui.resolution.ResolutionManager;
 import pl.agh.edu.utils.LanguageString;
 
-public class ScenarioPanel implements LanguageChangeListener, ResolutionChangeListener {
+public class ScenarioPanel implements ResolutionChangeListener {
 	public final Table frame = new Table();
 	protected Skin skin = GameSkin.getInstance();
 	public final ScenarioPanelSizes sizes = new ScenarioPanelSizes();
@@ -40,7 +37,7 @@ public class ScenarioPanel implements LanguageChangeListener, ResolutionChangeLi
 	public final Table bottomTable = new Table();
 	private LanguageLabel titleLabel;
 	private ScenarioLabeledButton nextButton;
-	private Runnable goToDifficultyPanel;
+	private final Runnable goToDifficultyPanel;
 
 	public ScenarioPanel(Runnable goToDifficultyPanel) {
 		this.goToDifficultyPanel = goToDifficultyPanel;
@@ -51,7 +48,6 @@ public class ScenarioPanel implements LanguageChangeListener, ResolutionChangeLi
 
 		setEventListeners();
 
-		LanguageManager.addListener(this);
 		ResolutionManager.addListener(this);
 	}
 
@@ -139,21 +135,15 @@ public class ScenarioPanel implements LanguageChangeListener, ResolutionChangeLi
 		titleLabel.setStyle(ScenarioPanelStyles.getTitleLabelStyle());
 	}
 
-	public void updatedSizes() {
+	public void updateSizes() {
 		getSize();
 		updateLabels();
 		createFrame();
 	}
 
 	@Override
-	public Actor onLanguageChange() {
-		updateLabels();
-		return frame;
-	}
-
-	@Override
 	public Actor onResolutionChange() {
-		updatedSizes();
+		updateSizes();
 		return frame;
 	}
 

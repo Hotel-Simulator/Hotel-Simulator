@@ -15,7 +15,7 @@ import pl.agh.edu.ui.screen.init.ScenarioScreen;
 
 public class GdxGame extends ApplicationAdapter {
 
-	public final Engine engine = new Engine();
+	public Engine engine;
 	private Screen currentScreen;
 	private Screen previousScreen;
 
@@ -40,7 +40,9 @@ public class GdxGame extends ApplicationAdapter {
 			currentScreen.render(Gdx.graphics.getDeltaTime());
 		}
 
-		engine.time.update(Gdx.graphics.getDeltaTime());
+		if (engine != null) {
+			engine.time.update(Gdx.graphics.getDeltaTime());
+		}
 	}
 
 	@Override

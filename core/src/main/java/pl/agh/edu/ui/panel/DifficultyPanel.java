@@ -43,8 +43,8 @@ public class DifficultyPanel implements ResolutionChangeListener {
 	private LanguageLabel titleLabel;
 	private ScenarioLabeledButton backButton;
 	private ScenarioLabeledButton playButton;
-	private Runnable goToScenarioPanel;
-	private Runnable startGame;
+	private final Runnable goToScenarioPanel;
+	private final Runnable startGame;
 
 	public DifficultyPanel(Runnable goToScenarioPanel, Runnable startGame) {
 		setSize();
@@ -175,7 +175,6 @@ public class DifficultyPanel implements ResolutionChangeListener {
 		createFrame();
 	}
 
-	@Override
 	public Actor onResolutionChange() {
 		updateSizes();
 		return frame;

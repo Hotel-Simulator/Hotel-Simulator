@@ -24,7 +24,8 @@ public class ScenarioScreen implements Screen {
 		mainTable.background(skin.getDrawable("hotel-room"));
 		mainTable.left();
 		stack.add(mainTable);
-		new GameCreationWizard(mainTable);
+		new GameStartContainer(mainTable);
+
 	}
 
 	@Override

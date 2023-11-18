@@ -12,13 +12,13 @@ import pl.agh.edu.ui.panel.DifficultyPanel;
 import pl.agh.edu.ui.panel.ScenarioPanel;
 import pl.agh.edu.ui.screen.main.MainScreen;
 
-public class GameCreationWizard {
+public class GameStartContainer {
 	public final Table mainTable;
 	public final GdxGame game = (GdxGame) Gdx.app.getApplicationListener();
 	public final ScenarioPanel scenarioPanel = new ScenarioPanel(this::goToDifficultyPanel);
 	public final DifficultyPanel difficultyPanel = new DifficultyPanel(this::goToScenarioPanel, this::startGame);
 
-	public GameCreationWizard(Table mainTable) {
+	public GameStartContainer(Table mainTable) {
 		this.mainTable = mainTable;
 		mainTable.add(scenarioPanel.frame);
 	}

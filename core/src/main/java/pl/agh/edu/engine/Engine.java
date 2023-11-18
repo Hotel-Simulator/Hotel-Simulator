@@ -54,15 +54,7 @@ public class Engine {
 		this.hotelType = hotelType;
 		this.difficultyLevel = difficultyLevel;
 
-		LocalDateTime currentTime = time.getTime();
-
-		initializeEveryShiftUpdates(currentTime);
-
-		initializeEveryDayUpdates(currentTime);
-
-		initializeEveryMonthUpdates(currentTime);
-
-		initializeEveryYearUpdates(currentTime);
+		new Engine();
 	}
 
 	private void initializeEveryShiftUpdates(LocalDateTime currentTime) {
