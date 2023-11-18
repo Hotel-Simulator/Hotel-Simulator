@@ -2,8 +2,14 @@ package pl.agh.edu.engine.employee;
 
 import java.math.BigDecimal;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.Serializer;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
+
 import pl.agh.edu.engine.employee.contract.Offer;
 import pl.agh.edu.engine.employee.contract.OfferResponse;
+import pl.agh.edu.serialization.KryoConfig;
 
 public class PossibleEmployee {
 	public final String firstName;
@@ -12,6 +18,32 @@ public class PossibleEmployee {
 	public final BigDecimal skills;
 	public final EmploymentPreferences preferences;
 	public final Profession profession;
+
+	static {
+		KryoConfig.kryo.register(PossibleEmployee.class, new Serializer<PossibleEmployee>() {
+			@Override
+			public void write(Kryo kryo, Output output, PossibleEmployee object) {
+				kryo.writeObject(output, object.firstName);
+				kryo.writeObject(output, object.lastName);
+				kryo.writeObject(output, object.age);
+				kryo.writeObject(output, object.skills);
+				kryo.writeObject(output, object.preferences);
+				kryo.writeObject(output, object.profession);
+			}
+
+			@Override
+			public PossibleEmployee read(Kryo kryo, Input input, Class<? extends PossibleEmployee> type) {
+				return new PossibleEmployee.Builder()
+						.firstName(kryo.readObject(input, String.class))
+						.lastName(kryo.readObject(input, String.class))
+						.age(kryo.readObject(input, Integer.class))
+						.skills(kryo.readObject(input, BigDecimal.class))
+						.preferences(kryo.readObject(input, EmploymentPreferences.class))
+						.profession(kryo.readObject(input, Profession.class))
+						.build();
+			}
+		});
+	}
 
 	private PossibleEmployee(Builder builder) {
 		this.firstName = builder.firstName;

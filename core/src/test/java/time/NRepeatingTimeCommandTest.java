@@ -14,15 +14,16 @@ import org.mockito.MockitoAnnotations;
 
 import pl.agh.edu.engine.time.Frequency;
 import pl.agh.edu.engine.time.command.NRepeatingTimeCommand;
+import pl.agh.edu.engine.time.command.SerializableRunnable;
 
 public class NRepeatingTimeCommandTest {
 
 	private static final LocalDateTime DUE_DATE_TIME = LocalDateTime.of(2023, 8, 13, 12, 0);
 	private static final Frequency FREQUENCY = EVERY_DAY;
 	@Mock
-	private static Runnable runnable;
+	private static SerializableRunnable runnable;
 	@Mock
-	private static Runnable runnableAfterLast;
+	private static SerializableRunnable runnableAfterLast;
 
 	@BeforeEach
 	public void setUp() {

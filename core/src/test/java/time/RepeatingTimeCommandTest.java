@@ -14,6 +14,7 @@ import org.mockito.MockitoAnnotations;
 
 import pl.agh.edu.engine.time.Frequency;
 import pl.agh.edu.engine.time.command.RepeatingTimeCommand;
+import pl.agh.edu.engine.time.command.SerializableRunnable;
 
 public class RepeatingTimeCommandTest {
 
@@ -28,7 +29,7 @@ public class RepeatingTimeCommandTest {
 	@Test
 	public void testExecuteCommand() {
 		// Given
-		Runnable runnable = createMockRunnable();
+		SerializableRunnable runnable = createMockRunnable();
 		RepeatingTimeCommand command = new RepeatingTimeCommand(FREQUENCY, runnable, DUE_DATE_TIME);
 
 		// When
@@ -41,7 +42,7 @@ public class RepeatingTimeCommandTest {
 	@Test
 	public void testRepeatCommand() {
 		// Given
-		Runnable runnable = createMockRunnable();
+		SerializableRunnable runnable = createMockRunnable();
 		RepeatingTimeCommand command = new RepeatingTimeCommand(FREQUENCY, runnable, DUE_DATE_TIME);
 
 		// When
@@ -55,7 +56,7 @@ public class RepeatingTimeCommandTest {
 	@Test
 	public void testStop() {
 		// Given
-		Runnable runnable = createMockRunnable();
+		SerializableRunnable runnable = createMockRunnable();
 		RepeatingTimeCommand command = new RepeatingTimeCommand(FREQUENCY, runnable, DUE_DATE_TIME);
 
 		// When
@@ -66,7 +67,7 @@ public class RepeatingTimeCommandTest {
 		verify(runnable, times(0)).run();
 	}
 
-	private Runnable createMockRunnable() {
-		return mock(Runnable.class);
+	private SerializableRunnable createMockRunnable() {
+		return mock(SerializableRunnable.class);
 	}
 }

@@ -2,12 +2,18 @@ package pl.agh.edu.engine.room;
 
 import java.util.Optional;
 
+import pl.agh.edu.serialization.KryoConfig;
+
 public enum RoomSize {
 	SINGLE(1),
 	DOUBLE(2),
 	FAMILY(5);
 
 	private final int maxNumberOfGuests;
+
+	static {
+		KryoConfig.kryo.register(RoomSize.class);
+	}
 
 	RoomSize(int maxNumberOfGuests) {
 		this.maxNumberOfGuests = maxNumberOfGuests;

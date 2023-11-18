@@ -2,6 +2,8 @@ package pl.agh.edu.engine.time;
 
 import java.time.LocalDateTime;
 
+import pl.agh.edu.serialization.KryoConfig;
+
 public enum Frequency {
 	EVERY_SHIFT,
 	EVERY_TIME_TICK,
@@ -9,6 +11,10 @@ public enum Frequency {
 	EVERY_DAY,
 	EVERY_MONTH,
 	EVERY_YEAR;
+
+	static {
+		KryoConfig.kryo.register(Frequency.class);
+	}
 
 	public LocalDateTime add(LocalDateTime localDateTime) {
 		return switch (this) {
