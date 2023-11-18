@@ -1,21 +1,46 @@
 package pl.agh.edu.ui.component.textField;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import pl.agh.edu.GdxGame;
 
 import java.util.Objects;
 
 public class TimeTextField extends TextField {
     public final GdxGame game = (GdxGame) Gdx.app.getApplicationListener();
+    public String lastText;
 
     public TimeTextField(String text, Skin skin, String style) {
         super("", skin, style);
-        scaleBy(-0.9f);
         setText(getTimeFromEngine(text));
-        setMaxLength(5);  // Limit the maximum length to 5 characters
+        setMaxLength(5);
         setTextFieldFilter(new TimeTextFieldFilter());
+
+        this.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                lastText = getText();
+//                System.out.println(lastText);
+                setText("");
+                setCursorPosition(0);
+            }
+        });
+
+        this.addListener(new InputListener() {
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+//                super.exit(event, x, y, pointer, toActor);
+                setText(lastText);
+                System.out.println(getText());
+                setCursorPosition(lastText.length());
+            }
+        });
     }
 
     private String getTimeFromEngine(String text){
@@ -36,19 +61,27 @@ public class TimeTextField extends TextField {
                 // Check the current text and the position of the cursor
                 String currentText = textField.getText();
                 int cursorPosition = textField.getCursorPosition();
-
-                // Allow only numbers at positions 0, 1, 3, and 4 (2 digits : 2 digits)
-                if ((cursorPosition == 0 || cursorPosition == 1 || cursorPosition == 3 || cursorPosition == 4) && Character.isDigit(c)) {
+                if(cursorPosition == 2 && c ==':'){
                     return true;
                 }
 
-                // Allow only colons at position 2
-                if (cursorPosition == 2 && c == ':') {
+                if(cursorPosition == 0 && (c == '1' || c == '2' || c == '0')){
+                    return true;
+                }
+                if(cursorPosition == 1){
                     return true;
                 }
 
-                // Allow colons only if there are no colons already and cursor is at positions 2 or 5
-                if (currentText.indexOf(':') == -1 && (cursorPosition == 2 || cursorPosition == 5) && c == ':') {
+                if(cursorPosition == 2){
+                    text += ":";
+                    setCursorPosition(3);
+                    return true;
+                }
+
+                if(cursorPosition == 3 &&  (c == '0' || c == '1' || c == '2' || c == '3' || c == '4' || c == '5')){
+                    return true;
+                }
+                if(cursorPosition == 4){
                     return true;
                 }
             }

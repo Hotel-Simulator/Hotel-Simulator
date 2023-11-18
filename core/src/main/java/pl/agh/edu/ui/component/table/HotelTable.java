@@ -153,7 +153,6 @@ public class HotelTable extends WrapperTable {
         opinion.add(title).colspan(2).row();
         opinion.add(rating).padRight(10f);
         opinion.add(value);
-        opinion.debug();
         return opinion;
     }
 
