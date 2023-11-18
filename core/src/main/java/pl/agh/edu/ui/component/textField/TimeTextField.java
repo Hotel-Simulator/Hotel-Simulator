@@ -32,15 +32,18 @@ public class TimeTextField extends TextField {
             }
         });
 
-        this.addListener(new InputListener() {
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-//                super.exit(event, x, y, pointer, toActor);
-                setText(lastText);
-                System.out.println(getText());
-                setCursorPosition(lastText.length());
-            }
-        });
+//        this.addListener(new InputListener() {
+//            @Override
+//            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+////                super.exit(event, x, y, pointer, toActor);
+//                setText(lastText);
+//                System.out.println(getText());
+//                setCursorPosition(lastText.length());
+//            }
+//        });
+
+//        meld - 10-18
+//                wymeld - 6-12
     }
 
     private String getTimeFromEngine(String text){
