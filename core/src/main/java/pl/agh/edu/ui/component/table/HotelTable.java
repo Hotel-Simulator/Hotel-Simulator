@@ -1,5 +1,6 @@
 package pl.agh.edu.ui.component.table;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -7,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.Align;
+import pl.agh.edu.GdxGame;
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.component.label.LanguageLabel;
@@ -19,6 +21,7 @@ import pl.agh.edu.ui.utils.wrapper.WrapperTable;
 import pl.agh.edu.utils.LanguageString;
 
 public class HotelTable extends WrapperTable {
+    public final GdxGame game = (GdxGame) Gdx.app.getApplicationListener();
     private final Table leftTable = new Table();
     private final Table rightTable = new Table();
     private final GameSkin skin = GameSkin.getInstance();
@@ -51,7 +54,7 @@ public class HotelTable extends WrapperTable {
 
         // from engine scenario
         Image scenarioImage = new Image(skin.getDrawable("resort-icon"));
-        TextField hotelName = new HotelNameTextField("hotelFrame.defaultName", skin, "hotel_frame_medium");
+        TextField hotelName = new HotelNameTextField( skin, "hotel_frame_medium");
         hotelName.setAlignment(Align.center);
 
         leftTable.add(scenarioImage).grow().row();
