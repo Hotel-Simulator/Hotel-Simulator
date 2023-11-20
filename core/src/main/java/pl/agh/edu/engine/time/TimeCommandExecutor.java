@@ -42,11 +42,6 @@ public class TimeCommandExecutor {
 		this.unserializableCommandQueue = new PriorityQueue<>();
 	}
 
-	private TimeCommandExecutor(PriorityQueue<TimeCommand> commandQueue) {
-		this.commandQueue = commandQueue;
-		this.unserializableCommandQueue = new PriorityQueue<>();
-	}
-
 	public static TimeCommandExecutor getInstance() {
 		return instance;
 	}
@@ -71,7 +66,8 @@ public class TimeCommandExecutor {
 	public void executeQueuedCommands(PriorityQueue<TimeCommand> commandQueue, LocalDateTime dateTime) {
 		while (!commandQueue.isEmpty() && !commandQueue.peek().getDueDateTime().isAfter(dateTime)) {
 			TimeCommand command = commandQueue.poll();
-			command.execute();
+			if (command != null)
+				command.execute();
 		}
 	}
 }

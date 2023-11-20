@@ -16,6 +16,7 @@ public class TimeCommand implements Comparable<TimeCommand> {
 	protected final SerializableRunnable toExecute;
 	private final Long version;
 	protected LocalDateTime dueDateTime;
+	protected final boolean isSerializable;
 
 	public static void kryoRegister() {
 		KryoConfig.kryo.register(TimeCommand.class, new Serializer<TimeCommand>() {
@@ -39,15 +40,21 @@ public class TimeCommand implements Comparable<TimeCommand> {
 	}
 
 	public TimeCommand(SerializableRunnable toExecute, LocalDateTime dueDateTime) {
+		this(toExecute, dueDateTime, true);
+	}
+
+	public TimeCommand(SerializableRunnable toExecute, LocalDateTime dueDateTime, boolean isSerializable) {
 		this.toExecute = toExecute;
 		this.dueDateTime = dueDateTime;
 		this.version = creationVersion.getAndIncrement();
+		this.isSerializable = isSerializable;
 	}
 
 	protected TimeCommand(SerializableRunnable toExecute, LocalDateTime dueDateTime, Long version) {
 		this.toExecute = toExecute;
 		this.dueDateTime = dueDateTime;
 		this.version = version;
+		this.isSerializable = true;
 	}
 
 	public void execute() {

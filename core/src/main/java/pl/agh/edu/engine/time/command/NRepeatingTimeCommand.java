@@ -44,20 +44,33 @@ public class NRepeatingTimeCommand extends RepeatingTimeCommand {
 		});
 	}
 
-	public NRepeatingTimeCommand(Frequency frequency,
+	public NRepeatingTimeCommand(
+			Frequency frequency,
 			SerializableRunnable toExecute,
-			LocalDateTime dueTime, long N,
-			SerializableRunnable toExecuteAfterLastRepetition) {
-		super(frequency, toExecute, dueTime);
+			LocalDateTime dueTime,
+			long N,
+			SerializableRunnable toExecuteAfterLastRepetition,
+			Boolean isSerializable) {
+		super(frequency, toExecute, dueTime, isSerializable);
 		this.counter = N;
 		this.toExecuteAfterLastRepetition = toExecuteAfterLastRepetition;
+	}
+
+	public NRepeatingTimeCommand(
+			Frequency frequency,
+			SerializableRunnable toExecute,
+			LocalDateTime dueTime,
+			long N,
+			SerializableRunnable toExecuteAfterLastRepetition) {
+		this(frequency, toExecute, dueTime, N, toExecuteAfterLastRepetition, true);
 	}
 
 	public NRepeatingTimeCommand(Frequency frequency, SerializableRunnable toExecute, LocalDateTime dueTime, long N) {
 		this(frequency, toExecute, dueTime, N, () -> {});
 	}
 
-	public NRepeatingTimeCommand(Frequency frequency,
+	public NRepeatingTimeCommand(
+			Frequency frequency,
 			SerializableRunnable toExecute,
 			LocalDateTime dueTime,
 			long N,
@@ -68,10 +81,12 @@ public class NRepeatingTimeCommand extends RepeatingTimeCommand {
 		this.toExecuteAfterLastRepetition = toExecuteAfterLastRepetition;
 	}
 
-	public NRepeatingTimeCommand(Frequency frequency,
+	public NRepeatingTimeCommand(
+			Frequency frequency,
 			SerializableRunnable toExecute,
 			LocalDateTime dueTime,
-			long N, Long version) {
+			long N,
+			Long version) {
 		this(frequency, toExecute, dueTime, N, () -> {}, version);
 	}
 

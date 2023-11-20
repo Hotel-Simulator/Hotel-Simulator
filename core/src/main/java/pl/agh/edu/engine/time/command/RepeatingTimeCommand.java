@@ -13,7 +13,7 @@ import pl.agh.edu.engine.time.TimeCommandExecutor;
 import pl.agh.edu.serialization.KryoConfig;
 
 public class RepeatingTimeCommand extends TimeCommand {
-	private static final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
+
 	protected final Frequency frequency;
 	protected Boolean toStop = false;
 
@@ -43,7 +43,11 @@ public class RepeatingTimeCommand extends TimeCommand {
 	}
 
 	public RepeatingTimeCommand(Frequency frequency, SerializableRunnable toExecute, LocalDateTime dueTime) {
-		super(toExecute, dueTime);
+		this(frequency, toExecute, dueTime, true);
+	}
+
+	public RepeatingTimeCommand(Frequency frequency, SerializableRunnable toExecute, LocalDateTime dueTime, Boolean isSerializable) {
+		super(toExecute, dueTime, isSerializable);
 		this.frequency = frequency;
 	}
 
@@ -56,14 +60,8 @@ public class RepeatingTimeCommand extends TimeCommand {
 	public void execute() {
 		if (!toStop) {
 			toExecute.run();
-			repeat();
-		}
-	}
-
-	protected void repeat() {
-		if (!toStop) {
 			updateDueDateTime();
-			timeCommandExecutor.addCommand(this);
+			TimeCommandExecutor.getInstance().addCommand(this, isSerializable);
 		}
 	}
 
