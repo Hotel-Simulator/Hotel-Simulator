@@ -1,6 +1,6 @@
 package pl.agh.edu.engine.employee.scheduler;
 
-import static pl.agh.edu.engine.employee.Profession.CLEANER;
+import static pl.agh.edu.engine.employee.Profession.TECHNICIAN;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -14,7 +14,6 @@ import com.esotericsoftware.kryo.io.Output;
 
 import pl.agh.edu.engine.employee.Employee;
 import pl.agh.edu.engine.employee.EmployeeHandler;
-import pl.agh.edu.engine.employee.Profession;
 import pl.agh.edu.engine.employee.Shift;
 import pl.agh.edu.engine.opinion.OpinionBuilder;
 import pl.agh.edu.engine.room.Room;
@@ -52,7 +51,7 @@ public class RepairScheduler extends WorkScheduler<Room> {
 	}
 
 	public RepairScheduler(EmployeeHandler employeeHandler) {
-		super(employeeHandler, new LinkedList<>(), Profession.TECHNICIAN);
+		super(employeeHandler, new LinkedList<>(), TECHNICIAN);
 	}
 
 	private RepairScheduler(Time time,
