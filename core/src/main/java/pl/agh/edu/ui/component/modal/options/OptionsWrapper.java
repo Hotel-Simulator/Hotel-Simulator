@@ -1,13 +1,8 @@
 package pl.agh.edu.ui.component.modal.options;
 
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.engine.time.Time;
-import pl.agh.edu.ui.component.modal.ModalManager;
 import pl.agh.edu.ui.component.modal.utils.BaseModalWrapper;
-import pl.agh.edu.ui.shader.BlurShader;
 
 import static pl.agh.edu.ui.component.modal.ModalManager.ModalPreferences;
 
@@ -24,10 +19,10 @@ public class OptionsWrapper extends BaseModalWrapper {
 	public void openModal() {
 		if (isModalOpen())
 			return;
-		if (!isStageActive()) {
+		if(Time.getInstance().isRunning())
 			Time.getInstance().stop();
+		if (!isStageActive())
 			modalPreferences.inputMultiplexer().setProcessors(modalPreferences.modalStage());
-		}
 		if (!isBlurActive())
 			modalPreferences.blurShader().startBlur();
 		this.setActor(optionModal);
@@ -40,7 +35,6 @@ public class OptionsWrapper extends BaseModalWrapper {
 			return;
 		if (isStageReadyToClose()) {
 			modalPreferences.inputMultiplexer().setProcessors(modalPreferences.mainStage());
-			modalPreferences.blurShader().stopBlur();
 		}
 		if (isBlurActive())
 			modalPreferences.blurShader().stopBlur();

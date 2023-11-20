@@ -19,7 +19,7 @@ import pl.agh.edu.ui.shader.BlurShader;
 public class ModalManager extends Stack {
 	private static ModalManager instance;
 	private static ModalPreferences modalPreferences;
-	private final List<BaseModalWrapper> modalList = new ArrayList<>();
+	private final static List<BaseModalWrapper> modalList = new ArrayList<>();
 
 	private ModalManager(ModalPreferences modalPreferences) {
 		super();
@@ -53,7 +53,7 @@ public class ModalManager extends Stack {
 
 	private void addModal(BaseModalWrapper actor) {
 		actor.openModal();
-		modalList.add(0, actor);
+		modalList.add(0,actor);
 		this.add(actor);
 	}
 
@@ -67,7 +67,7 @@ public class ModalManager extends Stack {
 	}
 
 	public boolean isModalReadyToClose() {
-		return modalList.size() <= 1;
+		return modalList.isEmpty();
 	}
 
 	public boolean isModalOpen() {

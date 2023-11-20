@@ -23,10 +23,10 @@ public class EventWrapper extends BaseModalWrapper {
 	public void openModal() {
 		if (isModalOpen())
 			return;
-		if (!isStageActive()) {
+		if(Time.getInstance().isRunning())
 			Time.getInstance().stop();
+		if (!isStageActive())
 			modalPreferences.inputMultiplexer().setProcessors(modalPreferences.modalStage());
-		}
 		if (!isBlurActive())
 			modalPreferences.blurShader().startBlur();
 		EventModal blurModal = new EventModal(eventModalData);
