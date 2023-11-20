@@ -123,8 +123,7 @@ public class Engine {
 						kryo.readObject(input, CleaningScheduler.class),
 						kryo.readObject(input, RepairScheduler.class),
 						kryo.readObject(input, ReceptionScheduler.class),
-						kryo.readObject(input, ClientGroupArrivalGenerationHandler.class)
-				);
+						kryo.readObject(input, ClientGroupArrivalGenerationHandler.class));
 
 			}
 		});
@@ -169,8 +168,7 @@ public class Engine {
 		this.clientGroupArrivalGenerationHandler = new ClientGroupArrivalGenerationHandler(
 				hotel,
 				clientGroupGenerationHandler,
-				receptionScheduler
-		);
+				receptionScheduler);
 
 		LocalDateTime currentTime = time.startingTime;
 
