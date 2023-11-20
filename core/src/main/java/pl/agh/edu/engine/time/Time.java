@@ -69,15 +69,6 @@ public class Time {
 
 	}
 
-	private Time(TimeCommandExecutor timeCommandExecutor, LocalDateTime currentTime) {
-		this.timeCommandExecutor = timeCommandExecutor;
-		this.minutes = currentTime.getMinute();
-		this.hours = currentTime.getHour();
-		this.days = currentTime.getDayOfMonth();
-		this.months = currentTime.getMonthValue();
-		this.years = currentTime.getYear();
-	}
-
 	public static Time getInstance() {
 		if (instance == null) {
 			instance = new Time();

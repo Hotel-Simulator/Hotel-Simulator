@@ -251,29 +251,4 @@ public class Engine {
 	private void initializeEveryYearUpdates(LocalDateTime currentTime) {
 		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_YEAR, eventHandler::yearlyUpdate, currentTime));
 	}
-
-	private void generateClientArrivals() {
-		clientGroupGenerationHandler.getArrivalsForDay(hotel.getCheckInTime())
-				.forEach(arrival -> timeCommandExecutor.addCommand(
-						createTimeCommandForClientArrival(arrival)));
-	}
-
-	private TimeCommand createTimeCommandForClientArrival(Arrival arrival) {
-		return new TimeCommand(() -> {
-			OpinionBuilder.saveStartWaitingAtQueueData(arrival.clientGroup(), time.getTime());
-			receptionScheduler.addEntity(arrival.clientGroup());
-			timeCommandExecutor.addCommand(
-					new TimeCommand(() -> {
-						if (receptionScheduler.removeEntity(arrival.clientGroup())) {
-							OpinionBuilder.saveSteppingOutOfQueueData(arrival.clientGroup());
-							opinionHandler.addOpinionWithProbability(arrival.clientGroup(), JSONOpinionDataLoader.opinionProbabilityForClientWhoSteppedOutOfQueue);
-						}
-					}, LocalDateTime.of(time.getTime().toLocalDate(), arrival.time()).plus(arrival.clientGroup().getMaxWaitingTime())));
-		}, LocalDateTime.of(time.getTime().toLocalDate(), arrival.time()));
-	}
-
-	public void dailyUpdate() {
-		generateClientArrivals();
-	}
-
 }
