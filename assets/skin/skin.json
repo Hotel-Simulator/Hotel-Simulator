@@ -732,16 +732,23 @@
 		"font": "subtitle2",
 		"fontColor": "gray-000",
 		"disabledFontColor": "shadow",
+		"background": "select-box-background-up",
 		"scrollStyle": "default",
-		"listStyle": "selectMenu"
+		"listStyle": "selectMenu",
+		"backgroundOver": "select-box-background-over",
+		"backgroundOpen": "select-box-background-open-up",
+		"backgroundDisabled": "select-box-background-disabled"
 	},
 	"selectMenu": {
 		"font": "subtitle2",
 		"fontColor": "gray-000",
-		"background": "select-box-background",
+		"disabledFontColor": "shadow",
+		"background": "select-box-background-up",
 		"scrollStyle": "default",
 		"listStyle": "selectMenu",
-		"backgroundOpen": "select-box-background-open"
+		"backgroundOver": "select-box-background-over",
+		"backgroundOpen": "select-box-background-open-up",
+		"backgroundDisabled": "select-box-background-disabled"
 	}
 },
 "SliderStyle": {

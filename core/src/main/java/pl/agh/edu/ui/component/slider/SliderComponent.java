@@ -1,39 +1,40 @@
 package pl.agh.edu.ui.component.slider;
 
 import static com.badlogic.gdx.utils.Align.center;
+import static com.badlogic.gdx.utils.Align.left;
 import static com.badlogic.gdx.utils.Align.right;
 import static pl.agh.edu.ui.audio.SoundAudio.PIP;
 import static pl.agh.edu.ui.utils.SkinFont.SUBTITLE2;
+import static pl.agh.edu.ui.utils.SkinFont.SUBTITLE3;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import pl.agh.edu.config.GraphicConfig;
+import pl.agh.edu.ui.component.label.CustomLabel;
+import pl.agh.edu.ui.component.label.LanguageLabel;
 import pl.agh.edu.ui.utils.wrapper.WrapperDoubleTable;
 import pl.agh.edu.utils.LanguageString;
 
 public abstract class SliderComponent extends WrapperDoubleTable {
 
 	protected final String suffix;
-	protected final Label valueLabel = new Label("100 %", skin, SUBTITLE2.getName());
+	protected final CustomLabel valueLabel = new CustomLabel(SliderStyle.getFont());
+	protected final LanguageLabel nameLabel;
 	private final Slider slider;
 
 	public SliderComponent(LanguageString languageString, String suffix, float minValue, float maxValue, float step) {
-		super(languageString);
+		super();
+		this.suffix = suffix;
 
 		this.set10PatchBackground("slider-background-10-patch");
 
-		this.suffix = suffix;
+		nameLabel = new LanguageLabel(languageString, SliderStyle.getFont());
+		nameLabel.setAlignment(center, left);
 
-		Label nameLabel = new Label("", skin, SUBTITLE2.getName());
-		this.setLanguageChangeHandler(nameLabel::setText);
-		this.onLanguageChange();
-		this.setResolutionChangeHandler(this::changeResolutionHandler);
-
-		nameLabel.setAlignment(center, center);
-		valueLabel.setAlignment(right, right);
+		valueLabel.setAlignment(center, right);
 
 		slider = new Slider(minValue, maxValue, step, false, skin);
 		slider.addListener(new ChangeListener() {
@@ -43,10 +44,17 @@ public abstract class SliderComponent extends WrapperDoubleTable {
 				stateChangeHandler();
 			}
 		});
-		leftTable.add(nameLabel).left().grow().uniform().padLeft(SliderStyle.getInnerPadding());
-		leftTable.add(valueLabel).right().grow().uniform().padRight(SliderStyle.getInnerPadding());
-		rightTable.add(slider).center().grow().padLeft(SliderStyle.getInnerPadding()).padRight(SliderStyle.getInnerPadding());
+		// slider.setFillParent(true);
+		Container<Slider> sliderContainer = new Container<>(slider);
+		sliderContainer.fill();
+		// sliderContainer.width(SliderStyle.getWidth()/2-10*SliderStyle.getInnerPadding());
+		sliderContainer.pad(0);
 
+		leftTable.add(nameLabel).left().grow().uniform();
+		leftTable.add(valueLabel).right().grow().uniform();
+		rightTable.add(sliderContainer).center().grow();
+
+		this.setResolutionChangeHandler(this::changeResolutionHandler);
 		this.changeResolutionHandler();
 	}
 
@@ -76,23 +84,31 @@ public abstract class SliderComponent extends WrapperDoubleTable {
 	}
 
 	private void changeResolutionHandler() {
+		leftTable.padLeft(SliderStyle.getInnerPadding());
+		leftTable.padRight(SliderStyle.getInnerPadding());
+
+		rightTable.padLeft(SliderStyle.getInnerPadding());
+		rightTable.padRight(SliderStyle.getInnerPadding());
+
+		this.nameLabel.setFont(SliderStyle.getFont());
+		this.valueLabel.setFont(SliderStyle.getFont());
 		this.size(SliderStyle.getWidth(), SliderStyle.getHeight());
 	}
 
 	private static class SliderStyle {
 		public static float getHeight() {
 			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> 30f + 2 * getPadding();
-				case MEDIUM -> 35f + 2 * getPadding();
-				case LARGE -> 40f + 2 * getPadding();
+				case SMALL -> 45f + 2 * getPadding();
+				case MEDIUM -> 50f + 2 * getPadding();
+				case LARGE -> 60f + 2 * getPadding();
 			};
 		}
 
 		public static float getWidth() {
 			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> 650f;
-				case MEDIUM -> 750f;
-				case LARGE -> 900f;
+				case SMALL -> 500f;
+				case MEDIUM -> 700f;
+				case LARGE -> 1000f;
 			};
 		}
 
@@ -109,6 +125,13 @@ public abstract class SliderComponent extends WrapperDoubleTable {
 				case SMALL -> 15f;
 				case MEDIUM -> 30f;
 				case LARGE -> 50f;
+			};
+		}
+
+		public static String getFont() {
+			return switch (GraphicConfig.getResolution().SIZE) {
+				case SMALL -> SUBTITLE3.getName();
+				case MEDIUM, LARGE -> SUBTITLE2.getName();
 			};
 		}
 	}

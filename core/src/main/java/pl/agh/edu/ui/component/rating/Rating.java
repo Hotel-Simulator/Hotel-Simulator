@@ -21,7 +21,7 @@ public class Rating extends WrapperTable {
 		this.currentRating = currentRating;
 		this.function = function;
 
-		this.setBackground("rating-background");
+		this.setBackground("rating-background-up");
 		Arrays.stream(stars).sequential().forEach(innerTable::add);
 
 		innerTable.setFillParent(true);
@@ -49,12 +49,14 @@ public class Rating extends WrapperTable {
 	}
 
 	public void setOverRating(int rating) {
+		this.setBackground("rating-background-over");
 		Arrays.stream(stars)
 				.sequential()
 				.forEach(star -> star.updateOverState(rating));
 	}
 
 	public void setDefaultRating() {
+		this.setBackground("rating-background-up");
 		setRating(currentRating);
 	}
 

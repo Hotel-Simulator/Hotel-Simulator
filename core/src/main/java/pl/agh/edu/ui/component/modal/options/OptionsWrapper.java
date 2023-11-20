@@ -4,18 +4,18 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import pl.agh.edu.config.GraphicConfig;
-import pl.agh.edu.ui.component.modal.BaseModalWrapper;
+import pl.agh.edu.engine.time.Time;
+import pl.agh.edu.ui.component.modal.ModalManager;
+import pl.agh.edu.ui.component.modal.utils.BaseModalWrapper;
 import pl.agh.edu.ui.shader.BlurShader;
+
+import static pl.agh.edu.ui.component.modal.ModalManager.ModalPreferences;
 
 public class OptionsWrapper extends BaseModalWrapper {
 	private final OptionModal optionModal = new OptionModal();
 
-	public OptionsWrapper(
-			InputMultiplexer inputMultiplexer,
-			BlurShader blurShader,
-			Stage mainStage,
-			Stage modalStage) {
-		super(inputMultiplexer, blurShader, mainStage, modalStage);
+	public OptionsWrapper(ModalPreferences modalPreferences) {
+		super(modalPreferences);
 		this.resize();
 		this.setResolutionChangeHandler(this::resize);
 	}
@@ -24,8 +24,12 @@ public class OptionsWrapper extends BaseModalWrapper {
 	public void openModal() {
 		if (isModalOpen())
 			return;
-		if (!isStageActive())
-			activatedStage();
+		if (!isStageActive()) {
+			Time.getInstance().stop();
+			modalPreferences.inputMultiplexer().setProcessors(modalPreferences.modalStage());
+		}
+		if (!isBlurActive())
+			modalPreferences.blurShader().startBlur();
 		this.setActor(optionModal);
 		optionModal.runVerticalFadeInAnimation();
 	}
@@ -34,8 +38,12 @@ public class OptionsWrapper extends BaseModalWrapper {
 	public void closeModal() {
 		if (!isModalOpen())
 			return;
-		if (isStageReadyToClose())
-			deactivatedStage();
+		if (isStageReadyToClose()) {
+			modalPreferences.inputMultiplexer().setProcessors(modalPreferences.mainStage());
+			modalPreferences.blurShader().stopBlur();
+		}
+		if (isBlurActive())
+			modalPreferences.blurShader().stopBlur();
 		optionModal.runVerticalFadeOutAnimation();
 	}
 
@@ -49,19 +57,25 @@ public class OptionsWrapper extends BaseModalWrapper {
 	private static class OptionWrapperStyle {
 		public static float getHeight() {
 			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> 500f;
-				case MEDIUM -> 600f;
-				case LARGE -> 700f;
+				case SMALL -> 600f;
+				case MEDIUM -> 700f;
+				case LARGE -> 800f;
 			};
 		}
 
 		public static float getWidth() {
 			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> 700f;
+				case SMALL -> 600f;
 				case MEDIUM -> 800f;
-				case LARGE -> 1000f;
+				case LARGE -> 1100f;
 			};
 		}
 	}
 
+
+	//TODO
+	// Fix for title
+	// Add all over on select
+	// Fix texture for slider 2px instead of 1px in strike
+	// Fix calendar
 }

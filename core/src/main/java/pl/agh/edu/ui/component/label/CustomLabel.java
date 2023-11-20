@@ -18,29 +18,70 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.Null;
+import com.rafaskoberg.gdx.typinglabel.TypingLabel;
 
 import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.resolution.ResolutionChangeListener;
 import pl.agh.edu.ui.resolution.ResolutionManager;
 import pl.agh.edu.ui.utils.SkinColor;
+import pl.agh.edu.ui.utils.SkinToken;
+import pl.agh.edu.ui.utils.wrapper.WrapperContainer;
 
-public class CustomLabel extends Label implements ResolutionChangeListener {
+public class CustomLabel extends WrapperContainer<Label> implements ResolutionChangeListener {
 	private static final Skin skin = GameSkin.getInstance();
 	private boolean hasUnderscore = false;
 	private boolean isDisabled = false;
 	private SkinColor baseColor = WARNING;
 	private SkinColor.ColorLevel colorLevel = _300;
 
+	protected final Label label;
+
+	private final String token;
+
 	private Runnable resolutionChangeHandler;
 
 	public CustomLabel(String font) {
-		super("", skin, font);
+		super();
+		this.token = "";
+		this.label = new Label("", skin, font);
+		this.setActor(label);
+
+	}
+
+	public CustomLabel(String font, SkinToken token) {
+		super();
+		TypingLabel label = new TypingLabel("", skin, font);
+		label.setDefaultToken(token.getName());
+		this.setActor(label);
+
+		this.label = label;
+		this.token = token.getName();
+	}
+
+	public void setText(String text) {
+		label.setText(text);
+	}
+
+	public void setAlignment(int labelAlign, int lineAlign) {
+		label.setAlignment(labelAlign, lineAlign);
+	}
+
+	public void setStyle(Label.LabelStyle style) {
+		label.setStyle(style);
+	}
+
+	public Label.LabelStyle getStyle() {
+		return label.getStyle();
+	}
+
+	public void setWrap(boolean wrap) {
+		label.setWrap(wrap);
 	}
 
 	public void setBackground(String backgroundPatch) {
-		LabelStyle labelStyle = new LabelStyle(this.getStyle());
+		Label.LabelStyle labelStyle = new Label.LabelStyle(label.getStyle());
 		labelStyle.background = new NinePatchDrawable(skin.getPatch(backgroundPatch));
-		this.setStyle(labelStyle);
+		label.setStyle(labelStyle);
 	}
 
 	@Override
@@ -62,9 +103,9 @@ public class CustomLabel extends Label implements ResolutionChangeListener {
 	}
 
 	public void setFont(String font) {
-		LabelStyle labelStyle = new LabelStyle(this.getStyle());
+		Label.LabelStyle labelStyle = new Label.LabelStyle(label.getStyle());
 		labelStyle.font = skin.getFont(font);
-		this.setStyle(labelStyle);
+		label.setStyle(labelStyle);
 	}
 
 	private SkinColor getSkinColor() {
@@ -79,9 +120,14 @@ public class CustomLabel extends Label implements ResolutionChangeListener {
 	}
 
 	private void updateColor() {
-		LabelStyle labelStyle = new LabelStyle(this.getStyle());
-		labelStyle.fontColor = getCurrentColor();
-		this.setStyle(labelStyle);
+		if(!token.isBlank()) {
+			((TypingLabel) label).setDefaultToken("{COLOR=#" + getCurrentColor().toString() + "}");
+		}
+		else{
+			Label.LabelStyle labelStyle = new Label.LabelStyle(label.getStyle());
+			labelStyle.fontColor = getCurrentColor();
+			label.setStyle(labelStyle);
+		}
 	}
 
 	public void setDisabled(boolean isDisabled) {

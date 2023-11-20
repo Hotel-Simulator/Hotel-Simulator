@@ -1,25 +1,19 @@
 package pl.agh.edu.ui.component.modal.event;
 
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.engine.event.EventModalData;
 import pl.agh.edu.engine.time.Time;
-import pl.agh.edu.ui.component.modal.BaseModalWrapper;
-import pl.agh.edu.ui.shader.BlurShader;
+import pl.agh.edu.ui.component.modal.utils.BaseModalWrapper;
 
+import static pl.agh.edu.ui.component.modal.ModalManager.ModalPreferences;
 public class EventWrapper extends BaseModalWrapper {
 
 	private final EventModalData eventModalData;
 
 	public EventWrapper(
-			InputMultiplexer inputMultiplexer,
-			BlurShader blurShader,
-			Stage mainStage,
-			Stage modalStage,
+			ModalPreferences modalPreferences,
 			EventModalData eventModalData) {
-		super(inputMultiplexer, blurShader, mainStage, modalStage);
+		super(modalPreferences);
 		this.eventModalData = eventModalData;
 		this.setResolutionChangeHandler(this::resize);
 		this.resize();
@@ -31,12 +25,13 @@ public class EventWrapper extends BaseModalWrapper {
 			return;
 		if (!isStageActive()) {
 			Time.getInstance().stop();
-			inputMultiplexer.setProcessors(modalStage);
-			blurShader.startBlur();
+			modalPreferences.inputMultiplexer().setProcessors(modalPreferences.modalStage());
 		}
-		EventModal optionModal = new EventModal(eventModalData);
-		this.setActor(optionModal);
-		optionModal.runVerticalFadeInAnimation();
+		if (!isBlurActive())
+			modalPreferences.blurShader().startBlur();
+		EventModal blurModal = new EventModal(eventModalData);
+		this.setActor(blurModal);
+		blurModal.runVerticalFadeInAnimation();
 	}
 
 	@Override
@@ -44,10 +39,10 @@ public class EventWrapper extends BaseModalWrapper {
 		if (!isModalOpen())
 			return;
 		if (isStageReadyToClose()) {
-			inputMultiplexer.setProcessors(mainStage);
-			blurShader.stopBlur();
-
+			modalPreferences.inputMultiplexer().setProcessors(modalPreferences.mainStage());
 		}
+		if (isBlurActive())
+			modalPreferences.blurShader().stopBlur();
 		this.getActor().runVerticalFadeOutAnimation();
 	}
 

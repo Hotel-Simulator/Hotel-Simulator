@@ -1,30 +1,23 @@
-package pl.agh.edu.ui.component.modal;
+package pl.agh.edu.ui.component.modal.utils;
 
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
-import pl.agh.edu.engine.time.Time;
+import pl.agh.edu.ui.component.modal.ModalManager;
 import pl.agh.edu.ui.shader.BlurShader;
 import pl.agh.edu.ui.utils.wrapper.WrapperContainer;
 import pl.agh.edu.ui.utils.wrapper.WrapperTable;
 import pl.agh.edu.utils.LanguageString;
 
+import static pl.agh.edu.ui.component.modal.ModalManager.ModalPreferences;
+
 public abstract class BaseModalWrapper extends WrapperContainer<WrapperTable> {
-	protected final InputMultiplexer inputMultiplexer;
-	protected final BlurShader blurShader;
-	protected final Stage mainStage;
-	protected final Stage modalStage;
+	protected final ModalPreferences modalPreferences;
 
 	public BaseModalWrapper(
-			InputMultiplexer inputMultiplexer,
-			BlurShader blurShader,
-			Stage mainStage,
-			Stage modalStage) {
+			ModalManager.ModalPreferences modalPreferences) {
 		super(new LanguageString());
-		this.inputMultiplexer = inputMultiplexer;
-		this.blurShader = blurShader;
-		this.mainStage = mainStage;
-		this.modalStage = modalStage;
+		this.modalPreferences = modalPreferences;
 		this.setFillParent(true);
 	}
 
@@ -40,15 +33,8 @@ public abstract class BaseModalWrapper extends WrapperContainer<WrapperTable> {
 		return ModalManager.getInstance().isModalReadyToClose();
 	}
 
-	protected void activatedStage() {
-		Time.getInstance().stop();
-		inputMultiplexer.setProcessors(modalStage);
-		blurShader.startBlur();
-	}
-
-	protected void deactivatedStage() {
-		inputMultiplexer.setProcessors(mainStage);
-		blurShader.stopBlur();
+	protected boolean isBlurActive() {
+		return ModalManager.getInstance().isBlurActive();
 	}
 
 	public abstract void openModal();
