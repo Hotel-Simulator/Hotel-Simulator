@@ -28,6 +28,7 @@ import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.esotericsoftware.kryo.serializers.ClosureSerializer;
 
+import pl.agh.edu.data.type.BankData;
 import pl.agh.edu.engine.Engine;
 import pl.agh.edu.engine.advertisement.AdvertisementCampaign;
 import pl.agh.edu.engine.advertisement.AdvertisementHandler;
@@ -50,7 +51,6 @@ import pl.agh.edu.engine.calendar.CalendarEvent;
 import pl.agh.edu.engine.client.Arrival;
 import pl.agh.edu.engine.client.Client;
 import pl.agh.edu.engine.client.ClientGroup;
-import pl.agh.edu.engine.client.ClientGroupArrivalGenerationHandler;
 import pl.agh.edu.engine.client.ClientGroupGenerationHandler;
 import pl.agh.edu.engine.client.Gender;
 import pl.agh.edu.engine.client.report.collector.ClientGroupReportDataCollector;
@@ -137,6 +137,8 @@ public class KryoConfig {
 		kryo.register(Class.class);
 		kryo.register(ClosureSerializer.Closure.class, new ClosureSerializer());
 
+		BankData.kryoRegister();
+
 		AdvertisementCampaign.kryoRegister();
 		AdvertisementHandler.kryoRegister();
 		AdvertisementType.kryoRegister();
@@ -163,7 +165,6 @@ public class KryoConfig {
 		Arrival.kryoRegister();
 		Client.kryoRegister();
 		ClientGroup.kryoRegister();
-		ClientGroupArrivalGenerationHandler.kryoRegister();
 		ClientGroupGenerationHandler.kryoRegister();
 		Gender.kryoRegister();
 		Offer.kryoRegister();
