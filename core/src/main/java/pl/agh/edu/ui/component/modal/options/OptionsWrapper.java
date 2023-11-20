@@ -8,26 +8,16 @@ import pl.agh.edu.ui.component.modal.BaseModalWrapper;
 import pl.agh.edu.ui.shader.BlurShader;
 
 public class OptionsWrapper extends BaseModalWrapper {
+	private final OptionModal optionModal = new OptionModal();
+
 	public OptionsWrapper(
 			InputMultiplexer inputMultiplexer,
 			BlurShader blurShader,
 			Stage mainStage,
-			Stage optionsStage) {
-		super(inputMultiplexer, blurShader, mainStage, optionsStage);
+			Stage modalStage) {
+		super(inputMultiplexer, blurShader, mainStage, modalStage);
 		this.resize();
 		this.setResolutionChangeHandler(this::resize);
-		this.setFillParent(true);
-	}
-
-	private final OptionModal optionModal = new OptionModal(this::closeModal);
-
-	public Runnable getOptionHandler() {
-		return () -> {
-			if (isModalOpen())
-				closeModal();
-			else
-				openModal();
-		};
 	}
 
 	@Override

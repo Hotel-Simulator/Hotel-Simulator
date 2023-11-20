@@ -38,6 +38,8 @@ public class SelectMenu extends WrapperTable {
 
 		this.setResolutionChangeHandler(this::changeResolutionHandler);
 		this.setLanguageChangeHandler(descriptionLabel::setText);
+		this.changeResolutionHandler();
+		this.onLanguageChange();
 	}
 
 	public void setItem(String name) {
@@ -82,11 +84,11 @@ public class SelectMenu extends WrapperTable {
 			this.setAlignment(center, center);
 		}
 
-		@Override
-		public void validate() {
-			setHeight(SelectMenuStyle.getHeight());
-			this.layout();
-		}
+		// @Override
+		// public void validate() {
+		// setHeight(SelectMenuStyle.getHeight());
+		// this.layout();
+		// }
 
 	}
 
@@ -132,11 +134,11 @@ public class SelectMenu extends WrapperTable {
 			this.getList().setStyle(listStyle);
 		}
 
-		@Override
-		public void validate() {
-			setHeight(SelectMenuStyle.getHeight());
-			this.layout();
-		}
+		// @Override
+		// public void validate() {
+		// setHeight(SelectMenuStyle.getHeight());
+		// this.layout();
+		// }
 
 		@Override
 		protected GlyphLayout drawItem(Batch batch, BitmapFont font, SelectMenuItem item, float x, float y, float width) {
