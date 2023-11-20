@@ -16,7 +16,7 @@ public class TimeCommand implements Comparable<TimeCommand> {
 	protected final SerializableRunnable toExecute;
 	private final Long version;
 	protected LocalDateTime dueDateTime;
-	protected final boolean isSerializable;
+	public final boolean isSerializable;
 
 	public static void kryoRegister() {
 		KryoConfig.kryo.register(TimeCommand.class, new Serializer<TimeCommand>() {

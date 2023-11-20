@@ -61,7 +61,7 @@ public class RepeatingTimeCommand extends TimeCommand {
 		if (!toStop) {
 			toExecute.run();
 			updateDueDateTime();
-			TimeCommandExecutor.getInstance().addCommand(this, isSerializable);
+			TimeCommandExecutor.getInstance().addCommand(this);
 		}
 	}
 

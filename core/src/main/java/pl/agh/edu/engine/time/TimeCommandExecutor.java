@@ -47,11 +47,7 @@ public class TimeCommandExecutor {
 	}
 
 	public void addCommand(TimeCommand timeCommand) {
-		this.addCommand(timeCommand, true);
-	}
-
-	public void addCommand(TimeCommand timeCommand, boolean isSerializable) {
-		if (isSerializable) {
+		if (timeCommand.isSerializable) {
 			commandQueue.add(timeCommand);
 		} else {
 			unserializableCommandQueue.add(timeCommand);

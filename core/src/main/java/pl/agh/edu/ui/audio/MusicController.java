@@ -29,8 +29,8 @@ public class MusicController {
 			musicTrack.setLooping(true);
 			musicTrack.play();
 		};
-		repeatingTimeCommand = new RepeatingTimeCommand(EVERY_PART_OF_DAY, playNextTrack, Time.getInstance().getNextPartOfDayTime());
-		TimeCommandExecutor.getInstance().addCommand(repeatingTimeCommand, false);
+		repeatingTimeCommand = new RepeatingTimeCommand(EVERY_PART_OF_DAY, playNextTrack, Time.getInstance().getNextPartOfDayTime(), false);
+		TimeCommandExecutor.getInstance().addCommand(repeatingTimeCommand);
 	}
 
 	public MusicController() {

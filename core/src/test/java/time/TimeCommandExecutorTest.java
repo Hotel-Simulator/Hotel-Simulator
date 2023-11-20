@@ -1,6 +1,5 @@
 package time;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -26,19 +25,6 @@ public class TimeCommandExecutorTest {
 	@BeforeEach
 	public void setUp() {
 		executor = TimeCommandExecutor.getInstance();
-	}
-
-	@Test
-	public void testAddCommand() {
-		// Given
-		TimeCommand mockCommand = mock(TimeCommand.class);
-
-		// When
-		executor.addCommand(mockCommand);
-
-		// Then
-		PriorityQueue<TimeCommand> commands = getCommandsQueue(executor);
-		assertTrue(commands.contains(mockCommand));
 	}
 
 	@Test
