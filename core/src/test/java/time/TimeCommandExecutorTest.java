@@ -82,7 +82,7 @@ public class TimeCommandExecutorTest {
 
 	private PriorityQueue<TimeCommand> getCommandsQueue(TimeCommandExecutor executor) {
 		try {
-			java.lang.reflect.Field field = TimeCommandExecutor.class.getDeclaredField("commands");
+			java.lang.reflect.Field field = TimeCommandExecutor.class.getDeclaredField("commandQueue");
 			field.setAccessible(true);
 			return (PriorityQueue<TimeCommand>) field.get(executor);
 		} catch (NoSuchFieldException | IllegalAccessException e) {

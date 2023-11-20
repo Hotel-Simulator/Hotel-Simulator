@@ -13,22 +13,21 @@ import pl.agh.edu.serialization.KryoConfig;
 
 public class TimeCommandExecutor {
 	private static final TimeCommandExecutor instance = new TimeCommandExecutor();
-	private PriorityQueue<TimeCommand> commands;
+	private final PriorityQueue<TimeCommand> commandQueue;
+	private final PriorityQueue<TimeCommand> unserializableCommandQueue;
 
 	public static void kryoRegister() {
 		KryoConfig.kryo.register(TimeCommandExecutor.class, new Serializer<TimeCommandExecutor>() {
 			@Override
 			public void write(Kryo kryo, Output output, TimeCommandExecutor object) {
-				kryo.writeObject(output, object.commands);
+				kryo.writeObject(output, object.commandQueue);
 			}
 
 			@Override
 			public TimeCommandExecutor read(Kryo kryo, Input input, Class<? extends TimeCommandExecutor> type) {
-				TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
-
-				kryo.reference(timeCommandExecutor);
-
-				timeCommandExecutor.commands = kryo.readObject(input, PriorityQueue.class);
+				TimeCommandExecutor timeCommandExecutor;
+				PriorityQueue<TimeCommand> commandQueue = kryo.readObject(input, PriorityQueue.class);
+				kryo.reference(timeCommandExecutor = new TimeCommandExecutor(commandQueue));
 
 				return timeCommandExecutor;
 			}
@@ -36,7 +35,13 @@ public class TimeCommandExecutor {
 	}
 
 	private TimeCommandExecutor() {
-		this.commands = new PriorityQueue<>();
+		this.commandQueue = new PriorityQueue<>();
+		this.unserializableCommandQueue = new PriorityQueue<>();
+	}
+
+	private TimeCommandExecutor(PriorityQueue<TimeCommand> commandQueue) {
+		this.commandQueue = commandQueue;
+		this.unserializableCommandQueue = new PriorityQueue<>();
 	}
 
 	public static TimeCommandExecutor getInstance() {
@@ -44,12 +49,25 @@ public class TimeCommandExecutor {
 	}
 
 	public void addCommand(TimeCommand timeCommand) {
-		commands.add(timeCommand);
+		this.addCommand(timeCommand, true);
+	}
+
+	public void addCommand(TimeCommand timeCommand, boolean isSerializable) {
+		if (isSerializable) {
+			commandQueue.add(timeCommand);
+		} else {
+			unserializableCommandQueue.add(timeCommand);
+		}
 	}
 
 	public void executeCommands(LocalDateTime dateTime) {
-		while (!commands.isEmpty() && !commands.peek().getDueDateTime().isAfter(dateTime)) {
-			TimeCommand command = commands.poll();
+		executeQueuedCommands(commandQueue, dateTime);
+		executeQueuedCommands(unserializableCommandQueue, dateTime);
+	}
+
+	public void executeQueuedCommands(PriorityQueue<TimeCommand> commandQueue, LocalDateTime dateTime) {
+		while (!commandQueue.isEmpty() && !commandQueue.peek().getDueDateTime().isAfter(dateTime)) {
+			TimeCommand command = commandQueue.poll();
 			command.execute();
 		}
 	}
