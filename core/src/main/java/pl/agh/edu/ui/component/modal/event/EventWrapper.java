@@ -1,11 +1,12 @@
 package pl.agh.edu.ui.component.modal.event;
 
+import static pl.agh.edu.ui.component.modal.ModalManager.ModalPreferences;
+
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.engine.event.EventModalData;
 import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.ui.component.modal.utils.BaseModalWrapper;
 
-import static pl.agh.edu.ui.component.modal.ModalManager.ModalPreferences;
 public class EventWrapper extends BaseModalWrapper {
 
 	private final EventModalData eventModalData;
@@ -23,7 +24,7 @@ public class EventWrapper extends BaseModalWrapper {
 	public void openModal() {
 		if (isModalOpen())
 			return;
-		if(Time.getInstance().isRunning())
+		if (Time.getInstance().isRunning())
 			Time.getInstance().stop();
 		if (!isStageActive())
 			modalPreferences.inputMultiplexer().setProcessors(modalPreferences.modalStage());

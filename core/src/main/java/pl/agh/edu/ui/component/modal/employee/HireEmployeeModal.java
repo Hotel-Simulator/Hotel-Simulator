@@ -9,9 +9,6 @@ import static pl.agh.edu.ui.resolution.Size.MEDIUM;
 import static pl.agh.edu.ui.utils.SkinColor.SUCCESS;
 import static pl.agh.edu.ui.utils.SkinColor.WARNING;
 import static pl.agh.edu.ui.utils.SkinToken.EASE;
-import static pl.agh.edu.ui.utils.SkinToken.GRADIENT;
-import static pl.agh.edu.ui.utils.SkinToken.SICK;
-import static pl.agh.edu.ui.utils.SkinToken.SLIDE;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -62,8 +59,7 @@ public class HireEmployeeModal extends BaseModal {
 	public HireEmployeeModal(
 			PossibleEmployee possibleEmployee,
 			PossibleEmployeeHandler possibleEmployeeHandler,
-			Runnable refreshAction
-	) {
+			Runnable refreshAction) {
 		super();
 
 		selectedShift = possibleEmployee.preferences.desiredShift;
@@ -79,7 +75,7 @@ public class HireEmployeeModal extends BaseModal {
 		leftTable.add(createPhoto()).growX().expandY().row();
 		leftTable.add(createName(possibleEmployee)).growX().row();
 		leftTable.add(createDialogLabel(possibleEmployee)).growX().row();
-		leftTable.add(createButtonTable(possibleEmployee, possibleEmployeeHandler,refreshAction)).growX().expandY().bottom().row();
+		leftTable.add(createButtonTable(possibleEmployee, possibleEmployeeHandler, refreshAction)).growX().expandY().bottom().row();
 
 		rightTable.add(createTitleLabel()).uniform().grow().expandY().bottom().row();
 		rightTable.add(createAgeTag(possibleEmployee)).uniform().growX().expandY().bottom().row();
@@ -121,8 +117,7 @@ public class HireEmployeeModal extends BaseModal {
 						Pair.of("shift", possibleEmployee.preferences.desiredShift.toString()),
 						Pair.of("contract", possibleEmployee.preferences.desiredTypeOfContract.toString()))),
 				HireEmployeeModalStyle.getFont(),
-				EASE
-		);
+				EASE);
 		languageLabel.minHeight(0f);
 		languageLabel.setBackground("label-glass-background");
 		languageLabel.setWrap(true);
@@ -131,7 +126,7 @@ public class HireEmployeeModal extends BaseModal {
 		return dialogLabel;
 	}
 
-	private Actor createButtonTable(PossibleEmployee possibleEmployee, PossibleEmployeeHandler possibleEmployeeHandler,Runnable refreshAction) {
+	private Actor createButtonTable(PossibleEmployee possibleEmployee, PossibleEmployeeHandler possibleEmployeeHandler, Runnable refreshAction) {
 		Table buttonTable = new Table();
 		LabeledButton backButton = new LabeledButton(MEDIUM, new LanguageString("employee.hire.button.back"));
 		buttonTable.add(backButton).growX().expandY().uniform();
@@ -149,7 +144,8 @@ public class HireEmployeeModal extends BaseModal {
 		hireButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				if(hireButton.isDisabled()) return;
+				if (hireButton.isDisabled())
+					return;
 				CLICK.playSound();
 				handleOfferContract(possibleEmployee, possibleEmployeeHandler, hireButton);
 				refreshAction.run();
@@ -317,7 +313,7 @@ public class HireEmployeeModal extends BaseModal {
 			return 20f;
 		}
 
-		private static float getPhotoSize(){
+		private static float getPhotoSize() {
 			return 250f;
 		}
 	}

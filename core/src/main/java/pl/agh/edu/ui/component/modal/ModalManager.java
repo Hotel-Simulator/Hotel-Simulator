@@ -19,7 +19,7 @@ import pl.agh.edu.ui.shader.BlurShader;
 public class ModalManager extends Stack {
 	private static ModalManager instance;
 	private static ModalPreferences modalPreferences;
-	private final static List<BaseModalWrapper> modalList = new ArrayList<>();
+	private static final List<BaseModalWrapper> modalList = new ArrayList<>();
 
 	private ModalManager(ModalPreferences modalPreferences) {
 		super();
@@ -47,13 +47,13 @@ public class ModalManager extends Stack {
 		addModal(new EventWrapper(modalPreferences, eventModalData));
 	}
 
-	public void showHireEmployeeModal(PossibleEmployee possibleEmployee, PossibleEmployeeHandler possibleEmployeeHandler,Runnable refreshAction) {
-		addModal(new HireEmployeeModalWrapper(modalPreferences, possibleEmployee, possibleEmployeeHandler,refreshAction));
+	public void showHireEmployeeModal(PossibleEmployee possibleEmployee, PossibleEmployeeHandler possibleEmployeeHandler, Runnable refreshAction) {
+		addModal(new HireEmployeeModalWrapper(modalPreferences, possibleEmployee, possibleEmployeeHandler, refreshAction));
 	}
 
 	private void addModal(BaseModalWrapper actor) {
 		actor.openModal();
-		modalList.add(0,actor);
+		modalList.add(0, actor);
 		this.add(actor);
 	}
 

@@ -19,6 +19,7 @@ import pl.agh.edu.utils.LanguageString;
 public class HireEmployeeFrame extends BaseFrame {
 
 	private CustomTable<PossibleEmployee> hireEmployeeTable;
+
 	public HireEmployeeFrame() {
 		super(new LanguageString("navbar.button.hire"));
 		hireEmployeeTable = new CustomTable.CustomTableBuilder<PossibleEmployee>()
@@ -37,14 +38,12 @@ public class HireEmployeeFrame extends BaseFrame {
 		System.out.println(possibleEmployee.firstName + " " + possibleEmployee.lastName);
 	}
 
-	private void refreshTable(){
+	private void refreshTable() {
 		hireEmployeeTable.clearTable();
 		engine.hotelHandler.possibleEmployeeHandler.getPossibleEmployees()
 				.forEach(possibleEmployee -> hireEmployeeTable.addRow(
-								possibleEmployee,
-								() -> ModalManager.getInstance().showHireEmployeeModal(possibleEmployee, engine.hotelHandler.possibleEmployeeHandler,this::refreshTable)
-						)
-				);
+						possibleEmployee,
+						() -> ModalManager.getInstance().showHireEmployeeModal(possibleEmployee, engine.hotelHandler.possibleEmployeeHandler, this::refreshTable)));
 	}
 
 	private Actor createPhoto(PossibleEmployee possibleEmployee) {

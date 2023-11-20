@@ -46,15 +46,15 @@ public class SelectMenu extends WrapperTable {
 		innerTable.add(descriptionLabel).pad(0f).grow().uniform().minHeight(0f);
 		innerTable.add(selectOption).pad(0f).grow().uniform().minHeight(0f);
 
-		this.addListener(new InputListener(){
+		this.addListener(new InputListener() {
 			@Override
-			public void enter (InputEvent event, float x, float y, int pointer, @Null Actor fromActor) {
+			public void enter(InputEvent event, float x, float y, int pointer, @Null Actor fromActor) {
 				descriptionLabel.setStateToOver();
 				cursorOver = true;
 			}
 
 			@Override
-			public void exit (InputEvent event, float x, float y, int pointer, @Null Actor toActor) {
+			public void exit(InputEvent event, float x, float y, int pointer, @Null Actor toActor) {
 				descriptionLabel.setStateToUp();
 				cursorOver = false;
 			}
@@ -180,15 +180,16 @@ public class SelectMenu extends WrapperTable {
 		}
 
 		@Override
-		protected @Null Drawable getBackgroundDrawable () {
-			if (isDisabled()) return skin.getDrawable("select-box-background-disabled");
+		protected @Null Drawable getBackgroundDrawable() {
+			if (isDisabled())
+				return skin.getDrawable("select-box-background-disabled");
 			if (isOpen && cursorOver) {
 				return skin.getDrawable("select-box-background-open-over");
 			}
 			if (isOpen) {
 				return skin.getDrawable("select-box-background-open-up");
 			}
-			if(cursorOver) {
+			if (cursorOver) {
 				return skin.getDrawable("select-box-background-over");
 			}
 			return skin.getDrawable("select-box-background-up");

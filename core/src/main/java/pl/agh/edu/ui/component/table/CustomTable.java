@@ -68,7 +68,7 @@ public class CustomTable<DataType> extends WrapperTable {
 		this.align(top);
 	}
 
-	public void clearTable(){
+	public void clearTable() {
 		this.contentRows.clearChildren();
 	}
 

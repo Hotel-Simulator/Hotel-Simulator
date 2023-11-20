@@ -13,8 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-
 import com.badlogic.gdx.utils.Null;
+
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.ui.component.label.CustomLabel;
 import pl.agh.edu.ui.component.label.LanguageLabel;
@@ -48,14 +48,14 @@ public abstract class SliderComponent extends WrapperDoubleTable {
 			}
 		});
 
-		this.addListener(new InputListener(){
+		this.addListener(new InputListener() {
 			@Override
-			public void enter (InputEvent event, float x, float y, int pointer, @Null Actor fromActor) {
+			public void enter(InputEvent event, float x, float y, int pointer, @Null Actor fromActor) {
 				set10PatchBackground("split-frame-over-10");
 			}
 
 			@Override
-			public void exit (InputEvent event, float x, float y, int pointer, @Null Actor toActor) {
+			public void exit(InputEvent event, float x, float y, int pointer, @Null Actor toActor) {
 				set10PatchBackground("split-frame-up-10");
 			}
 		});

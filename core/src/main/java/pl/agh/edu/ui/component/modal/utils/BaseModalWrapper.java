@@ -1,15 +1,11 @@
 package pl.agh.edu.ui.component.modal.utils;
 
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import static pl.agh.edu.ui.component.modal.ModalManager.ModalPreferences;
 
 import pl.agh.edu.ui.component.modal.ModalManager;
-import pl.agh.edu.ui.shader.BlurShader;
 import pl.agh.edu.ui.utils.wrapper.WrapperContainer;
 import pl.agh.edu.ui.utils.wrapper.WrapperTable;
 import pl.agh.edu.utils.LanguageString;
-
-import static pl.agh.edu.ui.component.modal.ModalManager.ModalPreferences;
 
 public abstract class BaseModalWrapper extends WrapperContainer<WrapperTable> {
 	protected final ModalPreferences modalPreferences;
