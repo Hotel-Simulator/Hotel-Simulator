@@ -15,7 +15,7 @@ import pl.agh.edu.serialization.KryoConfig;
 
 public class Calendar {
 	private static Calendar instance;
-	private final Map<LocalDate, List<CalendarEvent>> days;
+	private Map<LocalDate, List<CalendarEvent>> days;
 
 	public static void kryoRegister() {
 		KryoConfig.kryo.register(Calendar.class, new Serializer<Calendar>() {
@@ -26,17 +26,17 @@ public class Calendar {
 
 			@Override
 			public Calendar read(Kryo kryo, Input input, Class<? extends Calendar> type) {
-				return new Calendar(kryo.readObject(input, Map.class, KryoConfig.mapOfListSerializer(LocalDate.class, CalendarEvent.class)));
+				Calendar calendar = Calendar.getInstance();
+
+				calendar.days = kryo.readObject(input, Map.class, KryoConfig.mapOfListSerializer(LocalDate.class, CalendarEvent.class));
+
+				return calendar;
 			}
 		});
 	}
 
 	private Calendar() {
 		days = new HashMap<>();
-	}
-
-	private Calendar(Map<LocalDate, List<CalendarEvent>> days) {
-		this.days = days;
 	}
 
 	public static Calendar getInstance() {

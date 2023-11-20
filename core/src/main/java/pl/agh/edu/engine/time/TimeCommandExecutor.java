@@ -13,7 +13,7 @@ import pl.agh.edu.serialization.KryoConfig;
 
 public class TimeCommandExecutor {
 	private static final TimeCommandExecutor instance = new TimeCommandExecutor();
-	private final PriorityQueue<TimeCommand> commands;
+	private PriorityQueue<TimeCommand> commands;
 
 	public static void kryoRegister() {
 		KryoConfig.kryo.register(TimeCommandExecutor.class, new Serializer<TimeCommandExecutor>() {
@@ -24,18 +24,19 @@ public class TimeCommandExecutor {
 
 			@Override
 			public TimeCommandExecutor read(Kryo kryo, Input input, Class<? extends TimeCommandExecutor> type) {
-				return new TimeCommandExecutor(
-						kryo.readObject(input, PriorityQueue.class));
+				TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
+
+				kryo.reference(timeCommandExecutor);
+
+				timeCommandExecutor.commands = kryo.readObject(input, PriorityQueue.class);
+
+				return timeCommandExecutor;
 			}
 		});
 	}
 
 	private TimeCommandExecutor() {
 		this.commands = new PriorityQueue<>();
-	}
-
-	private TimeCommandExecutor(PriorityQueue<TimeCommand> commands) {
-		this.commands = commands;
 	}
 
 	public static TimeCommandExecutor getInstance() {

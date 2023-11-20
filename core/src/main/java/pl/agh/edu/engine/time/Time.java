@@ -17,7 +17,7 @@ public class Time {
 	public static final int timeUnitInMinutes = 60;
 	public static final float interval = 1;
 	private static Time instance;
-	private final TimeCommandExecutor timeCommandExecutor;
+	private TimeCommandExecutor timeCommandExecutor;
 	private final List<Runnable> timeStopChangeHandlers = new ArrayList<>();
 	private final List<Runnable> timeStartChangeHandlers = new ArrayList<>();
 
@@ -41,9 +41,20 @@ public class Time {
 
 			@Override
 			public Time read(Kryo kryo, Input input, Class<? extends Time> type) {
-				return new Time(
-						kryo.readObject(input, TimeCommandExecutor.class),
-						kryo.readObject(input, LocalDateTime.class));
+				Time time = Time.getInstance();
+
+				kryo.reference(time);
+
+				time.timeCommandExecutor = kryo.readObject(input, TimeCommandExecutor.class);
+				LocalDateTime currentTime = kryo.readObject(input, LocalDateTime.class);
+
+				time.minutes = currentTime.getMinute();
+				time.hours = currentTime.getHour();
+				time.days = currentTime.getDayOfMonth();
+				time.months = currentTime.getMonthValue();
+				time.years = currentTime.getYear();
+
+				return time;
 			}
 		});
 	}
