@@ -25,9 +25,12 @@ public class TimeCommandExecutor {
 
 			@Override
 			public TimeCommandExecutor read(Kryo kryo, Input input, Class<? extends TimeCommandExecutor> type) {
-				TimeCommandExecutor timeCommandExecutor;
+				TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
+
+				kryo.reference(timeCommandExecutor);
+
 				PriorityQueue<TimeCommand> commandQueue = kryo.readObject(input, PriorityQueue.class);
-				kryo.reference(timeCommandExecutor = new TimeCommandExecutor(commandQueue));
+				commandQueue.forEach(timeCommandExecutor::addCommand);
 
 				return timeCommandExecutor;
 			}
