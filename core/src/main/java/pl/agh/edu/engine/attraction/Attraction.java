@@ -19,7 +19,7 @@ public class Attraction {
 	private AttractionSize size;
 	private AttractionState state = BEING_BUILD;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(Attraction.class, new Serializer<Attraction>() {
 			@Override
 			public void write(Kryo kryo, Output output, Attraction object) {

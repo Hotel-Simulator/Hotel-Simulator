@@ -33,7 +33,7 @@ public class ClientGenerator {
 	private static ClientGenerator clientGeneratorInstance;
 	private static final Faker faker = new Faker(new Locale("en-GB"));
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(ClientGenerator.class, new Serializer<ClientGenerator>() {
 			@Override
 			public void write(Kryo kryo, Output output, ClientGenerator object) {

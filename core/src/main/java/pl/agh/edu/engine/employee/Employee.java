@@ -38,7 +38,7 @@ public class Employee {
 	private boolean isOccupied;
 	private EmployeeStatus employeeStatus = EmployeeStatus.HIRED_NOT_WORKING;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(Employee.class, new Serializer<Employee>() {
 			@Override
 			public void write(Kryo kryo, Output output, Employee object) {

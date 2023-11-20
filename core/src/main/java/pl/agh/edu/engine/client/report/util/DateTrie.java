@@ -19,7 +19,7 @@ import pl.agh.edu.utils.Pair;
 public class DateTrie {
 	private final TrieNode root;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(DateTrie.class, new Serializer<DateTrie>() {
 			@Override
 			public void write(Kryo kryo, Output output, DateTrie object) {

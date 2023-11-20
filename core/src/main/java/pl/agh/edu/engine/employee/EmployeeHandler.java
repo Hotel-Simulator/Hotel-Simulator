@@ -5,6 +5,7 @@ import static pl.agh.edu.engine.employee.EmployeeStatus.HIRED_NOT_WORKING;
 import static pl.agh.edu.engine.employee.EmployeeStatus.HIRED_WORKING;
 import static pl.agh.edu.engine.employee.Profession.CLEANER;
 import static pl.agh.edu.engine.employee.Profession.RECEPTIONIST;
+import static pl.agh.edu.engine.employee.Profession.TECHNICIAN;
 import static pl.agh.edu.engine.employee.Shift.EVENING;
 import static pl.agh.edu.engine.employee.Shift.MORNING;
 import static pl.agh.edu.engine.employee.contract.OfferResponse.POSITIVE;
@@ -34,7 +35,7 @@ public class EmployeeHandler {
 	private final TimeCommandExecutor timeCommandExecutor;
 	private final List<Employee> employees;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(EmployeeHandler.class, new Serializer<EmployeeHandler>() {
 			@Override
 			public void write(Kryo kryo, Output output, EmployeeHandler object) {
@@ -143,7 +144,7 @@ public class EmployeeHandler {
 								.desiredWage(BigDecimal.valueOf(7000))
 								.desiredTypeOfContract(PERMANENT)
 								.build())
-						.profession(CLEANER)
+						.profession(TECHNICIAN)
 						.build(),
 						new Offer(MORNING, BigDecimal.valueOf(5500), PERMANENT)),
 				new Employee(new PossibleEmployee.Builder()

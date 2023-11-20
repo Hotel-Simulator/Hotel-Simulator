@@ -7,7 +7,7 @@ import pl.agh.edu.serialization.KryoConfig;
 
 public class RoomComparator implements Comparator<Room> {
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(RoomComparator.class);
 	}
 

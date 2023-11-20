@@ -23,7 +23,7 @@ public class HotelScenariosManager {
 	public final HotelType hotelType;
 	private final Map<MonthDay, BigDecimal> seasonalMultiplier;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(HotelScenariosManager.class, new Serializer<HotelScenariosManager>() {
 			@Override
 			public void write(Kryo kryo, Output output, HotelScenariosManager object) {

@@ -16,7 +16,7 @@ public class GameDifficultyManager {
 	private static GameDifficultyManager instance;
 	private final DifficultyLevel difficultyLevel;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(GameDifficultyManager.class, new Serializer<GameDifficultyManager>() {
 			@Override
 			public void write(Kryo kryo, Output output, GameDifficultyManager object) {

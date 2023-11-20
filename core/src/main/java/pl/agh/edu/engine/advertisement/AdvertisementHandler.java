@@ -31,7 +31,7 @@ public class AdvertisementHandler extends ClientGroupModifierSupplier {
 	private final BankAccountHandler bankAccountHandler;
 	private final List<AdvertisementCampaign> advertisementCampaigns;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(AdvertisementHandler.class, new Serializer<AdvertisementHandler>() {
 			@Override
 			public void write(Kryo kryo, Output output, AdvertisementHandler object) {

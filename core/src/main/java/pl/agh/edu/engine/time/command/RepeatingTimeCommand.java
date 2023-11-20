@@ -17,7 +17,7 @@ public class RepeatingTimeCommand extends TimeCommand {
 	protected final Frequency frequency;
 	protected Boolean toStop = false;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(RepeatingTimeCommand.class, new Serializer<RepeatingTimeCommand>() {
 			@Override
 			public void write(Kryo kryo, Output output, RepeatingTimeCommand object) {

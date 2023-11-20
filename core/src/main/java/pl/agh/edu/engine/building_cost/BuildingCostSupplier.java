@@ -19,7 +19,7 @@ import pl.agh.edu.utils.Pair;
 public class BuildingCostSupplier {
 	private final BuildingCostMultiplierHandler multiplierHandler;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(BuildingCostSupplier.class, new Serializer<BuildingCostSupplier>() {
 			@Override
 			public void write(Kryo kryo, Output output, BuildingCostSupplier object) {

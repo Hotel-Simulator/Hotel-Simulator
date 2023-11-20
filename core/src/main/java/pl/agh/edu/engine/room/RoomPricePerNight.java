@@ -15,7 +15,7 @@ public class RoomPricePerNight {
 
 	private final Map<Pair<RoomRank, RoomSize>, BigDecimal> pricesPerNightMap;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(RoomPricePerNight.class, new Serializer<RoomPricePerNight>() {
 			@Override
 			public void write(Kryo kryo, Output output, RoomPricePerNight object) {

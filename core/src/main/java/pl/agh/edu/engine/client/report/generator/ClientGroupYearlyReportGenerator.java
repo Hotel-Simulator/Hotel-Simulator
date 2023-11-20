@@ -18,7 +18,7 @@ import pl.agh.edu.serialization.KryoConfig;
 
 public class ClientGroupYearlyReportGenerator extends ClientGroupReportGenerator<Year> {
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(ClientGroupYearlyReportGenerator.class, new Serializer<ClientGroupYearlyReportGenerator>() {
 			@Override
 			public void write(Kryo kryo, Output output, ClientGroupYearlyReportGenerator object) {

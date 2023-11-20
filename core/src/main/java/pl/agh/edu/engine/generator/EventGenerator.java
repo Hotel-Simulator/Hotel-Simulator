@@ -30,7 +30,7 @@ public class EventGenerator {
 	private final HotelScenariosManager hotelScenariosManager;
 	private final int monthsBetweenEventAppearanceAndStart = 1;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(EventGenerator.class, new Serializer<EventGenerator>() {
 			@Override
 			public void write(Kryo kryo, Output output, EventGenerator object) {

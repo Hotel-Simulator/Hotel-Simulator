@@ -19,7 +19,7 @@ public class BankAccount {
 	private final List<Credit> credits;
 	private final List<Transaction> transactions;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(BankAccount.class, new Serializer<BankAccount>() {
 			@Override
 			public void write(Kryo kryo, Output output, BankAccount object) {
@@ -50,7 +50,7 @@ public class BankAccount {
 		this.transactions = new ArrayList<>();
 	}
 
-	public BankAccount(Time time,
+	private BankAccount(Time time,
 			BigDecimal balance,
 			BankAccountDetails accountDetails,
 			List<Credit> credits,

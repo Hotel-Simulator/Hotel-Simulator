@@ -31,7 +31,7 @@ public class Time {
 	private boolean isRunning = false;
 	private float remaining = interval;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(Time.class, new Serializer<Time>() {
 			@Override
 			public void write(Kryo kryo, Output output, Time object) {

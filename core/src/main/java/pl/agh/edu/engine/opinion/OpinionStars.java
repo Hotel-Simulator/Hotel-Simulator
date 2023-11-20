@@ -12,7 +12,7 @@ public enum OpinionStars {
 	FOUR(4.),
 	FIVE(5.);
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(OpinionStars.class);
 	}
 

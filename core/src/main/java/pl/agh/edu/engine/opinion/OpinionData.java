@@ -18,7 +18,7 @@ public record OpinionData(
         Set<LanguageString> comments
 ) {
 
-    static {
+    public static void kryoRegister() {
         KryoConfig.kryo.register(OpinionData.class, new Serializer<OpinionData>() {
             @Override
             public void write(Kryo kryo, Output output, OpinionData object) {

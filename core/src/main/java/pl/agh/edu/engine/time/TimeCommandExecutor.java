@@ -15,7 +15,7 @@ public class TimeCommandExecutor {
 	private static final TimeCommandExecutor instance = new TimeCommandExecutor();
 	private final PriorityQueue<TimeCommand> commands;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(TimeCommandExecutor.class, new Serializer<TimeCommandExecutor>() {
 			@Override
 			public void write(Kryo kryo, Output output, TimeCommandExecutor object) {

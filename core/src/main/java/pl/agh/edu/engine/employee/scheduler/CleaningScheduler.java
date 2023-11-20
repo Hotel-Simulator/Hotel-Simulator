@@ -28,7 +28,7 @@ public class CleaningScheduler extends WorkScheduler<Room> {
 	private final RoomManager roomManager;
 	private static final Comparator<Room> roomComparator = new RoomComparator();
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(CleaningScheduler.class, new Serializer<CleaningScheduler>() {
 			@Override
 			public void write(Kryo kryo, Output output, CleaningScheduler object) {

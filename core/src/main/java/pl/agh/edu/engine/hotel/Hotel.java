@@ -16,7 +16,7 @@ public class Hotel {
 	private LocalTime checkInTime;
 	private LocalTime checkOutTime;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(Hotel.class, new Serializer<Hotel>() {
 			@Override
 			public void write(Kryo kryo, Output output, Hotel object) {

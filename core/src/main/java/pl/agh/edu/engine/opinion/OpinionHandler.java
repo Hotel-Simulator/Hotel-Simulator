@@ -34,7 +34,7 @@ public class OpinionHandler {
 
 	private static OpinionHandler instance;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(OpinionHandler.class, new Serializer<OpinionHandler>() {
 			@Override
 			public void write(Kryo kryo, Output output, OpinionHandler object) {

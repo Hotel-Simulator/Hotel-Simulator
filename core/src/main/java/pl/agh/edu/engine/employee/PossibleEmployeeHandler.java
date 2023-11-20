@@ -21,7 +21,7 @@ public class PossibleEmployeeHandler {
 	private final List<PossibleEmployee> possibleEmployees;
 	private final EmployeeHandler employeeHandler;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(PossibleEmployeeHandler.class, new Serializer<PossibleEmployeeHandler>() {
 			@Override
 			public void write(Kryo kryo, Output output, PossibleEmployeeHandler object) {

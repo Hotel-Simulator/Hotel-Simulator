@@ -25,7 +25,7 @@ import pl.agh.edu.serialization.KryoConfig;
 
 public class RepairScheduler extends WorkScheduler<Room> {
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(RepairScheduler.class, new Serializer<RepairScheduler>() {
 			@Override
 			public void write(Kryo kryo, Output output, RepairScheduler object) {
@@ -61,7 +61,7 @@ public class RepairScheduler extends WorkScheduler<Room> {
 			Queue<Room> entitiesToExecuteService,
 			List<Employee> workingEmployees,
 			Shift currentShift) {
-		super(time, timeCommandExecutor, employeeHandler, entitiesToExecuteService, CLEANER, workingEmployees, currentShift);
+		super(time, timeCommandExecutor, employeeHandler, entitiesToExecuteService, TECHNICIAN, workingEmployees, currentShift);
 	}
 
 	@Override

@@ -15,7 +15,7 @@ public class NRepeatingTimeCommand extends RepeatingTimeCommand {
 	private final SerializableRunnable toExecuteAfterLastRepetition;
 	private long counter;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(NRepeatingTimeCommand.class, new Serializer<NRepeatingTimeCommand>() {
 			@Override
 			public void write(Kryo kryo, Output output, NRepeatingTimeCommand object) {

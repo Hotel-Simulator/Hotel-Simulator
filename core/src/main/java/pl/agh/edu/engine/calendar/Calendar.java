@@ -17,7 +17,7 @@ public class Calendar {
 	private static Calendar instance;
 	private final Map<LocalDate, List<CalendarEvent>> days;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(Calendar.class, new Serializer<Calendar>() {
 			@Override
 			public void write(Kryo kryo, Output output, Calendar object) {

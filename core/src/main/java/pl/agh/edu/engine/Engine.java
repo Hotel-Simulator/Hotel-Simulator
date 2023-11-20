@@ -70,7 +70,7 @@ public class Engine {
 	public final RepairScheduler repairScheduler;
 	public final ReceptionScheduler receptionScheduler;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(Engine.class, new Serializer<Engine>() {
 			@Override
 			public void write(Kryo kryo, Output output, Engine object) {

@@ -25,7 +25,7 @@ public class ClientGroupReportDataCollector {
 	private final DateTrie clientGroupWithoutRoomNumber;
 	private int clientGroupWithRoomCounter;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(ClientGroupReportDataCollector.class, new Serializer<ClientGroupReportDataCollector>() {
 			@Override
 			public void write(Kryo kryo, Output output, ClientGroupReportDataCollector object) {

@@ -23,7 +23,7 @@ public class EmployeeSalaryHandler {
 	private final EmployeeHandler employeeHandler;
 	private final BankAccountHandler bankAccountHandler;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(EmployeeSalaryHandler.class, new Serializer<EmployeeSalaryHandler>() {
 			@Override
 			public void write(Kryo kryo, Output output, EmployeeSalaryHandler object) {

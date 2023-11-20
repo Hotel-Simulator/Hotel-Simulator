@@ -18,7 +18,7 @@ import pl.agh.edu.serialization.KryoConfig;
 public class ClientNumberModificationEventHandler extends ClientGroupModifierSupplier {
 	private final List<ClientNumberModifier> modifiers;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(ClientNumberModificationEventHandler.class, new Serializer<ClientNumberModificationEventHandler>() {
 			@Override
 			public void write(Kryo kryo, Output output, ClientNumberModificationEventHandler object) {

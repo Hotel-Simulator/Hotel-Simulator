@@ -15,7 +15,7 @@ public class BuildingCostMultiplierHandler {
 	private BigDecimal buildingCostMultiplier;
 	private static BuildingCostMultiplierHandler instance;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(BuildingCostMultiplierHandler.class, new Serializer<BuildingCostMultiplierHandler>() {
 			@Override
 			public void write(Kryo kryo, Output output, BuildingCostMultiplierHandler object) {

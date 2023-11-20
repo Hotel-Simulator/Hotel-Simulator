@@ -37,7 +37,7 @@ public class ClientGroupGenerationHandler {
 	private final HotelScenariosManager hotelScenariosManager;
 	private final ClientGroupReportDataCollector clientGroupReportDataCollector;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(ClientGroupGenerationHandler.class, new Serializer<ClientGroupGenerationHandler>() {
 			@Override
 			public void write(Kryo kryo, Output output, ClientGroupGenerationHandler object) {

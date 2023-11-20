@@ -44,7 +44,7 @@ public class AttractionHandler extends ClientGroupModifierSupplier {
 	private final EnumMap<AttractionType, Pair<AttractionSize, LocalDateTime>> attractionBuildingTimes;
 	private final EnumMap<AttractionType, Pair<AttractionSize, LocalDateTime>> attractionChangingSizeTimes;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(AttractionHandler.class, new Serializer<AttractionHandler>() {
 			@Override
 			public void write(Kryo kryo, Output output, AttractionHandler object) {

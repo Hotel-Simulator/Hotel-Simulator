@@ -5,7 +5,7 @@ import pl.agh.edu.serialization.KryoConfig;
 public enum TypeOfContract {
 	PERMANENT;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(TypeOfContract.class);
 	}
 }

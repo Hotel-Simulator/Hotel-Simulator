@@ -24,7 +24,7 @@ public class BankAccountHandler {
 	public final BankAccount account;
 	private final Map<Credit, NRepeatingTimeCommand> currentCredits;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(BankAccountHandler.class, new Serializer<BankAccountHandler>() {
 			@Override
 			public void write(Kryo kryo, Output output, BankAccountHandler object) {

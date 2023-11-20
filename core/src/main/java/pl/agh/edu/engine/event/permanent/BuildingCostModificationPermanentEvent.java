@@ -17,7 +17,7 @@ public class BuildingCostModificationPermanentEvent {
 	public final int modifierValueInPercent;
 	public final String imagePath;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(BuildingCostModificationPermanentEvent.class, new Serializer<BuildingCostModificationPermanentEvent>() {
 			@Override
 			public void write(Kryo kryo, Output output, BuildingCostModificationPermanentEvent object) {

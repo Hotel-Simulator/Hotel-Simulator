@@ -36,7 +36,7 @@ public class EventHandler {
 	private final ClientNumberModificationEventHandler clientNumberModificationEventHandler;
 	private Consumer<EventModalData> eventHandlerFunction;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(EventHandler.class, new Serializer<EventHandler>() {
 			@Override
 			public void write(Kryo kryo, Output output, EventHandler object) {

@@ -41,7 +41,7 @@ public class RoomManager {
 
 	private final Comparator<Room> roomComparator;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(RoomManager.class, new Serializer<RoomManager>() {
 			@Override
 			public void write(Kryo kryo, Output output, RoomManager object) {

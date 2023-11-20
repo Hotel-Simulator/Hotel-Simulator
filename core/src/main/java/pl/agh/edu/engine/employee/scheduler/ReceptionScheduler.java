@@ -1,6 +1,6 @@
 package pl.agh.edu.engine.employee.scheduler;
 
-import static pl.agh.edu.engine.employee.Profession.CLEANER;
+import static pl.agh.edu.engine.employee.Profession.RECEPTIONIST;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -45,7 +45,7 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 	private final BankAccountHandler bankAccountHandler;
 	private final Hotel hotel;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(ReceptionScheduler.class, new Serializer<ReceptionScheduler>() {
 			@Override
 			public void write(Kryo kryo, Output output, ReceptionScheduler object) {
@@ -114,7 +114,7 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 			Queue<ClientGroup> entitiesToExecuteService,
 			List<Employee> workingEmployees,
 			Shift currentShift) {
-		super(time, timeCommandExecutor, employeeHandler, entitiesToExecuteService, CLEANER, workingEmployees, currentShift);
+		super(time, timeCommandExecutor, employeeHandler, entitiesToExecuteService, RECEPTIONIST, workingEmployees, currentShift);
 		this.opinionHandler = opinionHandler;
 		this.clientGroupReportDataCollector = clientGroupReportDataCollector;
 		this.repairScheduler = repairScheduler;

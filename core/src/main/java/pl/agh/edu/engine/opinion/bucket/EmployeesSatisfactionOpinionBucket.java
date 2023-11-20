@@ -18,7 +18,7 @@ import pl.agh.edu.serialization.KryoConfig;
 public class EmployeesSatisfactionOpinionBucket extends OpinionBucket {
 	private final List<BigDecimal> satisfactions = new ArrayList<>();
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(EmployeesSatisfactionOpinionBucket.class, new Serializer<EmployeesSatisfactionOpinionBucket>() {
 			@Override
 			public void write(Kryo kryo, Output output, EmployeesSatisfactionOpinionBucket object) {

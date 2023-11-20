@@ -17,7 +17,7 @@ public class TimeCommand implements Comparable<TimeCommand> {
 	private final Long version;
 	protected LocalDateTime dueDateTime;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(TimeCommand.class, new Serializer<TimeCommand>() {
 
 			@Override

@@ -18,7 +18,7 @@ import pl.agh.edu.serialization.KryoConfig;
 
 public class ClientGroupDailyReportGenerator extends ClientGroupReportGenerator<LocalDate> {
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(ClientGroupDailyReportGenerator.class, new Serializer<ClientGroupDailyReportGenerator>() {
 			@Override
 			public void write(Kryo kryo, Output output, ClientGroupDailyReportGenerator object) {
