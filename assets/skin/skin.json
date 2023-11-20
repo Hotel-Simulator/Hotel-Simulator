@@ -370,9 +370,29 @@
 	}
 },
 "com.ray3k.tenpatch.TenPatchDrawable": {
-	"slider-background-10-patch": {
-		"region": "slider-background",
-		"horizontalStretchAreas": [ 44, 47, 52, 55 ],
+	"split-frame-up-10": {
+		"region": "split-frame-up",
+		"horizontalStretchAreas": [ 46, 47, 52, 53 ],
+		"verticalStretchAreas": [ 19, 20 ],
+		"tiling": false,
+		"minWidth": 100,
+		"minHeight": 40,
+		"rightWidth": 0,
+		"leftWidth": 0,
+		"bottomHeight": 0,
+		"topHeight": 0,
+		"offsetX": 0,
+		"offsetY": 0,
+		"offsetXspeed": 0,
+		"offsetYspeed": 0,
+		"frameDuration": 0.03,
+		"regions": [],
+		"playMode": 2,
+		"crushMode": 0
+	},
+	"split-frame-over-10": {
+		"region": "split-frame-over",
+		"horizontalStretchAreas": [ 46, 47, 52, 53 ],
 		"verticalStretchAreas": [ 19, 20 ],
 		"tiling": false,
 		"minWidth": 100,

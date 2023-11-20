@@ -9,6 +9,9 @@ import static pl.agh.edu.ui.resolution.Size.MEDIUM;
 import static pl.agh.edu.ui.utils.SkinColor.SUCCESS;
 import static pl.agh.edu.ui.utils.SkinColor.WARNING;
 import static pl.agh.edu.ui.utils.SkinToken.EASE;
+import static pl.agh.edu.ui.utils.SkinToken.GRADIENT;
+import static pl.agh.edu.ui.utils.SkinToken.SICK;
+import static pl.agh.edu.ui.utils.SkinToken.SLIDE;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -117,7 +120,10 @@ public class HireEmployeeModal extends BaseModal {
 						Pair.of("salary", possibleEmployee.preferences.desiredWage.toString()),
 						Pair.of("shift", possibleEmployee.preferences.desiredShift.toString()),
 						Pair.of("contract", possibleEmployee.preferences.desiredTypeOfContract.toString()))),
-				HireEmployeeModalStyle.getFont(), EASE);
+				HireEmployeeModalStyle.getFont(),
+				EASE
+		);
+		languageLabel.minHeight(0f);
 		languageLabel.setBackground("label-glass-background");
 		languageLabel.setWrap(true);
 		languageLabel.pad(HireEmployeeModalStyle.getDialogPadding());

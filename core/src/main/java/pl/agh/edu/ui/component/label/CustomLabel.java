@@ -121,7 +121,8 @@ public class CustomLabel extends WrapperContainer<Label> implements ResolutionCh
 
 	private void updateColor() {
 		if(!token.isBlank()) {
-			((TypingLabel) label).setDefaultToken("{COLOR=#" + getCurrentColor().toString() + "}");
+			((TypingLabel) label).setDefaultToken(token+"{COLOR=#" + getCurrentColor().toString() + "}");
+			((TypingLabel) label).parseTokens();
 		}
 		else{
 			Label.LabelStyle labelStyle = new Label.LabelStyle(label.getStyle());

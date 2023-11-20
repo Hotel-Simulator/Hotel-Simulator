@@ -42,8 +42,6 @@ public abstract class WrapperContainer<T extends Actor> extends Container<T> imp
 	}
 
 	private void init() {
-		this.minHeight(0f);
-		this.minWidth(0f);
 		this.fill();
 	}
 

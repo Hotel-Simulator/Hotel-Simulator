@@ -71,11 +71,4 @@ public class OptionsWrapper extends BaseModalWrapper {
 			};
 		}
 	}
-
-
-	//TODO
-	// Fix for title
-	// Add all over on select
-	// Fix texture for slider 2px instead of 1px in strike
-	// Fix calendar
 }

@@ -8,10 +8,13 @@ import static pl.agh.edu.ui.utils.SkinFont.SUBTITLE2;
 import static pl.agh.edu.ui.utils.SkinFont.SUBTITLE3;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
+import com.badlogic.gdx.utils.Null;
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.ui.component.label.CustomLabel;
 import pl.agh.edu.ui.component.label.LanguageLabel;
@@ -29,7 +32,7 @@ public abstract class SliderComponent extends WrapperDoubleTable {
 		super();
 		this.suffix = suffix;
 
-		this.set10PatchBackground("slider-background-10-patch");
+		this.set10PatchBackground("split-frame-up-10");
 
 		nameLabel = new LanguageLabel(languageString, SliderStyle.getFont());
 		nameLabel.setAlignment(center, left);
@@ -42,6 +45,18 @@ public abstract class SliderComponent extends WrapperDoubleTable {
 			public void changed(ChangeEvent event, Actor actor) {
 				PIP.playSound();
 				stateChangeHandler();
+			}
+		});
+
+		this.addListener(new InputListener(){
+			@Override
+			public void enter (InputEvent event, float x, float y, int pointer, @Null Actor fromActor) {
+				set10PatchBackground("split-frame-over-10");
+			}
+
+			@Override
+			public void exit (InputEvent event, float x, float y, int pointer, @Null Actor toActor) {
+				set10PatchBackground("split-frame-up-10");
 			}
 		});
 		// slider.setFillParent(true);

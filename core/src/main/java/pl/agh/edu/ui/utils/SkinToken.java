@@ -4,7 +4,7 @@ public enum SkinToken {
 	EASE("{EASE}"),
 	HANG("{HANG}"),
 	JUMP("{JUMP}"),
-	SHAKE("{ENDSHAKE}"),
+	SHAKE("{SHAKE}"),
 	SICK("{SICK}"),
 	SLIDE("{SLIDE}"),
 	WAVE("{WAVE}"),

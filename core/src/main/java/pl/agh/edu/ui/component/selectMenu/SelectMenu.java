@@ -29,9 +29,10 @@ import pl.agh.edu.utils.LanguageString;
 
 public class SelectMenu extends WrapperTable {
 	private final Array<SelectMenuItem> items;
-	private final SelectBox<SelectMenuItem> selectOption = new DropDownSelect();
+	private final DropDownSelect selectOption = new DropDownSelect();
 	private final SelectMenuLabel descriptionLabel;
 	private boolean isOpen = false;
+	private boolean cursorOver = false;
 
 	public SelectMenu(LanguageString languageString, Array<SelectMenuItem> items, Function<? super SelectMenuItem, Void> function) {
 		super();
@@ -44,6 +45,20 @@ public class SelectMenu extends WrapperTable {
 		descriptionLabel = new SelectMenuLabel(languageString);
 		innerTable.add(descriptionLabel).pad(0f).grow().uniform().minHeight(0f);
 		innerTable.add(selectOption).pad(0f).grow().uniform().minHeight(0f);
+
+		this.addListener(new InputListener(){
+			@Override
+			public void enter (InputEvent event, float x, float y, int pointer, @Null Actor fromActor) {
+				descriptionLabel.setStateToOver();
+				cursorOver = true;
+			}
+
+			@Override
+			public void exit (InputEvent event, float x, float y, int pointer, @Null Actor toActor) {
+				descriptionLabel.setStateToUp();
+				cursorOver = false;
+			}
+		});
 
 		this.setResolutionChangeHandler(this::changeResolutionHandler);
 		this.changeResolutionHandler();
@@ -161,6 +176,22 @@ public class SelectMenu extends WrapperTable {
 			super(skin.get("selectMenu", SelectBox.SelectBoxStyle.class));
 			setUpSelectionPane();
 			this.getList().setAlignment(center);
+
+		}
+
+		@Override
+		protected @Null Drawable getBackgroundDrawable () {
+			if (isDisabled()) return skin.getDrawable("select-box-background-disabled");
+			if (isOpen && cursorOver) {
+				return skin.getDrawable("select-box-background-open-over");
+			}
+			if (isOpen) {
+				return skin.getDrawable("select-box-background-open-up");
+			}
+			if(cursorOver) {
+				return skin.getDrawable("select-box-background-over");
+			}
+			return skin.getDrawable("select-box-background-up");
 		}
 
 		private void setUpSelectionPane() {
@@ -172,16 +203,42 @@ public class SelectMenu extends WrapperTable {
 			this.getList().setStyle(listStyle);
 		}
 
+		public void setStateOver() {
+			SelectBoxStyle style = new SelectBoxStyle(this.getStyle());
+			style.background = skin.getDrawable("select-box-background-over");
+			this.setStyle(style);
+		}
+
+		public void setStateUp() {
+			SelectBoxStyle style = new SelectBoxStyle(this.getStyle());
+			style.background = skin.getDrawable("select-box-background-up");
+			this.setStyle(style);
+		}
+
+		public void setStateOpenOver() {
+			SelectBoxStyle style = new SelectBoxStyle(this.getStyle());
+			style.background = skin.getDrawable("select-box-background-open-over");
+			this.setStyle(style);
+		}
+
+		public void setStateOpenUp() {
+			SelectBoxStyle style = new SelectBoxStyle(this.getStyle());
+			style.background = skin.getDrawable("select-box-background-open-up");
+			this.setStyle(style);
+		}
+
 		@Override
 		public void showScrollPane() {
 			super.showScrollPane();
 			isOpen = true;
+			this.setStateOpenOver();
 		}
 
 		@Override
 		public void hideScrollPane() {
 			super.hideScrollPane();
 			isOpen = false;
+			this.setStateOpenUp();
 		}
 
 		@Override
