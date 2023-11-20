@@ -12,7 +12,6 @@ import java.util.PriorityQueue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InOrder;
-import org.mockito.MockitoAnnotations;
 
 import pl.agh.edu.engine.time.TimeCommandExecutor;
 import pl.agh.edu.engine.time.command.SerializableRunnable;
@@ -27,7 +26,6 @@ public class TimeCommandExecutorTest {
 	@BeforeEach
 	public void setUp() {
 		executor = TimeCommandExecutor.getInstance();
-		MockitoAnnotations.openMocks(this);
 	}
 
 	@Test
