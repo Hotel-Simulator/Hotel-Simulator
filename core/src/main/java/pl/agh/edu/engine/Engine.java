@@ -21,6 +21,7 @@ import pl.agh.edu.engine.bank.BankAccount;
 import pl.agh.edu.engine.bank.BankAccountHandler;
 import pl.agh.edu.engine.building_cost.BuildingCostSupplier;
 import pl.agh.edu.engine.client.Arrival;
+import pl.agh.edu.engine.client.ClientGroupArrivalGenerationHandler;
 import pl.agh.edu.engine.client.ClientGroupGenerationHandler;
 import pl.agh.edu.engine.client.report.collector.ClientGroupReportDataCollector;
 import pl.agh.edu.engine.employee.EmployeeHandler;
@@ -69,6 +70,7 @@ public class Engine {
 	public final CleaningScheduler cleaningScheduler;
 	public final RepairScheduler repairScheduler;
 	public final ReceptionScheduler receptionScheduler;
+	public final ClientGroupArrivalGenerationHandler clientGroupArrivalGenerationHandler;
 
 	public static void kryoRegister() {
 		KryoConfig.kryo.register(Engine.class, new Serializer<Engine>() {
@@ -94,6 +96,8 @@ public class Engine {
 				kryo.writeObject(output, object.cleaningScheduler);
 				kryo.writeObject(output, object.repairScheduler);
 				kryo.writeObject(output, object.receptionScheduler);
+				kryo.writeObject(output, object.clientGroupArrivalGenerationHandler);
+
 			}
 
 			@Override
@@ -118,7 +122,9 @@ public class Engine {
 						kryo.readObject(input, ClientGroupGenerationHandler.class),
 						kryo.readObject(input, CleaningScheduler.class),
 						kryo.readObject(input, RepairScheduler.class),
-						kryo.readObject(input, ReceptionScheduler.class));
+						kryo.readObject(input, ReceptionScheduler.class),
+						kryo.readObject(input, ClientGroupArrivalGenerationHandler.class)
+				);
 
 			}
 		});
@@ -160,6 +166,11 @@ public class Engine {
 				roomManager,
 				bankAccountHandler,
 				hotel);
+		this.clientGroupArrivalGenerationHandler = new ClientGroupArrivalGenerationHandler(
+				hotel,
+				clientGroupGenerationHandler,
+				receptionScheduler
+		);
 
 		LocalDateTime currentTime = time.startingTime;
 
@@ -191,7 +202,8 @@ public class Engine {
 			ClientGroupGenerationHandler clientGroupGenerationHandler,
 			CleaningScheduler cleaningScheduler,
 			RepairScheduler repairScheduler,
-			ReceptionScheduler receptionScheduler) {
+			ReceptionScheduler receptionScheduler,
+			ClientGroupArrivalGenerationHandler clientGroupArrivalGenerationHandler) {
 		this.time = time;
 		this.timeCommandExecutor = timeCommandExecutor;
 		this.opinionHandler = opinionHandler;
@@ -212,6 +224,7 @@ public class Engine {
 		this.cleaningScheduler = cleaningScheduler;
 		this.repairScheduler = repairScheduler;
 		this.receptionScheduler = receptionScheduler;
+		this.clientGroupArrivalGenerationHandler = clientGroupArrivalGenerationHandler;
 	}
 
 	private void initializeEveryShiftUpdates(LocalDateTime currentTime) {
@@ -224,7 +237,7 @@ public class Engine {
 		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, attractionHandler::dailyUpdate, currentTime));
 		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, opinionHandler::dailyUpdate, currentTime));
 		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, possibleEmployeeHandler::dailyUpdate, currentTime));
-		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, this::dailyUpdate, currentTime));
+		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, clientGroupArrivalGenerationHandler::dailyUpdate, currentTime));
 		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, cleaningScheduler::dailyAtCheckOutTimeUpdate,
 				LocalDateTime.of(currentTime.toLocalDate(), hotel.getCheckOutTime())));
 		timeCommandExecutor.addCommand(new RepeatingTimeCommand(EVERY_DAY, cleaningScheduler::dailyAtCheckInTimeUpdate,

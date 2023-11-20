@@ -51,6 +51,7 @@ import pl.agh.edu.engine.calendar.CalendarEvent;
 import pl.agh.edu.engine.client.Arrival;
 import pl.agh.edu.engine.client.Client;
 import pl.agh.edu.engine.client.ClientGroup;
+import pl.agh.edu.engine.client.ClientGroupArrivalGenerationHandler;
 import pl.agh.edu.engine.client.ClientGroupGenerationHandler;
 import pl.agh.edu.engine.client.Gender;
 import pl.agh.edu.engine.client.report.collector.ClientGroupReportDataCollector;
@@ -165,6 +166,7 @@ public class KryoConfig {
 		Arrival.kryoRegister();
 		Client.kryoRegister();
 		ClientGroup.kryoRegister();
+		ClientGroupArrivalGenerationHandler.kryoRegister();
 		ClientGroupGenerationHandler.kryoRegister();
 		Gender.kryoRegister();
 		Offer.kryoRegister();
