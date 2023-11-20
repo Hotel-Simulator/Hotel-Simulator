@@ -19,6 +19,7 @@ import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.engine.event.EventModalData;
 import pl.agh.edu.ui.component.button.LabeledButton;
 import pl.agh.edu.ui.component.label.LanguageLabel;
+import pl.agh.edu.ui.component.modal.ModalManager;
 import pl.agh.edu.ui.utils.wrapper.WrapperTable;
 import pl.agh.edu.utils.LanguageString;
 
@@ -27,7 +28,7 @@ public class EventModal extends WrapperTable {
 	private final LanguageLabel titleLabel;
 	private final LanguageLabel descriptionLabel;
 
-	public EventModal(EventModalData eventModalData, Runnable closeHandler) {
+	public EventModal(EventModalData eventModalData) {
 		this.setBackground("modal-glass-background");
 
 		innerTable.pad(EventModalStyle.getPadding());
@@ -57,7 +58,7 @@ public class EventModal extends WrapperTable {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				CLICK.playSound();
-				closeHandler.run();
+				ModalManager.getInstance().closeModal();
 			}
 		});
 		this.resize();
