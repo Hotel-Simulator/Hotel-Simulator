@@ -14,13 +14,11 @@ import com.esotericsoftware.kryo.io.Output;
 
 import pl.agh.edu.data.loader.JSONBankDataLoader;
 import pl.agh.edu.data.loader.JSONHotelDataLoader;
-import pl.agh.edu.data.loader.JSONOpinionDataLoader;
 import pl.agh.edu.engine.advertisement.AdvertisementHandler;
 import pl.agh.edu.engine.attraction.AttractionHandler;
 import pl.agh.edu.engine.bank.BankAccount;
 import pl.agh.edu.engine.bank.BankAccountHandler;
 import pl.agh.edu.engine.building_cost.BuildingCostSupplier;
-import pl.agh.edu.engine.client.Arrival;
 import pl.agh.edu.engine.client.ClientGroupArrivalGenerationHandler;
 import pl.agh.edu.engine.client.ClientGroupGenerationHandler;
 import pl.agh.edu.engine.client.report.collector.ClientGroupReportDataCollector;
@@ -36,13 +34,11 @@ import pl.agh.edu.engine.hotel.Hotel;
 import pl.agh.edu.engine.hotel.HotelType;
 import pl.agh.edu.engine.hotel.dificulty.GameDifficultyManager;
 import pl.agh.edu.engine.hotel.scenario.HotelScenariosManager;
-import pl.agh.edu.engine.opinion.OpinionBuilder;
 import pl.agh.edu.engine.opinion.OpinionHandler;
 import pl.agh.edu.engine.room.RoomManager;
 import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.engine.time.TimeCommandExecutor;
 import pl.agh.edu.engine.time.command.RepeatingTimeCommand;
-import pl.agh.edu.engine.time.command.TimeCommand;
 import pl.agh.edu.serialization.KryoConfig;
 
 public class Engine {
