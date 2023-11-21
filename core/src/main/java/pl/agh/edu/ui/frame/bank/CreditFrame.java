@@ -30,7 +30,11 @@ public class CreditFrame extends BaseFrame {
 	}
 
 	private Actor createPayAll(Credit credit) {
-		return new CustomLabel(BUTTON1.getWhiteVariantName());
+		CustomLabel cl = new CustomLabel(BUTTON1.getWhiteVariantName());
+		cl.makeItLink(() -> {
+			System.out.println("test");
+		});
+		return cl;
 	}
 
 	private Actor createMonthly(Credit credit) {
@@ -38,11 +42,7 @@ public class CreditFrame extends BaseFrame {
 	}
 
 	private Actor createDate(Credit credit) {
-		CustomLabel cl = new CustomLabel(BUTTON1.getWhiteVariantName());
-		cl.makeItLink(() -> {
-			System.out.println("test");
-		});
-		return cl;
+		return new CustomLabel(BUTTON1.getWhiteVariantName());
 	}
 
 }
