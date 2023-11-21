@@ -742,6 +742,14 @@
 		"scrollStyle": "default",
 		"listStyle": "selectMenu",
 		"backgroundOpen": "select-box-background-open"
+	},
+	"CustomSelectBox": {
+		"font": "subtitle2",
+		"fontColor": "gray-000",
+		"background": "full-select-box-background",
+		"scrollStyle": "default",
+		"listStyle": "selectMenu",
+		"backgroundOpen": "full-select-box-gackground-open"
 	}
 },
 "SliderStyle": {

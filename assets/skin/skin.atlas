@@ -537,6 +537,22 @@ frame-glass-background
   orig: 200, 200
   offset: 0, 0
   index: -1
+full-select-box-background
+  rotate: false
+  xy: 1882, 508
+  size: 40, 40
+  split: 19, 19, 19, 19
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+full-select-box-gackground-open
+  rotate: false
+  xy: 1882, 466
+  size: 40, 40
+  split: 19, 19, 19, 2
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
 h1_1
   rotate: false
   xy: 1, 1534

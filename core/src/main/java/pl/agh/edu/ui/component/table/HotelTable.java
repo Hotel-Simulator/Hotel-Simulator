@@ -14,6 +14,11 @@ import pl.agh.edu.engine.opinion.OpinionHandler;
 import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.component.label.LanguageLabel;
 import pl.agh.edu.ui.component.rating.Rating;
+import pl.agh.edu.ui.component.selectMenu.CustomSelectBox;
+import pl.agh.edu.ui.component.selectMenu.SelectMenu;
+import pl.agh.edu.ui.component.selectMenu.SelectMenuHourItem;
+import pl.agh.edu.ui.component.selectMenu.SelectMenuItem;
+import pl.agh.edu.ui.component.selectMenu.SelectMenuResolutionItem;
 import pl.agh.edu.ui.component.textField.HotelNameTextField;
 import pl.agh.edu.ui.component.textField.TimeTextField;
 import pl.agh.edu.ui.utils.SkinFont;
@@ -21,6 +26,7 @@ import pl.agh.edu.ui.utils.wrapper.WrapperTable;
 import pl.agh.edu.utils.LanguageString;
 
 import java.util.OptionalDouble;
+import java.util.function.Function;
 
 public class HotelTable extends WrapperTable {
     public final GdxGame game = (GdxGame) Gdx.app.getApplicationListener();
@@ -28,6 +34,8 @@ public class HotelTable extends WrapperTable {
     private final Table rightTable = new Table();
     private final GameSkin skin = GameSkin.getInstance();
     private final Drawable background = new NinePatchDrawable(skin.getPatch("modal-glass-background"));
+    private final CustomSelectBox checkInSelectMenu = HotelTimes.createSelectMenuForCheckIn(game);
+    private final CustomSelectBox checkOutSelectMenu = HotelTimes.createSelectMenuForCheckOut(game);
     public Rating rating;
 
     public HotelTable() {
@@ -89,11 +97,9 @@ public class HotelTable extends WrapperTable {
         LanguageLabel title = new LanguageLabel(new LanguageString("hotelFrame.checkIn.label"),HotelTableStyles.getLabelsStyle());
         title.setWrap(true);
         title.setAlignment(Align.center);
-        TextField time = new TimeTextField("in", skin, HotelTableStyles.getTextFieldStyle());
-        time.setAlignment(Align.center);
 
-        checkIn.add(title).width(HotelTableStyles.getChecksTitleWidth()).expandX();
-        checkIn.add(time).width(HotelTableStyles.getTimeWidth()).right().padRight(40f).expandX();
+        checkIn.add(title).growX().uniform();
+        checkIn.add(checkInSelectMenu).growX().uniform();
         return checkIn;
     }
 
@@ -108,8 +114,8 @@ public class HotelTable extends WrapperTable {
         TextField time = new TimeTextField("out", skin, HotelTableStyles.getTextFieldStyle());
         time.setAlignment(Align.center);
 
-        checkOut.add(title).width(HotelTableStyles.getChecksTitleWidth()).expandX();
-        checkOut.add(time).width(HotelTableStyles.getTimeWidth()).right().padRight(40f).expandX();
+        checkOut.add(title).growX().uniform();
+        checkOut.add(checkOutSelectMenu).growX().uniform();
         return checkOut;
     }
 
@@ -156,6 +162,43 @@ public class HotelTable extends WrapperTable {
             this.rating = new Rating((int) ratingValue.getAsDouble());
         else{
             this.rating = new Rating(0);
+        }
+    }
+
+    private static class HotelTimes{
+
+        public static CustomSelectBox createSelectMenuForCheckIn(GdxGame game){
+            Function<? super SelectMenuItem, Void> function = selectedOption -> {
+                if (selectedOption instanceof SelectMenuHourItem hourItem){
+                    game.engine.hotelHandler.hotel.setCheckInTime(hourItem.hour);
+                }
+                return null;
+            };
+
+            CustomSelectBox checkInSelectMenu = new CustomSelectBox(
+                    SelectMenuHourItem.getArrayForCheckIn(),
+                    function);
+
+            checkInSelectMenu.setItem(game.engine.hotelHandler.hotel.getCheckInTime().toString());
+
+            return checkInSelectMenu;
+        }
+
+        public static CustomSelectBox createSelectMenuForCheckOut(GdxGame game){
+            Function<? super SelectMenuItem, Void> function = selectedOption -> {
+                if (selectedOption instanceof SelectMenuHourItem hourItem){
+                    game.engine.hotelHandler.hotel.setCheckOutTime(hourItem.hour);
+                }
+                return null;
+            };
+
+            CustomSelectBox checkOutSelectMenu = new CustomSelectBox(
+                    SelectMenuHourItem.getArrayForCheckOut(),
+                    function);
+
+            checkOutSelectMenu.setItem(game.engine.hotelHandler.hotel.getCheckOutTime().toString());
+
+            return checkOutSelectMenu;
         }
     }
 
