@@ -9,7 +9,6 @@ import com.esotericsoftware.kryo.io.Output;
 import com.esotericsoftware.kryo.serializers.ClosureSerializer;
 
 import pl.agh.edu.engine.time.Frequency;
-import pl.agh.edu.engine.time.TimeCommandExecutor;
 import pl.agh.edu.serialization.KryoConfig;
 
 public class RepeatingTimeCommand extends TimeCommand {
@@ -25,7 +24,6 @@ public class RepeatingTimeCommand extends TimeCommand {
 				kryo.writeObject(output, object.toExecute);
 				kryo.writeObject(output, object.dueDateTime);
 				kryo.writeObject(output, KryoConfig.getPrivateFieldValue(object, "version", Long.class));
-				kryo.writeObject(output, object.isSerializable);
 				kryo.writeObject(output, object.toStop);
 			}
 
@@ -35,8 +33,7 @@ public class RepeatingTimeCommand extends TimeCommand {
 						kryo.readObject(input, Frequency.class),
 						(SerializableRunnable) kryo.readObject(input, ClosureSerializer.Closure.class),
 						kryo.readObject(input, LocalDateTime.class),
-						kryo.readObject(input, Long.class),
-						kryo.readObject(input, Boolean.class));
+						kryo.readObject(input, Long.class));
 
 				repeatingTimeCommand.toStop = kryo.readObject(input, Boolean.class);
 				return repeatingTimeCommand;
@@ -45,29 +42,25 @@ public class RepeatingTimeCommand extends TimeCommand {
 	}
 
 	public RepeatingTimeCommand(Frequency frequency, SerializableRunnable toExecute, LocalDateTime dueTime) {
-		this(frequency, toExecute, dueTime, true);
-	}
-
-	public RepeatingTimeCommand(Frequency frequency, SerializableRunnable toExecute, LocalDateTime dueTime, boolean isSerializable) {
-		super(toExecute, dueTime, isSerializable);
+		super(toExecute, dueTime);
 		this.frequency = frequency;
 	}
 
 	protected RepeatingTimeCommand(Frequency frequency,
 			SerializableRunnable toExecute,
 			LocalDateTime dueTime,
-			Long version,
-			boolean isSerializable) {
-		super(toExecute, dueTime, version, isSerializable);
+			Long version) {
+		super(toExecute, dueTime, version);
 		this.frequency = frequency;
 	}
 
 	@Override
-	public void execute() {
+	public void execute(Runnable postAction) {
 		if (!toStop) {
 			toExecute.run();
 			updateDueDateTime();
-			TimeCommandExecutor.getInstance().addCommand(this);
+		} else {
+			postAction.run();
 		}
 	}
 

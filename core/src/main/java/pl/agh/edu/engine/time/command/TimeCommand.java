@@ -16,7 +16,6 @@ public class TimeCommand implements Comparable<TimeCommand> {
 	protected final SerializableRunnable toExecute;
 	private final Long version;
 	protected LocalDateTime dueDateTime;
-	public final boolean isSerializable;
 
 	public static void kryoRegister() {
 		KryoConfig.kryo.register(TimeCommand.class, new Serializer<TimeCommand>() {
@@ -26,7 +25,6 @@ public class TimeCommand implements Comparable<TimeCommand> {
 				kryo.writeObject(output, object.toExecute);
 				kryo.writeObject(output, object.dueDateTime);
 				kryo.writeObject(output, object.version);
-				kryo.writeObject(output, object.isSerializable);
 			}
 
 			@Override
@@ -35,34 +33,32 @@ public class TimeCommand implements Comparable<TimeCommand> {
 				return new TimeCommand(
 						(SerializableRunnable) kryo.readObject(input, ClosureSerializer.Closure.class),
 						kryo.readObject(input, LocalDateTime.class),
-						kryo.readObject(input, Long.class),
-						kryo.readObject(input, Boolean.class));
+						kryo.readObject(input, Long.class));
 			}
 		});
 	}
 
 	public TimeCommand(SerializableRunnable toExecute, LocalDateTime dueDateTime) {
-		this(toExecute, dueDateTime, true);
-	}
-
-	public TimeCommand(SerializableRunnable toExecute, LocalDateTime dueDateTime, boolean isSerializable) {
 		this.toExecute = toExecute;
 		this.dueDateTime = dueDateTime;
 		this.version = creationVersion.getAndIncrement();
-		this.isSerializable = isSerializable;
 	}
 
-	protected TimeCommand(SerializableRunnable toExecute, LocalDateTime dueDateTime, Long version, boolean isSerializable) {
+	protected TimeCommand(SerializableRunnable toExecute, LocalDateTime dueDateTime, Long version) {
 		this.toExecute = toExecute;
 		this.dueDateTime = dueDateTime;
 		this.version = version;
-		this.isSerializable = isSerializable;
+	}
+
+	public void execute(Runnable postAction) {
+		if (toExecute != null) {
+			toExecute.run();
+			postAction.run();
+		}
 	}
 
 	public void execute() {
-		if (toExecute != null) {
-			toExecute.run();
-		}
+		this.execute(() -> {});
 	}
 
 	public LocalDateTime getDueDateTime() {

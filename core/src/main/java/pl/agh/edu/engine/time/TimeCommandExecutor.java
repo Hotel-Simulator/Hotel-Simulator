@@ -12,7 +12,7 @@ import pl.agh.edu.engine.time.command.TimeCommand;
 import pl.agh.edu.serialization.KryoConfig;
 
 public class TimeCommandExecutor {
-	private static final TimeCommandExecutor instance = new TimeCommandExecutor();
+	private static TimeCommandExecutor instance = new TimeCommandExecutor();
 	private PriorityQueue<TimeCommand> commandQueue;
 	private final PriorityQueue<TimeCommand> unserializableCommandQueue;
 
@@ -42,15 +42,21 @@ public class TimeCommandExecutor {
 	}
 
 	public static TimeCommandExecutor getInstance() {
+		if (instance == null)
+			instance = new TimeCommandExecutor();
 		return instance;
 	}
 
-	public void addCommand(TimeCommand timeCommand) {
-		if (timeCommand.isSerializable) {
+	public void addCommand(TimeCommand timeCommand, Boolean isSerializable) {
+		if (isSerializable) {
 			commandQueue.add(timeCommand);
 		} else {
 			unserializableCommandQueue.add(timeCommand);
 		}
+	}
+
+	public void addCommand(TimeCommand timeCommand) {
+		addCommand(timeCommand, true);
 	}
 
 	public void executeCommands(LocalDateTime dateTime) {
@@ -60,8 +66,9 @@ public class TimeCommandExecutor {
 
 	public void executeQueuedCommands(PriorityQueue<TimeCommand> commandQueue, LocalDateTime dateTime) {
 		while (!commandQueue.isEmpty() && !commandQueue.peek().getDueDateTime().isAfter(dateTime)) {
-			TimeCommand command = commandQueue.poll();
-			command.execute();
+			TimeCommand command = commandQueue.peek();
+			if (command != null)
+				command.execute(() -> commandQueue.remove(command));
 		}
 	}
 }
