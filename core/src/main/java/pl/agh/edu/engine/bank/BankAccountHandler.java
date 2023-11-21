@@ -22,7 +22,7 @@ public class BankAccountHandler {
 	private final Time time;
 	private final TimeCommandExecutor timeCommandExecutor;
 	public final BankAccount account;
-	private final Map<Credit, NRepeatingTimeCommand> currentCredits;
+	private Map<Credit, NRepeatingTimeCommand> currentCredits;
 
 	public static void kryoRegister() {
 		KryoConfig.kryo.register(BankAccountHandler.class, new Serializer<BankAccountHandler>() {
@@ -37,11 +37,16 @@ public class BankAccountHandler {
 
 			@Override
 			public BankAccountHandler read(Kryo kryo, Input input, Class<? extends BankAccountHandler> type) {
-				return new BankAccountHandler(
+				BankAccountHandler bankAccountHandler = new BankAccountHandler(
 						kryo.readObject(input, Time.class),
 						kryo.readObject(input, TimeCommandExecutor.class),
-						kryo.readObject(input, BankAccount.class),
-						kryo.readObject(input, Map.class, KryoConfig.mapSerializer(Credit.class, NRepeatingTimeCommand.class)));
+						kryo.readObject(input, BankAccount.class));
+
+				kryo.reference(bankAccountHandler);
+
+				bankAccountHandler.currentCredits = kryo.readObject(input, Map.class, KryoConfig.mapSerializer(Credit.class, NRepeatingTimeCommand.class));
+
+				return bankAccountHandler;
 			}
 		});
 	}
@@ -55,12 +60,11 @@ public class BankAccountHandler {
 
 	private BankAccountHandler(Time time,
 			TimeCommandExecutor timeCommandExecutor,
-			BankAccount account,
-			Map<Credit, NRepeatingTimeCommand> currentCredits) {
+			BankAccount account) {
 		this.time = time;
 		this.timeCommandExecutor = timeCommandExecutor;
 		this.account = account;
-		this.currentCredits = currentCredits;
+		this.currentCredits = new HashMap<>();
 	}
 
 	public void registerExpense(BigDecimal expense) {

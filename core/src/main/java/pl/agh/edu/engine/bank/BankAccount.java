@@ -26,8 +26,8 @@ public class BankAccount {
 				kryo.writeObject(output, object.time);
 				kryo.writeObject(output, object.balance);
 				kryo.writeObject(output, object.accountDetails);
-				kryo.writeObject(output, object.credits);
-				kryo.writeObject(output, object.transactions);
+				kryo.writeObject(output, object.credits, KryoConfig.listSerializer(Credit.class));
+				kryo.writeObject(output, object.transactions, KryoConfig.listSerializer(Transaction.class));
 			}
 
 			@Override

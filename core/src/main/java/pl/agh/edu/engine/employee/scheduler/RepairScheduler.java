@@ -32,7 +32,7 @@ public class RepairScheduler extends WorkScheduler<Room> {
 				kryo.writeObject(output, object.timeCommandExecutor);
 				kryo.writeObject(output, object.employeeHandler);
 				kryo.writeObject(output, object.entitiesToExecuteService);
-				kryo.writeObject(output, object.workingEmployees);
+				kryo.writeObject(output, object.workingEmployees, KryoConfig.listSerializer(Employee.class));
 				kryo.writeObject(output, object.currentShift);
 
 			}

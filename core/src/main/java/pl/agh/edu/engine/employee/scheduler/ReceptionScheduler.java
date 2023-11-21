@@ -60,7 +60,7 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 				kryo.writeObject(output, object.bankAccountHandler);
 				kryo.writeObject(output, object.hotel);
 				kryo.writeObject(output, object.entitiesToExecuteService);
-				kryo.writeObject(output, object.workingEmployees);
+				kryo.writeObject(output, object.workingEmployees, KryoConfig.listSerializer(Employee.class));
 				kryo.writeObject(output, object.currentShift);
 			}
 
