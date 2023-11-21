@@ -29,7 +29,7 @@ public class RoomManager {
 	private final Time time = Time.getInstance();
 	private final Map<Room, LocalDateTime> roomRankChangeTimes = new HashMap<>();
 	private final Map<Room, LocalDateTime> roomBuildingTimes = new HashMap<>();
-	private final RoomPricePerNight roomPricePerNight = new RoomPricePerNight(JSONClientDataLoader.averagePricesPerNight);
+	public final RoomPricePerNight roomPricePerNight = new RoomPricePerNight(JSONClientDataLoader.averagePricesPerNight);
 	private final BankAccountHandler bankAccountHandler;
 
 	private final Comparator<Room> roomComparator = (o1, o2) -> {
