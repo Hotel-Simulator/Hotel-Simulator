@@ -1393,6 +1393,14 @@ text-field-background
   orig: 70, 70
   offset: 0, 0
   index: -1
+text-field-cursor
+  rotate: false
+  xy: 2033, 1277
+  size: 5, 30
+  split: 0, 0, 0, 0
+  orig: 5, 30
+  offset: 0, 0
+  index: -1
 underscore
   rotate: false
   xy: 1736, 513

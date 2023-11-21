@@ -869,19 +869,20 @@
 		"font": "h4",
 		"fontColor": "gray-900",
 		"background": "text-field-background",
-		"cursor": "tabs-separator-line"
+		"cursor": "text-field-cursor",
+		"messageFontColor": "alert-900"
 	},
 	"hotel_frame_small": {
 		"font": "subtitle1",
 		"fontColor": "gray-900",
 		"background": "text-field-background",
-		"cursor": "tabs-separator-line"
+		"cursor": "text-field-cursor"
 	},
 	"hotel_frame_large": {
 		"font": "h3",
 		"fontColor": "gray-900",
 		"background": "text-field-background",
-		"cursor": "tabs-separator-line"
+		"cursor": "text-field-cursor"
 	}
 },
 "TextTooltipStyle": {
