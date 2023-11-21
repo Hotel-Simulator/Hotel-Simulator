@@ -17,11 +17,13 @@ import com.esotericsoftware.kryo.Serializer;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.esotericsoftware.kryo.serializers.ClosureSerializer;
+import com.esotericsoftware.minlog.Log;
 
 public class KryoConfig {
 
 	public static final Kryo kryo = new Kryo();
 	static {
+		Log.set(Log.LEVEL_ERROR);
 		kryo.setReferences(true);
 
 		kryo.register(BigDecimal.class);
