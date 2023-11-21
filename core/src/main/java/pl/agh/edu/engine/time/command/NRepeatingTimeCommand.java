@@ -25,6 +25,7 @@ public class NRepeatingTimeCommand extends RepeatingTimeCommand {
 				kryo.writeObject(output, object.counter);
 				kryo.writeObject(output, object.toExecuteAfterLastRepetition);
 				kryo.writeObject(output, KryoConfig.getPrivateFieldValue(object, "version", Long.class));
+				kryo.writeObject(output, object.isSerializable);
 				kryo.writeObject(output, object.toStop);
 			}
 
@@ -36,7 +37,8 @@ public class NRepeatingTimeCommand extends RepeatingTimeCommand {
 						kryo.readObject(input, LocalDateTime.class),
 						kryo.readObject(input, Long.class),
 						(SerializableRunnable) kryo.readObject(input, ClosureSerializer.Closure.class),
-						kryo.readObject(input, Long.class));
+						kryo.readObject(input, Long.class),
+						kryo.readObject(input, Boolean.class));
 
 				nRepeatingTimeCommand.toStop = kryo.readObject(input, Boolean.class);
 				return nRepeatingTimeCommand;
@@ -69,25 +71,21 @@ public class NRepeatingTimeCommand extends RepeatingTimeCommand {
 		this(frequency, toExecute, dueTime, N, () -> {});
 	}
 
-	public NRepeatingTimeCommand(
+	public NRepeatingTimeCommand(Frequency frequency, SerializableRunnable toExecute, LocalDateTime dueTime, long N, boolean isSerializable) {
+		this(frequency, toExecute, dueTime, N, () -> {}, isSerializable);
+	}
+
+	private NRepeatingTimeCommand(
 			Frequency frequency,
 			SerializableRunnable toExecute,
 			LocalDateTime dueTime,
 			long N,
 			SerializableRunnable toExecuteAfterLastRepetition,
-			Long version) {
-		super(frequency, toExecute, dueTime, version);
+			Long version,
+			boolean isSerializable) {
+		super(frequency, toExecute, dueTime, version, isSerializable);
 		this.counter = N;
 		this.toExecuteAfterLastRepetition = toExecuteAfterLastRepetition;
-	}
-
-	public NRepeatingTimeCommand(
-			Frequency frequency,
-			SerializableRunnable toExecute,
-			LocalDateTime dueTime,
-			long N,
-			Long version) {
-		this(frequency, toExecute, dueTime, N, () -> {}, version);
 	}
 
 	public long getCounter() {

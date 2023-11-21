@@ -25,6 +25,7 @@ public class RepeatingTimeCommand extends TimeCommand {
 				kryo.writeObject(output, object.toExecute);
 				kryo.writeObject(output, object.dueDateTime);
 				kryo.writeObject(output, KryoConfig.getPrivateFieldValue(object, "version", Long.class));
+				kryo.writeObject(output, object.isSerializable);
 				kryo.writeObject(output, object.toStop);
 			}
 
@@ -34,7 +35,8 @@ public class RepeatingTimeCommand extends TimeCommand {
 						kryo.readObject(input, Frequency.class),
 						(SerializableRunnable) kryo.readObject(input, ClosureSerializer.Closure.class),
 						kryo.readObject(input, LocalDateTime.class),
-						kryo.readObject(input, Long.class));
+						kryo.readObject(input, Long.class),
+						kryo.readObject(input, Boolean.class));
 
 				repeatingTimeCommand.toStop = kryo.readObject(input, Boolean.class);
 				return repeatingTimeCommand;
@@ -46,13 +48,17 @@ public class RepeatingTimeCommand extends TimeCommand {
 		this(frequency, toExecute, dueTime, true);
 	}
 
-	public RepeatingTimeCommand(Frequency frequency, SerializableRunnable toExecute, LocalDateTime dueTime, Boolean isSerializable) {
+	public RepeatingTimeCommand(Frequency frequency, SerializableRunnable toExecute, LocalDateTime dueTime, boolean isSerializable) {
 		super(toExecute, dueTime, isSerializable);
 		this.frequency = frequency;
 	}
 
-	protected RepeatingTimeCommand(Frequency frequency, SerializableRunnable toExecute, LocalDateTime dueTime, Long version) {
-		super(toExecute, dueTime, version);
+	protected RepeatingTimeCommand(Frequency frequency,
+			SerializableRunnable toExecute,
+			LocalDateTime dueTime,
+			Long version,
+			boolean isSerializable) {
+		super(toExecute, dueTime, version, isSerializable);
 		this.frequency = frequency;
 	}
 

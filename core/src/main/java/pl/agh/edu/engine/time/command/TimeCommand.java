@@ -26,6 +26,7 @@ public class TimeCommand implements Comparable<TimeCommand> {
 				kryo.writeObject(output, object.toExecute);
 				kryo.writeObject(output, object.dueDateTime);
 				kryo.writeObject(output, object.version);
+				kryo.writeObject(output, object.isSerializable);
 			}
 
 			@Override
@@ -34,7 +35,8 @@ public class TimeCommand implements Comparable<TimeCommand> {
 				return new TimeCommand(
 						(SerializableRunnable) kryo.readObject(input, ClosureSerializer.Closure.class),
 						kryo.readObject(input, LocalDateTime.class),
-						kryo.readObject(input, Long.class));
+						kryo.readObject(input, Long.class),
+						kryo.readObject(input, Boolean.class));
 			}
 		});
 	}
@@ -50,11 +52,11 @@ public class TimeCommand implements Comparable<TimeCommand> {
 		this.isSerializable = isSerializable;
 	}
 
-	protected TimeCommand(SerializableRunnable toExecute, LocalDateTime dueDateTime, Long version) {
+	protected TimeCommand(SerializableRunnable toExecute, LocalDateTime dueDateTime, Long version, boolean isSerializable) {
 		this.toExecute = toExecute;
 		this.dueDateTime = dueDateTime;
 		this.version = version;
-		this.isSerializable = true;
+		this.isSerializable = isSerializable;
 	}
 
 	public void execute() {

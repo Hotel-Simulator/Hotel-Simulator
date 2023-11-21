@@ -61,8 +61,7 @@ public class TimeCommandExecutor {
 	public void executeQueuedCommands(PriorityQueue<TimeCommand> commandQueue, LocalDateTime dateTime) {
 		while (!commandQueue.isEmpty() && !commandQueue.peek().getDueDateTime().isAfter(dateTime)) {
 			TimeCommand command = commandQueue.poll();
-			if (command != null)
-				command.execute();
+			command.execute();
 		}
 	}
 }
