@@ -1,6 +1,5 @@
 package pl.agh.edu.data.loader;
 
-import static java.math.RoundingMode.HALF_EVEN;
 import static pl.agh.edu.data.extractor.JSONFilePath.HOTEL_CONFIG;
 
 import java.time.LocalTime;
@@ -23,7 +22,7 @@ public class JSONHotelDataLoader {
 	public static Map<String, Integer> initialData;
 	public static Map<String, LocalTime> checkInAndOutTime;
 	public static List<Room> initialRooms;
-	public static String  hotelName;
+	public static String hotelName;
 
 	static {
 		load();
@@ -43,6 +42,6 @@ public class JSONHotelDataLoader {
 		initialRooms = JSONValueUtil.getList(
 				JSONDataExtractor.extract(JSON_FILE_PATH, "initial_rooms", JSONArray.class),
 				e -> new Room(RoomRank.valueOf((String) ((JSONObject) e).get("rank")), RoomSize.valueOf((String) ((JSONObject) e).get("size"))));
-		hotelName = JSONDataExtractor.extract(JSON_FILE_PATH, "hotel_name",String.class);
+		hotelName = JSONDataExtractor.extract(JSON_FILE_PATH, "hotel_name", String.class);
 	}
 }
