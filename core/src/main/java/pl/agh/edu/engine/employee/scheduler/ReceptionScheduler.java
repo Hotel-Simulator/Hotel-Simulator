@@ -84,7 +84,9 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 		});
 	}
 
-	public ReceptionScheduler(EmployeeHandler employeeHandler,
+	public ReceptionScheduler(
+			EmployeeHandler employeeHandler,
+			OpinionHandler opinionHandler,
 			ClientGroupReportDataCollector clientGroupReportDataCollector,
 			RepairScheduler repairScheduler,
 			CleaningScheduler cleaningScheduler,
@@ -92,7 +94,7 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 			BankAccountHandler bankAccountHandler,
 			Hotel hotel) {
 		super(employeeHandler, new LinkedList<>(), Profession.RECEPTIONIST);
-		this.opinionHandler = OpinionHandler.getInstance();
+		this.opinionHandler = opinionHandler;
 		this.clientGroupReportDataCollector = clientGroupReportDataCollector;
 		this.repairScheduler = repairScheduler;
 		this.cleaningScheduler = cleaningScheduler;

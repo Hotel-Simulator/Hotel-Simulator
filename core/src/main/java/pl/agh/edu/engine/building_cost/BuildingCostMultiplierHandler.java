@@ -13,7 +13,6 @@ import pl.agh.edu.serialization.KryoConfig;
 
 public class BuildingCostMultiplierHandler {
 	private BigDecimal buildingCostMultiplier;
-	private static BuildingCostMultiplierHandler instance;
 
 	public static void kryoRegister() {
 		KryoConfig.kryo.register(BuildingCostMultiplierHandler.class, new Serializer<BuildingCostMultiplierHandler>() {
@@ -29,18 +28,12 @@ public class BuildingCostMultiplierHandler {
 		});
 	}
 
-	private BuildingCostMultiplierHandler() {
+	public BuildingCostMultiplierHandler() {
 		this.buildingCostMultiplier = ONE;
 	}
 
 	private BuildingCostMultiplierHandler(BigDecimal buildingCostMultiplier) {
 		this.buildingCostMultiplier = buildingCostMultiplier;
-	}
-
-	public static BuildingCostMultiplierHandler getInstance() {
-		if (instance == null)
-			instance = new BuildingCostMultiplierHandler();
-		return instance;
 	}
 
 	public void modify(BigDecimal modifier) {

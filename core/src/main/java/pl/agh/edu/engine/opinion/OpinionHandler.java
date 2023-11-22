@@ -32,8 +32,6 @@ public class OpinionHandler {
 	private final List<OpinionData> opinions;
 	private BigDecimal opinionModifier;
 
-	private static OpinionHandler instance;
-
 	public static void kryoRegister() {
 		KryoConfig.kryo.register(OpinionHandler.class, new Serializer<OpinionHandler>() {
 			@Override
@@ -55,7 +53,7 @@ public class OpinionHandler {
 		});
 	}
 
-	private OpinionHandler() {
+	public OpinionHandler() {
 		this.time = Time.getInstance();
 		this.timeCommandExecutor = TimeCommandExecutor.getInstance();
 		this.opinions = new ArrayList<>();
@@ -70,13 +68,6 @@ public class OpinionHandler {
 		this.timeCommandExecutor = timeCommandExecutor;
 		this.opinions = opinions;
 		this.opinionModifier = opinionModifier;
-	}
-
-	public static OpinionHandler getInstance() {
-		if (instance == null) {
-			instance = new OpinionHandler();
-		}
-		return instance;
 	}
 
 	public void addOpinionWithProbability(ClientGroup clientGroup, double probability) {

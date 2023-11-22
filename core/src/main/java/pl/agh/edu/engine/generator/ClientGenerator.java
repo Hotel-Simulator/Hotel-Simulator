@@ -30,7 +30,6 @@ import pl.agh.edu.utils.RandomUtils;
 public class ClientGenerator {
 	private final GameDifficultyManager gameDifficultyManager;
 	private final OpinionHandler opinionHandler;
-	private static ClientGenerator clientGeneratorInstance;
 	private static final Faker faker = new Faker(new Locale("en-GB"));
 
 	public static void kryoRegister() {
@@ -50,20 +49,9 @@ public class ClientGenerator {
 		});
 	}
 
-	private ClientGenerator() {
-		this.gameDifficultyManager = GameDifficultyManager.getInstance();
-		this.opinionHandler = OpinionHandler.getInstance();
-	}
-
-	private ClientGenerator(GameDifficultyManager gameDifficultyManager, OpinionHandler opinionHandler) {
+	public ClientGenerator(GameDifficultyManager gameDifficultyManager, OpinionHandler opinionHandler) {
 		this.gameDifficultyManager = gameDifficultyManager;
 		this.opinionHandler = opinionHandler;
-	}
-
-	public static ClientGenerator getInstance() {
-		if (clientGeneratorInstance == null)
-			clientGeneratorInstance = new ClientGenerator();
-		return clientGeneratorInstance;
 	}
 
 	public ClientGroup generateClientGroupForGivenHotelVisitPurpose(HotelVisitPurpose hotelVisitPurpose) {

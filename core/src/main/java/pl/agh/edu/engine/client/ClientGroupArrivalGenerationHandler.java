@@ -50,10 +50,11 @@ public class ClientGroupArrivalGenerationHandler {
 		});
 	}
 
-	public ClientGroupArrivalGenerationHandler(Hotel hotel, ClientGroupGenerationHandler clientGroupGenerationHandler, ReceptionScheduler receptionScheduler) {
+	public ClientGroupArrivalGenerationHandler(OpinionHandler opinionHandler, Hotel hotel, ClientGroupGenerationHandler clientGroupGenerationHandler,
+			ReceptionScheduler receptionScheduler) {
 		this.time = Time.getInstance();
 		this.timeCommandExecutor = TimeCommandExecutor.getInstance();
-		this.opinionHandler = OpinionHandler.getInstance();
+		this.opinionHandler = opinionHandler;
 		this.hotel = hotel;
 		this.clientGroupGenerationHandler = clientGroupGenerationHandler;
 		this.receptionScheduler = receptionScheduler;

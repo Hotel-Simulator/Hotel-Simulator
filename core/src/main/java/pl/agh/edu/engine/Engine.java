@@ -18,6 +18,7 @@ import pl.agh.edu.engine.advertisement.AdvertisementHandler;
 import pl.agh.edu.engine.attraction.AttractionHandler;
 import pl.agh.edu.engine.bank.BankAccount;
 import pl.agh.edu.engine.bank.BankAccountHandler;
+import pl.agh.edu.engine.building_cost.BuildingCostMultiplierHandler;
 import pl.agh.edu.engine.building_cost.BuildingCostSupplier;
 import pl.agh.edu.engine.client.ClientGroupArrivalGenerationHandler;
 import pl.agh.edu.engine.client.ClientGroupGenerationHandler;
@@ -32,6 +33,7 @@ import pl.agh.edu.engine.event.EventHandler;
 import pl.agh.edu.engine.event.temporary.ClientNumberModificationEventHandler;
 import pl.agh.edu.engine.hotel.Hotel;
 import pl.agh.edu.engine.hotel.HotelType;
+import pl.agh.edu.engine.hotel.dificulty.DifficultyLevel;
 import pl.agh.edu.engine.hotel.dificulty.GameDifficultyManager;
 import pl.agh.edu.engine.hotel.scenario.HotelScenariosManager;
 import pl.agh.edu.engine.opinion.OpinionHandler;
@@ -46,6 +48,7 @@ public class Engine {
 	public final Time time;
 	private final TimeCommandExecutor timeCommandExecutor;
 	public final OpinionHandler opinionHandler;
+	private final GameDifficultyManager gameDifficultyManager;
 	public final Hotel hotel;
 	public final ClientGroupReportDataCollector clientGroupReportDataCollector;
 	public final EmployeeHandler employeeHandler;
@@ -56,9 +59,7 @@ public class Engine {
 	public final ClientNumberModificationEventHandler clientNumberModificationEventHandler;
 	private final HotelScenariosManager hotelScenariosManager;
 	public final AdvertisementHandler advertisementHandler;
-
 	public final EventHandler eventHandler;
-
 	public final EmployeeSalaryHandler employeeSalaryHandler;
 	public final RoomManager roomManager;
 	public final AttractionHandler attractionHandler;
@@ -75,6 +76,7 @@ public class Engine {
 				kryo.writeObject(output, object.time);
 				kryo.writeObject(output, object.timeCommandExecutor);
 				kryo.writeObject(output, object.opinionHandler);
+				kryo.writeObject(output, object.gameDifficultyManager);
 				kryo.writeObject(output, object.hotel);
 				kryo.writeObject(output, object.clientGroupReportDataCollector);
 				kryo.writeObject(output, object.employeeHandler);
@@ -102,6 +104,7 @@ public class Engine {
 						kryo.readObject(input, Time.class),
 						kryo.readObject(input, TimeCommandExecutor.class),
 						kryo.readObject(input, OpinionHandler.class),
+						kryo.readObject(input, GameDifficultyManager.class),
 						kryo.readObject(input, Hotel.class),
 						kryo.readObject(input, ClientGroupReportDataCollector.class),
 						kryo.readObject(input, EmployeeHandler.class),
@@ -125,36 +128,41 @@ public class Engine {
 		});
 	}
 
-	public Engine(HotelType type) {
+	public Engine(HotelType type, DifficultyLevel difficultyLevel) {
 		this.time = Time.getInstance();
 		this.timeCommandExecutor = TimeCommandExecutor.getInstance();
-		this.opinionHandler = OpinionHandler.getInstance();
+		this.opinionHandler = new OpinionHandler();
+		this.gameDifficultyManager = new GameDifficultyManager(difficultyLevel);
 		this.hotel = new Hotel();
 		this.clientGroupReportDataCollector = new ClientGroupReportDataCollector();
 		this.employeeHandler = new EmployeeHandler();
 		this.possibleEmployeeHandler = new PossibleEmployeeHandler(employeeHandler);
 		this.bankAccountHandler = new BankAccountHandler(
 				new BankAccount(
-						GameDifficultyManager.getInstance().getInitialBalance(),
+						gameDifficultyManager.getInitialBalance(),
 						JSONBankDataLoader.scenarios.get(0).accountDetails()));
-		this.buildingCostSupplier = new BuildingCostSupplier();
+		BuildingCostMultiplierHandler buildingCostMultiplierHandler = new BuildingCostMultiplierHandler();
+		this.buildingCostSupplier = new BuildingCostSupplier(buildingCostMultiplierHandler);
 		this.clientNumberModificationEventHandler = new ClientNumberModificationEventHandler();
 		this.hotelScenariosManager = new HotelScenariosManager(type);
 		this.advertisementHandler = new AdvertisementHandler(bankAccountHandler);
-		this.eventHandler = new EventHandler(hotelScenariosManager, clientNumberModificationEventHandler);
+		this.eventHandler = new EventHandler(buildingCostMultiplierHandler, hotelScenariosManager, clientNumberModificationEventHandler);
 		this.employeeSalaryHandler = new EmployeeSalaryHandler(employeeHandler, bankAccountHandler);
 		this.roomManager = new RoomManager(JSONHotelDataLoader.initialRooms, bankAccountHandler, buildingCostSupplier);
 		this.attractionHandler = new AttractionHandler(bankAccountHandler, roomManager, buildingCostSupplier);
 		this.clientGroupGenerationHandler = new ClientGroupGenerationHandler(
+				opinionHandler,
 				clientNumberModificationEventHandler,
 				advertisementHandler,
 				attractionHandler,
 				hotelScenariosManager,
-				clientGroupReportDataCollector);
+				clientGroupReportDataCollector,
+				gameDifficultyManager);
 		this.cleaningScheduler = new CleaningScheduler(employeeHandler, roomManager);
 		this.repairScheduler = new RepairScheduler(employeeHandler);
 		this.receptionScheduler = new ReceptionScheduler(
 				employeeHandler,
+				opinionHandler,
 				clientGroupReportDataCollector,
 				repairScheduler,
 				cleaningScheduler,
@@ -162,6 +170,7 @@ public class Engine {
 				bankAccountHandler,
 				hotel);
 		this.clientGroupArrivalGenerationHandler = new ClientGroupArrivalGenerationHandler(
+				opinionHandler,
 				hotel,
 				clientGroupGenerationHandler,
 				receptionScheduler);
@@ -180,6 +189,7 @@ public class Engine {
 	private Engine(Time time,
 			TimeCommandExecutor timeCommandExecutor,
 			OpinionHandler opinionHandler,
+			GameDifficultyManager gameDifficultyManager,
 			Hotel hotel,
 			ClientGroupReportDataCollector clientGroupReportDataCollector,
 			EmployeeHandler employeeHandler,
@@ -201,6 +211,7 @@ public class Engine {
 		this.time = time;
 		this.timeCommandExecutor = timeCommandExecutor;
 		this.opinionHandler = opinionHandler;
+		this.gameDifficultyManager = gameDifficultyManager;
 		this.hotel = hotel;
 		this.clientGroupReportDataCollector = clientGroupReportDataCollector;
 		this.employeeHandler = employeeHandler;

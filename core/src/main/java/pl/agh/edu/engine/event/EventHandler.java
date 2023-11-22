@@ -31,7 +31,7 @@ public class EventHandler {
 
 	private final Time time;
 	private final TimeCommandExecutor timeCommandExecutor;
-	private final Calendar calendar;
+	public final Calendar calendar;
 	private final BuildingCostMultiplierHandler buildingCostHandler;
 	private final EventGenerator eventGenerator;
 	private final ClientNumberModificationEventHandler clientNumberModificationEventHandler;
@@ -62,13 +62,13 @@ public class EventHandler {
 		});
 	}
 
-	public EventHandler(
+	public EventHandler(BuildingCostMultiplierHandler buildingCostMultiplierHandler,
 			HotelScenariosManager hotelScenariosManager,
 			ClientNumberModificationEventHandler clientNumberModificationEventHandler) {
 		this.time = Time.getInstance();
 		this.timeCommandExecutor = TimeCommandExecutor.getInstance();
-		this.calendar = Calendar.getInstance();
-		this.buildingCostHandler = BuildingCostMultiplierHandler.getInstance();
+		this.calendar = new Calendar();
+		this.buildingCostHandler = buildingCostMultiplierHandler;
 		this.eventGenerator = new EventGenerator(hotelScenariosManager);
 		this.clientNumberModificationEventHandler = clientNumberModificationEventHandler;
 	}

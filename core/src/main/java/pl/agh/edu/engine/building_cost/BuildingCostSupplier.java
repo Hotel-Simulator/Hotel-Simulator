@@ -33,12 +33,8 @@ public class BuildingCostSupplier {
 		});
 	}
 
-	public BuildingCostSupplier() {
-		this.multiplierHandler = BuildingCostMultiplierHandler.getInstance();
-	}
-
-	private BuildingCostSupplier(BuildingCostMultiplierHandler multiplierHandler) {
-		this.multiplierHandler = multiplierHandler;
+	public BuildingCostSupplier(BuildingCostMultiplierHandler buildingCostMultiplierHandler) {
+		this.multiplierHandler = buildingCostMultiplierHandler;
 	}
 
 	public BigDecimal roomBuildingCost(Pair<RoomRank, RoomSize> pair) {

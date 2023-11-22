@@ -23,14 +23,15 @@ import pl.agh.edu.engine.client.report.collector.ClientGroupReportDataCollector;
 import pl.agh.edu.engine.event.temporary.ClientNumberModificationEventHandler;
 import pl.agh.edu.engine.generator.ClientGenerator;
 import pl.agh.edu.engine.hotel.HotelVisitPurpose;
+import pl.agh.edu.engine.hotel.dificulty.GameDifficultyManager;
 import pl.agh.edu.engine.hotel.scenario.HotelScenariosManager;
 import pl.agh.edu.engine.opinion.OpinionHandler;
 import pl.agh.edu.serialization.KryoConfig;
 import pl.agh.edu.utils.RandomUtils;
 
 public class ClientGroupGenerationHandler {
-	private final ClientGenerator clientGenerator;
 	private final OpinionHandler opinionHandler;
+	private final ClientGenerator clientGenerator;
 	private final ClientNumberModificationEventHandler clientNumberModificationEventHandler;
 	private final AdvertisementHandler advertisementHandler;
 	private final AttractionHandler attractionHandler;
@@ -41,8 +42,8 @@ public class ClientGroupGenerationHandler {
 		KryoConfig.kryo.register(ClientGroupGenerationHandler.class, new Serializer<ClientGroupGenerationHandler>() {
 			@Override
 			public void write(Kryo kryo, Output output, ClientGroupGenerationHandler object) {
-				kryo.writeObject(output, object.clientGenerator);
 				kryo.writeObject(output, object.opinionHandler);
+				kryo.writeObject(output, object.clientGenerator);
 				kryo.writeObject(output, object.clientNumberModificationEventHandler);
 				kryo.writeObject(output, object.advertisementHandler);
 				kryo.writeObject(output, object.attractionHandler);
@@ -54,8 +55,8 @@ public class ClientGroupGenerationHandler {
 			@Override
 			public ClientGroupGenerationHandler read(Kryo kryo, Input input, Class<? extends ClientGroupGenerationHandler> type) {
 				return new ClientGroupGenerationHandler(
-						kryo.readObject(input, ClientGenerator.class),
 						kryo.readObject(input, OpinionHandler.class),
+						kryo.readObject(input, ClientGenerator.class),
 						kryo.readObject(input, ClientNumberModificationEventHandler.class),
 						kryo.readObject(input, AdvertisementHandler.class),
 						kryo.readObject(input, AttractionHandler.class),
@@ -66,13 +67,15 @@ public class ClientGroupGenerationHandler {
 	}
 
 	public ClientGroupGenerationHandler(
+			OpinionHandler opinionHandler,
 			ClientNumberModificationEventHandler clientNumberModificationEventHandler,
 			AdvertisementHandler advertisementHandler,
 			AttractionHandler attractionHandler,
 			HotelScenariosManager hotelScenariosManager,
-			ClientGroupReportDataCollector clientGroupReportDataCollector) {
-		this.clientGenerator = ClientGenerator.getInstance();
-		this.opinionHandler = OpinionHandler.getInstance();
+			ClientGroupReportDataCollector clientGroupReportDataCollector,
+			GameDifficultyManager gameDifficultyManager) {
+		this.opinionHandler = opinionHandler;
+		this.clientGenerator = new ClientGenerator(gameDifficultyManager, opinionHandler);
 		this.clientNumberModificationEventHandler = clientNumberModificationEventHandler;
 		this.advertisementHandler = advertisementHandler;
 		this.attractionHandler = attractionHandler;
@@ -80,15 +83,15 @@ public class ClientGroupGenerationHandler {
 		this.clientGroupReportDataCollector = clientGroupReportDataCollector;
 	}
 
-	private ClientGroupGenerationHandler(ClientGenerator clientGenerator,
-			OpinionHandler opinionHandler,
+	private ClientGroupGenerationHandler(OpinionHandler opinionHandler,
+			ClientGenerator clientGenerator,
 			ClientNumberModificationEventHandler clientNumberModificationEventHandler,
 			AdvertisementHandler advertisementHandler,
 			AttractionHandler attractionHandler,
 			HotelScenariosManager hotelScenariosManager,
 			ClientGroupReportDataCollector clientGroupReportDataCollector) {
-		this.clientGenerator = clientGenerator;
 		this.opinionHandler = opinionHandler;
+		this.clientGenerator = clientGenerator;
 		this.clientNumberModificationEventHandler = clientNumberModificationEventHandler;
 		this.advertisementHandler = advertisementHandler;
 		this.attractionHandler = attractionHandler;

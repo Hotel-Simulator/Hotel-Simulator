@@ -12,6 +12,7 @@ import static pl.agh.edu.engine.employee.Shift.MORNING;
 import static pl.agh.edu.engine.employee.contract.TypeOfContract.PERMANENT;
 import static pl.agh.edu.engine.hotel.HotelType.CITY;
 import static pl.agh.edu.engine.hotel.HotelVisitPurpose.BUSINESS_TRIP;
+import static pl.agh.edu.engine.hotel.dificulty.DifficultyLevel.EASY;
 import static pl.agh.edu.engine.opinion.OpinionStars.FIVE;
 import static pl.agh.edu.engine.room.RoomRank.ECONOMIC;
 import static pl.agh.edu.engine.room.RoomSize.DOUBLE;
@@ -60,8 +61,11 @@ import pl.agh.edu.engine.event.permanent.BuildingCostModificationPermanentEvent;
 import pl.agh.edu.engine.event.temporary.ClientNumberModificationTemporaryEvent;
 import pl.agh.edu.engine.event.temporary.TemporaryEvent;
 import pl.agh.edu.engine.generator.ClientGenerator;
+import pl.agh.edu.engine.hotel.dificulty.DifficultyLevel;
+import pl.agh.edu.engine.hotel.dificulty.GameDifficultyManager;
 import pl.agh.edu.engine.opinion.Opinion;
 import pl.agh.edu.engine.opinion.OpinionData;
+import pl.agh.edu.engine.opinion.OpinionHandler;
 import pl.agh.edu.engine.room.Room;
 import pl.agh.edu.engine.room.RoomState;
 import pl.agh.edu.engine.time.command.NRepeatingTimeCommand;
@@ -77,6 +81,7 @@ public class SerializationTest {
 
 	private Output output;
 	private Input input;
+	private final ClientGenerator clientGenerator = new ClientGenerator(new GameDifficultyManager(EASY), new OpinionHandler());
 
 	public SerializationTest() {
 		kryo.register(SerializationTest.class);
@@ -228,7 +233,7 @@ public class SerializationTest {
 	@Test
 	public void clientArrivalTest() {
 		// Give
-		ClientGroup clientGroup = ClientGenerator.getInstance().generateClientGroupForGivenHotelVisitPurpose(BUSINESS_TRIP);
+		ClientGroup clientGroup = clientGenerator.generateClientGroupForGivenHotelVisitPurpose(BUSINESS_TRIP);
 		Arrival arrival = new Arrival(LocalTime.NOON, clientGroup);
 		Opinion opinion = clientGroup.opinion;
 		// When
@@ -273,7 +278,7 @@ public class SerializationTest {
 	@Test
 	public void opinionTest() {
 		// Give
-		Opinion opinion = ClientGenerator.getInstance().generateClientGroupForGivenHotelVisitPurpose(BUSINESS_TRIP).opinion;
+		Opinion opinion = clientGenerator.generateClientGroupForGivenHotelVisitPurpose(BUSINESS_TRIP).opinion;
 
 		// When
 		opinion.roomCleaning.setGotCleanRoom(true);
@@ -532,7 +537,7 @@ public class SerializationTest {
 	public void roomWithResidentsTest() {
 		// Given
 		Room room = new Room(ECONOMIC, DOUBLE);
-		ClientGroup clientGroup = ClientGenerator.getInstance().generateClientGroupForGivenHotelVisitPurpose(BUSINESS_TRIP);
+		ClientGroup clientGroup = clientGenerator.generateClientGroupForGivenHotelVisitPurpose(BUSINESS_TRIP);
 		room.checkIn(clientGroup);
 		// When
 		room.roomState.setOccupied(true);
@@ -704,7 +709,7 @@ public class SerializationTest {
 	@Test
 	public void engineTest() {
 		// Given
-		Engine engine = new Engine(CITY);
+		Engine engine = new Engine(CITY, DifficultyLevel.MEDIUM);
 
 		// When
 		kryo.writeObject(output, engine);

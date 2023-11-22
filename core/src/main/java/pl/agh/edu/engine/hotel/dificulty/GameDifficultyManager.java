@@ -1,7 +1,5 @@
 package pl.agh.edu.engine.hotel.dificulty;
 
-import static pl.agh.edu.engine.hotel.dificulty.DifficultyLevel.MEDIUM;
-
 import java.math.BigDecimal;
 
 import com.esotericsoftware.kryo.Kryo;
@@ -13,7 +11,6 @@ import pl.agh.edu.data.loader.JSONGameDataLoader;
 import pl.agh.edu.serialization.KryoConfig;
 
 public class GameDifficultyManager {
-	private static GameDifficultyManager instance;
 	private final DifficultyLevel difficultyLevel;
 
 	public static void kryoRegister() {
@@ -30,19 +27,8 @@ public class GameDifficultyManager {
 		});
 	}
 
-	private GameDifficultyManager() {
-		this.difficultyLevel = MEDIUM;
-	}
-
-	private GameDifficultyManager(DifficultyLevel difficultyLevel) {
+	public GameDifficultyManager(DifficultyLevel difficultyLevel) {
 		this.difficultyLevel = difficultyLevel;
-	}
-
-	public static GameDifficultyManager getInstance() {
-		if (instance == null) {
-			instance = new GameDifficultyManager();
-		}
-		return instance;
 	}
 
 	public double getDifficultyMultiplier() {
