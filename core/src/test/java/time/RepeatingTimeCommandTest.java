@@ -1,6 +1,8 @@
 package time;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -33,9 +35,10 @@ public class RepeatingTimeCommandTest {
 		RepeatingTimeCommand command = new RepeatingTimeCommand(FREQUENCY, runnable, DUE_DATE_TIME);
 
 		// When
-		command.execute();
+		boolean repeat = command.execute();
 
 		// Then
+		assertTrue(repeat);
 		verify(runnable, times(1)).run();
 	}
 
@@ -46,9 +49,10 @@ public class RepeatingTimeCommandTest {
 		RepeatingTimeCommand command = new RepeatingTimeCommand(FREQUENCY, runnable, DUE_DATE_TIME);
 
 		// When
-		command.execute();
+		boolean repeat = command.execute();
 
 		// Then
+		assertTrue(repeat);
 		verify(runnable, times(1)).run();
 		assertEquals(command.getDueDateTime(), DUE_DATE_TIME.plusDays(1));
 	}
@@ -61,9 +65,10 @@ public class RepeatingTimeCommandTest {
 
 		// When
 		command.stop();
-		command.execute();
+		boolean repeat = command.execute();
 
 		// Then
+		assertFalse(repeat);
 		verify(runnable, times(0)).run();
 	}
 

@@ -75,11 +75,14 @@ public class NRepeatingTimeCommand extends RepeatingTimeCommand {
 	}
 
 	@Override
-	public void execute(Runnable postAction) {
-		super.execute(postAction);
+	public boolean execute() {
+		if (!super.execute())
+			return false;
 		if (--counter == 0 && !toStop) {
 			stop();
 			toExecuteAfterLastRepetition.run();
+			return false;
 		}
+		return true;
 	}
 }

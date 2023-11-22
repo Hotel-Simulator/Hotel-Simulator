@@ -55,13 +55,13 @@ public class RepeatingTimeCommand extends TimeCommand {
 	}
 
 	@Override
-	public void execute(Runnable postAction) {
+	public boolean execute() {
 		if (!toStop) {
 			toExecute.run();
 			updateDueDateTime();
-		} else {
-			postAction.run();
+			return true;
 		}
+		return false;
 	}
 
 	private void updateDueDateTime() {

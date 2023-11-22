@@ -1,11 +1,12 @@
 package time;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.doNothing;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
@@ -17,7 +18,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InOrder;
 
 import pl.agh.edu.engine.time.TimeCommandExecutor;
-import pl.agh.edu.engine.time.command.SerializableRunnable;
 import pl.agh.edu.engine.time.command.TimeCommand;
 
 public class TimeCommandExecutorTest {
@@ -41,11 +41,8 @@ public class TimeCommandExecutorTest {
 	@Test
 	public void testExecuteCommands_WithCommands() {
 		// Given
-		SerializableRunnable runnable = createMockRunnable();
-		doNothing().when(runnable).run();
-
-		TimeCommand command1 = new TimeCommand(runnable, DUE_DATE_TIME_LATER);
-		TimeCommand command2 = new TimeCommand(runnable, DUE_DATE_TIME);
+		TimeCommand command1 = createMockTimeCommand();
+		TimeCommand command2 = createMockLaterTimeCommand();
 
 		executor.addCommand(command1);
 		executor.addCommand(command2);
@@ -54,13 +51,13 @@ public class TimeCommandExecutorTest {
 		executor.executeCommands(DUE_DATE_TIME);
 
 		// Then
-		verify(runnable, times(1)).run();
+		verify(command1, times(1)).execute();
 	}
 
 	@Test
 	public void testAddCommand() {
 		// Given
-		TimeCommand mockCommand = mock(TimeCommand.class);
+		TimeCommand mockCommand = createMockTimeCommand();
 
 		// When
 		executor.addCommand(mockCommand);
@@ -73,7 +70,7 @@ public class TimeCommandExecutorTest {
 	@Test
 	public void testAddCommandWithoutSerialization() {
 		// Given
-		TimeCommand mockCommand = mock(TimeCommand.class);
+		TimeCommand mockCommand = createMockTimeCommand();
 
 		// When
 		executor.addCommand(mockCommand, false);
@@ -86,24 +83,19 @@ public class TimeCommandExecutorTest {
 	@Test
 	public void testExecuteCommands_InCorrectOrder() {
 		// Given
-		SerializableRunnable runnable = createMockRunnable();
-		doNothing().when(runnable).run();
-		SerializableRunnable runnableLater = createMockRunnable();
-		doNothing().when(runnableLater).run();
-
-		TimeCommand command1 = new TimeCommand(runnable, DUE_DATE_TIME);
-		TimeCommand command2 = new TimeCommand(runnableLater, DUE_DATE_TIME);
+		TimeCommand command1 = createMockTimeCommand();
+		TimeCommand command2 = createMockLaterTimeCommand();
 
 		executor.addCommand(command1);
 		executor.addCommand(command2);
 
 		// When
-		executor.executeCommands(DUE_DATE_TIME);
+		executor.executeCommands(DUE_DATE_TIME_LATER);
 
 		// Then
-		InOrder inOrder = inOrder(runnable, runnableLater);
-		inOrder.verify(runnable, times(1)).run();
-		inOrder.verify(runnableLater, times(1)).run();
+		InOrder inOrder = inOrder(command1, command2);
+		inOrder.verify(command1).execute();
+		inOrder.verify(command2).execute();
 	}
 
 	private PriorityQueue<TimeCommand> getCommandsQueue(TimeCommandExecutor executor) {
@@ -126,7 +118,19 @@ public class TimeCommandExecutorTest {
 		}
 	}
 
-	private SerializableRunnable createMockRunnable() {
-		return mock(SerializableRunnable.class);
+	private TimeCommand createMockTimeCommand() {
+		TimeCommand timeCommand = mock(TimeCommand.class);
+		when(timeCommand.getDueDateTime()).thenReturn(DUE_DATE_TIME);
+		when(timeCommand.compareTo(any())).thenReturn(-1);
+		when(timeCommand.execute()).thenReturn(false);
+		return timeCommand;
+	}
+
+	private TimeCommand createMockLaterTimeCommand() {
+		TimeCommand timeCommand = mock(TimeCommand.class);
+		when(timeCommand.getDueDateTime()).thenReturn(DUE_DATE_TIME_LATER);
+		when(timeCommand.compareTo(any())).thenReturn(1);
+		when(timeCommand.execute()).thenReturn(false);
+		return timeCommand;
 	}
 }

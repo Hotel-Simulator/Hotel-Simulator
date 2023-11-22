@@ -50,15 +50,10 @@ public class TimeCommand implements Comparable<TimeCommand> {
 		this.version = version;
 	}
 
-	public void execute(Runnable postAction) {
-		if (toExecute != null) {
+	public boolean execute() {
+		if (toExecute != null)
 			toExecute.run();
-			postAction.run();
-		}
-	}
-
-	public void execute() {
-		this.execute(() -> {});
+		return false;
 	}
 
 	public LocalDateTime getDueDateTime() {
@@ -67,7 +62,7 @@ public class TimeCommand implements Comparable<TimeCommand> {
 
 	@Override
 	public int compareTo(TimeCommand other) {
-		int dueDateTimeComparison = dueDateTime.compareTo(other.dueDateTime);
+		int dueDateTimeComparison = getDueDateTime().compareTo(other.getDueDateTime());
 		if (dueDateTimeComparison != 0) {
 			return dueDateTimeComparison;
 		}

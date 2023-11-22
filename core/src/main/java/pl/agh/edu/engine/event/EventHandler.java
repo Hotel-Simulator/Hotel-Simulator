@@ -25,6 +25,7 @@ import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.engine.time.TimeCommandExecutor;
 import pl.agh.edu.engine.time.command.TimeCommand;
 import pl.agh.edu.serialization.KryoConfig;
+import pl.agh.edu.ui.component.modal.ModalManager;
 
 public class EventHandler {
 
@@ -119,14 +120,14 @@ public class EventHandler {
 
 	private TimeCommand createTimeCommandForEventAppearancePopup(TemporaryEvent temporaryEvent) {
 		return new TimeCommand(
-				() -> eventHandlerFunction.accept(new EventModalData(temporaryEvent.title, temporaryEvent.eventAppearancePopupDescription,
+				() -> ModalManager.getInstance().showEventModal(new EventModalData(temporaryEvent.title, temporaryEvent.eventAppearancePopupDescription,
 						temporaryEvent.imagePath)),
 				temporaryEvent.appearanceDate.atTime(LocalTime.NOON));
 	}
 
 	private TimeCommand createTimeCommandForEventAppearancePopup(BuildingCostModificationPermanentEvent permanentEvent) {
 		return new TimeCommand(
-				() -> eventHandlerFunction.accept(new EventModalData(permanentEvent.title, permanentEvent.eventAppearancePopupDescription,
+				() -> ModalManager.getInstance().showEventModal(new EventModalData(permanentEvent.title, permanentEvent.eventAppearancePopupDescription,
 						permanentEvent.imagePath)),
 				permanentEvent.appearanceDate.atTime(LocalTime.NOON));
 	}
@@ -150,7 +151,7 @@ public class EventHandler {
 
 	private TimeCommand createTimeCommandForEventStartPopup(TemporaryEvent temporaryEvent) {
 		return new TimeCommand(
-				() -> eventHandlerFunction.accept(new EventModalData(temporaryEvent.title, temporaryEvent.eventStartPopupDescription,
+				() -> ModalManager.getInstance().showEventModal(new EventModalData(temporaryEvent.title, temporaryEvent.eventStartPopupDescription,
 						temporaryEvent.imagePath)),
 				temporaryEvent.startDate.atTime(LocalTime.MIDNIGHT));
 	}
@@ -165,9 +166,5 @@ public class EventHandler {
 		return new TimeCommand(
 				() -> clientNumberModificationEventHandler.remove(event.modifier),
 				event.appearanceDate.atTime(LocalTime.MIDNIGHT).minusMinutes(1));
-	}
-
-	public void setEventHandlerFunction(Consumer<EventModalData> eventHandlerFunction) {
-		this.eventHandlerFunction = eventHandlerFunction;
 	}
 }
