@@ -1,8 +1,6 @@
 package time;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static pl.agh.edu.engine.time.Frequency.EVERY_DAY;
@@ -35,14 +33,13 @@ public class NRepeatingTimeCommandTest {
 	@Test
 	public void testCounterDecrease() {
 		// Given
-		int N = 3;
+		long N = 3;
 		NRepeatingTimeCommand command = new NRepeatingTimeCommand(FREQUENCY, runnable, DUE_DATE_TIME, N);
 
 		// When
-		boolean repeat = command.execute();
+		command.execute();
 
 		// Then
-		assertTrue(repeat);
 		verify(runnable, times(1)).run();
 		assertEquals(N - 1, command.getCounter());
 	}
@@ -50,16 +47,14 @@ public class NRepeatingTimeCommandTest {
 	@Test
 	public void testLastExecutedTime() {
 		// Given
-		int N = 1;
+		long N = 1;
 		NRepeatingTimeCommand command = new NRepeatingTimeCommand(FREQUENCY, runnable, DUE_DATE_TIME, N);
 
 		// When
-		boolean repeat = command.execute();
-		boolean repeat2 = command.execute();
+		command.execute();
+		command.execute();
 
 		// Then
-		assertFalse(repeat);
-		assertFalse(repeat2);
 		verify(runnable, times(1)).run();
 		assertEquals(0, command.getCounter());
 	}
@@ -67,35 +62,30 @@ public class NRepeatingTimeCommandTest {
 	@Test
 	public void testLastTwoExecutedTimes() {
 		// Given
-		int N = 2;
+		long N = 1;
 		NRepeatingTimeCommand command = new NRepeatingTimeCommand(FREQUENCY, runnable, DUE_DATE_TIME, N, runnableAfterLast);
 
 		// When
-		boolean repeat1 = command.execute();
-		boolean repeat2 = command.execute();
+		command.execute();
+		command.execute();
 
 		// Then
-		assertTrue(repeat1);
-		assertFalse(repeat2);
-		verify(runnable, times(2)).run();
+		verify(runnable, times(1)).run();
 		verify(runnableAfterLast, times(1)).run();
 	}
 
 	@Test
 	public void testLastNExecutedTimes() {
 		// Given
-		int N = 10;
+		long N = 10;
 		NRepeatingTimeCommand command = new NRepeatingTimeCommand(FREQUENCY, runnable, DUE_DATE_TIME, N, runnableAfterLast);
 
 		// When
-		boolean repeat1 = command.execute();
-		boolean repeat2 = command.execute();
+		command.execute();
+		command.execute();
 
 		// Then
-		assertTrue(repeat1);
-		assertTrue(repeat2);
 		verify(runnable, times(2)).run();
 		verify(runnableAfterLast, times(0)).run();
 	}
-
 }

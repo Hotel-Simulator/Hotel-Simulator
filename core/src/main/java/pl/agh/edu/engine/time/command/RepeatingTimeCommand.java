@@ -11,10 +11,8 @@ import com.esotericsoftware.kryo.serializers.ClosureSerializer;
 import pl.agh.edu.engine.time.Frequency;
 import pl.agh.edu.serialization.KryoConfig;
 
-public class RepeatingTimeCommand extends TimeCommand {
-
-	protected final Frequency frequency;
-	protected Boolean toStop = false;
+public class RepeatingTimeCommand extends Command {
+	private final Frequency frequency;
 
 	public static void kryoRegister() {
 		KryoConfig.kryo.register(RepeatingTimeCommand.class, new Serializer<RepeatingTimeCommand>() {
@@ -22,9 +20,9 @@ public class RepeatingTimeCommand extends TimeCommand {
 			public void write(Kryo kryo, Output output, RepeatingTimeCommand object) {
 				kryo.writeObject(output, object.frequency);
 				kryo.writeObject(output, object.toExecute);
-				kryo.writeObject(output, object.dueDateTime);
-				kryo.writeObject(output, KryoConfig.getPrivateFieldValue(object, "version", Long.class));
-				kryo.writeObject(output, object.toStop);
+				kryo.writeObject(output, object.getDueDateTime());
+				kryo.writeObject(output, object.version);
+				kryo.writeObject(output, object.isStoped());
 			}
 
 			@Override
@@ -35,18 +33,25 @@ public class RepeatingTimeCommand extends TimeCommand {
 						kryo.readObject(input, LocalDateTime.class),
 						kryo.readObject(input, Long.class));
 
-				repeatingTimeCommand.toStop = kryo.readObject(input, Boolean.class);
+				if (kryo.readObject(input, Boolean.class)) {
+					repeatingTimeCommand.stop();
+				}
+
 				return repeatingTimeCommand;
 			}
 		});
 	}
 
-	public RepeatingTimeCommand(Frequency frequency, SerializableRunnable toExecute, LocalDateTime dueTime) {
+	public RepeatingTimeCommand(
+			Frequency frequency,
+			SerializableRunnable toExecute,
+			LocalDateTime dueTime) {
 		super(toExecute, dueTime);
 		this.frequency = frequency;
 	}
 
-	protected RepeatingTimeCommand(Frequency frequency,
+	private RepeatingTimeCommand(
+			Frequency frequency,
 			SerializableRunnable toExecute,
 			LocalDateTime dueTime,
 			Long version) {
@@ -55,20 +60,16 @@ public class RepeatingTimeCommand extends TimeCommand {
 	}
 
 	@Override
-	public boolean execute() {
-		if (!toStop) {
-			toExecute.run();
-			updateDueDateTime();
-			return true;
-		}
-		return false;
+	public void execute() {
+		if (isStoped())
+			return;
+		toExecute.run();
+		setDueDateTime(frequency.add(getDueDateTime()));
 	}
 
-	private void updateDueDateTime() {
-		dueDateTime = frequency.add(dueDateTime);
+	@Override
+	public boolean isRequeueNeeded() {
+		return !isStoped();
 	}
 
-	public void stop() {
-		toStop = true;
-	}
 }

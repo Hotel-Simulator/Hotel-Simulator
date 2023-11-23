@@ -1,7 +1,6 @@
 package time;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -33,10 +32,9 @@ public class TimeCommandTest {
 		TimeCommand command = new TimeCommand(MOCK_RUNNABLE, DUE_DATE_TIME);
 
 		// When
-		boolean repeat = command.execute();
+		command.execute();
 
 		// Then
-		assertFalse(repeat);
 		verify(MOCK_RUNNABLE, times(1)).run();
 	}
 

@@ -122,7 +122,6 @@ public class TimeCommandExecutorTest {
 		TimeCommand timeCommand = mock(TimeCommand.class);
 		when(timeCommand.getDueDateTime()).thenReturn(DUE_DATE_TIME);
 		when(timeCommand.compareTo(any())).thenReturn(-1);
-		when(timeCommand.execute()).thenReturn(false);
 		return timeCommand;
 	}
 
@@ -130,7 +129,6 @@ public class TimeCommandExecutorTest {
 		TimeCommand timeCommand = mock(TimeCommand.class);
 		when(timeCommand.getDueDateTime()).thenReturn(DUE_DATE_TIME_LATER);
 		when(timeCommand.compareTo(any())).thenReturn(1);
-		when(timeCommand.execute()).thenReturn(false);
 		return timeCommand;
 	}
 }

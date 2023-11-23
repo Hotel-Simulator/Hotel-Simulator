@@ -598,7 +598,7 @@ public class SerializationTest {
 	@Test
 	public void nRepeatingTimeCommandTest() {
 		// Given
-		NRepeatingTimeCommand nRepeatingTimeCommand = new NRepeatingTimeCommand(EVERY_DAY, () -> System.out.println("hi"), LocalDateTime.now(), 3);
+		NRepeatingTimeCommand nRepeatingTimeCommand = new NRepeatingTimeCommand(EVERY_DAY, () -> System.out.println("hi"), LocalDateTime.now(), 3L);
 
 		// When
 		kryo.writeObject(output, nRepeatingTimeCommand);
