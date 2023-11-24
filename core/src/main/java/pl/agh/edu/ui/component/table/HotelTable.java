@@ -3,11 +3,15 @@ package pl.agh.edu.ui.component.table;
 import java.util.OptionalDouble;
 import java.util.function.Function;
 
+import static pl.agh.edu.ui.audio.SoundAudio.CLICK;
+
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.Align;
@@ -22,7 +26,6 @@ import pl.agh.edu.ui.component.selectMenu.CustomSelectBox;
 import pl.agh.edu.ui.component.selectMenu.SelectMenuHourItem;
 import pl.agh.edu.ui.component.selectMenu.SelectMenuItem;
 import pl.agh.edu.ui.component.textField.HotelNameTextField;
-import pl.agh.edu.ui.component.textField.TimeTextField;
 import pl.agh.edu.ui.utils.SkinFont;
 import pl.agh.edu.ui.utils.wrapper.WrapperTable;
 import pl.agh.edu.utils.LanguageString;
@@ -44,7 +47,6 @@ public class HotelTable extends WrapperTable {
 	}
 
 	private void createFrameTable() {
-		innerTable.top();
 		innerTable.clearChildren();
 		leftTable.clear();
 		rightTable.clear();
@@ -83,8 +85,8 @@ public class HotelTable extends WrapperTable {
 		LanguageLabel hotelType = new LanguageLabel(new LanguageString("hotelFrame.scenario." + game.engine.hotelScenariosManager.hotelType.toString().toLowerCase()),
 				HotelTableStyles.getLabelsStyle());
 
-		scenario.add(title).expandX();
-		scenario.add(hotelType).expandX();
+		scenario.add(title).expandX().uniform();
+		scenario.add(hotelType).expandX().uniform();
 		return scenario;
 	}
 
@@ -97,8 +99,8 @@ public class HotelTable extends WrapperTable {
 		title.setWrap(true);
 		title.setAlignment(Align.center);
 
-		checkIn.add(title).growX().uniform();
-		checkIn.add(checkInSelectMenu).growX().uniform();
+		checkIn.add(title).grow().uniform();
+		checkIn.add(checkInSelectMenu).width(HotelTableStyles.getTimeSelectBoxWidth()).height(HotelTableStyles.getTimeSelectBoxHeight()).grow().uniform();
 		return checkIn;
 	}
 
@@ -110,18 +112,16 @@ public class HotelTable extends WrapperTable {
 		LanguageLabel title = new LanguageLabel(new LanguageString("hotelFrame.checkOut.label"), HotelTableStyles.getLabelsStyle());
 		title.setWrap(true);
 		title.setAlignment(Align.center);
-		TextField time = new TimeTextField("out", skin, HotelTableStyles.getTextFieldStyle());
-		time.setAlignment(Align.center);
 
 		checkOut.add(title).growX().uniform();
-		checkOut.add(checkOutSelectMenu).growX().uniform();
+		checkOut.add(checkOutSelectMenu).width(HotelTableStyles.getTimeSelectBoxWidth()).height(HotelTableStyles.getTimeSelectBoxHeight()).growX().uniform();
 		return checkOut;
 	}
 
 	private Table createWorkersOpinionTable() {
 		Table workersOpinion = new Table();
 
-		workersOpinion.add(createWorkersTable()).growX().uniform().fill();
+		workersOpinion.add(createWorkersTable()).growX().uniform().grow();
 		workersOpinion.add(createOpinionTable()).growX().uniform().expandY();
 		return workersOpinion;
 	}
@@ -137,8 +137,8 @@ public class HotelTable extends WrapperTable {
 		Label value = new Label(employees, skin, HotelTableStyles.getLabelsStyle());
 
 		workersTable.add(title).colspan(2).row();
-		workersTable.add(photo);
-		workersTable.add(value);
+		workersTable.add(photo).expandX();
+		workersTable.add(value).expandX();
 		return workersTable;
 	}
 
@@ -229,19 +229,19 @@ public class HotelTable extends WrapperTable {
 			};
 		}
 
-		public static float getChecksTitleWidth() {
-			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> 200f;
-				case MEDIUM -> 300f;
-				case LARGE -> 400f;
-			};
-		}
-
-		public static float getTimeWidth() {
+		public static float getTimeSelectBoxWidth() {
 			return switch (GraphicConfig.getResolution().SIZE) {
 				case SMALL -> 150f;
 				case MEDIUM -> 200f;
 				case LARGE -> 250f;
+			};
+		}
+
+		public static float getTimeSelectBoxHeight() {
+			return switch (GraphicConfig.getResolution().SIZE) {
+				case SMALL -> 40f;
+				case MEDIUM -> 52f;
+				case LARGE -> 70f;
 			};
 		}
 
