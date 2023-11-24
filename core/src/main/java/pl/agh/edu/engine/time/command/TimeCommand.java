@@ -19,6 +19,7 @@ public class TimeCommand extends Command {
 				kryo.writeObject(output, object.toExecute);
 				kryo.writeObject(output, object.getDueDateTime());
 				kryo.writeObject(output, object.version);
+				kryo.writeObject(output, object.isStopped());
 			}
 
 			@Override
@@ -27,7 +28,8 @@ public class TimeCommand extends Command {
 				return new TimeCommand(
 						(SerializableRunnable) kryo.readObject(input, ClosureSerializer.Closure.class),
 						kryo.readObject(input, LocalDateTime.class),
-						kryo.readObject(input, Long.class));
+						kryo.readObject(input, Long.class),
+						kryo.readObject(input, Boolean.class));
 			}
 		});
 	}
@@ -41,13 +43,14 @@ public class TimeCommand extends Command {
 	private TimeCommand(
 			SerializableRunnable toExecute,
 			LocalDateTime dueDateTime,
-			Long version) {
-		super(toExecute, dueDateTime, version);
+			Long version,
+			boolean toStop) {
+		super(toExecute, dueDateTime, version, toStop);
 	}
 
 	@Override
 	public void execute() {
-		if (isStoped())
+		if (isStopped())
 			return;
 		toExecute.run();
 	}

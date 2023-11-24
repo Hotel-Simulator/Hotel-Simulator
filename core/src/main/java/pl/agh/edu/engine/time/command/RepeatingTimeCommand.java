@@ -22,22 +22,19 @@ public class RepeatingTimeCommand extends Command {
 				kryo.writeObject(output, object.toExecute);
 				kryo.writeObject(output, object.getDueDateTime());
 				kryo.writeObject(output, object.version);
-				kryo.writeObject(output, object.isStoped());
+				kryo.writeObject(output, object.isStopped());
 			}
 
 			@Override
 			public RepeatingTimeCommand read(Kryo kryo, Input input, Class<? extends RepeatingTimeCommand> type) {
-				RepeatingTimeCommand repeatingTimeCommand = new RepeatingTimeCommand(
+
+				return new RepeatingTimeCommand(
 						kryo.readObject(input, Frequency.class),
 						(SerializableRunnable) kryo.readObject(input, ClosureSerializer.Closure.class),
 						kryo.readObject(input, LocalDateTime.class),
-						kryo.readObject(input, Long.class));
-
-				if (kryo.readObject(input, Boolean.class)) {
-					repeatingTimeCommand.stop();
-				}
-
-				return repeatingTimeCommand;
+						kryo.readObject(input, Long.class),
+						kryo.readObject(input, Boolean.class)
+				);
 			}
 		});
 	}
@@ -54,14 +51,15 @@ public class RepeatingTimeCommand extends Command {
 			Frequency frequency,
 			SerializableRunnable toExecute,
 			LocalDateTime dueTime,
-			Long version) {
-		super(toExecute, dueTime, version);
+			Long version,
+			boolean toStop) {
+		super(toExecute, dueTime, version, toStop);
 		this.frequency = frequency;
 	}
 
 	@Override
 	public void execute() {
-		if (isStoped())
+		if (isStopped())
 			return;
 		toExecute.run();
 		setDueDateTime(frequency.add(getDueDateTime()));
@@ -69,7 +67,7 @@ public class RepeatingTimeCommand extends Command {
 
 	@Override
 	public boolean isRequeueNeeded() {
-		return !isStoped();
+		return !isStopped();
 	}
 
 }

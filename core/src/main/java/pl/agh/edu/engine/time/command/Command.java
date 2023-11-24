@@ -16,10 +16,11 @@ public abstract class Command implements Comparable<Command> {
 		this.version = creationVersion.getAndIncrement();
 	}
 
-	protected Command(SerializableRunnable toExecute, LocalDateTime dueDateTime, Long version) {
+	protected Command(SerializableRunnable toExecute, LocalDateTime dueDateTime, Long version, boolean toStop) {
 		this.toExecute = toExecute;
 		this.dueDateTime = dueDateTime;
 		this.version = version;
+		this.toStop = toStop;
 	}
 
 	public abstract void execute();
@@ -43,7 +44,7 @@ public abstract class Command implements Comparable<Command> {
 		return version.compareTo(other.version);
 	}
 
-	public boolean isStoped() {
+	public boolean isStopped() {
 		return toStop;
 	}
 

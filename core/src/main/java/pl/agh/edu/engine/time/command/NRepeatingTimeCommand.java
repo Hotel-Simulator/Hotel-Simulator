@@ -26,24 +26,21 @@ public class NRepeatingTimeCommand extends Command {
 				kryo.writeObject(output, object.counter);
 				kryo.writeObject(output, object.toExecuteAfterLastRepetition);
 				kryo.writeObject(output, KryoConfig.getPrivateFieldValue(object, "version", Long.class));
-				kryo.writeObject(output, object.isStoped());
+				kryo.writeObject(output, object.isStopped());
 			}
 
 			@Override
 			public NRepeatingTimeCommand read(Kryo kryo, Input input, Class<? extends NRepeatingTimeCommand> type) {
-				NRepeatingTimeCommand nRepeatingTimeCommand = new NRepeatingTimeCommand(
+
+				return new NRepeatingTimeCommand(
 						kryo.readObject(input, Frequency.class),
 						(SerializableRunnable) kryo.readObject(input, ClosureSerializer.Closure.class),
 						kryo.readObject(input, LocalDateTime.class),
 						kryo.readObject(input, Long.class),
 						(SerializableRunnable) kryo.readObject(input, ClosureSerializer.Closure.class),
-						kryo.readObject(input, Long.class));
-
-				if (kryo.readObject(input, Boolean.class)) {
-					nRepeatingTimeCommand.stop();
-				}
-
-				return nRepeatingTimeCommand;
+						kryo.readObject(input, Long.class),
+						kryo.readObject(input, Boolean.class)
+				);
 			}
 		});
 	}
@@ -74,8 +71,9 @@ public class NRepeatingTimeCommand extends Command {
 			LocalDateTime dueTime,
 			Long N,
 			SerializableRunnable toExecuteAfterLastRepetition,
-			Long version) {
-		super(toExecute, dueTime, version);
+			Long version,
+			boolean toStop) {
+		super(toExecute, dueTime, version, toStop);
 		this.frequency = frequency;
 		this.counter = N;
 		this.toExecuteAfterLastRepetition = toExecuteAfterLastRepetition;
@@ -83,7 +81,7 @@ public class NRepeatingTimeCommand extends Command {
 
 	@Override
 	public void execute() {
-		if (isStoped() || counter <= 0)
+		if (isStopped() || counter <= 0)
 			return;
 		toExecute.run();
 		counter -= 1;
@@ -96,7 +94,7 @@ public class NRepeatingTimeCommand extends Command {
 
 	@Override
 	public boolean isRequeueNeeded() {
-		return !isStoped() || counter > 0;
+		return !isStopped() || counter > 0;
 	}
 
 	public long getCounter() {
