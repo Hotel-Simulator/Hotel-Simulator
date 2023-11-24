@@ -219,8 +219,8 @@ public class SerializationTest {
 	@Test
 	public void clientArrivalTest() {
 		// Give
-		ClientGenerator.init(new GameDifficultyManager(DifficultyLevel.MEDIUM));
-		ClientGroup clientGroup = ClientGenerator.getInstance().generateClientGroupForGivenHotelVisitPurpose(BUSINESS_TRIP);
+		ClientGenerator clientGenerator = new ClientGenerator(new GameDifficultyManager(DifficultyLevel.MEDIUM));
+		ClientGroup clientGroup = clientGenerator.generateClientGroupForGivenHotelVisitPurpose(BUSINESS_TRIP);
 		Arrival arrival = new Arrival(LocalTime.NOON, clientGroup);
 		Opinion opinion = clientGroup.opinion;
 		// When
@@ -265,8 +265,8 @@ public class SerializationTest {
 	@Test
 	public void opinionTest() {
 		// Give
-		ClientGenerator.init(new GameDifficultyManager(DifficultyLevel.MEDIUM));
-		Opinion opinion = ClientGenerator.getInstance().generateClientGroupForGivenHotelVisitPurpose(BUSINESS_TRIP).opinion;
+		ClientGenerator clientGenerator = new ClientGenerator(new GameDifficultyManager(DifficultyLevel.MEDIUM));
+		Opinion opinion = clientGenerator.generateClientGroupForGivenHotelVisitPurpose(BUSINESS_TRIP).opinion;
 
 		// When
 		opinion.roomCleaning.setGotCleanRoom(true);
@@ -535,8 +535,8 @@ public class SerializationTest {
 	public void roomWithResidentsTest() {
 		// Given
 		Room room = new Room(ECONOMIC, DOUBLE);
-		ClientGenerator.init(new GameDifficultyManager(DifficultyLevel.MEDIUM));
-		ClientGroup clientGroup = ClientGenerator.getInstance().generateClientGroupForGivenHotelVisitPurpose(BUSINESS_TRIP);
+		ClientGenerator clientGenerator = new ClientGenerator(new GameDifficultyManager(DifficultyLevel.MEDIUM));
+		ClientGroup clientGroup = clientGenerator.generateClientGroupForGivenHotelVisitPurpose(BUSINESS_TRIP);
 		room.checkIn(clientGroup);
 		// When
 		room.roomState.setOccupied(true);

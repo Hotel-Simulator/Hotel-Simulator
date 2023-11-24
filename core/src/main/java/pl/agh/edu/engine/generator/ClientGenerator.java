@@ -25,24 +25,12 @@ import pl.agh.edu.utils.RandomUtils;
 
 public class ClientGenerator {
 
-	private static ClientGenerator clientGeneratorInstance;
 	private final Time time = Time.getInstance();
 	private static final Faker faker = new Faker(new Locale("en-GB"));
-	// Set user input here (set hotelType)
-	private GameDifficultyManager gameDifficultyManager;
+	public final GameDifficultyManager gameDifficultyManager;
 
-	private ClientGenerator(GameDifficultyManager gameDifficultyManager) {
+	public ClientGenerator(GameDifficultyManager gameDifficultyManager) {
 		this.gameDifficultyManager = gameDifficultyManager;
-	}
-
-	public static ClientGenerator getInstance() {
-		if (clientGeneratorInstance == null)
-			throw new IllegalStateException("ClientGenerator not initialized. Run init with gameDifficultyManager object.");
-		return clientGeneratorInstance;
-	}
-
-	public static void init(GameDifficultyManager gameDifficultyManager) {
-		clientGeneratorInstance = new ClientGenerator(gameDifficultyManager);
 	}
 
 	public ClientGroup generateClientGroupForGivenHotelVisitPurpose(HotelVisitPurpose hotelVisitPurpose) {
