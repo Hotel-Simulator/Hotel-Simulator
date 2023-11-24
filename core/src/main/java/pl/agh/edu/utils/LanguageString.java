@@ -43,4 +43,13 @@ public class LanguageString {
 	public LanguageString(String path) {
 		this(path, List.of());
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof LanguageString) {
+			LanguageString other = (LanguageString) obj;
+			return this.path.equals(other.path) && this.replacementsList.equals(other.replacementsList);
+		}
+		return false;
+	}
 }
