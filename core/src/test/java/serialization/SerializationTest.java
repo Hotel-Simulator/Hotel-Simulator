@@ -158,7 +158,7 @@ public class SerializationTest {
 	public void bankDataTest() {
 		// Given
 		BankData bankData = new BankData(
-						1,
+				1,
 				new LanguageString("bank1"),
 				new BankAccountDetails(
 						new BigDecimal("0.5"),
