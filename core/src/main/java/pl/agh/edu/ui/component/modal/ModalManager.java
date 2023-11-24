@@ -1,5 +1,10 @@
 package pl.agh.edu.ui.component.modal;
 
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +20,8 @@ import pl.agh.edu.ui.component.modal.event.EventWrapper;
 import pl.agh.edu.ui.component.modal.options.OptionsWrapper;
 import pl.agh.edu.ui.component.modal.utils.BaseModalWrapper;
 import pl.agh.edu.ui.shader.BlurShader;
+
+import static pl.agh.edu.ui.audio.SoundAudio.CLICK;
 
 public class ModalManager extends Stack {
 	private static ModalManager instance;
@@ -51,10 +58,10 @@ public class ModalManager extends Stack {
 		addModal(new HireEmployeeModalWrapper(modalPreferences, possibleEmployee, possibleEmployeeHandler, refreshAction));
 	}
 
-	private void addModal(BaseModalWrapper actor) {
-		actor.openModal();
-		modalList.add(0, actor);
-		this.add(actor);
+	private void addModal(BaseModalWrapper modal) {
+		modal.openModal();
+		modalList.add(0, modal);
+		this.add(modal);
 	}
 
 	public void closeModal() {
