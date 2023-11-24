@@ -12,25 +12,24 @@ import pl.agh.edu.ui.panel.DifficultyPanel;
 import pl.agh.edu.ui.panel.ScenarioPanel;
 import pl.agh.edu.ui.screen.main.MainScreen;
 
-public class GameStartContainer {
-	public final Table mainTable;
+public class GameStartContainer extends Table {
 	public final GdxGame game = (GdxGame) Gdx.app.getApplicationListener();
 	public final ScenarioPanel scenarioPanel = new ScenarioPanel(this::goToDifficultyPanel);
 	public final DifficultyPanel difficultyPanel = new DifficultyPanel(this::goToScenarioPanel, this::startGame);
 
-	public GameStartContainer(Table mainTable) {
-		this.mainTable = mainTable;
-		mainTable.add(scenarioPanel.frame);
+	public GameStartContainer() {
+		left();
+		add(scenarioPanel.frame).bottom();
 	}
 
 	public void goToDifficultyPanel() {
-		mainTable.clearChildren();
-		mainTable.addActor(difficultyPanel.frame);
+		clear();
+		addActor(difficultyPanel.frame);
 	}
 
 	public void goToScenarioPanel() {
-		mainTable.clearChildren();
-		mainTable.addActor(scenarioPanel.frame);
+		clear();
+		addActor(scenarioPanel.frame);
 	}
 
 	public void startGame() {

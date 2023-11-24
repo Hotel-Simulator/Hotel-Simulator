@@ -64,7 +64,6 @@ public class DifficultyPanel implements ResolutionChangeListener {
 
 		frame.clearChildren();
 		frame.setFillParent(true);
-		frame.background(skin.getDrawable("hotel-room"));
 
 		addTitleLabelTable();
 		addDifficultyButtonsToFrame();
