@@ -25,7 +25,11 @@
 
   "check_in_out_times" : {
     "check_in" : "14:00:00",
-    "check_out" : "11:00:00"
+    "check_out" : "11:00:00",
+    "max_check_in" : "18:00:00",
+    "max_check_out" : "12:00:00",
+    "min_check_in" : "13:00:00",
+    "min_check_out" : "06:00:00"
   },
 
   "hotel_name" : "Best Hotel"

@@ -3,15 +3,11 @@ package pl.agh.edu.ui.component.table;
 import java.util.OptionalDouble;
 import java.util.function.Function;
 
-import static pl.agh.edu.ui.audio.SoundAudio.CLICK;
-
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.Align;
@@ -137,8 +133,9 @@ public class HotelTable extends WrapperTable {
 		Label value = new Label(employees, skin, HotelTableStyles.getLabelsStyle());
 
 		workersTable.add(title).colspan(2).row();
-		workersTable.add(photo).expandX();
-		workersTable.add(value).expandX();
+		workersTable.add(photo).expandX().uniform();
+		workersTable.add(value).expandX().uniform();
+		workersTable.debug();
 		return workersTable;
 	}
 

@@ -2,16 +2,19 @@ package pl.agh.edu.ui.component.selectMenu;
 
 import java.time.LocalTime;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 
+import pl.agh.edu.GdxGame;
 import pl.agh.edu.engine.time.Time;
 
 public class SelectMenuHourItem extends SelectMenuItem {
 	public final LocalTime hour;
-	public static final LocalTime MAX_CHECK_IN_TIME = LocalTime.of(18, 0);
-	public static final LocalTime MIN_CHECK_IN_TIME = LocalTime.of(13, 0);
-	public static final LocalTime MAX_CHECK_OUT_TIME = LocalTime.of(12, 0);
-	public static final LocalTime MIN_CHECK_OUT_TIME = LocalTime.of(6, 0);
+	public static final GdxGame game = (GdxGame) Gdx.app.getApplicationListener();
+	public static final LocalTime MAX_CHECK_IN_TIME = game.engine.hotelHandler.hotel.getMaxCheckInTime();
+	public static final LocalTime MIN_CHECK_IN_TIME = game.engine.hotelHandler.hotel.getMinCheckInTime();
+	public static final LocalTime MAX_CHECK_OUT_TIME = game.engine.hotelHandler.hotel.getMaxCheckOutTime();
+	public static final LocalTime MIN_CHECK_OUT_TIME = game.engine.hotelHandler.hotel.getMinCheckOutTime();
 
 	public SelectMenuHourItem(LocalTime hour) {
 		super(hour.toString(), hour::toString);

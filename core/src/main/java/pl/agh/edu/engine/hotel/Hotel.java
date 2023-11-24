@@ -9,6 +9,10 @@ public class Hotel {
 	private Long hotelId;
 	private LocalTime checkInTime = JSONHotelDataLoader.checkInAndOutTime.get("check_in");
 	private LocalTime checkOutTime = JSONHotelDataLoader.checkInAndOutTime.get("check_out");
+	private final LocalTime maxCheckInTime = JSONHotelDataLoader.checkInAndOutTime.get("max_check_in");
+	private final LocalTime minCheckInTime = JSONHotelDataLoader.checkInAndOutTime.get("min_check_in");
+	private final LocalTime maxCheckOutTime = JSONHotelDataLoader.checkInAndOutTime.get("max_check_out");
+	private final LocalTime minCheckOutTime = JSONHotelDataLoader.checkInAndOutTime.get("min_check_out");
 
 	public Hotel() {}
 
@@ -34,5 +38,21 @@ public class Hotel {
 
 	public void setHotelName(String hotelName) {
 		this.hotelName = hotelName;
+	}
+
+	public LocalTime getMaxCheckInTime() {
+		return maxCheckInTime;
+	}
+
+	public LocalTime getMinCheckInTime() {
+		return minCheckInTime;
+	}
+
+	public LocalTime getMaxCheckOutTime() {
+		return maxCheckOutTime;
+	}
+
+	public LocalTime getMinCheckOutTime() {
+		return minCheckOutTime;
 	}
 }
