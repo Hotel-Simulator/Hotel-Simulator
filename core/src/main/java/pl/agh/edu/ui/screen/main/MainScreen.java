@@ -13,8 +13,7 @@ import pl.agh.edu.engine.hotel.HotelType;
 import pl.agh.edu.engine.hotel.dificulty.DifficultyLevel;
 import pl.agh.edu.ui.component.background.InfinityBackground;
 import pl.agh.edu.ui.component.button.OptionButton;
-import pl.agh.edu.ui.component.modal.event.EventWrapper;
-import pl.agh.edu.ui.component.modal.options.OptionsWrapper;
+import pl.agh.edu.ui.component.modal.ModalManager;
 import pl.agh.edu.ui.component.navbar.NavbarBottom;
 import pl.agh.edu.ui.component.navbar.NavbarTop;
 import pl.agh.edu.ui.frame.FrameStack;
@@ -29,15 +28,12 @@ public class MainScreen implements Screen {
 	private final Stage topStage = new Stage(GraphicConfig.getViewport());
 	private final BlurShader blurShader = new BlurShader(mainStage, middleStage);
 	private final MainScreenInputAdapter inputMultiplexer = new MainScreenInputAdapter(mainStage);
-	public final OptionsWrapper optionsWrapper = new OptionsWrapper(inputMultiplexer, blurShader, mainStage, topStage);
-	private final EventWrapper eventWrapper = new EventWrapper(inputMultiplexer, blurShader, mainStage, topStage);
+	private final ModalManager modalManager = ModalManager.initialize(inputMultiplexer, blurShader, mainStage, topStage);
 	private final InfinityBackground infinityBackground = new InfinityBackground("night-city");
 	public static Engine engine = null;
 
 	public MainScreen(HotelType hotelType, DifficultyLevel difficultyLevel) {
 		engine = new Engine(hotelType, difficultyLevel);
-		engine.eventHandler.setEventHandlerFunction(eventWrapper::showEvent);
-		inputMultiplexer.setOpenOptionsAction(optionsWrapper.getOptionHandler());
 		setupUI();
 	}
 
@@ -51,7 +47,7 @@ public class MainScreen implements Screen {
 		table.setFillParent(true);
 		table.add().uniform();
 		table.add(new NavbarTop("default")).growX();
-		table.add(new OptionButton(optionsWrapper.getOptionHandler())).uniform();
+		table.add(new OptionButton()).uniform();
 		table.row();
 		table.add();
 		table.add(frameStack).grow().center();
@@ -64,8 +60,7 @@ public class MainScreen implements Screen {
 
 		mainStage.addActor(stack);
 		middleStage.addActor(blurShader);
-		topStage.addActor(eventWrapper);
-		topStage.addActor(optionsWrapper);
+		topStage.addActor(modalManager);
 
 		Gdx.input.setInputProcessor(inputMultiplexer);
 	}
@@ -77,8 +72,8 @@ public class MainScreen implements Screen {
 	public void render(float delta) {
 		mainStage.act();
 		mainStage.draw();
-		blurShader.render();
-		if (eventWrapper.isEventOpen() || optionsWrapper.isModalOpen()) {
+		if (blurShader.isActive() || modalManager.isModalActive()) {
+			blurShader.render();
 			topStage.act();
 			topStage.draw();
 		}

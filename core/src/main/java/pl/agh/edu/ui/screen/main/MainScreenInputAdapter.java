@@ -1,20 +1,18 @@
 package pl.agh.edu.ui.screen.main;
 
 import static com.badlogic.gdx.Input.Keys.ESCAPE;
+import static com.badlogic.gdx.Input.Keys.GRAVE;
 
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
+import pl.agh.edu.engine.event.EventModalData;
+import pl.agh.edu.ui.component.modal.ModalManager;
+import pl.agh.edu.utils.LanguageString;
+
 public class MainScreenInputAdapter extends InputMultiplexer {
-
-	Runnable openOptionsAction;
-
 	public MainScreenInputAdapter(Stage stage) {
 		super(stage);
-	}
-
-	public void setOpenOptionsAction(Runnable openOptionsAction) {
-		this.openOptionsAction = openOptionsAction;
 	}
 
 	@Override
@@ -24,8 +22,20 @@ public class MainScreenInputAdapter extends InputMultiplexer {
 
 	@Override
 	public boolean keyUp(int keycode) {
-		if (keycode == ESCAPE && openOptionsAction != null) {
-			openOptionsAction.run();
+		ModalManager modalManager = ModalManager.getInstance();
+		if (keycode == ESCAPE) {
+			if (modalManager.isModalActive())
+				modalManager.closeModal();
+			else
+				modalManager.showOptionModal();
+			return true;
+		}
+		if (keycode == GRAVE) {
+			modalManager.showEventModal(
+					new EventModalData(
+							new LanguageString("test.test"),
+							new LanguageString("test.test"),
+							"event-icon-fair"));
 			return true;
 		}
 		return false;
