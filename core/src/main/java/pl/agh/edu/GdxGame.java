@@ -15,7 +15,6 @@ import pl.agh.edu.ui.screen.init.ScenarioScreen;
 
 public class GdxGame extends ApplicationAdapter {
 
-	public Engine engine;
 	private Screen currentScreen;
 	private Screen previousScreen;
 
@@ -38,10 +37,6 @@ public class GdxGame extends ApplicationAdapter {
 
 		if (currentScreen != null) {
 			currentScreen.render(Gdx.graphics.getDeltaTime());
-		}
-
-		if (engine != null) {
-			engine.time.update(Gdx.graphics.getDeltaTime());
 		}
 	}
 
@@ -69,6 +64,10 @@ public class GdxGame extends ApplicationAdapter {
 		currentScreen.show();
 	}
 
+	public Screen getCurrentScreen() {
+		return currentScreen;
+	}
+
 	public void changeScreen(Screen screen) {
 		previousScreen = currentScreen;
 		currentScreen = screen;
@@ -80,10 +79,6 @@ public class GdxGame extends ApplicationAdapter {
 		currentScreen = previousScreen;
 		previousScreen = temp;
 		setScreen(currentScreen);
-	}
-
-	public void createEngine(HotelType hotelType, DifficultyLevel difficultyLevel) {
-		engine = new Engine(hotelType, difficultyLevel);
 	}
 
 }

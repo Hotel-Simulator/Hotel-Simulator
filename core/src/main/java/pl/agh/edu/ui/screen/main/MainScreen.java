@@ -8,6 +8,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import pl.agh.edu.GdxGame;
 import pl.agh.edu.config.GraphicConfig;
+import pl.agh.edu.engine.Engine;
+import pl.agh.edu.engine.hotel.HotelType;
+import pl.agh.edu.engine.hotel.dificulty.DifficultyLevel;
 import pl.agh.edu.ui.component.background.InfinityBackground;
 import pl.agh.edu.ui.component.button.OptionButton;
 import pl.agh.edu.ui.component.modal.event.EventWrapper;
@@ -29,9 +32,11 @@ public class MainScreen implements Screen {
 	public final OptionsWrapper optionsWrapper = new OptionsWrapper(inputMultiplexer, blurShader, mainStage, topStage);
 	private final EventWrapper eventWrapper = new EventWrapper(inputMultiplexer, blurShader, mainStage, topStage);
 	private final InfinityBackground infinityBackground = new InfinityBackground("night-city");
+	public static Engine engine = null;
 
-	public MainScreen() {
-		game.engine.eventHandler.setEventHandlerFunction(eventWrapper::showEvent);
+	public MainScreen(HotelType hotelType, DifficultyLevel difficultyLevel) {
+		engine = new Engine(hotelType, difficultyLevel);
+		engine.eventHandler.setEventHandlerFunction(eventWrapper::showEvent);
 		inputMultiplexer.setOpenOptionsAction(optionsWrapper.getOptionHandler());
 		setupUI();
 	}
@@ -77,6 +82,8 @@ public class MainScreen implements Screen {
 			topStage.act();
 			topStage.draw();
 		}
+
+		engine.time.update(Gdx.graphics.getDeltaTime());
 	}
 
 	@Override

@@ -22,6 +22,7 @@ import pl.agh.edu.ui.language.LanguageChangeListener;
 import pl.agh.edu.ui.language.LanguageManager;
 import pl.agh.edu.ui.resolution.ResolutionChangeListener;
 import pl.agh.edu.ui.resolution.ResolutionManager;
+import pl.agh.edu.ui.screen.main.MainScreen;
 import pl.agh.edu.utils.LanguageString;
 
 public abstract class WrapperContainer<T extends Actor> extends Container<T> implements LanguageChangeListener, ResolutionChangeListener {
@@ -30,7 +31,7 @@ public abstract class WrapperContainer<T extends Actor> extends Container<T> imp
 	private Runnable resolutionChangeHandler;
 	private Runnable returnHandler;
 	protected Skin skin = GameSkin.getInstance();
-	protected Engine engine = ((GdxGame) Gdx.app.getApplicationListener()).engine;
+	protected Engine engine = MainScreen.engine;
 
 	public WrapperContainer(LanguageString languageString) {
 		this.languageString = languageString;
