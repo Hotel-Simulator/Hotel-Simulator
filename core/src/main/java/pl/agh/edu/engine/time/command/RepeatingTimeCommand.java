@@ -33,8 +33,7 @@ public class RepeatingTimeCommand extends Command {
 						(SerializableRunnable) kryo.readObject(input, ClosureSerializer.Closure.class),
 						kryo.readObject(input, LocalDateTime.class),
 						kryo.readObject(input, Long.class),
-						kryo.readObject(input, Boolean.class)
-				);
+						kryo.readObject(input, Boolean.class));
 			}
 		});
 	}

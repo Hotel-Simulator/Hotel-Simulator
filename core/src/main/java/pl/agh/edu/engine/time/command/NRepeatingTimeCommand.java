@@ -39,8 +39,7 @@ public class NRepeatingTimeCommand extends Command {
 						kryo.readObject(input, Long.class),
 						(SerializableRunnable) kryo.readObject(input, ClosureSerializer.Closure.class),
 						kryo.readObject(input, Long.class),
-						kryo.readObject(input, Boolean.class)
-				);
+						kryo.readObject(input, Boolean.class));
 			}
 		});
 	}
