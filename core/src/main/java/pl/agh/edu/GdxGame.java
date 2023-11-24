@@ -7,9 +7,6 @@ import com.badlogic.gdx.graphics.GL20;
 
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.config.LanguageConfig;
-import pl.agh.edu.engine.Engine;
-import pl.agh.edu.engine.hotel.HotelType;
-import pl.agh.edu.engine.hotel.dificulty.DifficultyLevel;
 import pl.agh.edu.ui.language.LanguageManager;
 import pl.agh.edu.ui.screen.init.ScenarioScreen;
 
