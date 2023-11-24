@@ -36,6 +36,7 @@ public class ScenarioPanel implements ResolutionChangeListener {
 	public final Table middleTable = new Table();
 	public final Table bottomTable = new Table();
 	private LanguageLabel titleLabel;
+	private ScenarioLabeledButton backButton;
 	private ScenarioLabeledButton nextButton;
 	private final Runnable goToDifficultyPanel;
 
@@ -45,6 +46,7 @@ public class ScenarioPanel implements ResolutionChangeListener {
 		createDifficultyButtons();
 		createTitleLabel();
 		createNextButton();
+		createBackButton();
 
 		setEventListeners();
 
@@ -62,7 +64,7 @@ public class ScenarioPanel implements ResolutionChangeListener {
 
 		addTitleLabelToFrame();
 		addScenarioButtonsToFrame();
-		addNextButtonToFrame();
+		addNextBackButtonsToFrame();
 
 		frame.add(topTable).height(sizes.getTopAndBottomTableHeight()).growX().row();
 		frame.add(middleTable).height(sizes.getMiddleTableHeight()).growX().row();
@@ -119,16 +121,27 @@ public class ScenarioPanel implements ResolutionChangeListener {
 		topTable.add(titleLabel);
 	}
 
+	private void addNextBackButtonsToFrame() {
+		Table playBack = new Table();
+		playBack.add(backButton).padRight(frame.getWidth() / 2);
+		playBack.add(nextButton);
+		bottomTable.add(playBack);
+	}
+
 	public void createNextButton() {
 		nextButton = new ScenarioLabeledButton(getNextButtonText());
 	}
 
-	public void addNextButtonToFrame() {
-		bottomTable.add(nextButton).growX().right().padRight(sizes.getPaddingHorizontal());
+	public void createBackButton() {
+		backButton = new ScenarioLabeledButton(getBackButtonText());
 	}
 
 	public LanguageString getNextButtonText() {
 		return new LanguageString("scenario.next.button");
+	}
+
+	public LanguageString getBackButtonText() {
+		return new LanguageString("init.back.button");
 	}
 
 	public void updateLabels() {

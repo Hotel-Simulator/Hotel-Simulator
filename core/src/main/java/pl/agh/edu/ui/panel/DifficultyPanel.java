@@ -1,9 +1,6 @@
 package pl.agh.edu.ui.panel;
 
 import static pl.agh.edu.ui.audio.SoundAudio.CLICK;
-import static pl.agh.edu.ui.utils.SkinFont.H1;
-import static pl.agh.edu.ui.utils.SkinFont.H2;
-import static pl.agh.edu.ui.utils.SkinFont.H3;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,7 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.engine.hotel.dificulty.DifficultyLevel;
@@ -28,7 +24,6 @@ import pl.agh.edu.ui.component.label.LanguageLabel;
 import pl.agh.edu.ui.resolution.ResolutionChangeListener;
 import pl.agh.edu.ui.resolution.ResolutionManager;
 import pl.agh.edu.ui.resolution.Size;
-import pl.agh.edu.ui.utils.SkinColor;
 import pl.agh.edu.utils.LanguageString;
 
 public class DifficultyPanel implements ResolutionChangeListener {
@@ -71,11 +66,11 @@ public class DifficultyPanel implements ResolutionChangeListener {
 		frame.setFillParent(true);
 		frame.background(skin.getDrawable("hotel-room"));
 
-		createTitleLabelTable();
+		addTitleLabelTable();
 		addDifficultyButtonsToFrame();
 		addPlayBackButtonsToFrame();
 
-		frame.add(topTable).left().height(sizes.getTopTableHeight()).expandX().row();
+		frame.add(topTable).left().height(sizes.getTopTableHeight()).expandX().growY().row();
 		frame.add(middleTable).left().height(sizes.getMiddleTableHeight()).expandX().row();
 		frame.add(bottomTable).height(sizes.getBottomTableHeight()).expandX().row();
 	}
@@ -107,12 +102,8 @@ public class DifficultyPanel implements ResolutionChangeListener {
 				.findFirst();
 	}
 
-	private void createTitleLabelTable() {
-		Table titleLabelTable = new Table();
-		titleLabelTable.setBackground(getTitleLabelBackground());
-		titleLabelTable.add(titleLabel).pad(DifficultyPanelStyle.PAD_VERTICAL, DifficultyPanelStyle.PAD_HORIZONTAL, DifficultyPanelStyle.PAD_VERTICAL,
-				DifficultyPanelStyle.PAD_HORIZONTAL);
-		topTable.add(titleLabelTable).bottom().padLeft(sizes.getLabelTableWidth()).growX();
+	private void addTitleLabelTable() {
+		topTable.add(titleLabel).padLeft(sizes.getLabelTableWidth()).growX();
 	}
 
 	private void addPlayBackButtonsToFrame() {
@@ -123,7 +114,7 @@ public class DifficultyPanel implements ResolutionChangeListener {
 	}
 
 	private void addDifficultyButtonsToFrame() {
-		buttonList.forEach(button -> middleTable.add(button).left().padBottom(sizes.getButtonPadBottom()).padLeft(sizes.getButtonPadLeft(buttonList.indexOf(
+		buttonList.forEach(button -> middleTable.add(button).left().padTop(sizes.getButtonPadTop()).padLeft(sizes.getButtonPadLeft(buttonList.indexOf(
 				button))).row());
 	}
 
@@ -145,12 +136,8 @@ public class DifficultyPanel implements ResolutionChangeListener {
 	}
 
 	public void createTitleLabel() {
-		titleLabel = new LanguageLabel(new LanguageString("difficulty.title"), DifficultyPanelStyle.getTitleFont());
+		titleLabel = new LanguageLabel(new LanguageString("difficulty.title"), DifficultyPanelStyle.getTitleLabelStyle().font.toString());
 		titleLabel.setStyle(DifficultyPanelStyle.getTitleLabelStyle());
-	}
-
-	private NinePatchDrawable getTitleLabelBackground() {
-		return new NinePatchDrawable(skin.getPatch("scenario-title"));
 	}
 
 	public void createPlayButton() {
@@ -166,7 +153,7 @@ public class DifficultyPanel implements ResolutionChangeListener {
 	}
 
 	public LanguageString getBackButtonText() {
-		return new LanguageString("difficulty.back.button");
+		return new LanguageString("init.back.button");
 	}
 
 	public void updateSizes() {
@@ -183,8 +170,6 @@ public class DifficultyPanel implements ResolutionChangeListener {
 	private static class DifficultyPanelStyle {
 		public static GameSkin skin = GameSkin.getInstance();
 		public static float largePaddingMultiplier = 1;
-		public static final float PAD_VERTICAL = 10f;
-		public static final float PAD_HORIZONTAL = 40f;
 
 		public static void updatePaddingMultiplier(Table frame) {
 			if (GraphicConfig.getResolution().SIZE.equals(Size.LARGE)) {
@@ -194,17 +179,11 @@ public class DifficultyPanel implements ResolutionChangeListener {
 			}
 		}
 
-		private static Label.LabelStyle getTitleLabelStyle() {
-			Label.LabelStyle titleLabelStyle = new Label.LabelStyle(skin.get(getTitleFont(), Label.LabelStyle.class));
-			titleLabelStyle.fontColor = SkinColor.ALERT.getColor(SkinColor.ColorLevel._500);
-			return titleLabelStyle;
-		}
-
-		public static String getTitleFont() {
+		public static Label.LabelStyle getTitleLabelStyle() {
 			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> H3.getWhiteVariantName();
-				case MEDIUM -> H2.getWhiteVariantName();
-				case LARGE -> H1.getWhiteVariantName();
+				case SMALL -> skin.get("scenario-title-panel-small", Label.LabelStyle.class);
+				case MEDIUM -> skin.get("scenario-title-panel-medium", Label.LabelStyle.class);
+				case LARGE -> skin.get("scenario-title-panel-large", Label.LabelStyle.class);
 			};
 		}
 	}
@@ -212,11 +191,11 @@ public class DifficultyPanel implements ResolutionChangeListener {
 	record DifficultyPanelSizes(Table frame){
 
 		public float getTopTableHeight(){
-			return 3*frame.getHeight()/9;
+			return 2*frame.getHeight()/9;
 		}
 
 		public float getMiddleTableHeight(){
-			return 4*frame.getHeight()/9;
+			return 5*frame.getHeight()/9;
 		}
 
 		public float getBottomTableHeight(){
@@ -228,11 +207,11 @@ public class DifficultyPanel implements ResolutionChangeListener {
 		}
 
 		public float getButtonPadLeft(int multiplier){
-			return frame.getWidth() / 6 + multiplier * frame.getWidth() / 12;
+			return frame.getWidth() / 6 + multiplier * frame.getWidth() / 10;
 		}
 
-		public float getButtonPadBottom(){
-			return DifficultyPanelStyle.largePaddingMultiplier * frame.getHeight() / 24;
+		public float getButtonPadTop(){
+			return DifficultyPanelStyle.largePaddingMultiplier * frame.getHeight() / 16;
 		}
 	}
 }
