@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalTime;
 import java.time.Year;
-import java.util.function.Consumer;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.Serializer;
@@ -35,7 +34,6 @@ public class EventHandler {
 	private final BuildingCostMultiplierHandler buildingCostHandler;
 	private final EventGenerator eventGenerator;
 	private final ClientNumberModificationEventHandler clientNumberModificationEventHandler;
-	private Consumer<EventModalData> eventHandlerFunction;
 
 	public static void kryoRegister() {
 		KryoConfig.kryo.register(EventHandler.class, new Serializer<EventHandler>() {
