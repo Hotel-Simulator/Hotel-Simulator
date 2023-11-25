@@ -370,9 +370,29 @@
 	}
 },
 "com.ray3k.tenpatch.TenPatchDrawable": {
-	"slider-background-10-patch": {
-		"region": "slider-background",
-		"horizontalStretchAreas": [ 44, 47, 52, 55 ],
+	"split-frame-up-10": {
+		"region": "split-frame-up",
+		"horizontalStretchAreas": [ 46, 47, 52, 53 ],
+		"verticalStretchAreas": [ 19, 20 ],
+		"tiling": false,
+		"minWidth": 100,
+		"minHeight": 40,
+		"rightWidth": 0,
+		"leftWidth": 0,
+		"bottomHeight": 0,
+		"topHeight": 0,
+		"offsetX": 0,
+		"offsetY": 0,
+		"offsetXspeed": 0,
+		"offsetYspeed": 0,
+		"frameDuration": 0.03,
+		"regions": [],
+		"playMode": 2,
+		"crushMode": 0
+	},
+	"split-frame-over-10": {
+		"region": "split-frame-over",
+		"horizontalStretchAreas": [ 46, 47, 52, 53 ],
 		"verticalStretchAreas": [ 19, 20 ],
 		"tiling": false,
 		"minWidth": 100,
@@ -513,8 +533,12 @@
 	}
 },
 "ButtonStyle": {
-	"default": {
-		"up": "underscore"
+	"clickable-table": {
+		"up": "clickable-table-background",
+		"down": "clickable-table-background-down",
+		"over": "clickable-table-background-over",
+		"disabled": "clickable-table-background-selected",
+		"checked": "clickable-table-background-selected"
 	},
 	"navbar-minus": {
 		"up": "button-time-minus-up",
@@ -579,12 +603,6 @@
 		"down": "selection-left-down-big",
 		"over": "selection-left-over-big",
 		"disabled": "selection-left-disabled-big"
-	},
-	"clickable-table": {
-		"up": "clickable-table-background",
-		"down": "clickable-table-background-down",
-		"over": "clickable-table-background-over",
-		"checked": "clickable-table-background-selected"
 	}
 },
 "CheckBoxStyle": {
@@ -687,6 +705,18 @@
 		"font": "white-h1",
 		"fontColor": "alert-500",
 		"background": "scenario-title"
+	},
+	"subtitle3": {
+		"font": "subtitle3"
+	},
+	"white-subtitle3": {
+		"font": "white-subtitle3"
+	},
+	"body3": {
+		"font": "body3"
+	},
+	"white-body3": {
+		"font": "white-body3"
 	}
 },
 "ListStyle": {
@@ -729,16 +759,23 @@
 		"font": "subtitle2",
 		"fontColor": "gray-000",
 		"disabledFontColor": "shadow",
+		"background": "select-box-background-up",
 		"scrollStyle": "default",
-		"listStyle": "selectMenu"
+		"listStyle": "selectMenu",
+		"backgroundOver": "select-box-background-over",
+		"backgroundOpen": "select-box-background-open-up",
+		"backgroundDisabled": "select-box-background-disabled"
 	},
 	"selectMenu": {
 		"font": "subtitle2",
 		"fontColor": "gray-000",
-		"background": "select-box-background",
+		"disabledFontColor": "shadow",
+		"background": "select-box-background-up",
 		"scrollStyle": "default",
 		"listStyle": "selectMenu",
-		"backgroundOpen": "select-box-background-open"
+		"backgroundOver": "select-box-background-over",
+		"backgroundOpen": "select-box-background-open-up",
+		"backgroundDisabled": "select-box-background-disabled"
 	}
 },
 "SliderStyle": {

@@ -4,6 +4,7 @@ import static com.badlogic.gdx.utils.Align.left;
 import static pl.agh.edu.ui.utils.SkinColor.GRAY;
 import static pl.agh.edu.ui.utils.SkinFont.BODY2;
 import static pl.agh.edu.ui.utils.SkinFont.H2;
+import static pl.agh.edu.ui.utils.SkinFont.H3;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -29,7 +30,7 @@ public class BankOffer extends ClickableTable {
 
 		String whiteFont = BODY2.getWhiteVariantName();
 		String blackFont = BODY2.getName();
-		String titleFont = H2.getWhiteVariantName();
+		String titleFont = H3.getWhiteVariantName();
 		String valueColor = GRAY.getName(SkinColor.ColorLevel._700);
 
 		LanguageLabel bankName = new LanguageLabel(bankData.name(), titleFont);
@@ -46,13 +47,6 @@ public class BankOffer extends ClickableTable {
 		button.add(bankAccountFee).padRight(50f).spaceBottom(20f).align(left);
 		button.add(bankAccountFeeValue).spaceBottom(40f).row();
 
-		WrapperTable buttonContainer2 = new ButtonContainer();
-
-		LanguageLabel changeBankLabel = new LanguageLabel(new LanguageString("bank.change"), whiteFont);
-		changeBankLabel.setBaseColor(GRAY);
-
-		buttonContainer2.innerTable.add(changeBankLabel).padRight(20f).padLeft(20f);
-		button.add(buttonContainer2).colspan(2).spaceBottom(50f).row();
 	}
 
 	protected void changeSize() {
@@ -67,9 +61,9 @@ public class BankOffer extends ClickableTable {
 	public static class BankOfferStyle {
 		public static float getHeight() {
 			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> 300f;
-				case MEDIUM -> 350f;
-				case LARGE -> 400f;
+				case SMALL -> 400f;
+				case MEDIUM -> 450f;
+				case LARGE -> 500f;
 			};
 		}
 	}
