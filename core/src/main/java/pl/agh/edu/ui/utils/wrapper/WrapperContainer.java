@@ -132,7 +132,7 @@ public abstract class WrapperContainer<T extends Actor> extends Container<T> imp
 	}
 
 	public void runVerticalFadeOutAnimation() {
-		this.runFadeOutAnimation(0f, 50f, 0.5f, fade);
+		this.runFadeOutAnimation(0f, 50f, 0.2f, fade);
 	}
 
 	public void runVerticalTrainInAnimation() {
@@ -140,7 +140,7 @@ public abstract class WrapperContainer<T extends Actor> extends Container<T> imp
 	}
 
 	public void runVerticalTrainOutAnimation() {
-		this.runFadeOutAnimation(0f, GraphicConfig.getResolution().HEIGHT, 0.5f, fade);
+		this.runFadeOutAnimation(0f, GraphicConfig.getResolution().HEIGHT, 0.2f, fade);
 	}
 
 	public void runHorizontalTrainInAnimation() {

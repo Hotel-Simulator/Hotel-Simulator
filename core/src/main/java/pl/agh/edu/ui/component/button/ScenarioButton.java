@@ -51,15 +51,15 @@ public class ScenarioButton extends WrapperContainer<Button> {
 
 	public void createActors() {
 		titleLabel = createLabel(scenarioButtonStyle.getTitleLabelPath(), scenarioButtonStyle.getTitleLabelFont(), (int) (scenarioButton.getHeight() / 30));
-		titleLabel.setAlignment(getAlign());
+		titleLabel.setAlignment(this.getAlign(), this.getAlign());
 
 		scenarioImage = new Image(skin.getDrawable(scenarioButtonStyle.getIconPath()));
 
 		descriptionLabel = createLabel(scenarioButtonStyle.getDescriptionLabelPath(), scenarioButtonStyle.getDescriptionLabelFont(), (int) (scenarioButton.getHeight() / 40));
-		descriptionLabel.setAlignment(getAlign());
+		descriptionLabel.setAlignment(this.getAlign(), this.getAlign());
 
 		seasonLabel = createLabel(scenarioButtonStyle.getSeasonLabelPath(), scenarioButtonStyle.getDescriptionLabelFont(), (int) (scenarioButton.getHeight() / 40));
-		seasonLabel.setAlignment(getAlign());
+		seasonLabel.setAlignment(this.getAlign(), this.getAlign());
 	}
 
 	public void createButton() {

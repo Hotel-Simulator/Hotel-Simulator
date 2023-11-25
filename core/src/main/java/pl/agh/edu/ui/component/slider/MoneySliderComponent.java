@@ -14,17 +14,17 @@ import pl.agh.edu.utils.LanguageString;
 
 public class MoneySliderComponent extends SliderComponent {
 	private static final MathContext fine = DECIMAL128;
-
 	private final BigDecimal maxMoneyValue;
 	private final BigDecimal minMoneyValue;
 	private final Function<BigDecimal, Void> stateChangeHandler;
 
-	public MoneySliderComponent(LanguageString languageString, BigDecimal minValue, BigDecimal maxValue, Function<BigDecimal, Void> stateChangeHandler) {
-		super(languageString, "$", logarithmicMapping(CustomBigDecimal.getMinValue(minValue)), logarithmicMapping(CustomBigDecimal.getMaxValue(maxValue)), 0.01f);
+	public MoneySliderComponent(LanguageString languageString, BigDecimal minValue, BigDecimal maxValue, Function<BigDecimal, Void> stateChangeHandler, BigDecimal startValue) {
+		super(languageString, "$", logarithmicMapping(CustomBigDecimal.getMinValue(minValue)), logarithmicMapping(CustomBigDecimal.getMaxValue(maxValue)), 0.001f);
 		this.maxMoneyValue = CustomBigDecimal.getMaxValue(maxValue);
 		this.minMoneyValue = CustomBigDecimal.getMinValue(minValue);
 		this.stateChangeHandler = stateChangeHandler;
-		valueLabel.setText(getSliderValue() + " " + suffix);
+		this.setValue(logarithmicMapping(startValue));
+		valueLabel.setText(startValue + " " + suffix);
 	}
 
 	private static float logarithmicMapping(BigDecimal value) {
@@ -56,6 +56,10 @@ public class MoneySliderComponent extends SliderComponent {
 
 	private CustomBigDecimal getSliderValue() {
 		return new CustomBigDecimal(reverseLogarithmicMapping(this.getValue()));
+	}
+
+	public void setValue(BigDecimal value) {
+		super.setValue(logarithmicMapping(value));
 	}
 
 	@Override

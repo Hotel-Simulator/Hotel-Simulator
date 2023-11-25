@@ -68,6 +68,10 @@ public class CustomTable<DataType> extends WrapperTable {
 		this.align(top);
 	}
 
+	public void clearTable() {
+		this.contentRows.clearChildren();
+	}
+
 	private void addRow(BaseRow baseRow, DataType dataType) {
 		zipLists(mapperList, sizeList).forEach(entry -> baseRow.insert(entry.first().apply(dataType), entry.second()));
 		contentRows.add(baseRow).growX()

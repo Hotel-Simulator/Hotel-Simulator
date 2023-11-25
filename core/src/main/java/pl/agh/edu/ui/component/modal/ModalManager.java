@@ -7,30 +7,24 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 
+import pl.agh.edu.engine.employee.PossibleEmployee;
+import pl.agh.edu.engine.employee.PossibleEmployeeHandler;
 import pl.agh.edu.engine.event.EventModalData;
+import pl.agh.edu.ui.component.modal.employee.HireEmployeeModalWrapper;
 import pl.agh.edu.ui.component.modal.event.EventWrapper;
 import pl.agh.edu.ui.component.modal.options.OptionsWrapper;
+import pl.agh.edu.ui.component.modal.utils.BaseModalWrapper;
 import pl.agh.edu.ui.shader.BlurShader;
 
 public class ModalManager extends Stack {
 	private static ModalManager instance;
-	private static InputMultiplexer inputMultiplexer;
-	private static BlurShader blurShader;
-	private static Stage mainStage;
-	private static Stage eventStage;
-	private final List<BaseModalWrapper> modalList = new ArrayList<>();
+	private static ModalPreferences modalPreferences;
+	private static final List<BaseModalWrapper> modalList = new ArrayList<>();
 
-	private ModalManager(
-			InputMultiplexer inputMultiplexer,
-			BlurShader blurShader,
-			Stage mainStage,
-			Stage eventStage) {
+	private ModalManager(ModalPreferences modalPreferences) {
 		super();
 		this.setFillParent(true);
-		ModalManager.inputMultiplexer = inputMultiplexer;
-		ModalManager.blurShader = blurShader;
-		ModalManager.mainStage = mainStage;
-		ModalManager.eventStage = eventStage;
+		ModalManager.modalPreferences = modalPreferences;
 	}
 
 	public static ModalManager getInstance() {
@@ -40,12 +34,21 @@ public class ModalManager extends Stack {
 		return instance;
 	}
 
-	public static ModalManager initialize(InputMultiplexer inputMultiplexer,
-			BlurShader blurShader,
-			Stage mainStage,
-			Stage eventStage) {
-		instance = new ModalManager(inputMultiplexer, blurShader, mainStage, eventStage);
+	public static ModalManager initialize(ModalPreferences modalPreferences) {
+		instance = new ModalManager(modalPreferences);
 		return instance;
+	}
+
+	public void showOptionModal() {
+		addModal(new OptionsWrapper(modalPreferences));
+	}
+
+	public void showEventModal(EventModalData eventModalData) {
+		addModal(new EventWrapper(modalPreferences, eventModalData));
+	}
+
+	public void showHireEmployeeModal(PossibleEmployee possibleEmployee, PossibleEmployeeHandler possibleEmployeeHandler, Runnable refreshAction) {
+		addModal(new HireEmployeeModalWrapper(modalPreferences, possibleEmployee, possibleEmployeeHandler, refreshAction));
 	}
 
 	private void addModal(BaseModalWrapper actor) {
@@ -54,28 +57,34 @@ public class ModalManager extends Stack {
 		this.add(actor);
 	}
 
-	public void showOptionModal() {
-		addModal(new OptionsWrapper(inputMultiplexer, blurShader, mainStage, eventStage));
-	}
-
-	public void showEventModal(EventModalData eventModalData) {
-		addModal(new EventWrapper(inputMultiplexer, blurShader, mainStage, eventStage, eventModalData));
-	}
-
 	public void closeModal() {
 		BaseModalWrapper currentModal = modalList.remove(0);
 		currentModal.closeModal();
-		if (!modalList.isEmpty()) {
-			BaseModalWrapper newModal = modalList.get(0);
-			newModal.openModal();
-		}
 	}
 
 	public boolean isModalActive() {
-		return modalList.size() > 0;
+		return !modalList.isEmpty();
 	}
 
 	public boolean isModalReadyToClose() {
-		return modalList.size() <= 1;
+		return modalList.isEmpty();
+	}
+
+	public boolean isModalOpen() {
+		return !this.getChildren().isEmpty();
+	}
+
+	public boolean isBlurActive() {
+		return modalPreferences.blurShader.isActive();
+	}
+
+	public record ModalPreferences(InputMultiplexer inputMultiplexer, BlurShader blurShader, Stage mainStage, Stage modalStage) {
+		public static ModalPreferences of(
+				InputMultiplexer inputMultiplexer,
+				BlurShader blurShader,
+				Stage mainStage,
+				Stage modalStage) {
+			return new ModalPreferences(inputMultiplexer, blurShader, mainStage, modalStage);
+		}
 	}
 }
