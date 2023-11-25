@@ -9,8 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import pl.agh.edu.GdxGame;
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.engine.Engine;
-import pl.agh.edu.engine.hotel.HotelType;
-import pl.agh.edu.engine.hotel.dificulty.DifficultyLevel;
 import pl.agh.edu.ui.component.background.InfinityBackground;
 import pl.agh.edu.ui.component.button.OptionButton;
 import pl.agh.edu.ui.component.modal.ModalManager;
@@ -21,6 +19,7 @@ import pl.agh.edu.ui.shader.BlurShader;
 
 public class MainScreen implements Screen {
 
+	public static Engine engine = null;
 	public final GdxGame game = (GdxGame) Gdx.app.getApplicationListener();
 	public final FrameStack frameStack = new FrameStack();
 	private final Stage mainStage = new Stage(GraphicConfig.getViewport());
@@ -30,10 +29,8 @@ public class MainScreen implements Screen {
 	private final MainScreenInputAdapter inputMultiplexer = new MainScreenInputAdapter(mainStage);
 	private final ModalManager modalManager = ModalManager.initialize(inputMultiplexer, blurShader, mainStage, topStage);
 	private final InfinityBackground infinityBackground = new InfinityBackground("night-city");
-	public static Engine engine = null;
 
-	public MainScreen(HotelType hotelType, DifficultyLevel difficultyLevel) {
-		engine = new Engine(hotelType, difficultyLevel);
+	public MainScreen() {
 		setupUI();
 	}
 
