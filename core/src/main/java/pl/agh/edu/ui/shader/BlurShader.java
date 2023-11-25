@@ -70,7 +70,7 @@ public class BlurShader extends WrapperContainer<Image> {
 
 	public void stopBlur() {
 		stateOfTransition = StateOfTransition.CLOSING;
-		deltaFactor = -0.90f;
+		deltaFactor = -0.70f;
 	}
 
 	private Texture blurTexture() {
@@ -154,12 +154,17 @@ public class BlurShader extends WrapperContainer<Image> {
 	}
 
 	public void render() {
+		actAndDrawAdditionalStages();
+		this.updateState();
+	}
+
+	public boolean isActive() {
 		switch (stateOfTransition) {
 			case OPENING, CLOSING, OPEN -> {
-				actAndDrawAdditionalStages();
-				this.updateState();
+				return true;
 			}
 		}
+		return false;
 	}
 
 	private void actAndDrawAdditionalStages() {

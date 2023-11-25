@@ -3,13 +3,11 @@ package pl.agh.edu.ui.component.navbar;
 import static com.badlogic.gdx.utils.Align.center;
 import static pl.agh.edu.ui.utils.SkinFont.H4;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-
 import pl.agh.edu.ui.component.label.CustomLabel;
 import pl.agh.edu.ui.utils.wrapper.WrapperTable;
 
 public class MoneyPanel extends WrapperTable {
-	private final Label moneyLabel = new MoneyLabel();
+	private final CustomLabel moneyLabel = new MoneyLabel();
 
 	public MoneyPanel() {
 		innerTable.add(moneyLabel).grow().center();
@@ -24,8 +22,8 @@ public class MoneyPanel extends WrapperTable {
 		public MoneyLabel() {
 			super(H4.getName());
 			this.setBackground("label-money-background");
-			this.setText("100$");
-			this.setAlignment(center, center);
+			label.setText("100$");
+			label.setAlignment(center, center);
 		}
 	}
 }
