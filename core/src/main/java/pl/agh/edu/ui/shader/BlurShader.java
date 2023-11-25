@@ -70,7 +70,7 @@ public class BlurShader extends WrapperContainer<Image> {
 
 	public void stopBlur() {
 		stateOfTransition = StateOfTransition.CLOSING;
-		deltaFactor = -0.90f;
+		deltaFactor = -0.70f;
 	}
 
 	private Texture blurTexture() {

@@ -8,17 +8,17 @@ import java.util.function.Consumer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
+import pl.agh.edu.ui.component.label.CustomLabel;
 import pl.agh.edu.ui.utils.wrapper.WrapperTable;
 
 public abstract class BaseSelection<T> extends WrapperTable {
 	private final Button leftButton = new Button(skin, "selection-left");
 	private final Button rightButton = new Button(skin, "selection-right");
 	private T value;
-	private final Label label;
+	private final CustomLabel label;
 
-	public BaseSelection(T value, Label label, Consumer<T> action) {
+	public BaseSelection(T value, CustomLabel label, Consumer<T> action) {
 		this.value = value;
 		this.label = label;
 		leftButton.addListener(new InputListener() {
@@ -83,7 +83,7 @@ public abstract class BaseSelection<T> extends WrapperTable {
 
 	protected abstract void previousButtonHandler();
 
-	protected abstract void updateLabel(Label label);
+	protected abstract void updateLabel(CustomLabel label);
 
 	public void updateLabel() {
 		updateLabel(label);
