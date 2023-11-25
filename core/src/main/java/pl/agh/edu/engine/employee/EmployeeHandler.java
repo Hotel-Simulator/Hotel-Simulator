@@ -13,7 +13,6 @@ import static pl.agh.edu.engine.employee.contract.TypeOfContract.PERMANENT;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
