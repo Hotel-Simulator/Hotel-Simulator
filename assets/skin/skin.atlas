@@ -140,22 +140,6 @@ size: 2048, 2048
 format: RGBA8888
 filter: Linear, Linear
 repeat: none
-bank-offer-background
-  rotate: false
-  xy: 1537, 1407
-  size: 203, 58
-  split: 19, 19, 19, 19
-  orig: 203, 58
-  offset: 0, 0
-  index: -1
-clickable-table-background
-  rotate: false
-  xy: 1537, 1407
-  size: 203, 58
-  split: 19, 19, 19, 19
-  orig: 203, 58
-  offset: 0, 0
-  index: -1
 body1
   rotate: false
   xy: 1023, 477
@@ -259,6 +243,14 @@ button3
   xy: 1029, 1093
   size: 506, 78
   orig: 506, 78
+  offset: 0, 0
+  index: -1
+clickable-table-background
+  rotate: false
+  xy: 1537, 1407
+  size: 203, 58
+  split: 19, 19, 19, 19
+  orig: 203, 58
   offset: 0, 0
   index: -1
 console
@@ -846,81 +838,6 @@ size: 1024, 1024
 format: RGBA8888
 filter: Linear, Linear
 repeat: none
-bank-offer-background-down
-  rotate: false
-  xy: 185, 712
-  size: 40, 40
-  split: 19, 19, 19, 19
-  orig: 40, 40
-  offset: 0, 0
-  index: -1
-clickable-table-background-down
-  rotate: false
-  xy: 185, 712
-  size: 40, 40
-  split: 19, 19, 19, 19
-  orig: 40, 40
-  offset: 0, 0
-  index: -1
-text-button-small-down
-  rotate: false
-  xy: 185, 712
-  size: 40, 40
-  split: 19, 20, 19, 20
-  pad: 19, 19, 19, 19
-  orig: 40, 40
-  offset: 0, 0
-  index: -1
-bank-offer-background-over
-  rotate: false
-  xy: 247, 754
-  size: 40, 40
-  split: 19, 19, 19, 19
-  orig: 40, 40
-  offset: 0, 0
-  index: -1
-clickable-table-background-over
-  rotate: false
-  xy: 247, 754
-  size: 40, 40
-  split: 19, 19, 19, 19
-  orig: 40, 40
-  offset: 0, 0
-  index: -1
-text-button-small-over
-  rotate: false
-  xy: 247, 754
-  size: 40, 40
-  split: 19, 20, 19, 20
-  pad: 19, 19, 19, 19
-  orig: 40, 40
-  offset: 0, 0
-  index: -1
-bank-offer-background-selected
-  rotate: false
-  xy: 205, 754
-  size: 40, 40
-  split: 19, 19, 19, 19
-  orig: 40, 40
-  offset: 0, 0
-  index: -1
-clickable-table-background-selected
-  rotate: false
-  xy: 205, 754
-  size: 40, 40
-  split: 19, 19, 19, 19
-  orig: 40, 40
-  offset: 0, 0
-  index: -1
-text-button-small-disabled
-  rotate: false
-  xy: 205, 754
-  size: 40, 40
-  split: 19, 20, 19, 20
-  pad: 19, 19, 19, 19
-  orig: 40, 40
-  offset: 0, 0
-  index: -1
 button-time-minus-down
   rotate: false
   xy: 83, 561
@@ -1110,6 +1027,57 @@ checkbox-on-up
   rotate: false
   xy: 227, 712
   size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+clickable-table-background-down
+  rotate: false
+  xy: 185, 712
+  size: 40, 40
+  split: 19, 19, 19, 19
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+text-button-small-down
+  rotate: false
+  xy: 185, 712
+  size: 40, 40
+  split: 19, 20, 19, 20
+  pad: 19, 19, 19, 19
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+clickable-table-background-over
+  rotate: false
+  xy: 247, 754
+  size: 40, 40
+  split: 19, 19, 19, 19
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+text-button-small-over
+  rotate: false
+  xy: 247, 754
+  size: 40, 40
+  split: 19, 20, 19, 20
+  pad: 19, 19, 19, 19
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+clickable-table-background-selected
+  rotate: false
+  xy: 205, 754
+  size: 40, 40
+  split: 19, 19, 19, 19
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+text-button-small-disabled
+  rotate: false
+  xy: 205, 754
+  size: 40, 40
+  split: 19, 20, 19, 20
+  pad: 19, 19, 19, 19
   orig: 40, 40
   offset: 0, 0
   index: -1
