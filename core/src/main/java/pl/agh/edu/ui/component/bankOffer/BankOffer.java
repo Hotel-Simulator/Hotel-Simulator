@@ -1,6 +1,8 @@
 package pl.agh.edu.ui.component.bankOffer;
 
+import static com.badlogic.gdx.utils.Align.center;
 import static com.badlogic.gdx.utils.Align.left;
+import static com.badlogic.gdx.utils.Align.right;
 import static pl.agh.edu.ui.utils.SkinColor.GRAY;
 import static pl.agh.edu.ui.utils.SkinFont.BODY2;
 import static pl.agh.edu.ui.utils.SkinFont.H3;
@@ -15,12 +17,11 @@ import pl.agh.edu.engine.bank.BankAccount;
 import pl.agh.edu.ui.component.ClickableTable;
 import pl.agh.edu.ui.component.label.LanguageLabel;
 import pl.agh.edu.ui.utils.SkinColor;
-import pl.agh.edu.ui.utils.wrapper.WrapperTable;
 import pl.agh.edu.utils.LanguageString;
 
 public class BankOffer extends ClickableTable {
 
-	BankData bankData;
+	public final BankData bankData;
 	BankAccount bankAccount = ((GdxGame) Gdx.app.getApplicationListener()).engine.hotelHandler.bankAccount;
 
 	public BankOffer(BankData bankData) {
@@ -34,7 +35,8 @@ public class BankOffer extends ClickableTable {
 
 		LanguageLabel bankName = new LanguageLabel(bankData.name(), titleFont);
 		bankName.setBaseColor(GRAY);
-		button.add(bankName).colspan(2).spaceBottom(20f).row();
+		bankName.setAlignment(center, center);
+		button.add(bankName).width(500f).colspan(2).spaceBottom(20f).row();
 
 		LanguageLabel creditInterestRate = new LanguageLabel(new LanguageString("bank.credit.interest"), blackFont);
 		Label creditInterestRateValue = new Label(bankData.accountDetails().creditInterestRate() + "%", skin, whiteFont, valueColor);
@@ -42,9 +44,9 @@ public class BankOffer extends ClickableTable {
 		Label bankAccountFeeValue = new Label(bankData.accountDetails().accountFee() + "$", skin, whiteFont, valueColor);
 
 		button.add(creditInterestRate).padRight(50f).spaceBottom(20f).align(left);
-		button.add(creditInterestRateValue).spaceBottom(20f).row();
+		button.add(creditInterestRateValue).spaceBottom(20f).align(right).row();
 		button.add(bankAccountFee).padRight(50f).spaceBottom(20f).align(left);
-		button.add(bankAccountFeeValue).spaceBottom(40f).row();
+		button.add(bankAccountFeeValue).spaceBottom(40f).align(right).row();
 
 	}
 
@@ -60,17 +62,10 @@ public class BankOffer extends ClickableTable {
 	public static class BankOfferStyle {
 		public static float getHeight() {
 			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> 400f;
-				case MEDIUM -> 450f;
-				case LARGE -> 500f;
+				case SMALL -> 200f;
+				case MEDIUM -> 250f;
+				case LARGE -> 300f;
 			};
-		}
-	}
-
-	static class ButtonContainer extends WrapperTable {
-		public ButtonContainer() {
-			super();
-			setBackground("text-button-medium-up");
 		}
 	}
 }
