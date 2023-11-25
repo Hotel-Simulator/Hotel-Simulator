@@ -1,7 +1,6 @@
 package pl.agh.edu.ui.frame;
 
 import pl.agh.edu.ui.component.label.CustomLabel;
-import pl.agh.edu.ui.screen.main.MainScreen;
 import pl.agh.edu.ui.utils.SkinFont;
 import pl.agh.edu.utils.LanguageString;
 
@@ -10,7 +9,7 @@ public class TestFrame extends BaseFrame {
 		super(languageString);
 
 		CustomLabel label = new CustomLabel(SkinFont.H4.getWhiteVariantName());
-		label.setText(MainScreen.engine.toString());
+		label.setText("Test");
 		label.makeItLink(() -> {});
 		label.setUnderscore(true);
 
