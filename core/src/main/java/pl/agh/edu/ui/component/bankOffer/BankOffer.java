@@ -3,7 +3,6 @@ package pl.agh.edu.ui.component.bankOffer;
 import static com.badlogic.gdx.utils.Align.left;
 import static pl.agh.edu.ui.utils.SkinColor.GRAY;
 import static pl.agh.edu.ui.utils.SkinFont.BODY2;
-import static pl.agh.edu.ui.utils.SkinFont.H2;
 import static pl.agh.edu.ui.utils.SkinFont.H3;
 
 import com.badlogic.gdx.Gdx;

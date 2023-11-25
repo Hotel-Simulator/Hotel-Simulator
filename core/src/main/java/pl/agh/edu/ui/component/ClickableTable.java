@@ -25,8 +25,8 @@ public abstract class ClickableTable extends WrapperContainer<Button> {
 		button.addListener(new InputListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int butt) {
-				if(!button.isChecked()) {
-					if(buttonGroup != null)
+				if (!button.isChecked()) {
+					if (buttonGroup != null)
 						for (Button button : buttonGroup.getButtons()) {
 							button.setDisabled(false);
 						}
@@ -38,7 +38,7 @@ public abstract class ClickableTable extends WrapperContainer<Button> {
 
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int butt) {
-				if(button.isChecked()) {
+				if (button.isChecked()) {
 					selectAction();
 					button.setDisabled(true);
 				}
@@ -56,7 +56,7 @@ public abstract class ClickableTable extends WrapperContainer<Button> {
 				if (pointer == -1) {
 					Gdx.graphics.setSystemCursor(Arrow);
 				}
-				if(button.isChecked())
+				if (button.isChecked())
 					Gdx.graphics.setSystemCursor(Arrow);
 			}
 		});
