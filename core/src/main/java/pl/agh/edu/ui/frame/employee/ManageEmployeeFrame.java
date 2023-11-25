@@ -10,15 +10,20 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import pl.agh.edu.engine.employee.Employee;
+import pl.agh.edu.engine.employee.PossibleEmployee;
+import pl.agh.edu.ui.component.modal.ModalManager;
 import pl.agh.edu.ui.component.rating.Rating;
 import pl.agh.edu.ui.component.table.CustomTable;
 import pl.agh.edu.ui.frame.BaseFrame;
 import pl.agh.edu.utils.LanguageString;
 
 public class ManageEmployeeFrame extends BaseFrame {
+
+	private CustomTable<Employee> manageEmployeeTable;
+
 	public ManageEmployeeFrame() {
 		super(new LanguageString("frame.title.manage"));
-		CustomTable<Employee> hireEmployeeTable = new CustomTable.CustomTableBuilder<Employee>()
+		manageEmployeeTable = new CustomTable.CustomTableBuilder<Employee>()
 				.addColumn(new LanguageString("hireEmployeeTable.column.photo"), this::createPhoto, 2)
 				.addColumn(new LanguageString("hireEmployeeTable.column.name"), this::createName, 4)
 				.addColumn(new LanguageString("hireEmployeeTable.column.position"), this::createPosition, 4)
@@ -26,8 +31,16 @@ public class ManageEmployeeFrame extends BaseFrame {
 				.addColumn(new LanguageString("hireEmployeeTable.column.salary"), this::createJobSatisfaction, 3)
 				.build();
 
-		engine.hotelHandler.employeeHandler.getEmployees().forEach(hireEmployeeTable::addRow);
-		mainTable.add(hireEmployeeTable).grow();
+		refreshTable();
+		mainTable.add(manageEmployeeTable).grow();
+	}
+
+	private void refreshTable() {
+		manageEmployeeTable.clearTable();
+		engine.hotelHandler.employeeHandler.getEmployees()
+				.forEach(employee -> manageEmployeeTable.addRow(
+						employee,
+						() -> ModalManager.getInstance().showManageEmployeeModal(employee, engine.hotelHandler.employeeHandler, this::refreshTable)));
 	}
 
 	private Actor createPhoto(Employee possibleEmployee) {
