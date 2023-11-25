@@ -30,18 +30,18 @@ public class EventGenerator {
 
 	private static LanguageString getLanguageStringWithDateAndNoDays(String string, LocalDate date, int noDays) {
 		return new LanguageString(string, List.of(
-				Pair.of("{{date}}", date.format(formatter)),
-				Pair.of("{{noDays}}", String.valueOf(noDays))));
+				Pair.of("date", date.format(formatter)),
+				Pair.of("noDays", String.valueOf(noDays))));
 	}
 
 	private static LanguageString getLanguageStringWithNoDays(String string, int noDays) {
 		return new LanguageString(string, List.of(
-				Pair.of("{{noDays}}", String.valueOf(noDays))));
+				Pair.of("noDays", String.valueOf(noDays))));
 	}
 
 	private static LanguageString getLanguageStringWithModifierValue(String string, int modifierValueInPercent) {
 		return new LanguageString(string, List.of(
-				Pair.of("{{modifierValueInPercent}}", String.valueOf(modifierValueInPercent))));
+				Pair.of("modifierValueInPercent", String.valueOf(modifierValueInPercent))));
 	}
 
 	public List<ClientNumberModificationTemporaryEvent> generateClientNumberModificationRandomTemporaryEventsForYear(Year year) {

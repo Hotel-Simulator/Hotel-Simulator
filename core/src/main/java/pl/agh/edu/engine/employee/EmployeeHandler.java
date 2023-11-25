@@ -13,9 +13,10 @@ import static pl.agh.edu.engine.employee.contract.TypeOfContract.PERMANENT;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import pl.agh.edu.data.loader.JSONEmployeeDataLoader;
 import pl.agh.edu.engine.employee.contract.Offer;
@@ -24,7 +25,7 @@ import pl.agh.edu.engine.time.TimeCommandExecutor;
 import pl.agh.edu.engine.time.command.TimeCommand;
 
 public class EmployeeHandler {
-	private final List<Employee> employees;
+	private final ArrayList<Employee> employees;
 	private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
 	private final Time time = Time.getInstance();
 
@@ -82,8 +83,8 @@ public class EmployeeHandler {
 				.collect(Collectors.toList());
 	}
 
-	private List<Employee> getInitialEmployees() {
-		List<Employee> initialEmployees = Stream.of(
+	private ArrayList<Employee> getInitialEmployees() {
+		ArrayList<Employee> initialEmployees = new ArrayList<>(Arrays.asList(
 				new Employee(new PossibleEmployee.Builder()
 						.firstName("Jan")
 						.lastName("Kowalski")
@@ -139,7 +140,8 @@ public class EmployeeHandler {
 								.build())
 						.profession(RECEPTIONIST)
 						.build(),
-						new Offer(MORNING, BigDecimal.valueOf(4500), PERMANENT))).toList();
+						new Offer(MORNING, BigDecimal.valueOf(4500), PERMANENT))));
+
 		initialEmployees.forEach(employee -> employee.setStatus(HIRED_WORKING));
 
 		return initialEmployees;

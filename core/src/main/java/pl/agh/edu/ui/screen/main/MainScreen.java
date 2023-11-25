@@ -25,7 +25,7 @@ public class MainScreen implements Screen {
 	private final Stage topStage = new Stage(GraphicConfig.getViewport());
 	private final BlurShader blurShader = new BlurShader(mainStage, middleStage);
 	private final MainScreenInputAdapter inputMultiplexer = new MainScreenInputAdapter(mainStage);
-	private final ModalManager modalManager = ModalManager.initialize(inputMultiplexer, blurShader, mainStage, topStage);
+	private final ModalManager modalManager = ModalManager.initialize(ModalManager.ModalPreferences.of(inputMultiplexer, blurShader, mainStage, topStage));
 	private final InfinityBackground infinityBackground = new InfinityBackground("night-city");
 
 	public MainScreen() {
@@ -67,8 +67,10 @@ public class MainScreen implements Screen {
 	public void render(float delta) {
 		mainStage.act();
 		mainStage.draw();
-		if (blurShader.isActive() || modalManager.isModalActive()) {
+		if (blurShader.isActive()) {
 			blurShader.render();
+		}
+		if (modalManager.isModalOpen()) {
 			topStage.act();
 			topStage.draw();
 		}

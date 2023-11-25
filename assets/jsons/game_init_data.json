@@ -4,7 +4,8 @@
   "end_date": "2040-01-01",
 
   "employees_to_hire_list_size": 12,
-  "possible_employee_removal_probability": 0.05,
+  "every_day_possible_employee_removal_probability": 0.05,
+  "after_negative_response_possible_employee_removal_probability": 0.8,
   "room_fault_probability": 0.01,
 
   "difficulty_multiplier": {

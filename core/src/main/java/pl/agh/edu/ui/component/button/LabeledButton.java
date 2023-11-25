@@ -33,6 +33,14 @@ public class LabeledButton extends WrapperContainer<TextButton> {
 		button.setText(text);
 	}
 
+	public void setDisabled(boolean disabled) {
+		button.setDisabled(disabled);
+	}
+
+	public boolean isDisabled() {
+		return button.isDisabled();
+	}
+
 	private static class LabeledButtonStyle {
 
 		public static float getRadius(Size type) {

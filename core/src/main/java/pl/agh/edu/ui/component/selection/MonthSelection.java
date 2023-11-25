@@ -5,9 +5,8 @@ import static pl.agh.edu.ui.utils.SkinFont.BODY1;
 import java.time.YearMonth;
 import java.util.function.Consumer;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-
 import pl.agh.edu.engine.time.Time;
+import pl.agh.edu.ui.component.label.CustomLabel;
 import pl.agh.edu.ui.component.label.LanguageLabel;
 import pl.agh.edu.utils.LanguageString;
 
@@ -58,7 +57,7 @@ public class MonthSelection extends BaseSelection<YearMonth> {
 	}
 
 	@Override
-	protected void updateLabel(Label label) {
+	protected void updateLabel(CustomLabel label) {
 		if (label instanceof LanguageLabel) {
 			((LanguageLabel) label).updateLanguageString(getMonthLanguageString(getValue()));
 		}

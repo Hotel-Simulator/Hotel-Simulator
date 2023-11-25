@@ -69,7 +69,8 @@ public class JSONDataLoaderTest {
 			LocalDate startDate = JSONGameDataLoader.startDate;
 			LocalDate endDate = JSONGameDataLoader.endDate;
 			int employeesToHireListSize = JSONGameDataLoader.employeesToHireListSize;
-			double possibleEmployeeRemovalProbability = JSONGameDataLoader.possibleEmployeeRemovalProbability;
+			double possibleEmployeeRemovalProbability = JSONGameDataLoader.everyDayPossibleEmployeeRemovalProbability;
+			double afterNegativeResponsePossibleEmployeeRemovalProbability = JSONGameDataLoader.afterNegativeResponsePossibleEmployeeRemovalProbability;
 			double roomFaultProbability = JSONGameDataLoader.roomFaultProbability;
 		});
 	}
