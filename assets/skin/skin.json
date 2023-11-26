@@ -769,6 +769,14 @@
 		"backgroundOver": "select-box-background-over",
 		"backgroundOpen": "select-box-background-open-up",
 		"backgroundDisabled": "select-box-background-disabled"
+	},
+	"customSelectBox": {
+		"font": "subtitle2",
+		"fontColor": "gray-000",
+		"background": "full-select-box-background",
+		"scrollStyle": "default",
+		"listStyle": "selectMenu",
+		"backgroundOpen": "full-select-box-background-open"
 	}
 },
 "SliderStyle": {
@@ -891,6 +899,24 @@
 		"fontColor": "secondary-300",
 		"messageFont": "console",
 		"messageFontColor": "secondary-100"
+	},
+	"hotel_frame_small": {
+		"font": "subtitle1",
+		"fontColor": "gray-900",
+		"background": "text-field-background",
+		"cursor": "text-field-cursor"
+	},
+	"hotel_frame_medium": {
+		"font": "h4",
+		"fontColor": "gray-900",
+		"background": "text-field-background",
+		"cursor": "text-field-cursor"
+	},
+	"hotel_frame_large": {
+		"font": "h3",
+		"fontColor": "gray-900",
+		"background": "text-field-background",
+		"cursor": "text-field-cursor"
 	}
 },
 "TextTooltipStyle": {

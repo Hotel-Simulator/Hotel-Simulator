@@ -97,7 +97,7 @@ public class CustomSelectBox extends WrapperTable {
 
 	private class DropDownSelect extends SelectBox<SelectMenuItem> {
 		public DropDownSelect() {
-			super(skin.get("CustomSelectBox", SelectBox.SelectBoxStyle.class));
+			super(skin.get("customSelectBox", SelectBox.SelectBoxStyle.class));
 			setUpSelectionPane();
 			this.getList().setAlignment(center);
 		}

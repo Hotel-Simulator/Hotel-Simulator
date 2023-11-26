@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.Align;
 
 import pl.agh.edu.GdxGame;
 import pl.agh.edu.config.GraphicConfig;
+import pl.agh.edu.engine.hotel.HotelType;
 import pl.agh.edu.engine.opinion.OpinionHandler;
 import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.component.label.LanguageLabel;
@@ -56,8 +57,9 @@ public class HotelTable extends WrapperTable {
 	public void createLeftTable() {
 		leftTable.setBackground(background);
 		leftTable.pad(HotelTableStyles.getLeftTablePad());
+		HotelType hotelType = game.engine.hotelScenariosManager.hotelType;
 
-		Image scenarioImage = new Image(skin.getDrawable("resort-icon"));
+		Image scenarioImage = new Image(skin.getDrawable("hotel-table-"+hotelType.toString().toLowerCase()+"-icon"));
 		TextField hotelName = new HotelNameTextField(skin, HotelTableStyles.getTextFieldStyle());
 
 		leftTable.add(scenarioImage).grow().row();
@@ -93,7 +95,7 @@ public class HotelTable extends WrapperTable {
 
 		LanguageLabel title = new LanguageLabel(new LanguageString("hotelFrame.checkIn.label"), HotelTableStyles.getLabelsStyle());
 		title.setWrap(true);
-		title.setAlignment(Align.center);
+		title.setAlignment(Align.center, Align.center);
 
 		checkIn.add(title).grow().uniform();
 		checkIn.add(checkInSelectMenu).width(HotelTableStyles.getTimeSelectBoxWidth()).height(HotelTableStyles.getTimeSelectBoxHeight()).grow().uniform();
@@ -107,7 +109,7 @@ public class HotelTable extends WrapperTable {
 
 		LanguageLabel title = new LanguageLabel(new LanguageString("hotelFrame.checkOut.label"), HotelTableStyles.getLabelsStyle());
 		title.setWrap(true);
-		title.setAlignment(Align.center);
+		title.setAlignment(Align.center, Align.center);
 
 		checkOut.add(title).growX().uniform();
 		checkOut.add(checkOutSelectMenu).width(HotelTableStyles.getTimeSelectBoxWidth()).height(HotelTableStyles.getTimeSelectBoxHeight()).growX().uniform();
@@ -135,7 +137,6 @@ public class HotelTable extends WrapperTable {
 		workersTable.add(title).colspan(2).row();
 		workersTable.add(photo).expandX().uniform();
 		workersTable.add(value).expandX().uniform();
-		workersTable.debug();
 		return workersTable;
 	}
 
@@ -205,8 +206,8 @@ public class HotelTable extends WrapperTable {
 		public static float getLeftTableWidth() {
 			return switch (GraphicConfig.getResolution().SIZE) {
 				case SMALL -> 350f;
-				case MEDIUM -> 500f;
-				case LARGE -> 700f;
+				case MEDIUM -> 550f;
+				case LARGE -> 750f;
 			};
 		}
 
@@ -220,9 +221,9 @@ public class HotelTable extends WrapperTable {
 
 		public static float getRightTableWidth() {
 			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> 500f;
-				case MEDIUM -> 600f;
-				case LARGE -> 700f;
+				case SMALL -> 550f;
+				case MEDIUM -> 700f;
+				case LARGE -> 800f;
 			};
 		}
 
