@@ -15,7 +15,6 @@ import com.badlogic.gdx.utils.Align;
 import pl.agh.edu.GdxGame;
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.engine.hotel.HotelType;
-import pl.agh.edu.engine.opinion.OpinionHandler;
 import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.component.label.LanguageLabel;
 import pl.agh.edu.ui.component.rating.Rating;
@@ -131,7 +130,7 @@ public class HotelTable extends WrapperTable {
 
 		LanguageLabel title = new LanguageLabel(new LanguageString("hotelFrame.workers.label"), HotelTableStyles.getLabelsStyle());
 		Image photo = new Image(skin.getDrawable("default"));
-		String employees = String.valueOf(game.engine.hotelHandler.employeeHandler.getEmployees().size());
+		String employees = String.valueOf(game.engine.employeeHandler.getEmployees().size());
 		Label value = new Label(employees, skin, HotelTableStyles.getLabelsStyle());
 
 		workersTable.add(title).colspan(2).row();
@@ -154,7 +153,7 @@ public class HotelTable extends WrapperTable {
 	}
 
 	private void createRating() {
-		OptionalDouble ratingValue = OpinionHandler.getAvgRating();
+		OptionalDouble ratingValue = game.engine.opinionHandler.getAvgRating();
 		if (ratingValue.isPresent())
 			this.rating = new Rating((int) ratingValue.getAsDouble());
 		else {
@@ -167,7 +166,7 @@ public class HotelTable extends WrapperTable {
 		public static CustomSelectBox createSelectMenuForCheckIn(GdxGame game) {
 			Function<? super SelectMenuItem, Void> function = selectedOption -> {
 				if (selectedOption instanceof SelectMenuHourItem hourItem) {
-					game.engine.hotelHandler.hotel.setCheckInTime(hourItem.hour);
+					game.engine.hotel.setCheckInTime(hourItem.hour);
 				}
 				return null;
 			};
@@ -176,7 +175,7 @@ public class HotelTable extends WrapperTable {
 					SelectMenuHourItem.getArrayForCheckIn(),
 					function);
 
-			checkInSelectMenu.setItem(game.engine.hotelHandler.hotel.getCheckInTime().toString());
+			checkInSelectMenu.setItem(game.engine.hotel.getCheckInTime().toString());
 
 			return checkInSelectMenu;
 		}
@@ -184,7 +183,7 @@ public class HotelTable extends WrapperTable {
 		public static CustomSelectBox createSelectMenuForCheckOut(GdxGame game) {
 			Function<? super SelectMenuItem, Void> function = selectedOption -> {
 				if (selectedOption instanceof SelectMenuHourItem hourItem) {
-					game.engine.hotelHandler.hotel.setCheckOutTime(hourItem.hour);
+					game.engine.hotel.setCheckOutTime(hourItem.hour);
 				}
 				return null;
 			};
@@ -193,7 +192,7 @@ public class HotelTable extends WrapperTable {
 					SelectMenuHourItem.getArrayForCheckOut(),
 					function);
 
-			checkOutSelectMenu.setItem(game.engine.hotelHandler.hotel.getCheckOutTime().toString());
+			checkOutSelectMenu.setItem(game.engine.hotel.getCheckOutTime().toString());
 
 			return checkOutSelectMenu;
 		}

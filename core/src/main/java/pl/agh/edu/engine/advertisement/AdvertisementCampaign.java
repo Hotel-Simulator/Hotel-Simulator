@@ -20,7 +20,7 @@ public record AdvertisementCampaign(AdvertisementData advertisementData,
         return this.startDate.compareTo(o.startDate);
     }
 
-    static {
+    public static void kryoRegister() {
         KryoConfig.kryo.register(AdvertisementCampaign.class, new Serializer<AdvertisementCampaign>() {
             @Override
             public void write(Kryo kryo, Output output, AdvertisementCampaign object) {

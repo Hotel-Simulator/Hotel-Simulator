@@ -6,7 +6,7 @@ import pl.agh.edu.serialization.KryoConfig;
 
 public record Arrival(LocalTime time, ClientGroup clientGroup) implements Comparable<Arrival> {
 
-    static {
+    public static void kryoRegister() {
         KryoConfig.kryo.register(Arrival.class);
     }
 

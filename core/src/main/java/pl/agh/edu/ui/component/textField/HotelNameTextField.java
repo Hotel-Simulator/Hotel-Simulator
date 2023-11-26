@@ -17,7 +17,7 @@ public class HotelNameTextField extends TextField {
 
 	public HotelNameTextField(Skin skin, String style) {
 		super("", skin, style);
-		String hotelName = game.engine.hotelHandler.hotel.getHotelName();
+		String hotelName = game.engine.hotel.getHotelName();
 		setText(hotelName);
 
 		setMaxLength();
@@ -44,7 +44,7 @@ public class HotelNameTextField extends TextField {
 	}
 
 	public void saveTextOnChange() {
-		this.setTextFieldListener((textField, c) -> game.engine.hotelHandler.hotel.setHotelName(textField.getText()));
+		this.setTextFieldListener((textField, c) -> game.engine.hotel.setHotelName(textField.getText()));
 	}
 
 }

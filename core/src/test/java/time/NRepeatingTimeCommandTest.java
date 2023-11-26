@@ -33,7 +33,7 @@ public class NRepeatingTimeCommandTest {
 	@Test
 	public void testCounterDecrease() {
 		// Given
-		int N = 3;
+		long N = 3;
 		NRepeatingTimeCommand command = new NRepeatingTimeCommand(FREQUENCY, runnable, DUE_DATE_TIME, N);
 
 		// When
@@ -45,9 +45,24 @@ public class NRepeatingTimeCommandTest {
 	}
 
 	@Test
-	public void testCommandStops_ExecutedNTimes() {
+	public void testLastExecutedTime() {
 		// Given
-		int N = 1;
+		long N = 1;
+		NRepeatingTimeCommand command = new NRepeatingTimeCommand(FREQUENCY, runnable, DUE_DATE_TIME, N);
+
+		// When
+		command.execute();
+		command.execute();
+
+		// Then
+		verify(runnable, times(1)).run();
+		assertEquals(0, command.getCounter());
+	}
+
+	@Test
+	public void testLastTwoExecutedTimes() {
+		// Given
+		long N = 1;
 		NRepeatingTimeCommand command = new NRepeatingTimeCommand(FREQUENCY, runnable, DUE_DATE_TIME, N, runnableAfterLast);
 
 		// When
@@ -59,4 +74,18 @@ public class NRepeatingTimeCommandTest {
 		verify(runnableAfterLast, times(1)).run();
 	}
 
+	@Test
+	public void testLastNExecutedTimes() {
+		// Given
+		long N = 10;
+		NRepeatingTimeCommand command = new NRepeatingTimeCommand(FREQUENCY, runnable, DUE_DATE_TIME, N, runnableAfterLast);
+
+		// When
+		command.execute();
+		command.execute();
+
+		// Then
+		verify(runnable, times(2)).run();
+		verify(runnableAfterLast, times(0)).run();
+	}
 }

@@ -5,20 +5,40 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.Serializer;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
+
 import pl.agh.edu.engine.client.ClientGroupModifierSupplier;
 import pl.agh.edu.engine.event.ClientNumberModifier;
 import pl.agh.edu.engine.hotel.HotelVisitPurpose;
+import pl.agh.edu.serialization.KryoConfig;
 
 public class ClientNumberModificationEventHandler extends ClientGroupModifierSupplier {
-	private static ClientNumberModificationEventHandler instance;
-	private final List<ClientNumberModifier> modifiers = new ArrayList<>();
+	private final List<ClientNumberModifier> modifiers;
 
-	private ClientNumberModificationEventHandler() {}
+	public static void kryoRegister() {
+		KryoConfig.kryo.register(ClientNumberModificationEventHandler.class, new Serializer<ClientNumberModificationEventHandler>() {
+			@Override
+			public void write(Kryo kryo, Output output, ClientNumberModificationEventHandler object) {
+				kryo.writeObject(output, object.modifiers, KryoConfig.listSerializer(ClientNumberModifier.class));
+			}
 
-	public static ClientNumberModificationEventHandler getInstance() {
-		if (instance == null)
-			instance = new ClientNumberModificationEventHandler();
-		return instance;
+			@Override
+			public ClientNumberModificationEventHandler read(Kryo kryo, Input input, Class<? extends ClientNumberModificationEventHandler> type) {
+				return new ClientNumberModificationEventHandler(
+						kryo.readObject(input, List.class, KryoConfig.listSerializer(ClientNumberModifier.class)));
+			}
+		});
+	}
+
+	public ClientNumberModificationEventHandler() {
+		this.modifiers = new ArrayList<>();
+	}
+
+	private ClientNumberModificationEventHandler(List<ClientNumberModifier> modifiers) {
+		this.modifiers = modifiers;
 	}
 
 	public void add(ClientNumberModifier modifier) {

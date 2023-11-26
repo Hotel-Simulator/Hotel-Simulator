@@ -1,19 +1,17 @@
 package pl.agh.edu.engine.opinion;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 import pl.agh.edu.engine.client.ClientGroup;
 import pl.agh.edu.engine.employee.Employee;
 import pl.agh.edu.engine.room.Room;
-import pl.agh.edu.engine.time.Time;
 
 public class OpinionBuilder {
-	private static final Time time = Time.getInstance();
-
 	private OpinionBuilder() {}
 
-	public static void saveStartWaitingAtQueueData(ClientGroup clientGroup) {
-		clientGroup.opinion.queueWaiting.setStartDate(time.getTime());
+	public static void saveStartWaitingAtQueueData(ClientGroup clientGroup, LocalDateTime time) {
+		clientGroup.opinion.queueWaiting.setStartDate(time);
 	}
 
 	public static void saveRoomRepairingData(Employee technician, Room room) {
@@ -36,9 +34,9 @@ public class OpinionBuilder {
 		}
 	}
 
-	public static void saveReceptionData(Employee receptionist, ClientGroup clientGroup) {
+	public static void saveReceptionData(Employee receptionist, ClientGroup clientGroup, LocalDateTime time) {
 		clientGroup.opinion.employeesSatisfaction.addSatisfaction(receptionist.getSatisfaction());
-		clientGroup.opinion.queueWaiting.setEndDate(time.getTime());
+		clientGroup.opinion.queueWaiting.setEndDate(time);
 	}
 
 	public static void saveRoomGettingData(ClientGroup clientGroup, Room room, BigDecimal roomPrice) {

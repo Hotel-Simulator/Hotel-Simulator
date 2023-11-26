@@ -7,6 +7,10 @@ import pl.agh.edu.utils.LanguageString;
 public enum TypeOfContract {
 	PERMANENT;
 
+	public static void kryoRegister() {
+		KryoConfig.kryo.register(TypeOfContract.class);
+	}
+
 	public LanguageString getLanguageString() {
 		return new LanguageString("employee.contract." + name().toLowerCase());
 	}
@@ -14,9 +18,5 @@ public enum TypeOfContract {
 	@Override
 	public String toString() {
 		return LanguageManager.get(getLanguageString());
-	}
-
-	static {
-		KryoConfig.kryo.register(TypeOfContract.class);
 	}
 }

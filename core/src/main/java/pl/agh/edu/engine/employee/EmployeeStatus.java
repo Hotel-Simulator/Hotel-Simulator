@@ -7,7 +7,7 @@ public enum EmployeeStatus {
 	HIRED_WORKING,
 	FIRED_WORKING;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(EmployeeStatus.class);
 	}
 }

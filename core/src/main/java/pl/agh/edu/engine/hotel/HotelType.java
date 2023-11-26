@@ -7,7 +7,7 @@ public enum HotelType {
 	RESORT,
 	SANATORIUM;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(HotelType.class);
 	}
 }
