@@ -59,7 +59,7 @@ public class HotelTable extends WrapperTable {
 		leftTable.pad(HotelTableStyles.getLeftTablePad());
 		HotelType hotelType = game.engine.hotelScenariosManager.hotelType;
 
-		Image scenarioImage = new Image(skin.getDrawable("hotel-table-"+hotelType.toString().toLowerCase()+"-icon"));
+		Image scenarioImage = new Image(skin.getDrawable("hotel-table-" + hotelType.toString().toLowerCase() + "-icon"));
 		TextField hotelName = new HotelNameTextField(skin, HotelTableStyles.getTextFieldStyle());
 
 		leftTable.add(scenarioImage).grow().row();
