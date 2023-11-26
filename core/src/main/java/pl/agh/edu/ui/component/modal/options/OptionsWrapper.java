@@ -1,21 +1,16 @@
 package pl.agh.edu.ui.component.modal.options;
 
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import static pl.agh.edu.ui.component.modal.ModalManager.ModalPreferences;
 
 import pl.agh.edu.config.GraphicConfig;
-import pl.agh.edu.ui.component.modal.BaseModalWrapper;
-import pl.agh.edu.ui.shader.BlurShader;
+import pl.agh.edu.engine.time.Time;
+import pl.agh.edu.ui.component.modal.utils.BaseModalWrapper;
 
 public class OptionsWrapper extends BaseModalWrapper {
 	private final OptionModal optionModal = new OptionModal();
 
-	public OptionsWrapper(
-			InputMultiplexer inputMultiplexer,
-			BlurShader blurShader,
-			Stage mainStage,
-			Stage modalStage) {
-		super(inputMultiplexer, blurShader, mainStage, modalStage);
+	public OptionsWrapper(ModalPreferences modalPreferences) {
+		super(modalPreferences);
 		this.resize();
 		this.setResolutionChangeHandler(this::resize);
 	}
@@ -24,8 +19,12 @@ public class OptionsWrapper extends BaseModalWrapper {
 	public void openModal() {
 		if (isModalOpen())
 			return;
+		if (Time.getInstance().isRunning())
+			Time.getInstance().stop();
 		if (!isStageActive())
-			activatedStage();
+			modalPreferences.inputMultiplexer().setProcessors(modalPreferences.modalStage());
+		if (!isBlurActive())
+			modalPreferences.blurShader().startBlur();
 		this.setActor(optionModal);
 		optionModal.runVerticalFadeInAnimation();
 	}
@@ -34,8 +33,11 @@ public class OptionsWrapper extends BaseModalWrapper {
 	public void closeModal() {
 		if (!isModalOpen())
 			return;
-		if (isStageReadyToClose())
-			deactivatedStage();
+		if (isStageReadyToClose()) {
+			modalPreferences.inputMultiplexer().setProcessors(modalPreferences.mainStage());
+		}
+		if (isBlurActive())
+			modalPreferences.blurShader().stopBlur();
 		optionModal.runVerticalFadeOutAnimation();
 	}
 
@@ -49,19 +51,18 @@ public class OptionsWrapper extends BaseModalWrapper {
 	private static class OptionWrapperStyle {
 		public static float getHeight() {
 			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> 500f;
-				case MEDIUM -> 600f;
-				case LARGE -> 700f;
+				case SMALL -> 600f;
+				case MEDIUM -> 700f;
+				case LARGE -> 800f;
 			};
 		}
 
 		public static float getWidth() {
 			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> 700f;
+				case SMALL -> 600f;
 				case MEDIUM -> 800f;
-				case LARGE -> 1000f;
+				case LARGE -> 1100f;
 			};
 		}
 	}
-
 }

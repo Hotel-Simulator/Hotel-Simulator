@@ -174,7 +174,9 @@ public class EmployeeHandler {
 								.build())
 						.profession(RECEPTIONIST)
 						.build(),
-						new Offer(MORNING, BigDecimal.valueOf(4500), PERMANENT))).toList();
+						new Offer(MORNING, BigDecimal.valueOf(4500), PERMANENT)))
+				.collect(Collectors.toList());
+
 		initialEmployees.forEach(employee -> employee.setStatus(HIRED_WORKING));
 
 		return initialEmployees;

@@ -1,6 +1,5 @@
 name: 'Jira Ticket Validator'
 description: 'Validates if all commit messages, PR title, and branch name have a Jira ticket number.'
-author: 'Your Name'
 runs:
-  using: 'node12'
+  using: 'node16'
   main: 'jira-ticket-validator.js'

@@ -59,16 +59,19 @@ public class PossibleEmployeeHandler {
 	}
 
 	public void dailyUpdate() {
-		possibleEmployees.removeIf((employee -> RandomUtils.randomBooleanWithProbability(JSONGameDataLoader.possibleEmployeeRemovalProbability)));
+		possibleEmployees.removeIf((employee -> RandomUtils.randomBooleanWithProbability(JSONGameDataLoader.everyDayPossibleEmployeeRemovalProbability)));
 		IntStream.range(possibleEmployees.size(), JSONGameDataLoader.employeesToHireListSize)
 				.forEach(i -> possibleEmployees.add(PossibleEmployeeGenerator.generatePossibleEmployee()));
 	}
 
-	public void offerJob(PossibleEmployee possibleEmployee, Offer offer) {
+	public OfferResponse offerJob(PossibleEmployee possibleEmployee, Offer offer) {
 		if (possibleEmployee.offerJob(offer) == OfferResponse.POSITIVE) {
 			employeeHandler.hireEmployee(new Employee(possibleEmployee, offer));
 			possibleEmployees.remove(possibleEmployee);
+		} else if (RandomUtils.randomBooleanWithProbability(JSONGameDataLoader.afterNegativeResponsePossibleEmployeeRemovalProbability)) {
+			possibleEmployees.remove(possibleEmployee);
 		}
+		return possibleEmployee.offerJob(offer);
 	}
 
 }

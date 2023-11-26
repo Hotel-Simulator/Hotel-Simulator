@@ -3,34 +3,85 @@ package pl.agh.edu.ui.component.label;
 import static com.badlogic.gdx.utils.Align.left;
 import static com.badlogic.gdx.utils.Align.right;
 import static pl.agh.edu.ui.utils.SkinFont.SUBTITLE1;
+import static pl.agh.edu.ui.utils.SkinFont.SUBTITLE2;
+import static pl.agh.edu.ui.utils.SkinFont.SUBTITLE3;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.ui.utils.wrapper.WrapperTable;
 import pl.agh.edu.utils.LanguageString;
 
 public class ValueTag extends WrapperTable {
-	private final Label valueLabel = new Label("", skin, SUBTITLE1.getWhiteVariantName());
+	private final Actor valueLabel;
+	private final CustomLabel tagLabel;
+	private final Container<Image> separatorImageContainer = new Container<>(new Image(skin.getPatch("value-tag-separator")));
 
-	public ValueTag(LanguageString languageString, String value) {
-		super(languageString);
-		this.setBackground("value-tag-background");
+	private final Runnable updateHandler;
 
-		Label tagLabel = new Label("", skin, SUBTITLE1.getName());
-		innerTable.add(tagLabel).grow();
-		innerTable.add(valueLabel).grow();
-		innerTable.pad(ValueTagStyle.getPadding());
+	public ValueTag(LanguageString tagLanguageString, String value) {
+		super();
 
+		tagLabel = new LanguageLabel(tagLanguageString, ValueTagStyle.getFont());
+		CustomLabel valueLabel = new CustomLabel(ValueTagStyle.getFont());
 		valueLabel.setText(value);
+		this.valueLabel = valueLabel;
+
+		updateHandler = () -> {
+			tagLabel.setFont(ValueTagStyle.getFont());
+			valueLabel.setFont(ValueTagStyle.getFont());
+		};
+
 		valueLabel.setAlignment(right, right);
+
+		initLayout();
+	}
+
+	public ValueTag(LanguageString tagLanguageString, LanguageString valueLanguageString) {
+		super();
+		tagLabel = new LanguageLabel(tagLanguageString, ValueTagStyle.getFont());
+		LanguageLabel valueLabel = new LanguageLabel(valueLanguageString, ValueTagStyle.getFont());
+		this.valueLabel = valueLabel;
+
+		updateHandler = () -> {
+			tagLabel.setFont(ValueTagStyle.getFont());
+			valueLabel.setFont(ValueTagStyle.getFont());
+		};
+
+		valueLabel.setAlignment(right, right);
+
+		initLayout();
+	}
+
+	public ValueTag(LanguageString tagLanguageString, Actor component) {
+		super();
+		tagLabel = new LanguageLabel(tagLanguageString, SUBTITLE1.getName());
+		valueLabel = component;
+
+		updateHandler = () -> {
+			tagLabel.setFont(ValueTagStyle.getFont());
+		};
+
+		initLayout();
+	}
+
+	protected void initLayout() {
+		this.setBackground("value-tag-background");
 
 		tagLabel.setAlignment(left, left);
 
-		this.size(ValueTagStyle.getWidth(), ValueTagStyle.getHeight());
-		this.setLanguageChangeHandler(tagLabel::setText);
+		separatorImageContainer.fill();
+
+		innerTable.add(tagLabel).growX().uniform();
+		innerTable.add(separatorImageContainer).growY().width(2f);
+		innerTable.add(valueLabel).growX().uniform();
+		innerTable.setFillParent(true);
+
 		this.setResolutionChangeHandler(this::changeResolutionHandler);
+		this.onResolutionChange();
 	}
 
 	public void setValueColor(Color color) {
@@ -39,22 +90,25 @@ public class ValueTag extends WrapperTable {
 
 	private void changeResolutionHandler() {
 		this.size(ValueTagStyle.getWidth(), ValueTagStyle.getHeight());
+		separatorImageContainer.height(ValueTagStyle.getHeight());
+		innerTable.pad(ValueTagStyle.getPadding());
+		updateHandler.run();
 	}
 
 	private static class ValueTagStyle {
 		public static float getHeight() {
 			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> 40f;
-				case MEDIUM -> 50f;
-				case LARGE -> 60f;
+				case SMALL -> 55f;
+				case MEDIUM -> 70f;
+				case LARGE -> 90f;
 			};
 		}
 
 		public static float getWidth() {
 			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> 400f;
-				case MEDIUM -> 600f;
-				case LARGE -> 900f;
+				case SMALL -> 500f;
+				case MEDIUM -> 700f;
+				case LARGE -> 1000f;
 			};
 		}
 
@@ -66,5 +120,11 @@ public class ValueTag extends WrapperTable {
 			};
 		}
 
+		public static String getFont() {
+			return switch (GraphicConfig.getResolution().SIZE) {
+				case SMALL -> SUBTITLE3.getName();
+				case MEDIUM, LARGE -> SUBTITLE2.getName();
+			};
+		}
 	}
 }
