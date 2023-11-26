@@ -7,7 +7,7 @@ import pl.agh.edu.serialization.KryoConfig;
 
 public record Transaction(TransactionType type, BigDecimal value, LocalDateTime transactionTime) {
 
-    static {
+    public static void kryoRegister() {
         KryoConfig.kryo.register(Transaction.class);
     }
 }

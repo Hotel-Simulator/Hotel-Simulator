@@ -19,7 +19,7 @@ public class Credit {
 	public final BigDecimal valueWithInterest;
 	public final BigDecimal monthlyPayment;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(Credit.class, new Serializer<Credit>() {
 			@Override
 			public void write(Kryo kryo, Output output, Credit object) {

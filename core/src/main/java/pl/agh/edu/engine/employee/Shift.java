@@ -15,7 +15,7 @@ public enum Shift {
 	private final LocalTime startTime;
 	private final Duration duration = Duration.ofHours(8);
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(Shift.class);
 	}
 

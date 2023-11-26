@@ -14,7 +14,7 @@ public class RoomState {
 	private boolean isUnderRankChange = false;
 	private boolean isBeingBuild = false;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(RoomState.class, new Serializer<RoomState>() {
 			@Override
 			public void write(Kryo kryo, Output output, RoomState object) {

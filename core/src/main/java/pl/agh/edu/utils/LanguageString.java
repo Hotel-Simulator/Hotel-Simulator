@@ -1,6 +1,7 @@
 package pl.agh.edu.utils;
 
 import java.util.List;
+import java.util.Objects;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.Serializer;
@@ -13,7 +14,7 @@ public class LanguageString {
 	public final String path;
 	public final List<Pair<String, String>> replacementsList;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(LanguageString.class, new Serializer<LanguageString>() {
 			@Override
 			public void write(Kryo kryo, Output output, LanguageString object) {
@@ -42,5 +43,20 @@ public class LanguageString {
 
 	public LanguageString(String path) {
 		this(path, List.of());
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		LanguageString that = (LanguageString) o;
+		return Objects.equals(path, that.path) && Objects.equals(replacementsList, that.replacementsList);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(path, replacementsList);
 	}
 }

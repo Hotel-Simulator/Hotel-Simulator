@@ -6,7 +6,7 @@ public enum TransactionType {
 	INCOME,
 	EXPENSE;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(TransactionType.class);
 	}
 }

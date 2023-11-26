@@ -12,7 +12,7 @@ public enum AdvertisementType {
 	SOCIAL_MEDIA,
 	BOOKING_PORTALS_PROFILE;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(AdvertisementType.class);
 	}
 }
