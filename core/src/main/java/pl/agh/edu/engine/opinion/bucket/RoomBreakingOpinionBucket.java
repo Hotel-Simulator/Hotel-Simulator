@@ -15,7 +15,7 @@ public class RoomBreakingOpinionBucket extends OpinionBucket {
 	private boolean roomBroke = false;
 	private boolean repaired = false;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(RoomBreakingOpinionBucket.class, new Serializer<RoomBreakingOpinionBucket>() {
 			@Override
 			public void write(Kryo kryo, Output output, RoomBreakingOpinionBucket object) {

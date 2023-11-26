@@ -7,6 +7,10 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.Serializer;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
 import com.github.javafaker.Faker;
 
 import pl.agh.edu.data.loader.JSONClientDataLoader;
@@ -19,18 +23,35 @@ import pl.agh.edu.engine.hotel.dificulty.GameDifficultyManager;
 import pl.agh.edu.engine.opinion.OpinionHandler;
 import pl.agh.edu.engine.room.RoomRank;
 import pl.agh.edu.engine.room.RoomSize;
-import pl.agh.edu.engine.time.Time;
+import pl.agh.edu.serialization.KryoConfig;
 import pl.agh.edu.utils.Pair;
 import pl.agh.edu.utils.RandomUtils;
 
 public class ClientGenerator {
-
-	private final Time time = Time.getInstance();
+	private final GameDifficultyManager gameDifficultyManager;
+	private final OpinionHandler opinionHandler;
 	private static final Faker faker = new Faker(new Locale("en-GB"));
-	public final GameDifficultyManager gameDifficultyManager;
 
-	public ClientGenerator(GameDifficultyManager gameDifficultyManager) {
+	public static void kryoRegister() {
+		KryoConfig.kryo.register(ClientGenerator.class, new Serializer<ClientGenerator>() {
+			@Override
+			public void write(Kryo kryo, Output output, ClientGenerator object) {
+				kryo.writeObject(output, object.gameDifficultyManager);
+				kryo.writeObject(output, object.opinionHandler);
+			}
+
+			@Override
+			public ClientGenerator read(Kryo kryo, Input input, Class<? extends ClientGenerator> type) {
+				return new ClientGenerator(
+						kryo.readObject(input, GameDifficultyManager.class),
+						kryo.readObject(input, OpinionHandler.class));
+			}
+		});
+	}
+
+	public ClientGenerator(GameDifficultyManager gameDifficultyManager, OpinionHandler opinionHandler) {
 		this.gameDifficultyManager = gameDifficultyManager;
+		this.opinionHandler = opinionHandler;
 	}
 
 	public ClientGroup generateClientGroupForGivenHotelVisitPurpose(HotelVisitPurpose hotelVisitPurpose) {
@@ -50,9 +71,9 @@ public class ClientGenerator {
 	}
 
 	private BigDecimal getDesiredPricePerNight(RoomRank desiredRoomRank, RoomSize roomSize) {
-		double opinionModifier = (1. + JSONOpinionDataLoader.desiredPriceModifier * OpinionHandler.getOpinionModifier().doubleValue());
+		double opinionModifier = (1. + JSONOpinionDataLoader.desiredPriceModifier * opinionHandler.getOpinionModifier().doubleValue());
 		double meanPrice = JSONClientDataLoader.averagePricesPerNight.get(Pair.of(desiredRoomRank, roomSize)).doubleValue()
-				/ gameDifficultyManager.difficultyMultiplier
+				/ gameDifficultyManager.getDifficultyMultiplier()
 				* opinionModifier;
 		double variation = 0.2 * meanPrice;
 		return BigDecimal.valueOf(Math.round(RandomUtils.randomGaussian(meanPrice, variation)));
@@ -71,7 +92,7 @@ public class ClientGenerator {
 	private Duration getMaxWaitingTime(Duration basicMaxWaitingTime, int waitingTimeVariation) {
 		Duration maxWaitingTime = basicMaxWaitingTime.plusMinutes(RandomUtils.randomInt(-waitingTimeVariation, waitingTimeVariation));
 		Duration opinionBonus = Duration.ofMinutes((long) (maxWaitingTime.toMinutes()
-				* OpinionHandler.getOpinionModifier().doubleValue() * JSONOpinionDataLoader.maxWaitingTimeModifier));
+				* opinionHandler.getOpinionModifier().doubleValue() * JSONOpinionDataLoader.maxWaitingTimeModifier));
 		return maxWaitingTime.plus(opinionBonus);
 	}
 }

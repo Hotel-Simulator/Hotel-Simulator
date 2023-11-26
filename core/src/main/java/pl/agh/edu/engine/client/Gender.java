@@ -7,7 +7,7 @@ public enum Gender {
 	FEMALE,
 	OTHER;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(Gender.class);
 	}
 }
