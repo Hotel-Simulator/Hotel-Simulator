@@ -6,7 +6,6 @@ import static pl.agh.edu.engine.hotel.dificulty.DifficultyLevel.MEDIUM;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import pl.agh.edu.engine.hotel.dificulty.DifficultyLevel;
 import pl.agh.edu.engine.hotel.dificulty.GameDifficultyManager;
 
 public class GameDifficultyManagerTest {

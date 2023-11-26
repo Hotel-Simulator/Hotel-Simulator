@@ -1,8 +1,5 @@
 package pl.agh.edu;
 
-import static pl.agh.edu.engine.hotel.HotelType.CITY;
-import static pl.agh.edu.engine.hotel.dificulty.DifficultyLevel.MEDIUM;
-
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
