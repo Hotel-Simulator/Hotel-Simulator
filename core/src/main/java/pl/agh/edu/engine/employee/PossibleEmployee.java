@@ -19,7 +19,7 @@ public class PossibleEmployee {
 	public final EmploymentPreferences preferences;
 	public final Profession profession;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(PossibleEmployee.class, new Serializer<PossibleEmployee>() {
 			@Override
 			public void write(Kryo kryo, Output output, PossibleEmployee object) {

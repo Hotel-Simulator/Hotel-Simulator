@@ -18,7 +18,7 @@ public class QueueWaitingOpinionBucket extends OpinionBucket {
 	private LocalDateTime startDate;
 	private LocalDateTime endDate;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(QueueWaitingOpinionBucket.class, new Serializer<QueueWaitingOpinionBucket>() {
 			@Override
 			public void write(Kryo kryo, Output output, QueueWaitingOpinionBucket object) {

@@ -7,12 +7,24 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import pl.agh.edu.engine.client.report.ClientGroupNumberType;
+import pl.agh.edu.engine.client.report.collector.ClientGroupReportDataCollector;
 import pl.agh.edu.engine.client.report.data.ClientGroupReportData;
 import pl.agh.edu.engine.time.Time;
 
 public abstract class ClientGroupReportGenerator<T> {
+	protected final ClientGroupReportDataCollector clientGroupReportDataCollector;
+	protected final Time time;
 
-	protected static final Time time = Time.getInstance();
+	protected ClientGroupReportGenerator(ClientGroupReportDataCollector clientGroupReportDataCollector) {
+		this.time = Time.getInstance();
+		this.clientGroupReportDataCollector = clientGroupReportDataCollector;
+	}
+
+	protected ClientGroupReportGenerator(Time time,
+			ClientGroupReportDataCollector clientGroupReportDataCollector) {
+		this.time = time;
+		this.clientGroupReportDataCollector = clientGroupReportDataCollector;
+	}
 
 	private static BigDecimal getYearOnYearChangePercentage(int currentValue, int previousValue) {
 		return BigDecimal.valueOf((double) currentValue / (double) previousValue)

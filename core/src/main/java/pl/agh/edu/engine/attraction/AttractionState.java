@@ -10,7 +10,7 @@ public enum AttractionState {
 	INACTIVE,
 	OPENING;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(AttractionState.class);
 	}
 }

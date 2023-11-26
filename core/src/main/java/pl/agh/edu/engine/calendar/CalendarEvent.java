@@ -6,7 +6,7 @@ import pl.agh.edu.serialization.KryoConfig;
 import pl.agh.edu.utils.LanguageString;
 
 public record CalendarEvent(LocalDate date, LanguageString title, LanguageString description) implements Comparable<CalendarEvent> {
-    static {
+    public static void kryoRegister() {
         KryoConfig.kryo.register(CalendarEvent.class);
     }
 

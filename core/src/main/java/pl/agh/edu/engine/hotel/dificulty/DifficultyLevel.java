@@ -8,7 +8,7 @@ public enum DifficultyLevel {
 	HARD,
 	BRUTAL;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(DifficultyLevel.class);
 	}
 }

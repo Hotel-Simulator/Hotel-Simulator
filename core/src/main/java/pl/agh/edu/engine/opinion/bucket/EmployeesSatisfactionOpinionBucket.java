@@ -16,9 +16,9 @@ import com.esotericsoftware.kryo.io.Output;
 import pl.agh.edu.serialization.KryoConfig;
 
 public class EmployeesSatisfactionOpinionBucket extends OpinionBucket {
-	private final List<BigDecimal> satisfactions = new ArrayList<>();
+	private final List<BigDecimal> satisfactions;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(EmployeesSatisfactionOpinionBucket.class, new Serializer<EmployeesSatisfactionOpinionBucket>() {
 			@Override
 			public void write(Kryo kryo, Output output, EmployeesSatisfactionOpinionBucket object) {
@@ -28,20 +28,21 @@ public class EmployeesSatisfactionOpinionBucket extends OpinionBucket {
 
 			@Override
 			public EmployeesSatisfactionOpinionBucket read(Kryo kryo, Input input, Class<? extends EmployeesSatisfactionOpinionBucket> type) {
-				EmployeesSatisfactionOpinionBucket employeesSatisfactionOpinionBucket = new EmployeesSatisfactionOpinionBucket(
-						kryo.readObject(input, Integer.class));
-
-				List<BigDecimal> satisfactions = kryo.readObject(input, List.class, KryoConfig.listSerializer(BigDecimal.class));
-
-				employeesSatisfactionOpinionBucket.satisfactions.addAll(satisfactions);
-
-				return employeesSatisfactionOpinionBucket;
+				return new EmployeesSatisfactionOpinionBucket(
+						kryo.readObject(input, Integer.class),
+						kryo.readObject(input, List.class, KryoConfig.listSerializer(BigDecimal.class)));
 			}
 		});
 	}
 
 	public EmployeesSatisfactionOpinionBucket(int weight) {
 		super(weight);
+		this.satisfactions = new ArrayList<>();
+	}
+
+	private EmployeesSatisfactionOpinionBucket(int weight, List<BigDecimal> satisfactions) {
+		super(weight);
+		this.satisfactions = satisfactions;
 	}
 
 	public void addSatisfaction(BigDecimal satisfaction) {

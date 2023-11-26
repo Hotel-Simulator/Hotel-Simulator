@@ -7,7 +7,7 @@ public record Pair<F, S>(F first, S second) {
         return new Pair<>(first, second);
     }
 
-    static {
+    public static void kryoRegister() {
         KryoConfig.kryo.register(Pair.class);
     }
 }

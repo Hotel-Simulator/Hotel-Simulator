@@ -16,7 +16,7 @@ public class EmploymentPreferences {
 	public final BigDecimal desiredWage;
 	public final TypeOfContract desiredTypeOfContract;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(EmploymentPreferences.class, new Serializer<EmploymentPreferences>() {
 			@Override
 			public void write(Kryo kryo, Output output, EmploymentPreferences object) {

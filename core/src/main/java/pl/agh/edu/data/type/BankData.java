@@ -9,7 +9,7 @@ public record BankData(
         BankAccountDetails accountDetails
 ) {
 
-    static {
+    public static void kryoRegister() {
         KryoConfig.kryo.register(BankData.class);
     }
 }

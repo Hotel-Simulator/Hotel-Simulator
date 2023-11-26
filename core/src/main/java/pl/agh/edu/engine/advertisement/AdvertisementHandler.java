@@ -11,6 +11,11 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.Serializer;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
+
 import pl.agh.edu.data.loader.JSONAdvertisementDataLoader;
 import pl.agh.edu.engine.bank.BankAccountHandler;
 import pl.agh.edu.engine.client.ClientGroupModifierSupplier;
@@ -18,15 +23,50 @@ import pl.agh.edu.engine.hotel.HotelVisitPurpose;
 import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.engine.time.TimeCommandExecutor;
 import pl.agh.edu.engine.time.command.TimeCommand;
+import pl.agh.edu.serialization.KryoConfig;
 
 public class AdvertisementHandler extends ClientGroupModifierSupplier {
-	private final List<AdvertisementCampaign> advertisementCampaigns = new ArrayList<>();
-	private final Time time = Time.getInstance();
-	private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
+	private final Time time;
+	private final TimeCommandExecutor timeCommandExecutor;
 	private final BankAccountHandler bankAccountHandler;
+	private final List<AdvertisementCampaign> advertisementCampaigns;
+
+	public static void kryoRegister() {
+		KryoConfig.kryo.register(AdvertisementHandler.class, new Serializer<AdvertisementHandler>() {
+			@Override
+			public void write(Kryo kryo, Output output, AdvertisementHandler object) {
+				kryo.writeObject(output, object.time);
+				kryo.writeObject(output, object.timeCommandExecutor);
+				kryo.writeObject(output, object.bankAccountHandler);
+				kryo.writeObject(output, object.advertisementCampaigns, KryoConfig.listSerializer(AdvertisementCampaign.class));
+			}
+
+			@Override
+			public AdvertisementHandler read(Kryo kryo, Input input, Class<? extends AdvertisementHandler> type) {
+				return new AdvertisementHandler(
+						kryo.readObject(input, Time.class),
+						kryo.readObject(input, TimeCommandExecutor.class),
+						kryo.readObject(input, BankAccountHandler.class),
+						kryo.readObject(input, List.class, KryoConfig.listSerializer(AdvertisementCampaign.class)));
+			}
+		});
+	}
 
 	public AdvertisementHandler(BankAccountHandler bankAccountHandler) {
+		this.time = Time.getInstance();
+		this.timeCommandExecutor = TimeCommandExecutor.getInstance();
 		this.bankAccountHandler = bankAccountHandler;
+		this.advertisementCampaigns = new ArrayList<>();
+	}
+
+	private AdvertisementHandler(Time time,
+			TimeCommandExecutor timeCommandExecutor,
+			BankAccountHandler bankAccountHandler,
+			List<AdvertisementCampaign> advertisementCampaigns) {
+		this.time = time;
+		this.timeCommandExecutor = timeCommandExecutor;
+		this.bankAccountHandler = bankAccountHandler;
+		this.advertisementCampaigns = advertisementCampaigns;
 	}
 
 	public static BigDecimal getCampaignFullCost(AdvertisementType type, long noDays) {

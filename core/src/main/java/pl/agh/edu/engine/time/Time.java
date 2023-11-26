@@ -6,25 +6,68 @@ import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.Serializer;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
+
+import pl.agh.edu.serialization.KryoConfig;
+
 public class Time {
 	public static final int timeUnitInMinutes = 60;
 	public static final float interval = 1;
 	private static Time instance;
-	private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
+	private TimeCommandExecutor timeCommandExecutor;
 	private final List<Runnable> timeStopChangeHandlers = new ArrayList<>();
 	private final List<Runnable> timeStartChangeHandlers = new ArrayList<>();
 
 	public final LocalDateTime startingTime = LocalDateTime.of(2020, 1, 1, 0, 0);
-	private int minutes = startingTime.getMinute();
-	private int hours = startingTime.getHour();
-	private int days = startingTime.getDayOfMonth();
-	private int months = startingTime.getMonthValue();
-	private int years = startingTime.getYear();
+	private int minutes;
+	private int hours;
+	private int days;
+	private int months;
+	private int years;
 	private int acceleration = 1;
 	private boolean isRunning = false;
 	private float remaining = interval;
 
-	private Time() {}
+	public static void kryoRegister() {
+		KryoConfig.kryo.register(Time.class, new Serializer<Time>() {
+			@Override
+			public void write(Kryo kryo, Output output, Time object) {
+				kryo.writeObject(output, object.timeCommandExecutor);
+				kryo.writeObject(output, object.getTime());
+			}
+
+			@Override
+			public Time read(Kryo kryo, Input input, Class<? extends Time> type) {
+				Time time = Time.getInstance();
+
+				kryo.reference(time);
+
+				time.timeCommandExecutor = kryo.readObject(input, TimeCommandExecutor.class);
+				LocalDateTime currentTime = kryo.readObject(input, LocalDateTime.class);
+
+				time.minutes = currentTime.getMinute();
+				time.hours = currentTime.getHour();
+				time.days = currentTime.getDayOfMonth();
+				time.months = currentTime.getMonthValue();
+				time.years = currentTime.getYear();
+
+				return time;
+			}
+		});
+	}
+
+	private Time() {
+		this.timeCommandExecutor = TimeCommandExecutor.getInstance();
+		this.minutes = startingTime.getMinute();
+		this.hours = startingTime.getHour();
+		this.days = startingTime.getDayOfMonth();
+		this.months = startingTime.getMonthValue();
+		this.years = startingTime.getYear();
+
+	}
 
 	public static Time getInstance() {
 		if (instance == null) {

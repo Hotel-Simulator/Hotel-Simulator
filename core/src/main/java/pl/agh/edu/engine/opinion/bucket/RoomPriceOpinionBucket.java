@@ -15,7 +15,7 @@ public class RoomPriceOpinionBucket extends OpinionBucket {
 	private final BigDecimal maxPrice;
 	private BigDecimal offeredPrice;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(RoomPriceOpinionBucket.class, new Serializer<RoomPriceOpinionBucket>() {
 			@Override
 			public void write(Kryo kryo, Output output, RoomPriceOpinionBucket object) {

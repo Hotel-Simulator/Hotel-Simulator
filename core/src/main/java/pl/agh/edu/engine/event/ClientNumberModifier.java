@@ -15,7 +15,7 @@ import pl.agh.edu.serialization.KryoConfig;
 public class ClientNumberModifier {
 	private final EnumMap<HotelVisitPurpose, BigDecimal> value;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(ClientNumberModifier.class, new Serializer<ClientNumberModifier>() {
 			@Override
 			public void write(Kryo kryo, Output output, ClientNumberModifier object) {

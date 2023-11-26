@@ -9,7 +9,7 @@ public record BankAccountDetails(
         BigDecimal accountFee
 ) {
 
-    static {
+    public static void kryoRegister() {
         KryoConfig.kryo.register(BankAccountDetails.class);
     }
 }
