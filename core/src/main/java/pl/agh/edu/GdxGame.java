@@ -1,7 +1,7 @@
 package pl.agh.edu;
 
 import static pl.agh.edu.engine.hotel.HotelType.CITY;
-import static pl.agh.edu.engine.hotel.dificulty.DifficultyLevel.MEDIUM;
+import static pl.agh.edu.engine.hotel.dificulty.DifficultyLevel.EASY;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -11,17 +11,19 @@ import com.badlogic.gdx.graphics.GL20;
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.config.LanguageConfig;
 import pl.agh.edu.engine.Engine;
+import pl.agh.edu.serialization.GameSaveHandler;
 import pl.agh.edu.ui.language.LanguageManager;
 import pl.agh.edu.ui.screen.main.MainScreen;
 
 public class GdxGame extends ApplicationAdapter {
 
-	public final Engine engine = new Engine(CITY, MEDIUM);
+	public Engine engine;
 	private Screen currentScreen;
 	private Screen previousScreen;
 
 	@Override
 	public void create() {
+		engine = GameSaveHandler.getInstance().startNewGame("newGame", CITY, EASY);
 		LanguageManager.updateLanguage();
 
 		currentScreen = new MainScreen();
