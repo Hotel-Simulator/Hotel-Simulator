@@ -4,7 +4,14 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.Serializer;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
+
+import pl.agh.edu.data.type.BankData;
 import pl.agh.edu.engine.time.Time;
+import pl.agh.edu.serialization.KryoConfig;
 
 public class BankAccount {
 	private final Time time;
@@ -49,11 +56,11 @@ public class BankAccount {
 	}
 
 	private BankAccount(Time time,
-											BigDecimal balance,
-											BankAccountDetails accountDetails,
-											List<Credit> credits,
-											List<Transaction> transactions,
-											Integer bankId) {
+			BigDecimal balance,
+			BankAccountDetails accountDetails,
+			List<Credit> credits,
+			List<Transaction> transactions,
+			Integer bankId) {
 		this.time = time;
 		this.balance = balance;
 		this.accountDetails = accountDetails;

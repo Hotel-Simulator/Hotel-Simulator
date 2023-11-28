@@ -14,6 +14,7 @@ import com.esotericsoftware.kryo.io.Output;
 
 import pl.agh.edu.data.loader.JSONBankDataLoader;
 import pl.agh.edu.data.loader.JSONHotelDataLoader;
+import pl.agh.edu.data.type.BankData;
 import pl.agh.edu.engine.advertisement.AdvertisementHandler;
 import pl.agh.edu.engine.attraction.AttractionHandler;
 import pl.agh.edu.engine.bank.BankAccount;
@@ -140,7 +141,9 @@ public class Engine {
 		this.bankAccountHandler = new BankAccountHandler(
 				new BankAccount(
 						gameDifficultyManager.getInitialBalance(),
-						JSONBankDataLoader.scenarios.get(0).accountDetails()));
+						new BankData(JSONBankDataLoader.scenarios.get(0).id(),
+								JSONBankDataLoader.scenarios.get(0).name(),
+								JSONBankDataLoader.scenarios.get(0).accountDetails())));
 		BuildingCostMultiplierHandler buildingCostMultiplierHandler = new BuildingCostMultiplierHandler();
 		this.buildingCostSupplier = new BuildingCostSupplier(buildingCostMultiplierHandler);
 		this.clientNumberModificationEventHandler = new ClientNumberModificationEventHandler();

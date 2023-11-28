@@ -28,7 +28,7 @@ public class BankOfferFrame extends BaseFrame {
 	public final List<BankOffer> buttonList = new ArrayList<>();
 	public final ButtonGroup<Button> buttonGroup = new ButtonGroup<>();
 	ScrollPane scrollPane;
-	BankAccount bankAccount = ((GdxGame) Gdx.app.getApplicationListener()).engine.hotelHandler.bankAccount;
+	BankAccount bankAccount = ((GdxGame) Gdx.app.getApplicationListener()).engine.bankAccountHandler.account;
 
 	public BankOfferFrame() {
 		super(new LanguageString("navbar.button.offer"));

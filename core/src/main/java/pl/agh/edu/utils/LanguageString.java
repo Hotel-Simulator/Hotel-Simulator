@@ -1,6 +1,7 @@
 package pl.agh.edu.utils;
 
 import java.util.List;
+import java.util.Objects;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.Serializer;
@@ -13,7 +14,7 @@ public class LanguageString {
 	public final String path;
 	public final List<Pair<String, String>> replacementsList;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(LanguageString.class, new Serializer<LanguageString>() {
 			@Override
 			public void write(Kryo kryo, Output output, LanguageString object) {

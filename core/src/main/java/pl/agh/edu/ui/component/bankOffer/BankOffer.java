@@ -22,7 +22,7 @@ import pl.agh.edu.utils.LanguageString;
 public class BankOffer extends ClickableTable {
 
 	public final BankData bankData;
-	BankAccount bankAccount = ((GdxGame) Gdx.app.getApplicationListener()).engine.hotelHandler.bankAccount;
+	BankAccount bankAccount = ((GdxGame) Gdx.app.getApplicationListener()).engine.bankAccountHandler.account;
 
 	public BankOffer(BankData bankData) {
 		super();
