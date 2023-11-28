@@ -61,8 +61,8 @@ public class HotelTable extends WrapperTable {
 		Image scenarioImage = new Image(skin.getDrawable("hotel-table-" + hotelType.toString().toLowerCase() + "-icon"));
 		TextField hotelName = new HotelNameTextField(skin, HotelTableStyles.getTextFieldStyle());
 
-		leftTable.add(scenarioImage).grow().row();
-		leftTable.add(hotelName).padTop(30f).growX();
+		leftTable.add(scenarioImage).height(HotelTableStyles.getImageWidthHeight()).width(HotelTableStyles.getImageWidthHeight()).expand().bottom().row();
+		leftTable.add(hotelName).expand().growX().bottom();
 
 	}
 
@@ -88,30 +88,25 @@ public class HotelTable extends WrapperTable {
 	}
 
 	private Table createCheckInRow() {
-		Table checkIn = new Table();
-		checkIn.setBackground(background);
-		checkIn.pad(0f);
-
 		LanguageLabel title = new LanguageLabel(new LanguageString("hotelFrame.checkIn.label"), HotelTableStyles.getLabelsStyle());
-		title.setWrap(true);
-		title.setAlignment(Align.center, Align.center);
-
-		checkIn.add(title).grow().uniform();
-		checkIn.add(checkInSelectMenu).width(HotelTableStyles.getTimeSelectBoxWidth()).height(HotelTableStyles.getTimeSelectBoxHeight()).grow().uniform();
-		return checkIn;
+		return getTimeRow(title, checkInSelectMenu);
 	}
 
 	private Table createCheckOutRow() {
+		LanguageLabel title = new LanguageLabel(new LanguageString("hotelFrame.checkOut.label"), HotelTableStyles.getLabelsStyle());
+		return getTimeRow(title, checkOutSelectMenu);
+	}
+
+	private Table getTimeRow(LanguageLabel title, CustomSelectBox checkOutSelectMenu) {
 		Table checkOut = new Table();
 		checkOut.setBackground(background);
 		checkOut.pad(0f);
 
-		LanguageLabel title = new LanguageLabel(new LanguageString("hotelFrame.checkOut.label"), HotelTableStyles.getLabelsStyle());
 		title.setWrap(true);
 		title.setAlignment(Align.center, Align.center);
 
-		checkOut.add(title).growX().uniform();
-		checkOut.add(checkOutSelectMenu).width(HotelTableStyles.getTimeSelectBoxWidth()).height(HotelTableStyles.getTimeSelectBoxHeight()).growX().uniform();
+		checkOut.add(title).width(HotelTableStyles.getTimeLabelsWidth()).expand().uniform();
+		checkOut.add(checkOutSelectMenu).width(HotelTableStyles.getTimeSelectBoxWidth()).height(HotelTableStyles.getTimeSelectBoxHeight()).expand().uniform();
 		return checkOut;
 	}
 
@@ -223,6 +218,22 @@ public class HotelTable extends WrapperTable {
 				case SMALL -> 550f;
 				case MEDIUM -> 700f;
 				case LARGE -> 800f;
+			};
+		}
+
+		public static float getImageWidthHeight(){
+			return switch (GraphicConfig.getResolution().SIZE) {
+				case SMALL -> 200f;
+				case MEDIUM -> 300f;
+				case LARGE -> 400f;
+			};
+		}
+
+		public static float getTimeLabelsWidth() {
+			return switch (GraphicConfig.getResolution().SIZE) {
+				case SMALL -> 250f;
+				case MEDIUM -> 300f;
+				case LARGE -> 350f;
 			};
 		}
 
