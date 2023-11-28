@@ -106,7 +106,7 @@ public class HotelTable extends WrapperTable {
 		title.setAlignment(Align.center, Align.center);
 
 		checkOut.add(title).width(HotelTableStyles.getTimeLabelsWidth()).expand().uniform();
-		checkOut.add(checkOutSelectMenu).width(HotelTableStyles.getTimeSelectBoxWidth()).height(HotelTableStyles.getTimeSelectBoxHeight()).expand().uniform();
+		checkOut.add(checkOutSelectMenu).width(HotelTableStyles.getTimeSelectBoxWidth()).height(HotelTableStyles.getTimeSelectBoxHeight()).padRight(10f).expand().uniform();
 		return checkOut;
 	}
 
@@ -239,9 +239,9 @@ public class HotelTable extends WrapperTable {
 
 		public static float getTimeSelectBoxWidth() {
 			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> 150f;
+				case SMALL -> 180f;
 				case MEDIUM -> 200f;
-				case LARGE -> 250f;
+				case LARGE -> 300f;
 			};
 		}
 

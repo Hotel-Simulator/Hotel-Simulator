@@ -28,7 +28,7 @@ import pl.agh.edu.ui.utils.wrapper.WrapperTable;
 
 public class CustomSelectBox extends WrapperTable {
 	private final Array<SelectMenuItem> items;
-	private SelectBox<SelectMenuItem> selectOption = new DropDownSelect();
+	private final SelectBox<SelectMenuItem> selectOption = new DropDownSelect();
 	private boolean isOpen = false;
 	private boolean cursorOver = false;
 
@@ -91,24 +91,7 @@ public class CustomSelectBox extends WrapperTable {
 	private void changeResolutionHandler() {
 		this.size(CustomSelectBox.SelectMenuStyle.getWidth(), CustomSelectBox.SelectMenuStyle.getHeight());
 		this.validate();
-		selectOption = new CustomSelectBox.DropDownSelect();
-	}
-
-	public boolean isClickedOutside(float screenX, float screenY) {
-		Vector2 stageCoords = localToStageCoordinates(new Vector2(0, 0));
-
-		float x = stageCoords.x;
-		float y = stageCoords.y;
-		float width = getWidth();
-		float height = getHeight();
-
-		Rectangle bounds = new Rectangle(x, y, width, height);
-
-		return !bounds.contains(screenX, screenY);
-	}
-
-	public void closeSelectBox(){
-		selectOption.hideScrollPane();
+		selectOption.setStyle(SelectMenuStyle.getSelectBoxStyle(skin));
 	}
 
 	private static class SelectMenuStyle {
@@ -158,8 +141,6 @@ public class CustomSelectBox extends WrapperTable {
 
 		@Override
 		protected @Null Drawable getBackgroundDrawable() {
-			if (isDisabled())
-				return skin.getDrawable("full-select-box-background-disabled");
 			if (isOpen && cursorOver) {
 				return skin.getDrawable("full-select-box-background-open-over");
 			}
@@ -189,7 +170,6 @@ public class CustomSelectBox extends WrapperTable {
 
 		@Override
 		public void hideScrollPane() {
-			System.out.println("here");
 			super.hideScrollPane();
 			isOpen = false;
 		}
