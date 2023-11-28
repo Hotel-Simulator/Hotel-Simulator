@@ -29,7 +29,7 @@ public class RoomFrame extends BaseFrame {
 		Arrays.stream(RoomSize.values())
 				.flatMap(size -> Arrays.stream(RoomRank.values())
 						.map(rank -> new Room(rank, size)))
-				.forEach(room -> roomTable.addRow(room, System.out::println, true));
+				.forEach(room -> roomTable.addRow(room, System.out::println, false));
 		mainTable.add(roomTable).grow();
 	}
 
