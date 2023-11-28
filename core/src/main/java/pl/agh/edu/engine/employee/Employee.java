@@ -31,14 +31,14 @@ public class Employee {
 	public final EmploymentPreferences preferences;
 	public final Profession profession;
 	private final Duration basicServiceExecutionTime;
-	private final List<BigDecimal> bonuses = new ArrayList<>();
+	private final List<BigDecimal> bonuses;
 	public Shift shift;
 	public BigDecimal wage;
 	public TypeOfContract typeOfContract;
 	private boolean isOccupied;
 	private EmployeeStatus employeeStatus = EmployeeStatus.HIRED_NOT_WORKING;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(Employee.class, new Serializer<Employee>() {
 			@Override
 			public void write(Kryo kryo, Output output, Employee object) {
@@ -67,10 +67,9 @@ public class Employee {
 						kryo.readObject(input, Profession.class),
 						kryo.readObject(input, Shift.class),
 						kryo.readObject(input, BigDecimal.class),
-						kryo.readObject(input, TypeOfContract.class));
+						kryo.readObject(input, TypeOfContract.class),
+						kryo.readObject(input, List.class, KryoConfig.listSerializer(BigDecimal.class)));
 
-				List<BigDecimal> bonuses = kryo.readObject(input, List.class, KryoConfig.listSerializer(BigDecimal.class));
-				employee.bonuses.addAll(bonuses);
 				employee.isOccupied = kryo.readObject(input, Boolean.class);
 				employee.employeeStatus = kryo.readObject(input, EmployeeStatus.class);
 
@@ -86,6 +85,7 @@ public class Employee {
 		this.skills = possibleEmployee.skills;
 		this.preferences = possibleEmployee.preferences;
 		this.profession = possibleEmployee.profession;
+		this.bonuses = new ArrayList<>();
 
 		setContract(offer);
 
@@ -100,7 +100,8 @@ public class Employee {
 			Profession profession,
 			Shift shift,
 			BigDecimal wage,
-			TypeOfContract typeOfContract) {
+			TypeOfContract typeOfContract,
+			List<BigDecimal> bonuses) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.age = age;
@@ -110,6 +111,7 @@ public class Employee {
 		this.shift = shift;
 		this.wage = wage;
 		this.typeOfContract = typeOfContract;
+		this.bonuses = bonuses;
 
 		this.basicServiceExecutionTime = JSONEmployeeDataLoader.basicServiceExecutionTimes.get(profession);
 

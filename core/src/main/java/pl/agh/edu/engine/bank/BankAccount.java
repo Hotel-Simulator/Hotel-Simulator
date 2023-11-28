@@ -4,21 +4,62 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import pl.agh.edu.data.type.BankData;
 import pl.agh.edu.engine.time.Time;
 
 public class BankAccount {
-	private final List<Credit> credits = new ArrayList<>();
-	private final List<Transaction> transactions = new ArrayList<>();
-	private final Time time = Time.getInstance();
+	private final Time time;
 	private BigDecimal balance;
 	private BankAccountDetails accountDetails;
 	public Integer bankId;
+	private final List<Credit> credits;
+	private final List<Transaction> transactions;
+
+	public static void kryoRegister() {
+		KryoConfig.kryo.register(BankAccount.class, new Serializer<BankAccount>() {
+			@Override
+			public void write(Kryo kryo, Output output, BankAccount object) {
+				kryo.writeObject(output, object.time);
+				kryo.writeObject(output, object.balance);
+				kryo.writeObject(output, object.accountDetails);
+				kryo.writeObject(output, object.credits, KryoConfig.listSerializer(Credit.class));
+				kryo.writeObject(output, object.transactions, KryoConfig.listSerializer(Transaction.class));
+				kryo.writeObject(output, object.bankId);
+			}
+
+			@Override
+			public BankAccount read(Kryo kryo, Input input, Class<? extends BankAccount> type) {
+				return new BankAccount(
+						kryo.readObject(input, Time.class),
+						kryo.readObject(input, BigDecimal.class),
+						kryo.readObject(input, BankAccountDetails.class),
+						kryo.readObject(input, List.class, KryoConfig.listSerializer(Credit.class)),
+						kryo.readObject(input, List.class, KryoConfig.listSerializer(Transaction.class)),
+						kryo.readObject(input, Integer.class));
+			}
+		});
+	}
 
 	public BankAccount(BigDecimal initialBalance, BankData bankData) {
+		this.time = Time.getInstance();
 		this.balance = initialBalance;
 		this.accountDetails = bankData.accountDetails();
+		this.credits = new ArrayList<>();
+		this.transactions = new ArrayList<>();
 		this.bankId = bankData.id();
+	}
+
+	private BankAccount(Time time,
+											BigDecimal balance,
+											BankAccountDetails accountDetails,
+											List<Credit> credits,
+											List<Transaction> transactions,
+											Integer bankId) {
+		this.time = time;
+		this.balance = balance;
+		this.accountDetails = accountDetails;
+		this.credits = credits;
+		this.transactions = transactions;
+		this.bankId = bankId;
 	}
 
 	private void chargeAccountFee() {

@@ -15,7 +15,7 @@ public class ClientNumberModificationTemporaryEvent extends TemporaryEvent {
 	public final int durationInDays;
 	public final ClientNumberModifier modifier;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(ClientNumberModificationTemporaryEvent.class, new Serializer<ClientNumberModificationTemporaryEvent>() {
 			@Override
 			public void write(Kryo kryo, Output output, ClientNumberModificationTemporaryEvent object) {

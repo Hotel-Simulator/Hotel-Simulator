@@ -45,11 +45,17 @@ public class LanguageString {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (obj instanceof LanguageString) {
-			LanguageString other = (LanguageString) obj;
-			return this.path.equals(other.path) && this.replacementsList.equals(other.replacementsList);
-		}
-		return false;
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		LanguageString that = (LanguageString) o;
+		return Objects.equals(path, that.path) && Objects.equals(replacementsList, that.replacementsList);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(path, replacementsList);
 	}
 }

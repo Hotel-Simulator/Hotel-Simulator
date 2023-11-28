@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static pl.agh.edu.engine.bank.TransactionType.EXPENSE;
 import static pl.agh.edu.engine.bank.TransactionType.INCOME;
+import static pl.agh.edu.engine.hotel.dificulty.DifficultyLevel.MEDIUM;
 
 import java.math.BigDecimal;
 
@@ -22,7 +23,7 @@ import pl.agh.edu.utils.LanguageString;
 public class BankAccountTest {
 	private final BigDecimal accountFee = BigDecimal.valueOf(10);
 	private BankAccount bankAccount;
-	private final BigDecimal initialBalance = GameDifficultyManager.getInstance().getInitialBalance();
+	private final BigDecimal initialBalance = new GameDifficultyManager(MEDIUM).getInitialBalance();
 
 	@BeforeEach
 	public void setUp() {

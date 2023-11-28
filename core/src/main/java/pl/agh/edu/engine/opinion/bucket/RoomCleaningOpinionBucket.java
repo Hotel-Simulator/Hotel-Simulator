@@ -15,7 +15,7 @@ public class RoomCleaningOpinionBucket extends OpinionBucket {
 	private int cleanRoomCounter = 0;
 	private final int numberOfNights;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(RoomCleaningOpinionBucket.class, new Serializer<RoomCleaningOpinionBucket>() {
 			@Override
 			public void write(Kryo kryo, Output output, RoomCleaningOpinionBucket object) {

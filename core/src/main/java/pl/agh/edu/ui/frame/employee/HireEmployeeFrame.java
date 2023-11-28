@@ -40,10 +40,10 @@ public class HireEmployeeFrame extends BaseFrame {
 
 	private void refreshTable() {
 		hireEmployeeTable.clearTable();
-		engine.hotelHandler.possibleEmployeeHandler.getPossibleEmployees()
+		engine.possibleEmployeeHandler.getPossibleEmployees()
 				.forEach(possibleEmployee -> hireEmployeeTable.addRow(
 						possibleEmployee,
-						() -> ModalManager.getInstance().showHireEmployeeModal(possibleEmployee, engine.hotelHandler.possibleEmployeeHandler, this::refreshTable)));
+						() -> ModalManager.getInstance().showHireEmployeeModal(possibleEmployee, engine.possibleEmployeeHandler, this::refreshTable)));
 	}
 
 	private Actor createPhoto(PossibleEmployee possibleEmployee) {
