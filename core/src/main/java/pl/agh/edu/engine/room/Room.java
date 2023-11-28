@@ -57,7 +57,7 @@ public class Room {
 		this.rank = rank;
 	}
 
-	public RoomSize getSize(){
+	public RoomSize getSize() {
 		return size;
 	}
 
