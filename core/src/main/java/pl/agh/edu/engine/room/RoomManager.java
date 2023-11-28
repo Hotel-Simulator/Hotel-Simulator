@@ -67,6 +67,12 @@ public class RoomManager {
 				Collectors.toList()));
 	}
 
+	public long getRoomNumberByRankSize(RoomRank rank, RoomSize size){
+		return rooms.stream()
+				.filter(room -> room.getRank().equals(rank) && room.getSize().equals(size))
+				.count();
+	}
+
 	public Optional<Room> findRoomForClientGroup(ClientGroup group) {
 		return rooms.stream()
 				.filter(room -> room.getRank() == group.getDesiredRoomRank())
