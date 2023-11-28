@@ -221,7 +221,7 @@ public class HotelTable extends WrapperTable {
 			};
 		}
 
-		public static float getImageWidthHeight(){
+		public static float getImageWidthHeight() {
 			return switch (GraphicConfig.getResolution().SIZE) {
 				case SMALL -> 200f;
 				case MEDIUM -> 300f;

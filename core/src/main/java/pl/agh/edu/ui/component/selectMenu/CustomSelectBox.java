@@ -5,13 +5,9 @@ import static pl.agh.edu.ui.audio.SoundAudio.CLICK;
 
 import java.util.function.Function;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -21,8 +17,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
-
 import com.badlogic.gdx.utils.Null;
+
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.ui.utils.wrapper.WrapperTable;
 
@@ -119,7 +115,7 @@ public class CustomSelectBox extends WrapperTable {
 			};
 		}
 
-		public static SelectBox.SelectBoxStyle getSelectBoxStyle(Skin skin){
+		public static SelectBox.SelectBoxStyle getSelectBoxStyle(Skin skin) {
 			return switch (GraphicConfig.getResolution().SIZE) {
 				case SMALL -> skin.get("custom-select-box-small", SelectBox.SelectBoxStyle.class);
 				case MEDIUM -> skin.get("custom-select-box-medium", SelectBox.SelectBoxStyle.class);
