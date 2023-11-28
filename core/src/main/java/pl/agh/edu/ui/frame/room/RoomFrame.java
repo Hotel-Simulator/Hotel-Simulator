@@ -41,11 +41,11 @@ public class RoomFrame extends BaseFrame {
 	}
 
 	private Actor createSize(Room room) {
-		return createCustomLabel(room.size.name());
+		return CustomTable.createLanguageLabel(new LanguageString("room.size." + room.size.name().toLowerCase()));
 	}
 
 	private Actor createRank(Room room) {
-		return createCustomLabel(room.getRank().name());
+		return CustomTable.createLanguageLabel(new LanguageString("room.rank." + room.getRank().name().toLowerCase()));
 	}
 
 	private Actor createPrice(Room room) {
