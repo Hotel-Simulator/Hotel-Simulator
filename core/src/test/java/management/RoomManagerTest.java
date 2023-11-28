@@ -28,6 +28,7 @@ import org.mockito.Mock;
 import pl.agh.edu.engine.bank.BankAccountHandler;
 import pl.agh.edu.engine.building_cost.BuildingCostSupplier;
 import pl.agh.edu.engine.client.ClientGroup;
+import pl.agh.edu.engine.client.visit_history.ClientGroupVisitHistoryHandler;
 import pl.agh.edu.engine.room.Room;
 import pl.agh.edu.engine.room.RoomManager;
 import pl.agh.edu.engine.room.RoomRank;
@@ -39,6 +40,7 @@ public class RoomManagerTest {
 	private List<Room> rooms;
 
 	private ClientGroup clientGroup;
+	private final ClientGroupVisitHistoryHandler clientGroupVisitHistoryHandler = mock(ClientGroupVisitHistoryHandler.class);
 	@Mock
 	BankAccountHandler bankAccountHandler;
 
@@ -51,7 +53,7 @@ public class RoomManagerTest {
 		rooms.add(new Room(STANDARD, SINGLE));
 		rooms.add(new Room(DELUXE, DOUBLE));
 
-		roomManager = new RoomManager(rooms, bankAccountHandler, buildingCostSupplier);
+		roomManager = new RoomManager(rooms, bankAccountHandler, buildingCostSupplier, clientGroupVisitHistoryHandler);
 
 		clientGroup = mock(ClientGroup.class);
 
@@ -276,11 +278,16 @@ public class RoomManagerTest {
 		room.roomState.setFaulty(true);
 		roomManager.addRoom(room);
 
+		when(clientGroup.getDesiredRoomRank()).thenReturn(STANDARD);
+		when(clientGroup.getSize()).thenReturn(3);
+		when(clientGroup.getDesiredPricePerNight()).thenReturn(BigDecimal.valueOf(1000));
+
 		// When
 		Optional<Room> foundRoom = roomManager.findRoomForClientGroup(clientGroup);
 
 		// Then
-		assertFalse(foundRoom.isPresent());
+		assertTrue(foundRoom.isPresent());
+		assertEquals(room, foundRoom.get());
 	}
 
 	@Test
@@ -335,6 +342,10 @@ public class RoomManagerTest {
 		room.roomState.setUnderRankChange(true);
 		roomManager.addRoom(room);
 
+		when(clientGroup.getDesiredRoomRank()).thenReturn(STANDARD);
+		when(clientGroup.getSize()).thenReturn(3);
+		when(clientGroup.getDesiredPricePerNight()).thenReturn(BigDecimal.valueOf(1000));
+
 		// When
 		Optional<Room> foundRoom = roomManager.findRoomForClientGroup(clientGroup);
 
@@ -348,6 +359,10 @@ public class RoomManagerTest {
 		Room room = new Room(STANDARD, FAMILY);
 		room.roomState.setBeingBuild(true);
 		roomManager.addRoom(room);
+
+		when(clientGroup.getDesiredRoomRank()).thenReturn(STANDARD);
+		when(clientGroup.getSize()).thenReturn(3);
+		when(clientGroup.getDesiredPricePerNight()).thenReturn(BigDecimal.valueOf(1000));
 
 		// When
 		Optional<Room> foundRoom = roomManager.findRoomForClientGroup(clientGroup);

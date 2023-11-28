@@ -60,6 +60,9 @@ import pl.agh.edu.engine.client.report.generator.ClientGroupDailyReportGenerator
 import pl.agh.edu.engine.client.report.generator.ClientGroupMonthlyReportGenerator;
 import pl.agh.edu.engine.client.report.generator.ClientGroupYearlyReportGenerator;
 import pl.agh.edu.engine.client.report.util.DateTrie;
+import pl.agh.edu.engine.client.visit_history.ClientGroupVisit;
+import pl.agh.edu.engine.client.visit_history.ClientGroupVisitHistoryHandler;
+import pl.agh.edu.engine.client.visit_history.VisitResult;
 import pl.agh.edu.engine.employee.Employee;
 import pl.agh.edu.engine.employee.EmployeeHandler;
 import pl.agh.edu.engine.employee.EmployeeSalaryHandler;
@@ -165,6 +168,9 @@ public class KryoConfig {
 		ClientGroupMonthlyReportGenerator.kryoRegister();
 		ClientGroupYearlyReportGenerator.kryoRegister();
 		DateTrie.kryoRegister();
+		ClientGroupVisit.kryoRegister();
+		ClientGroupVisitHistoryHandler.kryoRegister();
+		VisitResult.kryoRegister();
 		Arrival.kryoRegister();
 		Client.kryoRegister();
 		ClientGroup.kryoRegister();

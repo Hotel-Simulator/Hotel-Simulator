@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +21,9 @@ import pl.agh.edu.data.loader.JSONRoomDataLoader;
 import pl.agh.edu.engine.bank.BankAccountHandler;
 import pl.agh.edu.engine.building_cost.BuildingCostSupplier;
 import pl.agh.edu.engine.client.ClientGroup;
+import pl.agh.edu.engine.client.visit_history.ClientGroupVisit;
+import pl.agh.edu.engine.client.visit_history.ClientGroupVisitHistoryHandler;
+import pl.agh.edu.engine.client.visit_history.VisitResult;
 import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.engine.time.TimeCommandExecutor;
 import pl.agh.edu.engine.time.command.TimeCommand;
@@ -38,8 +40,7 @@ public class RoomManager {
 	private final RoomPricePerNight roomPricePerNight;
 	private final BankAccountHandler bankAccountHandler;
 	private final BuildingCostSupplier buildingCostSupplier;
-
-	private final Comparator<Room> roomComparator;
+	private final ClientGroupVisitHistoryHandler clientGroupVisitHistoryHandler;
 
 	public static void kryoRegister() {
 		KryoConfig.kryo.register(RoomManager.class, new Serializer<RoomManager>() {
@@ -53,6 +54,8 @@ public class RoomManager {
 				kryo.writeObject(output, object.roomPricePerNight);
 				kryo.writeObject(output, object.bankAccountHandler);
 				kryo.writeObject(output, object.buildingCostSupplier);
+				kryo.writeObject(output, object.clientGroupVisitHistoryHandler);
+
 			}
 
 			@Override
@@ -65,12 +68,17 @@ public class RoomManager {
 						kryo.readObject(input, Map.class, KryoConfig.mapSerializer(Room.class, LocalDateTime.class)),
 						kryo.readObject(input, RoomPricePerNight.class),
 						kryo.readObject(input, BankAccountHandler.class),
-						kryo.readObject(input, BuildingCostSupplier.class));
+						kryo.readObject(input, BuildingCostSupplier.class),
+						kryo.readObject(input, ClientGroupVisitHistoryHandler.class));
+
 			}
 		});
 	}
 
-	public RoomManager(List<Room> initialRooms, BankAccountHandler bankAccountHandler, BuildingCostSupplier buildingCostSupplier) {
+	public RoomManager(List<Room> initialRooms,
+			BankAccountHandler bankAccountHandler,
+			BuildingCostSupplier buildingCostSupplier,
+			ClientGroupVisitHistoryHandler clientGroupVisitHistoryHandler) {
 		this.time = Time.getInstance();
 		this.timeCommandExecutor = TimeCommandExecutor.getInstance();
 		this.rooms = initialRooms;
@@ -79,18 +87,7 @@ public class RoomManager {
 		this.roomPricePerNight = new RoomPricePerNight(JSONClientDataLoader.averagePricesPerNight);
 		this.bankAccountHandler = bankAccountHandler;
 		this.buildingCostSupplier = buildingCostSupplier;
-
-		this.roomComparator = (o1, o2) -> {
-			int broken = Boolean.compare(o1.roomState.isFaulty(), o2.roomState.isFaulty());
-			if (broken != 0) {
-				return broken;
-			}
-			int dirty = Boolean.compare(o1.roomState.isDirty(), o2.roomState.isDirty());
-			if (dirty != 0) {
-				return dirty;
-			}
-			return roomPricePerNight.getPrice(o1).compareTo(roomPricePerNight.getPrice(o2));
-		};
+		this.clientGroupVisitHistoryHandler = clientGroupVisitHistoryHandler;
 	}
 
 	private RoomManager(Time time,
@@ -100,7 +97,8 @@ public class RoomManager {
 			Map<Room, LocalDateTime> roomBuildingTimes,
 			RoomPricePerNight roomPricePerNight,
 			BankAccountHandler bankAccountHandler,
-			BuildingCostSupplier buildingCostSupplier) {
+			BuildingCostSupplier buildingCostSupplier,
+			ClientGroupVisitHistoryHandler clientGroupVisitHistoryHandler) {
 		this.time = time;
 		this.timeCommandExecutor = timeCommandExecutor;
 		this.rooms = rooms;
@@ -109,18 +107,7 @@ public class RoomManager {
 		this.roomPricePerNight = roomPricePerNight;
 		this.bankAccountHandler = bankAccountHandler;
 		this.buildingCostSupplier = buildingCostSupplier;
-
-		this.roomComparator = (o1, o2) -> {
-			int broken = Boolean.compare(o1.roomState.isFaulty(), o2.roomState.isFaulty());
-			if (broken != 0) {
-				return broken;
-			}
-			int dirty = Boolean.compare(o1.roomState.isDirty(), o2.roomState.isDirty());
-			if (dirty != 0) {
-				return dirty;
-			}
-			return roomPricePerNight.getPrice(o1).compareTo(roomPricePerNight.getPrice(o2));
-		};
+		this.clientGroupVisitHistoryHandler = clientGroupVisitHistoryHandler;
 	}
 
 	public List<Room> getRooms() {
@@ -142,14 +129,10 @@ public class RoomManager {
 	}
 
 	public Optional<Room> findRoomForClientGroup(ClientGroup group) {
-		return rooms.stream()
-				.filter(room -> room.getRank() == group.getDesiredRoomRank())
-				.filter(room -> room.size.canAccommodateGuests(group.getSize()))
-				.filter(room -> !room.roomState.isOccupied())
-				.filter(room -> !room.roomState.isUnderRankChange())
-				.filter(room -> !room.roomState.isBeingBuild())
-				.filter(room -> roomPricePerNight.getPrice(room).compareTo(group.getDesiredPricePerNight()) < 1)
-				.min(roomComparator);
+		Pair<Optional<Room>, VisitResult> resultPair = new RoomFilter(rooms, group, roomPricePerNight).findRoom();
+		clientGroupVisitHistoryHandler.add(new ClientGroupVisit(time.getTime(), group.getDesiredRoomRank(), RoomSize.getSmallestAvailableRoomSize(group.getSize()).orElseThrow(),
+				resultPair.second().languageString));
+		return resultPair.first();
 	}
 
 	private double roomTimeMultiplier(Room room) {
