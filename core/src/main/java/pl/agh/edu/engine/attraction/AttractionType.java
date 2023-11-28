@@ -7,7 +7,7 @@ public enum AttractionType {
 	SWIMMING_POOL,
 	SPA;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(AttractionType.class);
 	}
 }

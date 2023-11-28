@@ -7,7 +7,7 @@ public enum HotelVisitPurpose {
 	BUSINESS_TRIP,
 	REHABILITATION;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(HotelVisitPurpose.class);
 	}
 }

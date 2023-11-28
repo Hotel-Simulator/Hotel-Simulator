@@ -12,7 +12,7 @@ public enum PartOfDay {
 
 	public final int startHour;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(PartOfDay.class);
 	}
 

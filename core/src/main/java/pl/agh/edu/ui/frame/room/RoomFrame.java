@@ -49,10 +49,10 @@ public class RoomFrame extends BaseFrame {
 	}
 
 	private Actor createPrice(Room room) {
-		return createCustomLabel(engine.hotelHandler.roomManager.roomPricePerNight.getPrice(room) + "$");
+		return createCustomLabel(engine.roomManager.roomPricePerNight.getPrice(room) + "$");
 	}
 
 	private Actor createNumberInPossession(Room room) {
-		return createCustomLabel(String.valueOf(engine.hotelHandler.roomManager.getRoomNumberByRankSize(room.getRank(), room.getSize())));
+		return createCustomLabel(String.valueOf(engine.roomManager.getRoomNumberByRankSize(room.getRank(), room.getSize())));
 	}
 }

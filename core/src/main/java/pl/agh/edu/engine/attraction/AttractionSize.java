@@ -7,7 +7,7 @@ public enum AttractionSize {
 	MEDIUM,
 	LARGE;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(AttractionSize.class);
 	}
 }

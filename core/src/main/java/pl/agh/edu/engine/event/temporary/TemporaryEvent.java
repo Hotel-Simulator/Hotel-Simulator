@@ -19,7 +19,7 @@ public class TemporaryEvent {
 	public final LocalDate appearanceDate;
 	public final LocalDate startDate;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(TemporaryEvent.class, new Serializer<TemporaryEvent>() {
 			@Override
 			public void write(Kryo kryo, Output output, TemporaryEvent object) {

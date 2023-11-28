@@ -20,17 +20,16 @@ import pl.agh.edu.engine.event.EventModalData;
 import pl.agh.edu.ui.component.button.LabeledButton;
 import pl.agh.edu.ui.component.label.LanguageLabel;
 import pl.agh.edu.ui.component.modal.ModalManager;
-import pl.agh.edu.ui.utils.wrapper.WrapperTable;
+import pl.agh.edu.ui.component.modal.utils.BaseModal;
 import pl.agh.edu.utils.LanguageString;
 
-public class EventModal extends WrapperTable {
+public class EventModal extends BaseModal {
 	private final Container<Image> imageContainer = new Container<>();
 	private final LanguageLabel titleLabel;
 	private final LanguageLabel descriptionLabel;
 
 	public EventModal(EventModalData eventModalData) {
-		this.setBackground("modal-glass-background");
-
+		super();
 		innerTable.pad(EventModalStyle.getPadding());
 
 		titleLabel = new LanguageLabel(eventModalData.title(), H4.getName());
@@ -72,21 +71,6 @@ public class EventModal extends WrapperTable {
 		imageContainer.size(EventModalStyle.getIconSize(), EventModalStyle.getIconSize());
 		this.resetAnimationPosition();
 		this.validate();
-	}
-
-	@Override
-	public void validate() {
-		super.validate();
-		if (this.getParent() != null) {
-			innerTable.setBounds(
-					this.getParent().getX(),
-					this.getParent().getY(),
-					this.getWidth(),
-					this.getHeight());
-			this.setResetAnimationPosition(
-					this.getParent().getX() + (GraphicConfig.getResolution().WIDTH - this.getWidth()) / 2,
-					this.getParent().getY() + (GraphicConfig.getResolution().HEIGHT - this.getHeight()) / 2);
-		}
 	}
 
 	private static class EventModalStyle {

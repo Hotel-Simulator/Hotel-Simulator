@@ -30,7 +30,7 @@ public class CalendarComponent extends WrapperTable {
 	private final MonthSelection monthSelection;
 	private final YearSelection yearSelection;
 	private final boolean isActive;
-	private final Calendar calendar = Calendar.getInstance();
+	private final Calendar calendar = engine.eventHandler.calendar;
 
 	public CalendarComponent(LocalDate chosenDate, Consumer<LocalDate> dateChangeHandler, Boolean isBlockedByTime, Boolean isActive) {
 		super();

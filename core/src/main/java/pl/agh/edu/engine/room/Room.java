@@ -14,7 +14,7 @@ public class Room {
 	public final RoomState roomState;
 	private ClientGroup residents;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(Room.class, new Serializer<Room>() {
 			@Override
 			public void write(Kryo kryo, Output output, Room object) {

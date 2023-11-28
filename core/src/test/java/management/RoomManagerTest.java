@@ -26,6 +26,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
 import pl.agh.edu.engine.bank.BankAccountHandler;
+import pl.agh.edu.engine.building_cost.BuildingCostSupplier;
 import pl.agh.edu.engine.client.ClientGroup;
 import pl.agh.edu.engine.room.Room;
 import pl.agh.edu.engine.room.RoomManager;
@@ -41,13 +42,16 @@ public class RoomManagerTest {
 	@Mock
 	BankAccountHandler bankAccountHandler;
 
+	@Mock
+	BuildingCostSupplier buildingCostSupplier;
+
 	@BeforeEach
 	public void setUp() {
 		rooms = new ArrayList<>();
 		rooms.add(new Room(STANDARD, SINGLE));
 		rooms.add(new Room(DELUXE, DOUBLE));
 
-		roomManager = new RoomManager(rooms, bankAccountHandler);
+		roomManager = new RoomManager(rooms, bankAccountHandler, buildingCostSupplier);
 
 		clientGroup = mock(ClientGroup.class);
 
