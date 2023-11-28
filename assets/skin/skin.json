@@ -770,13 +770,38 @@
 		"backgroundOpen": "select-box-background-open-up",
 		"backgroundDisabled": "select-box-background-disabled"
 	},
-	"customSelectBox": {
+	"custom-select-box-small": {
 		"font": "subtitle2",
 		"fontColor": "gray-000",
+		"disabledFontColor": "shadow",
 		"background": "full-select-box-background",
 		"scrollStyle": "default",
 		"listStyle": "selectMenu",
-		"backgroundOpen": "full-select-box-background-open"
+		"backgroundOver": "full-select-box-background-over",
+		"backgroundOpen": "full-select-box-background-open",
+		"backgroundDisabled": "full-select-box-background-disabled"
+	},
+	"custom-select-box-medium": {
+		"font": "subtitle1",
+		"fontColor": "gray-000",
+		"disabledFontColor": "shadow",
+		"background": "full-select-box-background",
+		"scrollStyle": "default",
+		"listStyle": "selectMenu",
+		"backgroundOver": "full-select-box-background-over",
+		"backgroundOpen": "full-select-box-background-open",
+		"backgroundDisabled": "full-select-box-background-disabled"
+	},
+	"custom-select-box-large": {
+		"font": "h4",
+		"fontColor": "gray-000",
+		"disabledFontColor": "shadow",
+		"background": "full-select-box-background",
+		"scrollStyle": "default",
+		"listStyle": "selectMenu",
+		"backgroundOver": "full-select-box-background-over",
+		"backgroundOpen": "full-select-box-background-open",
+		"backgroundDisabled": "full-select-box-background-disabled"
 	}
 },
 "SliderStyle": {

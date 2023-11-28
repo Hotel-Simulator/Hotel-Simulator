@@ -5,21 +5,32 @@ import static pl.agh.edu.ui.audio.SoundAudio.CLICK;
 
 import java.util.function.Function;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
 
+import com.badlogic.gdx.utils.Null;
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.ui.utils.wrapper.WrapperTable;
 
 public class CustomSelectBox extends WrapperTable {
 	private final Array<SelectMenuItem> items;
-	private final SelectBox<SelectMenuItem> selectOption = new CustomSelectBox.DropDownSelect();
+	private SelectBox<SelectMenuItem> selectOption = new DropDownSelect();
+	private boolean isOpen = false;
+	private boolean cursorOver = false;
 
 	public CustomSelectBox(Array<SelectMenuItem> items, Function<? super SelectMenuItem, Void> function) {
 		super();
@@ -31,7 +42,20 @@ public class CustomSelectBox extends WrapperTable {
 
 		innerTable.add(selectOption).pad(0f).growX().uniform().minHeight(0f);
 
+		this.addListener(new InputListener() {
+			@Override
+			public void enter(InputEvent event, float x, float y, int pointer, @Null Actor fromActor) {
+				cursorOver = true;
+			}
+
+			@Override
+			public void exit(InputEvent event, float x, float y, int pointer, @Null Actor toActor) {
+				cursorOver = false;
+			}
+		});
+
 		this.setResolutionChangeHandler(this::changeResolutionHandler);
+		this.changeResolutionHandler();
 	}
 
 	public void setItem(String name) {
@@ -67,6 +91,24 @@ public class CustomSelectBox extends WrapperTable {
 	private void changeResolutionHandler() {
 		this.size(CustomSelectBox.SelectMenuStyle.getWidth(), CustomSelectBox.SelectMenuStyle.getHeight());
 		this.validate();
+		selectOption = new CustomSelectBox.DropDownSelect();
+	}
+
+	public boolean isClickedOutside(float screenX, float screenY) {
+		Vector2 stageCoords = localToStageCoordinates(new Vector2(0, 0));
+
+		float x = stageCoords.x;
+		float y = stageCoords.y;
+		float width = getWidth();
+		float height = getHeight();
+
+		Rectangle bounds = new Rectangle(x, y, width, height);
+
+		return !bounds.contains(screenX, screenY);
+	}
+
+	public void closeSelectBox(){
+		selectOption.hideScrollPane();
 	}
 
 	private static class SelectMenuStyle {
@@ -93,13 +135,41 @@ public class CustomSelectBox extends WrapperTable {
 				case LARGE -> 15f;
 			};
 		}
+
+		public static SelectBox.SelectBoxStyle getSelectBoxStyle(Skin skin){
+			return switch (GraphicConfig.getResolution().SIZE) {
+				case SMALL -> skin.get("custom-select-box-small", SelectBox.SelectBoxStyle.class);
+				case MEDIUM -> skin.get("custom-select-box-medium", SelectBox.SelectBoxStyle.class);
+				case LARGE -> skin.get("custom-select-box-large", SelectBox.SelectBoxStyle.class);
+			};
+		}
 	}
 
 	private class DropDownSelect extends SelectBox<SelectMenuItem> {
+
+		Drawable arrowUpImage = skin.getDrawable("select-box-arrow-up");
+		Drawable arrowOpenImage = skin.getDrawable("select-box-arrow-open");
+
 		public DropDownSelect() {
-			super(skin.get("customSelectBox", SelectBox.SelectBoxStyle.class));
+			super(SelectMenuStyle.getSelectBoxStyle(skin));
 			setUpSelectionPane();
 			this.getList().setAlignment(center);
+		}
+
+		@Override
+		protected @Null Drawable getBackgroundDrawable() {
+			if (isDisabled())
+				return skin.getDrawable("full-select-box-background-disabled");
+			if (isOpen && cursorOver) {
+				return skin.getDrawable("full-select-box-background-open-over");
+			}
+			if (isOpen) {
+				return skin.getDrawable("full-select-box-background-open");
+			}
+			if (cursorOver) {
+				return skin.getDrawable("full-select-box-background-over");
+			}
+			return skin.getDrawable("full-select-box-background");
 		}
 
 		private void setUpSelectionPane() {
@@ -112,15 +182,27 @@ public class CustomSelectBox extends WrapperTable {
 		}
 
 		@Override
-		public void validate() {
-			setHeight(CustomSelectBox.SelectMenuStyle.getHeight());
-			this.layout();
+		public void showScrollPane() {
+			super.showScrollPane();
+			isOpen = true;
+		}
+
+		@Override
+		public void hideScrollPane() {
+			System.out.println("here");
+			super.hideScrollPane();
+			isOpen = false;
 		}
 
 		@Override
 		protected GlyphLayout drawItem(Batch batch, BitmapFont font, SelectMenuItem item, float x, float y, float width) {
 			String string = this.getSelected().toString();
+			getImage().draw(batch, this.getX() + this.getWidth() - 20f - 20f, this.getY() + this.getHeight() / 2 - 10f, 20f, 20f);
 			return font.draw(batch, string, this.getX(), this.getY() + (this.getHeight() + font.getXHeight()) / 2, 0, string.length(), this.getWidth(), center, false, "...");
+		}
+
+		private Drawable getImage() {
+			return isOpen ? arrowOpenImage : arrowUpImage;
 		}
 
 		@Override
