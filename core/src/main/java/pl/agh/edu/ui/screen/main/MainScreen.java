@@ -6,8 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
-import pl.agh.edu.GdxGame;
 import pl.agh.edu.config.GraphicConfig;
+import pl.agh.edu.engine.Engine;
 import pl.agh.edu.ui.component.background.InfinityBackground;
 import pl.agh.edu.ui.component.button.OptionButton;
 import pl.agh.edu.ui.component.modal.ModalManager;
@@ -18,7 +18,7 @@ import pl.agh.edu.ui.shader.BlurShader;
 
 public class MainScreen implements Screen {
 
-	public final GdxGame game = (GdxGame) Gdx.app.getApplicationListener();
+	public static Engine engine = null;
 	public final FrameStack frameStack = new FrameStack();
 	private final Stage mainStage = new Stage(GraphicConfig.getViewport());
 	private final Stage middleStage = new Stage(GraphicConfig.getViewport());
@@ -74,6 +74,8 @@ public class MainScreen implements Screen {
 			topStage.act();
 			topStage.draw();
 		}
+
+		engine.time.update(Gdx.graphics.getDeltaTime());
 	}
 
 	@Override
