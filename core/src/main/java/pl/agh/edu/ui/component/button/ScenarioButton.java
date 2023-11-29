@@ -1,6 +1,7 @@
 package pl.agh.edu.ui.component.button;
 
 import static com.badlogic.gdx.scenes.scene2d.Touchable.enabled;
+import static pl.agh.edu.ui.audio.SoundAudio.CLICK;
 import static pl.agh.edu.ui.utils.SkinColor.ALERT;
 import static pl.agh.edu.ui.utils.SkinColor.ColorLevel._500;
 import static pl.agh.edu.ui.utils.SkinFont.H2;
@@ -8,6 +9,8 @@ import static pl.agh.edu.ui.utils.SkinFont.H3;
 import static pl.agh.edu.ui.utils.SkinFont.H4;
 import static pl.agh.edu.ui.utils.SkinFont.SUBTITLE1;
 
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -22,19 +25,19 @@ import pl.agh.edu.utils.LanguageString;
 
 public class ScenarioButton extends WrapperContainer<Button> {
 	private final Skin skin = GameSkin.getInstance();
-	private final Button button;
+	private final Button scenarioButton;
 	private final ScenarioButtonStyle scenarioButtonStyle;
 	private LanguageLabel titleLabel;
 	private Image scenarioImage;
 	private LanguageLabel descriptionLabel;
 	private LanguageLabel seasonLabel;
-	private HotelType hotelType;
+	public final HotelType hotelType;
 
 	public ScenarioButton(HotelType hotelType) {
-		this.button = new Button(skin, "scenario-difficulty-button");
+		this.scenarioButton = new Button(skin, "scenario-difficulty-button");
 		this.scenarioButtonStyle = new ScenarioButtonStyle();
 		this.hotelType = hotelType;
-		setActor(button);
+		setActor(scenarioButton);
 		setSize();
 
 		ScenarioButtonStyle.createPad(this);
@@ -42,35 +45,51 @@ public class ScenarioButton extends WrapperContainer<Button> {
 
 		createActors();
 		createButton();
+		addSoundEvents();
 		setTouchable(enabled);
 	}
 
 	public void createActors() {
-		titleLabel = createLabel(scenarioButtonStyle.getTitleLabelPath(), scenarioButtonStyle.getTitleLabelFont(), (int) (button.getHeight() / 30));
+		titleLabel = createLabel(scenarioButtonStyle.getTitleLabelPath(), scenarioButtonStyle.getTitleLabelFont(), (int) (scenarioButton.getHeight() / 30));
 		titleLabel.setAlignment(this.getAlign(), this.getAlign());
 
 		scenarioImage = new Image(skin.getDrawable(scenarioButtonStyle.getIconPath()));
 
-		descriptionLabel = createLabel(scenarioButtonStyle.getDescriptionLabelPath(), scenarioButtonStyle.getDescriptionLabelFont(), (int) (button.getHeight() / 40));
+		descriptionLabel = createLabel(scenarioButtonStyle.getDescriptionLabelPath(), scenarioButtonStyle.getDescriptionLabelFont(), (int) (scenarioButton.getHeight() / 40));
 		descriptionLabel.setAlignment(this.getAlign(), this.getAlign());
 
-		seasonLabel = createLabel(scenarioButtonStyle.getSeasonLabelPath(), scenarioButtonStyle.getDescriptionLabelFont(), (int) (button.getHeight() / 40));
+		seasonLabel = createLabel(scenarioButtonStyle.getSeasonLabelPath(), scenarioButtonStyle.getDescriptionLabelFont(), (int) (scenarioButton.getHeight() / 40));
 		seasonLabel.setAlignment(this.getAlign(), this.getAlign());
 	}
 
 	public void createButton() {
-		button.clearChildren();
-		button.add(titleLabel).width(scenarioButtonStyle.getTitleDescriptionWidth()).height(scenarioButtonStyle.getTitleDescriptionHeight()).row();
-		button.add(scenarioImage).width(scenarioButtonStyle.getIconWidthHeight()).height(scenarioButtonStyle.getIconWidthHeight()).padTop(scenarioButtonStyle.getElementPadTop())
+		scenarioButton.clearChildren();
+		scenarioButton.add(titleLabel).width(scenarioButtonStyle.getTitleDescriptionWidth()).height(scenarioButtonStyle.getTitleDescriptionHeight()).row();
+		scenarioButton.add(scenarioImage).width(scenarioButtonStyle.getIconWidthHeight()).height(scenarioButtonStyle.getIconWidthHeight()).padTop(scenarioButtonStyle
+				.getElementPadTop())
 				.center().row();
-		button.add(descriptionLabel).width(scenarioButtonStyle.getTitleDescriptionWidth()).height(scenarioButtonStyle.getTitleDescriptionHeight()).padTop(scenarioButtonStyle
-				.getElementPadTop()).row();
-		button.add(seasonLabel).width(scenarioButtonStyle.getSeasonLabelWidth()).padTop(scenarioButtonStyle.getElementPadTop()).center();
+		scenarioButton.add(descriptionLabel).width(scenarioButtonStyle.getTitleDescriptionWidth()).height(scenarioButtonStyle.getTitleDescriptionHeight()).padTop(
+				scenarioButtonStyle
+						.getElementPadTop()).row();
+		scenarioButton.add(seasonLabel).width(scenarioButtonStyle.getSeasonLabelWidth()).padTop(scenarioButtonStyle.getElementPadTop()).center();
+	}
+
+	private void addSoundEvents() {
+		scenarioButton.addListener(new InputListener() {
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				if (!scenarioButton.isChecked()) {
+					CLICK.playSound();
+					return true;
+				}
+				return false;
+			}
+		});
 	}
 
 	public void setSize() {
-		button.setWidth(GraphicConfig.getResolution().WIDTH);
-		button.setHeight(GraphicConfig.getResolution().HEIGHT);
+		scenarioButton.setWidth(GraphicConfig.getResolution().WIDTH);
+		scenarioButton.setHeight(GraphicConfig.getResolution().HEIGHT);
 	}
 
 	private LanguageLabel createLabel(String labelTextPath, String labelFont, int lineHeight) {
@@ -154,23 +173,23 @@ public class ScenarioButton extends WrapperContainer<Button> {
 		}
 
 		public float getTitleDescriptionWidth() {
-			return 5 * button.getWidth() / 24;
+			return 5 * scenarioButton.getWidth() / 24;
 		}
 
 		public float getTitleDescriptionHeight() {
-			return button.getHeight() / 12;
+			return scenarioButton.getHeight() / 12;
 		}
 
 		public float getElementPadTop() {
-			return button.getHeight() / 50;
+			return scenarioButton.getHeight() / 50;
 		}
 
 		public float getSeasonLabelWidth() {
-			return 3 * button.getWidth() / 24;
+			return 3 * scenarioButton.getWidth() / 24;
 		}
 
 		public float getIconWidthHeight() {
-			return button.getHeight() / 8;
+			return scenarioButton.getHeight() / 8;
 		}
 	}
 }
