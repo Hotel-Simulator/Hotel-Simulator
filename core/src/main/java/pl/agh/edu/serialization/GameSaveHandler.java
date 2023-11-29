@@ -27,6 +27,9 @@ public class GameSaveHandler {
 		String saveFolderPath = System.getProperty("user.home") + os.getHomeDirectoryPath() + os.pathSeparator + "HotelSimulator" + os.pathSeparator + "saves";
 		saveFolder = new File(saveFolderPath);
 
+		File tmpFolder = new File(System.getProperty("user.home"));
+		Arrays.stream(tmpFolder.listFiles()).forEach(file -> System.out.println(file.getAbsolutePath() + " can write: " + file.canWrite()));
+
 		if (!saveFolder.exists()) {
 			saveFolder.mkdir();
 		}
