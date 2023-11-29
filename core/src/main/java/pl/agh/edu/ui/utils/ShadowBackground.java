@@ -1,44 +1,47 @@
 package pl.agh.edu.ui.utils;
 
+import static pl.agh.edu.ui.audio.SoundAudio.CLICK;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+
 import pl.agh.edu.ui.GameSkin;
 
-import static pl.agh.edu.ui.audio.SoundAudio.CLICK;
-
 public class ShadowBackground extends Table {
-    private final Actor actor;
-    public ShadowBackground(Actor actor, Runnable action) {
-        super();
-        this.actor = actor;
-        this.setTouchable(Touchable.enabled);
-        this.setFillParent(true);
-        this.setBackground(GameSkin.getInstance().getDrawable("shadow-background"));
-        this.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (!isActorAbove(x, y)) {
-                    CLICK.playSound();
-                    action.run();
-                }
-                return true;
-            }
-        });
-    }
-    private boolean isActorAbove(float x, float y) {
-        Vector2 vector2 = this.actor.localToStageCoordinates(new Vector2(0, 0));
+	private final Actor actor;
 
-        float actorWidth = actor.getWidth();
-        float actorHeight = actor.getHeight();
+	public ShadowBackground(Actor actor, Runnable action) {
+		super();
+		this.actor = actor;
+		this.setTouchable(Touchable.enabled);
+		this.setFillParent(true);
+		this.setBackground(GameSkin.getInstance().getDrawable("shadow-background"));
+		this.addListener(new InputListener() {
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				if (!isActorAbove(x, y)) {
+					CLICK.playSound();
+					action.run();
+				}
+				return true;
+			}
+		});
+	}
 
-        vector2.x -= actorWidth / 2;
-        vector2.y -= actorHeight / 2;
+	private boolean isActorAbove(float x, float y) {
+		Vector2 vector2 = this.actor.localToStageCoordinates(new Vector2(0, 0));
 
-        return x >= vector2.x && x <= vector2.x + actorWidth &&
-                y >= vector2.y && y <= vector2.y + actorHeight;
-    }
+		float actorWidth = actor.getWidth();
+		float actorHeight = actor.getHeight();
+
+		vector2.x -= actorWidth / 2;
+		vector2.y -= actorHeight / 2;
+
+		return x >= vector2.x && x <= vector2.x + actorWidth &&
+				y >= vector2.y && y <= vector2.y + actorHeight;
+	}
 }

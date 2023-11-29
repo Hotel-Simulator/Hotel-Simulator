@@ -3,24 +3,24 @@ package pl.agh.edu.ui.component.modal.employee;
 import static pl.agh.edu.ui.component.modal.ModalManager.ModalPreferences;
 
 import pl.agh.edu.config.GraphicConfig;
-import pl.agh.edu.engine.employee.PossibleEmployee;
-import pl.agh.edu.engine.employee.PossibleEmployeeHandler;
+import pl.agh.edu.engine.employee.Employee;
+import pl.agh.edu.engine.employee.EmployeeHandler;
 import pl.agh.edu.ui.component.modal.utils.BaseModalWrapper;
 
-public class HireEmployeeModalWrapper extends BaseModalWrapper {
+public class HireEmployeeModalWrapper<ExtendedEmployee extends Employee> extends BaseModalWrapper {
 
-	private final PossibleEmployee possibleEmployee;
-	private final PossibleEmployeeHandler possibleEmployeeHandler;
+	private final ExtendedEmployee employee;
+	private final EmployeeHandler<ExtendedEmployee> employeeHandler;
 	private final Runnable refreshAction;
 
 	public HireEmployeeModalWrapper(
 			ModalPreferences modalPreferences,
-			PossibleEmployee possibleEmployee,
-			PossibleEmployeeHandler possibleEmployeeHandler,
+			ExtendedEmployee employee,
+			EmployeeHandler<ExtendedEmployee> possibleEmployeeHandler,
 			Runnable refreshAction) {
 		super(modalPreferences);
-		this.possibleEmployee = possibleEmployee;
-		this.possibleEmployeeHandler = possibleEmployeeHandler;
+		this.employee = employee;
+		this.employeeHandler = possibleEmployeeHandler;
 		this.refreshAction = refreshAction;
 		this.setResolutionChangeHandler(this::resize);
 		this.resize();
@@ -33,7 +33,7 @@ public class HireEmployeeModalWrapper extends BaseModalWrapper {
 		if (!isStageActive()) {
 			modalPreferences.inputMultiplexer().setProcessors(modalPreferences.modalStage());
 		}
-		HireEmployeeModal hireEmployeeModal = new HireEmployeeModal(possibleEmployee, possibleEmployeeHandler, refreshAction);
+		HireEmployeeModal<ExtendedEmployee> hireEmployeeModal = new HireEmployeeModal<>(employee, employeeHandler, refreshAction);
 		this.setActor(hireEmployeeModal);
 		hireEmployeeModal.runVerticalFadeInAnimation();
 	}

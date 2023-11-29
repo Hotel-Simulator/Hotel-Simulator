@@ -54,7 +54,7 @@ import pl.agh.edu.engine.client.ClientGroup;
 import pl.agh.edu.engine.client.report.util.DateTrie;
 import pl.agh.edu.engine.employee.Employee;
 import pl.agh.edu.engine.employee.EmployeeStatus;
-import pl.agh.edu.engine.employee.EmploymentPreferences;
+import pl.agh.edu.engine.employee.EmployeePreferences;
 import pl.agh.edu.engine.employee.PossibleEmployee;
 import pl.agh.edu.engine.employee.contract.Offer;
 import pl.agh.edu.engine.event.permanent.BuildingCostModificationPermanentEvent;
@@ -316,7 +316,7 @@ public class SerializationTest {
 				.lastName("Kowal")
 				.age(18)
 				.skills(new BigDecimal("0.45"))
-				.preferences(new EmploymentPreferences.Builder()
+				.preferences(new EmployeePreferences.Builder()
 						.desiredShift(MORNING)
 						.acceptableWage(BigDecimal.valueOf(5000))
 						.desiredWage(BigDecimal.valueOf(6000))
@@ -353,7 +353,7 @@ public class SerializationTest {
 				.lastName("")
 				.age(18)
 				.skills(new BigDecimal("0.45"))
-				.preferences(new EmploymentPreferences.Builder()
+				.preferences(new EmployeePreferences.Builder()
 						.desiredShift(MORNING)
 						.acceptableWage(BigDecimal.valueOf(5000))
 						.desiredWage(BigDecimal.valueOf(6000))

@@ -8,9 +8,9 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 
-import pl.agh.edu.ui.utils.ShadowBackground;
 import pl.agh.edu.ui.resolution.ResolutionChangeListener;
 import pl.agh.edu.ui.resolution.ResolutionManager;
+import pl.agh.edu.ui.utils.ShadowBackground;
 
 public class CalendarLayer extends Stack implements ResolutionChangeListener {
 	private final CalendarComponent calendarComponent;
@@ -39,6 +39,7 @@ public class CalendarLayer extends Stack implements ResolutionChangeListener {
 		this.setUpCalendarComponent();
 		ResolutionManager.addListener(this);
 	}
+
 	private void setUpCalendarComponent() {
 		calendarComponent.setTouchable(Touchable.enabled);
 		this.add(calendarComponent);

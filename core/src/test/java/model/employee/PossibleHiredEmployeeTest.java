@@ -15,30 +15,30 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import pl.agh.edu.engine.employee.EmploymentPreferences;
-import pl.agh.edu.engine.employee.PossibleEmployee;
-import pl.agh.edu.engine.employee.contract.Offer;
+import pl.agh.edu.engine.employee.EmployeePreferences;
+import pl.agh.edu.engine.employee.contract.EmployeeOffer;
 import pl.agh.edu.engine.employee.contract.OfferResponse;
+import pl.agh.edu.engine.employee.possible.PossibleEmployee;
 
-public class PossibleEmployeeTest {
+public class PossibleHiredEmployeeTest {
 	public static Stream<Arguments> providePossibleEmployees() {
 		return Stream.of(
-				Arguments.of(new Offer(MORNING, BigDecimal.valueOf(4999), PERMANENT), NEGATIVE),
-				Arguments.of(new Offer(MORNING, BigDecimal.valueOf(5000), PERMANENT), POSITIVE),
-				Arguments.of(new Offer(EVENING, BigDecimal.valueOf(5999), PERMANENT), NEGATIVE),
-				Arguments.of(new Offer(EVENING, BigDecimal.valueOf(6000), PERMANENT), POSITIVE));
+				Arguments.of(new EmployeeOffer(MORNING, BigDecimal.valueOf(4999), PERMANENT), NEGATIVE),
+				Arguments.of(new EmployeeOffer(MORNING, BigDecimal.valueOf(5000), PERMANENT), POSITIVE),
+				Arguments.of(new EmployeeOffer(EVENING, BigDecimal.valueOf(5999), PERMANENT), NEGATIVE),
+				Arguments.of(new EmployeeOffer(EVENING, BigDecimal.valueOf(6000), PERMANENT), POSITIVE));
 	}
 
 	@ParameterizedTest
 	@MethodSource("providePossibleEmployees")
-	public void jobOfferTest(Offer contractOffer, OfferResponse expected) {
+	public void jobOfferTest(EmployeeOffer contractEmployeeOffer, OfferResponse expected) {
 		// Given
-		PossibleEmployee possibleEmployee = new PossibleEmployee.Builder()
+		PossibleEmployee possibleEmployee = new PossibleEmployee.PossibleEmployeeBuilder()
 				.firstName("")
 				.lastName("")
 				.age(18)
 				.skills(new BigDecimal("0.45"))
-				.preferences(new EmploymentPreferences.Builder()
+				.preferences(new EmployeePreferences.Builder()
 						.desiredShift(MORNING)
 						.acceptableWage(BigDecimal.valueOf(5000))
 						.desiredWage(BigDecimal.valueOf(6000))
@@ -47,7 +47,7 @@ public class PossibleEmployeeTest {
 				.profession(CLEANER)
 				.build();
 		// When
-		OfferResponse response = possibleEmployee.offerJob(contractOffer);
+		OfferResponse response = possibleEmployee.offerContract(contractEmployeeOffer);
 		// Then
 		assertEquals(expected, response);
 	}

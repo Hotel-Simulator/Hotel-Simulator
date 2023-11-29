@@ -6,10 +6,10 @@ import java.math.RoundingMode;
 import com.github.javafaker.Faker;
 
 import pl.agh.edu.data.loader.JSONEmployeeDataLoader;
-import pl.agh.edu.engine.employee.EmploymentPreferences;
-import pl.agh.edu.engine.employee.PossibleEmployee;
+import pl.agh.edu.engine.employee.EmployeePreferences;
 import pl.agh.edu.engine.employee.Profession;
 import pl.agh.edu.engine.employee.contract.TypeOfContract;
+import pl.agh.edu.engine.employee.possible.PossibleEmployee;
 import pl.agh.edu.utils.Pair;
 import pl.agh.edu.utils.RandomUtils;
 
@@ -22,18 +22,19 @@ public class PossibleEmployeeGenerator {
 	public static PossibleEmployee generatePossibleEmployeeWithProfession(Profession profession) {
 		BigDecimal skills = BigDecimal.valueOf(RandomUtils.randomInt(1, 101)).divide(BigDecimal.valueOf(100), 2, RoundingMode.CEILING);
 		Pair<String, String> name = createRandomName();
-		return new PossibleEmployee.Builder()
+		return new PossibleEmployee.PossibleEmployeeBuilder()
 				.firstName(name.first())
 				.lastName(name.second())
 				.age(RandomUtils.randomInt(18, 60))
 				.skills(skills)
-				.preferences(new EmploymentPreferences.Builder()
+				.preferences(new EmployeePreferences.Builder()
 						.desiredShift(RandomUtils.randomKeyWithProbabilities(JSONEmployeeDataLoader.shiftProbabilities))
 						.acceptableWage(generateAcceptableWage(skills))
 						.desiredWage(generateDesiredWage(skills))
 						.desiredTypeOfContract(TypeOfContract.PERMANENT)
 						.build())
 				.profession(profession)
+				.acceptancePointsThreshold(RandomUtils.randomInt(1, 5))
 				.build();
 
 	}

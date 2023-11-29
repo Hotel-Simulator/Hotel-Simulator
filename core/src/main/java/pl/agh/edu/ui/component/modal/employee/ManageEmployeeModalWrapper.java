@@ -3,26 +3,28 @@ package pl.agh.edu.ui.component.modal.employee;
 import static pl.agh.edu.ui.component.modal.ModalManager.ModalPreferences;
 
 import pl.agh.edu.config.GraphicConfig;
-import pl.agh.edu.engine.employee.Employee;
-import pl.agh.edu.engine.employee.EmployeeHandler;
-import pl.agh.edu.engine.employee.PossibleEmployee;
-import pl.agh.edu.engine.employee.PossibleEmployeeHandler;
+import pl.agh.edu.engine.employee.EmployeeSalaryHandler;
+import pl.agh.edu.engine.employee.hired.HiredEmployeeHandler;
+import pl.agh.edu.engine.employee.hired.HiredEmployee;
 import pl.agh.edu.ui.component.modal.utils.BaseModalWrapper;
 
 public class ManageEmployeeModalWrapper extends BaseModalWrapper {
 
-	private final Employee employee;
-	private final EmployeeHandler employeeHandler;
+	private final HiredEmployee hiredEmployee;
+	private final HiredEmployeeHandler hiredEmployeeHandler;
+	private final EmployeeSalaryHandler employeeSalaryHandler;
 	private final Runnable refreshAction;
 
 	public ManageEmployeeModalWrapper(
 			ModalPreferences modalPreferences,
-			Employee employee,
-			EmployeeHandler employeeHandler,
+			HiredEmployee hiredEmployee,
+			HiredEmployeeHandler hiredEmployeeHandler,
+			EmployeeSalaryHandler employeeSalaryHandler,
 			Runnable refreshAction) {
 		super(modalPreferences);
-		this.employee = employee;
-		this.employeeHandler = employeeHandler;
+		this.hiredEmployee = hiredEmployee;
+		this.hiredEmployeeHandler = hiredEmployeeHandler;
+		this.employeeSalaryHandler = employeeSalaryHandler;
 		this.refreshAction = refreshAction;
 		this.setResolutionChangeHandler(this::resize);
 		this.resize();
@@ -35,7 +37,7 @@ public class ManageEmployeeModalWrapper extends BaseModalWrapper {
 		if (!isStageActive()) {
 			modalPreferences.inputMultiplexer().setProcessors(modalPreferences.modalStage());
 		}
-		ManageEmployeeModal hireEmployeeModal = new ManageEmployeeModal(employee, employeeHandler, refreshAction);
+		ManageEmployeeModal hireEmployeeModal = new ManageEmployeeModal(hiredEmployee, hiredEmployeeHandler,employeeSalaryHandler, refreshAction);
 		this.setActor(hireEmployeeModal);
 		hireEmployeeModal.runVerticalFadeInAnimation();
 	}
