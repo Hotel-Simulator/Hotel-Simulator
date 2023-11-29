@@ -6,6 +6,7 @@ import pl.agh.edu.ui.frame.BaseFrame;
 import pl.agh.edu.ui.frame.TestFrame;
 import pl.agh.edu.ui.frame.employee.HireEmployeeFrame;
 import pl.agh.edu.ui.frame.employee.ManageEmployeeFrame;
+import pl.agh.edu.ui.frame.hotel.HotelFrame;
 import pl.agh.edu.utils.LanguageString;
 
 public enum NavbarButtonType {
@@ -14,7 +15,7 @@ public enum NavbarButtonType {
 	EMPLOYEE("employee", () -> new TestFrame(new LanguageString("frame.title.employee"))),
 	TAX("tax", () -> new TestFrame(new LanguageString("frame.title.tax"))),
 	AD("ad", () -> new TestFrame(new LanguageString("frame.title.ad"))),
-	BOARD("board", () -> new TestFrame(new LanguageString("frame.title.board"))),
+	BOARD("board", HotelFrame::new),
 	ROOMS("rooms", () -> new TestFrame(new LanguageString("frame.title.rooms"))),
 	PLACES("places", () -> new TestFrame(new LanguageString("frame.title.places"))),
 	BACK("back", () -> new TestFrame(new LanguageString("frame.title.back"))),

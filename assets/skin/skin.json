@@ -769,6 +769,39 @@
 		"backgroundOver": "select-box-background-over",
 		"backgroundOpen": "select-box-background-open-up",
 		"backgroundDisabled": "select-box-background-disabled"
+	},
+	"custom-select-box-small": {
+		"font": "subtitle2",
+		"fontColor": "gray-000",
+		"disabledFontColor": "shadow",
+		"background": "full-select-box-background",
+		"scrollStyle": "default",
+		"listStyle": "selectMenu",
+		"backgroundOver": "full-select-box-background-over",
+		"backgroundOpen": "full-select-box-background-open",
+		"backgroundDisabled": "full-select-box-background-disabled"
+	},
+	"custom-select-box-medium": {
+		"font": "subtitle1",
+		"fontColor": "gray-000",
+		"disabledFontColor": "shadow",
+		"background": "full-select-box-background",
+		"scrollStyle": "default",
+		"listStyle": "selectMenu",
+		"backgroundOver": "full-select-box-background-over",
+		"backgroundOpen": "full-select-box-background-open",
+		"backgroundDisabled": "full-select-box-background-disabled"
+	},
+	"custom-select-box-large": {
+		"font": "h4",
+		"fontColor": "gray-000",
+		"disabledFontColor": "shadow",
+		"background": "full-select-box-background",
+		"scrollStyle": "default",
+		"listStyle": "selectMenu",
+		"backgroundOver": "full-select-box-background-over",
+		"backgroundOpen": "full-select-box-background-open",
+		"backgroundDisabled": "full-select-box-background-disabled"
 	}
 },
 "SliderStyle": {
@@ -891,6 +924,24 @@
 		"fontColor": "secondary-300",
 		"messageFont": "console",
 		"messageFontColor": "secondary-100"
+	},
+	"hotel_frame_small": {
+		"font": "subtitle1",
+		"fontColor": "gray-900",
+		"background": "text-field-background",
+		"cursor": "text-field-cursor"
+	},
+	"hotel_frame_medium": {
+		"font": "h4",
+		"fontColor": "gray-900",
+		"background": "text-field-background",
+		"cursor": "text-field-cursor"
+	},
+	"hotel_frame_large": {
+		"font": "h3",
+		"fontColor": "gray-900",
+		"background": "text-field-background",
+		"cursor": "text-field-cursor"
 	}
 },
 "TextTooltipStyle": {

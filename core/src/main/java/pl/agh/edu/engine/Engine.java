@@ -56,7 +56,7 @@ public class Engine {
 	public final BankAccountHandler bankAccountHandler;
 	private final BuildingCostSupplier buildingCostSupplier;
 	public final ClientNumberModificationEventHandler clientNumberModificationEventHandler;
-	private final HotelScenariosManager hotelScenariosManager;
+	public final HotelScenariosManager hotelScenariosManager;
 	public final AdvertisementHandler advertisementHandler;
 	public final EventHandler eventHandler;
 	public final EmployeeSalaryHandler employeeSalaryHandler;

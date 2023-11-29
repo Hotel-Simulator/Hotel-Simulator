@@ -11,7 +11,7 @@ import pl.agh.edu.data.loader.JSONHotelDataLoader;
 import pl.agh.edu.serialization.KryoConfig;
 
 public class Hotel {
-	private String hotelName;
+	private String hotelName = JSONHotelDataLoader.hotelName;
 	private Long hotelId;
 	private LocalTime checkInTime;
 	private LocalTime checkOutTime;
@@ -60,4 +60,27 @@ public class Hotel {
 		this.checkOutTime = checkOutTime;
 	}
 
+	public String getHotelName() {
+		return hotelName;
+	}
+
+	public void setHotelName(String hotelName) {
+		this.hotelName = hotelName;
+	}
+
+	public LocalTime getMaxCheckInTime() {
+		return JSONHotelDataLoader.checkInAndOutTime.get("max_check_in");
+	}
+
+	public LocalTime getMinCheckInTime() {
+		return JSONHotelDataLoader.checkInAndOutTime.get("min_check_in");
+	}
+
+	public LocalTime getMaxCheckOutTime() {
+		return JSONHotelDataLoader.checkInAndOutTime.get("max_check_out");
+	}
+
+	public LocalTime getMinCheckOutTime() {
+		return JSONHotelDataLoader.checkInAndOutTime.get("min_check_out");
+	}
 }

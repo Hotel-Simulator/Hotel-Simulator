@@ -84,7 +84,7 @@ public class OpinionHandler {
 		}
 	}
 
-	private OptionalDouble getAvgRating() {
+	public OptionalDouble getAvgRating() {
 		return opinions.stream()
 				.mapToDouble(opinion -> opinion.stars().value)
 				.average();
