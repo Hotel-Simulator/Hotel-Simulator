@@ -1,8 +1,5 @@
 package pl.agh.edu;
 
-import static pl.agh.edu.engine.hotel.HotelType.CITY;
-import static pl.agh.edu.engine.hotel.dificulty.DifficultyLevel.EASY;
-
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -10,23 +7,19 @@ import com.badlogic.gdx.graphics.GL20;
 
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.config.LanguageConfig;
-import pl.agh.edu.engine.Engine;
-import pl.agh.edu.serialization.GameSaveHandler;
 import pl.agh.edu.ui.language.LanguageManager;
-import pl.agh.edu.ui.screen.main.MainScreen;
+import pl.agh.edu.ui.screen.init.ScenarioScreen;
 
 public class GdxGame extends ApplicationAdapter {
 
-	public Engine engine;
 	private Screen currentScreen;
 	private Screen previousScreen;
 
 	@Override
 	public void create() {
-		engine = GameSaveHandler.getInstance().startNewGame("newGame", CITY, EASY);
 		LanguageManager.updateLanguage();
 
-		currentScreen = new MainScreen();
+		currentScreen = new ScenarioScreen();
 		setScreen(currentScreen);
 
 		LanguageConfig.setLanguage(LanguageConfig.getLanguage());
@@ -42,8 +35,6 @@ public class GdxGame extends ApplicationAdapter {
 		if (currentScreen != null) {
 			currentScreen.render(Gdx.graphics.getDeltaTime());
 		}
-
-		engine.time.update(Gdx.graphics.getDeltaTime());
 	}
 
 	@Override
@@ -68,6 +59,10 @@ public class GdxGame extends ApplicationAdapter {
 		}
 		currentScreen = screen;
 		currentScreen.show();
+	}
+
+	public Screen getCurrentScreen() {
+		return currentScreen;
 	}
 
 	public void changeScreen(Screen screen) {
