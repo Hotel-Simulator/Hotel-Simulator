@@ -10,10 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import pl.agh.edu.engine.employee.Employee;
 import pl.agh.edu.engine.employee.EmployeeHandler;
 import pl.agh.edu.engine.employee.EmployeeSalaryHandler;
-import pl.agh.edu.engine.employee.hired.HiredEmployeeHandler;
 import pl.agh.edu.engine.employee.hired.HiredEmployee;
-import pl.agh.edu.engine.employee.possible.PossibleEmployee;
-import pl.agh.edu.engine.employee.possible.PossibleEmployeeHandler;
+import pl.agh.edu.engine.employee.hired.HiredEmployeeHandler;
 import pl.agh.edu.engine.event.EventModalData;
 import pl.agh.edu.ui.component.modal.employee.HireEmployeeModalWrapper;
 import pl.agh.edu.ui.component.modal.employee.ManageEmployeeModalWrapper;
@@ -59,8 +57,9 @@ public class ModalManager extends Stack {
 		addModal(new HireEmployeeModalWrapper<>(modalPreferences, possibleEmployee, possibleEmployeeHandler, refreshAction));
 	}
 
-	public void showManageEmployeeModal(HiredEmployee hiredEmployee, HiredEmployeeHandler hiredEmployeeHandler, EmployeeSalaryHandler employeeSalaryHandler, Runnable refreshAction) {
-		addModal(new ManageEmployeeModalWrapper(modalPreferences, hiredEmployee, hiredEmployeeHandler,employeeSalaryHandler, refreshAction));
+	public void showManageEmployeeModal(HiredEmployee hiredEmployee, HiredEmployeeHandler hiredEmployeeHandler, EmployeeSalaryHandler employeeSalaryHandler,
+			Runnable refreshAction) {
+		addModal(new ManageEmployeeModalWrapper(modalPreferences, hiredEmployee, hiredEmployeeHandler, employeeSalaryHandler, refreshAction));
 	}
 
 	private void addModal(BaseModalWrapper modal) {

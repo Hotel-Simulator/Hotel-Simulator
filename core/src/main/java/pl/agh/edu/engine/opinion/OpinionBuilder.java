@@ -1,13 +1,11 @@
 package pl.agh.edu.engine.opinion;
 
 import java.math.BigDecimal;
-
 import java.time.LocalDateTime;
+
 import pl.agh.edu.engine.client.ClientGroup;
-import pl.agh.edu.engine.employee.Employee;
 import pl.agh.edu.engine.employee.hired.HiredEmployee;
 import pl.agh.edu.engine.room.Room;
-import pl.agh.edu.engine.time.Time;
 
 public class OpinionBuilder {
 	private OpinionBuilder() {}

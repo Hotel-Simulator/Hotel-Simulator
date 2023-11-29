@@ -45,6 +45,7 @@ public class PossibleHiredEmployeeTest {
 						.desiredTypeOfContract(PERMANENT)
 						.build())
 				.profession(CLEANER)
+				.acceptancePointsThreshold(2)
 				.build();
 		// When
 		OfferResponse response = possibleEmployee.offerContract(contractEmployeeOffer);

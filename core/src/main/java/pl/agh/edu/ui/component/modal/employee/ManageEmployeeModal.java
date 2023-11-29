@@ -2,11 +2,12 @@ package pl.agh.edu.ui.component.modal.employee;
 
 import static com.badlogic.gdx.utils.Align.center;
 import static java.math.BigDecimal.ZERO;
-import static java.math.BigDecimal.valueOf;
 import static pl.agh.edu.ui.audio.SoundAudio.CLICK;
 import static pl.agh.edu.ui.resolution.Size.MEDIUM;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.function.Function;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -16,12 +17,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 
-import java.util.List;
-import java.util.function.Function;
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.engine.employee.EmployeeSalaryHandler;
-import pl.agh.edu.engine.employee.hired.HiredEmployeeHandler;
 import pl.agh.edu.engine.employee.hired.HiredEmployee;
+import pl.agh.edu.engine.employee.hired.HiredEmployeeHandler;
 import pl.agh.edu.ui.component.button.LabeledButton;
 import pl.agh.edu.ui.component.label.CustomLabel;
 import pl.agh.edu.ui.component.label.LanguageLabel;
@@ -41,7 +40,7 @@ public class ManageEmployeeModal extends BaseModal {
 	private final Table rightTable = new Table();
 	private final Table leftTable = new Table();
 	private BigDecimal selectedBonus = BigDecimal.valueOf(300L);
-	private final LabeledButton giveBonusButton = new LabeledButton(MEDIUM,getBonusButtonLanguageString());
+	private final LabeledButton giveBonusButton = new LabeledButton(MEDIUM, getBonusButtonLanguageString());
 	private final HiredEmployee hiredEmployee;
 
 	public ManageEmployeeModal(
@@ -53,7 +52,7 @@ public class ManageEmployeeModal extends BaseModal {
 
 		this.hiredEmployee = hiredEmployee;
 
-		initModal(hiredEmployee,hiredEmployeeHandler,employeeSalaryHandler,refreshAction);
+		initModal(hiredEmployee, hiredEmployeeHandler, employeeSalaryHandler, refreshAction);
 		this.setResolutionChangeHandler(this::resize);
 		this.onResolutionChange();
 	}
@@ -62,8 +61,7 @@ public class ManageEmployeeModal extends BaseModal {
 			HiredEmployee hiredEmployee,
 			HiredEmployeeHandler hiredEmployeeHandler,
 			EmployeeSalaryHandler employeeSalaryHandler,
-			Runnable refreshAction
-	){
+			Runnable refreshAction) {
 
 		innerTable.row();
 		innerTable.add(leftTable).grow().uniform();
@@ -74,12 +72,15 @@ public class ManageEmployeeModal extends BaseModal {
 		leftTable.add(createPhoto()).growX().expandY().row();
 		leftTable.add(createName(hiredEmployee)).growX().row();
 		leftTable.add(createBonusSlider(hiredEmployee)).uniform().growX().expandY().bottom().row();
-		leftTable.add(createButtonTable(hiredEmployee, hiredEmployeeHandler, () -> {refreshAction.run();recreateEmployeeInformation();},employeeSalaryHandler)).growX().expandY().bottom().row();
+		leftTable.add(createButtonTable(hiredEmployee, hiredEmployeeHandler, () -> {
+			refreshAction.run();
+			recreateEmployeeInformation();
+		}, employeeSalaryHandler)).growX().expandY().bottom().row();
 
 		setUpEmployeeInformation();
 	}
 
-	private void setUpEmployeeInformation(){
+	private void setUpEmployeeInformation() {
 		rightTable.add(createTitleLabel()).uniform().grow().expandY().bottom().row();
 		rightTable.add(createAgeTag(hiredEmployee)).uniform().growX().expandY().bottom().row();
 		rightTable.add(createSalaryTag(hiredEmployee)).uniform().growX().expandY().bottom().row();
@@ -91,7 +92,7 @@ public class ManageEmployeeModal extends BaseModal {
 		rightTable.add(createBonusTag(hiredEmployee)).uniform().growX().expandY().bottom().row();
 	}
 
-	private void recreateEmployeeInformation(){
+	private void recreateEmployeeInformation() {
 		rightTable.clearChildren();
 		setUpEmployeeInformation();
 	}
@@ -144,16 +145,16 @@ public class ManageEmployeeModal extends BaseModal {
 			}
 		});
 
-		 hireButton.addListener(new ClickListener() {
-			 @Override
-			 public void clicked(InputEvent event, float x, float y) {
-				 if (hireButton.isDisabled())
-					 return;
-				 CLICK.playSound();
-				 ModalManager.getInstance().showHireEmployeeModal(hiredEmployee, hiredHiredEmployeeHandler, postAction);
-				 postAction.run();
-			 }
-		 });
+		hireButton.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				if (hireButton.isDisabled())
+					return;
+				CLICK.playSound();
+				ModalManager.getInstance().showHireEmployeeModal(hiredEmployee, hiredHiredEmployeeHandler, postAction);
+				postAction.run();
+			}
+		});
 
 		return buttonTable;
 	}
@@ -192,7 +193,7 @@ public class ManageEmployeeModal extends BaseModal {
 		return new ValueTag(new LanguageString("employee.stats.satisfaction"), hiredEmployee.getSatisfaction().multiply(BigDecimal.valueOf(100)) + "%");
 	}
 
-	private LanguageString  getBonusButtonLanguageString(){
+	private LanguageString getBonusButtonLanguageString() {
 		return new LanguageString("employee.manage.button.bonus", List.of(Pair.of("bonus", new CustomBigDecimal(selectedBonus).toString())));
 	}
 
@@ -208,8 +209,7 @@ public class ManageEmployeeModal extends BaseModal {
 				ZERO,
 				hiredEmployee.getWage(),
 				function,
-				selectedBonus
-		);
+				selectedBonus);
 
 		return slider;
 	}

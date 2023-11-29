@@ -21,8 +21,6 @@ import pl.agh.edu.data.loader.JSONOpinionDataLoader;
 import pl.agh.edu.engine.bank.BankAccountHandler;
 import pl.agh.edu.engine.client.ClientGroup;
 import pl.agh.edu.engine.client.report.collector.ClientGroupReportDataCollector;
-import pl.agh.edu.engine.employee.Employee;
-import pl.agh.edu.engine.employee.EmployeeHandler;
 import pl.agh.edu.engine.employee.Profession;
 import pl.agh.edu.engine.employee.Shift;
 import pl.agh.edu.engine.employee.hired.HiredEmployee;

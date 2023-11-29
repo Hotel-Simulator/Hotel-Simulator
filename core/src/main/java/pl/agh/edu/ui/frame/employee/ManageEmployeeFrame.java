@@ -39,7 +39,7 @@ public class ManageEmployeeFrame extends BaseFrame {
 		engine.hiredEmployeeHandler.getEmployees()
 				.forEach(employee -> manageEmployeeTable.addRow(
 						employee,
-						() -> ModalManager.getInstance().showManageEmployeeModal(employee, engine.hiredEmployeeHandler,engine.employeeSalaryHandler, this::refreshTable)));
+						() -> ModalManager.getInstance().showManageEmployeeModal(employee, engine.hiredEmployeeHandler, engine.employeeSalaryHandler, this::refreshTable)));
 	}
 
 	private Actor createPhoto(HiredEmployee employee) {

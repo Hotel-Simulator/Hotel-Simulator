@@ -18,8 +18,8 @@ import com.esotericsoftware.kryo.io.Output;
 
 import pl.agh.edu.data.loader.JSONEmployeeDataLoader;
 import pl.agh.edu.engine.employee.Employee;
-import pl.agh.edu.engine.employee.EmployeeStatus;
 import pl.agh.edu.engine.employee.EmployeePreferences;
+import pl.agh.edu.engine.employee.EmployeeStatus;
 import pl.agh.edu.engine.employee.Profession;
 import pl.agh.edu.engine.employee.Shift;
 import pl.agh.edu.engine.employee.contract.EmployeeOffer;
@@ -87,8 +87,7 @@ public class HiredEmployee extends Employee {
 				possibleEmployee.skills,
 				possibleEmployee.preferences,
 				possibleEmployee.profession,
-				possibleEmployee.acceptancePointsThreshold
-		);
+				possibleEmployee.acceptancePointsThreshold);
 
 		this.bonuses = new ArrayList<>();
 
@@ -98,16 +97,16 @@ public class HiredEmployee extends Employee {
 	}
 
 	public HiredEmployee(String firstName,
-					String lastName,
-					int age,
-					BigDecimal skills,
-					EmployeePreferences preferences,
-					Profession profession,
-					int acceptancePointsThreshold,
-					Shift shift,
-					BigDecimal wage,
-				    TypeOfContract typeOfContract,
-					List<BigDecimal> bonuses) {
+			String lastName,
+			int age,
+			BigDecimal skills,
+			EmployeePreferences preferences,
+			Profession profession,
+			int acceptancePointsThreshold,
+			Shift shift,
+			BigDecimal wage,
+			TypeOfContract typeOfContract,
+			List<BigDecimal> bonuses) {
 		super(firstName, lastName, age, skills, preferences, profession, acceptancePointsThreshold);
 		this.shift = shift;
 		this.wage = wage;
@@ -186,6 +185,7 @@ public class HiredEmployee extends Employee {
 	public void setStatus(EmployeeStatus employeeStatus) {
 		this.employeeStatus = employeeStatus;
 	}
+
 	public BigDecimal getWage() {
 		return wage;
 	}

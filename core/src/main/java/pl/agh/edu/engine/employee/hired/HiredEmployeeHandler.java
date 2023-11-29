@@ -1,7 +1,6 @@
 package pl.agh.edu.engine.employee.hired;
 
 import static java.time.LocalTime.MIDNIGHT;
-import static java.time.LocalTime.of;
 import static pl.agh.edu.engine.employee.EmployeeStatus.FIRED_WORKING;
 import static pl.agh.edu.engine.employee.EmployeeStatus.HIRED_NOT_WORKING;
 import static pl.agh.edu.engine.employee.EmployeeStatus.HIRED_WORKING;
@@ -18,13 +17,13 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.Serializer;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 
-import java.util.stream.Stream;
 import pl.agh.edu.data.loader.JSONEmployeeDataLoader;
 import pl.agh.edu.engine.employee.EmployeeHandler;
 import pl.agh.edu.engine.employee.EmployeePreferences;
@@ -40,6 +39,7 @@ import pl.agh.edu.serialization.KryoConfig;
 public class HiredEmployeeHandler extends EmployeeHandler<HiredEmployee> {
 	private final Time time;
 	private final TimeCommandExecutor timeCommandExecutor;
+
 	public static void kryoRegister() {
 		KryoConfig.kryo.register(HiredEmployeeHandler.class, new Serializer<HiredEmployeeHandler>() {
 			@Override
@@ -85,18 +85,17 @@ public class HiredEmployeeHandler extends EmployeeHandler<HiredEmployee> {
 	public boolean canNegotiateContractWith(HiredEmployee employee) {
 		return employee.getStatus() == HIRED_WORKING;
 	}
+
 	public void hireEmployee(HiredEmployee employee) {
 		this.employeeList.add(employee);
 		timeCommandExecutor.addCommand(
 				new TimeCommand(() -> employee.setStatus(HIRED_WORKING),
 						LocalDateTime.of(time
-										.getTime()
-										.toLocalDate()
-										.minusDays(time.getTime().getDayOfMonth() - 1)
-										.plusMonths(1),
-								MIDNIGHT)
-				)
-		);
+								.getTime()
+								.toLocalDate()
+								.minusDays(time.getTime().getDayOfMonth() - 1)
+								.plusMonths(1),
+								MIDNIGHT)));
 	}
 
 	public void fireEmployee(HiredEmployee employee) {
@@ -104,9 +103,8 @@ public class HiredEmployeeHandler extends EmployeeHandler<HiredEmployee> {
 		timeCommandExecutor.addCommand(
 				new TimeCommand(
 						() -> this.removeEmployee(employee),
-						LocalDateTime.of(LocalDate.of(time.getTime().getYear(), time.getTime().getMonth(), 1).plusMonths(JSONEmployeeDataLoader.noticePeriodInMonths + 1), MIDNIGHT)
-				)
-		);
+						LocalDateTime.of(LocalDate.of(time.getTime().getYear(), time.getTime().getMonth(), 1).plusMonths(JSONEmployeeDataLoader.noticePeriodInMonths + 1),
+								MIDNIGHT)));
 	}
 
 	public void removeEmployee(HiredEmployee employee) {

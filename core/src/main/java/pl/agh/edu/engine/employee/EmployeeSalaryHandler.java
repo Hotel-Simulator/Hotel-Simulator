@@ -12,8 +12,8 @@ import com.esotericsoftware.kryo.io.Output;
 
 import pl.agh.edu.data.loader.JSONEmployeeDataLoader;
 import pl.agh.edu.engine.bank.BankAccountHandler;
-import pl.agh.edu.engine.employee.hired.HiredEmployeeHandler;
 import pl.agh.edu.engine.employee.hired.HiredEmployee;
+import pl.agh.edu.engine.employee.hired.HiredEmployeeHandler;
 import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.engine.time.TimeCommandExecutor;
 import pl.agh.edu.engine.time.command.TimeCommand;

@@ -29,8 +29,6 @@ import pl.agh.edu.engine.employee.Shift;
 import pl.agh.edu.engine.employee.contract.EmployeeOffer;
 import pl.agh.edu.engine.employee.contract.OfferResponse;
 import pl.agh.edu.engine.employee.contract.TypeOfContract;
-import pl.agh.edu.engine.employee.possible.PossibleEmployee;
-import pl.agh.edu.engine.employee.possible.PossibleEmployeeHandler;
 import pl.agh.edu.ui.component.button.LabeledButton;
 import pl.agh.edu.ui.component.label.CustomLabel;
 import pl.agh.edu.ui.component.label.LanguageLabel;

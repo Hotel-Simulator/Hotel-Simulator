@@ -12,8 +12,6 @@ import com.esotericsoftware.kryo.Serializer;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 
-import pl.agh.edu.engine.employee.Employee;
-import pl.agh.edu.engine.employee.EmployeeHandler;
 import pl.agh.edu.engine.employee.Shift;
 import pl.agh.edu.engine.employee.hired.HiredEmployee;
 import pl.agh.edu.engine.employee.hired.HiredEmployeeHandler;

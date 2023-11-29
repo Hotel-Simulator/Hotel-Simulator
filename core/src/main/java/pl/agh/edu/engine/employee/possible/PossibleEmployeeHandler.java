@@ -64,6 +64,7 @@ public class PossibleEmployeeHandler extends EmployeeHandler<PossibleEmployee> {
 		IntStream.range(employeeList.size(), JSONGameDataLoader.employeesToHireListSize)
 				.forEach(i -> employeeList.add(PossibleEmployeeGenerator.generatePossibleEmployee()));
 	}
+
 	@Override
 	public OfferResponse offerContract(PossibleEmployee possibleEmployee, EmployeeOffer employeeOffer) {
 		OfferResponse response = possibleEmployee.offerContract(employeeOffer);

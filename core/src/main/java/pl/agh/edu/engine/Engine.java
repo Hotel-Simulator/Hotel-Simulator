@@ -23,7 +23,6 @@ import pl.agh.edu.engine.building_cost.BuildingCostSupplier;
 import pl.agh.edu.engine.client.ClientGroupArrivalGenerationHandler;
 import pl.agh.edu.engine.client.ClientGroupGenerationHandler;
 import pl.agh.edu.engine.client.report.collector.ClientGroupReportDataCollector;
-import pl.agh.edu.engine.employee.EmployeeHandler;
 import pl.agh.edu.engine.employee.EmployeeSalaryHandler;
 import pl.agh.edu.engine.employee.hired.HiredEmployeeHandler;
 import pl.agh.edu.engine.employee.possible.PossibleEmployeeHandler;

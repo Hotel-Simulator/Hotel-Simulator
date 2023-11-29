@@ -60,11 +60,9 @@ import pl.agh.edu.engine.client.report.generator.ClientGroupDailyReportGenerator
 import pl.agh.edu.engine.client.report.generator.ClientGroupMonthlyReportGenerator;
 import pl.agh.edu.engine.client.report.generator.ClientGroupYearlyReportGenerator;
 import pl.agh.edu.engine.client.report.util.DateTrie;
-import pl.agh.edu.engine.employee.Employee;
-import pl.agh.edu.engine.employee.EmployeeHandler;
+import pl.agh.edu.engine.employee.EmployeePreferences;
 import pl.agh.edu.engine.employee.EmployeeSalaryHandler;
 import pl.agh.edu.engine.employee.EmployeeStatus;
-import pl.agh.edu.engine.employee.EmployeePreferences;
 import pl.agh.edu.engine.employee.Profession;
 import pl.agh.edu.engine.employee.Shift;
 import pl.agh.edu.engine.employee.contract.EmployeeOffer;
