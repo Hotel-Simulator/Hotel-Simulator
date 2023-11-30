@@ -45,7 +45,6 @@ import pl.agh.edu.engine.time.command.RepeatingTimeCommand;
 import pl.agh.edu.serialization.KryoConfig;
 
 public class Engine {
-
 	public final Time time;
 	private final TimeCommandExecutor timeCommandExecutor;
 	public final OpinionHandler opinionHandler;
