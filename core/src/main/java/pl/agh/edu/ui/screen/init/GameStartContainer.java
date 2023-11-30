@@ -37,7 +37,7 @@ public class GameStartContainer extends Table {
 		Optional<DifficultyLevel> difficultyLevel = difficultyPanel.getSelectedDifficulty();
 		Optional<HotelType> hotelType = scenarioPanel.getSelectedScenario();
 		if (difficultyLevel.isPresent() && hotelType.isPresent()) {
-			MainScreen.engine = GameSaveHandler.getInstance().startNewGame("newGame", hotelType.get(), difficultyLevel.get());
+			MainScreen.engine = GameSaveHandler.getInstance().startNewGame("myHotel", hotelType.get(), difficultyLevel.get());
 			game.setScreen(new MainScreen());
 		}
 	}

@@ -55,9 +55,9 @@ public class GameSaveHandler {
 		return saveFolder.getAbsolutePath() + os.pathSeparator + currentGameSaveName;
 	}
 
-	public Engine startNewGame(String gameSaveName, HotelType hotelType, DifficultyLevel difficultyLevel) {
-		currentGameSaveName = gameSaveName;
-		return new Engine(hotelType, difficultyLevel);
+	public Engine startNewGame(String hotelName, HotelType hotelType, DifficultyLevel difficultyLevel) {
+		currentGameSaveName = hotelName;
+		return new Engine(hotelName, hotelType, difficultyLevel);
 	}
 
 	public Engine loadSavedGame(String gameSaveName) {

@@ -127,12 +127,12 @@ public class Engine {
 		});
 	}
 
-	public Engine(HotelType type, DifficultyLevel difficultyLevel) {
+	public Engine(String hotelName, HotelType type, DifficultyLevel difficultyLevel) {
 		this.time = Time.getInstance();
 		this.timeCommandExecutor = TimeCommandExecutor.getInstance();
 		this.opinionHandler = new OpinionHandler();
 		this.gameDifficultyManager = new GameDifficultyManager(difficultyLevel);
-		this.hotel = new Hotel();
+		this.hotel = new Hotel(hotelName);
 		this.clientGroupReportDataCollector = new ClientGroupReportDataCollector();
 		this.employeeHandler = new EmployeeHandler();
 		this.possibleEmployeeHandler = new PossibleEmployeeHandler(employeeHandler);

@@ -11,7 +11,7 @@ import pl.agh.edu.data.loader.JSONHotelDataLoader;
 import pl.agh.edu.serialization.KryoConfig;
 
 public class Hotel {
-	private String hotelName;
+	private final String hotelName;
 	private Long hotelId;
 	private LocalTime checkInTime;
 	private LocalTime checkOutTime;
@@ -20,6 +20,7 @@ public class Hotel {
 		KryoConfig.kryo.register(Hotel.class, new Serializer<Hotel>() {
 			@Override
 			public void write(Kryo kryo, Output output, Hotel object) {
+				kryo.writeObject(output, object.hotelName);
 				kryo.writeObject(output, object.checkInTime);
 				kryo.writeObject(output, object.checkOutTime);
 
@@ -28,18 +29,21 @@ public class Hotel {
 			@Override
 			public Hotel read(Kryo kryo, Input input, Class<? extends Hotel> type) {
 				return new Hotel(
+						kryo.readObject(input, String.class),
 						kryo.readObject(input, LocalTime.class),
 						kryo.readObject(input, LocalTime.class));
 			}
 		});
 	}
 
-	public Hotel() {
+	public Hotel(String hotelName) {
+		this.hotelName = hotelName;
 		checkInTime = JSONHotelDataLoader.checkInAndOutTime.get("check_in");
 		checkOutTime = JSONHotelDataLoader.checkInAndOutTime.get("check_out");
 	}
 
-	private Hotel(LocalTime checkInTime, LocalTime checkOutTime) {
+	private Hotel(String hotelName, LocalTime checkInTime, LocalTime checkOutTime) {
+		this.hotelName = hotelName;
 		this.checkInTime = checkInTime;
 		this.checkOutTime = checkOutTime;
 	}
