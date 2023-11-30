@@ -148,12 +148,14 @@ public class BankAccountHandler {
 	public void addBalanceListener(BalanceListener balanceListener) {
 		balanceListeners.add(balanceListener);
 	}
+
 	public void removeBalanceListener(BalanceListener balanceListener) {
 		balanceListeners.remove(balanceListener);
 	}
+
 	public void notifyBalanceListeners() {
 		balanceListeners.forEach(balanceListener -> {
-			if(balanceListener != null)
+			if (balanceListener != null)
 				balanceListener.onBalanceChange(account.getBalance());
 			else {
 				balanceListeners.remove(balanceListener);

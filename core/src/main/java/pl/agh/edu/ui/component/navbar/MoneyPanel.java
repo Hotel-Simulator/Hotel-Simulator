@@ -4,6 +4,7 @@ import static com.badlogic.gdx.utils.Align.center;
 import static pl.agh.edu.ui.utils.SkinFont.H4;
 
 import java.math.BigDecimal;
+
 import pl.agh.edu.engine.bank.BalanceListener;
 import pl.agh.edu.ui.component.label.CustomLabel;
 import pl.agh.edu.ui.utils.wrapper.WrapperTable;
