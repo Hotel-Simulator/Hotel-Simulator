@@ -7,14 +7,12 @@ import static com.badlogic.gdx.scenes.scene2d.Touchable.enabled;
 
 import java.util.function.Consumer;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
-import pl.agh.edu.GdxGame;
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.engine.Engine;
 import pl.agh.edu.ui.GameSkin;
@@ -22,6 +20,7 @@ import pl.agh.edu.ui.language.LanguageChangeListener;
 import pl.agh.edu.ui.language.LanguageManager;
 import pl.agh.edu.ui.resolution.ResolutionChangeListener;
 import pl.agh.edu.ui.resolution.ResolutionManager;
+import pl.agh.edu.ui.screen.main.MainScreen;
 import pl.agh.edu.utils.LanguageString;
 
 public abstract class WrapperContainer<T extends Actor> extends Container<T> implements LanguageChangeListener, ResolutionChangeListener {
@@ -30,7 +29,7 @@ public abstract class WrapperContainer<T extends Actor> extends Container<T> imp
 	private Runnable resolutionChangeHandler;
 	private Runnable returnHandler;
 	protected Skin skin = GameSkin.getInstance();
-	protected Engine engine = ((GdxGame) Gdx.app.getApplicationListener()).engine;
+	protected Engine engine = MainScreen.engine;
 
 	public WrapperContainer(LanguageString languageString) {
 		this.languageString = languageString;
