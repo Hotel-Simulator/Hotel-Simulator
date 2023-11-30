@@ -26,7 +26,7 @@ public class RoomFrame extends BaseFrame {
 				.addColumn(new LanguageString("roomTable.column.size"), this::createSize, 2)
 				.addColumn(new LanguageString("roomTable.column.rank"), this::createRank, 2)
 				.addColumn(new LanguageString("roomTable.column.price"), this::createPrice, 2)
-				.addColumn(new LanguageString("roomTable.column.in.possession"), this::createNumberInPossession, 2)
+				.addColumn(new LanguageString("roomTable.column.inPossession"), this::createNumberInPossession, 2)
 				.build();
 
 		Arrays.stream(RoomSize.values())
