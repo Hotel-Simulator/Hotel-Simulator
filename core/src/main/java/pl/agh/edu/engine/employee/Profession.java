@@ -10,7 +10,7 @@ public enum Profession {
 
 	public final LanguageString languageString;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(Profession.class);
 	}
 

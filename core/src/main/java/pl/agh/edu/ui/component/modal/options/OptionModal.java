@@ -18,6 +18,7 @@ import pl.agh.edu.config.LanguageConfig;
 import pl.agh.edu.ui.component.button.LabeledButton;
 import pl.agh.edu.ui.component.label.LanguageLabel;
 import pl.agh.edu.ui.component.modal.ModalManager;
+import pl.agh.edu.ui.component.modal.utils.BaseModal;
 import pl.agh.edu.ui.component.selectMenu.SelectMenu;
 import pl.agh.edu.ui.component.selectMenu.SelectMenuBoolean;
 import pl.agh.edu.ui.component.selectMenu.SelectMenuItem;
@@ -25,16 +26,15 @@ import pl.agh.edu.ui.component.selectMenu.SelectMenuLanguage;
 import pl.agh.edu.ui.component.selectMenu.SelectMenuResolutionItem;
 import pl.agh.edu.ui.component.slider.PercentSliderComponent;
 import pl.agh.edu.ui.component.slider.SliderComponent;
-import pl.agh.edu.ui.utils.wrapper.WrapperTable;
 import pl.agh.edu.utils.LanguageString;
 
-public class OptionModal extends WrapperTable {
+public class OptionModal extends BaseModal {
 	private final SelectMenu selectResolutionMenu = createSelectMenuForResolution();
 	private final SelectMenu selectFullScreenMenu = createSelectMenuForFullScreenMode();
 	private final SelectMenu selectLanguageMenu = createSelectMenuForLanguage();
 
 	public OptionModal() {
-		this.setBackground("modal-glass-background");
+		super();
 
 		LanguageLabel titleLabel = new LanguageLabel(new LanguageString("optionsFrame.label.title"), H2.getName());
 		titleLabel.setAlignment(center, center);
@@ -153,21 +153,6 @@ public class OptionModal extends WrapperTable {
 		selectResolutionMenu.setItem(GraphicConfig.getResolution().toString());
 		selectFullScreenMenu.setItem("selectMenu.boolean." + (GraphicConfig.isFullscreen() ? "yes" : "no"));
 		selectLanguageMenu.setItem(LanguageConfig.getLanguage().languageString.path);
-	}
-
-	@Override
-	public void validate() {
-		super.validate();
-		if (this.getParent() != null) {
-			innerTable.setBounds(
-					this.getParent().getX(),
-					this.getParent().getY(),
-					this.getWidth(),
-					this.getHeight());
-			this.setResetAnimationPosition(
-					this.getParent().getX() + (GraphicConfig.getResolution().WIDTH - this.getWidth()) / 2,
-					this.getParent().getY() + (GraphicConfig.getResolution().HEIGHT - this.getHeight()) / 2);
-		}
 	}
 
 	private static class OptionFrameStyle {

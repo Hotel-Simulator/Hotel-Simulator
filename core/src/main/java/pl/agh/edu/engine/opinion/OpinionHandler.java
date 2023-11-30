@@ -12,21 +12,65 @@ import java.util.OptionalDouble;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.Serializer;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
+
 import pl.agh.edu.data.loader.JSONOpinionDataLoader;
 import pl.agh.edu.engine.client.ClientGroup;
 import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.engine.time.TimeCommandExecutor;
 import pl.agh.edu.engine.time.command.TimeCommand;
+import pl.agh.edu.serialization.KryoConfig;
 import pl.agh.edu.utils.LanguageString;
 import pl.agh.edu.utils.RandomUtils;
 
 public class OpinionHandler {
-	private static BigDecimal opinionModifier = new BigDecimal("0.1");
-	private static final List<OpinionData> opinions = new ArrayList<>();
-	private static final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
-	private static final Time time = Time.getInstance();
+	private final Time time;
+	private final TimeCommandExecutor timeCommandExecutor;
+	private final List<OpinionData> opinions;
+	private BigDecimal opinionModifier;
 
-	public static void addOpinionWithProbability(ClientGroup clientGroup, double probability) {
+	public static void kryoRegister() {
+		KryoConfig.kryo.register(OpinionHandler.class, new Serializer<OpinionHandler>() {
+			@Override
+			public void write(Kryo kryo, Output output, OpinionHandler object) {
+				kryo.writeObject(output, object.time);
+				kryo.writeObject(output, object.timeCommandExecutor);
+				kryo.writeObject(output, object.opinions, KryoConfig.listSerializer(OpinionData.class));
+				kryo.writeObject(output, object.opinionModifier);
+			}
+
+			@Override
+			public OpinionHandler read(Kryo kryo, Input input, Class<? extends OpinionHandler> type) {
+				return new OpinionHandler(
+						kryo.readObject(input, Time.class),
+						kryo.readObject(input, TimeCommandExecutor.class),
+						kryo.readObject(input, List.class, KryoConfig.listSerializer(OpinionData.class)),
+						kryo.readObject(input, BigDecimal.class));
+			}
+		});
+	}
+
+	public OpinionHandler() {
+		this.time = Time.getInstance();
+		this.timeCommandExecutor = TimeCommandExecutor.getInstance();
+		this.opinions = new ArrayList<>();
+		this.opinionModifier = new BigDecimal("0.1");
+	}
+
+	private OpinionHandler(Time time,
+			TimeCommandExecutor timeCommandExecutor,
+			List<OpinionData> opinions,
+			BigDecimal opinionModifier) {
+		this.time = time;
+		this.timeCommandExecutor = timeCommandExecutor;
+		this.opinions = opinions;
+		this.opinionModifier = opinionModifier;
+	}
+
+	public void addOpinionWithProbability(ClientGroup clientGroup, double probability) {
 		if (RandomUtils.randomBooleanWithProbability(probability)) {
 			OpinionData opinionData = new OpinionData(
 					RandomUtils.randomListElement(clientGroup.getMembers()).name(),
@@ -40,14 +84,14 @@ public class OpinionHandler {
 		}
 	}
 
-	private static OptionalDouble getAvgRating() {
+	private OptionalDouble getAvgRating() {
 		return opinions.stream()
 				.mapToDouble(opinion -> opinion.stars().value)
 				.average();
 	}
 
 	@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-	private static Optional<BigDecimal> mapRating(OptionalDouble optionalRating) {
+	private Optional<BigDecimal> mapRating(OptionalDouble optionalRating) {
 		return optionalRating.stream()
 				.map(rating -> mappingFunction().apply(rating))
 				.mapToObj(BigDecimal::valueOf)
@@ -56,22 +100,22 @@ public class OpinionHandler {
 						.min(ONE)).findAny();
 	}
 
-	private static Function<Double, Double> mappingFunction() {
+	private Function<Double, Double> mappingFunction() {
 		return x -> Math.pow(x, 4) / 625;
 	}
 
-	private static BigDecimal getDailyChangeValue() {
+	private BigDecimal getDailyChangeValue() {
 		Optional<BigDecimal> optionalTargetOpinionModifier = mapRating(getAvgRating());
 		return optionalTargetOpinionModifier.map(bigDecimal -> bigDecimal.subtract(opinionModifier)
 				.multiply(JSONOpinionDataLoader.opinionChangeMultiplier)
 				.setScale(4, HALF_EVEN)).orElse(ZERO);
 	}
 
-	public static void dailyUpdate() {
+	public void dailyUpdate() {
 		opinionModifier = opinionModifier.add(getDailyChangeValue());
 	}
 
-	public static BigDecimal getOpinionModifier() {
+	public BigDecimal getOpinionModifier() {
 		return opinionModifier;
 	}
 }

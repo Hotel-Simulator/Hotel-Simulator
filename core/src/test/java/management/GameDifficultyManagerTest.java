@@ -1,6 +1,7 @@
 package management;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static pl.agh.edu.engine.hotel.dificulty.DifficultyLevel.MEDIUM;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,7 +14,7 @@ public class GameDifficultyManagerTest {
 
 	@BeforeEach
 	public void setUp() {
-		gameDifficultyManager = GameDifficultyManager.getInstance();
+		gameDifficultyManager = new GameDifficultyManager(MEDIUM);
 	}
 
 	@Test

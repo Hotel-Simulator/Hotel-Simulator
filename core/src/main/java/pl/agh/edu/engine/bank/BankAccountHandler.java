@@ -6,22 +6,65 @@ import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.Serializer;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
+
 import pl.agh.edu.data.loader.JSONBankDataLoader;
 import pl.agh.edu.engine.time.Frequency;
 import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.engine.time.TimeCommandExecutor;
 import pl.agh.edu.engine.time.command.NRepeatingTimeCommand;
+import pl.agh.edu.serialization.KryoConfig;
 
 public class BankAccountHandler {
+	private final Time time;
+	private final TimeCommandExecutor timeCommandExecutor;
 	public final BankAccount account;
+	private Map<Credit, NRepeatingTimeCommand> currentCredits;
 
-	private final Map<Credit, NRepeatingTimeCommand> currentCredits = new HashMap<>();
+	public static void kryoRegister() {
+		KryoConfig.kryo.register(BankAccountHandler.class, new Serializer<BankAccountHandler>() {
+			@Override
+			public void write(Kryo kryo, Output output, BankAccountHandler object) {
+				kryo.writeObject(output, object.time);
+				kryo.writeObject(output, object.timeCommandExecutor);
+				kryo.writeObject(output, object.account);
+				kryo.writeObject(output, object.currentCredits, KryoConfig.mapSerializer(Credit.class, NRepeatingTimeCommand.class));
 
-	private final Time time = Time.getInstance();
-	private final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
+			}
 
-	public BankAccountHandler(BankAccount account) {
+			@Override
+			public BankAccountHandler read(Kryo kryo, Input input, Class<? extends BankAccountHandler> type) {
+				BankAccountHandler bankAccountHandler = new BankAccountHandler(
+						kryo.readObject(input, Time.class),
+						kryo.readObject(input, TimeCommandExecutor.class),
+						kryo.readObject(input, BankAccount.class));
+
+				kryo.reference(bankAccountHandler);
+
+				bankAccountHandler.currentCredits = kryo.readObject(input, Map.class, KryoConfig.mapSerializer(Credit.class, NRepeatingTimeCommand.class));
+
+				return bankAccountHandler;
+			}
+		});
+	}
+
+	public BankAccountHandler(BankAccount bankAccount) {
+		this.time = Time.getInstance();
+		this.timeCommandExecutor = TimeCommandExecutor.getInstance();
+		this.account = bankAccount;
+		this.currentCredits = new HashMap<>();
+	}
+
+	private BankAccountHandler(Time time,
+			TimeCommandExecutor timeCommandExecutor,
+			BankAccount account) {
+		this.time = time;
+		this.timeCommandExecutor = timeCommandExecutor;
 		this.account = account;
+		this.currentCredits = new HashMap<>();
 	}
 
 	public void registerExpense(BigDecimal expense) {

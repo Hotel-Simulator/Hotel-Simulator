@@ -1,15 +1,20 @@
 package pl.agh.edu.ui.panel;
 
-import static pl.agh.edu.ui.resolution.Size.LARGE;
+import static pl.agh.edu.ui.audio.SoundAudio.CLICK;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.engine.hotel.HotelType;
@@ -17,11 +22,13 @@ import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.component.button.ScenarioButton;
 import pl.agh.edu.ui.component.button.ScenarioLabeledButton;
 import pl.agh.edu.ui.component.label.LanguageLabel;
-import pl.agh.edu.ui.utils.wrapper.WrapperContainer;
+import pl.agh.edu.ui.resolution.ResolutionChangeListener;
+import pl.agh.edu.ui.resolution.ResolutionManager;
 import pl.agh.edu.utils.LanguageString;
 
-public class ScenarioPanel extends WrapperContainer<Table> {
+public class ScenarioPanel implements ResolutionChangeListener {
 	public final Table frame = new Table();
+	protected Skin skin = GameSkin.getInstance();
 	public final ScenarioPanelSizes sizes = new ScenarioPanelSizes();
 	public final List<ScenarioButton> buttonList = new ArrayList<>();
 	public final ButtonGroup<Button> buttonGroup = new ButtonGroup<>();
@@ -29,18 +36,21 @@ public class ScenarioPanel extends WrapperContainer<Table> {
 	public final Table middleTable = new Table();
 	public final Table bottomTable = new Table();
 	private LanguageLabel titleLabel;
+	private ScenarioLabeledButton backButton;
 	private ScenarioLabeledButton nextButton;
+	private final Runnable goToDifficultyPanel;
 
-	public ScenarioPanel() {
-		super(new LanguageString("scenario.next.button"));
-		setActor(frame);
+	public ScenarioPanel(Runnable goToDifficultyPanel) {
+		this.goToDifficultyPanel = goToDifficultyPanel;
 		getSize();
 		createDifficultyButtons();
 		createTitleLabel();
 		createNextButton();
+		createBackButton();
 
-		createFrame();
-		setResolutionChangeHandler(this::updatedSizes);
+		setEventListeners();
+
+		ResolutionManager.addListener(this);
 	}
 
 	public void createFrame() {
@@ -50,15 +60,34 @@ public class ScenarioPanel extends WrapperContainer<Table> {
 
 		frame.clearChildren();
 		frame.setFillParent(true);
-		frame.background(skin.getDrawable("hotel-room"));
+		frame.left();
 
 		addTitleLabelToFrame();
 		addScenarioButtonsToFrame();
-		addNextButtonToFrame();
+		addNextBackButtonsToFrame();
 
 		frame.add(topTable).height(sizes.getTopAndBottomTableHeight()).growX().row();
 		frame.add(middleTable).height(sizes.getMiddleTableHeight()).growX().row();
 		frame.add(bottomTable).height(sizes.getTopAndBottomTableHeight()).growX().row();
+	}
+
+	private void setEventListeners() {
+		nextButton.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				CLICK.playSound();
+				goToDifficultyPanel.run();
+			}
+		});
+	}
+
+	public Optional<HotelType> getSelectedScenario() {
+		Button selectedButton = buttonGroup.getChecked();
+
+		return buttonList.stream()
+				.filter(button -> selectedButton.equals(button.getActor()))
+				.map(button -> button.hotelType)
+				.findFirst();
 	}
 
 	private void addScenarioButtonsToFrame() {
@@ -92,26 +121,43 @@ public class ScenarioPanel extends WrapperContainer<Table> {
 		topTable.add(titleLabel);
 	}
 
+	private void addNextBackButtonsToFrame() {
+		Table playBack = new Table();
+		playBack.add(backButton).padRight(frame.getWidth() / 2);
+		playBack.add(nextButton);
+		bottomTable.add(playBack);
+	}
+
 	public void createNextButton() {
 		nextButton = new ScenarioLabeledButton(getNextButtonText());
 	}
 
-	public void addNextButtonToFrame() {
-		bottomTable.add(nextButton).growX().right().padRight(sizes.getPaddingHorizontal());
+	public void createBackButton() {
+		backButton = new ScenarioLabeledButton(getBackButtonText());
 	}
 
 	public LanguageString getNextButtonText() {
 		return new LanguageString("scenario.next.button");
 	}
 
+	public LanguageString getBackButtonText() {
+		return new LanguageString("init.back.button");
+	}
+
 	public void updateLabels() {
 		titleLabel.setStyle(ScenarioPanelStyles.getTitleLabelStyle());
 	}
 
-	public void updatedSizes() {
+	public void updateSizes() {
 		getSize();
 		updateLabels();
 		createFrame();
+	}
+
+	@Override
+	public Actor onResolutionChange() {
+		updateSizes();
+		return frame;
 	}
 
 	public static class ScenarioPanelStyles {

@@ -23,7 +23,7 @@ public class ClientGroup {
 	private final int numberOfNights;
 	public final Opinion opinion;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(ClientGroup.class, new Serializer<ClientGroup>() {
 			@Override
 			public void write(Kryo kryo, Output output, ClientGroup object) {

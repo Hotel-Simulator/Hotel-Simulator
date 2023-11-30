@@ -7,7 +7,7 @@ public enum RoomRank {
 	STANDARD,
 	DELUXE;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(RoomRank.class);
 	}
 }

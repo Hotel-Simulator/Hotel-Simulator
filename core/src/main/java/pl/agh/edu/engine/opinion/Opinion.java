@@ -34,7 +34,7 @@ public class Opinion {
 
 	private final List<OpinionBucket> opinionBuckets = new ArrayList<>();
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(Opinion.class, new Serializer<Opinion>() {
 			@Override
 			public void write(Kryo kryo, Output output, Opinion object) {

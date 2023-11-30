@@ -12,7 +12,7 @@ public enum Frequency {
 	EVERY_MONTH,
 	EVERY_YEAR;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(Frequency.class);
 	}
 

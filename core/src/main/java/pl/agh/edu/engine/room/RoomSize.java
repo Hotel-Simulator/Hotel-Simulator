@@ -11,7 +11,7 @@ public enum RoomSize {
 
 	private final int maxNumberOfGuests;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(RoomSize.class);
 	}
 

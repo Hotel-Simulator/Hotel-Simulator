@@ -4,6 +4,8 @@ import java.time.Duration;
 import java.time.LocalTime;
 
 import pl.agh.edu.serialization.KryoConfig;
+import pl.agh.edu.ui.language.LanguageManager;
+import pl.agh.edu.utils.LanguageString;
 
 public enum Shift {
 	MORNING(LocalTime.of(8, 0)),
@@ -13,12 +15,17 @@ public enum Shift {
 	private final LocalTime startTime;
 	private final Duration duration = Duration.ofHours(8);
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(Shift.class);
 	}
 
 	Shift(LocalTime startTime) {
 		this.startTime = startTime;
+	}
+
+	@Override
+	public String toString() {
+		return LanguageManager.get(new LanguageString("employee.shift." + this.name().toLowerCase()));
 	}
 
 	public boolean lasts(LocalTime time) {
@@ -36,5 +43,4 @@ public enum Shift {
 			case NIGHT -> MORNING;
 		};
 	}
-
 }

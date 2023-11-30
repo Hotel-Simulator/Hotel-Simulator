@@ -36,7 +36,7 @@ public class LanguageManager {
 			return get(languageString.path);
 		String result = get(languageString.path);
 		for (Pair<String, String> replacement : languageString.replacementsList) {
-			result = result.replace(replacement.first(), replacement.second());
+			result = result.replace("{{" + replacement.first() + "}}", replacement.second());
 		}
 		return result;
 	}

@@ -19,7 +19,8 @@ public class JSONGameDataLoader {
 	public static LocalDate endDate;
 
 	public static int employeesToHireListSize;
-	public static double possibleEmployeeRemovalProbability;
+	public static double everyDayPossibleEmployeeRemovalProbability;
+	public static double afterNegativeResponsePossibleEmployeeRemovalProbability;
 
 	public static double roomFaultProbability;
 	public static EnumMap<DifficultyLevel, Double> difficultyMultiplier;
@@ -38,7 +39,9 @@ public class JSONGameDataLoader {
 				JSONDataExtractor.extract(JSON_FILE_PATH, "end_date", String.class));
 		employeesToHireListSize = JSONValueUtil.getInt(
 				JSONDataExtractor.extract(JSON_FILE_PATH, "employees_to_hire_list_size", Long.class));
-		possibleEmployeeRemovalProbability = JSONDataExtractor.extract(JSON_FILE_PATH, "possible_employee_removal_probability", Double.class);
+		everyDayPossibleEmployeeRemovalProbability = JSONDataExtractor.extract(JSON_FILE_PATH, "every_day_possible_employee_removal_probability", Double.class);
+		afterNegativeResponsePossibleEmployeeRemovalProbability = JSONDataExtractor.extract(JSON_FILE_PATH, "after_negative_response_possible_employee_removal_probability",
+				Double.class);
 		roomFaultProbability = JSONDataExtractor.extract(JSON_FILE_PATH, "room_fault_probability", Double.class);
 		difficultyMultiplier = JSONValueUtil.getEnumMap(
 				JSONDataExtractor.extract(JSON_FILE_PATH, "difficulty_multiplier", JSONObject.class),

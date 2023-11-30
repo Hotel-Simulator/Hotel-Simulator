@@ -9,69 +9,64 @@ import com.esotericsoftware.kryo.io.Output;
 import com.esotericsoftware.kryo.serializers.ClosureSerializer;
 
 import pl.agh.edu.engine.time.Frequency;
-import pl.agh.edu.engine.time.TimeCommandExecutor;
 import pl.agh.edu.serialization.KryoConfig;
 
-public class RepeatingTimeCommand extends TimeCommand {
-	private static final TimeCommandExecutor timeCommandExecutor = TimeCommandExecutor.getInstance();
-	protected final Frequency frequency;
-	protected Boolean toStop = false;
+public class RepeatingTimeCommand extends Command {
+	private final Frequency frequency;
 
-	static {
+	public static void kryoRegister() {
 		KryoConfig.kryo.register(RepeatingTimeCommand.class, new Serializer<RepeatingTimeCommand>() {
 			@Override
 			public void write(Kryo kryo, Output output, RepeatingTimeCommand object) {
 				kryo.writeObject(output, object.frequency);
 				kryo.writeObject(output, object.toExecute);
-				kryo.writeObject(output, object.dueDateTime);
-				kryo.writeObject(output, KryoConfig.getPrivateFieldValue(object, "version", Long.class));
-				kryo.writeObject(output, object.toStop);
+				kryo.writeObject(output, object.getDueDateTime());
+				kryo.writeObject(output, object.version);
+				kryo.writeObject(output, object.isStopped());
 			}
 
 			@Override
 			public RepeatingTimeCommand read(Kryo kryo, Input input, Class<? extends RepeatingTimeCommand> type) {
-				RepeatingTimeCommand repeatingTimeCommand = new RepeatingTimeCommand(
+
+				return new RepeatingTimeCommand(
 						kryo.readObject(input, Frequency.class),
 						(SerializableRunnable) kryo.readObject(input, ClosureSerializer.Closure.class),
 						kryo.readObject(input, LocalDateTime.class),
-						kryo.readObject(input, Long.class));
-
-				repeatingTimeCommand.toStop = kryo.readObject(input, Boolean.class);
-				return repeatingTimeCommand;
+						kryo.readObject(input, Long.class),
+						kryo.readObject(input, Boolean.class));
 			}
 		});
 	}
 
-	public RepeatingTimeCommand(Frequency frequency, SerializableRunnable toExecute, LocalDateTime dueTime) {
+	public RepeatingTimeCommand(
+			Frequency frequency,
+			SerializableRunnable toExecute,
+			LocalDateTime dueTime) {
 		super(toExecute, dueTime);
 		this.frequency = frequency;
 	}
 
-	protected RepeatingTimeCommand(Frequency frequency, SerializableRunnable toExecute, LocalDateTime dueTime, Long version) {
-		super(toExecute, dueTime, version);
+	private RepeatingTimeCommand(
+			Frequency frequency,
+			SerializableRunnable toExecute,
+			LocalDateTime dueTime,
+			Long version,
+			boolean toStop) {
+		super(toExecute, dueTime, version, toStop);
 		this.frequency = frequency;
 	}
 
 	@Override
 	public void execute() {
-		if (!toStop) {
-			toExecute.run();
-			repeat();
-		}
+		if (isStopped())
+			return;
+		toExecute.run();
+		setDueDateTime(frequency.add(getDueDateTime()));
 	}
 
-	protected void repeat() {
-		if (!toStop) {
-			updateDueDateTime();
-			timeCommandExecutor.addCommand(this);
-		}
+	@Override
+	public boolean isRequeueNeeded() {
+		return !isStopped();
 	}
 
-	private void updateDueDateTime() {
-		dueDateTime = frequency.add(dueDateTime);
-	}
-
-	public void stop() {
-		toStop = true;
-	}
 }

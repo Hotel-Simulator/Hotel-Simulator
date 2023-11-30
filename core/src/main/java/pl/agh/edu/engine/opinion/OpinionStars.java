@@ -2,6 +2,8 @@ package pl.agh.edu.engine.opinion;
 
 import java.util.Arrays;
 
+import pl.agh.edu.serialization.KryoConfig;
+
 public enum OpinionStars {
 
 	ONE(1.),
@@ -9,6 +11,10 @@ public enum OpinionStars {
 	THREE(3.),
 	FOUR(4.),
 	FIVE(5.);
+
+	public static void kryoRegister() {
+		KryoConfig.kryo.register(OpinionStars.class);
+	}
 
 	public final double value;
 
