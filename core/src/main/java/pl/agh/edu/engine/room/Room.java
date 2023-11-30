@@ -57,10 +57,6 @@ public class Room {
 		this.rank = rank;
 	}
 
-	public RoomSize getSize() {
-		return size;
-	}
-
 	public void changeRank(RoomRank desiredRank) {
 		if (desiredRank == rank) {
 			throw new IllegalArgumentException("Desired roomRank must be different from the current rank.");

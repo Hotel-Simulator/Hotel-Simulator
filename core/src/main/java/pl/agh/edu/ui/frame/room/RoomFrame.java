@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import pl.agh.edu.engine.room.Room;
+import pl.agh.edu.engine.room.RoomManager;
 import pl.agh.edu.engine.room.RoomRank;
 import pl.agh.edu.engine.room.RoomSize;
 import pl.agh.edu.ui.component.table.CustomTable;
@@ -16,10 +17,12 @@ import pl.agh.edu.ui.frame.BaseFrame;
 import pl.agh.edu.utils.LanguageString;
 
 public class RoomFrame extends BaseFrame {
+	public final RoomManager roomManager = engine.roomManager;
+
 	public RoomFrame() {
 		super(new LanguageString("navbar.button.rooms"));
 		CustomTable<Room> roomTable = new CustomTable.CustomTableBuilder<Room>()
-				.addColumn(new LanguageString("roomTable.column.icon"), this::createRoomIcon, 2)
+				.addColumn(new LanguageString("roomTable.column.photo"), this::createRoomPhoto, 2)
 				.addColumn(new LanguageString("roomTable.column.size"), this::createSize, 2)
 				.addColumn(new LanguageString("roomTable.column.rank"), this::createRank, 2)
 				.addColumn(new LanguageString("roomTable.column.price"), this::createPrice, 2)
@@ -33,7 +36,7 @@ public class RoomFrame extends BaseFrame {
 		mainTable.add(roomTable).grow();
 	}
 
-	private Actor createRoomIcon(Room room) {
+	private Actor createRoomPhoto(Room room) {
 		Image image = new Image(skin.getDrawable("default"));
 		Container<Image> container = new Container<>(image);
 		container.size(50f);
@@ -49,10 +52,10 @@ public class RoomFrame extends BaseFrame {
 	}
 
 	private Actor createPrice(Room room) {
-		return createCustomLabel(engine.roomManager.roomPricePerNight.getPrice(room) + "$");
+		return createCustomLabel(roomManager.roomPricePerNight.getPrice(room) + "$");
 	}
 
 	private Actor createNumberInPossession(Room room) {
-		return createCustomLabel(String.valueOf(engine.roomManager.getRoomNumberByRankSize(room.getRank(), room.getSize())));
+		return createCustomLabel(String.valueOf(roomManager.getRoomNumberByRankSize(room.getRank(), room.size)));
 	}
 }

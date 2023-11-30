@@ -143,7 +143,7 @@ public class RoomManager {
 
 	public long getRoomNumberByRankSize(RoomRank rank, RoomSize size) {
 		return rooms.stream()
-				.filter(room -> room.getRank().equals(rank) && room.getSize().equals(size))
+				.filter(room -> room.getRank() == rank && room.size == size)
 				.count();
 	}
 
