@@ -314,7 +314,7 @@ public class HireEmployeeModal<ExtendedEmployee extends Employee> extends BaseMo
 		}
 
 		private static float getPhotoSize() {
-			return 250f;
+			return 200f;
 		}
 	}
 }

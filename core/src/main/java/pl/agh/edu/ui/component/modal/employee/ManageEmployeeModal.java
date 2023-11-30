@@ -4,6 +4,7 @@ import static com.badlogic.gdx.utils.Align.center;
 import static java.math.BigDecimal.ZERO;
 import static pl.agh.edu.ui.audio.SoundAudio.CLICK;
 import static pl.agh.edu.ui.resolution.Size.MEDIUM;
+import static pl.agh.edu.ui.utils.SkinToken.EASE;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -40,8 +41,14 @@ public class ManageEmployeeModal extends BaseModal {
 	private final Table rightTable = new Table();
 	private final Table leftTable = new Table();
 	private BigDecimal selectedBonus = BigDecimal.valueOf(300L);
-	private final LabeledButton giveBonusButton = new LabeledButton(MEDIUM, getBonusButtonLanguageString());
+	private final LabeledButton bonusButton = new LabeledButton(MEDIUM, getBonusButtonLanguageString());
 	private final HiredEmployee hiredEmployee;
+	private final HiredEmployeeHandler hiredEmployeeHandler;
+	private final EmployeeSalaryHandler employeeSalaryHandler;
+
+	private final Runnable refreshAction;
+	private final LanguageLabel dialogLabel;
+	private MoneySliderComponent bonusSlider;
 
 	public ManageEmployeeModal(
 			HiredEmployee hiredEmployee,
@@ -51,17 +58,19 @@ public class ManageEmployeeModal extends BaseModal {
 		super();
 
 		this.hiredEmployee = hiredEmployee;
+		this.hiredEmployeeHandler = hiredEmployeeHandler;
+		this.employeeSalaryHandler = employeeSalaryHandler;
+		this.refreshAction = refreshAction;
 
-		initModal(hiredEmployee, hiredEmployeeHandler, employeeSalaryHandler, refreshAction);
+		this.bonusSlider = createBonusSlider(hiredEmployee);
+		this.dialogLabel = createDialogLabel(hiredEmployee);
+
+		initModal();
 		this.setResolutionChangeHandler(this::resize);
 		this.onResolutionChange();
 	}
 
-	private void initModal(
-			HiredEmployee hiredEmployee,
-			HiredEmployeeHandler hiredEmployeeHandler,
-			EmployeeSalaryHandler employeeSalaryHandler,
-			Runnable refreshAction) {
+	private void initModal() {
 
 		innerTable.row();
 		innerTable.add(leftTable).grow().uniform();
@@ -69,31 +78,32 @@ public class ManageEmployeeModal extends BaseModal {
 		innerTable.row();
 
 		leftTable.setBackground(new NinePatchDrawable(skin.getPatch("hal-divider-left-background")));
-		leftTable.add(createPhoto()).growX().expandY().row();
-		leftTable.add(createName(hiredEmployee)).growX().row();
-		leftTable.add(createBonusSlider(hiredEmployee)).uniform().growX().expandY().bottom().row();
+		leftTable.add(createPhoto()).growX().row();
+		leftTable.add(createName(hiredEmployee)).growX().bottom().row();
+		leftTable.add(dialogLabel).growX().top().row();
 		leftTable.add(createButtonTable(hiredEmployee, hiredEmployeeHandler, () -> {
 			refreshAction.run();
 			recreateEmployeeInformation();
-		}, employeeSalaryHandler)).growX().expandY().bottom().row();
+		}, employeeSalaryHandler)).grow().bottom().row();
 
 		setUpEmployeeInformation();
 	}
 
 	private void setUpEmployeeInformation() {
-		rightTable.add(createTitleLabel()).uniform().grow().expandY().bottom().row();
-		rightTable.add(createAgeTag(hiredEmployee)).uniform().growX().expandY().bottom().row();
-		rightTable.add(createSalaryTag(hiredEmployee)).uniform().growX().expandY().bottom().row();
-		rightTable.add(createPositionTag(hiredEmployee)).uniform().growX().expandY().bottom().row();
-		rightTable.add(createLevelTag(hiredEmployee)).uniform().growX().expandY().bottom().row();
-		rightTable.add(createShiftTag(hiredEmployee)).uniform().growX().expandY().bottom().row();
-		rightTable.add(createContractTag(hiredEmployee)).uniform().growX().expandY().bottom().row();
-		rightTable.add(createSatisfactionTag(hiredEmployee)).uniform().growX().expandY().bottom().row();
-		rightTable.add(createBonusTag(hiredEmployee)).uniform().growX().expandY().bottom().row();
+		rightTable.add(createTitleLabel()).grow().expandY().bottom().row();
+		rightTable.add(createAgeTag(hiredEmployee)).growX().expandY().bottom().row();
+		rightTable.add(createSalaryTag(hiredEmployee)).growX().expandY().bottom().row();
+		rightTable.add(createPositionTag(hiredEmployee)).growX().expandY().bottom().row();
+		rightTable.add(createLevelTag(hiredEmployee)).growX().expandY().bottom().row();
+		rightTable.add(createShiftTag(hiredEmployee)).growX().expandY().bottom().row();
+		rightTable.add(createContractTag(hiredEmployee)).growX().expandY().bottom().row();
+		rightTable.add(createSatisfactionTag(hiredEmployee)).growX().expandY().bottom().row();
+		rightTable.add(bonusSlider).growX().expandY().row();
 	}
 
 	private void recreateEmployeeInformation() {
 		rightTable.clearChildren();
+		this.bonusSlider = createBonusSlider(hiredEmployee);
 		setUpEmployeeInformation();
 	}
 
@@ -102,13 +112,6 @@ public class ManageEmployeeModal extends BaseModal {
 		languageLabel.setAlignment(center, center);
 		titleLabel = languageLabel;
 		return languageLabel;
-	}
-
-	private Actor createPhoto() {
-		Image image = new Image(skin.getDrawable("default"));
-		Container<Image> container = new Container<>(image);
-		container.size(ManageEmployeeModalStyle.getPhotoSize());
-		return container;
 	}
 
 	private Actor createName(HiredEmployee hiredEmployee) {
@@ -120,23 +123,13 @@ public class ManageEmployeeModal extends BaseModal {
 
 	private Actor createButtonTable(HiredEmployee hiredEmployee, HiredEmployeeHandler hiredHiredEmployeeHandler, Runnable postAction, EmployeeSalaryHandler employeeSalaryHandler) {
 		Table buttonTable = new Table();
-		LabeledButton backButton = new LabeledButton(MEDIUM, new LanguageString("employee.hire.button.back"));
-		buttonTable.add(backButton).growX().expandY().uniform();
-		buttonTable.add(giveBonusButton).growX().expandY().uniform();
-		LabeledButton hireButton = new LabeledButton(MEDIUM, new LanguageString("employee.hire.button.hire"));
-		buttonTable.add(hireButton).growX().expandY().uniform();
 
-		backButton.addListener(new ClickListener() {
+		buttonTable.add(bonusButton).grow().uniform().bottom();
+		bonusButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				CLICK.playSound();
-				ModalManager.getInstance().closeModal();
-			}
-		});
-
-		giveBonusButton.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
+				if (bonusButton.isDisabled())
+					return;
 				CLICK.playSound();
 				employeeSalaryHandler.giveBonus(hiredEmployee, selectedBonus);
 				postAction.run();
@@ -145,6 +138,8 @@ public class ManageEmployeeModal extends BaseModal {
 			}
 		});
 
+		LabeledButton hireButton = new LabeledButton(MEDIUM, new LanguageString("employee.hire.button.hire"));
+		buttonTable.add(hireButton).grow().uniform().bottom();
 		hireButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -156,7 +151,63 @@ public class ManageEmployeeModal extends BaseModal {
 			}
 		});
 
+		buttonTable.row();
+
+		LabeledButton backButton = new LabeledButton(MEDIUM, new LanguageString("employee.hire.button.back"));
+		buttonTable.add(backButton).grow().uniform().bottom();
+		backButton.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				if (backButton.isDisabled())
+					return;
+				CLICK.playSound();
+				ModalManager.getInstance().closeModal();
+			}
+		});
+
+		LabeledButton fireButton = new LabeledButton(MEDIUM, new LanguageString("employee.hire.button.fire"));
+		fireButton.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				if (fireButton.isDisabled())
+					return;
+				CLICK.playSound();
+				hiredHiredEmployeeHandler.fireEmployee(hiredEmployee);
+				postAction.run();
+				bonusButton.setDisabled(true);
+				fireButton.setDisabled(true);
+				bonusSlider.setDisable(true);
+				hireButton.setDisabled(true);
+				dialogLabel.updateLanguageString(getDialogLanguageString(hiredEmployee));
+			}
+		});
+		buttonTable.add(fireButton).grow().uniform().bottom();
+		switch (hiredEmployee.getStatus()) {
+			case PENDING -> {
+				hireButton.setDisabled(true);
+				bonusButton.setDisabled(true);
+				bonusSlider.setDisable(true);
+				fireButton.setDisabled(true);
+			}
+			case TERMINATED -> {
+				hireButton.setDisabled(true);
+				bonusButton.setDisabled(true);
+				fireButton.setDisabled(true);
+				bonusSlider.setDisable(true);
+			}
+		}
 		return buttonTable;
+	}
+
+	public LanguageString getDialogLanguageString(HiredEmployee hiredEmployee) {
+		return new LanguageString("employee.status." + hiredEmployee.getStatus().toString().toLowerCase());
+	}
+
+	private Actor createPhoto() {
+		Image image = new Image(skin.getDrawable("default"));
+		Container<Image> container = new Container<>(image);
+		container.size(ManageEmployeeModalStyle.getPhotoSize());
+		return container;
 	}
 
 	private Actor createAgeTag(HiredEmployee hiredEmployee) {
@@ -185,33 +236,42 @@ public class ManageEmployeeModal extends BaseModal {
 		return new ValueTag(new LanguageString("employee.stats.salary"), new CustomBigDecimal(hiredEmployee.getWage()).toString());
 	}
 
-	private Actor createBonusTag(HiredEmployee hiredEmployee) {
-		return new ValueTag(new LanguageString("employee.stats.bonuses"), new CustomBigDecimal(hiredEmployee.getTotalBonus()).toString());
-	}
-
 	private Actor createSatisfactionTag(HiredEmployee hiredEmployee) {
-		return new ValueTag(new LanguageString("employee.stats.satisfaction"), hiredEmployee.getSatisfaction().multiply(BigDecimal.valueOf(100)) + "%");
+		Container<Rating> container = new Container<>(new Rating(hiredEmployee.getSatisfaction().multiply(BigDecimal.valueOf(5L)).intValue()));
+		container.padLeft(ManageEmployeeModalStyle.getRadiusPadding());
+		return new ValueTag(new LanguageString("employee.stats.satisfaction"), container);
 	}
 
 	private LanguageString getBonusButtonLanguageString() {
 		return new LanguageString("employee.manage.button.bonus", List.of(Pair.of("bonus", new CustomBigDecimal(selectedBonus).toString())));
 	}
 
-	private Actor createBonusSlider(HiredEmployee hiredEmployee) {
+	private MoneySliderComponent createBonusSlider(HiredEmployee hiredEmployee) {
 		Function<BigDecimal, Void> function = selectedOption -> {
 			selectedBonus = selectedOption;
-			giveBonusButton.updateLanguageString(getBonusButtonLanguageString());
+			bonusButton.updateLanguageString(getBonusButtonLanguageString());
 			return null;
 		};
 
-		MoneySliderComponent slider = new MoneySliderComponent(
+		return new MoneySliderComponent(
 				new LanguageString("employee.stats.bonus"),
 				ZERO,
 				hiredEmployee.getWage(),
 				function,
 				selectedBonus);
+	}
 
-		return slider;
+	private LanguageLabel createDialogLabel(HiredEmployee hiredEmployee) {
+		LanguageLabel languageLabel = new LanguageLabel(
+				getDialogLanguageString(hiredEmployee),
+				ManageEmployeeModalStyle.getFont(),
+				EASE);
+		languageLabel.minHeight(0f);
+		languageLabel.maxHeight(ManageEmployeeModalStyle.getDialogHeight());
+		languageLabel.setBackground("label-glass-background");
+		languageLabel.setWrap(true);
+		languageLabel.pad(ManageEmployeeModalStyle.getDialogPadding());
+		return languageLabel;
 	}
 
 	private void resize() {
@@ -230,33 +290,10 @@ public class ManageEmployeeModal extends BaseModal {
 			};
 		}
 
-		private static String getWhiteFont() {
-			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> SkinFont.SUBTITLE3.getWhiteVariantName();
-				case MEDIUM, LARGE -> SkinFont.SUBTITLE2.getWhiteVariantName();
-			};
-		}
-
 		private static String getTitleFont() {
 			return switch (GraphicConfig.getResolution().SIZE) {
 				case SMALL -> SkinFont.H4.getName();
 				case MEDIUM, LARGE -> SkinFont.H3.getName();
-			};
-		}
-
-		private static float getBottomTablePadding() {
-			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> 10f;
-				case MEDIUM -> 20f;
-				case LARGE -> 30f;
-			};
-		}
-
-		private static float getModalPadding() {
-			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> 30f;
-				case MEDIUM -> 40f;
-				case LARGE -> 50f;
 			};
 		}
 
@@ -265,6 +302,14 @@ public class ManageEmployeeModal extends BaseModal {
 				case SMALL -> 30f;
 				case MEDIUM -> 50f;
 				case LARGE -> 80f;
+			};
+		}
+
+		private static float getDialogHeight() {
+			return switch (GraphicConfig.getResolution().SIZE) {
+				case SMALL -> 70f;
+				case MEDIUM -> 120f;
+				case LARGE -> 180f;
 			};
 		}
 
@@ -277,7 +322,11 @@ public class ManageEmployeeModal extends BaseModal {
 		}
 
 		private static float getPhotoSize() {
-			return 250f;
+			return switch (GraphicConfig.getResolution().SIZE) {
+				case SMALL -> 150f;
+				case MEDIUM -> 200f;
+				case LARGE -> 300f;
+			};
 		}
 	}
 }

@@ -94,6 +94,10 @@ public abstract class SliderComponent extends WrapperDoubleTable {
 		return slider.getValue();
 	}
 
+	public void setDisable(Boolean disable) {
+		slider.setDisabled(disable);
+	}
+
 	public void setValue(float value) {
 		slider.setValue(value);
 	}

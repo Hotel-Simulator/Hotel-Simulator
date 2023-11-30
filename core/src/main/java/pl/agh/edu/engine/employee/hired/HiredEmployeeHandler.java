@@ -1,9 +1,9 @@
 package pl.agh.edu.engine.employee.hired;
 
 import static java.time.LocalTime.MIDNIGHT;
-import static pl.agh.edu.engine.employee.EmployeeStatus.FIRED_WORKING;
-import static pl.agh.edu.engine.employee.EmployeeStatus.HIRED_NOT_WORKING;
-import static pl.agh.edu.engine.employee.EmployeeStatus.HIRED_WORKING;
+import static pl.agh.edu.engine.employee.EmployeeContractStatus.ACTIVE;
+import static pl.agh.edu.engine.employee.EmployeeContractStatus.PENDING;
+import static pl.agh.edu.engine.employee.EmployeeContractStatus.TERMINATED;
 import static pl.agh.edu.engine.employee.Profession.CLEANER;
 import static pl.agh.edu.engine.employee.Profession.RECEPTIONIST;
 import static pl.agh.edu.engine.employee.Profession.TECHNICIAN;
@@ -66,30 +66,29 @@ public class HiredEmployeeHandler extends EmployeeHandler<HiredEmployee> {
 		this.timeCommandExecutor = TimeCommandExecutor.getInstance();
 	}
 
-	@Override
-	public OfferResponse offerContract(HiredEmployee employee, EmployeeOffer employeeOffer) {
-		OfferResponse offerResponse = employee.offerContract(employeeOffer);
-		if (offerResponse == POSITIVE) {
-			employee.setContract(employeeOffer);
-		}
-		System.out.println("Offer response: " + offerResponse);
-		return offerResponse;
-	}
-
 	private HiredEmployeeHandler(Time time, TimeCommandExecutor timeCommandExecutor, List<HiredEmployee> employees) {
 		super(employees);
 		this.time = time;
 		this.timeCommandExecutor = timeCommandExecutor;
 	}
 
+	@Override
+	public OfferResponse offerContract(HiredEmployee employee, EmployeeOffer employeeOffer) {
+		OfferResponse offerResponse = employee.offerContract(employeeOffer);
+		if (offerResponse == POSITIVE) {
+			employee.setContract(employeeOffer);
+		}
+		return offerResponse;
+	}
+
 	public boolean canNegotiateContractWith(HiredEmployee employee) {
-		return employee.getStatus() == HIRED_WORKING;
+		return employee.getStatus() == ACTIVE;
 	}
 
 	public void hireEmployee(HiredEmployee employee) {
 		this.employeeList.add(employee);
 		timeCommandExecutor.addCommand(
-				new TimeCommand(() -> employee.setStatus(HIRED_WORKING),
+				new TimeCommand(() -> employee.setStatus(ACTIVE),
 						LocalDateTime.of(time
 								.getTime()
 								.toLocalDate()
@@ -99,7 +98,7 @@ public class HiredEmployeeHandler extends EmployeeHandler<HiredEmployee> {
 	}
 
 	public void fireEmployee(HiredEmployee employee) {
-		employee.setStatus(FIRED_WORKING);
+		employee.setStatus(TERMINATED);
 		timeCommandExecutor.addCommand(
 				new TimeCommand(
 						() -> this.removeEmployee(employee),
@@ -117,7 +116,7 @@ public class HiredEmployeeHandler extends EmployeeHandler<HiredEmployee> {
 
 	public List<HiredEmployee> getWorkingEmployees() {
 		return this.employeeList.stream()
-				.filter(employee -> employee.getStatus() != HIRED_NOT_WORKING)
+				.filter(employee -> employee.getStatus() != PENDING)
 				.collect(Collectors.toList());
 	}
 
@@ -191,7 +190,7 @@ public class HiredEmployeeHandler extends EmployeeHandler<HiredEmployee> {
 						new EmployeeOffer(MORNING, BigDecimal.valueOf(4500), PERMANENT)))
 				.collect(Collectors.toList());
 
-		initialEmployees.forEach(employee -> employee.setStatus(HIRED_WORKING));
+		initialEmployees.forEach(employee -> employee.setStatus(ACTIVE));
 
 		return initialEmployees;
 	}

@@ -18,8 +18,8 @@ import com.esotericsoftware.kryo.io.Output;
 
 import pl.agh.edu.data.loader.JSONEmployeeDataLoader;
 import pl.agh.edu.engine.employee.Employee;
+import pl.agh.edu.engine.employee.EmployeeContractStatus;
 import pl.agh.edu.engine.employee.EmployeePreferences;
-import pl.agh.edu.engine.employee.EmployeeStatus;
 import pl.agh.edu.engine.employee.Profession;
 import pl.agh.edu.engine.employee.Shift;
 import pl.agh.edu.engine.employee.contract.EmployeeOffer;
@@ -35,7 +35,7 @@ public class HiredEmployee extends Employee {
 	private BigDecimal wage;
 	private TypeOfContract typeOfContract;
 	private boolean isOccupied;
-	private EmployeeStatus employeeStatus = EmployeeStatus.HIRED_NOT_WORKING;
+	private EmployeeContractStatus employeeContractStatus = EmployeeContractStatus.PENDING;
 
 	public static void kryoRegister() {
 		KryoConfig.kryo.register(HiredEmployee.class, new Serializer<HiredEmployee>() {
@@ -53,7 +53,7 @@ public class HiredEmployee extends Employee {
 				kryo.writeObject(output, object.typeOfContract);
 				kryo.writeObject(output, object.bonuses, KryoConfig.listSerializer(BigDecimal.class));
 				kryo.writeObject(output, object.isOccupied);
-				kryo.writeObject(output, object.employeeStatus);
+				kryo.writeObject(output, object.employeeContractStatus);
 			}
 
 			@Override
@@ -72,7 +72,7 @@ public class HiredEmployee extends Employee {
 						kryo.readObject(input, List.class, KryoConfig.listSerializer(BigDecimal.class)));
 
 				employee.isOccupied = kryo.readObject(input, Boolean.class);
-				employee.employeeStatus = kryo.readObject(input, EmployeeStatus.class);
+				employee.employeeContractStatus = kryo.readObject(input, EmployeeContractStatus.class);
 
 				return employee;
 			}
@@ -96,7 +96,7 @@ public class HiredEmployee extends Employee {
 		this.basicServiceExecutionTime = JSONEmployeeDataLoader.basicServiceExecutionTimes.get(possibleEmployee.profession);
 	}
 
-	public HiredEmployee(String firstName,
+	private HiredEmployee(String firstName,
 			String lastName,
 			int age,
 			BigDecimal skills,
@@ -178,12 +178,12 @@ public class HiredEmployee extends Employee {
 		isOccupied = occupied;
 	}
 
-	public EmployeeStatus getStatus() {
-		return employeeStatus;
+	public EmployeeContractStatus getStatus() {
+		return employeeContractStatus;
 	}
 
-	public void setStatus(EmployeeStatus employeeStatus) {
-		this.employeeStatus = employeeStatus;
+	public void setStatus(EmployeeContractStatus employeeContractStatus) {
+		this.employeeContractStatus = employeeContractStatus;
 	}
 
 	public BigDecimal getWage() {

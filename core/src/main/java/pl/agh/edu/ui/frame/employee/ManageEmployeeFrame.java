@@ -62,6 +62,6 @@ public class ManageEmployeeFrame extends BaseFrame {
 	}
 
 	private Actor createJobSatisfaction(HiredEmployee employee) {
-		return createCustomLabel(employee.getSatisfaction().multiply(BigDecimal.valueOf(100)) + "%");
+		return new Rating(employee.getSatisfaction().multiply(BigDecimal.valueOf(5L)).intValue());
 	}
 }

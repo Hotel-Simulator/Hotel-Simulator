@@ -52,8 +52,8 @@ import pl.agh.edu.engine.calendar.CalendarEvent;
 import pl.agh.edu.engine.client.Arrival;
 import pl.agh.edu.engine.client.ClientGroup;
 import pl.agh.edu.engine.client.report.util.DateTrie;
+import pl.agh.edu.engine.employee.EmployeeContractStatus;
 import pl.agh.edu.engine.employee.EmployeePreferences;
-import pl.agh.edu.engine.employee.EmployeeStatus;
 import pl.agh.edu.engine.employee.contract.EmployeeOffer;
 import pl.agh.edu.engine.employee.hired.HiredEmployee;
 import pl.agh.edu.engine.employee.possible.PossibleEmployee;
@@ -366,7 +366,7 @@ public class SerializationTest {
 		HiredEmployee employee = new HiredEmployee(possibleEmployee, contractOffer);
 
 		// When
-		employee.setStatus(EmployeeStatus.HIRED_WORKING);
+		employee.setStatus(EmployeeContractStatus.ACTIVE);
 		employee.setOccupied(true);
 		employee.addBonus(BigDecimal.valueOf(1000));
 
