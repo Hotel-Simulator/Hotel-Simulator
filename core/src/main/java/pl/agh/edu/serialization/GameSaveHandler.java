@@ -51,6 +51,10 @@ public class GameSaveHandler {
 				.collect(Collectors.toSet());
 	}
 
+	public String getCurrentGameSavePath() {
+		return saveFolder.getAbsolutePath() + os.pathSeparator + currentGameSaveName;
+	}
+
 	public Engine startNewGame(String gameSaveName, HotelType hotelType, DifficultyLevel difficultyLevel) {
 		currentGameSaveName = gameSaveName;
 		return new Engine(hotelType, difficultyLevel);
@@ -60,7 +64,7 @@ public class GameSaveHandler {
 		currentGameSaveName = gameSaveName;
 		Engine engine;
 		try {
-			Input input = new Input(new FileInputStream(saveFolder.getAbsolutePath() + os.pathSeparator + currentGameSaveName));
+			Input input = new Input(new FileInputStream(getCurrentGameSavePath()));
 			engine = KryoConfig.kryo.readObject(input, Engine.class);
 			input.close();
 		} catch (FileNotFoundException e) {
@@ -71,7 +75,7 @@ public class GameSaveHandler {
 
 	public void saveGame(Engine engine) {
 		try {
-			Output output = new Output(new FileOutputStream(saveFolder.getAbsolutePath() + os.pathSeparator + currentGameSaveName));
+			Output output = new Output(new FileOutputStream(getCurrentGameSavePath()));
 			KryoConfig.kryo.writeObject(output, engine);
 			output.close();
 
