@@ -4,17 +4,17 @@ import pl.agh.edu.serialization.KryoConfig;
 import pl.agh.edu.utils.LanguageString;
 
 public enum VisitResult {
-	HOTEL_DOES_NOT_OFFER_ANY_ROOMS(new LanguageString("clientGroupVisitResultHistory.visitResult.hotelDoesNotOfferAnyRooms")),
-	HOTEL_DOES_NOT_OFFER_ROOMS_OF_WANTED_SIZE_AND_TYPE(new LanguageString("clientGroupVisitResultHistory.visitResult.hotelDoesNotOfferRoomsOfWantedSizeAndType")),
-	ALL_ROOMS_OF_WANTED_SIZE_AND_TYPE_CURRENTLY_OCCUPIED(new LanguageString("clientGroupVisitResultHistory.visitResult.allRoomsOfWantedSizeAndTypeCurrentlyOccupied")),
-	PRICE_TO_HIGH(new LanguageString("clientGroupVisitResultHistory.visitResult.priceToHigh")),
-	GOT_ROOM(new LanguageString("clientGroupVisitResultHistory.visitResult.gotRoom")),
-	STEPPED_OUT_OF_QUEUE(new LanguageString("clientGroupVisitResultHistory.visitResult.steppedOutOfQueue"));
+	NO_ROOM_OF_WANTED_RANK("visit.result.noRoomOfWantedRank"),
+	NO_ROOM_OF_WANTED_SIZE("visit.result.noRoomOfWantedSize"),
+	NO_ROOM_OF_WANTED_RANK_AND_SIZE("visit.result.noRoomOfWantedRankAndSize"),
+	PRICE_TO_HIGH("visit.result.priceToHigh"),
+	GOT_ROOM("visit.result.gotRoom"),
+	STEPPED_OUT_OF_QUEUE("visit.result.steppedOutOfQueue");
 
 	public final LanguageString languageString;
 
-	VisitResult(LanguageString languageString) {
-		this.languageString = languageString;
+	VisitResult(String string) {
+		this.languageString = new LanguageString(string);
 	}
 
 	public static void kryoRegister() {

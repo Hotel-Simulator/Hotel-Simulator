@@ -1,15 +1,15 @@
 package pl.agh.edu.engine.room;
 
-import static pl.agh.edu.engine.client.visit_history.VisitResult.ALL_ROOMS_OF_WANTED_SIZE_AND_TYPE_CURRENTLY_OCCUPIED;
 import static pl.agh.edu.engine.client.visit_history.VisitResult.GOT_ROOM;
-import static pl.agh.edu.engine.client.visit_history.VisitResult.HOTEL_DOES_NOT_OFFER_ANY_ROOMS;
-import static pl.agh.edu.engine.client.visit_history.VisitResult.HOTEL_DOES_NOT_OFFER_ROOMS_OF_WANTED_SIZE_AND_TYPE;
+import static pl.agh.edu.engine.client.visit_history.VisitResult.NO_ROOM_OF_WANTED_RANK;
+import static pl.agh.edu.engine.client.visit_history.VisitResult.NO_ROOM_OF_WANTED_RANK_AND_SIZE;
+import static pl.agh.edu.engine.client.visit_history.VisitResult.NO_ROOM_OF_WANTED_SIZE;
 import static pl.agh.edu.engine.client.visit_history.VisitResult.PRICE_TO_HIGH;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import pl.agh.edu.engine.client.ClientGroup;
 import pl.agh.edu.engine.client.visit_history.VisitResult;
@@ -27,6 +27,7 @@ public class RoomFilter {
 		this.rooms = rooms.stream()
 				.filter(room -> !room.roomState.isUnderRankChange())
 				.filter(room -> !room.roomState.isBeingBuild())
+				.filter(room -> !room.roomState.isOccupied())
 				.toList();
 
 		this.clientGroup = clientGroup;
@@ -45,36 +46,42 @@ public class RoomFilter {
 		};
 
 		if (rooms.size() == 0) {
-			visitResult = HOTEL_DOES_NOT_OFFER_ANY_ROOMS;
+			visitResult = NO_ROOM_OF_WANTED_RANK_AND_SIZE;
 		}
 	}
 
 	private RoomFilter hotelOfferRoomsOfWantedSizeAndTypeFilter() {
-		return filter(
-				room -> room.getRank() == clientGroup.getDesiredRoomRank()
-						&& room.size.canAccommodateGuests(clientGroup.getSize()),
-				HOTEL_DOES_NOT_OFFER_ROOMS_OF_WANTED_SIZE_AND_TYPE);
-	}
+		List<Room> filteredRoomsByRank = rooms.stream()
+				.filter(room -> room.getRank() == clientGroup.getDesiredRoomRank())
+				.toList();
 
-	private RoomFilter roomsAreNotOccupiedFilter() {
-		return filter(
-				room -> !room.roomState.isOccupied(),
-				ALL_ROOMS_OF_WANTED_SIZE_AND_TYPE_CURRENTLY_OCCUPIED);
+		List<Room> filteredRoomsBySize = rooms.stream()
+				.filter(room -> room.size.canAccommodateGuests(clientGroup.getSize()))
+				.toList();
+
+		if (rooms.size() != 0) {
+			if (filteredRoomsByRank.size() == 0 && filteredRoomsBySize.size() == 0) {
+				this.visitResult = NO_ROOM_OF_WANTED_RANK_AND_SIZE;
+			} else if (filteredRoomsByRank.size() == 0) {
+				this.visitResult = NO_ROOM_OF_WANTED_RANK;
+			} else if (filteredRoomsBySize.size() == 0)
+				this.visitResult = NO_ROOM_OF_WANTED_SIZE;
+		}
+
+		rooms = filteredRoomsByRank.stream()
+				.filter(filteredRoomsBySize::contains)
+				.collect(Collectors.toList());
+
+		return this;
 	}
 
 	private RoomFilter roomsAreAffordableFilter() {
-		return filter(
-				room -> roomPricePerNight.getPrice(room).compareTo(clientGroup.getDesiredPricePerNight()) < 1,
-				PRICE_TO_HIGH);
-	}
-
-	private RoomFilter filter(Function<Room, Boolean> filterFunction, VisitResult visitResult) {
 		List<Room> filteredRooms = rooms.stream()
-				.filter(filterFunction::apply)
+				.filter(room -> roomPricePerNight.getPrice(room).compareTo(clientGroup.getDesiredPricePerNight()) < 1)
 				.toList();
 
 		if (rooms.size() != 0 && filteredRooms.size() == 0) {
-			this.visitResult = visitResult;
+			this.visitResult = PRICE_TO_HIGH;
 		}
 
 		rooms = filteredRooms;
@@ -89,7 +96,6 @@ public class RoomFilter {
 	public Pair<Optional<Room>, VisitResult> findRoom() {
 		Optional<Room> optionalRoom = this
 				.hotelOfferRoomsOfWantedSizeAndTypeFilter()
-				.roomsAreNotOccupiedFilter()
 				.roomsAreAffordableFilter()
 				.getRoom();
 
