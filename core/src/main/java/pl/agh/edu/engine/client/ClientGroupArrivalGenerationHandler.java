@@ -1,5 +1,7 @@
 package pl.agh.edu.engine.client;
 
+import static pl.agh.edu.engine.client.visit_history.VisitResult.STEPPED_OUT_OF_QUEUE;
+
 import java.time.LocalDateTime;
 
 import com.esotericsoftware.kryo.Kryo;
@@ -8,10 +10,13 @@ import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 
 import pl.agh.edu.data.loader.JSONOpinionDataLoader;
+import pl.agh.edu.engine.client.visit_history.ClientGroupVisit;
+import pl.agh.edu.engine.client.visit_history.ClientGroupVisitHistoryHandler;
 import pl.agh.edu.engine.employee.scheduler.ReceptionScheduler;
 import pl.agh.edu.engine.hotel.Hotel;
 import pl.agh.edu.engine.opinion.OpinionBuilder;
 import pl.agh.edu.engine.opinion.OpinionHandler;
+import pl.agh.edu.engine.room.RoomSize;
 import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.engine.time.TimeCommandExecutor;
 import pl.agh.edu.engine.time.command.TimeCommand;
@@ -24,6 +29,7 @@ public class ClientGroupArrivalGenerationHandler {
 	private final Hotel hotel;
 	private final ClientGroupGenerationHandler clientGroupGenerationHandler;
 	private final ReceptionScheduler receptionScheduler;
+	private final ClientGroupVisitHistoryHandler clientGroupVisitHistoryHandler;
 
 	public static void kryoRegister() {
 		KryoConfig.kryo.register(ClientGroupArrivalGenerationHandler.class, new Serializer<ClientGroupArrivalGenerationHandler>() {
@@ -35,6 +41,8 @@ public class ClientGroupArrivalGenerationHandler {
 				kryo.writeObject(output, object.hotel);
 				kryo.writeObject(output, object.clientGroupGenerationHandler);
 				kryo.writeObject(output, object.receptionScheduler);
+				kryo.writeObject(output, object.clientGroupVisitHistoryHandler);
+
 			}
 
 			@Override
@@ -45,19 +53,24 @@ public class ClientGroupArrivalGenerationHandler {
 						kryo.readObject(input, OpinionHandler.class),
 						kryo.readObject(input, Hotel.class),
 						kryo.readObject(input, ClientGroupGenerationHandler.class),
-						kryo.readObject(input, ReceptionScheduler.class));
+						kryo.readObject(input, ReceptionScheduler.class),
+						kryo.readObject(input, ClientGroupVisitHistoryHandler.class));
 			}
 		});
 	}
 
-	public ClientGroupArrivalGenerationHandler(OpinionHandler opinionHandler, Hotel hotel, ClientGroupGenerationHandler clientGroupGenerationHandler,
-			ReceptionScheduler receptionScheduler) {
+	public ClientGroupArrivalGenerationHandler(OpinionHandler opinionHandler,
+			Hotel hotel,
+			ClientGroupGenerationHandler clientGroupGenerationHandler,
+			ReceptionScheduler receptionScheduler,
+			ClientGroupVisitHistoryHandler clientGroupVisitHistoryHandler) {
 		this.time = Time.getInstance();
 		this.timeCommandExecutor = TimeCommandExecutor.getInstance();
 		this.opinionHandler = opinionHandler;
 		this.hotel = hotel;
 		this.clientGroupGenerationHandler = clientGroupGenerationHandler;
 		this.receptionScheduler = receptionScheduler;
+		this.clientGroupVisitHistoryHandler = clientGroupVisitHistoryHandler;
 	}
 
 	private ClientGroupArrivalGenerationHandler(
@@ -66,13 +79,15 @@ public class ClientGroupArrivalGenerationHandler {
 			OpinionHandler opinionHandler,
 			Hotel hotel,
 			ClientGroupGenerationHandler clientGroupGenerationHandler,
-			ReceptionScheduler receptionScheduler) {
+			ReceptionScheduler receptionScheduler,
+			ClientGroupVisitHistoryHandler clientGroupVisitHistoryHandler) {
 		this.time = time;
 		this.timeCommandExecutor = timeCommandExecutor;
 		this.opinionHandler = opinionHandler;
 		this.hotel = hotel;
 		this.clientGroupGenerationHandler = clientGroupGenerationHandler;
 		this.receptionScheduler = receptionScheduler;
+		this.clientGroupVisitHistoryHandler = clientGroupVisitHistoryHandler;
 	}
 
 	public void dailyUpdate() {
@@ -90,6 +105,12 @@ public class ClientGroupArrivalGenerationHandler {
 						if (receptionScheduler.removeEntity(arrival.clientGroup())) {
 							OpinionBuilder.saveSteppingOutOfQueueData(arrival.clientGroup());
 							opinionHandler.addOpinionWithProbability(arrival.clientGroup(), JSONOpinionDataLoader.opinionProbabilityForClientWhoSteppedOutOfQueue);
+							clientGroupVisitHistoryHandler.add(
+									new ClientGroupVisit(
+											time.getTime(),
+											arrival.clientGroup().getDesiredRoomRank(),
+											RoomSize.getSmallestAvailableRoomSize(arrival.clientGroup().getSize()).orElseThrow(),
+											STEPPED_OUT_OF_QUEUE.languageString));
 						}
 					}, LocalDateTime.of(time.getTime().toLocalDate(), arrival.time()).plus(arrival.clientGroup().getMaxWaitingTime())));
 		}, LocalDateTime.of(time.getTime().toLocalDate(), arrival.time()));

@@ -16,6 +16,7 @@ import static pl.agh.edu.engine.hotel.dificulty.DifficultyLevel.EASY;
 import static pl.agh.edu.engine.opinion.OpinionStars.FIVE;
 import static pl.agh.edu.engine.room.RoomRank.ECONOMIC;
 import static pl.agh.edu.engine.room.RoomSize.DOUBLE;
+import static pl.agh.edu.engine.room.RoomSize.FAMILY;
 import static pl.agh.edu.engine.time.Frequency.EVERY_DAY;
 
 import java.math.BigDecimal;
@@ -52,6 +53,7 @@ import pl.agh.edu.engine.calendar.CalendarEvent;
 import pl.agh.edu.engine.client.Arrival;
 import pl.agh.edu.engine.client.ClientGroup;
 import pl.agh.edu.engine.client.report.util.DateTrie;
+import pl.agh.edu.engine.client.visit_history.ClientGroupVisit;
 import pl.agh.edu.engine.employee.Employee;
 import pl.agh.edu.engine.employee.EmployeeStatus;
 import pl.agh.edu.engine.employee.EmploymentPreferences;
@@ -704,6 +706,21 @@ public class SerializationTest {
 		assertEquals(opinionData.stars(), opinionData2.stars());
 		assertEquals(opinionData.comments(), opinionData2.comments());
 
+	}
+
+	@Test
+	public void ClientGroupVisitTest() {
+		// Given
+		ClientGroupVisit clientGroupVisit = new ClientGroupVisit(LocalDateTime.now(), ECONOMIC, FAMILY, new LanguageString("some.path"));
+
+		// When
+		kryo.writeObject(output, clientGroupVisit);
+
+		initInput();
+		ClientGroupVisit clientGroupVisit2 = kryo.readObject(input, ClientGroupVisit.class);
+
+		// Then
+		assertEquals(clientGroupVisit, clientGroupVisit2);
 	}
 
 	@Test

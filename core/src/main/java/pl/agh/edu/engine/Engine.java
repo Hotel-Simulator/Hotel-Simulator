@@ -23,6 +23,7 @@ import pl.agh.edu.engine.building_cost.BuildingCostSupplier;
 import pl.agh.edu.engine.client.ClientGroupArrivalGenerationHandler;
 import pl.agh.edu.engine.client.ClientGroupGenerationHandler;
 import pl.agh.edu.engine.client.report.collector.ClientGroupReportDataCollector;
+import pl.agh.edu.engine.client.visit_history.ClientGroupVisitHistoryHandler;
 import pl.agh.edu.engine.employee.EmployeeHandler;
 import pl.agh.edu.engine.employee.EmployeeSalaryHandler;
 import pl.agh.edu.engine.employee.PossibleEmployeeHandler;
@@ -60,6 +61,7 @@ public class Engine {
 	public final AdvertisementHandler advertisementHandler;
 	public final EventHandler eventHandler;
 	public final EmployeeSalaryHandler employeeSalaryHandler;
+	public final ClientGroupVisitHistoryHandler clientGroupVisitHistoryHandler;
 	public final RoomManager roomManager;
 	public final AttractionHandler attractionHandler;
 	public final ClientGroupGenerationHandler clientGroupGenerationHandler;
@@ -87,6 +89,7 @@ public class Engine {
 				kryo.writeObject(output, object.advertisementHandler);
 				kryo.writeObject(output, object.eventHandler);
 				kryo.writeObject(output, object.employeeSalaryHandler);
+				kryo.writeObject(output, object.clientGroupVisitHistoryHandler);
 				kryo.writeObject(output, object.roomManager);
 				kryo.writeObject(output, object.attractionHandler);
 				kryo.writeObject(output, object.clientGroupGenerationHandler);
@@ -115,6 +118,7 @@ public class Engine {
 						kryo.readObject(input, AdvertisementHandler.class),
 						kryo.readObject(input, EventHandler.class),
 						kryo.readObject(input, EmployeeSalaryHandler.class),
+						kryo.readObject(input, ClientGroupVisitHistoryHandler.class),
 						kryo.readObject(input, RoomManager.class),
 						kryo.readObject(input, AttractionHandler.class),
 						kryo.readObject(input, ClientGroupGenerationHandler.class),
@@ -147,7 +151,8 @@ public class Engine {
 		this.advertisementHandler = new AdvertisementHandler(bankAccountHandler);
 		this.eventHandler = new EventHandler(buildingCostMultiplierHandler, hotelScenariosManager, clientNumberModificationEventHandler);
 		this.employeeSalaryHandler = new EmployeeSalaryHandler(employeeHandler, bankAccountHandler);
-		this.roomManager = new RoomManager(JSONHotelDataLoader.initialRooms, bankAccountHandler, buildingCostSupplier);
+		this.clientGroupVisitHistoryHandler = new ClientGroupVisitHistoryHandler();
+		this.roomManager = new RoomManager(JSONHotelDataLoader.initialRooms, bankAccountHandler, buildingCostSupplier, clientGroupVisitHistoryHandler);
 		this.attractionHandler = new AttractionHandler(bankAccountHandler, roomManager, buildingCostSupplier);
 		this.clientGroupGenerationHandler = new ClientGroupGenerationHandler(
 				opinionHandler,
@@ -172,7 +177,8 @@ public class Engine {
 				opinionHandler,
 				hotel,
 				clientGroupGenerationHandler,
-				receptionScheduler);
+				receptionScheduler,
+				clientGroupVisitHistoryHandler);
 
 		LocalDateTime currentTime = time.startingTime;
 
@@ -200,6 +206,7 @@ public class Engine {
 			AdvertisementHandler advertisementHandler,
 			EventHandler eventHandler,
 			EmployeeSalaryHandler employeeSalaryHandler,
+			ClientGroupVisitHistoryHandler clientGroupVisitHistoryHandler,
 			RoomManager roomManager,
 			AttractionHandler attractionHandler,
 			ClientGroupGenerationHandler clientGroupGenerationHandler,
@@ -222,6 +229,7 @@ public class Engine {
 		this.advertisementHandler = advertisementHandler;
 		this.eventHandler = eventHandler;
 		this.employeeSalaryHandler = employeeSalaryHandler;
+		this.clientGroupVisitHistoryHandler = clientGroupVisitHistoryHandler;
 		this.roomManager = roomManager;
 		this.attractionHandler = attractionHandler;
 		this.clientGroupGenerationHandler = clientGroupGenerationHandler;
