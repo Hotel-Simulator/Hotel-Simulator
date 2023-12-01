@@ -16,9 +16,8 @@ import pl.agh.edu.ui.utils.wrapper.WrapperContainer;
 
 public abstract class ClickableTable extends WrapperContainer<Button> {
 	protected Button button = new Button(skin, "clickable-table");
-	private ButtonGroup<Button> buttonGroup;
 
-	public ClickableTable() {
+	public ClickableTable(ButtonGroup<Button> buttonGroup) {
 		super();
 		setResolutionChangeHandler(this::changeSize);
 		onResolutionChange();
@@ -26,7 +25,6 @@ public abstract class ClickableTable extends WrapperContainer<Button> {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int butt) {
 				if (!button.isChecked()) {
-					if (buttonGroup != null)
 						for (Button button : buttonGroup.getButtons()) {
 							button.setDisabled(false);
 						}
@@ -38,10 +36,8 @@ public abstract class ClickableTable extends WrapperContainer<Button> {
 
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int butt) {
-				if (button.isChecked()) {
 					selectAction();
 					button.setDisabled(true);
-				}
 			}
 
 			@Override
@@ -67,8 +63,5 @@ public abstract class ClickableTable extends WrapperContainer<Button> {
 
 	protected abstract void selectAction();
 
-	public void setBottonGroup(ButtonGroup<Button> buttonGroup) {
-		this.buttonGroup = buttonGroup;
-	}
 
 }
