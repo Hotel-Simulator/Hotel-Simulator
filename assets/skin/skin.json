@@ -750,6 +750,7 @@
 		"vScrollKnob": "scroll-pane-knob"
 	},
 	"transparent": {
+		"hScrollKnob": "scroll-pane-knob",
 		"vScroll": "scroll-pane-vscroll",
 		"vScrollKnob": "scroll-pane-knob"
 	}
