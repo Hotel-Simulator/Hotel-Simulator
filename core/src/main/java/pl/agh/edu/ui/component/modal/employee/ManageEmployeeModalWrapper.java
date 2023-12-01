@@ -3,24 +3,28 @@ package pl.agh.edu.ui.component.modal.employee;
 import static pl.agh.edu.ui.component.modal.ModalManager.ModalPreferences;
 
 import pl.agh.edu.config.GraphicConfig;
-import pl.agh.edu.engine.employee.Employee;
-import pl.agh.edu.engine.employee.EmployeeHandler;
+import pl.agh.edu.engine.employee.EmployeeSalaryHandler;
+import pl.agh.edu.engine.employee.hired.HiredEmployee;
+import pl.agh.edu.engine.employee.hired.HiredEmployeeHandler;
 import pl.agh.edu.ui.component.modal.utils.BaseModalWrapper;
 
-public class HireEmployeeModalWrapper<ExtendedEmployee extends Employee> extends BaseModalWrapper {
+public class ManageEmployeeModalWrapper extends BaseModalWrapper {
 
-	private final ExtendedEmployee employee;
-	private final EmployeeHandler<ExtendedEmployee> employeeHandler;
+	private final HiredEmployee hiredEmployee;
+	private final HiredEmployeeHandler hiredEmployeeHandler;
+	private final EmployeeSalaryHandler employeeSalaryHandler;
 	private final Runnable refreshAction;
 
-	public HireEmployeeModalWrapper(
+	public ManageEmployeeModalWrapper(
 			ModalPreferences modalPreferences,
-			ExtendedEmployee employee,
-			EmployeeHandler<ExtendedEmployee> possibleEmployeeHandler,
+			HiredEmployee hiredEmployee,
+			HiredEmployeeHandler hiredEmployeeHandler,
+			EmployeeSalaryHandler employeeSalaryHandler,
 			Runnable refreshAction) {
 		super(modalPreferences);
-		this.employee = employee;
-		this.employeeHandler = possibleEmployeeHandler;
+		this.hiredEmployee = hiredEmployee;
+		this.hiredEmployeeHandler = hiredEmployeeHandler;
+		this.employeeSalaryHandler = employeeSalaryHandler;
 		this.refreshAction = refreshAction;
 		this.setResolutionChangeHandler(this::resize);
 		this.resize();
@@ -33,7 +37,7 @@ public class HireEmployeeModalWrapper<ExtendedEmployee extends Employee> extends
 		if (!isStageActive()) {
 			modalPreferences.inputMultiplexer().setProcessors(modalPreferences.modalStage());
 		}
-		HireEmployeeModal<ExtendedEmployee> hireEmployeeModal = new HireEmployeeModal<>(employee, employeeHandler, refreshAction);
+		ManageEmployeeModal hireEmployeeModal = new ManageEmployeeModal(hiredEmployee, hiredEmployeeHandler, employeeSalaryHandler, refreshAction);
 		this.setActor(hireEmployeeModal);
 		hireEmployeeModal.runVerticalFadeInAnimation();
 	}
@@ -49,11 +53,11 @@ public class HireEmployeeModalWrapper<ExtendedEmployee extends Employee> extends
 	}
 
 	public void resize() {
-		this.size(HireEmployeeModalWrapperStyle.getWidth(), HireEmployeeModalWrapperStyle.getHeight());
+		this.size(ManageEmployeeModalWrapperStyle.getWidth(), ManageEmployeeModalWrapperStyle.getHeight());
 		this.resetAnimationPosition();
 	}
 
-	private static class HireEmployeeModalWrapperStyle {
+	private static class ManageEmployeeModalWrapperStyle {
 		public static float getHeight() {
 			return (float) GraphicConfig.getResolution().HEIGHT / 18 * 13;
 		}

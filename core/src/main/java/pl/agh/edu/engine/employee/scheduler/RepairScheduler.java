@@ -12,9 +12,9 @@ import com.esotericsoftware.kryo.Serializer;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 
-import pl.agh.edu.engine.employee.Employee;
-import pl.agh.edu.engine.employee.EmployeeHandler;
 import pl.agh.edu.engine.employee.Shift;
+import pl.agh.edu.engine.employee.hired.HiredEmployee;
+import pl.agh.edu.engine.employee.hired.HiredEmployeeHandler;
 import pl.agh.edu.engine.opinion.OpinionBuilder;
 import pl.agh.edu.engine.room.Room;
 import pl.agh.edu.engine.time.Time;
@@ -32,7 +32,7 @@ public class RepairScheduler extends WorkScheduler<Room> {
 				kryo.writeObject(output, object.timeCommandExecutor);
 				kryo.writeObject(output, object.employeeHandler);
 				kryo.writeObject(output, object.entitiesToExecuteService);
-				kryo.writeObject(output, object.workingEmployees, KryoConfig.listSerializer(Employee.class));
+				kryo.writeObject(output, object.workingEmployees, KryoConfig.listSerializer(HiredEmployee.class));
 				kryo.writeObject(output, object.currentShift);
 
 			}
@@ -42,29 +42,29 @@ public class RepairScheduler extends WorkScheduler<Room> {
 				return new RepairScheduler(
 						kryo.readObject(input, Time.class),
 						kryo.readObject(input, TimeCommandExecutor.class),
-						kryo.readObject(input, EmployeeHandler.class),
+						kryo.readObject(input, HiredEmployeeHandler.class),
 						kryo.readObject(input, LinkedList.class),
-						kryo.readObject(input, List.class, KryoConfig.listSerializer(Employee.class)),
+						kryo.readObject(input, List.class, KryoConfig.listSerializer(HiredEmployee.class)),
 						kryo.readObject(input, Shift.class));
 			}
 		});
 	}
 
-	public RepairScheduler(EmployeeHandler employeeHandler) {
+	public RepairScheduler(HiredEmployeeHandler employeeHandler) {
 		super(employeeHandler, new LinkedList<>(), TECHNICIAN);
 	}
 
 	private RepairScheduler(Time time,
 			TimeCommandExecutor timeCommandExecutor,
-			EmployeeHandler employeeHandler,
+			HiredEmployeeHandler employeeHandler,
 			Queue<Room> entitiesToExecuteService,
-			List<Employee> workingEmployees,
+			List<HiredEmployee> workingEmployees,
 			Shift currentShift) {
 		super(time, timeCommandExecutor, employeeHandler, entitiesToExecuteService, TECHNICIAN, workingEmployees, currentShift);
 	}
 
 	@Override
-	protected void executeService(Employee technician, Room room) {
+	protected void executeService(HiredEmployee technician, Room room) {
 		technician.setOccupied(true);
 
 		timeCommandExecutor.addCommand(
@@ -79,7 +79,7 @@ public class RepairScheduler extends WorkScheduler<Room> {
 	public void perShiftUpdate() {
 		currentShift = currentShift.next();
 		workingEmployees = employeeHandler.getWorkingEmployeesByProfession(employeesProfession).stream()
-				.filter(employee -> employee.shift.equals(currentShift))
+				.filter(employee -> employee.getShift().equals(currentShift))
 				.collect(Collectors.toList());
 		workingEmployees.forEach(this::executeServiceIfPossible);
 

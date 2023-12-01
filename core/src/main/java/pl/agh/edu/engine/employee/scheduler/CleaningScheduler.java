@@ -13,9 +13,9 @@ import com.esotericsoftware.kryo.Serializer;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 
-import pl.agh.edu.engine.employee.Employee;
-import pl.agh.edu.engine.employee.EmployeeHandler;
 import pl.agh.edu.engine.employee.Shift;
+import pl.agh.edu.engine.employee.hired.HiredEmployee;
+import pl.agh.edu.engine.employee.hired.HiredEmployeeHandler;
 import pl.agh.edu.engine.opinion.OpinionBuilder;
 import pl.agh.edu.engine.room.Room;
 import pl.agh.edu.engine.room.RoomManager;
@@ -37,7 +37,7 @@ public class CleaningScheduler extends WorkScheduler<Room> {
 				kryo.writeObject(output, object.employeeHandler);
 				kryo.writeObject(output, object.roomManager);
 				kryo.writeObject(output, object.entitiesToExecuteService);
-				kryo.writeObject(output, object.workingEmployees, KryoConfig.listSerializer(Employee.class));
+				kryo.writeObject(output, object.workingEmployees, KryoConfig.listSerializer(HiredEmployee.class));
 				kryo.writeObject(output, object.currentShift);
 
 			}
@@ -47,26 +47,26 @@ public class CleaningScheduler extends WorkScheduler<Room> {
 				return new CleaningScheduler(
 						kryo.readObject(input, Time.class),
 						kryo.readObject(input, TimeCommandExecutor.class),
-						kryo.readObject(input, EmployeeHandler.class),
+						kryo.readObject(input, HiredEmployeeHandler.class),
 						kryo.readObject(input, RoomManager.class),
 						kryo.readObject(input, PriorityQueue.class),
-						kryo.readObject(input, List.class, KryoConfig.listSerializer(Employee.class)),
+						kryo.readObject(input, List.class, KryoConfig.listSerializer(HiredEmployee.class)),
 						kryo.readObject(input, Shift.class));
 			}
 		});
 	}
 
-	public CleaningScheduler(EmployeeHandler employeeHandler, RoomManager roomManager) {
+	public CleaningScheduler(HiredEmployeeHandler employeeHandler, RoomManager roomManager) {
 		super(employeeHandler, new PriorityQueue<>(roomComparator), CLEANER);
 		this.roomManager = roomManager;
 	}
 
 	private CleaningScheduler(Time time,
 			TimeCommandExecutor timeCommandExecutor,
-			EmployeeHandler employeeHandler,
+			HiredEmployeeHandler employeeHandler,
 			RoomManager roomManager,
 			Queue<Room> entitiesToExecuteService,
-			List<Employee> workingEmployees,
+			List<HiredEmployee> workingEmployees,
 			Shift currentShift) {
 		super(time, timeCommandExecutor, employeeHandler, entitiesToExecuteService, CLEANER, workingEmployees, currentShift);
 		this.roomManager = roomManager;
@@ -89,7 +89,7 @@ public class CleaningScheduler extends WorkScheduler<Room> {
 	}
 
 	@Override
-	protected void executeService(Employee cleaner, Room room) {
+	protected void executeService(HiredEmployee cleaner, Room room) {
 		cleaner.setOccupied(true);
 		timeCommandExecutor.addCommand(
 				new TimeCommand(() -> {
@@ -103,7 +103,7 @@ public class CleaningScheduler extends WorkScheduler<Room> {
 	public void perShiftUpdate() {
 		currentShift = currentShift.next();
 		workingEmployees = employeeHandler.getWorkingEmployeesByProfession(employeesProfession).stream()
-				.filter(employee -> employee.shift.equals(currentShift))
+				.filter(employee -> employee.getShift().equals(currentShift))
 				.collect(Collectors.toList());
 		workingEmployees.forEach(this::executeServiceIfPossible);
 
