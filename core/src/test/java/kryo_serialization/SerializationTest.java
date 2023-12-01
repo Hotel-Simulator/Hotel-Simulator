@@ -709,7 +709,7 @@ public class SerializationTest {
 	@Test
 	public void engineTest() {
 		// Given
-		Engine engine = new Engine(CITY, DifficultyLevel.MEDIUM);
+		Engine engine = new Engine("", CITY, DifficultyLevel.MEDIUM);
 
 		// When
 		kryo.writeObject(output, engine);
