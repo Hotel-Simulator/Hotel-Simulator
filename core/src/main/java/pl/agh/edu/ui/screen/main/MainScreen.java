@@ -16,7 +16,7 @@ import pl.agh.edu.ui.component.navbar.NavbarTop;
 import pl.agh.edu.ui.frame.FrameStack;
 import pl.agh.edu.ui.shader.BlurShader;
 
-public class MainScreen implements Screen {
+public class MainScreen {
 
 	public static Engine engine = null;
 	public final FrameStack frameStack = new FrameStack();
@@ -33,11 +33,7 @@ public class MainScreen implements Screen {
 	}
 
 	private void setupUI() {
-		Stack stack = new Stack();
 		Table table = new Table();
-
-		stack.setFillParent(true);
-		stack.addActor(infinityBackground);
 
 		table.setFillParent(true);
 		table.add().uniform();
@@ -51,7 +47,6 @@ public class MainScreen implements Screen {
 		table.add();
 		table.add(new NavbarBottom("default", this)).growX();
 		table.add();
-		stack.add(table);
 
 		mainStage.addActor(stack);
 		middleStage.addActor(blurShader);
