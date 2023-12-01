@@ -23,10 +23,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 
 import pl.agh.edu.config.GraphicConfig;
-import pl.agh.edu.engine.employee.PossibleEmployee;
-import pl.agh.edu.engine.employee.PossibleEmployeeHandler;
+import pl.agh.edu.engine.employee.Employee;
+import pl.agh.edu.engine.employee.EmployeeHandler;
 import pl.agh.edu.engine.employee.Shift;
-import pl.agh.edu.engine.employee.contract.Offer;
+import pl.agh.edu.engine.employee.contract.EmployeeOffer;
 import pl.agh.edu.engine.employee.contract.OfferResponse;
 import pl.agh.edu.engine.employee.contract.TypeOfContract;
 import pl.agh.edu.ui.component.button.LabeledButton;
@@ -45,7 +45,7 @@ import pl.agh.edu.ui.utils.SkinFont;
 import pl.agh.edu.utils.LanguageString;
 import pl.agh.edu.utils.Pair;
 
-public class HireEmployeeModal extends BaseModal {
+public class HireEmployeeModal<ExtendedEmployee extends Employee> extends BaseModal {
 	private LanguageLabel titleLabel;
 	private CustomLabel nameLabel;
 	private LanguageLabel dialogLabel;
@@ -57,14 +57,14 @@ public class HireEmployeeModal extends BaseModal {
 	private final Table leftTable = new Table();
 
 	public HireEmployeeModal(
-			PossibleEmployee possibleEmployee,
-			PossibleEmployeeHandler possibleEmployeeHandler,
+			ExtendedEmployee employee,
+			EmployeeHandler<ExtendedEmployee> employeeHandler,
 			Runnable refreshAction) {
 		super();
 
-		selectedShift = possibleEmployee.preferences.desiredShift;
-		selectedContract = possibleEmployee.preferences.desiredTypeOfContract;
-		selectedSalary = possibleEmployee.preferences.desiredWage;
+		selectedShift = employee.preferences.desiredShift;
+		selectedContract = employee.preferences.desiredTypeOfContract;
+		selectedSalary = employee.preferences.desiredWage;
 
 		innerTable.row();
 		innerTable.add(leftTable).grow().uniform();
@@ -73,17 +73,17 @@ public class HireEmployeeModal extends BaseModal {
 
 		leftTable.setBackground(new NinePatchDrawable(skin.getPatch("hal-divider-left-background")));
 		leftTable.add(createPhoto()).growX().expandY().row();
-		leftTable.add(createName(possibleEmployee)).growX().row();
-		leftTable.add(createDialogLabel(possibleEmployee)).growX().row();
-		leftTable.add(createButtonTable(possibleEmployee, possibleEmployeeHandler, refreshAction)).growX().expandY().bottom().row();
+		leftTable.add(createName(employee)).growX().row();
+		leftTable.add(createDialogLabel(employee)).growX().row();
+		leftTable.add(createButtonTable(employee, employeeHandler, refreshAction)).growX().expandY().bottom().row();
 
 		rightTable.add(createTitleLabel()).uniform().grow().expandY().bottom().row();
-		rightTable.add(createAgeTag(possibleEmployee)).uniform().growX().expandY().bottom().row();
-		rightTable.add(createSalarySlider(possibleEmployee)).uniform().growX().expandY().bottom().row();
-		rightTable.add(createPositionTag(possibleEmployee)).uniform().growX().expandY().bottom().row();
-		rightTable.add(createLevelTag(possibleEmployee)).uniform().growX().expandY().bottom().row();
-		rightTable.add(createSelectMenuShift(possibleEmployee)).uniform().growX().expandY().bottom().row();
-		rightTable.add(createSelectMenuContract(possibleEmployee)).uniform().growX().expandY().bottom().row();
+		rightTable.add(createAgeTag(employee)).uniform().growX().expandY().bottom().row();
+		rightTable.add(createSalarySlider(employee)).uniform().growX().expandY().bottom().row();
+		rightTable.add(createPositionTag(employee)).uniform().growX().expandY().bottom().row();
+		rightTable.add(createLevelTag(employee)).uniform().growX().expandY().bottom().row();
+		rightTable.add(createSelectMenuShift(employee)).uniform().growX().expandY().bottom().row();
+		rightTable.add(createSelectMenuContract(employee)).uniform().growX().expandY().bottom().row();
 
 		this.setResolutionChangeHandler(this::resize);
 		this.onResolutionChange();
@@ -103,19 +103,19 @@ public class HireEmployeeModal extends BaseModal {
 		return container;
 	}
 
-	private Actor createName(PossibleEmployee possibleEmployee) {
+	private Actor createName(ExtendedEmployee employee) {
 		nameLabel = new CustomLabel(HireEmployeeModalStyle.getTitleFont());
-		nameLabel.setText(possibleEmployee.firstName + " " + possibleEmployee.lastName);
+		nameLabel.setText(employee.firstName + " " + employee.lastName);
 		nameLabel.setAlignment(center, center);
 		return nameLabel;
 	}
 
-	private Actor createDialogLabel(PossibleEmployee possibleEmployee) {
+	private Actor createDialogLabel(ExtendedEmployee employee) {
 		LanguageLabel languageLabel = new LanguageLabel(
 				new LanguageString("employee.hire.dialog.start", List.of(
-						Pair.of("salary", possibleEmployee.preferences.desiredWage.toString()),
-						Pair.of("shift", possibleEmployee.preferences.desiredShift.toString()),
-						Pair.of("contract", possibleEmployee.preferences.desiredTypeOfContract.toString()))),
+						Pair.of("salary", employee.preferences.desiredWage.toString()),
+						Pair.of("shift", employee.preferences.desiredShift.toString()),
+						Pair.of("contract", employee.preferences.desiredTypeOfContract.toString()))),
 				HireEmployeeModalStyle.getFont(),
 				EASE);
 		languageLabel.minHeight(0f);
@@ -126,7 +126,7 @@ public class HireEmployeeModal extends BaseModal {
 		return dialogLabel;
 	}
 
-	private Actor createButtonTable(PossibleEmployee possibleEmployee, PossibleEmployeeHandler possibleEmployeeHandler, Runnable refreshAction) {
+	private Actor createButtonTable(ExtendedEmployee employee, EmployeeHandler<ExtendedEmployee> employeeHandler, Runnable refreshAction) {
 		Table buttonTable = new Table();
 		LabeledButton backButton = new LabeledButton(MEDIUM, new LanguageString("employee.hire.button.back"));
 		buttonTable.add(backButton).growX().expandY().uniform();
@@ -147,7 +147,7 @@ public class HireEmployeeModal extends BaseModal {
 				if (hireButton.isDisabled())
 					return;
 				CLICK.playSound();
-				handleOfferContract(possibleEmployee, possibleEmployeeHandler, hireButton);
+				handleOfferContract(employee, employeeHandler, hireButton);
 				refreshAction.run();
 			}
 		});
@@ -155,12 +155,12 @@ public class HireEmployeeModal extends BaseModal {
 		return buttonTable;
 	}
 
-	private void handleOfferContract(PossibleEmployee possibleEmployee, PossibleEmployeeHandler possibleEmployeeHandler, LabeledButton button) {
-		Offer offer = new Offer(
+	private void handleOfferContract(ExtendedEmployee employee, EmployeeHandler<ExtendedEmployee> employeeHandler, LabeledButton button) {
+		EmployeeOffer employeeOffer = new EmployeeOffer(
 				selectedShift,
 				selectedSalary,
 				selectedContract);
-		switch (possibleEmployeeHandler.offerJob(possibleEmployee, offer)) {
+		switch (employeeHandler.offerContract(employee, employeeOffer)) {
 			case NEGATIVE -> {
 				updateDialogLabel(NEGATIVE);
 				button.setDisabled(true);
@@ -188,21 +188,21 @@ public class HireEmployeeModal extends BaseModal {
 
 	}
 
-	private Actor createAgeTag(PossibleEmployee possibleEmployee) {
-		return new ValueTag(new LanguageString("employee.stats.age"), Integer.toString(possibleEmployee.age));
+	private Actor createAgeTag(ExtendedEmployee employee) {
+		return new ValueTag(new LanguageString("employee.stats.age"), Integer.toString(employee.age));
 	}
 
-	private Actor createPositionTag(PossibleEmployee possibleEmployee) {
-		return new ValueTag(new LanguageString("employee.stats.position"), possibleEmployee.profession.languageString);
+	private Actor createPositionTag(ExtendedEmployee employee) {
+		return new ValueTag(new LanguageString("employee.stats.position"), employee.profession.languageString);
 	}
 
-	private Actor createLevelTag(PossibleEmployee possibleEmployee) {
-		Container<Rating> container = new Container<>(new Rating(possibleEmployee.skills.multiply(BigDecimal.valueOf(5L)).intValue()));
+	private Actor createLevelTag(ExtendedEmployee employee) {
+		Container<Rating> container = new Container<>(new Rating(employee.skills.multiply(BigDecimal.valueOf(5L)).intValue()));
 		container.padLeft(HireEmployeeModalStyle.getRadiusPadding());
 		return new ValueTag(new LanguageString("employee.stats.level"), container);
 	}
 
-	private Actor createSelectMenuShift(PossibleEmployee possibleEmployee) {
+	private Actor createSelectMenuShift(ExtendedEmployee employee) {
 		Function<? super SelectMenuItem, Void> function = selectedOption -> {
 			if (selectedOption instanceof SelectMenuShift)
 				selectedShift = ((SelectMenuShift) selectedOption).shift;
@@ -214,11 +214,11 @@ public class HireEmployeeModal extends BaseModal {
 				SelectMenuShift.getArray(),
 				function);
 
-		selectMenu.setItem(possibleEmployee.preferences.desiredShift.name());
+		selectMenu.setItem(employee.preferences.desiredShift.name());
 		return selectMenu;
 	}
 
-	private Actor createSelectMenuContract(PossibleEmployee possibleEmployee) {
+	private Actor createSelectMenuContract(ExtendedEmployee employee) {
 		Function<? super SelectMenuItem, Void> function = selectedOption -> {
 			if (selectedOption instanceof SelectMenuContract)
 				selectedContract = ((SelectMenuContract) selectedOption).typeOfContract;
@@ -230,11 +230,11 @@ public class HireEmployeeModal extends BaseModal {
 				SelectMenuContract.getArray(),
 				function);
 
-		selectMenu.setItem(possibleEmployee.preferences.desiredTypeOfContract.name());
+		selectMenu.setItem(employee.preferences.desiredTypeOfContract.name());
 		return selectMenu;
 	}
 
-	public Actor createSalarySlider(PossibleEmployee possibleEmployee) {
+	public Actor createSalarySlider(ExtendedEmployee employee) {
 		Function<BigDecimal, Void> function = selectedOption -> {
 			selectedSalary = selectedOption;
 			return null;
@@ -243,9 +243,9 @@ public class HireEmployeeModal extends BaseModal {
 		MoneySliderComponent slider = new MoneySliderComponent(
 				new LanguageString("employee.stats.salary"),
 				ZERO,
-				possibleEmployee.preferences.desiredWage.multiply(BigDecimal.valueOf(2L)),
+				employee.preferences.desiredWage.multiply(BigDecimal.valueOf(2L)),
 				function,
-				possibleEmployee.preferences.desiredWage);
+				employee.preferences.desiredWage);
 
 		return slider;
 	}
@@ -314,7 +314,7 @@ public class HireEmployeeModal extends BaseModal {
 		}
 
 		private static float getPhotoSize() {
-			return 250f;
+			return 200f;
 		}
 	}
 }

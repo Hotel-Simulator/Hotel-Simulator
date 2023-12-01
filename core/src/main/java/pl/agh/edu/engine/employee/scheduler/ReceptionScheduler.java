@@ -21,10 +21,10 @@ import pl.agh.edu.data.loader.JSONOpinionDataLoader;
 import pl.agh.edu.engine.bank.BankAccountHandler;
 import pl.agh.edu.engine.client.ClientGroup;
 import pl.agh.edu.engine.client.report.collector.ClientGroupReportDataCollector;
-import pl.agh.edu.engine.employee.Employee;
-import pl.agh.edu.engine.employee.EmployeeHandler;
 import pl.agh.edu.engine.employee.Profession;
 import pl.agh.edu.engine.employee.Shift;
+import pl.agh.edu.engine.employee.hired.HiredEmployee;
+import pl.agh.edu.engine.employee.hired.HiredEmployeeHandler;
 import pl.agh.edu.engine.hotel.Hotel;
 import pl.agh.edu.engine.opinion.OpinionBuilder;
 import pl.agh.edu.engine.opinion.OpinionHandler;
@@ -60,7 +60,7 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 				kryo.writeObject(output, object.bankAccountHandler);
 				kryo.writeObject(output, object.hotel);
 				kryo.writeObject(output, object.entitiesToExecuteService);
-				kryo.writeObject(output, object.workingEmployees, KryoConfig.listSerializer(Employee.class));
+				kryo.writeObject(output, object.workingEmployees, KryoConfig.listSerializer(HiredEmployee.class));
 				kryo.writeObject(output, object.currentShift);
 			}
 
@@ -69,7 +69,7 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 				return new ReceptionScheduler(
 						kryo.readObject(input, Time.class),
 						kryo.readObject(input, TimeCommandExecutor.class),
-						kryo.readObject(input, EmployeeHandler.class),
+						kryo.readObject(input, HiredEmployeeHandler.class),
 						kryo.readObject(input, OpinionHandler.class),
 						kryo.readObject(input, ClientGroupReportDataCollector.class),
 						kryo.readObject(input, RepairScheduler.class),
@@ -78,14 +78,14 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 						kryo.readObject(input, BankAccountHandler.class),
 						kryo.readObject(input, Hotel.class),
 						kryo.readObject(input, LinkedList.class),
-						kryo.readObject(input, List.class, KryoConfig.listSerializer(Employee.class)),
+						kryo.readObject(input, List.class, KryoConfig.listSerializer(HiredEmployee.class)),
 						kryo.readObject(input, Shift.class));
 			}
 		});
 	}
 
 	public ReceptionScheduler(
-			EmployeeHandler employeeHandler,
+			HiredEmployeeHandler employeeHandler,
 			OpinionHandler opinionHandler,
 			ClientGroupReportDataCollector clientGroupReportDataCollector,
 			RepairScheduler repairScheduler,
@@ -105,7 +105,7 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 
 	private ReceptionScheduler(Time time,
 			TimeCommandExecutor timeCommandExecutor,
-			EmployeeHandler employeeHandler,
+			HiredEmployeeHandler employeeHandler,
 			OpinionHandler opinionHandler,
 			ClientGroupReportDataCollector clientGroupReportDataCollector,
 			RepairScheduler repairScheduler,
@@ -114,7 +114,7 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 			BankAccountHandler bankAccountHandler,
 			Hotel hotel,
 			Queue<ClientGroup> entitiesToExecuteService,
-			List<Employee> workingEmployees,
+			List<HiredEmployee> workingEmployees,
 			Shift currentShift) {
 		super(time, timeCommandExecutor, employeeHandler, entitiesToExecuteService, RECEPTIONIST, workingEmployees, currentShift);
 		this.opinionHandler = opinionHandler;
@@ -127,7 +127,7 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 	}
 
 	@Override
-	protected void executeService(Employee receptionist, ClientGroup clientGroup) {
+	protected void executeService(HiredEmployee receptionist, ClientGroup clientGroup) {
 		receptionist.setOccupied(true);
 
 		OpinionBuilder.saveReceptionData(receptionist, clientGroup, time.getTime());
@@ -151,7 +151,7 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 		}, checkOutTime);
 	}
 
-	private TimeCommand createTimeCommandForServingArrivedClients(Employee receptionist, ClientGroup clientGroup) {
+	private TimeCommand createTimeCommandForServingArrivedClients(HiredEmployee receptionist, ClientGroup clientGroup) {
 		return new TimeCommand(
 				() -> {
 					Optional<Room> optionalRoom = roomManager.findRoomForClientGroup(clientGroup);
@@ -188,7 +188,7 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 	public void perShiftUpdate() {
 		currentShift = currentShift.next();
 		workingEmployees = employeeHandler.getWorkingEmployeesByProfession(employeesProfession).stream()
-				.filter(employee -> employee.shift.equals(currentShift))
+				.filter(employee -> employee.getShift().equals(currentShift))
 				.collect(Collectors.toList());
 		workingEmployees.forEach(this::executeServiceIfPossible);
 

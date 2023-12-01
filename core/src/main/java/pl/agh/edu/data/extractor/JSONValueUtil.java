@@ -31,6 +31,13 @@ public class JSONValueUtil {
 				.collect(Collectors.toList());
 	}
 
+	public static <R> List<R> getListOfLists(JSONArray jsonArray, Function<Object, List<R>> mapper) {
+		return Stream.of(jsonArray.toArray())
+				.map(mapper)
+				.flatMap(List::stream)
+				.collect(Collectors.toList());
+	}
+
 	public static LocalDate getLocalDate(String stringDate) {
 		return LocalDate.parse(stringDate, ISO_LOCAL_DATE);
 	}

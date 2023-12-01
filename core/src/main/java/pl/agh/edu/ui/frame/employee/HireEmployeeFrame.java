@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
-import pl.agh.edu.engine.employee.PossibleEmployee;
+import pl.agh.edu.engine.employee.possible.PossibleEmployee;
 import pl.agh.edu.ui.component.modal.ModalManager;
 import pl.agh.edu.ui.component.rating.Rating;
 import pl.agh.edu.ui.component.table.CustomTable;
@@ -18,7 +18,7 @@ import pl.agh.edu.utils.LanguageString;
 
 public class HireEmployeeFrame extends BaseFrame {
 
-	private CustomTable<PossibleEmployee> hireEmployeeTable;
+	private final CustomTable<PossibleEmployee> hireEmployeeTable;
 
 	public HireEmployeeFrame() {
 		super(new LanguageString("navbar.button.hire"));
@@ -32,10 +32,6 @@ public class HireEmployeeFrame extends BaseFrame {
 
 		this.refreshTable();
 		mainTable.add(hireEmployeeTable).grow();
-	}
-
-	private void clickAction(PossibleEmployee possibleEmployee) {
-		System.out.println(possibleEmployee.firstName + " " + possibleEmployee.lastName);
 	}
 
 	private void refreshTable() {

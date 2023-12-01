@@ -5,6 +5,8 @@ import static pl.agh.edu.data.extractor.JSONFilePath.HOTEL_CONFIG;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -38,9 +40,17 @@ public class JSONHotelDataLoader {
 				JSONDataExtractor.extract(JSON_FILE_PATH, "check_in_out_times", JSONObject.class),
 				entry -> (String) entry.getKey(),
 				entry -> JSONValueUtil.getLocalTime((String) entry.getValue()));
-		initialRooms = JSONValueUtil.getList(
+		initialRooms = JSONValueUtil.getListOfLists(
 				JSONDataExtractor.extract(JSON_FILE_PATH, "initial_rooms", JSONArray.class),
-				e -> new Room(RoomRank.valueOf((String) ((JSONObject) e).get("rank")), RoomSize.valueOf((String) ((JSONObject) e).get("size"))));
+				e -> {
+					JSONObject roomJson = (JSONObject) e;
+					RoomRank rank = RoomRank.valueOf((String) roomJson.get("rank"));
+					RoomSize size = RoomSize.valueOf((String) roomJson.get("size"));
+					int quantity = Integer.parseInt(roomJson.get("quantity").toString());
 
+					return IntStream.range(0, quantity)
+							.mapToObj(i -> new Room(rank, size))
+							.collect(Collectors.toList());
+				});
 	}
 }

@@ -1,4 +1,4 @@
-package pl.agh.edu.engine.employee;
+package pl.agh.edu.engine.employee.possible;
 
 import java.math.BigDecimal;
 
@@ -7,18 +7,12 @@ import com.esotericsoftware.kryo.Serializer;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 
-import pl.agh.edu.engine.employee.contract.Offer;
-import pl.agh.edu.engine.employee.contract.OfferResponse;
+import pl.agh.edu.engine.employee.Employee;
+import pl.agh.edu.engine.employee.EmployeePreferences;
+import pl.agh.edu.engine.employee.Profession;
 import pl.agh.edu.serialization.KryoConfig;
 
-public class PossibleEmployee {
-	public final String firstName;
-	public final String lastName;
-	public final int age;
-	public final BigDecimal skills;
-	public final EmploymentPreferences preferences;
-	public final Profession profession;
-
+public class PossibleEmployee extends Employee {
 	public static void kryoRegister() {
 		KryoConfig.kryo.register(PossibleEmployee.class, new Serializer<PossibleEmployee>() {
 			@Override
@@ -29,79 +23,71 @@ public class PossibleEmployee {
 				kryo.writeObject(output, object.skills);
 				kryo.writeObject(output, object.preferences);
 				kryo.writeObject(output, object.profession);
+				kryo.writeObject(output, object.acceptancePointsThreshold);
 			}
 
 			@Override
 			public PossibleEmployee read(Kryo kryo, Input input, Class<? extends PossibleEmployee> type) {
-				return new PossibleEmployee.Builder()
+				return new PossibleEmployeeBuilder()
 						.firstName(kryo.readObject(input, String.class))
 						.lastName(kryo.readObject(input, String.class))
 						.age(kryo.readObject(input, Integer.class))
 						.skills(kryo.readObject(input, BigDecimal.class))
-						.preferences(kryo.readObject(input, EmploymentPreferences.class))
+						.preferences(kryo.readObject(input, EmployeePreferences.class))
 						.profession(kryo.readObject(input, Profession.class))
+						.acceptancePointsThreshold(kryo.readObject(input, Integer.class))
 						.build();
 			}
 		});
 	}
 
-	private PossibleEmployee(Builder builder) {
-		this.firstName = builder.firstName;
-		this.lastName = builder.lastName;
-		this.age = builder.age;
-		this.skills = builder.skills;
-		this.preferences = builder.preferences;
-		this.profession = builder.profession;
+	private PossibleEmployee(PossibleEmployeeBuilder builder) {
+		super(builder.firstName, builder.lastName, builder.age, builder.skills, builder.preferences, builder.profession, builder.acceptancePointsThreshold);
 	}
 
-	public OfferResponse offerJob(Offer offer) {
-
-		Shift offerShift = offer.shift();
-		BigDecimal offeredWage = offer.offeredWage();
-
-		boolean isPositive = (preferences.desiredShift == offerShift && offeredWage.compareTo(preferences.acceptableWage) >= 0) ||
-				(preferences.desiredShift != offerShift && offeredWage.compareTo(preferences.desiredWage) >= 0);
-
-		return isPositive ? OfferResponse.POSITIVE : OfferResponse.NEGATIVE;
-	}
-
-	public static class Builder {
+	public static class PossibleEmployeeBuilder {
 		private String firstName;
 		private String lastName;
 		private int age;
 		private BigDecimal skills;
-		private EmploymentPreferences preferences;
+		private EmployeePreferences preferences;
 		private Profession profession;
+		private int acceptancePointsThreshold;
 
-		public Builder() {}
+		public PossibleEmployeeBuilder() {}
 
-		public Builder firstName(String firstName) {
+		public PossibleEmployeeBuilder firstName(String firstName) {
 			this.firstName = firstName;
 			return this;
 		}
 
-		public Builder lastName(String lastName) {
+		public PossibleEmployeeBuilder lastName(String lastName) {
 			this.lastName = lastName;
 			return this;
 		}
 
-		public Builder age(int age) {
+		public PossibleEmployeeBuilder age(int age) {
 			this.age = age;
 			return this;
 		}
 
-		public Builder skills(BigDecimal skills) {
+		public PossibleEmployeeBuilder skills(BigDecimal skills) {
 			this.skills = skills;
 			return this;
 		}
 
-		public Builder preferences(EmploymentPreferences preferences) {
+		public PossibleEmployeeBuilder preferences(EmployeePreferences preferences) {
 			this.preferences = preferences;
 			return this;
 		}
 
-		public Builder profession(Profession profession) {
+		public PossibleEmployeeBuilder profession(Profession profession) {
 			this.profession = profession;
+			return this;
+		}
+
+		public PossibleEmployeeBuilder acceptancePointsThreshold(int acceptancePointsThreshold) {
+			this.acceptancePointsThreshold = acceptancePointsThreshold;
 			return this;
 		}
 

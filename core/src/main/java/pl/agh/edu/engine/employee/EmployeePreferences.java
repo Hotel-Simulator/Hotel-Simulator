@@ -10,16 +10,16 @@ import com.esotericsoftware.kryo.io.Output;
 import pl.agh.edu.engine.employee.contract.TypeOfContract;
 import pl.agh.edu.serialization.KryoConfig;
 
-public class EmploymentPreferences {
+public class EmployeePreferences {
 	public final Shift desiredShift;
 	public final BigDecimal acceptableWage;
 	public final BigDecimal desiredWage;
 	public final TypeOfContract desiredTypeOfContract;
 
 	public static void kryoRegister() {
-		KryoConfig.kryo.register(EmploymentPreferences.class, new Serializer<EmploymentPreferences>() {
+		KryoConfig.kryo.register(EmployeePreferences.class, new Serializer<EmployeePreferences>() {
 			@Override
-			public void write(Kryo kryo, Output output, EmploymentPreferences object) {
+			public void write(Kryo kryo, Output output, EmployeePreferences object) {
 				kryo.writeObject(output, object.desiredShift);
 				kryo.writeObject(output, object.acceptableWage);
 				kryo.writeObject(output, object.desiredWage);
@@ -27,8 +27,8 @@ public class EmploymentPreferences {
 			}
 
 			@Override
-			public EmploymentPreferences read(Kryo kryo, Input input, Class<? extends EmploymentPreferences> type) {
-				return new EmploymentPreferences.Builder()
+			public EmployeePreferences read(Kryo kryo, Input input, Class<? extends EmployeePreferences> type) {
+				return new EmployeePreferences.Builder()
 						.desiredShift(kryo.readObject(input, Shift.class))
 						.acceptableWage(kryo.readObject(input, BigDecimal.class))
 						.desiredWage(kryo.readObject(input, BigDecimal.class))
@@ -38,7 +38,7 @@ public class EmploymentPreferences {
 		});
 	}
 
-	private EmploymentPreferences(Builder builder) {
+	private EmployeePreferences(Builder builder) {
 		this.desiredShift = builder.desiredShift;
 		this.acceptableWage = builder.acceptableWage;
 		this.desiredWage = builder.desiredWage;
@@ -71,8 +71,8 @@ public class EmploymentPreferences {
 			return this;
 		}
 
-		public EmploymentPreferences build() {
-			return new EmploymentPreferences(this);
+		public EmployeePreferences build() {
+			return new EmployeePreferences(this);
 		}
 	}
 }

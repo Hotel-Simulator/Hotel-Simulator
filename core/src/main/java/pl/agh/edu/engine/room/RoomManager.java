@@ -35,7 +35,7 @@ public class RoomManager {
 	private final List<Room> rooms;
 	private final Map<Room, LocalDateTime> roomRankChangeTimes;
 	private final Map<Room, LocalDateTime> roomBuildingTimes;
-	private final RoomPricePerNight roomPricePerNight;
+	public final RoomPricePerNight roomPricePerNight;
 	private final BankAccountHandler bankAccountHandler;
 	private final BuildingCostSupplier buildingCostSupplier;
 
@@ -139,6 +139,12 @@ public class RoomManager {
 				room -> room.size,
 				() -> new EnumMap<>(RoomSize.class),
 				Collectors.toList()));
+	}
+
+	public long getRoomNumberByRankSize(RoomRank rank, RoomSize size) {
+		return rooms.stream()
+				.filter(room -> room.getRank() == rank && room.size == size)
+				.count();
 	}
 
 	public Optional<Room> findRoomForClientGroup(ClientGroup group) {
