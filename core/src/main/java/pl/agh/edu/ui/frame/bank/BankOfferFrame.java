@@ -9,8 +9,9 @@ import java.util.Objects;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
+import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Align;
 
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.data.loader.JSONBankDataLoader;
@@ -27,6 +28,7 @@ public class BankOfferFrame extends BaseFrame {
 	public final List<BankOffer> bankOfferList = new ArrayList<>();
 	ScrollPane scrollPane;
 	BankAccount bankAccount = engine.bankAccountHandler.account;
+	HorizontalGroup contentRows;
 
 	public BankOfferFrame() {
 		super(new LanguageString("navbar.button.offer"));
@@ -34,9 +36,11 @@ public class BankOfferFrame extends BaseFrame {
 		LanguageLabel changeBankLabel = new LanguageLabel(new LanguageString("bank.change"), whiteFont);
 		changeBankLabel.setBaseColor(GRAY);
 		mainTable.add(changeBankLabel).colspan(2).spaceBottom(BankOfferFrameStyle.subtitleSpace()).row();
-		Table contentRows = new Table();
+		contentRows = new HorizontalGroup();
+		contentRows.wrap(true);
+		contentRows.align(Align.center);
 		scrollPane = new CustomScrollPane(contentRows, skin, "transparent");
-		scrollPane.setScrollingDisabled(false, true);
+		scrollPane.setScrollingDisabled(true, false);
 		JSONBankDataLoader.scenarios.forEach(scenario -> {
 			BankOffer bankOffer = new BankOffer(scenario, buttonGroup, bankAccount -> {
 				bankAccount.setBankData(scenario);
@@ -44,8 +48,10 @@ public class BankOfferFrame extends BaseFrame {
 			});
 			buttonGroup.add(bankOffer.getActor());
 			bankOfferList.add(bankOffer);
-			contentRows.add(bankOffer).space(10f).pad(5f);
+			bankOffer.getActor().align(Align.left);
+			contentRows.addActor(bankOffer);
 		});
+
 		mainTable.add(scrollPane).grow();
 		scrollPane.setFadeScrollBars(false);
 		scrollPane.setScrollbarsVisible(true);
@@ -61,6 +67,7 @@ public class BankOfferFrame extends BaseFrame {
 
 	public void resolutionChanged() {
 		scrollPane.invalidate();
+		contentRows.invalidate();
 	}
 
 	private static class BankOfferFrameStyle {

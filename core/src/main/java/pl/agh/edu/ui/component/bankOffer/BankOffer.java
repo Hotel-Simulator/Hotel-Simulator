@@ -5,13 +5,15 @@ import static com.badlogic.gdx.utils.Align.left;
 import static com.badlogic.gdx.utils.Align.right;
 import static pl.agh.edu.ui.utils.SkinColor.GRAY;
 import static pl.agh.edu.ui.utils.SkinFont.BODY2;
-import static pl.agh.edu.ui.utils.SkinFont.H3;
+import static pl.agh.edu.ui.utils.SkinFont.H4;
 
 import java.util.function.Function;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Align;
 
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.data.type.BankData;
@@ -29,25 +31,26 @@ public class BankOffer extends ClickableTable {
 
 	public BankOffer(BankData bankData, ButtonGroup<Button> buttonGroup, Function<BankAccount, Void> function) {
 		super(buttonGroup);
-
 		this.bankData = bankData;
 		this.function = function;
 
+		Table table = new Table();
 		LanguageLabel bankName = new LanguageLabel(bankData.name(), BankOfferStyle.getTitleFont());
 		bankName.setBaseColor(GRAY);
 		bankName.setAlignment(center, center);
-		button.add(bankName).minWidth(500f).colspan(2).spaceBottom(20f).row();
+		table.add(bankName).minWidth(500f).colspan(2).spaceBottom(20f).row();
 
 		LanguageLabel creditInterestRate = new LanguageLabel(new LanguageString("bank.credit.interest"), BankOfferStyle.getBlackFont());
 		Label creditInterestRateValue = new Label(bankData.accountDetails().creditInterestRate() + "%", skin, BankOfferStyle.getWhiteFont(), BankOfferStyle.getValueColor());
 		LanguageLabel bankAccountFee = new LanguageLabel(new LanguageString("bank.fee"), BankOfferStyle.getBlackFont());
 		Label bankAccountFeeValue = new Label(bankData.accountDetails().accountFee() + "$", skin, BankOfferStyle.getWhiteFont(), BankOfferStyle.getValueColor());
 
-		button.add(creditInterestRate).padRight(BankOfferStyle.getPadRight()).spaceBottom(BankOfferStyle.getRowSpace()).align(left);
-		button.add(creditInterestRateValue).spaceBottom(BankOfferStyle.getRowSpace()).align(right).row();
-		button.add(bankAccountFee).padRight(BankOfferStyle.getPadRight()).spaceBottom(BankOfferStyle.getRowSpace()).align(left);
-		button.add(bankAccountFeeValue).spaceBottom(BankOfferStyle.getSpaceBottom()).align(right).row();
-
+		table.add(creditInterestRate).padRight(BankOfferStyle.getPadRight()).spaceBottom(BankOfferStyle.getRowSpace()).align(left);
+		table.add(creditInterestRateValue).spaceBottom(BankOfferStyle.getRowSpace()).align(right).row();
+		table.add(bankAccountFee).padRight(BankOfferStyle.getPadRight()).spaceBottom(BankOfferStyle.getRowSpace()).align(left);
+		table.add(bankAccountFeeValue).spaceBottom(BankOfferStyle.getSpaceBottom()).align(right).row();
+		table.align(Align.center);
+		button.add(table).align(center).grow();
 		onResolutionChange();
 	}
 
@@ -87,7 +90,7 @@ public class BankOffer extends ClickableTable {
 		}
 
 		public static String getTitleFont() {
-			return H3.getWhiteVariantName();
+			return H4.getWhiteVariantName();
 		}
 
 		public static String getValueColor() {

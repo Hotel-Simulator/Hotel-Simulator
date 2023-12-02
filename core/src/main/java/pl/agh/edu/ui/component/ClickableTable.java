@@ -36,8 +36,10 @@ public abstract class ClickableTable extends WrapperContainer<Button> {
 
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int butt) {
-				selectAction();
-				button.setDisabled(true);
+				if (button.isChecked()) {
+					selectAction();
+					button.setDisabled(true);
+				}
 			}
 
 			@Override
@@ -57,6 +59,7 @@ public abstract class ClickableTable extends WrapperContainer<Button> {
 			}
 		});
 		this.setActor(button);
+		this.pad(20f);
 	}
 
 	protected abstract void changeSize();
