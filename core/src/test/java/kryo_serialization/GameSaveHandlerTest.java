@@ -5,10 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static pl.agh.edu.engine.hotel.HotelType.CITY;
 import static pl.agh.edu.engine.hotel.dificulty.DifficultyLevel.EASY;
 
-import java.io.File;
-import java.lang.reflect.Field;
-
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import pl.agh.edu.engine.Engine;
@@ -21,11 +17,6 @@ public class GameSaveHandlerTest {
 	private static final GameSaveHandler gameSaveHandler = GameSaveHandler.getInstance();
 	private static final HotelType hotelType = CITY;
 	private static final DifficultyLevel difficultyLevel = EASY;
-
-	@BeforeAll
-	static void setup() {
-		changeSaveFolder();
-	}
 
 	@Test
 	public void saveNewGameTest() {
@@ -53,27 +44,5 @@ public class GameSaveHandlerTest {
 		assertDoesNotThrow(() -> {
 			gameSaveHandler.loadSavedGame(gameSaveName);
 		});
-	}
-
-	private static void changeSaveFolder() {
-
-		Class<?> clazz = GameSaveHandler.class;
-
-		Field privateField;
-		try {
-			privateField = clazz.getDeclaredField("saveFolder");
-		} catch (NoSuchFieldException e) {
-			throw new RuntimeException(e);
-		}
-
-		privateField.setAccessible(true);
-
-		try {
-			privateField.set(gameSaveHandler, new File("."));
-		} catch (IllegalAccessException e) {
-			throw new RuntimeException(e);
-		}
-
-		privateField.setAccessible(false);
 	}
 }

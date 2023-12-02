@@ -28,7 +28,7 @@ public class GameSaveHandler {
 		saveFolder = new File(saveFolderPath);
 
 		if (!saveFolder.exists()) {
-			saveFolder.mkdir();
+			saveFolder.mkdirs();
 		}
 	}
 
@@ -48,11 +48,12 @@ public class GameSaveHandler {
 				.stream()
 				.flatMap(Arrays::stream)
 				.map(File::getName)
+				.map(name -> name.replaceAll("\\.bin$", ""))
 				.collect(Collectors.toSet());
 	}
 
 	public String getCurrentGameSavePath() {
-		return saveFolder.getAbsolutePath() + os.pathSeparator + currentGameSaveName;
+		return saveFolder.getAbsolutePath() + os.pathSeparator + currentGameSaveName + ".bin";
 	}
 
 	public Engine startNewGame(String hotelName, HotelType hotelType, DifficultyLevel difficultyLevel) {
