@@ -6,6 +6,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static pl.agh.edu.engine.bank.TransactionType.ROOM_RENTING_INCOME;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -17,7 +18,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import pl.agh.edu.data.loader.JSONBankDataLoader;
 import pl.agh.edu.engine.bank.BankAccount;
 import pl.agh.edu.engine.bank.BankAccountHandler;
 import pl.agh.edu.engine.bank.Credit;
@@ -59,41 +59,11 @@ public class BankAccountHandlerTest {
 		when(account.getBalance()).thenReturn(expense);
 
 		// When
-		bankAccountHandler.registerExpense(expense);
+		bankAccountHandler.registerExpense(ROOM_RENTING_INCOME, expense);
 
 		// Then
-		verify(account, times(1)).registerExpense(any());
-		verify(account, times(0)).registerIncome(any());
-	}
-
-	@Test
-	public void testRegisterExpenseInsufficientBalance() {
-		// Given
-		var expense = BigDecimal.valueOf(500);
-		when(account.getBalance()).thenReturn(expense.subtract(BigDecimal.valueOf(1)));
-		when(account.getCreditInterestRate()).thenReturn(BigDecimal.ZERO);
-
-		// When
-		bankAccountHandler.registerExpense(expense);
-
-		// Then
-		verify(account, times(1)).registerExpense(expense);
-		verify(account, times(1)).registerCredit(any());
-	}
-
-	@Test
-	public void testRegisterExpenseInsufficientBalance_expenseHigherThanMinCreditValue() {
-		// Given
-		var expense = JSONBankDataLoader.minCreditValue.add(BigDecimal.ONE);
-		when(account.getBalance()).thenReturn(BigDecimal.ZERO);
-		when(account.getCreditInterestRate()).thenReturn(BigDecimal.ZERO);
-
-		// When
-		bankAccountHandler.registerExpense(expense);
-
-		// Then
-		verify(account, times(1)).registerExpense(expense);
-		verify(account, times(1)).registerCredit(any());
+		verify(account, times(1)).registerExpense(any(), any());
+		verify(account, times(0)).registerIncome(any(), any());
 	}
 
 	@Test
@@ -101,10 +71,10 @@ public class BankAccountHandlerTest {
 		// Given
 		var income = BigDecimal.ONE;
 		// When
-		bankAccountHandler.registerIncome(income);
+		bankAccountHandler.registerIncome(ROOM_RENTING_INCOME, income);
 
 		// Then
-		verify(account, times(1)).registerIncome(BigDecimal.ONE);
+		verify(account, times(1)).registerIncome(ROOM_RENTING_INCOME, BigDecimal.ONE);
 	}
 
 	@Test

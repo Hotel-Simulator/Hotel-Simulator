@@ -3,6 +3,7 @@ package pl.agh.edu.engine.advertisement;
 import static java.math.BigDecimal.ONE;
 import static java.time.LocalTime.MIDNIGHT;
 import static java.time.temporal.ChronoUnit.DAYS;
+import static pl.agh.edu.engine.bank.TransactionType.ADVERTISEMENT_CAMPAIGN_COSTS;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -97,7 +98,7 @@ public class AdvertisementHandler extends ClientGroupModifierSupplier {
 
 	public void buyAdvertisementCampaign(AdvertisementType type, LocalDate startDate, LocalDate endDate) {
 		AdvertisementCampaign advertisementCampaign = new AdvertisementCampaign(JSONAdvertisementDataLoader.advertisementData.get(type), startDate, endDate);
-		bankAccountHandler.registerExpense(getCampaignFullCost(type, DAYS.between(startDate, endDate)));
+		bankAccountHandler.registerExpense(ADVERTISEMENT_CAMPAIGN_COSTS, getCampaignFullCost(type, DAYS.between(startDate, endDate)));
 		timeCommandExecutor.addCommand(new TimeCommand(() -> advertisementCampaigns.remove(advertisementCampaign),
 				endDate.atTime(MIDNIGHT).minusMinutes(1)));
 

@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 import pl.agh.edu.serialization.KryoConfig;
 
-public record Transaction(TransactionType type, BigDecimal value, LocalDateTime transactionTime) {
+public record Transaction(TransactionType type, BigDecimal absValue, LocalDateTime transactionTime) {
 
     public static void kryoRegister() {
         KryoConfig.kryo.register(Transaction.class);

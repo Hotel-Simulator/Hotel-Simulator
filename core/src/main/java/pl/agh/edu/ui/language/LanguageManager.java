@@ -32,11 +32,14 @@ public class LanguageManager {
 	}
 
 	public static String get(LanguageString languageString) {
-		if (languageString.replacementsList.isEmpty())
+		if (languageString.replacementStringList.isEmpty() && languageString.replacementLanguageStringList.isEmpty())
 			return get(languageString.path);
 		String result = get(languageString.path);
-		for (Pair<String, String> replacement : languageString.replacementsList) {
+		for (Pair<String, String> replacement : languageString.replacementStringList) {
 			result = result.replace("{{" + replacement.first() + "}}", replacement.second());
+		}
+		for (Pair<String, LanguageString> replacement : languageString.replacementLanguageStringList) {
+			result = result.replace("[[" + replacement.first() + "]]", get(replacement.second()));
 		}
 		return result;
 	}

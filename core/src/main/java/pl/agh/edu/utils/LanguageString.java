@@ -12,29 +12,38 @@ import pl.agh.edu.serialization.KryoConfig;
 
 public class LanguageString {
 	public final String path;
-	public final List<Pair<String, String>> replacementsList;
+	public final List<Pair<String, String>> replacementStringList;
+	public final List<Pair<String, LanguageString>> replacementLanguageStringList;
 
 	public static void kryoRegister() {
 		KryoConfig.kryo.register(LanguageString.class, new Serializer<LanguageString>() {
 			@Override
 			public void write(Kryo kryo, Output output, LanguageString object) {
 				kryo.writeObject(output, object.path);
-				kryo.writeObject(output, object.replacementsList, KryoConfig.listSerializer(Pair.class));
-
+				kryo.writeObject(output, object.replacementStringList, KryoConfig.listSerializer(Pair.class));
+				kryo.writeObject(output, object.replacementLanguageStringList, KryoConfig.listSerializer(Pair.class));
 			}
 
 			@Override
 			public LanguageString read(Kryo kryo, Input input, Class<? extends LanguageString> type) {
 				return new LanguageString(
 						kryo.readObject(input, String.class),
+						kryo.readObject(input, List.class, KryoConfig.listSerializer(Pair.class)),
 						kryo.readObject(input, List.class, KryoConfig.listSerializer(Pair.class)));
 			}
 		});
 	}
 
-	public LanguageString(String path, List<Pair<String, String>> replacementsList) {
+	public LanguageString(String path,
+			List<Pair<String, String>> replacementStringList,
+			List<Pair<String, LanguageString>> replacementLanguageStringList) {
 		this.path = path;
-		this.replacementsList = replacementsList;
+		this.replacementStringList = replacementStringList;
+		this.replacementLanguageStringList = replacementLanguageStringList;
+	}
+
+	public LanguageString(String path, List<Pair<String, String>> replacementStringList) {
+		this(path, replacementStringList, List.of());
 	}
 
 	public LanguageString() {
@@ -52,11 +61,12 @@ public class LanguageString {
 		if (o == null || getClass() != o.getClass())
 			return false;
 		LanguageString that = (LanguageString) o;
-		return Objects.equals(path, that.path) && Objects.equals(replacementsList, that.replacementsList);
+		return Objects.equals(path, that.path) && Objects.equals(replacementStringList, that.replacementStringList) && Objects.equals(replacementLanguageStringList,
+				that.replacementLanguageStringList);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(path, replacementsList);
+		return Objects.hash(path, replacementStringList, replacementLanguageStringList);
 	}
 }

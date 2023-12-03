@@ -1,5 +1,6 @@
 package pl.agh.edu.engine.employee.scheduler;
 
+import static pl.agh.edu.engine.bank.TransactionType.ROOM_RENTING_INCOME;
 import static pl.agh.edu.engine.employee.Profession.RECEPTIONIST;
 
 import java.math.BigDecimal;
@@ -161,7 +162,7 @@ public class ReceptionScheduler extends WorkScheduler<ClientGroup> {
 						room.checkIn(clientGroup);
 						BigDecimal roomPrice = roomManager.getRoomPriceList().getPrice(room);
 						OpinionBuilder.saveRoomGettingData(clientGroup, room, roomPrice);
-						bankAccountHandler.registerIncome(roomPrice.multiply(BigDecimal.valueOf(clientGroup.getNumberOfNights())));
+						bankAccountHandler.registerIncome(ROOM_RENTING_INCOME, roomPrice.multiply(BigDecimal.valueOf(clientGroup.getNumberOfNights())));
 						LocalDateTime checkOutTime = getCheckOutTime(clientGroup.getNumberOfNights(), hotel.getCheckOutTime());
 						if (!room.roomState.isFaulty() && RandomUtils.randomBooleanWithProbability(JSONGameDataLoader.roomFaultProbability)) {
 							timeCommandExecutor.addCommand(createTimeCommandForBreakingRoom(room, checkOutTime));

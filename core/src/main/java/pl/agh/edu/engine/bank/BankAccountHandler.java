@@ -1,5 +1,7 @@
 package pl.agh.edu.engine.bank;
 
+import static pl.agh.edu.engine.bank.TransactionType.CREDIT_PAYMENT;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -14,18 +16,22 @@ import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 
 import pl.agh.edu.data.loader.JSONBankDataLoader;
+import pl.agh.edu.engine.event.EventModalData;
 import pl.agh.edu.engine.time.Frequency;
 import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.engine.time.TimeCommandExecutor;
 import pl.agh.edu.engine.time.command.NRepeatingTimeCommand;
 import pl.agh.edu.serialization.KryoConfig;
+import pl.agh.edu.ui.component.modal.ModalManager;
+import pl.agh.edu.utils.LanguageString;
+import pl.agh.edu.utils.Pair;
 
 public class BankAccountHandler {
 	private final Time time;
 	private final TimeCommandExecutor timeCommandExecutor;
 	public final BankAccount account;
 	private Map<Credit, NRepeatingTimeCommand> currentCredits;
-	private List<BalanceListener> balanceListeners = new ArrayList<>();
+	private final List<BalanceListener> balanceListeners = new ArrayList<>();
 
 	public static void kryoRegister() {
 		KryoConfig.kryo.register(BankAccountHandler.class, new Serializer<BankAccountHandler>() {
@@ -70,17 +76,26 @@ public class BankAccountHandler {
 		this.currentCredits = new HashMap<>();
 	}
 
-	public void registerExpense(BigDecimal expense) {
+	public void registerExpense(TransactionType transactionType, BigDecimal expense) {
 		if (!hasOperationAbility(expense)) {
 			BigDecimal creditValue = getAutomaticCreditValue(expense.subtract(account.getBalance()));
 			registerCredit(creditValue, JSONBankDataLoader.basicCreditLengthInMonths);
+
+			ModalManager.getInstance().showEventModal(
+					new EventModalData(
+							new LanguageString("creditAutomaticTakeout.event.title"),
+							new LanguageString(
+									"creditAutomaticTakeout.event.description",
+									List.of(Pair.of("value", creditValue.toString())),
+									List.of(Pair.of("expense|Name", transactionType.languageString))),
+							"event-icon-winter-vacation"));
 		}
-		account.registerExpense(expense);
+		account.registerExpense(transactionType, expense);
 		notifyBalanceListeners();
 	}
 
-	public void registerIncome(BigDecimal income) {
-		account.registerIncome(income);
+	public void registerIncome(TransactionType transactionType, BigDecimal income) {
+		account.registerIncome(transactionType, income);
 		notifyBalanceListeners();
 	}
 
@@ -89,7 +104,8 @@ public class BankAccountHandler {
 		NRepeatingTimeCommand timeCommandForCreditMonthlyPayment = createTimeCommandForCreditMonthlyPayment(credit.monthlyPayment, credit);
 
 		account.registerCredit(credit);
-		registerIncome(credit.value);
+		notifyBalanceListeners();
+
 		currentCredits.put(credit, timeCommandForCreditMonthlyPayment);
 		timeCommandExecutor.addCommand(timeCommandForCreditMonthlyPayment);
 	}
@@ -101,7 +117,7 @@ public class BankAccountHandler {
 	private NRepeatingTimeCommand createTimeCommandForCreditMonthlyPayment(BigDecimal monthlyPayments, Credit credit) {
 		return new NRepeatingTimeCommand(
 				Frequency.EVERY_MONTH,
-				() -> registerExpense(monthlyPayments),
+				() -> registerExpense(CREDIT_PAYMENT, monthlyPayments),
 				time.getTime().plusMonths(1).truncatedTo(ChronoUnit.DAYS),
 				credit.lengthInMonths,
 				() -> currentCredits.remove(credit));
@@ -138,7 +154,7 @@ public class BankAccountHandler {
 	public void payEntireCredit(Credit credit) {
 		currentCredits.get(credit).stop();
 		currentCredits.remove(credit);
-		registerExpense(getValueLeftToPay(credit));
+		registerExpense(CREDIT_PAYMENT, getValueLeftToPay(credit));
 	}
 
 	public Map<Credit, NRepeatingTimeCommand> getCurrentCredits() {

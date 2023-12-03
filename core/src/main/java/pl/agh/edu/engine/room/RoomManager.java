@@ -1,5 +1,9 @@
 package pl.agh.edu.engine.room;
 
+import static pl.agh.edu.engine.bank.TransactionType.ROOM_BUILDING_COSTS;
+import static pl.agh.edu.engine.bank.TransactionType.ROOM_DOWNGRADE_INCOME;
+import static pl.agh.edu.engine.bank.TransactionType.ROOM_UPGRADE_EXPENSE;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Duration;
@@ -168,9 +172,9 @@ public class RoomManager {
 		}
 		BigDecimal changeCost = getChangeCost(room.getRank(), desiredRank, room.size);
 		if (changeCost.signum() > 0) {
-			bankAccountHandler.registerExpense(changeCost);
+			bankAccountHandler.registerExpense(ROOM_UPGRADE_EXPENSE, changeCost);
 		} else {
-			bankAccountHandler.registerIncome(changeCost.negate().divide(BigDecimal.valueOf(2), 0, RoundingMode.HALF_EVEN));
+			bankAccountHandler.registerIncome(ROOM_DOWNGRADE_INCOME, changeCost.negate().divide(BigDecimal.valueOf(2), 0, RoundingMode.HALF_EVEN));
 		}
 		room.roomState.setUnderRankChange(true);
 
@@ -217,7 +221,7 @@ public class RoomManager {
 		Room buildRoom = new Room(roomRank, roomSize);
 		buildRoom.roomState.setBeingBuild(true);
 		rooms.add(buildRoom);
-		bankAccountHandler.registerExpense(buildingCostSupplier.roomBuildingCost(Pair.of(roomRank, roomSize)));
+		bankAccountHandler.registerExpense(ROOM_BUILDING_COSTS, buildingCostSupplier.roomBuildingCost(Pair.of(roomRank, roomSize)));
 
 		LocalDateTime buildTime = time.getTime().plusHours(
 				(long) (JSONRoomDataLoader.roomBuildingDuration.toHours() * roomTimeMultiplier(buildRoom)));
