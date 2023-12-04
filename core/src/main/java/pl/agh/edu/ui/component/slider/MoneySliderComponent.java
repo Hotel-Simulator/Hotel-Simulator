@@ -9,6 +9,7 @@ import java.math.MathContext;
 import java.util.function.Function;
 
 import ch.obermuhlner.math.big.BigDecimalMath;
+import pl.agh.edu.ui.language.LanguageManager;
 import pl.agh.edu.utils.CustomBigDecimal;
 import pl.agh.edu.utils.LanguageString;
 
@@ -19,12 +20,12 @@ public class MoneySliderComponent extends SliderComponent {
 	private final Function<BigDecimal, Void> stateChangeHandler;
 
 	public MoneySliderComponent(LanguageString languageString, BigDecimal minValue, BigDecimal maxValue, Function<BigDecimal, Void> stateChangeHandler, BigDecimal startValue) {
-		super(languageString, "$", logarithmicMapping(CustomBigDecimal.getMinValue(minValue)), logarithmicMapping(CustomBigDecimal.getMaxValue(maxValue)), 0.001f);
+		super(languageString, new LanguageString("common.dollar"), logarithmicMapping(CustomBigDecimal.getMinValue(minValue)), logarithmicMapping(CustomBigDecimal.getMaxValue(maxValue)), 0.001f,stateChangeHandler);
 		this.maxMoneyValue = CustomBigDecimal.getMaxValue(maxValue);
 		this.minMoneyValue = CustomBigDecimal.getMinValue(minValue);
 		this.stateChangeHandler = stateChangeHandler;
 		this.setValue(logarithmicMapping(startValue));
-		valueLabel.setText(startValue + " " + suffix);
+		valueLabel.setText(getSliderValue() + " " + LanguageManager.get(suffix));
 	}
 
 	private static float logarithmicMapping(BigDecimal value) {
@@ -54,7 +55,7 @@ public class MoneySliderComponent extends SliderComponent {
 		return BigDecimalMath.pow(TEN, exponent, fine).subtract(ONE);
 	}
 
-	private CustomBigDecimal getSliderValue() {
+	public CustomBigDecimal getSliderValue() {
 		return new CustomBigDecimal(reverseLogarithmicMapping(this.getValue()));
 	}
 
@@ -65,6 +66,6 @@ public class MoneySliderComponent extends SliderComponent {
 	@Override
 	protected void stateChangeHandler() {
 		stateChangeHandler.apply(getSliderValue().getValue());
-		valueLabel.setText(getSliderValue() + " " + suffix);
+		valueLabel.setText(getSliderValue() + " " + LanguageManager.get(suffix));
 	}
 }

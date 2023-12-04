@@ -15,8 +15,10 @@ import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.ui.utils.wrapper.WrapperTable;
 import pl.agh.edu.utils.LanguageString;
 
+import java.util.function.Supplier;
+
 public class ValueTag extends WrapperTable {
-	private final Actor valueLabel;
+	private Actor valueLabel;
 	private final CustomLabel tagLabel;
 	private final Container<Image> separatorImageContainer = new Container<>(new Image(skin.getPatch("value-tag-separator")));
 
@@ -88,11 +90,35 @@ public class ValueTag extends WrapperTable {
 		valueLabel.setColor(color);
 	}
 
+	public void setValue(Actor value) {
+//		innerTable.removeActor(valueLabel);
+//		innerTable.removeActorAt(2, true);
+//		valueLabel.remove();
+//		innerTable.pack();
+		if(value instanceof CustomLabel) {
+			((CustomLabel) value).setFont(ValueTagStyle.getFont());
+			((CustomLabel) value).setAlignment(right, right);
+		}
+
+		innerTable.getCell(valueLabel).setActor(value);
+		valueLabel = value;
+
+		innerTable.invalidate();
+	}
+
 	private void changeResolutionHandler() {
 		this.size(ValueTagStyle.getWidth(), ValueTagStyle.getHeight());
 		separatorImageContainer.height(ValueTagStyle.getHeight());
 		innerTable.pad(ValueTagStyle.getPadding());
 		updateHandler.run();
+	}
+
+	public void overrideWidth(Supplier<Float> getOverridenWidth){
+		setResolutionChangeHandler(() -> {
+			changeResolutionHandler();
+			this.size(getOverridenWidth.get(), ValueTagStyle.getHeight());
+		});
+		onResolutionChange();
 	}
 
 	private static class ValueTagStyle {

@@ -32,6 +32,7 @@ public class CustomLabel extends WrapperContainer<Label> implements ResolutionCh
 	private boolean hasUnderscore = false;
 	private boolean isDisabled = false;
 	private SkinColor baseColor = WARNING;
+	private SkinColor disabledColor = GRAY;
 	private SkinColor.ColorLevel colorLevel = _300;
 
 	protected final Label label;
@@ -45,7 +46,6 @@ public class CustomLabel extends WrapperContainer<Label> implements ResolutionCh
 		this.token = "";
 		this.label = new Label("", skin, font);
 		this.setActor(label);
-
 	}
 
 	public CustomLabel(String font, SkinToken token) {
@@ -110,7 +110,7 @@ public class CustomLabel extends WrapperContainer<Label> implements ResolutionCh
 
 	private SkinColor getSkinColor() {
 		if (isDisabled)
-			return GRAY;
+			return disabledColor;
 		return baseColor;
 	}
 
@@ -132,6 +132,13 @@ public class CustomLabel extends WrapperContainer<Label> implements ResolutionCh
 
 	public void setDisabled(boolean isDisabled) {
 		this.isDisabled = isDisabled;
+		if(isDisabled)
+			colorLevel = _300;
+		updateColor();
+	}
+
+	public void setDisabledColor(SkinColor disabledColor) {
+		this.disabledColor = disabledColor;
 		updateColor();
 	}
 
@@ -147,6 +154,7 @@ public class CustomLabel extends WrapperContainer<Label> implements ResolutionCh
 						if (!isDisabled) {
 							colorLevel = _900;
 							POP.playSound();
+							updateColor();
 							return true;
 						}
 						return false;
@@ -156,6 +164,7 @@ public class CustomLabel extends WrapperContainer<Label> implements ResolutionCh
 					public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 						if (!isDisabled) {
 							colorLevel = _500;
+							updateColor();
 						}
 					}
 
@@ -163,6 +172,7 @@ public class CustomLabel extends WrapperContainer<Label> implements ResolutionCh
 					public void enter(InputEvent event, float x, float y, int pointer, @Null Actor fromActor) {
 						if (!isDisabled && pointer == -1) {
 							colorLevel = _500;
+							updateColor();
 						}
 					}
 
@@ -170,6 +180,7 @@ public class CustomLabel extends WrapperContainer<Label> implements ResolutionCh
 					public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
 						if (!isDisabled && pointer == -1) {
 							colorLevel = _300;
+							updateColor();
 						}
 					}
 				});

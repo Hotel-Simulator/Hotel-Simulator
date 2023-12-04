@@ -18,19 +18,25 @@ import com.badlogic.gdx.utils.Null;
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.ui.component.label.CustomLabel;
 import pl.agh.edu.ui.component.label.LanguageLabel;
+import pl.agh.edu.ui.language.LanguageManager;
 import pl.agh.edu.ui.utils.wrapper.WrapperDoubleTable;
 import pl.agh.edu.utils.LanguageString;
 
-public abstract class SliderComponent extends WrapperDoubleTable {
+import java.util.function.Function;
+import java.util.function.Supplier;
 
-	protected final String suffix;
+public class SliderComponent<T extends Number> extends WrapperDoubleTable {
+
+	protected final LanguageString suffix;
 	protected final CustomLabel valueLabel = new CustomLabel(SliderStyle.getFont());
 	protected final LanguageLabel nameLabel;
 	private final Slider slider;
+	protected final Function<T, Void> stateChangeHandler;
 
-	public SliderComponent(LanguageString languageString, String suffix, float minValue, float maxValue, float step) {
+	public SliderComponent(LanguageString languageString, LanguageString suffix, float minValue, float maxValue, float step, Function<T, Void> stateChangeHandler) {
 		super();
 		this.suffix = suffix;
+		this.stateChangeHandler = stateChangeHandler;
 
 		this.set10PatchBackground("split-frame-up-10");
 
@@ -63,8 +69,8 @@ public abstract class SliderComponent extends WrapperDoubleTable {
 		sliderContainer.fill();
 		sliderContainer.pad(0);
 
-		leftTable.add(nameLabel).left().grow().uniform();
-		leftTable.add(valueLabel).right().grow().uniform();
+		leftTable.add(nameLabel).left().grow();
+		leftTable.add(valueLabel).right().grow();
 		rightTable.add(sliderContainer).center().grow();
 
 		this.setResolutionChangeHandler(this::changeResolutionHandler);
@@ -80,12 +86,13 @@ public abstract class SliderComponent extends WrapperDoubleTable {
 	}
 
 	protected void stateChangeHandler() {
+		stateChangeHandler.apply((T) Float.valueOf(slider.getValue()));
 		updateValueLabel();
 	}
 
 	private void updateValueLabel() {
 		String displayedValue = String.format("%.1f", this.getValue());
-		valueLabel.setText(displayedValue + suffix);
+		valueLabel.setText(displayedValue + LanguageManager.get(suffix));
 	}
 
 	public float getValue() {
@@ -107,6 +114,16 @@ public abstract class SliderComponent extends WrapperDoubleTable {
 		this.valueLabel.setFont(SliderStyle.getFont());
 		this.size(SliderStyle.getWidth(), SliderStyle.getHeight());
 	}
+	public void overrideWidth(Supplier<Float> getOverridenWidth){
+		setResolutionChangeHandler(()->
+		{
+			changeResolutionHandler();
+			this.width(getOverridenWidth.get());
+		});
+		onResolutionChange();
+	}
+
+
 
 	private static class SliderStyle {
 		public static float getHeight() {
