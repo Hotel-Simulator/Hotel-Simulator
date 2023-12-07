@@ -18,7 +18,7 @@ import pl.agh.edu.utils.LanguageString;
 public class ValueTag extends WrapperTable {
 	private final Actor valueLabel;
 	private final CustomLabel tagLabel;
-	private final Container<Image> separatorImageContainer = new Container<>(new Image(skin.getPatch("value-tag-separator")));
+	private final Container<Image> separatorImageContainer = new Container<>(new Image(getGameSkin().getPatch("value-tag-separator")));
 
 	private final Runnable updateHandler;
 

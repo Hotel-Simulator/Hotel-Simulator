@@ -77,7 +77,7 @@ public class ManageEmployeeModal extends BaseModal {
 		innerTable.add(rightTable).grow().uniform();
 		innerTable.row();
 
-		leftTable.setBackground(new NinePatchDrawable(skin.getPatch("hal-divider-left-background")));
+		leftTable.setBackground(new NinePatchDrawable(getGameSkin().getPatch("hal-divider-left-background")));
 		leftTable.add(createPhoto()).growX().row();
 		leftTable.add(createName(hiredEmployee)).growX().bottom().row();
 		leftTable.add(dialogLabel).growX().top().row();
@@ -204,7 +204,7 @@ public class ManageEmployeeModal extends BaseModal {
 	}
 
 	private Actor createPhoto() {
-		Image image = new Image(skin.getDrawable("default"));
+		Image image = new Image(getGameSkin().getDrawable("default"));
 		Container<Image> container = new Container<>(image);
 		container.size(ManageEmployeeModalStyle.getPhotoSize());
 		return container;

@@ -66,7 +66,7 @@ public class OptionModal extends BaseModal {
 		saveButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				GameSaveHandler.getInstance().saveGame(engine);
+				GameSaveHandler.getInstance().saveGame(getEngine());
 				CLICK.playSound();
 				Gdx.app.exit();
 			}

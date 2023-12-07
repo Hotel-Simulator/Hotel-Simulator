@@ -9,9 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
-import pl.agh.edu.ui.GameSkin;
-
-public class ShadowBackground extends Table {
+public class ShadowBackground extends Table implements GameSkinProvider {
 	private final Actor actor;
 
 	public ShadowBackground(Actor actor, Runnable action) {
@@ -19,7 +17,7 @@ public class ShadowBackground extends Table {
 		this.actor = actor;
 		this.setTouchable(Touchable.enabled);
 		this.setFillParent(true);
-		this.setBackground(GameSkin.getInstance().getDrawable("shadow-background"));
+		this.setBackground(getGameSkin().getDrawable("shadow-background"));
 		this.addListener(new InputListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {

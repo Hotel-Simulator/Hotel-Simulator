@@ -13,8 +13,8 @@ import pl.agh.edu.ui.component.label.CustomLabel;
 import pl.agh.edu.ui.utils.wrapper.WrapperTable;
 
 public abstract class BaseSelection<T> extends WrapperTable {
-	private final Button leftButton = new Button(skin, "selection-left");
-	private final Button rightButton = new Button(skin, "selection-right");
+	private final Button leftButton = new Button(getGameSkin(), "selection-left");
+	private final Button rightButton = new Button(getGameSkin(), "selection-right");
 	private T value;
 	private final CustomLabel label;
 
@@ -71,8 +71,8 @@ public abstract class BaseSelection<T> extends WrapperTable {
 	}
 
 	public void changeStyleToBig() {
-		leftButton.setStyle(skin.get("selection-left-big", Button.ButtonStyle.class));
-		rightButton.setStyle(skin.get("selection-right-big", Button.ButtonStyle.class));
+		leftButton.setStyle(getGameSkin().get("selection-left-big", Button.ButtonStyle.class));
+		rightButton.setStyle(getGameSkin().get("selection-right-big", Button.ButtonStyle.class));
 	}
 
 	protected abstract boolean isNextButtonCheck();

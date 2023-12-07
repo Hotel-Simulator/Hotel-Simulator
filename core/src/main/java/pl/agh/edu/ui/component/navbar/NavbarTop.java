@@ -4,21 +4,20 @@ import static com.badlogic.gdx.utils.Align.top;
 import static com.badlogic.gdx.utils.Scaling.none;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
-import pl.agh.edu.ui.GameSkin;
+import pl.agh.edu.ui.utils.GameSkinProvider;
 
-public class NavbarTop extends Table {
+public class NavbarTop extends Table implements GameSkinProvider {
 
 	private static final float navbarHorizontalPadding = 190f;
 	private static final float navbarTopPadding = 10f;
 
 	public NavbarTop(String styleName) {
-		Skin skin = GameSkin.getInstance();
-		NavbarTopStyle navbarTopStyle = skin.get(styleName, NavbarTopStyle.class);
+
+		NavbarTopStyle navbarTopStyle = getGameSkin().get(styleName, NavbarTopStyle.class);
 
 		Table topNavBar = new Table();
 		topNavBar.align(top);

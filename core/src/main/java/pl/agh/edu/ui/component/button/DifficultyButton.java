@@ -26,6 +26,8 @@ public class DifficultyButton extends WrapperContainer<TextButton> {
 
 		this.setLanguageChangeHandler(this::setButtonText);
 		this.setResolutionChangeHandler(this::resize);
+		onResolutionChange();
+		onLanguageChange();
 	}
 
 	private void updateLanguageString() {
@@ -59,7 +61,7 @@ public class DifficultyButton extends WrapperContainer<TextButton> {
 	}
 
 	private TextButton.TextButtonStyle getStyle() {
-		return skin.get(DifficultyButtonStyle.getStyleName(), TextButton.TextButtonStyle.class);
+		return getGameSkin().get(DifficultyButtonStyle.getStyleName(), TextButton.TextButtonStyle.class);
 	}
 
 	private static class DifficultyButtonStyle {
