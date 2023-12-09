@@ -42,7 +42,7 @@ jobs:
         run: python -m githammer summary HS
 
       - name: Run git-hammer graph
-        run: python -m githammer graph -o graph.png HS line-count
+        run: python -m githammer graph -o graph.png HS line-author-count
 
       - name: Comment Webpage Screenshot
         uses: opengisch/comment-pr-with-images@upload_only
