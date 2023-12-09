@@ -1,0 +1,48 @@
+name: Git Fame
+
+on:
+  pull_request:
+    branches:
+      - main
+permissions:
+  pull-requests: write
+  contents: write
+  actions: read
+  checks: write
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    outputs:
+      stats: ${{ steps.stats.outputs.stats }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+
+      - name: Install git-hammer
+        run: pip install git-hammer
+
+      - name: Run git-hammer init
+        run: python -m githammer init-project HS .
+
+      - name: Run git-hammer graph
+        run: python -m githammer graph -o graph.png HS line-count
+
+      - name: Comment Webpage Screenshot
+        uses: opengisch/comment-pr-with-images@upload_only
+        with:
+          images: "graph.png"
+          upload_to: github_branch  # Or, imgur
+          custom_attachment_msg: "Screenshot for commit..."
+          edit_previous_comment: true
+          github_token: ${{secrets.GITHUB_TOKEN}}

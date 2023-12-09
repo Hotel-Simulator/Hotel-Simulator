@@ -2,13 +2,10 @@ name: Git Fame
 
 on:
   pull_request:
-    branches:
-      - main
+    types:
+      - opened
 permissions:
   pull-requests: write
-  contents: write
-  actions: read
-  checks: write
 
 jobs:
   build:
@@ -22,30 +19,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
-          fetch-depth: 0
+          fetch-depth: 0  # fetch the entire history
 
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.9'
+          python-version: '3.x'
 
       - name: Install git-fame
         run: pip install git-fame
-
-      - name: Install git-hammer
-        run: pip install git-hammer
-
-      - name: Run git-hammer init
-        run: python -m githammer init-project HS .
-
-      - name: Run git-hammer graph
-        run: python -m githammer graph -o graph.png HS line-count
-
-      - name: Upload image to GitHub
-        uses: edunad/actions-image@v2.0.0
-        with:
-          path: graph.png
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run git fame and capture output ins
         run: |
