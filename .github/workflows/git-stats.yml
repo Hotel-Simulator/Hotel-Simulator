@@ -39,7 +39,7 @@ jobs:
         run: python -m githammer init-project HS .
 
       - name: Run git-hammer graph
-        run: python -m githammer graph HS line-count
+        run: python -m githammer graph -o graph.png HS line-count
 
       - name: Upload image to GitHub
         uses: edunad/actions-image@v2.0.0
