@@ -33,7 +33,13 @@ jobs:
         run: pip install git-hammer
 
       - name: Run git-hammer init
-        run: python -m githammer init-project HS .
+        run: python -m githammer init-project HS ~
+
+      - name: Update git-hammer
+        run: python -m githammer update-project HS
+
+      - name: Print result
+        run: python -m githammer summary HS
 
       - name: Run git-hammer graph
         run: python -m githammer graph -o graph.png HS line-count
@@ -42,7 +48,7 @@ jobs:
         uses: opengisch/comment-pr-with-images@upload_only
         with:
           images: "graph.png"
-          upload_to: github_branch  # Or, imgur
+          upload_to: imgur
           custom_attachment_msg: "Screenshot for commit..."
           edit_previous_comment: true
           github_token: ${{secrets.GITHUB_TOKEN}}
