@@ -1,4 +1,4 @@
-name: Git Fame
+name: Git Graph
 
 on:
   pull_request:
