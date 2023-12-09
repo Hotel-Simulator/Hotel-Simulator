@@ -59,8 +59,10 @@ public abstract class SliderComponent extends WrapperDoubleTable {
 				set10PatchBackground("split-frame-up-10");
 			}
 		});
+		// slider.setFillParent(true);
 		Container<Slider> sliderContainer = new Container<>(slider);
 		sliderContainer.fill();
+		// sliderContainer.width(SliderStyle.getWidth()/2-10*SliderStyle.getInnerPadding());
 		sliderContainer.pad(0);
 
 		leftTable.add(nameLabel).left().grow().uniform();
@@ -90,6 +92,10 @@ public abstract class SliderComponent extends WrapperDoubleTable {
 
 	public float getValue() {
 		return slider.getValue();
+	}
+
+	public void setDisable(Boolean disable) {
+		slider.setDisabled(disable);
 	}
 
 	public void setValue(float value) {

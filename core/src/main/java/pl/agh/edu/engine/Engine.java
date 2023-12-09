@@ -24,9 +24,9 @@ import pl.agh.edu.engine.building_cost.BuildingCostSupplier;
 import pl.agh.edu.engine.client.ClientGroupArrivalGenerationHandler;
 import pl.agh.edu.engine.client.ClientGroupGenerationHandler;
 import pl.agh.edu.engine.client.report.collector.ClientGroupReportDataCollector;
-import pl.agh.edu.engine.employee.EmployeeHandler;
 import pl.agh.edu.engine.employee.EmployeeSalaryHandler;
-import pl.agh.edu.engine.employee.PossibleEmployeeHandler;
+import pl.agh.edu.engine.employee.hired.HiredEmployeeHandler;
+import pl.agh.edu.engine.employee.possible.PossibleEmployeeHandler;
 import pl.agh.edu.engine.employee.scheduler.CleaningScheduler;
 import pl.agh.edu.engine.employee.scheduler.ReceptionScheduler;
 import pl.agh.edu.engine.employee.scheduler.RepairScheduler;
@@ -51,8 +51,7 @@ public class Engine {
 	private final GameDifficultyManager gameDifficultyManager;
 	public final Hotel hotel;
 	public final ClientGroupReportDataCollector clientGroupReportDataCollector;
-	public final EmployeeHandler employeeHandler;
-
+	public final HiredEmployeeHandler hiredEmployeeHandler;
 	public final PossibleEmployeeHandler possibleEmployeeHandler;
 	public final BankAccountHandler bankAccountHandler;
 	private final BuildingCostSupplier buildingCostSupplier;
@@ -79,7 +78,7 @@ public class Engine {
 				kryo.writeObject(output, object.gameDifficultyManager);
 				kryo.writeObject(output, object.hotel);
 				kryo.writeObject(output, object.clientGroupReportDataCollector);
-				kryo.writeObject(output, object.employeeHandler);
+				kryo.writeObject(output, object.hiredEmployeeHandler);
 				kryo.writeObject(output, object.possibleEmployeeHandler);
 				kryo.writeObject(output, object.bankAccountHandler);
 				kryo.writeObject(output, object.buildingCostSupplier);
@@ -107,7 +106,7 @@ public class Engine {
 						kryo.readObject(input, GameDifficultyManager.class),
 						kryo.readObject(input, Hotel.class),
 						kryo.readObject(input, ClientGroupReportDataCollector.class),
-						kryo.readObject(input, EmployeeHandler.class),
+						kryo.readObject(input, HiredEmployeeHandler.class),
 						kryo.readObject(input, PossibleEmployeeHandler.class),
 						kryo.readObject(input, BankAccountHandler.class),
 						kryo.readObject(input, BuildingCostSupplier.class),
@@ -128,15 +127,15 @@ public class Engine {
 		});
 	}
 
-	public Engine(HotelType type, DifficultyLevel difficultyLevel) {
+	public Engine(String hotelName, HotelType type, DifficultyLevel difficultyLevel) {
 		this.time = Time.getInstance();
 		this.timeCommandExecutor = TimeCommandExecutor.getInstance();
 		this.opinionHandler = new OpinionHandler();
 		this.gameDifficultyManager = new GameDifficultyManager(difficultyLevel);
-		this.hotel = new Hotel();
+		this.hotel = new Hotel(hotelName);
 		this.clientGroupReportDataCollector = new ClientGroupReportDataCollector();
-		this.employeeHandler = new EmployeeHandler();
-		this.possibleEmployeeHandler = new PossibleEmployeeHandler(employeeHandler);
+		this.hiredEmployeeHandler = new HiredEmployeeHandler();
+		this.possibleEmployeeHandler = new PossibleEmployeeHandler(hiredEmployeeHandler);
 		this.bankAccountHandler = new BankAccountHandler(
 				new BankAccount(
 						gameDifficultyManager.getInitialBalance(),
@@ -149,7 +148,7 @@ public class Engine {
 		this.hotelScenariosManager = new HotelScenariosManager(type);
 		this.advertisementHandler = new AdvertisementHandler(bankAccountHandler);
 		this.eventHandler = new EventHandler(buildingCostMultiplierHandler, hotelScenariosManager, clientNumberModificationEventHandler);
-		this.employeeSalaryHandler = new EmployeeSalaryHandler(employeeHandler, bankAccountHandler);
+		this.employeeSalaryHandler = new EmployeeSalaryHandler(hiredEmployeeHandler, bankAccountHandler);
 		this.roomManager = new RoomManager(JSONHotelDataLoader.initialRooms, bankAccountHandler, buildingCostSupplier);
 		this.attractionHandler = new AttractionHandler(bankAccountHandler, roomManager, buildingCostSupplier);
 		this.clientGroupGenerationHandler = new ClientGroupGenerationHandler(
@@ -160,10 +159,10 @@ public class Engine {
 				hotelScenariosManager,
 				clientGroupReportDataCollector,
 				gameDifficultyManager);
-		this.cleaningScheduler = new CleaningScheduler(employeeHandler, roomManager);
-		this.repairScheduler = new RepairScheduler(employeeHandler);
+		this.cleaningScheduler = new CleaningScheduler(hiredEmployeeHandler, roomManager);
+		this.repairScheduler = new RepairScheduler(hiredEmployeeHandler);
 		this.receptionScheduler = new ReceptionScheduler(
-				employeeHandler,
+				hiredEmployeeHandler,
 				opinionHandler,
 				clientGroupReportDataCollector,
 				repairScheduler,
@@ -194,7 +193,7 @@ public class Engine {
 			GameDifficultyManager gameDifficultyManager,
 			Hotel hotel,
 			ClientGroupReportDataCollector clientGroupReportDataCollector,
-			EmployeeHandler employeeHandler,
+			HiredEmployeeHandler hiredEmployeeHandler,
 			PossibleEmployeeHandler possibleEmployeeHandler,
 			BankAccountHandler bankAccountHandler,
 			BuildingCostSupplier buildingCostSupplier,
@@ -216,7 +215,7 @@ public class Engine {
 		this.gameDifficultyManager = gameDifficultyManager;
 		this.hotel = hotel;
 		this.clientGroupReportDataCollector = clientGroupReportDataCollector;
-		this.employeeHandler = employeeHandler;
+		this.hiredEmployeeHandler = hiredEmployeeHandler;
 		this.possibleEmployeeHandler = possibleEmployeeHandler;
 		this.bankAccountHandler = bankAccountHandler;
 		this.buildingCostSupplier = buildingCostSupplier;

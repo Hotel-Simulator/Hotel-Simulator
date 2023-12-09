@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import pl.agh.edu.engine.client.ClientGroup;
-import pl.agh.edu.engine.employee.Employee;
+import pl.agh.edu.engine.employee.hired.HiredEmployee;
 import pl.agh.edu.engine.room.Room;
 
 public class OpinionBuilder {
@@ -14,7 +14,7 @@ public class OpinionBuilder {
 		clientGroup.opinion.queueWaiting.setStartDate(time);
 	}
 
-	public static void saveRoomRepairingData(Employee technician, Room room) {
+	public static void saveRoomRepairingData(HiredEmployee technician, Room room) {
 		if (room.roomState.isOccupied()) {
 			room.getResidents().opinion.roomBreaking.roomRepaired();
 			room.getResidents().opinion.employeesSatisfaction.addSatisfaction(technician.getSatisfaction());
@@ -27,14 +27,14 @@ public class OpinionBuilder {
 		}
 	}
 
-	public static void saveRoomDailyCleaningData(Employee cleaner, Room room) {
+	public static void saveRoomDailyCleaningData(HiredEmployee cleaner, Room room) {
 		if (room.roomState.isOccupied()) {
 			room.getResidents().opinion.roomCleaning.setRoomCleaned();
 			room.getResidents().opinion.employeesSatisfaction.addSatisfaction(cleaner.getSatisfaction());
 		}
 	}
 
-	public static void saveReceptionData(Employee receptionist, ClientGroup clientGroup, LocalDateTime time) {
+	public static void saveReceptionData(HiredEmployee receptionist, ClientGroup clientGroup, LocalDateTime time) {
 		clientGroup.opinion.employeesSatisfaction.addSatisfaction(receptionist.getSatisfaction());
 		clientGroup.opinion.queueWaiting.setEndDate(time);
 	}

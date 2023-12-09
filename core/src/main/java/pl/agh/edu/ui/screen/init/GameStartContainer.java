@@ -6,9 +6,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import pl.agh.edu.GdxGame;
-import pl.agh.edu.engine.Engine;
 import pl.agh.edu.engine.hotel.HotelType;
 import pl.agh.edu.engine.hotel.dificulty.DifficultyLevel;
+import pl.agh.edu.serialization.GameSaveHandler;
 import pl.agh.edu.ui.panel.DifficultyPanel;
 import pl.agh.edu.ui.panel.ScenarioPanel;
 import pl.agh.edu.ui.screen.main.MainScreen;
@@ -37,7 +37,7 @@ public class GameStartContainer extends Table {
 		Optional<DifficultyLevel> difficultyLevel = difficultyPanel.getSelectedDifficulty();
 		Optional<HotelType> hotelType = scenarioPanel.getSelectedScenario();
 		if (difficultyLevel.isPresent() && hotelType.isPresent()) {
-			MainScreen.engine = new Engine(hotelType.get(), difficultyLevel.get());
+			MainScreen.engine = GameSaveHandler.getInstance().startNewGame("myHotel", hotelType.get(), difficultyLevel.get());
 			game.setScreen(new MainScreen());
 		}
 	}

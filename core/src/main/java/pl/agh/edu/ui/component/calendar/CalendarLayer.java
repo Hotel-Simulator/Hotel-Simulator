@@ -1,20 +1,16 @@
 package pl.agh.edu.ui.component.calendar;
 
-import static pl.agh.edu.ui.audio.SoundAudio.CLICK;
-
 import java.time.LocalDate;
 import java.util.function.Consumer;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import pl.agh.edu.ui.resolution.ResolutionChangeListener;
 import pl.agh.edu.ui.resolution.ResolutionManager;
+import pl.agh.edu.ui.utils.ShadowBackground;
 
 public class CalendarLayer extends Stack implements ResolutionChangeListener {
 	private final CalendarComponent calendarComponent;
@@ -39,26 +35,9 @@ public class CalendarLayer extends Stack implements ResolutionChangeListener {
 	}
 
 	public void init() {
-		this.setUpInvisibleBackground();
+		this.add(new ShadowBackground(calendarComponent, this::clearAll));
 		this.setUpCalendarComponent();
 		ResolutionManager.addListener(this);
-	}
-
-	private void setUpInvisibleBackground() {
-		Table invisibleTable = new Table();
-		invisibleTable.setTouchable(Touchable.enabled);
-		invisibleTable.addListener(new InputListener() {
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				if (!isOverCalendar(x, y)) {
-					CLICK.playSound();
-					clearAll(null);
-				}
-				return true;
-			}
-		});
-		invisibleTable.setFillParent(true);
-		this.add(invisibleTable);
 	}
 
 	private void setUpCalendarComponent() {
@@ -73,26 +52,13 @@ public class CalendarLayer extends Stack implements ResolutionChangeListener {
 	}
 
 	private Consumer<LocalDate> preAction(Consumer<LocalDate> handler) {
-		return handler.andThen(this::clearAll);
+		return handler.andThen((date) -> clearAll());
 	}
 
-	private void clearAll(LocalDate localDate) {
+	private void clearAll() {
 		this.clear();
 		this.clearChildren();
 		this.remove();
-	}
-
-	private boolean isOverCalendar(float x, float y) {
-		Vector2 vector2 = calendarComponent.localToStageCoordinates(new Vector2(0, 0));
-
-		float calendarComponentWidth = calendarComponent.getActor().getWidth();
-		float calendarComponentHeight = calendarComponent.getActor().getHeight();
-
-		vector2.x -= calendarComponentWidth / 2;
-		vector2.y -= calendarComponentHeight / 2;
-
-		return x >= vector2.x && x <= vector2.x + calendarComponentWidth &&
-				y >= vector2.y && y <= vector2.y + calendarComponentHeight;
 	}
 
 	@Override

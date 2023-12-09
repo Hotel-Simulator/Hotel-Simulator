@@ -52,11 +52,11 @@ import pl.agh.edu.engine.calendar.CalendarEvent;
 import pl.agh.edu.engine.client.Arrival;
 import pl.agh.edu.engine.client.ClientGroup;
 import pl.agh.edu.engine.client.report.util.DateTrie;
-import pl.agh.edu.engine.employee.Employee;
-import pl.agh.edu.engine.employee.EmployeeStatus;
-import pl.agh.edu.engine.employee.EmploymentPreferences;
-import pl.agh.edu.engine.employee.PossibleEmployee;
-import pl.agh.edu.engine.employee.contract.Offer;
+import pl.agh.edu.engine.employee.EmployeeContractStatus;
+import pl.agh.edu.engine.employee.EmployeePreferences;
+import pl.agh.edu.engine.employee.contract.EmployeeOffer;
+import pl.agh.edu.engine.employee.hired.HiredEmployee;
+import pl.agh.edu.engine.employee.possible.PossibleEmployee;
 import pl.agh.edu.engine.event.permanent.BuildingCostModificationPermanentEvent;
 import pl.agh.edu.engine.event.temporary.ClientNumberModificationTemporaryEvent;
 import pl.agh.edu.engine.event.temporary.TemporaryEvent;
@@ -312,12 +312,12 @@ public class SerializationTest {
 	@Test
 	public void possibleEmployeeTest() {
 		// Given
-		PossibleEmployee possibleEmployee = new PossibleEmployee.Builder()
+		PossibleEmployee possibleEmployee = new PossibleEmployee.PossibleEmployeeBuilder()
 				.firstName("Jan")
 				.lastName("Kowal")
 				.age(18)
 				.skills(new BigDecimal("0.45"))
-				.preferences(new EmploymentPreferences.Builder()
+				.preferences(new EmployeePreferences.Builder()
 						.desiredShift(MORNING)
 						.acceptableWage(BigDecimal.valueOf(5000))
 						.desiredWage(BigDecimal.valueOf(6000))
@@ -349,12 +349,12 @@ public class SerializationTest {
 	@Test
 	public void employeeTest() {
 		// Given
-		PossibleEmployee possibleEmployee = new PossibleEmployee.Builder()
+		PossibleEmployee possibleEmployee = new PossibleEmployee.PossibleEmployeeBuilder()
 				.firstName("")
 				.lastName("")
 				.age(18)
 				.skills(new BigDecimal("0.45"))
-				.preferences(new EmploymentPreferences.Builder()
+				.preferences(new EmployeePreferences.Builder()
 						.desiredShift(MORNING)
 						.acceptableWage(BigDecimal.valueOf(5000))
 						.desiredWage(BigDecimal.valueOf(6000))
@@ -363,18 +363,18 @@ public class SerializationTest {
 				.profession(CLEANER)
 				.build();
 
-		Offer contractOffer = new Offer(MORNING, BigDecimal.valueOf(5000), PERMANENT);
-		Employee employee = new Employee(possibleEmployee, contractOffer);
+		EmployeeOffer contractOffer = new EmployeeOffer(MORNING, BigDecimal.valueOf(5000), PERMANENT);
+		HiredEmployee employee = new HiredEmployee(possibleEmployee, contractOffer);
 
 		// When
-		employee.setStatus(EmployeeStatus.HIRED_WORKING);
+		employee.setStatus(EmployeeContractStatus.ACTIVE);
 		employee.setOccupied(true);
 		employee.addBonus(BigDecimal.valueOf(1000));
 
 		kryo.writeObject(output, employee);
 
 		initInput();
-		Employee employee2 = kryo.readObject(input, Employee.class);
+		HiredEmployee employee2 = kryo.readObject(input, HiredEmployee.class);
 
 		assertEquals(employee.firstName, employee2.firstName);
 		assertEquals(employee.lastName, employee2.lastName);
@@ -386,9 +386,9 @@ public class SerializationTest {
 		assertEquals(employee.preferences.desiredTypeOfContract, employee2.preferences.desiredTypeOfContract);
 		assertEquals(employee.profession, employee2.profession);
 
-		assertEquals(employee.shift, employee2.shift);
-		assertEquals(employee.wage, employee2.wage);
-		assertEquals(employee.typeOfContract, employee2.typeOfContract);
+		assertEquals(employee.getShift(), employee2.getShift());
+		assertEquals(employee.getWage(), employee2.getWage());
+		assertEquals(employee.getTypeOfContract(), employee2.getTypeOfContract());
 
 		assertEquals(employee.isOccupied(), employee2.isOccupied());
 		assertEquals(employee.getStatus(), employee2.getStatus());
@@ -710,7 +710,7 @@ public class SerializationTest {
 	@Test
 	public void engineTest() {
 		// Given
-		Engine engine = new Engine(CITY, DifficultyLevel.MEDIUM);
+		Engine engine = new Engine("", CITY, DifficultyLevel.MEDIUM);
 
 		// When
 		kryo.writeObject(output, engine);

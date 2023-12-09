@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import pl.agh.edu.config.AudioConfig;
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.config.LanguageConfig;
+import pl.agh.edu.serialization.GameSaveHandler;
 import pl.agh.edu.ui.component.button.LabeledButton;
 import pl.agh.edu.ui.component.label.LanguageLabel;
 import pl.agh.edu.ui.component.modal.ModalManager;
@@ -65,6 +66,7 @@ public class OptionModal extends BaseModal {
 		saveButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+				GameSaveHandler.getInstance().saveGame(engine);
 				CLICK.playSound();
 				Gdx.app.exit();
 			}

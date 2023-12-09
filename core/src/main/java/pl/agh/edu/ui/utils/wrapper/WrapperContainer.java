@@ -70,6 +70,7 @@ public abstract class WrapperContainer<T extends Actor> extends Container<T> imp
 
 	public void updateLanguageString(LanguageString languageString) {
 		this.languageString = languageString;
+		onLanguageChange();
 	}
 
 	public void initChangeHandlers() {

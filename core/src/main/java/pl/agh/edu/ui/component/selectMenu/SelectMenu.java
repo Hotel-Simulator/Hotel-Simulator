@@ -57,6 +57,8 @@ public class SelectMenu extends WrapperTable {
 			public void exit(InputEvent event, float x, float y, int pointer, @Null Actor toActor) {
 				descriptionLabel.setStateToUp();
 				cursorOver = false;
+				selectOption.validate();
+				selectOption.invalidate();
 			}
 		});
 

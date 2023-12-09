@@ -3,7 +3,9 @@ package pl.agh.edu.engine.bank;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.esotericsoftware.kryo.Kryo;
@@ -23,6 +25,7 @@ public class BankAccountHandler {
 	private final TimeCommandExecutor timeCommandExecutor;
 	public final BankAccount account;
 	private Map<Credit, NRepeatingTimeCommand> currentCredits;
+	private List<BalanceListener> balanceListeners = new ArrayList<>();
 
 	public static void kryoRegister() {
 		KryoConfig.kryo.register(BankAccountHandler.class, new Serializer<BankAccountHandler>() {
@@ -73,10 +76,12 @@ public class BankAccountHandler {
 			registerCredit(creditValue, JSONBankDataLoader.basicCreditLengthInMonths);
 		}
 		account.registerExpense(expense);
+		notifyBalanceListeners();
 	}
 
 	public void registerIncome(BigDecimal income) {
 		account.registerIncome(income);
+		notifyBalanceListeners();
 	}
 
 	public void registerCredit(BigDecimal value, long creditLengthInMonths) {
@@ -138,5 +143,23 @@ public class BankAccountHandler {
 
 	public Map<Credit, NRepeatingTimeCommand> getCurrentCredits() {
 		return currentCredits;
+	}
+
+	public void addBalanceListener(BalanceListener balanceListener) {
+		balanceListeners.add(balanceListener);
+	}
+
+	public void removeBalanceListener(BalanceListener balanceListener) {
+		balanceListeners.remove(balanceListener);
+	}
+
+	public void notifyBalanceListeners() {
+		balanceListeners.forEach(balanceListener -> {
+			if (balanceListener != null)
+				balanceListener.onBalanceChange(account.getBalance());
+			else {
+				balanceListeners.remove(balanceListener);
+			}
+		});
 	}
 }
