@@ -19,15 +19,24 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
-          fetch-depth: 0  # fetch the entire history
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.x'
+          python-version: '3.9'
 
       - name: Install git-fame
         run: pip install git-fame
+
+      - name: Install git-hammer
+        run: pip install git-hammer
+
+      - name: Run git-hammer init
+        run: python -m githammer init-project HS .
+
+      - name: Run git-hammer graph
+        run: python -m githammer graph HS line-author-count
 
       - name: Run git fame and capture output ins
         run: |
@@ -50,17 +59,18 @@ jobs:
           echo "=================== sur ==================="
           cat index_sur.json
 
-      - name: Comment PR
+      - name: Comment PR with Graph
         uses: actions/github-script@v6
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             const fs = require('fs');
-            
+            const path = require('path');
+
             const insData = JSON.parse(fs.readFileSync('index_ins.json', 'utf8'));
             const delData = JSON.parse(fs.readFileSync('index_del.json', 'utf8'));
             const surData = JSON.parse(fs.readFileSync('index_sur.json', 'utf8'));
-            
+
             const totalLocIns = insData.total.loc;
             const totalLocDel = delData.total.loc;
             const totalLocSurv = surData.total.loc;
@@ -81,15 +91,15 @@ jobs:
               const filsPer = entry[6];
               return `| ${author} | ${locIns} (${locInsPer}%) | ${locDel} (${locDelPer}%) | ${locSurv} (${locSurvPer}%) | ${coms} (${comsPer}%) | ${fils} (${filsPer}%) |`;
             }).join('\n');
-            
-            // Construct the Markdown table header
+
+            const artifactName = 'graph';
+            const graphImageMarkdown = `![Graph](graph.png)`;
+
             const tableHeader = `| Author | loc-ins | loc-del | loc-surv | coms | fils |\n|:-------|--------:|--------:|---------:|-----:|-----:|\n| Total  | ${totalLocIns} | ${totalLocDel} | ${totalLocSurv} | ${totalComs} | ${totalFils} |`;
-  
-            // Construct the Markdown table rows
-            const markdownTable = `${tableHeader}\n${tableRows}`;
+            const markdownTable = `${tableHeader}\n${tableRows}\n\n${graphImageMarkdown}`;
 
             const message = `Here are the contributor statistics:\n${markdownTable}\n`;
-          
+
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,

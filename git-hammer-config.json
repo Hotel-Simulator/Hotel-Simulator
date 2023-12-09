@@ -1,0 +1,8 @@
+{
+  "sourceFiles": [
+    "./core/src/main/**/*"
+  ],
+  "excludedSourceFiles": [],
+  "testFiles": [],
+  "testLineRegex": ""
+}
