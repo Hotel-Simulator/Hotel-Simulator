@@ -1,0 +1,5 @@
+{
+  "sourceFiles": [
+    "core/src/main/**/*.java"
+  ]
+}
