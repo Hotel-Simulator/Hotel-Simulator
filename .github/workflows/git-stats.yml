@@ -42,7 +42,7 @@ jobs:
         run: python -m githammer graph HS line-count
 
       - name: Upload image to GitHub
-        uses: edunad/actions-image@v3
+        uses: edunad/actions-image@v2.0.0
         with:
           image-path: graph.png
 
