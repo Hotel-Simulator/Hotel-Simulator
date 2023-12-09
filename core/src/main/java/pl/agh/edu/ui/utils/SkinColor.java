@@ -2,9 +2,7 @@ package pl.agh.edu.ui.utils;
 
 import com.badlogic.gdx.graphics.Color;
 
-import pl.agh.edu.ui.GameSkin;
-
-public enum SkinColor {
+public enum SkinColor implements GameSkinProvider {
 	PRIMARY("primary"),
 	SECONDARY("secondary"),
 	ALERT("alert"),
@@ -19,7 +17,7 @@ public enum SkinColor {
 	}
 
 	public Color getColor(ColorLevel level) {
-		return GameSkin.getInstance().getColor(this.getName(level));
+		return getGameSkin().getColor(this.getName(level));
 	}
 
 	public String getName(ColorLevel level) {

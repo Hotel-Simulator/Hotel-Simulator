@@ -39,7 +39,7 @@ public abstract class SliderComponent extends WrapperDoubleTable {
 
 		valueLabel.setAlignment(center, right);
 
-		slider = new Slider(minValue, maxValue, step, false, skin);
+		slider = new Slider(minValue, maxValue, step, false, getGameSkin());
 		slider.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {

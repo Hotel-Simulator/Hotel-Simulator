@@ -27,26 +27,24 @@ import static pl.agh.edu.ui.component.navbar.NavbarButtonType.ROOMS;
 import static pl.agh.edu.ui.component.navbar.NavbarButtonType.TAX;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
-import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.component.button.NavbarButton;
-import pl.agh.edu.ui.screen.main.MainScreen;
+import pl.agh.edu.ui.frame.FrameStack;
+import pl.agh.edu.ui.utils.GameSkinProvider;
 
-public class NavbarBottom extends Table {
+public class NavbarBottom extends Table implements GameSkinProvider {
 	private final Table bottomNavBar = new Table();
-	private final MainScreen mainScreen;
+	private final FrameStack frameStack;
 	private NavbarButtonType currentNavbarButtonType = BOARD;
 	private BottomNavbarState currentBottomNavbarState = HOTEL_MENU;
 
-	public NavbarBottom(String styleName, MainScreen screen) {
-		mainScreen = screen;
+	public NavbarBottom(String styleName, FrameStack frameStack) {
+		this.frameStack = frameStack;
 
-		Skin skin = GameSkin.getInstance();
-		NavbarBottomStyle navbarBottomStyle = skin.get(styleName, NavbarBottomStyle.class);
+		NavbarBottomStyle navbarBottomStyle = getGameSkin().get(styleName, NavbarBottomStyle.class);
 
 		bottomNavBar.bottom();
 
@@ -69,8 +67,8 @@ public class NavbarBottom extends Table {
 				type,
 				state);
 		navbarButton.setTouchUpAction(() -> {
-			if (mainScreen.frameStack.isActionPossible()) {
-				mainScreen.frameStack.changeFrame(type.getFrameCreator());
+			if (frameStack.isActionPossible()) {
+				frameStack.changeFrame(type.getFrameCreator());
 				currentBottomNavbarState = state;
 				currentNavbarButtonType = type;
 				currentNavbarButton.setDisabled(false);

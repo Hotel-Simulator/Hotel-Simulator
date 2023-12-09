@@ -13,7 +13,7 @@ import pl.agh.edu.ui.utils.wrapper.WrapperContainer;
 
 public class Star extends WrapperContainer<Button> {
 	public final int index;
-	private final Button button = new Button(skin, "star-normal");
+	private final Button button = new Button(getGameSkin(), "star-normal");
 
 	public Star(int index, Rating rating) {
 		this.setActor(button);
@@ -56,15 +56,15 @@ public class Star extends WrapperContainer<Button> {
 	}
 
 	private void changeStateToOver() {
-		button.setStyle(skin.get("star-over", Button.ButtonStyle.class));
+		button.setStyle(getGameSkin().get("star-over", Button.ButtonStyle.class));
 	}
 
 	private void changeStateToDimmed() {
-		button.setStyle(skin.get("star-dimmed", Button.ButtonStyle.class));
+		button.setStyle(getGameSkin().get("star-dimmed", Button.ButtonStyle.class));
 	}
 
 	private void changeStateToNormal() {
-		button.setStyle(skin.get("star-normal", Button.ButtonStyle.class));
+		button.setStyle(getGameSkin().get("star-normal", Button.ButtonStyle.class));
 	}
 
 	public void updateState(int rating) {

@@ -8,41 +8,48 @@ import com.badlogic.gdx.utils.Scaling;
 
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.engine.time.Time;
-import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.resolution.ResolutionChangeListener;
 import pl.agh.edu.ui.resolution.ResolutionManager;
+import pl.agh.edu.ui.utils.GameSkinProvider;
 
-public class InfinityBackground extends Stack implements ResolutionChangeListener {
+public class InfinityBackground extends Stack implements ResolutionChangeListener, GameSkinProvider {
 	private final Image firstBackground;
 	private final Image secondBackground;
-	private final Time time = Time.getInstance();
 
 	public InfinityBackground(String fileName) {
+		this(fileName, false);
+	}
+
+	public InfinityBackground(String fileName, boolean withStart) {
 		this.setFillParent(true);
-		firstBackground = createImage(fileName);
-		secondBackground = createImage(fileName);
+		this.firstBackground = createImage(fileName);
+		this.secondBackground = createImage(fileName);
 		Time.getInstance().addTimeStopChangeHandler(this::stopAnimation);
 		Time.getInstance().addTimeStartChangeHandler(this::startAnimation);
 		this.restartAnimation();
 		ResolutionManager.addListener(this);
+		if (withStart)
+			startAnimation();
 	}
 
 	private void setAnimation(final Image image) {
-		image.addAction(
-				Actions.sequence(
-						Actions.forever(
-								Actions.sequence(
-										Actions.run(() -> {
-											float movingDistance = 0.5f * time.getAcceleration();
-											if (image.getX() + GraphicConfig.getResolution().WIDTH <= 0) {
-												image.moveBy(-movingDistance + 2 * GraphicConfig.getResolution().WIDTH, 0f);
-											}
-											image.moveBy(-movingDistance, 0f);
-										})))));
+		image.addAction(Actions.forever(Actions.run(() -> moveImage(image))));
+	}
+
+	private void moveImage(Image image) {
+		float movingDistance = getMovingDistance();
+		if (image.getX() + GraphicConfig.getResolution().WIDTH <= 0) {
+			image.moveBy(-movingDistance + 2 * GraphicConfig.getResolution().WIDTH, 0f);
+		}
+		image.moveBy(-movingDistance, 0f);
+	}
+
+	protected float getMovingDistance() {
+		return 0.5f;
 	}
 
 	private Image createImage(String fileName) {
-		Image image = new Image(GameSkin.getInstance().getDrawable(fileName));
+		Image image = new Image(getGameSkin().getDrawable(fileName));
 		image.setFillParent(true);
 		image.setScaling(Scaling.stretch);
 		this.add(image);

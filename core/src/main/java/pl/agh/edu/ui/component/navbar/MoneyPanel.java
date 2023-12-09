@@ -16,8 +16,8 @@ public class MoneyPanel extends WrapperTable implements BalanceListener {
 	public MoneyPanel() {
 		innerTable.add(moneyLabel).grow().center();
 		this.size(220, 80);
-		engine.bankAccountHandler.addBalanceListener(this);
-		setMoney(new CustomBigDecimal(engine.bankAccountHandler.account.getBalance()));
+		getEngine().bankAccountHandler.addBalanceListener(this);
+		setMoney(new CustomBigDecimal(getEngine().bankAccountHandler.account.getBalance()));
 	}
 
 	public void setMoney(CustomBigDecimal balance) {
