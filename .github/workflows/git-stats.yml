@@ -2,8 +2,8 @@ name: Git Fame
 
 on:
   pull_request:
-    types:
-      - opened
+    branches:
+      - main
 permissions:
   pull-requests: write
 
