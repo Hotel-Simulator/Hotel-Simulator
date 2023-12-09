@@ -27,16 +27,13 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.9'
+          python-version: '3.5'
 
       - name: Install git-hammer
         run: pip install git-hammer
 
       - name: Run git-hammer init
-        run: python -m githammer init-project HS .
-
-      - name: Update git-hammer
-        run: python -m githammer update-project HS
+        run: python -m githammer init-project HS ./
 
       - name: Print result
         run: python -m githammer summary HS
@@ -49,6 +46,6 @@ jobs:
         with:
           images: "graph.png"
           upload_to: imgur
-          custom_attachment_msg: "Screenshot for commit..."
+          custom_attachment_msg: "Git Graph"
           edit_previous_comment: true
           github_token: ${{secrets.GITHUB_TOKEN}}
