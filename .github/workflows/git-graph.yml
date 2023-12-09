@@ -35,6 +35,9 @@ jobs:
       - name: Run git-hammer init
         run: python -m githammer init-project HS ./
 
+      - name: Update git-hammer
+        run: python -m githammer update-project HS
+
       - name: Print result
         run: python -m githammer summary HS
 
