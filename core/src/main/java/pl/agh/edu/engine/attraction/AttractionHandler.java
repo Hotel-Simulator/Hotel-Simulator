@@ -7,6 +7,11 @@ import static pl.agh.edu.engine.attraction.AttractionState.CHANGING_SIZE;
 import static pl.agh.edu.engine.attraction.AttractionState.INACTIVE;
 import static pl.agh.edu.engine.attraction.AttractionState.OPENING;
 import static pl.agh.edu.engine.attraction.AttractionState.SHUTTING_DOWN;
+import static pl.agh.edu.engine.bank.TransactionType.ATTRACTION_BUILDING_COSTS;
+import static pl.agh.edu.engine.bank.TransactionType.ATTRACTION_DOWNGRADE_INCOME;
+import static pl.agh.edu.engine.bank.TransactionType.ATTRACTION_UPGRADE_EXPENSE;
+import static pl.agh.edu.engine.bank.TransactionType.DAILY_ATTRACTION_EXPENSES;
+import static pl.agh.edu.engine.bank.TransactionType.DAILY_ATTRACTION_INCOME;
 
 import java.math.BigDecimal;
 import java.time.Duration;
@@ -119,7 +124,7 @@ public class AttractionHandler extends ClientGroupModifierSupplier {
 		Attraction attraction = new Attraction(type, size);
 
 		attractions.put(type, attraction);
-		accountHandler.registerExpense(buildingCostSupplier.attractionBuildingCost(size));
+		accountHandler.registerExpense(ATTRACTION_BUILDING_COSTS, buildingCostSupplier.attractionBuildingCost(size));
 
 		LocalDateTime buildTime = time.getTime().truncatedTo(DAYS)
 				.plus(JSONAttractionDataLoader.buildDuration.get(attraction.getSize()));
@@ -149,9 +154,9 @@ public class AttractionHandler extends ClientGroupModifierSupplier {
 		BigDecimal cost = buildingCostSupplier.attractionBuildingCost(size)
 				.subtract(buildingCostSupplier.attractionBuildingCost(attraction.getSize()));
 		if (cost.compareTo(ZERO) > 0) {
-			accountHandler.registerExpense(cost);
+			accountHandler.registerExpense(ATTRACTION_UPGRADE_EXPENSE, cost);
 		} else {
-			accountHandler.registerIncome(cost.multiply(new BigDecimal("0.5")).negate());
+			accountHandler.registerIncome(ATTRACTION_DOWNGRADE_INCOME, cost.multiply(new BigDecimal("0.5")).negate());
 		}
 
 		attraction.setState(CHANGING_SIZE);
@@ -190,8 +195,8 @@ public class AttractionHandler extends ClientGroupModifierSupplier {
 		attractions.values().stream()
 				.filter(Attraction::isWorking)
 				.forEach(attraction -> {
-					accountHandler.registerExpense(attraction.getDailyExpenses());
-					accountHandler.registerIncome(JSONAttractionDataLoader.incomePerClient
+					accountHandler.registerExpense(DAILY_ATTRACTION_EXPENSES, attraction.getDailyExpenses());
+					accountHandler.registerIncome(DAILY_ATTRACTION_INCOME, JSONAttractionDataLoader.incomePerClient
 							.multiply(BigDecimal.valueOf(getDailyClientNumber(attraction))));
 				});
 

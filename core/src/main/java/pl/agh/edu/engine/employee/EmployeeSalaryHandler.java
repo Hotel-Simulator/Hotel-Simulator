@@ -1,6 +1,8 @@
 package pl.agh.edu.engine.employee;
 
 import static java.math.BigDecimal.ZERO;
+import static pl.agh.edu.engine.bank.TransactionType.EMPLOYEES_SALARY;
+import static pl.agh.edu.engine.bank.TransactionType.EMPLOYEE_BONUS;
 
 import java.math.BigDecimal;
 import java.time.temporal.ChronoUnit;
@@ -68,7 +70,7 @@ public class EmployeeSalaryHandler {
 				.map(HiredEmployee::getWage)
 				.reduce(ZERO, BigDecimal::add);
 
-		timeCommandExecutor.addCommand(new TimeCommand(() -> bankAccountHandler.registerExpense(salaryToPayForThisMonth),
+		timeCommandExecutor.addCommand(new TimeCommand(() -> bankAccountHandler.registerExpense(EMPLOYEES_SALARY, salaryToPayForThisMonth),
 				time.getTime().plusMonths(1)
 						.truncatedTo(ChronoUnit.DAYS)
 						.withDayOfMonth(JSONEmployeeDataLoader.payDayOfMonth)
@@ -77,7 +79,7 @@ public class EmployeeSalaryHandler {
 
 	public void giveBonus(HiredEmployee hiredEmployee, BigDecimal bonus) {
 		hiredEmployee.addBonus(bonus);
-		bankAccountHandler.registerExpense(bonus);
+		bankAccountHandler.registerExpense(EMPLOYEE_BONUS, bonus);
 		timeCommandExecutor.addCommand(
 				new TimeCommand(() -> hiredEmployee.removeBonus(bonus), time.getTime().plusMonths(1)));
 	}

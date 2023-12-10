@@ -4,8 +4,8 @@ import static java.math.BigDecimal.ZERO;
 import static java.time.LocalDate.MIN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static pl.agh.edu.engine.bank.TransactionType.EXPENSE;
-import static pl.agh.edu.engine.bank.TransactionType.INCOME;
+import static pl.agh.edu.engine.bank.TransactionType.ACCOUNT_FEE_CHARGE;
+import static pl.agh.edu.engine.bank.TransactionType.ROOM_RENTING_INCOME;
 import static pl.agh.edu.engine.hotel.dificulty.DifficultyLevel.MEDIUM;
 
 import java.math.BigDecimal;
@@ -46,7 +46,7 @@ public class BankAccountTest {
 		BigDecimal income = BigDecimal.valueOf(100);
 
 		// When
-		bankAccount.registerIncome(income);
+		bankAccount.registerIncome(ROOM_RENTING_INCOME, income);
 
 		// Then
 		BigDecimal expectedBalance = initialBalance.add(income);
@@ -59,7 +59,7 @@ public class BankAccountTest {
 
 		// When
 		BigDecimal expense = BigDecimal.valueOf(50);
-		bankAccount.registerExpense(expense);
+		bankAccount.registerExpense(ROOM_RENTING_INCOME, expense);
 
 		// Then
 		BigDecimal expectedBalance = initialBalance.subtract(expense);
@@ -87,15 +87,15 @@ public class BankAccountTest {
 		// Given
 		BigDecimal income1 = BigDecimal.valueOf(100);
 		BigDecimal income2 = BigDecimal.valueOf(50);
-		bankAccount.registerIncome(income1);
-		bankAccount.registerIncome(income2);
+		bankAccount.registerIncome(ROOM_RENTING_INCOME, income1);
+		bankAccount.registerIncome(ROOM_RENTING_INCOME, income2);
 
 		// When
 		var incomes = bankAccount.getIncomeList();
 
 		// Then
 		assertEquals(2, incomes.size());
-		assertTrue(incomes.stream().allMatch(transaction -> transaction.type() == INCOME));
+		assertTrue(incomes.stream().allMatch(transaction -> transaction.type().isIncome));
 	}
 
 	@Test
@@ -103,14 +103,14 @@ public class BankAccountTest {
 		// Given
 		BigDecimal expense1 = BigDecimal.valueOf(100);
 		BigDecimal expense2 = BigDecimal.valueOf(100);
-		bankAccount.registerExpense(expense1);
-		bankAccount.registerExpense(expense2);
+		bankAccount.registerExpense(ACCOUNT_FEE_CHARGE, expense1);
+		bankAccount.registerExpense(ACCOUNT_FEE_CHARGE, expense2);
 
 		// When
 		var expenses = bankAccount.getExpenseList();
 
 		// Then
 		assertEquals(2, expenses.size());
-		assertTrue(expenses.stream().allMatch(transaction -> transaction.type() == EXPENSE));
+		assertTrue(expenses.stream().noneMatch(transaction -> transaction.type().isIncome));
 	}
 }

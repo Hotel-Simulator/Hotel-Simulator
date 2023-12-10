@@ -6,7 +6,7 @@ import static pl.agh.edu.engine.attraction.AttractionSize.MEDIUM;
 import static pl.agh.edu.engine.attraction.AttractionType.RESTAURANT;
 import static pl.agh.edu.engine.attraction.AttractionType.SPA;
 import static pl.agh.edu.engine.attraction.AttractionType.SWIMMING_POOL;
-import static pl.agh.edu.engine.bank.TransactionType.EXPENSE;
+import static pl.agh.edu.engine.bank.TransactionType.CREDIT_PAYMENT;
 import static pl.agh.edu.engine.employee.Profession.CLEANER;
 import static pl.agh.edu.engine.employee.Shift.MORNING;
 import static pl.agh.edu.engine.employee.contract.TypeOfContract.PERMANENT;
@@ -160,7 +160,7 @@ public class SerializationTest {
 	@Test
 	public void transactionTest() {
 		// Given
-		Transaction transaction = new Transaction(EXPENSE, new BigDecimal(222), LocalDateTime.MIN);
+		Transaction transaction = new Transaction(CREDIT_PAYMENT, new BigDecimal(222), LocalDateTime.MIN);
 
 		// When
 		kryo.writeObject(output, transaction);
@@ -196,7 +196,8 @@ public class SerializationTest {
 	public void languageStringTest() {
 		// Given
 		List<Pair<String, String>> list = List.of(Pair.of("a", "b"), Pair.of("c", "d"));
-		LanguageString languageString = new LanguageString("some.description", list);
+		List<Pair<String, LanguageString>> languageStringList = List.of(Pair.of("z", new LanguageString("other.description")));
+		LanguageString languageString = new LanguageString("some.description", list, languageStringList);
 
 		// When
 		kryo.writeObject(output, languageString);
