@@ -49,6 +49,11 @@ public abstract class WrapperContainer<T extends Actor> extends Container<T> imp
 		LanguageManager.addListener(this);
 	}
 
+	public void setLanguageChangeHandler(Runnable languageChangeHandler) {
+		this.languageChangeHandler = (language) -> languageChangeHandler.run();
+		LanguageManager.addListener(this);
+	}
+
 	public void setResolutionChangeHandler(Runnable resolutionChangeHandler) {
 		this.resolutionChangeHandler = resolutionChangeHandler;
 		ResolutionManager.addListener(this);

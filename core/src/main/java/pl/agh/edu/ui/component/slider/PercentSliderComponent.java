@@ -2,25 +2,25 @@ package pl.agh.edu.ui.component.slider;
 
 import java.util.function.Function;
 
+import pl.agh.edu.ui.language.LanguageManager;
 import pl.agh.edu.utils.LanguageString;
 
 public class PercentSliderComponent extends SliderComponent {
-	private final Function<Float, Void> stateChangeHandler;
+
 
 	public PercentSliderComponent(LanguageString languageString, Function<Float, Void> stateChangeHandler) {
-		super(languageString, "%", 0f, 100f, 1f);
-		this.stateChangeHandler = stateChangeHandler;
-		valueLabel.setText(getPercentageValue() + " " + suffix);
+		super(languageString, new LanguageString("common.percent"), 0f, 100f, 1f,stateChangeHandler);
+		valueLabel.setText(getValue() + " " + LanguageManager.get(suffix));
 	}
 
-	private float getPercentageValue() {
+	private Float getPercentageValue() {
 		return this.getValue() / 100f;
 	}
 
 	@Override
 	protected void stateChangeHandler() {
 		stateChangeHandler.apply(getPercentageValue());
-		valueLabel.setText(getValue() + " " + suffix);
+		valueLabel.setText(getValue() + " " + LanguageManager.get(suffix));
 	}
 
 	@Override

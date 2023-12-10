@@ -10,7 +10,7 @@ import pl.agh.edu.ui.resolution.ResolutionManager;
 public class GraphicConfig {
 	private static final OrthographicCamera camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	private static final FitViewport viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
-	private static Resolution resolution = Resolution._1920x1080;
+	private static Resolution resolution = Resolution._1366x768;
 	private static boolean fullscreenMode = false;
 	private static boolean blurShaderEnabled = false;
 
