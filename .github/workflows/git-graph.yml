@@ -1,0 +1,53 @@
+name: Git Graph
+
+on:
+  pull_request:
+    types: [opened, reopened]
+permissions:
+  pull-requests: write
+  contents: write
+  actions: read
+  checks: write
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    outputs:
+      stats: ${{ steps.stats.outputs.stats }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.7'
+
+      - name: Install git-hammer
+        run: pip install git-hammer
+
+      - name: Run git-hammer init
+        run: python -m githammer init-project HS ./
+
+      - name: Update git-hammer
+        run: python -m githammer update-project HS
+
+      - name: Print result
+        run: python -m githammer summary HS
+
+      - name: Run git-hammer graph
+        run: python -m githammer graph -o graph.png HS line-author-count
+
+      - name: Comment Webpage Screenshot
+        uses: opengisch/comment-pr-with-images@upload_only
+        with:
+          images: "graph.png"
+          upload_to: imgur
+          custom_attachment_msg: "Git Graph"
+          edit_previous_comment: true
+          github_token: ${{secrets.GITHUB_TOKEN}}
