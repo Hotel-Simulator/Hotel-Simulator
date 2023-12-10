@@ -30,7 +30,7 @@ public class CalendarComponent extends WrapperTable {
 	private final MonthSelection monthSelection;
 	private final YearSelection yearSelection;
 	private final boolean isActive;
-	private final Calendar calendar = engine.eventHandler.calendar;
+	private final Calendar calendar = getEngine().eventHandler.calendar;
 
 	public CalendarComponent(LocalDate chosenDate, Consumer<LocalDate> dateChangeHandler, Boolean isBlockedByTime, Boolean isActive) {
 		super();
@@ -135,7 +135,7 @@ public class CalendarComponent extends WrapperTable {
 
 	private class CalendarCellButton extends WrapperContainer<TextButton> {
 		public CalendarCellButton(LocalDate date) {
-			TextButton button = new TextButton(String.valueOf(date.getDayOfMonth()), skin);
+			TextButton button = new TextButton(String.valueOf(date.getDayOfMonth()), getGameSkin());
 			if (!isActive)
 				button.removeListener(button.getClickListener());
 			setStyle(button, date);
@@ -153,9 +153,9 @@ public class CalendarComponent extends WrapperTable {
 
 		private void setStyle(TextButton button, LocalDate date) {
 			if (!calendar.getEventsForDate(date).isEmpty())
-				button.setStyle(skin.get("calendar-special-cell", TextButton.TextButtonStyle.class));
+				button.setStyle(getGameSkin().get("calendar-special-cell", TextButton.TextButtonStyle.class));
 			else
-				button.setStyle(skin.get("calendar-cell", TextButton.TextButtonStyle.class));
+				button.setStyle(getGameSkin().get("calendar-cell", TextButton.TextButtonStyle.class));
 		}
 
 		private void addEventListener(TextButton button, LocalDate date) {

@@ -12,23 +12,21 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.engine.hotel.HotelType;
-import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.component.button.ScenarioButton;
 import pl.agh.edu.ui.component.button.ScenarioLabeledButton;
 import pl.agh.edu.ui.component.label.LanguageLabel;
 import pl.agh.edu.ui.resolution.ResolutionChangeListener;
 import pl.agh.edu.ui.resolution.ResolutionManager;
+import pl.agh.edu.ui.utils.GameSkinProvider;
 import pl.agh.edu.utils.LanguageString;
 
-public class ScenarioPanel implements ResolutionChangeListener {
+public class ScenarioPanel implements ResolutionChangeListener, GameSkinProvider {
 	public final Table frame = new Table();
-	protected Skin skin = GameSkin.getInstance();
 	public final ScenarioPanelSizes sizes = new ScenarioPanelSizes();
 	public final List<ScenarioButton> buttonList = new ArrayList<>();
 	public final ButtonGroup<Button> buttonGroup = new ButtonGroup<>();
@@ -51,6 +49,7 @@ public class ScenarioPanel implements ResolutionChangeListener {
 		setEventListeners();
 
 		ResolutionManager.addListener(this);
+		onResolutionChange();
 	}
 
 	public void createFrame() {
@@ -113,8 +112,8 @@ public class ScenarioPanel implements ResolutionChangeListener {
 	}
 
 	public void createTitleLabel() {
-		titleLabel = new LanguageLabel(new LanguageString("scenario.title"), ScenarioPanelStyles.getTitleLabelStyle().font.toString());
-		titleLabel.setStyle(ScenarioPanelStyles.getTitleLabelStyle());
+		titleLabel = new LanguageLabel(new LanguageString("scenario.title"), getTitleLabelStyle().font.toString());
+		titleLabel.setStyle(getTitleLabelStyle());
 	}
 
 	public void addTitleLabelToFrame() {
@@ -145,7 +144,7 @@ public class ScenarioPanel implements ResolutionChangeListener {
 	}
 
 	public void updateLabels() {
-		titleLabel.setStyle(ScenarioPanelStyles.getTitleLabelStyle());
+		titleLabel.setStyle(getTitleLabelStyle());
 	}
 
 	public void updateSizes() {
@@ -160,14 +159,16 @@ public class ScenarioPanel implements ResolutionChangeListener {
 		return frame;
 	}
 
-	public static class ScenarioPanelStyles {
-		public static final GameSkin skin = GameSkin.getInstance();
+	public Label.LabelStyle getTitleLabelStyle() {
+		return getGameSkin().get(ScenarioPanelStyles.getTitleLabelStyleName(), Label.LabelStyle.class);
+	}
 
-		public static Label.LabelStyle getTitleLabelStyle() {
+	public static class ScenarioPanelStyles {
+		public static String getTitleLabelStyleName() {
 			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> skin.get("scenario-title-panel-small", Label.LabelStyle.class);
-				case MEDIUM -> skin.get("scenario-title-panel-medium", Label.LabelStyle.class);
-				case LARGE -> skin.get("scenario-title-panel-large", Label.LabelStyle.class);
+				case SMALL -> "scenario-title-panel-small";
+				case MEDIUM -> "scenario-title-panel-medium";
+				case LARGE -> "scenario-title-panel-large";
 			};
 		}
 

@@ -11,18 +11,17 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
-import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.component.navbar.BottomNavbarState;
 import pl.agh.edu.ui.component.navbar.NavbarButtonType;
 import pl.agh.edu.ui.language.LanguageChangeListener;
 import pl.agh.edu.ui.language.LanguageManager;
+import pl.agh.edu.ui.utils.GameSkinProvider;
 import pl.agh.edu.utils.LanguageString;
 
-public class NavbarButton extends Table implements LanguageChangeListener {
+public class NavbarButton extends Table implements LanguageChangeListener, GameSkinProvider {
 	private final Image iconImage;
 	private final Label label;
 	private final NavbarButtonType type;
@@ -35,10 +34,9 @@ public class NavbarButton extends Table implements LanguageChangeListener {
 		this.type = type;
 		this.state = state;
 
-		Skin skin = GameSkin.getInstance();
-		navbarButtonStyle = skin.get(type.getStyleName(), NavbarButtonStyle.class);
+		navbarButtonStyle = getGameSkin().get(type.getStyleName(), NavbarButtonStyle.class);
 		iconImage = new Image(new TextureRegionDrawable(new TextureRegion(navbarButtonStyle.iconUp)));
-		label = new Label("", skin, SUBTITLE2.getName());
+		label = new Label("", getGameSkin(), SUBTITLE2.getName());
 
 		label.setAlignment(top);
 

@@ -35,7 +35,7 @@ public class TabSelector extends WrapperTable {
 		leftLinkLabel.makeItLink(newActionLeft);
 		rightLinkLabel.makeItLink(newActionRight);
 		innerTable.add(leftLinkLabel).pad(10);
-		NinePatch separator = skin.getPatch("tabs-separator-line");
+		NinePatch separator = getGameSkin().getPatch("tabs-separator-line");
 		separator.setColor(GRAY.getColor(_500));
 		innerTable.add(new Image(separator)).width(2).pad(10).padTop(20).padBottom(20).padLeft(10).padRight(10);
 		innerTable.add(rightLinkLabel).pad(10);

@@ -16,15 +16,15 @@ import pl.agh.edu.ui.utils.wrapper.WrapperTable;
 public class AccelerationPanel extends WrapperTable {
 
 	private static final Time time = Time.getInstance();
-	private final Label accelerationLabel = new Label(time.getStringAcceleration(), skin, H4.getName());
-	private final Button playButton = new Button(skin, "navbar-play");
+	private final Label accelerationLabel = new Label(time.getStringAcceleration(), getGameSkin(), H4.getName());
+	private final Button playButton = new Button(getGameSkin(), "navbar-play");
 
 	public AccelerationPanel() {
 
 		accelerationLabel.setAlignment(center, center);
 		this.setBackground("navbar-acceleration-background");
 
-		Button increaseButton = new Button(skin, "navbar-plus");
+		Button increaseButton = new Button(getGameSkin(), "navbar-plus");
 		increaseButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -34,7 +34,7 @@ public class AccelerationPanel extends WrapperTable {
 			}
 		});
 
-		Button decreaseButton = new Button(skin, "navbar-minus");
+		Button decreaseButton = new Button(getGameSkin(), "navbar-minus");
 		decreaseButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {

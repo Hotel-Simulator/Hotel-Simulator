@@ -14,21 +14,19 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.Null;
 import com.rafaskoberg.gdx.typinglabel.TypingLabel;
 
-import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.resolution.ResolutionChangeListener;
 import pl.agh.edu.ui.resolution.ResolutionManager;
+import pl.agh.edu.ui.utils.GameSkinProvider;
 import pl.agh.edu.ui.utils.SkinColor;
 import pl.agh.edu.ui.utils.SkinToken;
 import pl.agh.edu.ui.utils.wrapper.WrapperContainer;
 
-public class CustomLabel extends WrapperContainer<Label> implements ResolutionChangeListener {
-	private static final Skin skin = GameSkin.getInstance();
+public class CustomLabel extends WrapperContainer<Label> implements ResolutionChangeListener, GameSkinProvider {
 	private boolean hasUnderscore = false;
 	private boolean isDisabled = false;
 	private SkinColor baseColor = WARNING;
@@ -43,14 +41,14 @@ public class CustomLabel extends WrapperContainer<Label> implements ResolutionCh
 	public CustomLabel(String font) {
 		super();
 		this.token = "";
-		this.label = new Label("", skin, font);
+		this.label = new Label("", getGameSkin(), font);
 		this.setActor(label);
 
 	}
 
 	public CustomLabel(String font, SkinToken token) {
 		super();
-		TypingLabel label = new TypingLabel("", skin, font);
+		TypingLabel label = new TypingLabel("", getGameSkin(), font);
 		label.setDefaultToken(token.getName());
 		this.setActor(label);
 
@@ -80,7 +78,7 @@ public class CustomLabel extends WrapperContainer<Label> implements ResolutionCh
 
 	public void setBackground(String backgroundPatch) {
 		Label.LabelStyle labelStyle = new Label.LabelStyle(label.getStyle());
-		labelStyle.background = new NinePatchDrawable(skin.getPatch(backgroundPatch));
+		labelStyle.background = new NinePatchDrawable(getGameSkin().getPatch(backgroundPatch));
 		label.setStyle(labelStyle);
 	}
 
@@ -90,7 +88,7 @@ public class CustomLabel extends WrapperContainer<Label> implements ResolutionCh
 		if (!hasUnderscore)
 			return;
 
-		NinePatch underscorePatch = new NinePatchDrawable(skin.getPatch("underscore"))
+		NinePatch underscorePatch = new NinePatchDrawable(getGameSkin().getPatch("underscore"))
 				.tint(getCurrentColor())
 				.getPatch();
 
@@ -104,7 +102,7 @@ public class CustomLabel extends WrapperContainer<Label> implements ResolutionCh
 
 	public void setFont(String font) {
 		Label.LabelStyle labelStyle = new Label.LabelStyle(label.getStyle());
-		labelStyle.font = skin.getFont(font);
+		labelStyle.font = getGameSkin().getFont(font);
 		label.setStyle(labelStyle);
 	}
 

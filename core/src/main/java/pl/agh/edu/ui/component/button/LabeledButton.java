@@ -14,7 +14,7 @@ public class LabeledButton extends WrapperContainer<TextButton> {
 	public LabeledButton(Size type, LanguageString languageString) {
 		super(languageString);
 		this.type = type;
-		this.button = new TextButton("", skin.get(type.toString(), TextButton.TextButtonStyle.class));
+		this.button = new TextButton("", getGameSkin().get(type.toString(), TextButton.TextButtonStyle.class));
 		this.button.setFillParent(true);
 		this.button.getLabel().setWrap(true);
 
