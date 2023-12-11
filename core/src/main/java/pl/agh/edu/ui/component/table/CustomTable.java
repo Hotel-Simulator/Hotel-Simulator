@@ -58,11 +58,6 @@ public class CustomTable<DataType> extends WrapperTable {
 
 		ScrollPane scrollPane = new CustomScrollPane(contentRows, getGameSkin(), "transparent");
 		innerTable.add(scrollPane).colspan(2).grow();
-		scrollPane.setForceScroll(false, true);
-		scrollPane.setSmoothScrolling(true);
-		scrollPane.setScrollingDisabled(true, false);
-		scrollPane.setOverscroll(false, false);
-		scrollPane.setupFadeScrollBars(1f, 1f);
 
 		this.setResolutionChangeHandler(this::resize);
 		this.align(top);

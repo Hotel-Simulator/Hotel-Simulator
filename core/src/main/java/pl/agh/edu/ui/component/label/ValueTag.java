@@ -61,9 +61,7 @@ public class ValueTag extends WrapperTable {
 		tagLabel = new LanguageLabel(tagLanguageString, SUBTITLE1.getName());
 		valueLabel = component;
 
-		updateHandler = () -> {
-			tagLabel.setFont(ValueTagStyle.getFont());
-		};
+		updateHandler = () -> tagLabel.setFont(ValueTagStyle.getFont());
 
 		initLayout();
 	}
@@ -80,21 +78,15 @@ public class ValueTag extends WrapperTable {
 		innerTable.add(valueLabel).growX().uniform();
 		innerTable.setFillParent(true);
 
-		this.setResolutionChangeHandler(this::changeResolutionHandler);
-		this.onResolutionChange();
-	}
-
-	public void setValueColor(Color color) {
-		valueLabel.setColor(color);
-	}
-
-	private void changeResolutionHandler() {
 		this.size(ValueTagStyle.getWidth(), ValueTagStyle.getHeight());
 		separatorImageContainer.height(ValueTagStyle.getHeight());
 		innerTable.pad(ValueTagStyle.getPadding());
 		updateHandler.run();
 	}
 
+	public void setValueColor(Color color) {
+		valueLabel.setColor(color);
+	}
 	private static class ValueTagStyle {
 		public static float getHeight() {
 			return switch (GraphicConfig.getResolution().SIZE) {
