@@ -36,14 +36,14 @@ public class HireEmployeeFrame extends BaseFrame {
 
 	private void refreshTable() {
 		hireEmployeeTable.clearTable();
-		engine.possibleEmployeeHandler.getPossibleEmployees()
+		getEngine().possibleEmployeeHandler.getPossibleEmployees()
 				.forEach(possibleEmployee -> hireEmployeeTable.addRow(
 						possibleEmployee,
-						() -> ModalManager.getInstance().showHireEmployeeModal(possibleEmployee, engine.possibleEmployeeHandler, this::refreshTable)));
+						() -> ModalManager.getInstance().showHireEmployeeModal(possibleEmployee, getEngine().possibleEmployeeHandler, this::refreshTable)));
 	}
 
 	private Actor createPhoto(PossibleEmployee possibleEmployee) {
-		Image image = new Image(skin.getDrawable("default"));
+		Image image = new Image(getGameSkin().getDrawable("default"));
 		Container<Image> container = new Container<>(image);
 		container.size(50f);
 		return container;

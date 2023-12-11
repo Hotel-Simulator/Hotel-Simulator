@@ -9,6 +9,7 @@ import com.esotericsoftware.kryo.Serializer;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 
+import pl.agh.edu.data.type.BankData;
 import pl.agh.edu.engine.time.Time;
 import pl.agh.edu.serialization.KryoConfig;
 
@@ -16,6 +17,7 @@ public class BankAccount {
 	private final Time time;
 	private BigDecimal balance;
 	private BankAccountDetails accountDetails;
+	public Integer bankId;
 	private final List<Credit> credits;
 	private final List<Transaction> transactions;
 
@@ -28,6 +30,7 @@ public class BankAccount {
 				kryo.writeObject(output, object.accountDetails);
 				kryo.writeObject(output, object.credits, KryoConfig.listSerializer(Credit.class));
 				kryo.writeObject(output, object.transactions, KryoConfig.listSerializer(Transaction.class));
+				kryo.writeObject(output, object.bankId);
 			}
 
 			@Override
@@ -37,29 +40,33 @@ public class BankAccount {
 						kryo.readObject(input, BigDecimal.class),
 						kryo.readObject(input, BankAccountDetails.class),
 						kryo.readObject(input, List.class, KryoConfig.listSerializer(Credit.class)),
-						kryo.readObject(input, List.class, KryoConfig.listSerializer(Transaction.class)));
+						kryo.readObject(input, List.class, KryoConfig.listSerializer(Transaction.class)),
+						kryo.readObject(input, Integer.class));
 			}
 		});
 	}
 
-	public BankAccount(BigDecimal initialBalance, BankAccountDetails accountDetails) {
+	public BankAccount(BigDecimal initialBalance, BankData bankData) {
 		this.time = Time.getInstance();
 		this.balance = initialBalance;
-		this.accountDetails = accountDetails;
+		this.accountDetails = bankData.accountDetails();
 		this.credits = new ArrayList<>();
 		this.transactions = new ArrayList<>();
+		this.bankId = bankData.id();
 	}
 
 	private BankAccount(Time time,
 			BigDecimal balance,
 			BankAccountDetails accountDetails,
 			List<Credit> credits,
-			List<Transaction> transactions) {
+			List<Transaction> transactions,
+			Integer bankId) {
 		this.time = time;
 		this.balance = balance;
 		this.accountDetails = accountDetails;
 		this.credits = credits;
 		this.transactions = transactions;
+		this.bankId = bankId;
 	}
 
 	private void chargeAccountFee() {
@@ -113,8 +120,9 @@ public class BankAccount {
 		return accountDetails.accountFee();
 	}
 
-	public void setAccountDetails(BankAccountDetails accountDetails) {
-		this.accountDetails = accountDetails;
+	public void setBankData(BankData bankData) {
+		this.accountDetails = bankData.accountDetails();
+		this.bankId = bankData.id();
 	}
 
 	public void monthlyUpdate() {

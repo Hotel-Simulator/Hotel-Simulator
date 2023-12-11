@@ -3,7 +3,6 @@ package pl.agh.edu.ui.component.button;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import pl.agh.edu.config.GraphicConfig;
-import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.utils.wrapper.WrapperContainer;
 import pl.agh.edu.utils.LanguageString;
 
@@ -12,7 +11,7 @@ public class ScenarioLabeledButton extends WrapperContainer<TextButton> {
 
 	public ScenarioLabeledButton(LanguageString languageString) {
 		super(languageString);
-		this.button = new TextButton("", ScenarioLabeledButtonStyle.getButtonStyle());
+		this.button = new TextButton("", getButtonStyle());
 		this.button.setFillParent(true);
 		this.button.getLabel().setWrap(true);
 
@@ -24,8 +23,12 @@ public class ScenarioLabeledButton extends WrapperContainer<TextButton> {
 	}
 
 	private void updateSize() {
-		this.button.setStyle(ScenarioLabeledButtonStyle.getButtonStyle());
+		this.button.setStyle(getButtonStyle());
 		this.size(ScenarioLabeledButtonStyle.getWidth(), ScenarioLabeledButtonStyle.getHeight());
+	}
+
+	private TextButton.TextButtonStyle getButtonStyle() {
+		return getGameSkin().get(ScenarioLabeledButtonStyle.getButtonStyleName(), TextButton.TextButtonStyle.class);
 	}
 
 	private void updateLabel(String text) {
@@ -33,8 +36,6 @@ public class ScenarioLabeledButton extends WrapperContainer<TextButton> {
 	}
 
 	private static class ScenarioLabeledButtonStyle {
-		private static final GameSkin skin = GameSkin.getInstance();
-
 		public static float getWidth() {
 			return switch (GraphicConfig.getResolution().SIZE) {
 				case SMALL -> 300f;
@@ -51,11 +52,11 @@ public class ScenarioLabeledButton extends WrapperContainer<TextButton> {
 			};
 		}
 
-		public static TextButton.TextButtonStyle getButtonStyle() {
+		public static String getButtonStyleName() {
 			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> skin.get("difficulty-play-back-small", TextButton.TextButtonStyle.class);
-				case MEDIUM -> skin.get("difficulty-play-back-medium", TextButton.TextButtonStyle.class);
-				case LARGE -> skin.get("difficulty-play-back-large", TextButton.TextButtonStyle.class);
+				case SMALL -> "difficulty-play-back-small";
+				case MEDIUM -> "difficulty-play-back-medium";
+				case LARGE -> "difficulty-play-back-large";
 			};
 		}
 	}

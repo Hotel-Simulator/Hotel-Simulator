@@ -1,13 +1,21 @@
 {
   "scenarios": [
     {
-      "name": "The bank",
-      "credit_interest_rate": 0,
+      "id": 1,
+      "name": "bank.name1",
+      "credit_interest_rate": 7,
       "account_fee": 100
     },
     {
-      "name": "Prank bank",
-      "credit_interest_rate": 20,
+      "id": 2,
+      "name": "bank.name2",
+      "credit_interest_rate": 9,
+      "account_fee": 50
+    },
+    {
+      "id": 3,
+      "name": "bank.name3",
+      "credit_interest_rate": 4,
       "account_fee": 1000
     }
   ],

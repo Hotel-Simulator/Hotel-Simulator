@@ -71,7 +71,7 @@ public class HireEmployeeModal<ExtendedEmployee extends Employee> extends BaseMo
 		innerTable.add(rightTable).grow().uniform();
 		innerTable.row();
 
-		leftTable.setBackground(new NinePatchDrawable(skin.getPatch("hal-divider-left-background")));
+		leftTable.setBackground(new NinePatchDrawable(getGameSkin().getPatch("hal-divider-left-background")));
 		leftTable.add(createPhoto()).growX().expandY().row();
 		leftTable.add(createName(employee)).growX().row();
 		leftTable.add(createDialogLabel(employee)).growX().row();
@@ -97,7 +97,7 @@ public class HireEmployeeModal<ExtendedEmployee extends Employee> extends BaseMo
 	}
 
 	private Actor createPhoto() {
-		Image image = new Image(skin.getDrawable("default"));
+		Image image = new Image(getGameSkin().getDrawable("default"));
 		Container<Image> container = new Container<>(image);
 		container.size(HireEmployeeModalStyle.getPhotoSize());
 		return container;

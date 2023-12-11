@@ -533,6 +533,15 @@
 	}
 },
 "ButtonStyle": {
+	"clickable-table": {
+		"up": "clickable-table-background",
+		"down": "clickable-table-background-down",
+		"over": "clickable-table-background-over",
+		"disabled": "clickable-table-background-selected",
+		"checked": "clickable-table-background-selected",
+		"checkedOver": "clickable-table-background-selected",
+		"checkedDown": "clickable-table-background-selected"
+	},
 	"navbar-minus": {
 		"up": "button-time-minus-up",
 		"down": "button-time-minus-down",

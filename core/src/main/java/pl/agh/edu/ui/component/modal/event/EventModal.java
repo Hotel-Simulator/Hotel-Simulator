@@ -37,7 +37,7 @@ public class EventModal extends BaseModal {
 
 		Table mainTable = new Table();
 
-		Image image = new Image(skin.getDrawable(eventModalData.imagePath()));
+		Image image = new Image(getGameSkin().getDrawable(eventModalData.imagePath()));
 		image.setFillParent(true);
 		imageContainer.setActor(image);
 

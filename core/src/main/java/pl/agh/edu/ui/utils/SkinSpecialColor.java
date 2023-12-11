@@ -2,9 +2,7 @@ package pl.agh.edu.ui.utils;
 
 import com.badlogic.gdx.graphics.Color;
 
-import pl.agh.edu.ui.GameSkin;
-
-public enum SkinSpecialColor {
+public enum SkinSpecialColor implements GameSkinProvider {
 	TRANSPARENT("transparent"),
 	SHADOW("shadow");
 
@@ -15,7 +13,7 @@ public enum SkinSpecialColor {
 	}
 
 	public Color getColor() {
-		return GameSkin.getInstance().getColor(this.getName());
+		return getGameSkin().getColor(this.getName());
 	}
 
 	public String getName() {

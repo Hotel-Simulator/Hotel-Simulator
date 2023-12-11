@@ -13,10 +13,12 @@ import java.math.BigDecimal;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import pl.agh.edu.data.type.BankData;
 import pl.agh.edu.engine.bank.BankAccount;
 import pl.agh.edu.engine.bank.BankAccountDetails;
 import pl.agh.edu.engine.bank.Credit;
 import pl.agh.edu.engine.hotel.dificulty.GameDifficultyManager;
+import pl.agh.edu.utils.LanguageString;
 
 public class BankAccountTest {
 	private final BigDecimal accountFee = BigDecimal.valueOf(10);
@@ -25,7 +27,7 @@ public class BankAccountTest {
 
 	@BeforeEach
 	public void setUp() {
-		bankAccount = new BankAccount(initialBalance, new BankAccountDetails(new BigDecimal("0.05"), accountFee));
+		bankAccount = new BankAccount(initialBalance, new BankData(1, new LanguageString("bank.name.1"), new BankAccountDetails(new BigDecimal("0.05"), accountFee)));
 	}
 
 	@Test

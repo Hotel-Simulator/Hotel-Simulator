@@ -22,7 +22,6 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Null;
 
 import pl.agh.edu.config.GraphicConfig;
-import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.component.label.LanguageLabel;
 import pl.agh.edu.ui.utils.wrapper.WrapperTable;
 import pl.agh.edu.utils.LanguageString;
@@ -113,8 +112,8 @@ public class SelectMenu extends WrapperTable {
 	private void changeResolutionHandler() {
 		descriptionLabel.setFont(SelectMenuStyle.getFont());
 		SelectBox.SelectBoxStyle selectBoxStyle = new SelectBox.SelectBoxStyle(selectOption.getStyle());
-		selectBoxStyle.font = GameSkin.getInstance().getFont(SelectMenuStyle.getFont());
-		selectBoxStyle.listStyle.font = GameSkin.getInstance().getFont(SelectMenuStyle.getFont());
+		selectBoxStyle.font = getGameSkin().getFont(SelectMenuStyle.getFont());
+		selectBoxStyle.listStyle.font = getGameSkin().getFont(SelectMenuStyle.getFont());
 		selectOption.setStyle(selectBoxStyle);
 		this.size(SelectMenuStyle.getWidth(), SelectMenuStyle.getHeight());
 		this.validate();
@@ -171,11 +170,11 @@ public class SelectMenu extends WrapperTable {
 
 	private class DropDownSelect extends SelectBox<SelectMenuItem> {
 
-		Drawable arrowUpImage = skin.getDrawable("select-box-arrow-up");
-		Drawable arrowOpenImage = skin.getDrawable("select-box-arrow-open");
+		Drawable arrowUpImage = getGameSkin().getDrawable("select-box-arrow-up");
+		Drawable arrowOpenImage = getGameSkin().getDrawable("select-box-arrow-open");
 
 		public DropDownSelect() {
-			super(skin.get("selectMenu", SelectBox.SelectBoxStyle.class));
+			super(getGameSkin().get("selectMenu", SelectBox.SelectBoxStyle.class));
 			setUpSelectionPane();
 			this.getList().setAlignment(center);
 
@@ -184,17 +183,17 @@ public class SelectMenu extends WrapperTable {
 		@Override
 		protected @Null Drawable getBackgroundDrawable() {
 			if (isDisabled())
-				return skin.getDrawable("select-box-background-disabled");
+				return getGameSkin().getDrawable("select-box-background-disabled");
 			if (isOpen && cursorOver) {
-				return skin.getDrawable("select-box-background-open-over");
+				return getGameSkin().getDrawable("select-box-background-open-over");
 			}
 			if (isOpen) {
-				return skin.getDrawable("select-box-background-open-up");
+				return getGameSkin().getDrawable("select-box-background-open-up");
 			}
 			if (cursorOver) {
-				return skin.getDrawable("select-box-background-over");
+				return getGameSkin().getDrawable("select-box-background-over");
 			}
-			return skin.getDrawable("select-box-background-up");
+			return getGameSkin().getDrawable("select-box-background-up");
 		}
 
 		private void setUpSelectionPane() {
@@ -208,25 +207,25 @@ public class SelectMenu extends WrapperTable {
 
 		public void setStateOver() {
 			SelectBoxStyle style = new SelectBoxStyle(this.getStyle());
-			style.background = skin.getDrawable("select-box-background-over");
+			style.background = getGameSkin().getDrawable("select-box-background-over");
 			this.setStyle(style);
 		}
 
 		public void setStateUp() {
 			SelectBoxStyle style = new SelectBoxStyle(this.getStyle());
-			style.background = skin.getDrawable("select-box-background-up");
+			style.background = getGameSkin().getDrawable("select-box-background-up");
 			this.setStyle(style);
 		}
 
 		public void setStateOpenOver() {
 			SelectBoxStyle style = new SelectBoxStyle(this.getStyle());
-			style.background = skin.getDrawable("select-box-background-open-over");
+			style.background = getGameSkin().getDrawable("select-box-background-open-over");
 			this.setStyle(style);
 		}
 
 		public void setStateOpenUp() {
 			SelectBoxStyle style = new SelectBoxStyle(this.getStyle());
-			style.background = skin.getDrawable("select-box-background-open-up");
+			style.background = getGameSkin().getDrawable("select-box-background-open-up");
 			this.setStyle(style);
 		}
 

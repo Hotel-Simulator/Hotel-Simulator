@@ -17,7 +17,7 @@ import pl.agh.edu.ui.frame.BaseFrame;
 import pl.agh.edu.utils.LanguageString;
 
 public class RoomFrame extends BaseFrame {
-	public final RoomManager roomManager = engine.roomManager;
+	public final RoomManager roomManager = getEngine().roomManager;
 
 	public RoomFrame() {
 		super(new LanguageString("navbar.button.rooms"));
@@ -37,7 +37,7 @@ public class RoomFrame extends BaseFrame {
 	}
 
 	private Actor createRoomPhoto(Room room) {
-		Image image = new Image(skin.getDrawable("default"));
+		Image image = new Image(getGameSkin().getDrawable("default"));
 		Container<Image> container = new Container<>(image);
 		container.size(50f);
 		return container;

@@ -36,7 +36,6 @@ import pl.agh.edu.utils.LanguageString;
 
 public class CustomTable<DataType> extends WrapperTable {
 	private final Table contentRows = new Table();
-	private final ScrollPane scrollPane = new CustomScrollPane(contentRows, skin, "transparent");
 	private final List<Integer> sizeList;
 	private final List<Function<DataType, Actor>> mapperList;
 
@@ -51,18 +50,14 @@ public class CustomTable<DataType> extends WrapperTable {
 		contentRows.top();
 		contentRows.padTop(BaseTableStyle.getHeaderSpacing());
 
-		Drawable knobDrawable = skin.getDrawable("scroll-pane-knob");
+		Drawable knobDrawable = getGameSkin().getDrawable("scroll-pane-knob");
 		Image knobImage = new Image(knobDrawable);
 		knobImage.setVisible(false);
 		innerTable.add(knobImage).row();
 		innerTable.align(top);
 
+		ScrollPane scrollPane = new CustomScrollPane(contentRows, getGameSkin(), "transparent");
 		innerTable.add(scrollPane).colspan(2).grow();
-		scrollPane.setForceScroll(false, true);
-		scrollPane.setSmoothScrolling(true);
-		scrollPane.setScrollingDisabled(true, false);
-		scrollPane.setOverscroll(false, false);
-		scrollPane.setupFadeScrollBars(1f, 1f);
 
 		this.setResolutionChangeHandler(this::resize);
 		this.align(top);
@@ -147,13 +142,13 @@ public class CustomTable<DataType> extends WrapperTable {
 				@Override
 				public void enter(InputEvent event, float x, float y, int pointer, @Null Actor fromActor) {
 					setBackground(backgroundName + "-over");
-					separatorList.forEach(container -> container.setActor(new Image(skin.getPatch(separatorName + "-over"))));
+					separatorList.forEach(container -> container.setActor(new Image(getGameSkin().getPatch(separatorName + "-over"))));
 				}
 
 				@Override
 				public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
 					setBackground(backgroundName + "-up");
-					separatorList.forEach(container -> container.setActor(new Image(skin.getPatch(separatorName + "-up"))));
+					separatorList.forEach(container -> container.setActor(new Image(getGameSkin().getPatch(separatorName + "-up"))));
 				}
 			});
 		}
@@ -165,7 +160,7 @@ public class CustomTable<DataType> extends WrapperTable {
 		}
 
 		private Container<Image> createSeparatorImage(String separatorName) {
-			Container<Image> container = new Container<>(new Image(skin.getPatch(separatorName)));
+			Container<Image> container = new Container<>(new Image(getGameSkin().getPatch(separatorName)));
 			container.fill();
 			container.padTop(BaseTableStyle.getSeparateLinePadding());
 			container.padBottom(BaseTableStyle.getSeparateLinePadding());

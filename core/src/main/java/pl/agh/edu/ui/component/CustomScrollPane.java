@@ -14,6 +14,11 @@ public class CustomScrollPane extends ScrollPane {
 
 	public CustomScrollPane(Actor actor, Skin skin, String styleName) {
 		super(actor, skin, styleName);
+		this.setForceScroll(false, true);
+		this.setSmoothScrolling(true);
+		this.setScrollingDisabled(true, false);
+		this.setOverscroll(false, false);
+		this.setupFadeScrollBars(1f, 1f);
 	}
 
 	@Override

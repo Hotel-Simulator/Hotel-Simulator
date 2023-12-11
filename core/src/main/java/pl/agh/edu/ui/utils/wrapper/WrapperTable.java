@@ -26,10 +26,10 @@ public abstract class WrapperTable extends WrapperContainer<Table> {
 	}
 
 	public void setBackground(String backgroundPatch) {
-		innerTable.setBackground(new NinePatchDrawable(skin.getPatch(backgroundPatch)));
+		innerTable.setBackground(new NinePatchDrawable(getGameSkin().getPatch(backgroundPatch)));
 	}
 
 	public void set10PatchBackground(String backgroundPatch) {
-		innerTable.setBackground(new TenPatchDrawable(skin.get(backgroundPatch, TenPatchDrawable.class)));
+		innerTable.setBackground(new TenPatchDrawable(getGameSkin().get(backgroundPatch, TenPatchDrawable.class)));
 	}
 }

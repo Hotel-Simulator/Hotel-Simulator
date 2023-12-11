@@ -17,17 +17,16 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import pl.agh.edu.config.GraphicConfig;
 import pl.agh.edu.engine.hotel.dificulty.DifficultyLevel;
-import pl.agh.edu.ui.GameSkin;
 import pl.agh.edu.ui.component.button.DifficultyButton;
 import pl.agh.edu.ui.component.button.ScenarioLabeledButton;
 import pl.agh.edu.ui.component.label.LanguageLabel;
 import pl.agh.edu.ui.resolution.ResolutionChangeListener;
 import pl.agh.edu.ui.resolution.ResolutionManager;
 import pl.agh.edu.ui.resolution.Size;
+import pl.agh.edu.ui.utils.GameSkinProvider;
 import pl.agh.edu.utils.LanguageString;
 
-public class DifficultyPanel implements ResolutionChangeListener {
-	public final GameSkin skin = GameSkin.getInstance();
+public class DifficultyPanel implements ResolutionChangeListener, GameSkinProvider {
 	public final Table frame = new Table();
 	public final DifficultyPanelSizes sizes = new DifficultyPanelSizes(frame);
 	public final List<DifficultyButton> buttonList = new ArrayList<>();
@@ -55,6 +54,7 @@ public class DifficultyPanel implements ResolutionChangeListener {
 
 		addListeners();
 		ResolutionManager.addListener(this);
+		onResolutionChange();
 	}
 
 	public void createFrame() {
@@ -135,8 +135,8 @@ public class DifficultyPanel implements ResolutionChangeListener {
 	}
 
 	public void createTitleLabel() {
-		titleLabel = new LanguageLabel(new LanguageString("difficulty.title"), DifficultyPanelStyle.getTitleLabelStyle().font.toString());
-		titleLabel.setStyle(DifficultyPanelStyle.getTitleLabelStyle());
+		titleLabel = new LanguageLabel(new LanguageString("difficulty.title"), getTitleLabelStyle().font.toString());
+		titleLabel.setStyle(getTitleLabelStyle());
 	}
 
 	public void createPlayButton() {
@@ -166,8 +166,11 @@ public class DifficultyPanel implements ResolutionChangeListener {
 		return frame;
 	}
 
+	private Label.LabelStyle getTitleLabelStyle() {
+		return getGameSkin().get(DifficultyPanelStyle.getTitleLabelStyleName(), Label.LabelStyle.class);
+	}
+
 	private static class DifficultyPanelStyle {
-		public static GameSkin skin = GameSkin.getInstance();
 		public static float largePaddingMultiplier = 1;
 
 		public static void updatePaddingMultiplier(Table frame) {
@@ -178,11 +181,11 @@ public class DifficultyPanel implements ResolutionChangeListener {
 			}
 		}
 
-		public static Label.LabelStyle getTitleLabelStyle() {
+		public static String getTitleLabelStyleName() {
 			return switch (GraphicConfig.getResolution().SIZE) {
-				case SMALL -> skin.get("scenario-title-panel-small", Label.LabelStyle.class);
-				case MEDIUM -> skin.get("scenario-title-panel-medium", Label.LabelStyle.class);
-				case LARGE -> skin.get("scenario-title-panel-large", Label.LabelStyle.class);
+				case SMALL -> "scenario-title-panel-small";
+				case MEDIUM -> "scenario-title-panel-medium";
+				case LARGE -> "scenario-title-panel-large";
 			};
 		}
 	}
